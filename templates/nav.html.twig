@@ -1,0 +1,96 @@
+<div class="sidebar-wrapper active ps ps--active-y">
+    <div class="sidebar-header">
+        <div class="d-flex justify-content-center">
+            <div class="logo">
+                <a href="{{path('app_home')}}"><img src="{{ asset('uploads/logo/j4r_logo.png')}}" alt="Logo" srcset=""></a>
+            </div>
+            <div class="toggler">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="sidebar-title">Menu</li>
+
+            <li class="sidebar-item {{ app.request.get('_route') == 'app_home' ? 'active' }}">
+                <a href="{{path('app_home')}}" class="sidebar-link">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="sidebar-title">Societé</li>
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-list-ul"></i>
+                    <span>Liste</span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <span>Contact</span>
+                </a>
+            </li>
+            <li class="sidebar-item  ">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-folder2-open"></i>
+                    <span>GED</span>
+                </a>
+            </li>
+            <li class="sidebar-title">Affaires</li>
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-list-ul"></i>
+                    <span> Liste </span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span>Forecasts</span>
+                </a>
+            </li>
+
+
+            <li class="sidebar-title">Work</li>
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-clock-history"></i>
+                    <span> YTD </span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span> Objectifs </span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span> Statistiques </span>
+                </a>
+            </li>
+
+            <li class="sidebar-title">Utilisateur</li>
+
+            <li class="sidebar-item">
+                <a href="{{path('app_user_index')}}" class="sidebar-link">
+                    <i class="bi bi-list-ul"></i>
+                    <span> Liste </span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="#" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span>LOGS</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

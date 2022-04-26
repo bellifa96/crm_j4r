@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DashBoard{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+
+        <section class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Bar Chart</h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="bar"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Line Chart</h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="line"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+{% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('chart') }}
+    {% endblock %}
