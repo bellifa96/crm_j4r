@@ -22,6 +22,8 @@
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>Statut</th>
+                <th>Service</th>
+                <th>Poste</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -33,7 +35,9 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
-                <td>{{ user.isActif ? '<span class="badge badge-success">Actif</span>' :'<span class="badge badge-danger">Inactif</span>'}}</td>
+                <td>{{ user.isActif ? '<span class="badge badge-success" style="color:black;">Actif</span>' :'<span class="badge badge-danger" style="color:black;">Inactif</span>'}}</td>
+                <td>{{ user.service is not empty ? user.service.titre : "NC"}}</td>
+                <td>{{ user.poste is not empty ? user.poste.titre : "NC"}}</td>
 
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>

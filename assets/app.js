@@ -27,7 +27,7 @@ import 'datatables.net-bs5'
 import './datatable_custom';
 
 const $ = require('jquery');
-
+global.$ = global.jQuery = $;
 
 $(document).ready(function () {
 

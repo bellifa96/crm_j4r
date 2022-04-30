@@ -16,14 +16,14 @@
             <li class="sidebar-item {{ app.request.get('_route') == 'app_home' ? 'active' }}">
                 <a href="{{path('app_home')}}" class="sidebar-link">
                     <i class="bi bi-grid-fill"></i>
-                    <span>Dashboardddddd</span>
+                    <span>Dashboard</span>
                 </a>
             </li>
 
             <li class="sidebar-title">Societé</li>
 
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="{{path('app_interlocuteur_interlocuteur_index')}}" class="sidebar-link">
                     <i class="bi bi-list-ul"></i>
                     <span>Liste</span>
                 </a>
@@ -83,6 +83,18 @@
                 <a href="{{path('app_user_index')}}" class="sidebar-link">
                     <i class="bi bi-list-ul"></i>
                     <span> Liste </span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="{{path('app_user_poste_index')}}" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span>Postes</span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="{{path('app_user_service_index')}}" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span>Services</span>
                 </a>
             </li>
             <li class="sidebar-item ">

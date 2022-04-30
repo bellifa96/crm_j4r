@@ -24,6 +24,7 @@ doctrine:
                 is_bundle: false
 
 
+
 when@test:
     doctrine:
         dbal:

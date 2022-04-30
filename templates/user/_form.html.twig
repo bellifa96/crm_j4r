@@ -1,4 +1,41 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="mb-3">
+
+    {{ form_start(form) }}
+
+
+    <div class="col-md-12">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_widget(form.firstname,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Nom'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.lastname,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_widget(form.email,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.password,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Mot de passe'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_widget(form.roles,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
+            </div>
+
+        </div>
+
+    </div>
+    <div class="form-group position-relative has-icon-left mb-4">
+
+    </div>
+
+
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+</div>

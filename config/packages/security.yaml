@@ -1,4 +1,10 @@
 security:
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ 'ROLE_SUPER_ADMIN','ADMIN' ]
+        ROLE_ADMIN: [ 'ROLE_ADMIN' ]
+        ROLE_USER : ['ROLE_USER']
+
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -44,7 +50,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
           - { path: ^/login, roles: [] }
-          - { path: ^/, roles: ROLE_USER }
+          #- { path: ^/, roles: ROLE_USER }
 
 when@test:
     security:

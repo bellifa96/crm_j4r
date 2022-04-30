@@ -2,20 +2,25 @@
 
 namespace App\Entity;
 
+use App\Entity\User\Poste;
+
+use App\Entity\User\Service;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[Gedmo\Loggable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use TimestampableTrait;
 
+
+    use TimesTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -47,6 +52,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'boolean')]
     private $isActif;
+
+    #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'users')]
+    private $service;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $immatricule;
+
+    #[ORM\ManyToOne(targetEntity: Poste::class, inversedBy: 'users')]
+    private $poste;
 
 
     public function __construct()
@@ -168,6 +182,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsActif(bool $isActif): self
     {
         $this->isActif = $isActif;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
+
+        return $this;
+    }
+
+    public function getImmatricule(): ?string
+    {
+        return $this->immatricule;
+    }
+
+    public function setImmatricule(?string $immatricule): self
+    {
+        $this->immatricule = $immatricule;
+
+        return $this;
+    }
+
+    public function getPoste(): ?Poste
+    {
+        return $this->poste;
+    }
+
+    public function setPoste(?Poste $poste): self
+    {
+        $this->poste = $poste;
 
         return $this;
     }
