@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypeFichier{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeFichier</h1>
+
+    {{ include('ged/type_fichier/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_ged_type_fichier_index') }}">back to list</a>
+
+    {{ include('ged/type_fichier/_delete_form.html.twig') }}
+{% endblock %}

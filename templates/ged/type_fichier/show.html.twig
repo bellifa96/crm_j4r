@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeFichier{% endblock %}
+
+{% block body %}
+    <h1>TypeFichier</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ type_fichier.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ type_fichier.titre }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ type_fichier.code }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ged_type_fichier_index') }}">back to list</a>
+
+    <a href="{{ path('app_ged_type_fichier_edit', {'id': type_fichier.id}) }}">edit</a>
+
+    {{ include('ged/type_fichier/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SousEntite{% endblock %}
+
+{% block body %}
+    <h1>Create new SousEntite</h1>
+
+    {{ include('entite/sous_entite/_form.html.twig') }}
+
+    <a href="{{ path('app_entite_sous_entite_index') }}">back to list</a>
+{% endblock %}

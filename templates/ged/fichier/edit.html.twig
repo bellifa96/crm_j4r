@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Fichier{% endblock %}
+
+{% block body %}
+    <h1>Edit Fichier</h1>
+
+    {{ include('ged/fichier/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_ged_fichier_index') }}">back to list</a>
+
+    {{ include('ged/fichier/_delete_form.html.twig') }}
+{% endblock %}

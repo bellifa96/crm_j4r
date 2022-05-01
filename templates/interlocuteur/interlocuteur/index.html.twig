@@ -3,27 +3,75 @@
 {% block title %}Interlocuteur index{% endblock %}
 
 {% block body %}
-    <h1>Interlocuteur index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>Code Postal</th>
+                <th>Pays</th>
                 <th>Type</th>
+                <th>Siret</th>
                 <th>Commentaire</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for interlocuteur in interlocuteurs %}
             <tr>
-                <td>{{ interlocuteur.id }}</td>
-                <td>{{ interlocuteur.type }}</td>
-                <td>{{ interlocuteur.commentaire }}</td>
+                <td><a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}">{{ interlocuteur.id }}</a></td>
+
                 <td>
-                    <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}">show</a>
-                    <a href="{{ path('app_interlocuteur_interlocuteur_edit', {'id': interlocuteur.id}) }}">edit</a>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.nom }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ interlocuteur.personne.nom }}
+                    {% endif %}
                 </td>
+
+                <td>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.adresse1 }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ interlocuteur.personne.adresse1 }}
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.ville }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ interlocuteur.personne.ville }}
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.codePostal }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ interlocuteur.personne.codePostal }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.pays }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ interlocuteur.personne.pays }}
+                    {% endif %}
+                </td>
+                <td>{{ interlocuteur.type }}</td>
+                <td>
+                    {% if interlocuteur.societe is not empty %}
+                        {{ interlocuteur.societe.siret }}
+                    {% elseif interlocuteur.personne is not empty %}
+                        {{ "" }}
+                    {% endif %}
+                </td>
+
+
+                <td>{{ interlocuteur.commentaire }}</td>
             </tr>
         {% else %}
             <tr>

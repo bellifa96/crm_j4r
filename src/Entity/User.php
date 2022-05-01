@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Entite\Depot;
+use App\Entity\Ged\Fichier;
 use App\Entity\User\Poste;
 
 use App\Entity\User\Service;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -62,10 +66,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Poste::class, inversedBy: 'users')]
     private $poste;
 
+    #[ORM\ManyToMany(targetEntity: Depot::class, mappedBy: 'users')]
+    private $depots;
+
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Fichier::class)]
+    private $fichiers;
+
 
     public function __construct()
     {
         $this->isActif = false;
+        $this->depots = new ArrayCollection();
+        $this->fichiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +230,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoste(?Poste $poste): self
     {
         $this->poste = $poste;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Depot>
+     */
+    public function getDepots(): Collection
+    {
+        return $this->depots;
+    }
+
+    public function addDepot(Depot $depot): self
+    {
+        if (!$this->depots->contains($depot)) {
+            $this->depots[] = $depot;
+            $depot->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepot(Depot $depot): self
+    {
+        if ($this->depots->removeElement($depot)) {
+            $depot->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getFichiers(): Collection
+    {
+        return $this->fichiers;
+    }
+
+    public function addFichier(Fichier $fichier): self
+    {
+        if (!$this->fichiers->contains($fichier)) {
+            $this->fichiers[] = $fichier;
+            $fichier->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichier(Fichier $fichier): self
+    {
+        if ($this->fichiers->removeElement($fichier)) {
+            // set the owning side to null (unless already changed)
+            if ($fichier->getCreateur() === $this) {
+                $fichier->setCreateur(null);
+            }
+        }
 
         return $this;
     }

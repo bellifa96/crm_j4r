@@ -34,10 +34,19 @@
                     <span>Contact</span>
                 </a>
             </li>
+
+            <li class="sidebar-title">GED</li>
+
             <li class="sidebar-item  ">
-                <a href="#" class="sidebar-link">
+                <a href="{{path('app_ged_fichier_index')}}" class="sidebar-link">
                     <i class="bi bi-folder2-open"></i>
-                    <span>GED</span>
+                    <span>Fichiers</span>
+                </a>
+            </li>
+            <li class="sidebar-item  ">
+                <a href="{{path('app_ged_type_fichier_index')}}" class="sidebar-link">
+                    <i class="bi bi-folder2-open"></i>
+                    <span>Type de documents</span>
                 </a>
             </li>
             <li class="sidebar-title">Affaires</li>
@@ -95,6 +104,12 @@
                 <a href="{{path('app_user_service_index')}}" class="sidebar-link">
                     <i class="bi bi-stack"></i>
                     <span>Services</span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="{{ path('app_entite_entite_index')}}" class="sidebar-link">
+                    <i class="bi bi-stack"></i>
+                    <span>Entité</span>
                 </a>
             </li>
             <li class="sidebar-item ">

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entite{% endblock %}
+
+{% block body %}
+    <h1>Entite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entite.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ entite.nom }}</td>
+            </tr>
+            <tr>
+                <th>RaisonSociale</th>
+                <td>{{ entite.raisonSociale }}</td>
+            </tr>
+            <tr>
+                <th>ActivitePrincipale</th>
+                <td>{{ entite.activitePrincipale }}</td>
+            </tr>
+            <tr>
+                <th>Siret</th>
+                <td>{{ entite.siret }}</td>
+            </tr>
+            <tr>
+                <th>FormeJuridique</th>
+                <td>{{ entite.formeJuridique }}</td>
+            </tr>
+            <tr>
+                <th>Dirigeant</th>
+                <td>{{ entite.Dirigeant }}</td>
+            </tr>
+            <tr>
+                <th>DateDeCreation</th>
+                <td>{{ entite.dateDeCreation }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ entite.createdAt ? entite.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ entite.updatedAt ? entite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Adresse1</th>
+                <td>{{ entite.adresse1 }}</td>
+            </tr>
+            <tr>
+                <th>Adresse2</th>
+                <td>{{ entite.adresse2 }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ entite.ville }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ entite.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ entite.pays }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_entite_entite_index') }}">back to list</a>
+
+    <a href="{{ path('app_entite_entite_edit', {'id': entite.id}) }}">edit</a>
+
+    {{ include('entite/entite/_delete_form.html.twig') }}
+{% endblock %}
