@@ -1,0 +1,3 @@
+<?php //App%255CEntity%255CInterlocuteur%255CPersonne
+
+return [PHP_INT_MAX, []];
