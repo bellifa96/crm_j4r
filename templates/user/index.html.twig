@@ -5,7 +5,7 @@
 {% block body %}
 
 
-    <div class="container">
+    <div class="container" style="padding: 30px;">
         <div class="row">
             <div class="col-md-offset-1 col-md-12">
                 <div class="panel">
@@ -15,7 +15,7 @@
                                 <h4 class="title">Utilisateurs</h4>
                             </div>
                            {# <div class="col-sm-7 col-xs-12 text-end">
-                                <a href="{{path('app_user_new')}}" class="btn btn-primary btn-sm"><i class="fa fa-user"></i> Ajouter un utilisateur </a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-user"></i> CRM </a>
                             </div>
                             #}
                         </div>
@@ -24,19 +24,18 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Utilisateur</th>
                                 <th>Email</th>
-                                <th>Roles</th>
-                                <th>Service</th>
-                                <th>Poste</th>
-                                <th>Matricule</th>
                                 <th>Statut</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for user in users %}
                                 <tr>
+                                    <td>{{ user.id }}</td>
                                     <td>
                                         <div class="user_icon">
                                             <img src="{{ asset('../uploads/photo/' ~ user.photo) }}" alt="">
@@ -52,10 +51,6 @@
                                         {% endif %}
                                     </td>
                                     <td> {{ user.roles|join('|') }}</td>
-                                    <td>{{ user.service ? user.service.titre : "NC" }}</td>
-                                    <td>{{ user.poste ? user.poste.titre : "NC" }}</td>
-                                    <td>{{ user.matricule }}</td>
-
                                     <td>
                                         <ul class="action-list row">
                                             <li class="col-md-5">
@@ -71,12 +66,9 @@
                                                     </a>
                                                 {% endif %}
                                             </li>
-                                            <li class="col-md-5">
-                                                <a href="{{ path('app_user_edit',{'id':user.id}) }}"
-                                                   class="btn">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                            </li>
+                                            <li class="col-md-5"><a href="{{ path('app_user_edit',{'id':user.id}) }}"
+                                                                    class="btn">
+                                                    <i class="bi bi-pencil-square"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>

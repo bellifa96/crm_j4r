@@ -18,7 +18,8 @@ class ServiceController extends AbstractController
     {
         return $this->render('user/service/index.html.twig', [
             'services' => $serviceRepository->findAll(),
-            'title'  => 'Liste des services'
+            'title'  => 'Liste des services',
+            'nav' => [],
 
         ]);
     }
@@ -38,7 +39,8 @@ class ServiceController extends AbstractController
         return $this->renderForm('user/service/new.html.twig', [
             'service' => $service,
             'form' => $form,
-            'title'  => 'Liste des services'
+            'title'  => 'Liste des services',
+            'nav' => [],
 
         ]);
     }
@@ -48,7 +50,8 @@ class ServiceController extends AbstractController
     {
         return $this->render('user/service/show.html.twig', [
             'service' => $service,
-            'title'  => 'Liste des services'
+            'title'  => 'Liste des services',
+            'nav' => [],
 
         ]);
     }
@@ -67,7 +70,8 @@ class ServiceController extends AbstractController
         return $this->renderForm('user/service/edit.html.twig', [
             'service' => $service,
             'form' => $form,
-            'title'  => 'Liste des services'
+            'title'  => 'Liste des services',
+            'nav' => [],
 
         ]);
     }

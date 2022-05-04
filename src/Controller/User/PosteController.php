@@ -18,7 +18,8 @@ class PosteController extends AbstractController
     {
         return $this->render('user/poste/index.html.twig', [
             'postes' => $posteRepository->findAll(),
-            'title'  => 'Liste des postes'
+            'title'  => 'Liste des postes',
+            'nav' => [],
         ]);
     }
 
@@ -37,7 +38,8 @@ class PosteController extends AbstractController
         return $this->renderForm('user/poste/new.html.twig', [
             'poste' => $poste,
             'form' => $form,
-            'title'  => 'Liste des postes'
+            'title'  => 'Liste des postes',
+            'nav' => [],
 
         ]);
     }
@@ -47,7 +49,8 @@ class PosteController extends AbstractController
     {
         return $this->render('user/poste/show.html.twig', [
             'poste' => $poste,
-            'title'  => 'Liste des postes'
+            'title'  => 'Liste des postes',
+            'nav' => [],
 
         ]);
     }
@@ -66,7 +69,8 @@ class PosteController extends AbstractController
         return $this->renderForm('user/poste/edit.html.twig', [
             'poste' => $poste,
             'form' => $form,
-            'title'  => 'Liste des postes'
+            'title'  => 'Liste des postes',
+            'nav' => [],
 
         ]);
     }
