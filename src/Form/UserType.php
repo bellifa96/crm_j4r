@@ -23,7 +23,9 @@ class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class)
-            ->add('emailPerso', EmailType::class)
+            ->add('emailPerso', EmailType::class,[
+                'required'=>false,
+            ])
             ->add('firstname')
             ->add('lastname')
             ->add('photo', FileType::class, [
@@ -37,7 +39,7 @@ class UserType extends AbstractType
                         ->orderBy('s.titre', 'ASC');
                 },
                 'choice_label' => 'titre',
-                'required' => true,
+                'required' => false,
                 'placeholder' => 'Choisir un service',
 
             ])
@@ -49,7 +51,7 @@ class UserType extends AbstractType
                 },
                 'placeholder' => 'Choisir un poste',
                 'choice_label' => 'titre',
-                'required' => true,
+                'required' => false,
             ])
             ->add('roles', ChoiceType::class, array(
                     'choices' => [

@@ -25,6 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     use TimesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -85,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->isActif = false;
+        $this->locked = false;
         $this->depots = new ArrayCollection();
         $this->fichiers = new ArrayCollection();
     }
@@ -113,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
