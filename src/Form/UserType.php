@@ -36,6 +36,8 @@ class UserType extends AbstractType
                 },
                 'choice_label' => 'titre',
                 'required' => true,
+                'placeholder' => 'Choisir un service',
+
             ])
             ->add('poste', EntityType::class, [
                 'class' => User\Poste::class,
@@ -43,6 +45,7 @@ class UserType extends AbstractType
                     return $er->createQueryBuilder('p')
                         ->orderBy('p.titre', 'ASC');
                 },
+                'placeholder' => 'Choisir un poste',
                 'choice_label' => 'titre',
                 'required' => true,
             ])
@@ -52,6 +55,7 @@ class UserType extends AbstractType
                             'Admin' => 'ROLE_ADMIN',
                             'J4R' => 'ROLE_USER',
                         ],
+
                     'multiple' => true,
                     'required' => true,
                     'expanded'=>true,
