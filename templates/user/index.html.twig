@@ -39,7 +39,7 @@
                                     <td>
                                         <a href="{{ path('app_user_edit',{'id':user.id}) }}"  style="color: #555;">
                                             <div class="user_icon">
-                                                <img src="{{ asset('../uploads/photo/' ~ user.photo) }}" alt="">
+                                                <img src="{{ asset('./uploads/photo/' ~ user.photo) }}" alt="">
                                             </div>
                                             {{ user.firstname~" "~user.lastname }}
                                         </a>
