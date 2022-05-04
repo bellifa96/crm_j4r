@@ -5,6 +5,10 @@ body {
 
 }
 
+body a{
+    text-decoration: none;
+}
+
 body .background-body:before {
     opacity: 0.33;
     background: #000000;
