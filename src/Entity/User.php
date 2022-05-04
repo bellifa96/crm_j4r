@@ -78,6 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $locked;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $emailPerso;
+
 
     public function __construct()
     {
@@ -317,6 +320,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
+
+        return $this;
+    }
+
+    public function getEmailPerso(): ?string
+    {
+        return $this->emailPerso;
+    }
+
+    public function setEmailPerso(?string $emailPerso): self
+    {
+        $this->emailPerso = $emailPerso;
 
         return $this;
     }
