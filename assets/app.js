@@ -31,6 +31,27 @@ global.$ = global.jQuery = $;
 
 $(document).ready(function () {
 
-    $('.table').DataTable();
+    console.log('ici')
+
+    $('.table').DataTable({
+        "oLanguage": {
+            sSearch: "",
+            searchPlaceholder: "Chercher"
+
+        },
+        language: {
+            searchPlaceholder: "Chercher un utilisateur"
+        }
+    });
+
 
 });
+
+$(window).on('load', function(){
+    console.log('ici')
+    $("#divLoader").css('display','none');
+    console.log('ici')
+
+
+})
+

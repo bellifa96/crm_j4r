@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 #[Route('/user')]
@@ -33,19 +36,20 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'title'=> 'Utilisateurs',
+            'title' => 'Utilisateurs',
+            'nav' => [['app_user_new','Ajouter un utilisateur']],
         ]);
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository,UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($passwordHasher->hashPassword($user,$user->getPassword()));
+            $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -53,11 +57,11 @@ class UserController extends AbstractController
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
-            'title'=> 'Utilisateurs',
+            'title' => 'Utilisateurs',
+            'nav' => [],
 
         ]);
     }
-
 
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
@@ -65,19 +69,43 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'title'=> 'Utilisateurs',
+            'title' => 'Utilisateurs',
+            'nav' => [],
 
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository,UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
     {
+        $photo = $user->getPhoto();
+
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($passwordHasher->hashPassword($user,$user->getPassword()));
+            $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+            $brochureFile = $form->get('photo')->getData();
+
+            if (!empty($brochureFile)) {
+                $newFilename = $user->getId().'.'.$brochureFile->guessExtension();
+
+                try {
+                    $brochureFile->move(
+                        __DIR__ . '/../../public/uploads/photo/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger',"La photo de profile n'a pas pu être charger ");
+                }
+
+                $user->setPhoto($newFilename);
+            }else{
+                $user->setPhoto($photo);
+            }
 
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
@@ -86,7 +114,8 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'title'=> 'Utilisateurs',
+            'title' => 'Utilisateurs',
+            'nav' => [],
 
         ]);
     }
@@ -95,10 +124,30 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user);
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route("/locked/{id}", name: "user_locked")]
+    // #[Security("is_granted('ROLE_ADMIN')")]
+    public function locked(Request $request, User $user, UserRepository $userRepository)
+    {
+        if ($user) {
+            if ($user->getLocked()) {
+                $user->setLocked(0);
+            } else {
+                $user->setLocked(1);
+            }
+            $userRepository->add($user);
+
+            $this->addFlash('success', 'ALERT_ACCOUNT_LOCK');
+        } else {
+            $this->addFlash('danger', 'ALERT_ACCOUNT_LOCK_IMPOSSIBLE');
+        }
+
+        return $this->redirectToRoute('app_user_index');
     }
 }

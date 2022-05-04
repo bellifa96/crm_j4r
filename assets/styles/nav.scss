@@ -1,5 +1,26 @@
 @import "~bootstrap/scss/bootstrap";
 
+body #nav-main .nav-user ul li {
+  width: 33.333333%;
+  float: left;
+  text-align: center;
+
+}
+
+.nav-user-i i{
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+
+body #nav-main .nav-user ul {
+  clear: both;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 #sidebar {
   &.active {
     .sidebar-wrapper {
@@ -15,15 +36,23 @@
     }
   }
 }
+
+#company-logo{
+  height: 3rem;
+}
+.logo{
+  text-align: center;
+}
+.nav-user{
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 30px;
+  width: 100%;
+}
+
 .sidebar-wrapper {
-  width: 300px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  z-index: 10;
+
+  position: relative;
   overflow-y: auto;
-  background-color: #fff;
-  bottom: 0;
   transition: left .5s ease-out;
   .sidebar-header {
     padding: 2rem 2rem 1rem;
@@ -52,7 +81,7 @@
       font-size: 1rem;
       list-style: none;
       font-weight: 600;
-      color: #25396f;
+      color: #f1f1f1;
     }
 
     .sidebar-link {
@@ -64,15 +93,16 @@
       border-radius: .5rem;
       transition: all .5s;
       text-decoration: none;
-      color:#25396f;
+      color:#f1f1f1;
       svg,i {
-        color:#7c8db5;
+        color:#f1f1f1;
       }
       span {
         margin-left: 1rem;
       }
       &:hover {
-        background-color: rgb(240, 241, 245);
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.23);
       }
     }
     .sidebar-item {

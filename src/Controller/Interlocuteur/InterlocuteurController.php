@@ -18,7 +18,8 @@ class InterlocuteurController extends AbstractController
     {
         return $this->render('interlocuteur/interlocuteur/index.html.twig', [
             'interlocuteurs' => $interlocuteurRepository->findAll(),
-            'title' => 'Liste des interlocuteurs'
+            'title' => 'Liste des interlocuteurs',
+            'nav' => [],
         ]);
     }
 
@@ -44,7 +45,8 @@ class InterlocuteurController extends AbstractController
         return $this->renderForm('interlocuteur/interlocuteur/new.html.twig', [
             'interlocuteur' => $interlocuteur,
             'form' => $form,
-            'title' => 'Liste des interlocuteurs'
+            'title' => 'Liste des interlocuteurs',
+            'nav' => [],
 
         ]);
     }
@@ -54,7 +56,8 @@ class InterlocuteurController extends AbstractController
     {
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
             'interlocuteur' => $interlocuteur,
-            'title' => 'Liste des interlocuteurs'
+            'title' => 'Liste des interlocuteurs',
+            'nav' => [],
 
         ]);
     }
@@ -73,7 +76,8 @@ class InterlocuteurController extends AbstractController
         return $this->renderForm('interlocuteur/interlocuteur/edit.html.twig', [
             'interlocuteur' => $interlocuteur,
             'form' => $form,
-            'title' => 'Liste des interlocuteurs'
+            'title' => 'Liste des interlocuteurs',
+            'nav' => [],
 
         ]);
     }

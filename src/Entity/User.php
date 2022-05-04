@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $service;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $immatricule;
+    private $matricule;
 
     #[ORM\ManyToOne(targetEntity: Poste::class, inversedBy: 'users')]
     private $poste;
@@ -71,6 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Fichier::class)]
     private $fichiers;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
+
+    #[ORM\Column(type: 'boolean')]
+    private $locked;
 
 
     public function __construct()
@@ -210,14 +216,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getImmatricule(): ?string
+    public function getmatricule(): ?string
     {
-        return $this->immatricule;
+        return $this->matricule;
     }
 
-    public function setImmatricule(?string $immatricule): self
+    public function setmatricule(?string $matricule): self
     {
-        $this->immatricule = $immatricule;
+        $this->matricule = $matricule;
 
         return $this;
     }
@@ -287,6 +293,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $fichier->setCreateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
 
         return $this;
     }

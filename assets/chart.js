@@ -1,4 +1,9 @@
 import Chart from 'chart.js/auto';
+import $ from "jquery";
+
+$(window).on('load', function(){
+    $("#divLoader").css('display','none');
+})
 
 $(function () {
 
@@ -431,3 +436,4 @@ $(function () {
 // var lineChart4 = new Chart(ctx4, config4);
 
 })
+

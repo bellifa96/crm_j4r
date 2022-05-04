@@ -10,44 +10,104 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
+    <style>
+        body .background-body {
+            background-image: url({{asset("/build/img/etoiles-background.jpg")}});
+            transition: all .25s ease-out 0s;
+            position: fixed;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+            display: block;
+            top: 0;
+            left: 0;
+            background-size: cover;
+            background-position: 50%;
+        }
+    </style>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body style="overflow-y: auto;">
-<div id="app">
-    <div id="sidebar" class="active">
-        {% include 'nav.html.twig' %}
+
+<body class="container-fluid">
+<div class="container-main">
+    <div class="background-body"></div>
+
+    <div id="divLoader">
+        <div class="loader ">
+            <div class="one bg-white"></div>
+            <div class="two bg-white"></div>
+            <div class="three bg-white"></div>
+            <div class="four bg-white"></div>
+            <div class="five bg-white"></div>
+            <div class="six bg-white"></div>
+            <div class="seven bg-white"></div>
+            <div class="eight bg-white"></div>
+        </div>
     </div>
-    <div id="main">
-        <header class="mb-3">
-            <a href="#" class="burger-btn d-block d-xl-none">
-                iciddddddddddddddddd
-                <i class="bi bi-justify fs-3"></i>
-            </a>
-        </header>
 
-        <div class="page-heading">
-            <h3>{{ title }}</h3>
-        </div>
-        <div class="page-content">
-            {% block body %}{% endblock %}
 
-        </div>
-        <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>2021 © J4R</p>
-                </div>
-                <div class="float-end">
-                    <p>Developped <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="https://j4r.fr/">J4R</a></p>
-                </div>
+    <div class="container-main">
+
+        <header class="row header-row">
+            <div class="logo col-md-2">
+                <a href="{{ path('app_home') }}"><img id="company-logo" src="{{ asset('uploads/logo/j4r_logo.png') }}"
+                                                      alt="Logo" srcset=""></a>
+                <hr>
+
+            </div>
+            <div class="col-md-10 row">
             </div>
 
-        </footer>
+            <nav class="col-lg-10">
+            </nav>
+        </header>
+
+
+        <div class="row">
+
+            <div class="col-md-2" id="nav-main">
+                <div class="nav-user">
+
+                    <ul class="clearfix nav-user-i">
+                        <li class=" col-md-4">
+                            <a id="leaspect" style="cursor: pointer;">
+                                <i class="bi bi-search"></i>
+                            </a>
+                        </li>
+                        <li class="col-md-4">
+                            <a href="{{ path('app_user_show',{'id':app.user.id}) }}">
+                                {% if app.user.photo is defined and app.user.photo is not empty %}
+                                    <img style="height: 50px; width: 50px;border-radius: 50%;"
+                                         src="{{ asset('../uploads/photo/' ~ app.user.photo) }}" alt=""/>
+                                {% else %}
+                                    <i class="bi bi-person-circle"></i>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="col-md-4">
+                            <a href="/logout">
+                                <i class="bi bi-power"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                {% include 'nav.html.twig' %}
+            </div>
+
+            <div class="page-content col-md-10">
+                {% include 'include/title.html.twig' with {'title': title, 'nav': nav} %}
+
+                {% block body %}{% endblock %}
+
+            </div>
+
+        </div>
     </div>
 </div>
+
 </body>
 
 </html>
