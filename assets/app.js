@@ -55,6 +55,6 @@ $(function () {
 });
 
 $(window).on('load', function(){
-    $("#divLoader").css('display','none');
+  //  $("#divLoader").css('display','none');
 })
 
