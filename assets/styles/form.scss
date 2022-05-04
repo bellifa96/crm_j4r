@@ -1,33 +1,50 @@
 @import "./variable";
 
 
-label{
+label {
   color: black;
 }
 
-.form-control-smm {
+.btn-j4r {
+  background: #1db5e6;
+  border-color: #1db5e6;
+  color: white;
+}
+
+.btn-j4r:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #1db5e6;
+  border-color: #1db5e6;
+}
+
+.form-control-sm-2 {
   font-size: .75rem !important;
   overflow: hidden;
   text-overflow: ellipsis;
   height: calc(1em + 0.375rem + 2px) !important;
   padding: 0 0.25rem !important;
   background: rgba(14, 67, 119, .1);
-  border-radius: 5px;
+  border-radius: 5px !important;
   white-space: nowrap;
+
 }
 
 .form-group {
   margin-bottom: .7rem;
+
   label {
     color: rgba(35, 28, 99, 0.7);
     font-weight: 600;
   }
+
   small {
     font-size: .7rem;
   }
 
   &.with-title {
     position: relative;
+
     label {
       position: absolute;
       top: 0;
@@ -38,8 +55,10 @@ label{
       width: 100%;
       transition: $input-transition;
     }
+
     .form-control, dataTable-input {
       padding-top: 2rem;
+
       &:focus ~ label {
         border-left: 1px solid map-get($theme-colors, 'primary');
         border-top: 1px solid map-get($theme-colors, 'primary');
@@ -53,43 +72,53 @@ label{
       .form-control {
         padding-left: 2.5rem;
       }
+
       .form-control-icon {
         left: 0;
       }
     }
+
     &.has-icon-right {
       .form-control {
         padding-right: 2.5rem;
       }
+
       .form-control-icon {
         right: 0;
       }
     }
+
     .form-control {
       &:focus ~ .form-control-icon {
         i, svg {
           color: #5A8DEE
         }
       }
+
       &.form-control-xl {
         padding-left: 3rem;
-        & ~ .form-control-icon i{
+
+        & ~ .form-control-icon i {
           font-size: 1.6rem;
+
           &:before {
             color: #a6a8aa
           }
         }
       }
     }
+
     .form-control-icon {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       padding: 0 .6rem;
+
       i, svg {
         width: 1.2rem;
         color: $input-placeholder-color;
         font-size: 1.2rem;
+
         &:before {
           vertical-align: sub;
         }
@@ -98,20 +127,24 @@ label{
 
   }
 }
+
 .form-control {
   &.form-control-xl {
     padding: .85rem 1rem;
     font-size: 1.2rem;
   }
 }
+
 .form-check {
   .form-check-input {
     &[class*="bg-"] {
       border: 0;
     }
+
     &:focus {
       box-shadow: none;
     }
+
     @each $key, $value in $theme-colors {
       &.form-check-#{$key} {
         background-color: $value;
@@ -123,7 +156,8 @@ label{
         }
 
         &.form-check-glow {
-          box-shadow: 0 0 5px lighten($value,10%);
+          box-shadow: 0 0 5px lighten($value, 10%);
+
           &:not(:checked) {
             box-shadow: none;
           }
@@ -138,17 +172,20 @@ label{
       height: .9rem;
       margin-top: .3em;
     }
+
     label {
       font-size: .7rem;
 
     }
   }
+
   &.form-check-lg {
     .form-check-input {
       width: 1.5rem;
       height: 1.5rem;
       margin-top: .3em;
     }
+
     label {
       font-size: 1rem;
     }
@@ -192,14 +229,16 @@ label{
 body {
   background-color: white;
 }
+
 #auth {
   height: 100vh;
   overflow-x: hidden;
 
   #auth-right {
     height: 100%;
-    background:  linear-gradient(90deg,#2d499d,#3f5491);
+    background: linear-gradient(90deg, #2d499d, #3f5491);
   }
+
   #auth-left {
     padding: 5rem 8rem;
 
@@ -207,18 +246,21 @@ body {
       font-size: 4rem;
       margin-bottom: 1rem;
     }
+
     .auth-subtitle {
       font-size: 1.7rem;
       line-height: 2.5rem;
       color: #a8aebb;
     }
+
     .auth-logo {
       img {
         height: 2rem;
       }
     }
+
     @media screen and (max-width: 767px) {
-      padding: 5rem ;
+      padding: 5rem;
     }
     @media screen and (max-width: 576px) {
       padding: 5rem 3rem;

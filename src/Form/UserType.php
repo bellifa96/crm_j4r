@@ -50,15 +50,13 @@ class UserType extends AbstractType
                 'required' => true,
             ])
             ->add('roles', ChoiceType::class, array(
-                    'choices' =>[
-                        [ ''=>['Super admin' => 'ROLE_SUPER_ADMIN']],
-                            'Admin' => 'ROLE_ADMIN',
-                            'J4R' => 'ROLE_USER',
-                        ],
-
+                    'choices' => [
+                        'Super admin' => 'ROLE_SUPER_ADMIN',
+                        'Admin' => 'ROLE_ADMIN',
+                        'J4R' => 'ROLE_USER',
+                    ],
                     'multiple' => true,
-                    'required' => true,
-                    'expanded'=>true,
+                    'expanded' => true,
                 )
             );
 

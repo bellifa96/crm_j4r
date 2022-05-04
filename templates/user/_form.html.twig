@@ -1,5 +1,12 @@
 <div class="col-md-10 m-auto page-block mb-3">
 
+    <style>
+
+
+        .btn-roles {
+            margin-left: 2px;
+        }
+    </style>
     {{ form_start(form,{'attr':{"id":"dropzone"}}) }}
 
 
@@ -7,32 +14,100 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="col-md-12 mb-3">
-                    {{ form_widget(form.firstname,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Nom'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Nom
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.firstname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Nom'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12  mb-3">
-                    {{ form_widget(form.lastname,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Nom
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.lastname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12  mb-3">
-                    {{ form_widget(form.email,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Email
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.email,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12 mb-3">
-                    {{ form_widget(form.roles,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Role
+                        </div>
+                        <div class="col-md-9 ">
+                            <div class="form-check form-switch col-md-12">
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Super Admin</label>
+                                {{ form_widget(form.roles[0],{'attr':{'class':'form-check-input'}}) }}
+                            </div>
+                            <div class="form-check form-switch col-md-12">
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Admin</label>
+                                {{ form_widget(form.roles[1],{'attr':{'class':'form-check-input'}}) }}
+                            </div>
+                            <div class="form-check form-switch col-md-12">
+                                <label class="form-check-label" for="flexSwitchCheckChecked">J4R</label>
+                                {{ form_widget(form.roles[2],{'attr':{'class':'form-check-input'}}) }}
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 {% if form.password is defined %}
                     <div class="col-md-12 mb-3">
-                        {{ form_widget(form.password.first,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Mot de passe'}}) }}
+                        <div class="row">
+                            <div class="col-md-3 text-end">
+                                Mot de passe
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.password.first,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'mot de passe'}}) }}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12  mb-3">
-                        {{ form_widget(form.password.second,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Resaisir le mot de passe'}}) }}
+                        <div class="row">
+                            <div class="col-md-3 text-end">
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.password.second,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'repeter le mot de passse'}}) }}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
                 <div class="col-md-12 mb-3">
-                    {{ form_widget(form.service,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Mot de passe'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Service
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.service,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12  mb-3">
-                    {{ form_widget(form.poste,{'attr':{'class':'form-control form-control-sm','autocomplete':'off','required':'true','placeholder':'Resaisir le mot de passe'}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end">
+                            Poste
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.poste,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true'}}) }}
+                        </div>
+                    </div>
                 </div>
 
 
@@ -54,7 +129,7 @@
     </div>
 
 
-    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-j4r">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
 
 </div>

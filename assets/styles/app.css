@@ -71,6 +71,7 @@ body .page-block {
     -webkit-box-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%);
     box-shadow: 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%);
     border-radius: 10px;
+    color: #0E4377;
 }
 
 
