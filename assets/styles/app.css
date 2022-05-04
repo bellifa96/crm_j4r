@@ -96,7 +96,7 @@ body .page-head h2 {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: grey;
+    background-color: #F5F5F5;
     z-index: 100000000000;
 }
 
@@ -190,7 +190,7 @@ body .page-head h2 {
         height: 20px;
     }
     14%, 34% {
-        background-color: #5eb15e;
+        background-color: #15abde;
         height: 82.5px;
     }
     46%, 100% {
