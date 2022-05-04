@@ -84,6 +84,6 @@ class __TwigTemplate_4df7e2ca1028d52fdcf1d5282b0a57ef extends Template
     {{ form_widget(form) }}
     <button class=\"btn\">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-", "entite/entite/_form.html.twig", "/home/ouss/crm_j4r/templates/entite/entite/_form.html.twig");
+", "entite/entite/_form.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/entite/entite/_form.html.twig");
     }
 }

@@ -271,6 +271,6 @@ class __TwigTemplate_34aa02f1248182d5da1547b0d24b4a15 extends Template
     </div>
 </section>
 {% endblock %}
-", "user/index.html.twig", "/home/ouss/crm_j4r/templates/user/index.html.twig");
+", "user/index.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/index.html.twig");
     }
 }

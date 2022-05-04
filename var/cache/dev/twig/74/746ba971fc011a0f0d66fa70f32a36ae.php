@@ -205,6 +205,6 @@ class __TwigTemplate_c71878804794a1f9f58771109ad794c0 extends Template
 
     <a href=\"{{ path('app_user_poste_new') }}\">Create new</a>
 {% endblock %}
-", "user/poste/index.html.twig", "/home/ouss/crm_j4r/templates/user/poste/index.html.twig");
+", "user/poste/index.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/poste/index.html.twig");
     }
 }

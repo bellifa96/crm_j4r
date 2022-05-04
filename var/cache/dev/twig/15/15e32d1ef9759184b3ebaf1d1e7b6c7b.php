@@ -131,6 +131,6 @@ class __TwigTemplate_39b98b99359956f2aa819988ee0ba049 extends Template
 
     <a href=\"{{ path('app_user_index') }}\">back to list</a>
 {% endblock %}
-", "user/new.html.twig", "/home/ouss/crm_j4r/templates/user/new.html.twig");
+", "user/new.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/new.html.twig");
     }
 }

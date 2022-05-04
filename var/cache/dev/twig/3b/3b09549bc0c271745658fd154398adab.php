@@ -760,6 +760,6 @@ class __TwigTemplate_272b0aad70414b80a451388b0d0fba32 extends Template
         </div>
     {% endfor %}
 {% endblock %}
-", "@WebProfiler/Collector/mailer.html.twig", "/home/ouss/crm_j4r/vendor/symfony/web-profiler-bundle/Resources/views/Collector/mailer.html.twig");
+", "@WebProfiler/Collector/mailer.html.twig", "/home/jqwe8986/public_html/crm_j4r/vendor/symfony/web-profiler-bundle/Resources/views/Collector/mailer.html.twig");
     }
 }

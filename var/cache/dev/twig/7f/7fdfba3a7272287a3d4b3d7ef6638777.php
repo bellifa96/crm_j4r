@@ -79,6 +79,6 @@ class __TwigTemplate_0ced229542f868dad2c70ff0f6125d91 extends Template
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ interlocuteur.id) }}\">
     <button class=\"btn\">Delete</button>
 </form>
-", "interlocuteur/interlocuteur/_delete_form.html.twig", "/home/ouss/crm_j4r/templates/interlocuteur/interlocuteur/_delete_form.html.twig");
+", "interlocuteur/interlocuteur/_delete_form.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/interlocuteur/interlocuteur/_delete_form.html.twig");
     }
 }

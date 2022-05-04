@@ -843,6 +843,6 @@ class __TwigTemplate_24cc18589ea1299cc4147f96e1ff1941 extends Template
     </table>
     {% endfor %}
 {% endmacro %}
-", "@WebProfiler/Collector/messenger.html.twig", "/home/ouss/crm_j4r/vendor/symfony/web-profiler-bundle/Resources/views/Collector/messenger.html.twig");
+", "@WebProfiler/Collector/messenger.html.twig", "/home/jqwe8986/public_html/crm_j4r/vendor/symfony/web-profiler-bundle/Resources/views/Collector/messenger.html.twig");
     }
 }

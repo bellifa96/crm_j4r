@@ -2626,6 +2626,7 @@ class ComposerStaticInitec4245b94b7b4020a1f06a318b4d408f
         'ProxyManager\\Generator\\Util\\IdentifierSuffixer' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Generator/Util/IdentifierSuffixer.php',
         'ProxyManager\\Generator\\Util\\ProxiedMethodReturnExpression' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Generator/Util/ProxiedMethodReturnExpression.php',
         'ProxyManager\\Generator\\Util\\UniqueIdentifierGenerator' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Generator/Util/UniqueIdentifierGenerator.php',
+        'ProxyManager\\Generator\\ValueGenerator' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Generator/ValueGenerator.php',
         'ProxyManager\\Inflector\\ClassNameInflector' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Inflector/ClassNameInflector.php',
         'ProxyManager\\Inflector\\ClassNameInflectorInterface' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Inflector/ClassNameInflectorInterface.php',
         'ProxyManager\\Inflector\\Util\\ParameterEncoder' => __DIR__ . '/..' . '/friendsofphp/proxy-manager-lts/src/ProxyManager/Inflector/Util/ParameterEncoder.php',

@@ -133,6 +133,6 @@ class __TwigTemplate_29c2142d69994a7fbd61f2623e3fbb67 extends Template
 
     <a href=\"{{ path('app_user_service_index') }}\">back to list</a>
 {% endblock %}
-", "user/service/new.html.twig", "/home/ouss/crm_j4r/templates/user/service/new.html.twig");
+", "user/service/new.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/service/new.html.twig");
     }
 }

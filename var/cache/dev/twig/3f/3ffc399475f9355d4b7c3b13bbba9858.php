@@ -79,6 +79,6 @@ class __TwigTemplate_bcbe4bd99f6444c04a5ac2cb5b4a6b97 extends Template
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ poste.id) }}\">
     <button class=\"btn\">Delete</button>
 </form>
-", "user/poste/_delete_form.html.twig", "/home/ouss/crm_j4r/templates/user/poste/_delete_form.html.twig");
+", "user/poste/_delete_form.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/poste/_delete_form.html.twig");
     }
 }

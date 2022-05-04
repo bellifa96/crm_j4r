@@ -205,6 +205,6 @@ class __TwigTemplate_413240ea40ade238c72c2f10cc050e48 extends Template
 
     <a href=\"{{ path('app_user_service_new') }}\">Create new</a>
 {% endblock %}
-", "user/service/index.html.twig", "/home/ouss/crm_j4r/templates/user/service/index.html.twig");
+", "user/service/index.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/service/index.html.twig");
     }
 }

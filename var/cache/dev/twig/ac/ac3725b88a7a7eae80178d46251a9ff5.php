@@ -140,6 +140,6 @@ class __TwigTemplate_48e604136d486a0536a6ab95fbe92a3b extends Template
 
     {{ include('ged/type_fichier/_delete_form.html.twig') }}
 {% endblock %}
-", "ged/type_fichier/edit.html.twig", "/home/ouss/crm_j4r/templates/ged/type_fichier/edit.html.twig");
+", "ged/type_fichier/edit.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/ged/type_fichier/edit.html.twig");
     }
 }

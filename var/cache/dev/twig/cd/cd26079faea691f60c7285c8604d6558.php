@@ -203,6 +203,6 @@ class __TwigTemplate_18e111474dfc1323f1da2802f0a93cee extends Template
     {% block javascripts %}
         {{ encore_entry_script_tags('chart') }}
     {% endblock %}
-", "home/index.html.twig", "/home/ouss/crm_j4r/templates/home/index.html.twig");
+", "home/index.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/home/index.html.twig");
     }
 }

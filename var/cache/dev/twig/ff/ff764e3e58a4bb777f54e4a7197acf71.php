@@ -1476,6 +1476,6 @@ $context["voter_detail"], "vote", [], "array", false, false, false, 403) == twig
         </div>
     {% endif %}
 {% endblock %}
-", "@Security/Collector/security.html.twig", "/home/ouss/crm_j4r/vendor/symfony/security-bundle/Resources/views/Collector/security.html.twig");
+", "@Security/Collector/security.html.twig", "/home/jqwe8986/public_html/crm_j4r/vendor/symfony/security-bundle/Resources/views/Collector/security.html.twig");
     }
 }

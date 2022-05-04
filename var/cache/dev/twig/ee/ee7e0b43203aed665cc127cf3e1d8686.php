@@ -99,6 +99,6 @@ class __TwigTemplate_4fe54cb95f6a84d63ccbd8408c074fc2 extends Template
 .container.body_default {
     border-top: 8px solid #aaaaaa;
 }
-", "@email/zurb_2/notification/local.css", "/home/ouss/crm_j4r/vendor/symfony/twig-bridge/Resources/views/Email/zurb_2/notification/local.css");
+", "@email/zurb_2/notification/local.css", "/home/jqwe8986/public_html/crm_j4r/vendor/symfony/twig-bridge/Resources/views/Email/zurb_2/notification/local.css");
     }
 }

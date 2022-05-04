@@ -216,6 +216,6 @@ class __TwigTemplate_de6dcf1d7563d866305dd5c354e8a325 extends Template
 
     {{ include('user/_delete_form.html.twig') }}
 {% endblock %}
-", "user/show.html.twig", "/home/ouss/crm_j4r/templates/user/show.html.twig");
+", "user/show.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/user/show.html.twig");
     }
 }

@@ -273,6 +273,6 @@ class __TwigTemplate_7a0303fd2337199c3d85773e3ca3d7ac extends Template
 </body>
 
 </html>
-", "base.html.twig", "/home/ouss/crm_j4r/templates/base.html.twig");
+", "base.html.twig", "/home/jqwe8986/public_html/crm_j4r/templates/base.html.twig");
     }
 }
