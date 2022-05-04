@@ -26,12 +26,19 @@ import 'datatables.net';
 import 'datatables.net-bs5'
 import './datatable_custom';
 
+
+//const { Dropzone } = require("dropzone");
+//Dropzone.autoDiscover = false;
+
+
+
+
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
-$(document).ready(function () {
+$(function () {
 
-    console.log('ici')
+
 
     $('.table').DataTable({
         "oLanguage": {
@@ -48,10 +55,6 @@ $(document).ready(function () {
 });
 
 $(window).on('load', function(){
-    console.log('ici')
     $("#divLoader").css('display','none');
-    console.log('ici')
-
-
 })
 
