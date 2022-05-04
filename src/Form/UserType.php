@@ -18,9 +18,9 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('email')
-            ->add('password', PasswordType::class)
             ->add('firstname')
             ->add('lastname')
             ->add('photo',FileType::class,[
@@ -71,6 +71,11 @@ class UserType extends AbstractType
                     'required' => true,
                 )
             );
+
+        if(empty($options['data']->getId())){
+            $builder->add('password', PasswordType::class);
+
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

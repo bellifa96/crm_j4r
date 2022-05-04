@@ -17,9 +17,13 @@
             <div class="col-md-6">
                 {{ form_widget(form.email,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Email'}}) }}
             </div>
+
+            {% if form.password is defined %}
             <div class="col-md-6">
                 {{ form_widget(form.password,{'attr':{'class':'form-control form-control-xl','autocomplete':'off','required':'true','placeholder':'Mot de passe'}}) }}
             </div>
+
+            {% endif %}
         </div>
 
         <div class="row mb-3">
