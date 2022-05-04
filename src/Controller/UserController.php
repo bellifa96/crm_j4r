@@ -36,7 +36,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'title' => 'Utilisateurs',
+            'title' => 'Gestion des utilisateurs',
             'nav' => [['app_user_new','Ajouter un utilisateur']],
         ]);
     }
@@ -57,9 +57,8 @@ class UserController extends AbstractController
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
-            'title' => 'Utilisateurs',
+            'title' => 'Créer un utilisateur',
             'nav' => [],
-
         ]);
     }
 
@@ -69,7 +68,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'title' => 'Utilisateurs',
+            'title' => $user->getFirstname()." ".$user->getLastname(),
             'nav' => [],
 
         ]);
@@ -113,7 +112,7 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'title' => 'Utilisateurs',
+            'title' => "Modifier l'utilisateur ".$user->getFirstname()." ".$user->getLastname(),
             'nav' => [],
 
         ]);
