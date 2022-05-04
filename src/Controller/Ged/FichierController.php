@@ -21,6 +21,7 @@ class FichierController extends AbstractController
         return $this->render('ged/fichier/index.html.twig', [
             'fichiers' => $fichierRepository->findAll(),
             'title'=> 'Document',
+            'nav'=>[],
         ]);
     }
 
@@ -68,6 +69,8 @@ class FichierController extends AbstractController
             'fichier' => $fichier,
             'form' => $form,
             'title'=> 'Document',
+            'nav'=>[],
+
         ]);
     }
 
@@ -77,6 +80,8 @@ class FichierController extends AbstractController
         return $this->render('ged/fichier/show.html.twig', [
             'fichier' => $fichier,
             'title'=> 'Document',
+            'nav'=>[],
+
         ]);
     }
 
@@ -95,6 +100,8 @@ class FichierController extends AbstractController
             'fichier' => $fichier,
             'form' => $form,
             'title'=> 'Document',
+            'nav'=>[],
+
         ]);
     }
 

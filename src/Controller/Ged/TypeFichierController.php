@@ -20,6 +20,8 @@ class TypeFichierController extends AbstractController
         return $this->render('ged/type_fichier/index.html.twig', [
             'type_fichiers' => $typeFichierRepository->findAll(),
             'title'=> 'Type de document',
+            'nav'=>[],
+
         ]);
     }
 
@@ -47,6 +49,8 @@ class TypeFichierController extends AbstractController
             'type_fichier' => $typeFichier,
             'form' => $form,
             'title'=> 'Type de document',
+            'nav'=>[],
+
         ]);
     }
 
@@ -56,7 +60,10 @@ class TypeFichierController extends AbstractController
         return $this->render('ged/type_fichier/show.html.twig', [
             'type_fichier' => $typeFichier,
             'title'=> 'Type de document',
+            'nav'=>[],
+
         ]);
+
     }
 
     #[Route('/{id}/edit', name: 'app_ged_type_fichier_edit', methods: ['GET', 'POST'])]
@@ -82,6 +89,8 @@ class TypeFichierController extends AbstractController
             'type_fichier' => $typeFichier,
             'form' => $form,
             'title'=> 'Type de document',
+            'nav'=>[],
+
         ]);
     }
 
