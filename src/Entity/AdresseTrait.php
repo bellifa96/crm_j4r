@@ -12,7 +12,7 @@ Trait AdresseTrait
     #[ORM\Column(type: 'string', length: 255)]
     private $adresse1;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $adresse2;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -42,7 +42,7 @@ Trait AdresseTrait
         return $this->adresse2;
     }
 
-    public function setAdresse2(string $adresse2): self
+    public function setAdresse2(?string $adresse2): self
     {
         $this->adresse2 = $adresse2;
 

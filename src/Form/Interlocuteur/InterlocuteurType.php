@@ -16,16 +16,16 @@ class InterlocuteurType extends AbstractType
     {
         $builder
             ->add('type', ChoiceType::class, [
-
                 'attr'=>[
-                    'class'=> 'form-control'
+                    'class'=> 'form-control',
+                    'style'=>'display:none;'
                 ],
                 'choices' => [
                     'Societé' => 'societe',
                     'Personne' => 'personne',
 
                 ],
-                'expanded' =>true,
+                'required' =>true,
             ])
             ->add('societe', SocieteType::class,[
                 'attr'=>[

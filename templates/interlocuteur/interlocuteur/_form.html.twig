@@ -1,277 +1,450 @@
 <style>
-    input {
-        padding: 10px;
-        width: 100%;
-        font-size: 17px;
-        font-family: Raleway;
-        border: 1px solid #aaaaaa
+    .checkbox {
+        width: 120px;
+        height: 31px;
+        margin: 0 auto;
     }
 
-    input.invalid {
-        background-color: #ffdddd
+    .checkbox input[type=checkbox] {
+        margin: 0;
+        visibility: hidden;
+        display: none;
+        left: 7px;
+        top: 7px;
     }
 
-    .tab {
-        display: none
-    }
-
-    button {
-        background-color: #4CAF50;
-        color: #ffffff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 17px;
-        font-family: Raleway;
-        cursor: pointer
-    }
-
-    button:hover {
-        opacity: 0.8
-    }
-
-    #prevBtn {
-        background-color: #bbbbbb
-    }
-
-    .step {
-        height: 15px;
-        width: 15px;
-        margin: 0 2px;
-        background-color: #bbbbbb;
-        border: none;
-        border-radius: 50%;
-        display: inline-block;
-        opacity: 0.5
-    }
-
-    .step.active {
-        opacity: 1
-    }
-
-    .step.finish {
-        background-color: #4CAF50
-    }
-
-    .all-steps {
-        text-align: center;
-        margin-top: 30px;
-        margin-bottom: 30px
-    }
-
-    .thanks-message {
-        display: none
-    }
-
-    .container {
+    .checkbox label {
+        height: 100%;
+        min-width: 120px;
+        border-radius: 4px;
         display: block;
+        perspective: 100px;
         position: relative;
-        padding-left: 35px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 22px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none
+        z-index: 1;
     }
 
-    .container input[type="radio"] {
-        width: min-content;
-    }
-
-    .checkmark {
+    .checkbox label:before,
+    .checkbox label:after {
+        min-width: 120px;
+        content: 'Personne';
+        color: #fff;
+        background: #0dcaf0;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        border-radius: 4px;
+        transform: rotateY(0deg);
         position: absolute;
         top: 0;
         left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
-        border-radius: 50%
+        transition: all 0.4s ease;
     }
 
-    .container:hover input ~ .checkmark {
-        background-color: #ccc
+    .checkbox label:after {
+        content: 'Societe';
+        background: #0E4377;
+        transform: rotateY(-180deg);
+        left: 0;
+        z-index: -1;
     }
 
-    .container input:checked ~ .checkmark {
-        background-color: #2196F3
+    .checkbox input[type=checkbox]:checked + label:before {
+        transform: rotateY(180deg);
     }
 
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none
+    .checkbox input[type=checkbox]:checked + label:after {
+        transform: rotateY(0deg);
+        z-index: 1;
     }
 
-    .container input:checked ~ .checkmark:after {
-        display: block
-    }
-
-    .container .checkmark:after {
-        top: 9px;
-        left: 9px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: white
+    @media only screen and (max-width: 767px) {
+        .checkbox {
+            margin: 0 0 20px;
+        }
     }
 </style>
+
+
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-md-6">
-            {{ form_start(form,{'attr':{'id':'regForm'}}) }}
+        {{ form_start(form) }}
 
-            <h1 id="register">Ajouter un Interlocuteur</h1>
-            <div class="all-steps" id="all-steps">
-                <span class="step"></span>
-                <span class="step"></span>
-                <span class="step"></span>
-            <div class="tab">
+        <div class="col-lg-6 m-auto page-block page-block-sm page-block-margin-bottom offset-4">
 
-                <h3>Type d'interlocuteur:</h3>
-                {{ form_widget(form.type) }}
-            </div>
-            <div class="tab">
-
-                <div class="societe">
-                    <p>{{ form_widget(form.societe.raisonSociale) }} </p>
-                    <p>{{ form_widget(form.societe.nom) }} </p>
-                    <p>{{ form_widget(form.societe.siret) }} </p>
-                    <p>{{ form_widget(form.societe.formeJuridique) }} </p>
-                    <p>{{ form_widget(form.societe.activitePrincipale) }} </p>
-                    <p>{{ form_widget(form.societe.dirigeant) }} </p>
-                    <p>{{ form_widget(form.societe.dateDeCreation) }} </p>
-                    <p>{{ form_widget(form.societe.email) }} </p>
-                    <p>{{ form_widget(form.societe.adresse1) }} </p>
-                    <p>{{ form_widget(form.societe.adresse2) }} </p>
-                    <p>{{ form_widget(form.societe.ville) }} </p>
-                    <p>{{ form_widget(form.societe.codePostal) }} </p>
-                    <p>{{ form_widget(form.societe.pays) }} </p>
-
+            <div class="justify-content-center">
+                <div class="checkbox col-md-4 m-auto">
+                    <input type="checkbox" id="type" checked/>
+                    <label for="type" id="type_label" style="cursor: pointer;"></label>
                 </div>
-                <div class="personne">
-                    <p>{{ form_widget(form.personne.nom) }} </p>
-                    <p>{{ form_widget(form.personne.prenom) }} </p>
-                    <p>{{ form_widget(form.personne.email) }} </p>
-                    <p>{{ form_widget(form.personne.adresse1) }} </p>
-                    <p>{{ form_widget(form.personne.adresse2) }} </p>
-                    <p>{{ form_widget(form.personne.ville) }} </p>
-                    <p>{{ form_widget(form.personne.codePostal) }} </p>
-                    <p>{{ form_widget(form.personne.pays) }} </p>
+                <div class="col-md-8 societe m-auto">
+                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input"}}) }}
                 </div>
             </div>
-            <div class="tab">
-                <p>{{ form_widget(form.commentaire) }} </p>
-            </div>
-            <div style="overflow:auto;" id="nextprevious">
-                <div style="float:right;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Précédent</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">Suivant</button>
+            {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
+
+
+        </div>
+
+
+        <div class="col-md-11 m-auto page-block mt-4">
+            <div class="societe">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Raison Sociale
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.raisonSociale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Nom Commercial
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.nom,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Adresse
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.adresse1,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Complément
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.adresse2,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Ville
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Code Postal
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.codePostal,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Pays
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.pays,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Siret
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.siret,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Dirigeant
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.dirigeant,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Forme Juridique
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.formeJuridique,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Activité Principale
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.activitePrincipale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Date de Création
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.dateDeCreation,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Email
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.email,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="personne">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Nom
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Prénom
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.prenom,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Email
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.email,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Téléphone
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-sm-2 personne-input"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Adresse
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.adresse1,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Complément
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.adresse2,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Ville
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.ville,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Code Postal
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.codePostal,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3">
+                                Pays
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.pays,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment mt-4">
+                <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
+            </div>
+
+
+            <div class="mt-4">
+                <button  type="submit" class="btn btn-info">Enregistrer</button>
+
             </div>
             {{ form_end(form) }}
         </div>
     </div>
-</div>
 
+</div>
 
 
 <script>
 
+    function requestSiren() {
 
+        var url = "https://api.insee.fr/entreprises/sirene/V3/siren/" + $('#interlocuteur_societe_siren').val();
 
-    $("input:radio[name='interlocuteur[type]']").val() === "personne" ? $('.personne').show() && $('.societe').hide() && disableRequired("personne-form","societe-form") : $('.personne').hide() && $('.societe').show() && disableRequired("societe-form","personne-form")
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
 
-    function disableRequired(actif,inactif){
-       $('.'+inactif).each(function () {
-           $(this).attr('required',false)
-           console.log($(this).attr('class'))
-       })
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer 34581367-6f76-308f-9f43-e2dfb1ced682");
 
-       $('.'+actif).each(function () {
-           if($(this).hasClass('required')) {
-               $(this).attr('required',true)
-           }
-       })
-       
-   }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
 
-    $("input:radio[name='interlocuteur[type]']").on("change", function() {
-        $(this).val() === "personne" ? $('.personne').show() && $('.societe').hide() && disableRequired("personne-form","societe-form") : $('.personne').hide() && $('.societe').show() && disableRequired("societe-form","personne-form")
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    let dateCreation = data.uniteLegale.dateCreationUniteLegale;
+                    const [year, month, day] = dateCreation.split('-');
+                    dateCreation = [day, month, year].join('/');
 
-    })
+                    let periode = data.uniteLegale.periodesUniteLegale[0];
+                    let raisonSociale = periode.denominationUniteLegale;
+                    let nic = periode.nicSiegeUniteLegale;
 
+                    let siret = $('#interlocuteur_societe_siren').val() + nic;
 
-    //your javascript goes here
-    var currentTab = 0;
-    document.addEventListener("DOMContentLoaded", function (event) {
+                    $('#interlocuteur_societe_raisonSociale').val(raisonSociale);
+                    $('#interlocuteur_societe_dateDeCreation').val(dateCreation);
+                    $('#interlocuteur_societe_siret').val(siret)
 
+                    requestSiret(siret);
+                } else {
+                    $('#interlocuteur_societe_raisonSociale').val("");
+                    $('#interlocuteur_societe_dateDeCreation').val("");
+                    $('#interlocuteur_societe_siret').val("")
+                    $("#interlocuteur_societe_adresse1").val("");
+                    $('#interlocuteur_societe_codePostal').val("");
+                    $("#interlocuteur_societe_ville").val("");
+                    $('#interlocuteur_societe_pays').val("");
 
-        showTab(currentTab);
+                    console.log('error');
 
-    });
-
-    $('.submit').click(function (){
-        $('form').submit();
-    })
-
-    function showTab(n) {
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
-        if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-        } else {
-            document.getElementById("prevBtn").style.display = "inline";
-        }
-
-        if (n == (x.length - 1)) {
-
-            const submit =     '<button class="nextBtn">{{ button_label|default('Save') }}</button>';
-            $('#nextBtn').replaceWith(submit)
-        } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
-        }
-        fixStepIndicator(n)
-    }
-
-    function nextPrev(n) {
-        var x = document.getElementsByClassName("tab");
-        if (n == 1 && !validateForm()) return false;
-        x[currentTab].style.display = "none";
-        currentTab = currentTab + n;
-        if (currentTab >= x.length) {
-
-            document.getElementById("nextprevious").style.display = "none";
-            document.getElementById("all-steps").style.display = "none";
-            document.getElementById("register").style.display = "none";
-            document.getElementById("text-message").style.display = "block";
-
-
-        }
-        showTab(currentTab);
-    }
-
-    function validateForm() {
-        var x, y, i, valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("input");
-        for (i = 0; i < y.length; i++) {
-            if (y[i].value == "" && y[i].required) {
-                y[i].className += " invalid";
-                valid = false;
+                }
             }
-        }
-        if (valid) {
-            document.getElementsByClassName("step")[currentTab].className += " finish";
-        }
-        return valid;
+        };
+
+        xhr.send();
+
     }
 
-    function fixStepIndicator(n) {
-        var i, x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" active", "");
-        }
-        x[n].className += " active";
+
+    function requestSiret(siret) {
+
+        var url = "https://api.insee.fr/entreprises/sirene/V3/siret/" + siret;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer 34581367-6f76-308f-9f43-e2dfb1ced682");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+
+
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+
+                    console.log(data)
+
+                    const etablissementAdresse = data.etablissement.adresseEtablissement;
+
+                    let adresse = etablissementAdresse.numeroVoieEtablissement + " "
+                        + etablissementAdresse.typeVoieEtablissement + " "
+                        + etablissementAdresse.libelleVoieEtablissement + " "
+
+                    let cp = etablissementAdresse.codePostalEtablissement;
+                    let ville = etablissementAdresse.libelleCommuneEtablissement;
+
+                    $("#interlocuteur_societe_adresse1").val(adresse);
+                    $('#interlocuteur_societe_codePostal').val(cp);
+                    $("#interlocuteur_societe_ville").val(ville);
+                    $('#interlocuteur_societe_pays').val('France');
+                }
+
+            }
+        };
+
+        xhr.send();
+
     }
+
+    $('#interlocuteur_societe_siren').on("change", function () {
+        if ($('#interlocuteur_societe_siren').val().length === 9) {
+            requestSiren();
+        }
+    })
+
+    function typeShow() {
+        if ($('#interlocuteur_type').val() === 'societe') {
+            $('.personne').slideUp();
+            $('.societe').slideDown();
+            $('.personne-input').each(function () {
+                $(this).val("");
+                $(this).prop('required',false);
+            })
+        } else {
+            $('.societe').slideUp();
+            $('.personne').slideDown();
+            $('.societe-input').each(function () {
+                $(this).val("");
+                $(this).prop('required',false);
+            })
+        }
+    }
+
+
+    typeShow()
+
+    function checkType() {
+        $('#type').is(':checked') ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
+        typeShow()
+    }
+
+    $('#type').change(function () {
+        checkType();
+    })
+
+    $('#interlocuteur_type').change(function () {
+        console.log()
+    })
 </script>

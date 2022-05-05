@@ -59,6 +59,9 @@ class Societe
     #[ORM\OneToOne(mappedBy: 'societe', targetEntity: Interlocuteur::class, cascade: ['persist', 'remove'])]
     private $interlocuteur;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $siren;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +193,18 @@ class Societe
         }
 
         $this->interlocuteur = $interlocuteur;
+
+        return $this;
+    }
+
+    public function getSiren(): ?string
+    {
+        return $this->siren;
+    }
+
+    public function setSiren(string $siren): self
+    {
+        $this->siren = $siren;
 
         return $this;
     }

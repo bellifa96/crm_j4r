@@ -33,6 +33,12 @@ class SocieteType extends AbstractType
                     'class'=>'societe-form'
                 ]
             ])
+            ->add('siren',TextType::class,[
+                'attr'=>[
+                    'placeholder'=> 'Siren',
+                    'class'=>'societe-form'
+                ]
+            ])
             ->add('activitePrincipale',TextType::class,[
                 'attr'=>[
                     'placeholder'=> 'Activité principale',
