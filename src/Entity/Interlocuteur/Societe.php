@@ -4,6 +4,8 @@ namespace App\Entity\Interlocuteur;
 
 use App\Entity\AdresseTrait;
 use App\Repository\Interlocuteur\SocieteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -32,9 +34,6 @@ class Societe
     #[ORM\Column(type: 'string', length: 255)]
     private $siret;
 
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'text', nullable: true)]
-    private $activitePrincipale;
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -61,6 +60,17 @@ class Societe
 
     #[ORM\Column(type: 'string', length: 255)]
     private $siren;
+
+    #[ORM\ManyToOne(targetEntity: Activite::class, inversedBy: 'societes')]
+    private $activitePrincipale;
+
+    #[ORM\OneToMany(mappedBy: 'societe', targetEntity: Activite::class)]
+    private $ActivitesSecondaires;
+
+    public function __construct()
+    {
+        $this->ActivitesSecondaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,17 +113,6 @@ class Societe
         return $this;
     }
 
-    public function getActivitePrincipale(): ?string
-    {
-        return $this->activitePrincipale;
-    }
-
-    public function setActivitePrincipale(?string $activitePrincipale): self
-    {
-        $this->activitePrincipale = $activitePrincipale;
-
-        return $this;
-    }
 
     public function getFormeJuridique(): ?string
     {
@@ -205,6 +204,48 @@ class Societe
     public function setSiren(string $siren): self
     {
         $this->siren = $siren;
+
+        return $this;
+    }
+
+    public function getActivitePrincipale(): ?Activite
+    {
+        return $this->activitePrincipale;
+    }
+
+    public function setActivitePrincipale(?Activite $activitePrincipale): self
+    {
+        $this->activitePrincipale = $activitePrincipale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Activite>
+     */
+    public function getActivitesSecondaires(): Collection
+    {
+        return $this->ActivitesSecondaires;
+    }
+
+    public function addActivitesSecondaire(Activite $activitesSecondaire): self
+    {
+        if (!$this->ActivitesSecondaires->contains($activitesSecondaire)) {
+            $this->ActivitesSecondaires[] = $activitesSecondaire;
+            $activitesSecondaire->setSociete($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivitesSecondaire(Activite $activitesSecondaire): self
+    {
+        if ($this->ActivitesSecondaires->removeElement($activitesSecondaire)) {
+            // set the owning side to null (unless already changed)
+            if ($activitesSecondaire->getSociete() === $this) {
+                $activitesSecondaire->setSociete(null);
+            }
+        }
 
         return $this;
     }

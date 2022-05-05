@@ -11,20 +11,52 @@
             </li>
 
             <li class="sidebar-title">
-                Societé
+                Interlocuteur
 
 
                 <ul>
                     <li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index' ? 'active' }}">
                         <a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
                             <i class="bi bi-list-ul"></i>
-                            <span>Liste</span>
+                            <span>Société/Personne</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_sous_traitant_interlocuteur_index' ? 'active' }}">
+                        <a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
+                            <i class="bi bi-list-ul"></i>
+                            <span>Sous traitant</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_transporteur_interlocuteur_index' ? 'active' }}">
+                        <a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
+                            <i class="bi bi-list-ul"></i>
+                            <span>Transporteur</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_fournisseur_index' ? 'active' }}">
+                        <a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
+                            <i class="bi bi-list-ul"></i>
+                            <span>Fournisseur</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_autre_index' ? 'active' }}">
+                        <a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
+                            <i class="bi bi-list-ul"></i>
+                            <span>Autre</span>
                         </a>
                     </li>
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-person-lines-fill"></i>
                             <span>Contact</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item ">
+                        <a href="{{ path('app_interlocuteur_activite_index') }}" class="sidebar-link">
+                            <i class="bi bi-person-lines-fill"></i>
+                            <span>Activité</span>
                         </a>
                     </li>
                 </ul>
@@ -34,7 +66,6 @@
 
             <li class="sidebar-title">
                 GED
-
                 <ul>
                     <li class="sidebar-item   {{ app.request.get('_route') == 'app_ged_fichier_index' ? 'active' }}">
                         <a href="{{ path('app_ged_fichier_index') }}" class="sidebar-link">
