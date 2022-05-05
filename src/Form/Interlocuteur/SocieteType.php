@@ -52,6 +52,16 @@ class SocieteType extends AbstractType
                 'choice_label' => 'titre',
                 'required' => false,
             ])
+            ->add('activitesSecondaires', EntityType::class, [
+                'class' => Activite::class,
+
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.titre', 'ASC');
+                },
+                'choice_label' => 'titre',
+                'required' => false,
+            ])
             ->add('formeJuridique', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Forme juridique',

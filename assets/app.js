@@ -30,14 +30,16 @@ import './datatable_custom';
 //const { Dropzone } = require("dropzone");
 //Dropzone.autoDiscover = false;
 
+const multipleSelect = require("multiple-select");
 
+global.multipleSelect = multipleSelect;
 
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
 $(function () {
-
+    $('.multi-select').multipleSelect()
 
 
     $('.table').DataTable({
