@@ -69,6 +69,12 @@ class InterlocuteurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($interlocuteur->getType() == "personne"){
+                $interlocuteur->setSociete(NULL);
+            }elseif($interlocuteur->getType() == "societe"){
+                $interlocuteur->setPersonne(NULL);
+            }
+
             $interlocuteurRepository->add($interlocuteur);
             return $this->redirectToRoute('app_interlocuteur_interlocuteur_index', [], Response::HTTP_SEE_OTHER);
         }
