@@ -408,7 +408,7 @@
 
     }
 
-    $('#interlocuteur_societe_siren').on("change", function () {
+    $('#interlocuteur_societe_siren').on("keyup change", function () {
         if ($('#interlocuteur_societe_siren').val().length === 9) {
             requestSiren();
         }
