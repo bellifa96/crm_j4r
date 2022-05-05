@@ -14,7 +14,6 @@ class ActiviteType extends AbstractType
         $builder
             ->add('titre')
             ->add('code')
-            ->add('societe')
         ;
     }
 
