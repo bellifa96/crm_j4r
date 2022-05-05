@@ -6,28 +6,28 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Code Postal</th>
-                <th>Pays</th>
-                <th>Type</th>
-                <th>Siret</th>
-                <th>Commentaire</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Pays</th>
+            <th>Type</th>
+            <th>Siret</th>
+            <th>Commentaire</th>
+        </tr>
         </thead>
         <tbody>
         {% for interlocuteur in interlocuteurs %}
             <tr>
-                <td><a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}">{{ interlocuteur.id }}</a></td>
+                <td>{{ interlocuteur.id }}</td>
 
                 <td>
                     {% if interlocuteur.societe is not empty %}
-                        {{ interlocuteur.societe.nom }}
+                        <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}"> {{ interlocuteur.societe.nom }}</a>
                     {% elseif interlocuteur.personne is not empty %}
-                        {{ interlocuteur.personne.nom }}
+                        <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}">  {{ interlocuteur.personne.nom }}</a>
                     {% endif %}
                 </td>
 
