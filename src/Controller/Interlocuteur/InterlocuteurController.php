@@ -19,7 +19,7 @@ class InterlocuteurController extends AbstractController
         return $this->render('interlocuteur/interlocuteur/index.html.twig', [
             'interlocuteurs' => $interlocuteurRepository->findAll(),
             'title' => 'Liste des interlocuteurs',
-            'nav' => [['app_interlocuteur_interlocuteur_show','Créer']],
+            'nav' => [['app_interlocuteur_interlocuteur_new','Créer']],
         ]);
     }
 
