@@ -18,6 +18,8 @@ class ActiviteController extends AbstractController
     {
         return $this->render('interlocuteur/activite/index.html.twig', [
             'activites' => $activiteRepository->findAll(),
+            'title'=>'a',
+            'nav'=>[],
         ]);
     }
 
@@ -36,6 +38,8 @@ class ActiviteController extends AbstractController
         return $this->renderForm('interlocuteur/activite/new.html.twig', [
             'activite' => $activite,
             'form' => $form,
+            'title'=>'a',
+            'nav'=>[],
         ]);
     }
 
@@ -44,6 +48,8 @@ class ActiviteController extends AbstractController
     {
         return $this->render('interlocuteur/activite/show.html.twig', [
             'activite' => $activite,
+            'title'=>'a',
+            'nav'=>[],
         ]);
     }
 
@@ -61,6 +67,8 @@ class ActiviteController extends AbstractController
         return $this->renderForm('interlocuteur/activite/edit.html.twig', [
             'activite' => $activite,
             'form' => $form,
+            'title'=>'a',
+            'nav'=>[],
         ]);
     }
 
