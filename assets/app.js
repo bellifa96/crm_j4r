@@ -26,21 +26,26 @@ import 'datatables.net';
 import 'datatables.net-bs5'
 import './datatable_custom';
 
-
-//const { Dropzone } = require("dropzone");
-//Dropzone.autoDiscover = false;
-
-const multipleSelect = require("multiple-select");
-
-global.multipleSelect = multipleSelect;
-
-
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
-$(function () {
-    $('.multi-select').multipleSelect()
+import 'multiple-select/src/multiple-select';
+import 'multiple-select/src/multiple-select.scss';
+import 'multiple-select/dist/multiple-select.css';
+import 'multiple-select/dist/multiple-select';
+import 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css'
 
+import intlTelInput from 'intl-tel-input';
+
+import select2 from 'select2';
+import 'select2/dist/css/select2.css';
+
+$(function () {
+    $('.tel-code').select2();
+
+
+    $('.multi-select').multipleSelect();
 
     $('.table').DataTable({
         "oLanguage": {
@@ -49,14 +54,15 @@ $(function () {
 
         },
         language: {
-            searchPlaceholder: "Chercher un utilisateur"
+            searchPlaceholder: "Chercher"
         }
     });
 
 
+
 });
 
-$(window).on('load', function(){
-    $("#divLoader").css('display','none');
+$(window).on('load', function () {
+    $("#divLoader").css('display', 'none');
 })
 

@@ -72,6 +72,7 @@ class PersonneType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Personne::class,
+
         ]);
     }
 }

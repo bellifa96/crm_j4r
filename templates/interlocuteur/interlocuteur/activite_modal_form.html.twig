@@ -1,0 +1,47 @@
+<div class="modal fade col-md-10" id="add-activite" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 80%;">
+        <div class="modal-content">
+            <form class="form-control" method="POST" action="{{ path('app_interlocuteur_activite_new_app') }}">
+
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">Ajouter une nouvelle activité</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Titre
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm-2" name="titre_new_activite"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            Code
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm-2" name="code_new_activite"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler
+                    </button>
+
+                    <button type="submit" class="btn btn-primary submit" value="create"
+                            name="create_new_activite"
+                            id="create_new_Activite">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endif %}

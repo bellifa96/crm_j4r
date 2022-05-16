@@ -21,7 +21,7 @@
 
         a {
             text-decoration: none;
-            color: #0E4377;
+            color: inherit;
         }
 
         .bg-blue {
@@ -32,29 +32,10 @@
             text-overflow: ellipsis;
         }
 
-        .updated {
-            color: rgba(246, 15, 65, 0.87);
-            font-weight: bold;
-        }
-
-        .banner-img {
-            padding: 5px 5px 0;
-        }
 
         .banner-img img {
             width: 100%;
             border-radius: 5px;
-        }
-
-        .dates {
-            border: 1px solid #ebeff2;
-            border-radius: 5px;
-            padding: 20px 0px;
-            margin: 10px 20px;
-            font-size: 16px;
-            color: #5aadef;
-            font-weight: 600;
-            overflow: auto;
         }
 
         .dates div {
@@ -81,17 +62,6 @@
             background: #ebeff2;
         }
 
-        .stats {
-            border-top: 1px solid #ebeff2;
-            background: #f7f8fa;
-            overflow: auto;
-            padding: 15px 0;
-            font-size: 16px;
-            color: #59687f;
-            font-weight: 600;
-            border-radius: 0 0 5px 5px;
-        }
-
         .stats div {
             border-right: 1px solid #ebeff2;
             width: 33.33333%;
@@ -103,40 +73,6 @@
             border: none;
         }
 
-        div.footer {
-            text-align: right;
-            position: relative;
-            margin: 20px 5px;
-        }
-
-        div.footer a.Cbtn {
-            padding: 10px 25px;
-            background-color: #DADADA;
-            color: #666;
-            margin: 10px 2px;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 3px;
-        }
-
-        div.footer a.Cbtn-primary {
-            background-color: #5AADF2;
-            color: #FFF;
-        }
-
-        div.footer a.Cbtn-primary:hover {
-            background-color: #7dbef5;
-        }
-
-        div.footer a.Cbtn-danger {
-            background-color: #fc5a5a;
-            color: #FFF;
-        }
-
-        div.footer a.Cbtn-danger:hover {
-            background-color: #fd7676;
-        }
 
         a.hv:hover {
             color: white !important;
@@ -144,106 +80,12 @@
 
         li.col.no-padding:hover {
             background: #0d4377;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            color: white !important;
-            background: #345988 !important;
-
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            color: #345988 !important;
-
-
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
-            color: #345988 !important;
-
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-            color: #345988 !important;
-
-
-        }
-
-        .paginate_button {
-            color: #345988 !important;
-        }
-
-        #class_previous:hover {
             color: white !important;
         }
 
-        #class_next:hover {
-            color: white !important;
-
-        }
-
-        .sum {
-            color: #fbfbfb;
-            background-color: #0d4377;
-            border-color: #fbfbfb;
-            font-weight: bold;
-            padding: 2px !important;
-            border-top: 0px !important;
-        }
-
-        td {
-
-            vertical-align: middle !important;
-
-        }
-
-        table {
-
-            line-height: 1 !important;
-
-        }
-
-        .current:hover {
-            color: white !important;
-        }
-
-        table.dataTable thead .sorting {
-            background-image: none !important;
-
-        }
-
-        table.dataTable thead .sorting_desc {
-            background-image: url("{{ asset('../sort_asc.png')}}") !important;
-            background-size: 10px 15px;
-        }
-
-        table.dataTable thead .sorting_asc {
-            background-image: url("{{ asset('../sort_desc.png')}}") !important;
-            background-size: 10px 15px;
-        }
-
-
-        th {
-            padding: 5px !important;
-        }
-
-        tbody {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px !important;
-        }
-
-        tfoot {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px !important;
-        }
-
-        thead {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px !important;
+        li.col.no-padding {
+            color: #0d4377 !important;
+            cursor: pointer;
         }
     </style>
 
@@ -257,7 +99,7 @@
 
     <!-- PAGE DISPLAY -->
     <div class="col-lg-12 page-block page-block-margin-bottom">
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
@@ -286,199 +128,128 @@
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">Adresse</span>
                     </div>
-                    <div class="col-md-6 bg-blue ">
+                    <div class="col-md-6 bg-blue pr-1">
                         <span class="data-element">{{ interlocuteur.societe.adresse1 }}</span>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-4 font-weight-bold text-end">
-                                <span class="d-block">Téléphone</span>
-                            </div>
-                            <div class="col-md-5 bg-blue pr-1">
-                                <span class="data-element">{{ "NC" }}</span>
-                            </div>
-                        </div>
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Téléphone</span>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-5 font-weight-bold text-end">
-                                <span class="d-block">Siren</span>
-                            </div>
-                            <div class="col-md-7 bg-blue pr-1">
-                                <span class="data-element">{{ interlocuteur.societe.siren }}</span>
-                            </div>
-                        </div>
-
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">{{ "+"~interlocuteur.phone['code']~" "~interlocuteur.phone['number'] }}</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row mt-2">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Complément</span>
-                        </div>
-                        <div class="col-md-9 bg-blue ">
-                            {% if interlocuteur.societe.adresse2 is empty %}
-                                <span class="data-element">{{ "..." }}</span>
-                            {% else %}
-                                <span class="data-element">{{ interlocuteur.societe.adresse2 }}</span>
-                            {% endif %}
-                        </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Activité principale</span>
                     </div>
-                </div>
-                <div class="col-md-6 mt-2">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Forme juridique</span>
-                        </div>
-                        <div class="col-md-9 bg-blue">
-                            {% if interlocuteur.societe.formeJuridique is empty %}
-                                <span class="data-element">{{ "NC" }}</span>
-                            {% else %}
-                                <span class="data-element">{{ interlocuteur.societe.formeJuridique }}</span>
-                            {% endif %}
-                        </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">{{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre : "NC" }}</span>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-3 font-weight-bold text-end">
-                    <span class="d-block">Activité Principale</span>
-                </div>
-                <div class="col-md-6 col-9-5 bg-blue ">
-                    <span class="data-element">{{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre :"NC" }}</span>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Forme Juridique</span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">{{ interlocuteur.societe.formeJuridique }}</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row mt-2">
-
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-3 font-weight-bold text-end">
-                                <span class="d-block">Code Postal</span>
-                            </div>
-                            <div class="col-md-3 bg-blue ">
-                                <span class="data-element">{{ interlocuteur.societe.codePostal }}</span>
-                            </div>
-                        </div>
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Activités Secondaire</span>
                     </div>
+                    <div class="col-md-6 bg-blue pr-1">
 
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-3 font-weight-bold text-end">
-                                <span class="d-block">Ville</span>
-                            </div>
-                            <div class="col-md-6 bg-blue ">
-                                <span class="data-element">{{ interlocuteur.societe.ville }}</span>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-3 font-weight-bold text-end">
-                                <span class="d-block">Pays</span>
-                            </div>
-                            <div class="col-md-3 bg-blue pr-1">
-                                <span class="data-element">{{ interlocuteur.societe.pays }}</span>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-3 font-weight-bold text-end">
-                                <span class="d-block">date</span>
-                            </div>
-                            <div class="col-md-3 bg-blue pr-1">
-                                <span class="data-element">{{ interlocuteur.societe.dateDeCreation }}</span>
-                            </div>
-                        </div>
+                        {% set activite = [] %}
+                        {% for act in interlocuteur.societe.activitesSecondaires %}
+                            {% set activite = activite|merge([act.titre]) %}
+                        {% endfor %}
+                        <span class="data-element">{{ activite|join(', ') }}</span>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="row mt-2">
-                            <div class="col-md-4 font-weight-bold text-end">
-                                <span class="d-block">Dirigeant</span>
-                            </div>
-                            <div class="col-md-5 bg-blue pr-1">
-                                {% if interlocuteur.societe.dirigeant is empty %}
-                                    <span class="data-element">{{ "NC" }}</span>
-                                {% else %}
-                                    <span class="data-element">{{ interlocuteur.societe.dirigeant }}</span>
-                                {% endif %}
-                            </div>
-                        </div>
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Dirigeant</span>
                     </div>
-
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">{{ interlocuteur.societe.nom }}</span>
+                    </div>
                 </div>
             </div>
-
-            <div class="row mt-2">
-                <div class="col-md-1 col-0-5 font-weight-bold text-end">
-                    <span class="d-block">Commentaire</span>
-                </div>
-
-                <div class="col-md-11 col-11-5 bg-blue pr-1">
-                    {% if interlocuteur.commentaire is empty %}
-                        <span class="data-element">{{ "..." }}</span>
-                    {% else %}
-                        <span class="data-element">{{ interlocuteur.commentaire }}</span>
-                    {% endif %}
-                </div>
-            </div>
-
         </div>
+
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Commentaire</span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1" style="min-height: 50px;">
+                        {% if interlocuteur.commentaire is empty %}
+                            <span class="data-element">{{ "..." }}</span>
+                        {% else %}
+                            <span class="data-element">{{ interlocuteur.commentaire|nl2br }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     {# Tab at the bottom of the page #}
 
     <div class="col-lg-12 page-block">
         <ul class="nav nav-tabs row" role="tablist">
-            <li class="col no-padding" id='firstList'>
+            <li class="col no-padding nav-item" id='firstList' role="presentation">
                 <a href="#tab_contact" aria-controls="tab_contact" class="hv" role="tab" data-toggle="tab">
                     Contact
                 </a>
             </li>
-            <li class="col no-padding">
+            <li class="col no-padding nav-item" role="presentation">
                 <a href="#tab_deal" aria-controls="tab_deal" role="tab" class="hv" data-toggle="tab">
                     Devis
                 </a>
             </li>
-            <li class="col no-padding">
+            <li class="col no-padding nav-item" role="presentation">
                 <a href="#tab_contract" aria-controls="tab_contract" role="tab" class="hv" data-toggle="tab">
                     Affaires
                 </a>
             </li>
-            <li class="col no-padding">
+            <li class="col no-padding nav-item" role="presentation">
                 <a href="#tab_activity" aria-controls="tab_activity" role="tab" class="hv" data-toggle="tab">
                     Chantier
                 </a>
             </li>
 
 
-            <li class="col no-padding">
+            <li class="col no-padding nav-item" role="presentation">
                 <a href="#tab_accreditation" aria-controls="tab_accreditation" class="hv" role="tab"
                    data-toggle="tab">
-                    Acréditation
+                    Accréditation
                 </a>
             </li>
 
-            <li class="col no-padding">
+            <li class="col no-padding nav-item" role="presentation">
                 <a href="#tab_statistic" aria-controls="tab_statistic" role="tab" class="hv" data-toggle="tab">
                     Statistiques
                 </a>
@@ -493,6 +264,15 @@
             <div role="tabpanel"
                  class="tab-pane fade show active"
                  id="tab_contact">
+
+                <div class="row justify-content-end">
+
+                    <a href="{{ path('app_contact_contact_new',{'id':interlocuteur.id}) }}"
+                       class=" col-md-auto btn btn-info">
+                        Ajouter un contact
+                    </a>
+
+                </div>
             </div>
 
             <!--  DEAL  -->
@@ -528,7 +308,6 @@
                 <p>tab_statistic</p>
             </div>
         </div>
-    </div>
     </div>
 
 

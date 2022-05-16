@@ -3,11 +3,11 @@
 namespace App\Form\Interlocuteur;
 
 use App\Entity\Interlocuteur\Interlocuteur;
+use App\Form\TelType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InterlocuteurType extends AbstractType
@@ -37,6 +37,11 @@ class InterlocuteurType extends AbstractType
                     'class'=> ''
                 ]
             ])
+            ->add('phone',TelType::class,[
+                'attr'=>[
+                    'class'=>'phone'
+                ],
+            ])
             ->add('commentaire');
     }
 
@@ -44,6 +49,7 @@ class InterlocuteurType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Interlocuteur::class,
+            'allow_extra_fields'=>true,
         ]);
     }
 }

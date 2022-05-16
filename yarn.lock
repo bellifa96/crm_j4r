@@ -2916,7 +2916,7 @@
   "resolved" "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.7.tgz"
   "version" "4.0.7"
 
-"events@^3.2.0":
+"events@^3.0.0", "events@^3.2.0":
   "integrity" "sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q=="
   "resolved" "https://registry.npmjs.org/events/-/events-3.3.0.tgz"
   "version" "3.3.0"
@@ -3404,6 +3404,11 @@
   "resolved" "https://registry.npmjs.org/interpret/-/interpret-2.2.0.tgz"
   "version" "2.2.0"
 
+"intl-tel-input@^17.0.16":
+  "integrity" "sha512-aDcfhkl+wf9NYYpvA2v40dPiNUZHLlORAaKogC85IwfN0v6B2jJtq+NyMd0GgM0MCAZp8N2dNG2oygz9pQVVaQ=="
+  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-17.0.16.tgz"
+  "version" "17.0.16"
+
 "ipaddr.js@^2.0.1":
   "integrity" "sha512-1qTgH9NG+IIJ4yfKs2e6Pp1bZg8wbDbKHT21HrLIeYBTRLgMYKnMTPAuI3Lcs61nfx5h1xlXnbJtH1kX5/d/ng=="
   "resolved" "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-2.0.1.tgz"
@@ -3859,6 +3864,13 @@
   dependencies:
     "dns-packet" "^5.2.2"
     "thunky" "^1.0.2"
+
+"multiple-select-js@^1.2.6":
+  "integrity" "sha512-mN6fluzoYdrUANAnGfWrhzIcPqXLz/f31h5jtG4x/aPuSQQGMETXEqN9i/T4Xwis1EVG2QM9DNnZGXMEsXrteQ=="
+  "resolved" "https://registry.npmjs.org/multiple-select-js/-/multiple-select-js-1.2.6.tgz"
+  "version" "1.2.6"
+  dependencies:
+    "events" "^3.0.0"
 
 "multiple-select@^1.5.2":
   "integrity" "sha512-sTNNRrjnTtB1b1+HTKcjQ/mjWY7Gvigo9F3C/3oTQCTFEpYzwaRYFPRAOu2SogfA1hEfyJTXjyS1VAbanJMsmA=="
@@ -4827,6 +4839,11 @@
   "integrity" "sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo="
   "resolved" "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
   "version" "2.0.0"
+
+"select2@^4.1.0-rc.0":
+  "integrity" "sha512-Hr9TdhyHCZUtwznEH2CBf7967mEM0idtJ5nMtjvk3Up5tPukOLXbHUNmh10oRfeNIhj+3GD3niu+g6sVK+gK0A=="
+  "resolved" "https://registry.npmjs.org/select2/-/select2-4.1.0-rc.0.tgz"
+  "version" "4.1.0-rc.0"
 
 "selfsigned@^2.0.1":
   "integrity" "sha512-LmME957M1zOsUhG+67rAjKfiWFox3SBxE/yymatMZsAx+oMrJ0YQ8AToOnyCm7xbeg2ep37IHLxdu0o2MavQOQ=="

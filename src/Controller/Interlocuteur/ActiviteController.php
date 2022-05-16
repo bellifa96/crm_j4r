@@ -18,8 +18,8 @@ class ActiviteController extends AbstractController
     {
         return $this->render('interlocuteur/activite/index.html.twig', [
             'activites' => $activiteRepository->findAll(),
-            'title'=>'a',
-            'nav'=>[],
+            'title' => 'a',
+            'nav' => [],
         ]);
     }
 
@@ -38,18 +38,47 @@ class ActiviteController extends AbstractController
         return $this->renderForm('interlocuteur/activite/new.html.twig', [
             'activite' => $activite,
             'form' => $form,
-            'title'=>'a',
-            'nav'=>[],
+            'title' => 'a',
+            'nav' => [],
         ]);
     }
+
+
+    #[Route('/new/app', name: 'app_interlocuteur_activite_new_app', methods: ['GET', 'POST'])]
+    public function newApp(Request $request, ActiviteRepository $activiteRepository): Response
+    {
+
+
+        dd($request);
+        $response = new Response();
+
+        $activite = new Activite();
+
+        $data = $request->request;
+
+
+        $activiteRepository->add($activite);
+
+
+        $response->setContent(json_encode(['code'=>200,'message'=>'ok']));
+        return $response;
+
+
+
+
+
+
+
+    }
+
 
     #[Route('/{id}', name: 'app_interlocuteur_activite_show', methods: ['GET'])]
     public function show(Activite $activite): Response
     {
         return $this->render('interlocuteur/activite/show.html.twig', [
             'activite' => $activite,
-            'title'=>'a',
-            'nav'=>[],
+            'title' => 'a',
+            'nav' => [],
         ]);
     }
 
@@ -67,15 +96,15 @@ class ActiviteController extends AbstractController
         return $this->renderForm('interlocuteur/activite/edit.html.twig', [
             'activite' => $activite,
             'form' => $form,
-            'title'=>'a',
-            'nav'=>[],
+            'title' => 'a',
+            'nav' => [],
         ]);
     }
 
     #[Route('/{id}', name: 'app_interlocuteur_activite_delete', methods: ['POST'])]
     public function delete(Request $request, Activite $activite, ActiviteRepository $activiteRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$activite->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $activite->getId(), $request->request->get('_token'))) {
             $activiteRepository->remove($activite);
         }
 

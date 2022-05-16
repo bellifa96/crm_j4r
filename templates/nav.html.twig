@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item ">
-                        <a href="#" class="sidebar-link">
+                        <a href="{{ path('app_contact_contact_index') }}" class="sidebar-link {{ app.request.get('_route') == 'app_contact_contact_index' ? 'active' }}">
                             <i class="bi bi-person-lines-fill"></i>
                             <span>Contact</span>
                         </a>

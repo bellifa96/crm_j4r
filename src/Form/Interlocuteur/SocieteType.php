@@ -54,7 +54,7 @@ class SocieteType extends AbstractType
             ])
             ->add('activitesSecondaires', EntityType::class, [
                 'class' => Activite::class,
-
+                'multiple' => true,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('a')
                         ->orderBy('a.titre', 'ASC');

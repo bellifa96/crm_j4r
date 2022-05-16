@@ -43,9 +43,12 @@
         "datatables.net-select-dt": "^1.3.4",
         "datatables.net-staterestore-dt": "^1.1.0",
         "dropzone": "^6.0.0-beta.2",
+        "intl-tel-input": "^17.0.16",
         "jszip": "^3.9.1",
         "multiple-select": "^1.5.2",
+        "multiple-select-js": "^1.2.6",
         "pdfmake": "^0.2.5",
-        "sass-math": "^1.0.0"
+        "sass-math": "^1.0.0",
+        "select2": "^4.1.0-rc.0"
     }
 }

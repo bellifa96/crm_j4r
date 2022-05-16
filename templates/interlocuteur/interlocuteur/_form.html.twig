@@ -65,7 +65,6 @@
     }
 </style>
 
-
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         {{ form_start(form) }}
@@ -188,6 +187,7 @@
                             </div>
                             <div class="col-md-9">
                                 {{ form_widget(form.societe.activitePrincipale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                <a href="#"  class="float-end" id="activite-modal"> Ajouter une nouvelle Activité</a>
                             </div>
                         </div>
 
@@ -196,7 +196,7 @@
                                 Activité Secondaire
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.activitesSecondaires,{'attr':{"class":"form-control societe-input multi-select"}}) }}
+                                {{ form_widget(form.societe.activitesSecondaires,{'attr':{"class":"societe-input multi-select bg-blue "}}) }}
                             </div>
                         </div>
 
@@ -309,9 +309,38 @@
                 </div>
             </div>
 
+            <div class="tel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row ">
+                            <div class="col-md-3">
+                                Téléphone
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-sm-4 pr-0">
+                                        {{ form_widget(form.phone.code,{'attr':{"class":"form-control form-control-sm-2  tel tel-code"}}) }}
+                                    </div>
+                                    <div class="col-sm-8 pl-0">
+                                        {{ form_widget(form.phone.number,{'attr':{"class":"form-control form-control-sm-2 tel"}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div class="comment mt-4">
                 <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
             </div>
+
+
+
+
+
 
 
             <div class="mt-4">
@@ -326,6 +355,11 @@
 
 
 <script>
+
+
+    $('#activite-modal').on('click',function () {
+
+    })
 
     function requestSiren() {
 
@@ -457,4 +491,5 @@
     $('#interlocuteur_type').change(function () {
         console.log()
     })
+
 </script>
