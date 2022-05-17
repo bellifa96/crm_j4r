@@ -19,7 +19,7 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/index.html.twig', [
             'contacts' => $contactRepository->findAll(),
-            'nav' => [['app_contact_fonction_index', 'Listes des Fonctions'], ['app_contact_fonction_new', 'Fonction +']],
+            'nav' => [['app_contact_service_index', 'Listes des Services'], ['app_contact_service_new', 'Service +']],
             'title' => 'Contacts',
         ]);
     }
@@ -50,7 +50,7 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/show.html.twig', [
             'contact' => $contact,
-            'nav' => [['Listes des Fonctions', 'app_contact_fonction_index'], ['Fonction +', 'app_contact_fonction_new']],
+            'nav' => [['Listes des Services', 'app_contact_service_index'], ['Service +', 'app_contact_service_new']],
             'title' => 'Contacts',
         ]);
     }

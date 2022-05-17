@@ -10,18 +10,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/contact/contact/service')]
+#[Route('/contact/service')]
 class ContactServiceController extends AbstractController
 {
-    #[Route('/', name: 'app_contact_contact_service_index', methods: ['GET'])]
+    #[Route('/', name: 'app_contact_service_index', methods: ['GET'])]
     public function index(ContactServiceRepository $contactServiceRepository): Response
     {
         return $this->render('contact/contact_service/index.html.twig', [
             'contact_services' => $contactServiceRepository->findAll(),
+            'title'=>'Liste des Service',
+            'nav'=> [['app_contact_service_new','Ajouter un service']]
         ]);
     }
 
-    #[Route('/new', name: 'app_contact_contact_service_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_contact_service_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ContactServiceRepository $contactServiceRepository): Response
     {
         $contactService = new ContactService();
@@ -30,24 +32,28 @@ class ContactServiceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactServiceRepository->add($contactService);
-            return $this->redirectToRoute('app_contact_contact_service_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_contact_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/contact_service/new.html.twig', [
             'contact_service' => $contactService,
             'form' => $form,
+            'title'=>'Liste des Service',
+            'nav'=> [['app_contact_service_new','Ajouter un service']]
         ]);
     }
 
-    #[Route('/{id}', name: 'app_contact_contact_service_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_contact_service_show', methods: ['GET'])]
     public function show(ContactService $contactService): Response
     {
         return $this->render('contact/contact_service/show.html.twig', [
             'contact_service' => $contactService,
+            'title'=>'Liste des Service',
+            'nav'=> [['app_contact_service_new','Ajouter un service']]
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_contact_contact_service_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_contact_service_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ContactService $contactService, ContactServiceRepository $contactServiceRepository): Response
     {
         $form = $this->createForm(ContactServiceType::class, $contactService);
@@ -55,22 +61,24 @@ class ContactServiceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactServiceRepository->add($contactService);
-            return $this->redirectToRoute('app_contact_contact_service_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_contact_service_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/contact_service/edit.html.twig', [
             'contact_service' => $contactService,
             'form' => $form,
+            'title'=>'Liste des Service',
+            'nav'=> [['app_contact_service_new','Ajouter un service']]
         ]);
     }
 
-    #[Route('/{id}', name: 'app_contact_contact_service_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_contact_service_delete', methods: ['POST'])]
     public function delete(Request $request, ContactService $contactService, ContactServiceRepository $contactServiceRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$contactService->getId(), $request->request->get('_token'))) {
             $contactServiceRepository->remove($contactService);
         }
 
-        return $this->redirectToRoute('app_contact_contact_service_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_contact_service_index', [], Response::HTTP_SEE_OTHER);
     }
 }

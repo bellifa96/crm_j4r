@@ -36,13 +36,13 @@ class Contact
     #[ORM\JoinColumn(nullable: false)]
     private $societe;
 
-    #[ORM\ManyToOne(targetEntity: Fonction::class, inversedBy: 'contacts')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $fonction;
 
     #[ORM\ManyToOne(targetEntity: ContactService::class, inversedBy: 'contacts')]
     #[ORM\JoinColumn(nullable: false)]
     private $service;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $fonction;
 
     public function getId(): ?int
     {
@@ -133,26 +133,26 @@ class Contact
         return $this;
     }
 
-    public function getFonction(): ?Fonction
-    {
-        return $this->fonction;
-    }
-
-    public function setFonction(?Fonction $fonction): self
-    {
-        $this->fonction = $fonction;
-
-        return $this;
-    }
-
-    public function getService(): ?Service
+    public function getService(): ?ContactService
     {
         return $this->service;
     }
 
-    public function setService(?Service $service): self
+    public function setService(?ContactService $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getFonction(): ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(?string $fonction): self
+    {
+        $this->fonction = $fonction;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Form\Contact;
 
 use App\Entity\Contact\Contact;
+use App\Entity\Contact\ContactService;
 use App\Entity\Contact\Fonction;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\Interlocuteur\Societe;
@@ -23,11 +24,11 @@ class ContactType extends AbstractType
             ->add('telephoneMobile')
             ->add('telephone')
             ->add('dateAnniversaire')
-            ->add('fonction',EntityType::class,[
-                'class'=>Fonction::class,
+            ->add('service',EntityType::class,[
+                'class'=>ContactService::class,
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('f')
-                        ->orderBy('f.titre', 'ASC');
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.titre', 'ASC');
                 },
                 'choice_label' => 'titre',
             ])

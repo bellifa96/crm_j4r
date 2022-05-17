@@ -21,8 +21,8 @@
                 <td>{{ contact_service.titre }}</td>
                 <td>{{ contact_service.code }}</td>
                 <td>
-                    <a href="{{ path('app_contact_contact_service_show', {'id': contact_service.id}) }}">show</a>
-                    <a href="{{ path('app_contact_contact_service_edit', {'id': contact_service.id}) }}">edit</a>
+                    <a href="{{ path('app_contact_service_show', {'id': contact_service.id}) }}">show</a>
+                    <a href="{{ path('app_contact_service_edit', {'id': contact_service.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_contact_contact_service_new') }}">Create new</a>
 {% endblock %}
