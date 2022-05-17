@@ -32,6 +32,8 @@ class ContactType extends AbstractType
                 },
                 'choice_label' => 'titre',
             ])
+            ->add('fonction')
+
         ;
     }
 
