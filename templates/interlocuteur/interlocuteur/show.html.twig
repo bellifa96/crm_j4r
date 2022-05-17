@@ -139,7 +139,7 @@
                         <span class="d-block">Téléphone</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ "+"~interlocuteur.phone['code']~" "~interlocuteur.phone['number'] }}</span>
+                        <span class="data-element">{{ interlocuteur.phone is not empty ? "+"~interlocuteur.phone['code']~" "~interlocuteur.phone['number'] : "NC" }}</span>
                     </div>
                 </div>
             </div>
