@@ -3,6 +3,7 @@
 namespace App\Entity\Interlocuteur;
 
 use App\Entity\Contact\Contact;
+use App\Entity\Demande;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -34,9 +35,13 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'societe', targetEntity: Contact::class)]
     private $contacts;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Demande::class)]
+    private $demandes;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
 
 
@@ -129,6 +134,36 @@ class Interlocuteur
             // set the owning side to null (unless already changed)
             if ($contact->getSociete() === $this) {
                 $contact->setSociete(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes[] = $demande;
+            $demande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getClient() === $this) {
+                $demande->setClient(null);
             }
         }
 

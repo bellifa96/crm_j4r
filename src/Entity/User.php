@@ -82,6 +82,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $emailPerso;
 
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Demande::class)]
+    private $demandes;
+
 
     public function __construct()
     {
@@ -89,6 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->locked = false;
         $this->depots = new ArrayCollection();
         $this->fichiers = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -334,6 +338,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmailPerso(?string $emailPerso): self
     {
         $this->emailPerso = $emailPerso;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes[] = $demande;
+            $demande->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getCreateur() === $this) {
+                $demande->setCreateur(null);
+            }
+        }
 
         return $this;
     }
