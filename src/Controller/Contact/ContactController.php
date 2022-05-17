@@ -50,7 +50,7 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/show.html.twig', [
             'contact' => $contact,
-            'nav' => [['Listes des Services', 'app_contact_service_index'], ['Service +', 'app_contact_service_new']],
+            'nav' => [['app_contact_service_index','Listes des Services']],
             'title' => 'Contacts',
         ]);
     }
