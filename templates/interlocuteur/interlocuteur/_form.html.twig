@@ -77,7 +77,7 @@
                     <label for="type" id="type_label" style="cursor: pointer;"></label>
                 </div>
                 <div class="col-md-8 societe m-auto">
-                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input", "autofocus":"on"}}) }}
                 </div>
             </div>
             {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
@@ -229,7 +229,7 @@
                                 Nom
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input", 'autofocus':'on'}}) }}
                             </div>
                         </div>
 
@@ -481,7 +481,10 @@
 
     function checkType() {
         $('#type').is(':checked') ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
-        typeShow()
+        typeShow();
+        $('#type').is(':checked') ? $('#interlocuteur_personne_nom').attr('autofocus','off') : $('#interlocuteur_personne_nom').focus();
+        $('#type').is(':checked') ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus','off');
+        console.log($('#type').is(':checked'))
     }
 
     $('#type').change(function () {
