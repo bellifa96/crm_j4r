@@ -3,6 +3,7 @@
 namespace App\Controller\Contact;
 
 use App\Entity\Contact\Contact;
+use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Contact\ContactType;
 use App\Repository\Contact\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +25,10 @@ class ContactController extends AbstractController
     }
 
     #[Route('/new', name: 'app_contact_contact_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ContactRepository $contactRepository): Response
+    public function new(Interlocuteur $interlocuteur, Request $request, ContactRepository $contactRepository): Response
     {
         $contact = new Contact();
+        $contact->setSociete($interlocuteur);
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 

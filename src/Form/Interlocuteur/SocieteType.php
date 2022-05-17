@@ -232,7 +232,6 @@ class SocieteType extends AbstractType
                     "Moldavie" => "Moldavie",
                     "Monaco" => "Monaco",
                     "Mongolie" => "Mongolie",
-
                 ],
                 'preferred_choices' => ['France', 'Belgique'],
                 'attr' => [
