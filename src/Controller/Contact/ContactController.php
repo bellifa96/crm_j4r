@@ -19,12 +19,12 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/index.html.twig', [
             'contacts' => $contactRepository->findAll(),
-            'nav'=>[['app_contact_fonction_index','Listes des Fonctions'],['app_contact_fonction_new','Fonction +']],
-            'title'=>'Contacts',
+            'nav' => [['app_contact_fonction_index', 'Listes des Fonctions'], ['app_contact_fonction_new', 'Fonction +']],
+            'title' => 'Contacts',
         ]);
     }
 
-    #[Route('/new', name: 'app_contact_contact_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{id}', name: 'app_contact_contact_new', methods: ['GET', 'POST'])]
     public function new(Interlocuteur $interlocuteur, Request $request, ContactRepository $contactRepository): Response
     {
         $contact = new Contact();
@@ -40,8 +40,8 @@ class ContactController extends AbstractController
         return $this->renderForm('contact/contact/new.html.twig', [
             'contact' => $contact,
             'form' => $form,
-            'nav'=>[],
-            'title'=>'Contacts',
+            'nav' => [],
+            'title' => 'Contacts',
         ]);
     }
 
@@ -50,8 +50,8 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/show.html.twig', [
             'contact' => $contact,
-            'nav'=>[['Listes des Fonctions','app_contact_fonction_index'],['Fonction +','app_contact_fonction_new']],
-            'title'=>'Contacts',
+            'nav' => [['Listes des Fonctions', 'app_contact_fonction_index'], ['Fonction +', 'app_contact_fonction_new']],
+            'title' => 'Contacts',
         ]);
     }
 
@@ -69,15 +69,15 @@ class ContactController extends AbstractController
         return $this->renderForm('contact/contact/edit.html.twig', [
             'contact' => $contact,
             'form' => $form,
-            'nav'=>[],
-            'title'=>'Contacts',
+            'nav' => [],
+            'title' => 'Contacts',
         ]);
     }
 
     #[Route('/{id}', name: 'app_contact_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $contactRepository->remove($contact);
         }
 
