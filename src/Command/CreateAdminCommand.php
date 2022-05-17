@@ -25,9 +25,8 @@ class CreateAdminCommand extends Command
     protected static $defaultDescription = 'create admin account.';
 
 
-    public function __construct(string $name = null,UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager)
+    public function __construct(UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager)
     {
-        parent::__construct((string)$name);
         $this->em = $entityManager;
         $this->passwordHasher = $passwordHasher;
     }
