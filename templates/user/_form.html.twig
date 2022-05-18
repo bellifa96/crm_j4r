@@ -16,17 +16,17 @@
                 <div class="col-md-12 mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
-                            Prénom
+                            Nom
                         </div>
                         <div class="col-md-9">
-                            {{ form_widget(form.firstname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Nom'}}) }}
+                            {{ form_widget(form.firstname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Nom','autofocus':'on'}}) }}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12  mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
-                            Nom
+                            Prénom
                         </div>
                         <div class="col-md-9">
                             {{ form_widget(form.lastname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
