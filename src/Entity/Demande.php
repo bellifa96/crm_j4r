@@ -82,6 +82,14 @@ class Demande
     #[ORM\Column(type: 'array')]
     private $travauxPrevus = [];
 
+    #[Gedmo\Versioned]
+    #[ORM\Column(type: 'float')]
+    private $largeurDeTravail;
+
+    #[Gedmo\Versioned]
+    #[ORM\Column(type: 'float')]
+    private $consoles;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -287,6 +295,30 @@ class Demande
     public function setTravauxPrevus(array $travauxPrevus): self
     {
         $this->travauxPrevus = $travauxPrevus;
+
+        return $this;
+    }
+
+    public function getLargeurDeTravail(): ?float
+    {
+        return $this->largeurDeTravail;
+    }
+
+    public function setLargeurDeTravail(float $largeurDeTravail): self
+    {
+        $this->largeurDeTravail = $largeurDeTravail;
+
+        return $this;
+    }
+
+    public function getConsoles(): ?float
+    {
+        return $this->consoles;
+    }
+
+    public function setConsoles(float $consoles): self
+    {
+        $this->consoles = $consoles;
 
         return $this;
     }

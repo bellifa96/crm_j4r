@@ -54,7 +54,7 @@ class DemandeType extends AbstractType
 
             ->add('travauxPrevus', ChoiceType::class, [
                 'choices' => [
-                    '<strong> Peinture / Ravalement' => 'Peinture/Ravalement',
+                    'Peinture / Ravalement' => 'Peinture/Ravalement',
                     'Bardage / Isolation' => 'Bardage/Isolation',
                     'Maçonnerie / Pierre' => 'Maçonnerie/Pierre'
                 ],
@@ -64,12 +64,12 @@ class DemandeType extends AbstractType
 
             ->add('classeDEchaffaudage', ChoiceType::class, [
                 'choices' => [
-                    'Classe 1 <em>(75daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 1',
-                    'Classe 2 <em>(150daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 2',
-                    'Classe 3 <em>(200daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 3',
-                    'Classe 4 <em>(300daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 4',
-                    'Classe 5 <em>(450daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 5',
-                    'Classe 6 <em>(600daN/m<sup>2</sup> sur 1,5 niv.)</em>' => 'Classe 6'
+                    'Classe 1 (75daN/m² sur 1,5 niv.)' => 'Classe 1',
+                    'Classe 2 (150daN/m² sur 1,5 niv.)' => 'Classe 2',
+                    'Classe 3 (200daN/m² sur 1,5 niv.)' => 'Classe 3',
+                    'Classe 4 (300daN/m² sur 1,5 niv.)' => 'Classe 4',
+                    'Classe 5 (450daN/m² sur 1,5 niv.)' => 'Classe 5',
+                    'Classe 6 (600daN/m² sur 1,5 niv.)' => 'Classe 6'
                 ],
                 'expanded' => true,
                 'multiple' => false
@@ -93,6 +93,24 @@ class DemandeType extends AbstractType
                     'Ancrages simples' => 'Ancrages simples',
                     'Cravatages' => 'Cravatages',
                     'Vérinage' => 'Verinage'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('largeurDeTravail', ChoiceType::class, [
+                'choices' => [
+                    '0,7 m' => 0.7,
+                    '1 m' => 1
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('consoles', ChoiceType::class, [
+                'choices' => [
+                    '0,4 m' => 0.4,
+                    '0,7 m' => 0.7
                 ],
                 'expanded' => true,
                 'multiple' => false
