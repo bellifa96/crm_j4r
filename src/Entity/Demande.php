@@ -44,7 +44,7 @@ class Demande
     private $date;
 
     #[Gedmo\Versioned]
-    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandes')]
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandesIntermediaire')]
     private $intermediaire;
 
     #[Gedmo\Versioned]

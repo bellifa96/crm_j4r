@@ -38,10 +38,15 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Demande::class)]
     private $demandes;
 
+    #[ORM\OneToMany(mappedBy: 'intermediaire', targetEntity: Demande::class)]
+    private $demandesIntermediaire;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->demandesIntermediaire = new ArrayCollection();
+
     }
 
 
@@ -164,6 +169,36 @@ class Interlocuteur
             // set the owning side to null (unless already changed)
             if ($demande->getClient() === $this) {
                 $demande->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesIntermediaire(): Collection
+    {
+        return $this->demandesIntermediaire;
+    }
+
+    public function addDemandesIntermediaire(Demande $demandesIntermediaire): self
+    {
+        if (!$this->demandesIntermediaire->contains($demandesIntermediaire)) {
+            $this->demandesIntermediaire[] = $demandesIntermediaire;
+            $demandesIntermediaire->setIntermediaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesIntermediaire(Demande $demandesIntermediaire): self
+    {
+        if ($this->demandesIntermediaire->removeElement($demandesIntermediaire)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesIntermediaire->getIntermediaire() === $this) {
+                $demandesIntermediaire->setIntermediaire(null);
             }
         }
 
