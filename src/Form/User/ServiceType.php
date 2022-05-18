@@ -3,6 +3,7 @@
 namespace App\Form\User;
 
 use App\Entity\User\Service;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +13,7 @@ class ServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
+            ->add('titre', TextType::class)
         ;
     }
 

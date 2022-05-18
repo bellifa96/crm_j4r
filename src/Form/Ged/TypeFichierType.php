@@ -3,6 +3,7 @@
 namespace App\Form\Ged;
 
 use App\Entity\Ged\TypeFichier;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,8 +13,8 @@ class TypeFichierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
-            ->add('code')
+            ->add('titre', TextType::class)
+            ->add('code', TextType::class)
         ;
     }
 
