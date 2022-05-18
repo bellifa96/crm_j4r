@@ -2,11 +2,18 @@
 
 namespace App\Entity;
 
+use App\Entity\Affaire\Devis;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\DemandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
+#[Gedmo\Loggable]
+
 class Demande
 {
     use AdresseTrait;
@@ -15,6 +22,7 @@ class Demande
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Gedmo\Versioned]
     #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandes')]
     private $client;
 
@@ -22,41 +30,62 @@ class Demande
     #[ORM\JoinColumn(nullable: false)]
     private $createur;
 
+
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'text', nullable: true)]
     private $commentaire;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $nomChantier;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $date;
 
+    #[Gedmo\Versioned]
     #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandes')]
     private $intermediaire;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $typeDePrestation;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $documentsSouhaites;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'boolean')]
     private $fondsDePlan;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $travauxPrevus;
-
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $classeDEchaffaudage;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $typeDeMateriel;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'float')]
     private $dimensionsGlobales;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $ammarages;
+
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Devis::class)]
+    private $devis;
+
+    #[Gedmo\Versioned]
+    #[ORM\Column(type: 'array')]
+    private $travauxPrevus = [];
+
+    public function __construct()
+    {
+        $this->devis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,17 +200,6 @@ class Demande
         return $this;
     }
 
-    public function getTravauxPrevus(): ?string
-    {
-        return $this->travauxPrevus;
-    }
-
-    public function setTravauxPrevus(string $travauxPrevus): self
-    {
-        $this->travauxPrevus = $travauxPrevus;
-
-        return $this;
-    }
 
     public function getClasseDEchaffaudage(): ?string
     {
@@ -227,6 +245,48 @@ class Demande
     public function setAmmarages(string $ammarages): self
     {
         $this->ammarages = $ammarages;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Devis>
+     */
+    public function getDevis(): Collection
+    {
+        return $this->devis;
+    }
+
+    public function addDevi(Devis $devi): self
+    {
+        if (!$this->devis->contains($devi)) {
+            $this->devis[] = $devi;
+            $devi->setDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevi(Devis $devi): self
+    {
+        if ($this->devis->removeElement($devi)) {
+            // set the owning side to null (unless already changed)
+            if ($devi->getDemande() === $this) {
+                $devi->setDemande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTravauxPrevus(): ?array
+    {
+        return $this->travauxPrevus;
+    }
+
+    public function setTravauxPrevus(array $travauxPrevus): self
+    {
+        $this->travauxPrevus = $travauxPrevus;
 
         return $this;
     }
