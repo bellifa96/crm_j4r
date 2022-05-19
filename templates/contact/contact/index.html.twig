@@ -15,7 +15,6 @@
             <th>TelephoneMobile</th>
             <th>Telephone</th>
             <th>DateAnniversaire</th>
-            <th>actions</th>
         </tr>
         </thead>
         <tbody>
@@ -26,16 +25,16 @@
                         {{ contact.societe.societe is not empty ? contact.societe.societe.raisonSociale : contact.societe.personne.nom~" "~contact.societe.personne.prenom }}
                     </a>
                 </td>
-                <td>{{ contact.nom }}</td>
+                <td>
+                    <a href="{{ path('app_contact_contact_show',{"id":contact.id}) }}">
+                        {{ contact.nom }}
+                    </a>
+                </td>
                 <td>{{ contact.prenom }}</td>
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.telephoneMobile }}</td>
                 <td>{{ contact.telephone }}</td>
                 <td>{{ contact.dateAnniversaire }}</td>
-                <td>
-                    <a href="{{ path('app_contact_contact_show', {'id': contact.id}) }}">show</a>
-                    <a href="{{ path('app_contact_contact_edit', {'id': contact.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
