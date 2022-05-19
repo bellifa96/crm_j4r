@@ -7,11 +7,11 @@
     <div class="page-block col-lg-12">
 
 
-        <table class="table" style="color: #0E4377;">
+        <table class="table text-center" style="color: #0E4377;">
             <thead>
             <tr style="background-color: #0e4377;color: white;">
-                <th>Raison sociale</th>
                 <th>Nom</th>
+                <th>Nom commercial</th>
                 <th>Adresse</th>
                 <th>Ville</th>
                 <th>Code Postal</th>
@@ -36,8 +36,6 @@
                     <td>
                         {% if interlocuteur.societe is not empty %}
                             <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}"> {{ interlocuteur.societe.nom }}</a>
-                        {% elseif interlocuteur.personne is not empty %}
-                            <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}">  {{ interlocuteur.personne.nom }}</a>
                         {% endif %}
                     </td>
 
