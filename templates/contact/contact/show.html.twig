@@ -104,12 +104,12 @@
                         </div>
                         <div class="col-md-6"><label class="labels">Téléphone mobile</label>
                             <div class=" form-control-sm-2 text-center">
-                                {{ contact.telephoneMobile }}
+                              <a href="tel:{{ contact.telephoneMobile }}">{{ contact.telephoneMobile }}</a>
                             </div>
                         </div>
                         <div class="col-md-6"><label class="labels">Téléphone fixe</label>
                             <div class=" form-control-sm-2 text-center">
-                                {{ contact.telephone }}
+                                <a href="tel:{{ contact.telephone }}"> {{ contact.telephone }}</a>
                             </div>
                         </div>
                         <div class="col-md-12"><label class="labels">Adresse 1</label>
