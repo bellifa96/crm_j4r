@@ -7,21 +7,25 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Email</th>
-                <th>TelephoneMobile</th>
-                <th>Telephone</th>
-                <th>DateAnniversaire</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Interlocuteur</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>TelephoneMobile</th>
+            <th>Telephone</th>
+            <th>DateAnniversaire</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for contact in contacts %}
             <tr>
-                <td>{{ contact.id }}</td>
+                <td>
+                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{"id":contact.societe.id}) }}">
+                        {{ contact.societe.societe is not empty ? contact.societe.societe.raisonSociale : contact.societe.personne.nom~" "~contact.societe.personne.prenom }}
+                    </a>
+                </td>
                 <td>{{ contact.nom }}</td>
                 <td>{{ contact.prenom }}</td>
                 <td>{{ contact.email }}</td>

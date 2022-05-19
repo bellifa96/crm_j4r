@@ -7,85 +7,33 @@
 
     <style>
 
-        .nav-tabs li:hover {
+
+        .nav-tabs .nav-link {
+            border-top-left-radius: 0rem;
+            border-top-right-radius: 0rem;
+            color: #0E4377;
+            width: 100%;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #fff;
+            border-color: #0e4377 #0e4377 #0e4377;
+            color: #495057;
+        }
+
+        body .nav-tabs li button {
+            display: block;
+            padding: 5px 30px;
+        }
+
+        body .nav-tabs li .active {
+            background-color: #0E4377 !important;
             color: white !important;
         }
 
         .nav-tabs {
             border: 1px solid #0E4377;
             border-bottom: 5px solid #0E4377;
-            margin-bottom: 35px !important;
-            line-height: 2rem;
-            text-align: center;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .bg-blue {
-            background: rgba(14, 67, 119, .1);
-            border-radius: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-
-        .banner-img img {
-            width: 100%;
-            border-radius: 5px;
-        }
-
-        .dates div {
-            float: left;
-            width: 50%;
-            text-align: center;
-            position: relative;
-        }
-
-        .dates strong,
-        .stats strong {
-            display: block;
-            color: #adb8c2;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .dates span {
-            width: 1px;
-            height: 40px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            background: #ebeff2;
-        }
-
-        .stats div {
-            border-right: 1px solid #ebeff2;
-            width: 33.33333%;
-            float: left;
-            text-align: center
-        }
-
-        .stats div:nth-of-type(3) {
-            border: none;
-        }
-
-
-        a.hv:hover {
-            color: white !important;
-        }
-
-        li.col.no-padding:hover {
-            background: #0d4377;
-            color: white !important;
-        }
-
-        li.col.no-padding {
-            color: #0d4377 !important;
-            cursor: pointer;
         }
     </style>
 
@@ -216,66 +164,78 @@
 
     </div>
 
-    {# Tab at the bottom of the page #}
+    <div class="col-md-12 page-block mt-4">
 
-    <div class="col-lg-12 page-block">
-        <ul class="nav nav-tabs row" role="tablist">
-            <li class="col no-padding nav-item" id='firstList' role="presentation">
-                <a href="#tab_contact" aria-controls="tab_contact" class="hv" role="tab" data-toggle="tab">
-                    Contact
-                </a>
+
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link active" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts"
+                        type="button"
+                        role="tab" aria-controls="contacts" aria-selected="true">
+                    Contacts
+                </button>
             </li>
-            <li class="col no-padding nav-item" role="presentation">
-                <a href="#tab_deal" aria-controls="tab_deal" role="tab" class="hv" data-toggle="tab">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="demandes-tab" data-bs-toggle="tab" data-bs-target="#demandes" type="button"
+                        role="tab" aria-controls="demandes" aria-selected="false">
+                    Demandes
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="devis-tab" data-bs-toggle="tab" data-bs-target="#devis" type="button"
+                        role="tab" aria-controls="devis" aria-selected="false">
                     Devis
-                </a>
+                </button>
             </li>
-            <li class="col no-padding nav-item" role="presentation">
-                <a href="#tab_contract" aria-controls="tab_contract" role="tab" class="hv" data-toggle="tab">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
+                        role="tab" aria-controls="affaire" aria-selected="false">
                     Affaires
-                </a>
+                </button>
             </li>
-            <li class="col no-padding nav-item" role="presentation">
-                <a href="#tab_activity" aria-controls="tab_activity" role="tab" class="hv" data-toggle="tab">
-                    Chantier
-                </a>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers"
+                        type="button"
+                        role="tab" aria-controls="chantiers" aria-selected="false">
+                    Chantiers
+                </button>
             </li>
-
-
-            <li class="col no-padding nav-item" role="presentation">
-                <a href="#tab_accreditation" aria-controls="tab_accreditation" class="hv" role="tab"
-                   data-toggle="tab">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="accreditation-tab" data-bs-toggle="tab" data-bs-target="#accreditation"
+                        type="button"
+                        role="tab" aria-controls="accreditation" aria-selected="false">
                     Accréditation
-                </a>
+                </button>
             </li>
-
-            <li class="col no-padding nav-item" role="presentation">
-                <a href="#tab_statistic" aria-controls="tab_statistic" role="tab" class="hv" data-toggle="tab">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques"
+                        type="button"
+                        role="tab" aria-controls="statistiques" aria-selected="false">
                     Statistiques
-                </a>
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                        role="tab" aria-controls="ged" aria-selected="false">
+                    GED
+                </button>
             </li>
         </ul>
 
 
-        <!-- --- TAB CONTENT --- -->
-        <div class="tab-content">
+        <div class="tab-content mt-4" id="myTabContent">
 
-            <!--  CONTACT  -->
-            <div role="tabpanel"
-                 class="tab-pane fade show active"
-                 id="tab_contact">
+            <!-- Contact -->
+            <div class="tab-pane fade show active" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
 
-                <div class="row justify-content-end">
-
+                <div class="row justify-content-end mt-4 mb-2">
                     <a href="{{ path('app_contact_contact_new',{'id':interlocuteur.id}) }}"
                        class=" col-md-auto btn btn-info">
                         Ajouter un contact
                     </a>
                 </div>
 
-
                 <div class="col-md-12">
-
                     <table class="table">
                         <thead>
                         <th>Nom</th>
@@ -289,12 +249,10 @@
 
                             <tr>
                                 <td>
-                                   <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">{{ contact.nom }} </a>
+                                    <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">{{ contact.nom }} </a>
                                 </td>
                                 <td>
-
-                                </td>
-                                {{ contact.prenom }}
+                                    {{ contact.prenom }}
                                 <td>
                                     {{ contact.email }}
                                 </td>
@@ -313,40 +271,20 @@
                     </table>
                 </div>
             </div>
-
-            <!--  DEAL  -->
-            <div role="tabpanel" class="tab-pane fade show" id="tab_deal">
-                <div class="col-md-12 p-0">
-
-
-                </div>
+            <div class="tab-pane fade" id="demandes" role="tabpanel" aria-labelledby="demandes-tab">demandes</div>
+            <div class="tab-pane fade" id="devis" role="tabpanel" aria-labelledby="devis-tab">devis</div>
+            <div class="tab-pane fade" id="affaires" role="tabpanel" aria-labelledby="affaires-tab">affaires</div>
+            <div class="tab-pane fade" id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">chantiers</div>
+            <div class="tab-pane fade" id="accreditation" role="tabpanel" aria-labelledby="accreditation-tab">
+                accreditation
             </div>
-
-            <!--  CONTRACT  -->
-            <div role="tabpanel" class="tab-pane fade show" id="tab_contract">
-
-
+            <div class="tab-pane fade" id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
+                statistiques
             </div>
+            <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">ged</div>
 
-
-            <!--  ACTIVITY  -->
-            <div role="tabpanel" class="tab-pane fade show" id="tab_activity">
-
-            </div>
-
-
-            <!--  ACCREDITATION  -->
-            <div role="tabpanel"
-                 class="tab-pane fade show"
-                 id="tab_accreditation">
-            </div>
-            <!--  STATISTIC  -->
-            <div role="tabpanel"
-                 class="tab-pane fade show"
-                 id="tab_statistic">
-                <p>tab_statistic</p>
-            </div>
         </div>
+
     </div>
 
 

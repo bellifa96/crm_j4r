@@ -2,6 +2,7 @@
 
 namespace App\Entity\Contact;
 
+use App\Entity\AdresseTrait;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\Contact\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {
+    use AdresseTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -43,6 +46,12 @@ class Contact
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $fonction;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $genre;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $commentaire;
 
     public function getId(): ?int
     {
@@ -153,6 +162,30 @@ class Contact
     public function setFonction(?string $fonction): self
     {
         $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactServiceRepository::class)]
+
 class ContactService
 {
     #[ORM\Id]
@@ -15,7 +16,7 @@ class ContactService
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,unique: true)]
     private $titre;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

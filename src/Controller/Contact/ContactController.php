@@ -50,8 +50,8 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/show.html.twig', [
             'contact' => $contact,
-            'nav' => [['app_contact_service_index','Listes des Services']],
-            'title' => 'Contacts',
+            'nav' => [['app_contact_contact_edit','Modifier',$contact->getId()],['app_interlocuteur_interlocuteur_show', 'Interlocuteur', $contact->getSociete()->getId()]],
+            'title' => $contact->getNom()." ".$contact->getPrenom(),
         ]);
     }
 
@@ -70,7 +70,7 @@ class ContactController extends AbstractController
             'contact' => $contact,
             'form' => $form,
             'nav' => [],
-            'title' => 'Contacts',
+            'title' => $contact->getNom()." ".$contact->getPrenom(),
         ]);
     }
 

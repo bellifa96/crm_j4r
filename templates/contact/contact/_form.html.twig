@@ -1,4 +1,188 @@
+<style>
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #1ab2e4
+    }
+
+    .profile-button {
+        background: #1ab2e4;
+        box-shadow: none;
+        border: none
+    }
+
+    .profile-button:hover {
+        background: #1ab2e4
+    }
+
+    .profile-button:focus {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #1ab2e4;
+        cursor: pointer
+    }
+
+    .labels {
+        font-size: 11px
+    }
+
+    .add-service{
+        color: black;
+    }
+    .add-service:hover {
+        background: #BA68C8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #BA68C8
+    }
+</style>
 {{ form_start(form) }}
-    {{ form_widget(form.titre,{'attr':{'autofocus':'on'}}) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-end">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5"
+                     width="150px"
+                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                <span class="font-weight-bold" id="nom"></span>
+                <span class="text-black-50" id="email"></span>
+                <span> </span>
+            </div>
+        </div>
+        <div class="col-md-5 border-end">
+            <div class="p-3 py-5">
+                <div class="text-dark mb-3">
+                    <h4 class="text-center">Nouvelle fiche contact</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Nom</label>
+                        {{ form_widget(form.nom,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Nom de famille"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Prénom</label>
+                        {{ form_widget(form.prenom,{"attr":{"class":"form-control","placeholder":"Prénom"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Genre</label>
+                        {{ form_widget(form.genre,{"attr":{"class":"form-control"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Date de naissance</label>
+                        {{ form_widget(form.dateAnniversaire,{"attr":{"class":"form-control datepicker","placeholder":"Date de naissance"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Téléphone mobile</label>
+                        {{ form_widget(form.telephoneMobile,{"attr":{"class":"form-control","placeholder":"Téléphone portable"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Téléphone fixe</label>
+                        {{ form_widget(form.telephone,{"attr":{"class":"form-control","placeholder":"Téléphone fixe"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Adresse 1</label>
+                        {{ form_widget(form.adresse1,{"attr":{"class":"form-control","placeholder":"Adresse postale"}}) }}
+
+                    </div>
+                    <div class="col-md-12"><label class="labels">Complément d'adresse</label>
+                        {{ form_widget(form.adresse2,{"attr":{"class":"form-control","placeholder":"Complément d'adresse"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Code postal</label>
+                        {{ form_widget(form.codePostal,{"attr":{"class":"form-control","placeholder":"Code postal"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Ville</label>
+                        {{ form_widget(form.ville,{"attr":{"class":"form-control","placeholder":"Ville"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Pays</label>
+                        {{ form_widget(form.pays,{"attr":{"class":"form-control","placeholder":"Pays"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Email</label>
+                        {{ form_widget(form.email,{"attr":{"class":"form-control","placeholder":"Adresse Email"}}) }}
+                    </div>
+
+                </div>
+
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience">
+                    <span class="border px-3 p-1 add-service"><i class="fa fa-plus"></i>  Ajouter un Service</span>
+                </div>
+                <br>
+                <div class="col-md-12"><label class="labels">Service</label>
+                    {{ form_widget(form.service,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <br>
+                <div class="col-md-12"><label class="labels">Fonction</label>
+                    {{ form_widget(form.fonction,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">Plus de détails</label>
+                    {{ form_widget(form.commentaire,{"attr":{"class":"form-control"}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{ form_end(form) }}
+
+
+<script>
+
+    function submitService(event) {
+        event.preventDefault();
+
+        $("#service-error").length > 0 ? $("#service-error").remove() : "";
+        var service = {
+            titre: $("#titre").val(),
+            code: $("#code").val(),
+        };
+
+        $.post("{{ path('app_contact_service_new_service') }}", {service}, function (data) {
+
+            data = JSON.parse(data);
+            if (data.code == 200) {
+                $('#contact_service').append($('<option>', {
+                    value: data.message.id,
+                    text: data.message.titre
+                }));
+
+
+
+                $("#add-service").modal('hide');
+                $('#add-service').remove()
+            } else {
+
+                $('#modal_button').show();
+                $('#footer-load').hide()
+
+                $('#modal-body').append(`
+                  <div class="alert alert-danger mt-2" role="alert" id="service-error">
+                      ${data.message}
+                   </div>
+                `)
+            }
+        })
+    }
+
+    $('.add-service').click(function () {
+        if ($('#add-service').length > 0) {
+            $("#add-service").modal('show');
+
+        } else {
+            var path = "{{ path('app_contact_service_new_modal') }}";
+
+            $.get(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#add-service").modal('show');
+            })
+        }
+    })
+
+</script>
