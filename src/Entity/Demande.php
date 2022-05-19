@@ -90,24 +90,31 @@ class Demande
     #[ORM\Column(type: 'float')]
     private $consoles;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $equipements;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $acces;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'float')]
     private $porteeLibre;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'float')]
     private $longueur;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $traitementDesPignons;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $finitionPlancher;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $gcPeripherique;
 
