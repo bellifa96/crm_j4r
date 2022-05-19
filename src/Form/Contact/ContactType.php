@@ -63,7 +63,7 @@ class ContactType extends AbstractType
                     'class' => 'societe-form'
                 ]
             ])
-            ->add('codePostal', NumberType::class, [
+            ->add('codePostal', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Code postal required',
                     'class' => 'societe-form'
