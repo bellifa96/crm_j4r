@@ -12,6 +12,7 @@ body a{
 }
 body a:hover{
     font-weight: bold;
+    color: #0E4377;
 }
 
 body .background-body:before {
