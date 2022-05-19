@@ -27,7 +27,7 @@ class Societe
     private $raisonSociale;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $nom;
 
     #[Gedmo\Versioned]
@@ -64,13 +64,14 @@ class Societe
     #[ORM\ManyToOne(targetEntity: Activite::class, inversedBy: 'societes')]
     private $activitePrincipale;
 
-    #[ORM\OneToMany(mappedBy: 'societe', targetEntity: Activite::class)]
-    private $ActivitesSecondaires;
+    #[ORM\ManyToMany(targetEntity: Activite::class, inversedBy: 'societesSecondaires')]
+    private $activitesSecondaires;
 
     public function __construct()
     {
-        $this->ActivitesSecondaires = new ArrayCollection();
+        $this->activitesSecondaires = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -225,14 +226,13 @@ class Societe
      */
     public function getActivitesSecondaires(): Collection
     {
-        return $this->ActivitesSecondaires;
+        return $this->activitesSecondaires;
     }
 
     public function addActivitesSecondaire(Activite $activitesSecondaire): self
     {
-        if (!$this->ActivitesSecondaires->contains($activitesSecondaire)) {
-            $this->ActivitesSecondaires[] = $activitesSecondaire;
-            $activitesSecondaire->setSociete($this);
+        if (!$this->activitesSecondaires->contains($activitesSecondaire)) {
+            $this->activitesSecondaires[] = $activitesSecondaire;
         }
 
         return $this;
@@ -240,13 +240,9 @@ class Societe
 
     public function removeActivitesSecondaire(Activite $activitesSecondaire): self
     {
-        if ($this->ActivitesSecondaires->removeElement($activitesSecondaire)) {
-            // set the owning side to null (unless already changed)
-            if ($activitesSecondaire->getSociete() === $this) {
-                $activitesSecondaire->setSociete(null);
-            }
-        }
+        $this->activitesSecondaires->removeElement($activitesSecondaire);
 
         return $this;
     }
+
 }

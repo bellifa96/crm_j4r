@@ -84,7 +84,6 @@ class InterlocuteurController extends AbstractController
             'form' => $form,
             'title' => 'Liste des interlocuteurs',
             'nav' => [],
-
         ]);
     }
 

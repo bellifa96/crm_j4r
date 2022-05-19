@@ -20,13 +20,14 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+import * as $ from "jquery";
+import * as bootstrap from "bootstrap";
 
 // datatable
 import 'datatables.net';
 import 'datatables.net-bs5'
 import './datatable_custom';
 
-const $ = require('jquery');
 global.$ = global.jQuery = $;
 
 import 'multiple-select/src/multiple-select';

@@ -187,7 +187,10 @@
                             </div>
                             <div class="col-md-9">
                                 {{ form_widget(form.societe.activitePrincipale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-                                <a href="#"  class="float-end" id="activite-modal"> Ajouter une nouvelle Activité</a>
+                                <button type="button" class="float-end btn btn-link p-0" id="activite-modal"
+                                        style="text-decoration: none;font-size: inherit;"> Ajouter une nouvelle
+                                    Activité
+                                </button>
                             </div>
                         </div>
 
@@ -332,19 +335,13 @@
             </div>
 
 
-
             <div class="comment mt-4">
                 <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
             </div>
 
 
-
-
-
-
-
             <div class="mt-4">
-                <button  type="submit" class="btn btn-info">Enregistrer</button>
+                <button type="submit" class="btn btn-info">Enregistrer</button>
 
             </div>
             {{ form_end(form) }}
@@ -356,8 +353,58 @@
 
 <script>
 
+    function submitActivite(event) {
+        event.preventDefault();
 
-    $('#activite-modal').on('click',function () {
+        $("#activite-error").length > 0 ? $("#activite-error").remove() : "";
+        var activite = {
+            titre: $("#titre").val(),
+            code: $("#code").val(),
+        };
+
+        $.post("{{ path('app_interlocuteur_activite_new_app') }}", {activite}, function (data) {
+
+            data = JSON.parse(data);
+            if (data.code == 200) {
+                $('#interlocuteur_societe_activitePrincipale').append($('<option>', {
+                    value: data.message.id,
+                    text: data.message.titre
+                }));
+                $('#interlocuteur_societe_activitesSecondaires').append($('<option>', {
+                    value: data.message.id,
+                    text: data.message.titre
+                }));
+
+                $('.multi-select').multipleSelect('refresh');
+
+                $("#add-activite").modal('hide');
+                $('#add-activite').remove()
+            } else {
+
+                $('#modal_button').show();$('#footer-load').hide()
+
+                $('#modal-body').append(`
+                  <div class="alert alert-danger mt-2" role="alert" id="activite-error">
+                      ${data.message}
+                   </div>
+                `)
+            }
+        })
+    }
+
+    $('#activite-modal').on('click', function () {
+        if ($('#add-activite').length > 0) {
+            $("#add-activite").modal('show');
+
+        } else {
+            var path = "{{ path('app_interlocuteur_activite_new_modal') }}";
+
+            $.get(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#add-activite").modal('show');
+            })
+        }
+
 
     })
 
@@ -400,8 +447,6 @@
                     $("#interlocuteur_societe_ville").val("");
                     $('#interlocuteur_societe_pays').val("");
 
-                    console.log('error');
-
                 }
             }
         };
@@ -427,8 +472,6 @@
 
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
-
-                    console.log(data)
 
                     const etablissementAdresse = data.etablissement.adresseEtablissement;
 
@@ -464,14 +507,14 @@
             $('.societe').slideDown();
             $('.personne-input').each(function () {
                 $(this).val("");
-                $(this).prop('required',false);
+                $(this).prop('required', false);
             })
         } else {
             $('.societe').slideUp();
             $('.personne').slideDown();
             $('.societe-input').each(function () {
                 $(this).val("");
-                $(this).prop('required',false);
+                $(this).prop('required', false);
             })
         }
     }
@@ -482,9 +525,8 @@
     function checkType() {
         $('#type').is(':checked') ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
         typeShow();
-        $('#type').is(':checked') ? $('#interlocuteur_personne_nom').attr('autofocus','off') : $('#interlocuteur_personne_nom').focus();
-        $('#type').is(':checked') ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus','off');
-        console.log($('#type').is(':checked'))
+        $('#type').is(':checked') ? $('#interlocuteur_personne_nom').attr('autofocus', 'off') : $('#interlocuteur_personne_nom').focus();
+        $('#type').is(':checked') ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus', 'off');
     }
 
     $('#type').change(function () {
@@ -492,7 +534,6 @@
     })
 
     $('#interlocuteur_type').change(function () {
-        console.log()
     })
 
 </script>

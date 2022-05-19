@@ -6,8 +6,11 @@ use App\Repository\Interlocuteur\ActiviteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]
+#[UniqueEntity(fields: ['titre'], message: 'There is already an activity with this title')]
+
 class Activite
 {
     #[ORM\Id]
@@ -15,7 +18,7 @@ class Activite
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,unique: true)]
     private $titre;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -24,12 +27,14 @@ class Activite
     #[ORM\OneToMany(mappedBy: 'activitePrincipale', targetEntity: Societe::class)]
     private $societes;
 
-    #[ORM\ManyToOne(targetEntity: Societe::class, inversedBy: 'ActivitesSecondaires')]
-    private $societe;
+    #[ORM\ManyToMany(targetEntity: Societe::class, mappedBy: 'activitesSecondaires')]
+    private $societesSecondaires;
+
 
     public function __construct()
     {
         $this->societes = new ArrayCollection();
+        $this->societesSecondaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,15 +96,31 @@ class Activite
         return $this;
     }
 
-    public function getSociete(): ?Societe
+    /**
+     * @return Collection<int, Societe>
+     */
+    public function getSocietesSecondaires(): Collection
     {
-        return $this->societe;
+        return $this->societesSecondaires;
     }
 
-    public function setSociete(?Societe $societe): self
+    public function addSocietesSecondaire(Societe $societesSecondaire): self
     {
-        $this->societe = $societe;
+        if (!$this->societesSecondaires->contains($societesSecondaire)) {
+            $this->societesSecondaires[] = $societesSecondaire;
+            $societesSecondaire->addActivitesSecondaire($this);
+        }
 
         return $this;
     }
+
+    public function removeSocietesSecondaire(Societe $societesSecondaire): self
+    {
+        if ($this->societesSecondaires->removeElement($societesSecondaire)) {
+            $societesSecondaire->removeActivitesSecondaire($this);
+        }
+
+        return $this;
+    }
+
 }
