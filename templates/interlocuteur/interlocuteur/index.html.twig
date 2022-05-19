@@ -7,10 +7,9 @@
     <div class="page-block col-lg-12">
 
 
-        <table class="table">
+        <table class="table" style="color: #0E4377;">
             <thead>
             <tr style="background-color: #0e4377;color: white;">
-                <th>Id</th>
                 <th>Raison sociale</th>
                 <th>Nom</th>
                 <th>Adresse</th>
@@ -25,8 +24,6 @@
             <tbody>
             {% for interlocuteur in interlocuteurs %}
                 <tr>
-                    <td>{{ interlocuteur.id }}</td>
-
                     <td>
                         {% if interlocuteur.societe is not empty %}
                             <a href="{{ path('app_interlocuteur_interlocuteur_show', {'id': interlocuteur.id}) }}"> {{ interlocuteur.societe.raisonSociale }}</a>

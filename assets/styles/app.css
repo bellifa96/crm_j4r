@@ -8,6 +8,8 @@ body {
 
 body a{
     text-decoration: none;
+    color: #0E4377;
+    font-weight: bold;
 }
 
 body .background-body:before {
