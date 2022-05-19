@@ -78,7 +78,11 @@ class DemandeType extends AbstractType
             ->add('typeDeMateriel', ChoiceType::class, [
                 'choices' => [
                     'Universel' => 'Universel',
-                    'Eurofacadacier' => "Eurofacadacier"
+                    'Eurofacadacier' => "Eurofacadacier",
+                    'Couvralu' => 'Couvralu',
+                    'Couvralu XL' => 'Couvralu XL',
+                    'Fixe' => 'Fixe',
+                    'Roulant' => 'Roulant'
                 ],
                 'expanded' => true,
                 'multiple' => false
@@ -92,7 +96,8 @@ class DemandeType extends AbstractType
                 'choices' => [
                     'Ancrages simples' => 'Ancrages simples',
                     'Cravatages' => 'Cravatages',
-                    'Vérinage' => 'Verinage'
+                    'Vérinage' => 'Verinage',
+                    'Butonnages' => 'Butonnages'
                 ],
                 'expanded' => true,
                 'multiple' => false
@@ -111,6 +116,60 @@ class DemandeType extends AbstractType
                 'choices' => [
                     '0,4 m' => 0.4,
                     '0,7 m' => 0.7
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('equipements', ChoiceType::class, [
+                'choices' => [
+                    'GC MDS' => 'GC MDS',
+                    'Pare gravois' => 'Pare gravois',
+                    'GC avant' => 'GC avant',
+                    'Passage piéton' => 'Passage piéton',
+                    'Protection couvreur' => 'Protection couvreur'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('acces', ChoiceType::class, [
+                'choices' => [
+                    'Planche à trappe' => 'Planche à trappe',
+                    'Vollée alu à palier incorporé' => 'Volée alu à palier incorporé'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('porteeLibre')
+
+            ->add('longueur')
+
+            ->add('traitementDesPignons', ChoiceType::class, [
+                'choices' => [
+                    'Structure en échafaudage' => 'Structure en échafaudage',
+                    'Autre système hors fourniture (hors étude)' => 'Autre système hors fourniture (hors étude)'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('finitionPlancher', ChoiceType::class, [
+                'choices' => [
+                    'Planchers acier' => 'Plancher aciers',
+                    'Planchers combi' => 'Plancher combi',
+                    'Planchers scènes' => 'Planchers scènes'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
+
+            ->add('gcPeripherique', ChoiceType::class, [
+                'choices' => [
+                    'Moises' => 'Moises',
+                    'GC public grillagé' => 'GC public grillagé',
+                    'GC public barraudé' => 'GC public barraudé'
                 ],
                 'expanded' => true,
                 'multiple' => false

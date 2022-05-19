@@ -90,6 +90,27 @@ class Demande
     #[ORM\Column(type: 'float')]
     private $consoles;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $equipements;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $acces;
+
+    #[ORM\Column(type: 'float')]
+    private $porteeLibre;
+
+    #[ORM\Column(type: 'float')]
+    private $longueur;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $traitementDesPignons;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $finitionPlancher;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $gcPeripherique;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -319,6 +340,90 @@ class Demande
     public function setConsoles(float $consoles): self
     {
         $this->consoles = $consoles;
+
+        return $this;
+    }
+
+    public function getEquipements(): ?string
+    {
+        return $this->equipements;
+    }
+
+    public function setEquipements(string $equipements): self
+    {
+        $this->equipements = $equipements;
+
+        return $this;
+    }
+
+    public function getAcces(): ?string
+    {
+        return $this->acces;
+    }
+
+    public function setAcces(string $acces): self
+    {
+        $this->acces = $acces;
+
+        return $this;
+    }
+
+    public function getPorteeLibre(): ?float
+    {
+        return $this->porteeLibre;
+    }
+
+    public function setPorteeLibre(float $porteeLibre): self
+    {
+        $this->porteeLibre = $porteeLibre;
+
+        return $this;
+    }
+
+    public function getLongueur(): ?float
+    {
+        return $this->longueur;
+    }
+
+    public function setLongueur(float $longueur): self
+    {
+        $this->longueur = $longueur;
+
+        return $this;
+    }
+
+    public function getTraitementDesPignons(): ?string
+    {
+        return $this->traitementDesPignons;
+    }
+
+    public function setTraitementDesPignons(string $traitementDesPignons): self
+    {
+        $this->traitementDesPignons = $traitementDesPignons;
+
+        return $this;
+    }
+
+    public function getFinitionPlancher(): ?string
+    {
+        return $this->finitionPlancher;
+    }
+
+    public function setFinitionPlancher(string $finitionPlancher): self
+    {
+        $this->finitionPlancher = $finitionPlancher;
+
+        return $this;
+    }
+
+    public function getGcPeripherique(): ?string
+    {
+        return $this->gcPeripherique;
+    }
+
+    public function setGcPeripherique(string $gcPeripherique): self
+    {
+        $this->gcPeripherique = $gcPeripherique;
 
         return $this;
     }
