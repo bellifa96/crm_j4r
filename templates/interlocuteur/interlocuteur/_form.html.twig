@@ -1,68 +1,72 @@
 <style>
-    .checkbox {
-        width: 120px;
-        height: 31px;
-        margin: 0 auto;
+
+
+    .button-label {
+        display: inline-block;
+        padding: 0.5em 2em;
+        margin: 0.5em;
+        cursor: pointer;
+        color: #292929;
+        border-radius: 0.25em;
+        background: #efefef;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+        transition: 0.3s;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
-    .checkbox input[type=checkbox] {
+    .button-label h1 {
+        font-size: 1.1em;
+        font-family: "Lato", sans-serif;
         margin: 0;
-        visibility: hidden;
-        display: none;
-        left: 7px;
-        top: 7px;
-    }
-
-    .checkbox label {
-        height: 100%;
-        min-width: 120px;
-        border-radius: 4px;
-        display: block;
-        perspective: 100px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .checkbox label:before,
-    .checkbox label:after {
-        min-width: 120px;
-        content: 'Personne';
-        color: #fff;
-        background: #0dcaf0;
-        font-size: 14px;
         font-weight: bold;
-        text-align: center;
-        width: 100%;
-        border-radius: 4px;
-        transform: rotateY(0deg);
-        position: absolute;
-        top: 0;
-        left: 0;
-        transition: all 0.4s ease;
     }
 
-    .checkbox label:after {
-        content: 'Societe';
-        background: #0E4377;
-        transform: rotateY(-180deg);
-        left: 0;
-        z-index: -1;
+    .button-label:hover {
+        background: #d6d6d6;
+        color: #101010;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
     }
 
-    .checkbox input[type=checkbox]:checked + label:before {
-        transform: rotateY(180deg);
+    .button-label:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
     }
 
-    .checkbox input[type=checkbox]:checked + label:after {
-        transform: rotateY(0deg);
-        z-index: 1;
-    }
-
-    @media only screen and (max-width: 767px) {
-        .checkbox {
-            margin: 0 0 20px;
+    @media (max-width: 40em) {
+        .button-label {
+            padding: 0em 1em 3px;
+            margin: 0.25em;
         }
     }
+
+    #societe:checked + .button-label {
+        background: #0e4377;
+        color: #efefef;
+    }
+
+    #societe:checked + .button-label:hover {
+        background: #0e4377;
+        color: #e2e2e2;
+    }
+
+    #personne:checked + .button-label {
+        background: #22baeb;
+        color: #efefef;
+    }
+
+    #personne:checked + .button-label:hover {
+        background: #22baeb;
+        color: #e2e2e2;
+    }
+
+
+    .hidden {
+        display: none;
+    }
+
 </style>
 
 <div class="container mt-5">
@@ -72,9 +76,18 @@
         <div class="col-lg-6 m-auto page-block page-block-sm page-block-margin-bottom offset-4">
 
             <div class="justify-content-center">
-                <div class="checkbox col-md-4 m-auto">
-                    <input type="checkbox" id="type" checked/>
-                    <label for="type" id="type_label" style="cursor: pointer;"></label>
+                <div class="checkbox col-md-12 m-auto">
+                    <div class="button-wrap text-center">
+                        <input class="hidden radio-label type" type="radio" name="type" id="societe" checked="checked"
+                               value="societe"/>
+                        <label class="button-label" for="societe">
+                            <h1>Société</h1>
+                        </label>
+                        <input class="hidden radio-label type" type="radio" name="type" id="personne" value="personne"/>
+                        <label class="button-label" for="personne">
+                            <h1>Personne</h1>
+                        </label>
+                    </div>
                 </div>
                 <div class="col-md-8 societe m-auto">
                     {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input", "autofocus":"on"}}) }}
@@ -381,7 +394,8 @@
                 $('#add-activite').remove()
             } else {
 
-                $('#modal_button').show();$('#footer-load').hide()
+                $('#modal_button').show();
+                $('#footer-load').hide()
 
                 $('#modal-body').append(`
                   <div class="alert alert-danger mt-2" role="alert" id="activite-error">
@@ -523,17 +537,17 @@
     typeShow()
 
     function checkType() {
-        $('#type').is(':checked') ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
+
+        let val = document.querySelector('input[name="type"]:checked').value;
+        val == "societe" ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
         typeShow();
-        $('#type').is(':checked') ? $('#interlocuteur_personne_nom').attr('autofocus', 'off') : $('#interlocuteur_personne_nom').focus();
-        $('#type').is(':checked') ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus', 'off');
+        val == "societe" ? $('#interlocuteur_personne_nom').attr('autofocus', 'off') : $('#interlocuteur_personne_nom').focus();
+        val == "societe" ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus', 'off');
     }
 
-    $('#type').change(function () {
+    $('.type').change(function () {
         checkType();
     })
 
-    $('#interlocuteur_type').change(function () {
-    })
 
 </script>
