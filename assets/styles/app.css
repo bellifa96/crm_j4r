@@ -7,7 +7,7 @@ body {
 }
 
 table{
-    color: #0E4377;
+    color: #0E4377 !important;
 }
 body a {
     text-decoration: none;
