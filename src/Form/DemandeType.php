@@ -175,6 +175,8 @@ class DemandeType extends AbstractType
                 'multiple' => false
             ])
 
+            ->add('dimensions')
+
             ->add('client', EntityType::class, [
                     'class' => Interlocuteur::class,
 

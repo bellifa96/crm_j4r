@@ -118,6 +118,9 @@ class Demande
     #[ORM\Column(type: 'string', length: 255)]
     private $gcPeripherique;
 
+    #[ORM\Column(type: 'array')]
+    private $dimensions = [];
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -431,6 +434,18 @@ class Demande
     public function setGcPeripherique(string $gcPeripherique): self
     {
         $this->gcPeripherique = $gcPeripherique;
+
+        return $this;
+    }
+
+    public function getDimensions(): ?array
+    {
+        return $this->dimensions;
+    }
+
+    public function setDimensions(array $dimensions): self
+    {
+        $this->dimensions = $dimensions;
 
         return $this;
     }
