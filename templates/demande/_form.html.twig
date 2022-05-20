@@ -30,6 +30,11 @@
         cursor: pointer
     }
 
+    h6 {
+        color: #0d4377;
+        text-align: center;
+    }
+
     .labels {
         font-size: 11px
     }
@@ -98,21 +103,211 @@
                     <h4 class="text-center">Échafaudage</h4>
                 </div>
                 <div class="row mt-2">
+
+                    <h6 class="text-center">Type de préstation</h6>
                     <div id="demande_typeDePrestation">
-                        <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]" required="required"
+                        <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]"
+                               required="required"
                                value="Estimation">
                         <label for="demande_typeDePrestation_0" class="required">Estimation</label>
 
-                        <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]" required="required"
+                        <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]"
+                               required="required"
                                value="Pre-etude">
                         <label for="demande_typeDePrestation_1" class="required">Pré-étude</label>
 
-                        <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]" required="required"
+                        <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]"
+                               required="required"
                                value="Execution">
                         <label for="demande_typeDePrestation_2" class="required">Exécution</label>
+                    </div>
+                    <div class="col-md-12">
 
-                        <input type="text" id="demande_typeDePrestation_autre" name="demande[typeDePrestation]" required="required">
-                        <label for="demande_typeDePrestation_autre" class="required">Autre</label>
+                        <h6>Documents souhaites</h6>
+                        <div id="demande_documentsSouhaites" class="row">
+                            <div class="col-md-auto">
+                                <input type="radio" id="demande_documentsSouhaites_0" name="demande[documentsSouhaites]"
+                                       checked
+                                       required="required" value="Plan">
+                                <label for="demande_documentsSouhaites_0" class="required">PLAN</label>
+                            </div>
+                            <div class="col-md-auto">
+                                <input type="radio" id="demande_documentsSouhaites_1" name="demande[documentsSouhaites]"
+                                       required="required" value="NDC">
+                                <label for="demande_documentsSouhaites_1" class="required">NDC</label>
+                            </div>
+                            <div class="col-md-auto">
+                                <input type="radio" id="demande_documentsSouhaites_2" name="demande[documentsSouhaites]"
+                                       required="required" value="Autre">
+                                <label for="demande_documentsSouhaites_2" class="required">Autre</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div>
+                            <h6>Fonds de plan</h6>
+                            <div id="demande_fondsDePlan">
+                                <input type="radio" id="demande_fondsDePlan_0" name="demande[fondsDePlan]"
+                                       required="required" value="1">
+                                <label for="demande_fondsDePlan_0" class="required">Oui</label>
+                                <input type="radio" id="demande_fondsDePlan_1" name="demande[fondsDePlan]"
+                                       required="required" value="0">
+                                <label for="demande_fondsDePlan_1" class="required">Non</label></div>
+                        </div>
+                    </div>
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+
+                    <div class="col-md-12">
+                        <h6>Travaux prevus</h6>
+                        <div id="demande_travauxPrevus">
+                            <input type="checkbox" id="demande_travauxPrevus_0" name="demande[travauxPrevus][]"
+                                   value="Peinture/Ravalement">
+                            <label for="demande_travauxPrevus_0">Peinture / Ravalement</label>
+
+                            <input type="checkbox" id="demande_travauxPrevus_1" name="demande[travauxPrevus][]"
+                                   value="Bardage/Isolation">
+                            <label for="demande_travauxPrevus_1">Bardage / Isolation</label>
+
+                            <input type="checkbox" id="demande_travauxPrevus_2" name="demande[travauxPrevus][]"
+                                   value="Maçonnerie/Pierre">
+                            <label for="demande_travauxPrevus_2">Maçonnerie / Pierre</label>
+
+                            <input type="checkbox" id="demande_travauxPrevus_3" name="demande[travauxPrevus][]"
+                                   value="Autre">
+                            <label for="demande_travauxPrevus_3">Autre</label>
+
+                        </div>
+                    </div>
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+
+                    <div class="col-md-12">
+                        <h6>Classe d echaffaudage</h6>
+                        <div id="demande_classeDEchaffaudage">
+                            <input type="radio" id="demande_classeDEchaffaudage_0" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 1">
+                            <label for="demande_classeDEchaffaudage_0" class="required">Classe 1 (75daN/m² sur 1,5
+                                niv.)</label>
+
+                            <input type="radio" id="demande_classeDEchaffaudage_1" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 2">
+                            <label for="demande_classeDEchaffaudage_1" class="required">Classe 2 (150daN/m² sur 1,5
+                                niv.)</label>
+
+                            <input type="radio" id="demande_classeDEchaffaudage_2" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 3">
+                            <label for="demande_classeDEchaffaudage_2" class="required">Classe 3 (200daN/m² sur 1,5
+                                niv.)</label>
+
+                            <input type="radio" id="demande_classeDEchaffaudage_3" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 4">
+                            <label for="demande_classeDEchaffaudage_3" class="required">Classe 4 (300daN/m² sur 1,5
+                                niv.)</label>
+
+                            <input type="radio" id="demande_classeDEchaffaudage_4" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 5">
+                            <label for="demande_classeDEchaffaudage_4" class="required">Classe 5 (450daN/m² sur 1,5
+                                niv.)</label>
+
+                            <input type="radio" id="demande_classeDEchaffaudage_5" name="demande[classeDEchaffaudage]"
+                                   required="required" value="Classe 6">
+                            <label for="demande_classeDEchaffaudage_5" class="required">Classe 6 (600daN/m² sur 1,5
+                                niv.)</label>
+                        </div>
+                    </div>
+
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                    <div class="col-md-12">
+                        <div>
+                            <h6>Type de materiel</h6>
+                            <div id="demande_typeDeMateriel">
+                                <input type="radio" id="demande_typeDeMateriel_0" name="demande[typeDeMateriel]"
+                                       required="required" value="Universel">
+                                <label for="demande_typeDeMateriel_0" class="required">Universel</label>
+
+                                <input type="radio" id="demande_typeDeMateriel_1" name="demande[typeDeMateriel]"
+                                       required="required" value="Eurofacadacier">
+                                <label for="demande_typeDeMateriel_1" class="required">Eurofacadacier</label>
+
+                                <input type="radio" id="demande_typeDeMateriel_2" name="demande[typeDeMateriel]"
+                                       required="required" value="Autre">
+                                <label for="demande_typeDeMateriel_2" class="required">Autre</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                    <div class="row">
+                        <h6>Dimensions globales</h6>
+
+
+                        <div class="col-md-6">
+                            <label for="demande_dimensionsGlobales" class="required">Longueur totale</label>
+                            <input type="text" id="demande_dimensionsGlobales_longueur_totale" class="form-control"
+                                   name="demande[dimensionsGlobales][longueurTotale]" required="required">
+                        </div>
+                        <div class="col-md-6">
+
+                            <label for="demande_dimensionsGlobales" class="required">Largeur Totale</label>
+                            <input type="text" id="demande_dimensionsGlobales_largeur_totale" class="form-control"
+                                   name="demande[dimensionsGlobales][largeurTotale]" required="required">
+                        </div>
+                    </div>
+
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                    <div class="col-md-12">
+                        <h6>Ammarages</h6>
+                        <div id="demande_ammarages">
+                            <input type="radio" id="demande_ammarages_0" name="demande[ammarages]" required="required"
+                                   value="Ancrages simples">
+                            <label for="demande_ammarages_0" class="required">Ancrages simples</label>
+
+                            <input type="radio" id="demande_ammarages_1" name="demande[ammarages]" required="required"
+                                   value="Cravatages">
+                            <label for="demande_ammarages_1" class="required">Cravatages</label>
+
+                            <input type="radio" id="demande_ammarages_2" name="demande[ammarages]" required="required"
+                                   value="Verinage">
+                            <label for="demande_ammarages_2" class="required">Vérinage</label>
+
+                            <input type="radio" id="demande_ammarages_3" name="demande[ammarages]" required="required"
+                                   value="Autre">
+                            <label for="demande_ammarages_3" class="required">Autre</label>
+                        </div>
+                    </div>
+
+                    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                    <div class="col-md-12">
+                        <h6>Largeur de travail</h6>
+                        <div id="demande_largeurDeTravail">
+                            <input type="radio" id="demande_largeurDeTravail_0" name="demande[largeurDeTravail]" required="required" value="0.7">
+                            <label for="demande_largeurDeTravail_0" class="required">0,7 m</label>
+                            <input type="radio" id="demande_largeurDeTravail_1" name="demande[largeurDeTravail]" required="required" value="1">
+                            <label for="demande_largeurDeTravail_1" class="required">1 m</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                <div class="col-md-12">
+                    <h6>Consoles</h6>
+                    <div id="demande_consoles">
+                        <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required" value="0.4">
+                        <label for="demande_consoles_0" class="required">0,4 m</label>
+                        <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required" value="0.7">
+                        <label for="demande_consoles_1" class="required">0,7 m</label>
+                    </div>
+                </div>
+
+                <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+                <div class="col-md-12">
+                    <h6>Largeur</h6>
+                    <div id="demande_consoles">
+                        <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required" value="0.4">
+                        <label for="demande_consoles_0" class="required">0,4 m</label>
+                        <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required" value="0.7">
+                        <label for="demande_consoles_1" class="required">0,7 m</label>
                     </div>
                 </div>
 
@@ -135,9 +330,70 @@
             </div>
         </div>
     </div>
-</div>
 
 
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
 
+
+    <script>
+        let documentsSouhaites = $("input[name='demande[documentsSouhaites]']");
+
+        documentsSouhaites.change(function () {
+            if ($("input[name='demande[documentsSouhaites]']:checked").val() === "NDC" || $("input[name='demande[documentsSouhaites]']:checked").val() === "Plan") {
+                $('#demande_documentsSouhaites_2_autre').parent().remove();
+            } else if ($('#demande_documentsSouhaites_2_autre').length === 0) {
+                let div = `<div class="col-md-6 row">
+                                <input type="text" id="demande_documentsSouhaites_2_autre"
+                                       name="demande[documentsSouhaites]"
+                                       class="form-control">
+                       </div>`;
+                $('#demande_documentsSouhaites').append(div);
+            }
+        })
+
+
+        $("input[name='demande[travauxPrevus][]']").change(function () {
+            let arr = [];
+            $.each($("input[name='demande[travauxPrevus][]']:checked"), function () {
+                arr.push($(this).val());
+            });
+            if (arr.includes("Autre") && $('#demande_travauxPrevus_autre').length === 0) {
+                let div = `     <div class="col-md-6">
+                                <input type="text" id="demande_travauxPrevus_autre" name="demande[travauxPrevus][]" class="form-control">
+                            </div>`;
+                $('#demande_travauxPrevus').append(div);
+
+            } else {
+                $('#demande_travauxPrevus_autre').parent().remove();
+
+            }
+        })
+
+
+        $("input[name='demande[typeDeMateriel]']").change(function () {
+            if ($("input[name='demande[typeDeMateriel]']:checked").val() === "Universel" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Eurofacadacier"
+                || $("input[name='demande[typeDeMateriel]']:checked").val() === "Couvralu" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Couvralu XL"
+                || $("input[name='demande[typeDeMateriel]']:checked").val() === "Fixe" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Roulant"
+            ) {
+                $('#demande_typeDeMateriel_autre').remove();
+            } else if ($('#demande_typeDeMateriel_autre').length === 0) {
+                let div = `<input type="text" id="demande_typeDeMateriel_autre" name="demande[typeDeMateriel]" required="required" class="form-control">`;
+                $('#demande_typeDeMateriel').append(div);
+            }
+        });
+
+        $("input[name='demande[ammarages]']").change(function () {
+            if ($("input[name='demande[ammarages]']:checked").val() === "Ancrages simples" || $("input[name='demande[ammarages]']:checked").val() === "Butonnages"
+                || $("input[name='demande[ammarages]']:checked").val() === "Cravatages" || $("input[name='demande[ammarages]']:checked").val() === "Verinage"
+
+            ) {
+                $('#demande_ammarages_autre').remove();
+            } else if ($('#demande_ammarages_autre').length === 0) {
+                let div = `<input type="text" id="demande_ammarages_autre" name="demande[ammarages]" required="required"   class="form-control">`;
+                $('#demande_ammarages').append(div);
+            }
+        });
+
+
+    </script>

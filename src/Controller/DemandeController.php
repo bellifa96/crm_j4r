@@ -33,7 +33,8 @@ class DemandeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dd($request);
+
+            dd($request->request,$form->getData());
             $demandeRepository->add($demande);
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -59,10 +60,13 @@ class DemandeController extends AbstractController
     #[Route('/{id}/edit', name: 'app_demande_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
+
         $form = $this->createForm(DemandeType::class, $demande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($request->request,$form->getData());
+
             $demandeRepository->add($demande);
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
         }

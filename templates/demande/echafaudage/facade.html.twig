@@ -1,16 +1,106 @@
-<div id="demande_typeDePrestation">
-    <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]" required="required"
-           value="Estimation">
-    <label for="demande_typeDePrestation_0" class="required">Estimation</label>
 
-    <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]" required="required"
-           value="Pre-etude">
-    <label for="demande_typeDePrestation_1" class="required">Pré-étude</label>
 
-    <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]" required="required"
-           value="Execution">
-    <label for="demande_typeDePrestation_2" class="required">Exécution</label>
 
-    <input type="text" id="demande_typeDePrestation_autre" name="demande[typeDePrestation]" required="required">
-    <label for="demande_typeDePrestation_autre" class="required">Autre</label>
-</div>
+
+    <div><label class="required">Type de materiel</label>
+        <div id="demande_typeDeMateriel">
+
+            <input type="radio" id="demande_typeDeMateriel_2" name="demande[typeDeMateriel]" required="required" value="Couvralu">
+            <label for="demande_typeDeMateriel_2"class="required">Couvralu</label>
+
+            <input type="radio" id="demande_typeDeMateriel_3" name="demande[typeDeMateriel]" required="required" value="Couvralu XL">
+            <label for="demande_typeDeMateriel_3" class="required">Couvralu XL</label>
+
+            <input type="radio" id="demande_typeDeMateriel_4" name="demande[typeDeMateriel]" required="required" value="Fixe">
+            <label for="demande_typeDeMateriel_4" class="required">Fixe</label>
+
+            <input type="radio" id="demande_typeDeMateriel_5" name="demande[typeDeMateriel]" required="required" value="Roulant">
+            <label for="demande_typeDeMateriel_5" class="required">Roulant</label>
+
+        </div>
+    </div>
+
+    <div><label class="required">Ammarages</label>
+        <div id="demande_ammarages">
+
+            <input type="radio" id="demande_ammarages_3" name="demande[ammarages]" required="required" value="Butonnages">
+            <label for="demande_ammarages_3" class="required">Butonnages</label></div>
+    </div>
+
+
+    <div><label class="required">Equipements</label>
+        <div id="demande_equipements"><input type="radio" id="demande_equipements_0" name="demande[equipements]"
+                                             required="required" value="GC MDS"><label for="demande_equipements_0"
+                                                                                       class="required">GC
+                MDS</label><input type="radio" id="demande_equipements_1" name="demande[equipements]"
+                                  required="required" value="Pare gravois"><label for="demande_equipements_1"
+                                                                                  class="required">Pare
+                gravois</label><input type="radio" id="demande_equipements_2" name="demande[equipements]"
+                                      required="required" value="GC avant"><label for="demande_equipements_2"
+                                                                                  class="required">GC
+                avant</label><input type="radio" id="demande_equipements_3" name="demande[equipements]"
+                                    required="required" value="Passage piéton"><label for="demande_equipements_3"
+                                                                                      class="required">Passage
+                piéton</label><input type="radio" id="demande_equipements_4" name="demande[equipements]"
+                                     required="required" value="Protection couvreur"><label for="demande_equipements_4"
+                                                                                            class="required">Protection
+                couvreur</label></div>
+    </div>
+    <div><label class="required">Acces</label>
+        <div id="demande_acces"><input type="radio" id="demande_acces_0" name="demande[acces]" required="required"
+                                       value="Planche à trappe"><label for="demande_acces_0" class="required">Planche à
+                trappe</label><input type="radio" id="demande_acces_1" name="demande[acces]" required="required"
+                                     value="Volée alu à palier incorporé"><label for="demande_acces_1" class="required">Vollée
+                alu à palier incorporé</label></div>
+    </div>
+    <div><label for="demande_porteeLibre" class="required">Portee libre</label><input type="text"
+                                                                                      id="demande_porteeLibre"
+                                                                                      name="demande[porteeLibre]"
+                                                                                      required="required"></div>
+    <div><label for="demande_longueur" class="required">Longueur</label><input type="text" id="demande_longueur"
+                                                                               name="demande[longueur]"
+                                                                               required="required"></div>
+    <div><label class="required">Traitement des pignons</label>
+        <div id="demande_traitementDesPignons"><input type="radio" id="demande_traitementDesPignons_0"
+                                                      name="demande[traitementDesPignons]" required="required"
+                                                      value="Structure en échafaudage"><label
+                    for="demande_traitementDesPignons_0" class="required">Structure en échafaudage</label><input
+                    type="radio" id="demande_traitementDesPignons_1" name="demande[traitementDesPignons]"
+                    required="required" value="Autre système hors fourniture (hors étude)"><label
+                    for="demande_traitementDesPignons_1" class="required">Autre système hors fourniture (hors
+                étude)</label></div>
+    </div>
+    <div><label class="required">Finition plancher</label>
+        <div id="demande_finitionPlancher"><input type="radio" id="demande_finitionPlancher_0"
+                                                  name="demande[finitionPlancher]" required="required"
+                                                  value="Plancher aciers"><label for="demande_finitionPlancher_0"
+                                                                                 class="required">Planchers
+                acier</label><input type="radio" id="demande_finitionPlancher_1" name="demande[finitionPlancher]"
+                                    required="required" value="Plancher combi"><label for="demande_finitionPlancher_1"
+                                                                                      class="required">Planchers
+                combi</label><input type="radio" id="demande_finitionPlancher_2" name="demande[finitionPlancher]"
+                                    required="required" value="Planchers scènes"><label for="demande_finitionPlancher_2"
+                                                                                        class="required">Planchers
+                scènes</label></div>
+    </div>
+    <div><label class="required">Gc peripherique</label>
+        <div id="demande_gcPeripherique"><input type="radio" id="demande_gcPeripherique_0"
+                                                name="demande[gcPeripherique]" required="required" value="Moises"><label
+                    for="demande_gcPeripherique_0" class="required">Moises</label><input type="radio"
+                                                                                         id="demande_gcPeripherique_1"
+                                                                                         name="demande[gcPeripherique]"
+                                                                                         required="required"
+                                                                                         value="GC public grillagé"><label
+                    for="demande_gcPeripherique_1" class="required">GC public grillagé</label><input type="radio"
+                                                                                                     id="demande_gcPeripherique_2"
+                                                                                                     name="demande[gcPeripherique]"
+                                                                                                     required="required"
+                                                                                                     value="GC public barraudé"><label
+                    for="demande_gcPeripherique_2" class="required">GC public barraudé</label></div>
+    </div>
+    <div><label class="required">Dimensions</label>
+        <div id="demande_dimensions"></div>
+    </div>
+    <input type="hidden" id="demande__token" name="demande[_token]"
+           value="cbe8d112.J0QMY0gWjDqAPsVmzb33DdsuTRjoufHnJdnyyl6K4BY.QgVHCSNw_UPLZ4sEq_HBdbxedEGxyaa9COqKpT_tll54dzwpGiXYarZxnA">
+</form>

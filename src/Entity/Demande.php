@@ -13,10 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
 #[Gedmo\Loggable]
-
 class Demande
 {
     use AdresseTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -120,6 +120,9 @@ class Demande
 
     #[ORM\Column(type: 'string', length: 255)]
     private $typeEchafaudage;
+
+    #[ORM\Column(type: 'array')]
+    private $dimensions = [];
 
     public function __construct()
     {
@@ -446,7 +449,17 @@ class Demande
     public function setTypeEchafaudage(string $typeEchafaudage): self
     {
         $this->typeEchafaudage = $typeEchafaudage;
+        return $this;
+    }
 
+    public function getDimensions(): ?array
+    {
+        return $this->dimensions;
+    }
+
+    public function setDimensions(array $dimensions): self
+    {
+        $this->dimensions = $dimensions;
         return $this;
     }
 }
