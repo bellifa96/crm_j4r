@@ -68,7 +68,7 @@
                     <div class="col-md-12"><label class="labels">Intermediaire</label>
                         {{ form_widget(form.intermediaire,{"attr":{"class":"form-control"}}) }}
                     </div>
-                    <div class="col-md-12"><label class="labels">Nom du chantier</label>
+                    <div class="col-md-12"><label class="labels required">Nom du chantier</label>
                         {{ form_widget(form.nomChantier,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Nom du chantier"}}) }}
                     </div>
                     <div class="col-md-12"><label class="labels">Date</label>
@@ -106,9 +106,6 @@
         </div>
         <div class="col-md-4">
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience">
-                    <span class="border px-3 p-1 add-service"><i class="fa fa-plus"></i>  Ajouter un Service</span>
-                </div>
 
                 <div class="col-md-12"><label class="labels">Commentaire</label>
                     {{ form_widget(form.commentaire,{"attr":{"class":"form-control","placeholder":"Commentaire"}}) }}
@@ -119,8 +116,6 @@
         </div>
     </div>
 
-
-    <button class="btn">{{ button_label|default('Save') }}</button>
 </div>
 
 {{ form_end(form) }}
@@ -152,11 +147,12 @@
     })
 
 
-    $(document).on("change", "input[name='demande[travauxPrevus]']", function () {
+    $(document).on("change", "input[name='demande[travauxPrevus][]']", function () {
         let arr = [];
         $.each($("input[name='demande[travauxPrevus][]']:checked"), function () {
             arr.push($(this).val());
         });
+        console.log(arr)
         if (arr.includes("Autre") && $('#demande_travauxPrevus_autre').length === 0) {
             let div = `     <div class="col-md-6">
                                 <input type="text" id="demande_travauxPrevus_autre" name="demande[travauxPrevus][]" class="form-control">
@@ -165,7 +161,6 @@
 
         } else {
             $('#demande_travauxPrevus_autre').parent().remove();
-
         }
     })
 

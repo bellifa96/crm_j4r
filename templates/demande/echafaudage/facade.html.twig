@@ -4,16 +4,16 @@
     <div id="demande_typeDePrestation">
         <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]"
                required="required"
-               value="Estimation">
+               value="Estimation" class="required">
         <label for="demande_typeDePrestation_0" class="required">Estimation</label>
 
         <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]"
-               required="required"
+               required="required" class="required"
                value="Pre-etude">
         <label for="demande_typeDePrestation_1" class="required">Pré-étude</label>
 
         <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]"
-               required="required"
+               required="required" class="required"
                value="Execution">
         <label for="demande_typeDePrestation_2" class="required">Exécution</label>
     </div>
@@ -138,13 +138,13 @@
 
 
         <div class="col-md-6">
-            <label for="demande_dimensionsGlobales" class="required">Longueur totale</label>
+            <label for="demande_dimensionsGlobales_longueur_totale" class="required">Longueur totale</label>
             <input type="text" id="demande_dimensionsGlobales_longueur_totale" class="form-control"
                    name="demande[dimensionsGlobales][longueurTotale]" required="required">
         </div>
         <div class="col-md-6">
 
-            <label for="demande_dimensionsGlobales" class="required">Largeur Totale</label>
+            <label for="demande_dimensionsGlobales_largeur_totale" class="required">Largeur Totale</label>
             <input type="text" id="demande_dimensionsGlobales_largeur_totale" class="form-control"
                    name="demande[dimensionsGlobales][largeurTotale]" required="required">
         </div>
@@ -299,11 +299,42 @@
             <label for="demande_acces_1" class="required">Vollée alu à palier incorporé</label>
         </div>
     </div>
-</div>
 
 
-<div class="mt-5 text-center">
-    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
-</div>
+    <div>
+        <h6>Bâche et filet</h6>
+        <div id="demande_bache_et_filet" class="row">
+            <div class="col-md-6">
+                <label for="demande_bache_et_filet_0" class="required">Bâche</label>
+                <input type="text" id="demande_bache_et_filet_0" name="demande[bacheEtFilet][bache]" required="required"
+                       class="form-control" placeholder=".....g/m²">
+
+                <div class="col-md-12">
+                    <input type="radio" id="demande_bache_0" name="demande[bache]" required="required"
+                           value="Directement sur l'échafaudage">
+                    <label for="demande_bache_0" class="required">Directement sur l'échafaudage</label>
+
+                </div>
+                <div class="col-md-12">
+
+                    <input type="radio" id="demande_bache_1" name="demande[bache]" required="required"
+                           value="Sur cadre">
+                    <label for="demande_bache_1" class="required">Sur cadre</label>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <label for="demande_bache_et_filet_1" class="required">Filet</label>
+                <input type="text" id="demande_bache_et_filet_1" name="demande[bacheEtFilet][filet]" required="required"
+                       class="form-control" placeholder=".....g/m²">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-5 text-center">
+        <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+    </div>
 
 </div>
