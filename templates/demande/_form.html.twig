@@ -1,5 +1,143 @@
+<style>
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #1ab2e4
+    }
+
+    .profile-button {
+        background: #1ab2e4;
+        box-shadow: none;
+        border: none
+    }
+
+    .profile-button:hover {
+        background: #1ab2e4
+    }
+
+    .profile-button:focus {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #1ab2e4;
+        cursor: pointer
+    }
+
+    .labels {
+        font-size: 11px
+    }
+
+    .add-service {
+        color: black;
+    }
+
+    .add-service:hover {
+        background: #BA68C8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #BA68C8
+    }
+</style>
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-end">
+            <div class="p-3 py-5">
+                <div class="text-dark mb-3">
+                    <h4 class="text-center">Fiche 1 </h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12"><label class="labels">Client</label>
+                        {{ form_widget(form.client,{"attr":{"class":"form-control","autofocus":"on"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Intermediaire</label>
+                        {{ form_widget(form.intermediaire,{"attr":{"class":"form-control"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Nom du chantier</label>
+                        {{ form_widget(form.nomChantier,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Nom du chantier"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Date</label>
+                        {{ form_widget(form.date,{"attr":{"class":"form-control datepicker","placeholder":"Date"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Type d'échafaudage</label>
+                        {{ form_widget(form.typeEchafaudage,{"attr":{"class":"form-control","placeholder":"Type d'échafaudage"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Adresse 1</label>
+                        {{ form_widget(form.adresse1,{"attr":{"class":"form-control","placeholder":"Adresse postale"}}) }}
+
+                    </div>
+                    <div class="col-md-12"><label class="labels">Complément d'adresse</label>
+                        {{ form_widget(form.adresse2,{"attr":{"class":"form-control","placeholder":"Complément d'adresse"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Code postal</label>
+                        {{ form_widget(form.codePostal,{"attr":{"class":"form-control","placeholder":"Code postal"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Ville</label>
+                        {{ form_widget(form.ville,{"attr":{"class":"form-control","placeholder":"Ville"}}) }}
+                    </div>
+                    <div class="col-md-12"><label class="labels">Pays</label>
+                        {{ form_widget(form.pays,{"attr":{"class":"form-control","placeholder":"Pays"}}) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-5 border-end">
+            <div class="p-3 py-5">
+                <div class="text-dark mb-3">
+                    <h4 class="text-center">Échafaudage</h4>
+                </div>
+                <div class="row mt-2">
+                    <div id="demande_typeDePrestation">
+                        <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]" required="required"
+                               value="Estimation">
+                        <label for="demande_typeDePrestation_0" class="required">Estimation</label>
+
+                        <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]" required="required"
+                               value="Pre-etude">
+                        <label for="demande_typeDePrestation_1" class="required">Pré-étude</label>
+
+                        <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]" required="required"
+                               value="Execution">
+                        <label for="demande_typeDePrestation_2" class="required">Exécution</label>
+
+                        <input type="text" id="demande_typeDePrestation_autre" name="demande[typeDePrestation]" required="required">
+                        <label for="demande_typeDePrestation_autre" class="required">Autre</label>
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience">
+                    <span class="border px-3 p-1 add-service"><i class="fa fa-plus"></i>  Ajouter un Service</span>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Commentaire</label>
+                    {{ form_widget(form.commentaire,{"attr":{"class":"form-control","placeholder":"Commentaire"}}) }}
+                </div>
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 

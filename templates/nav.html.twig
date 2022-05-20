@@ -86,11 +86,18 @@
                 Devis
                 <ul>
                     <li class="sidebar-item">
-                        <a href="{{ path('app_affaire_devis_index') }}" class="sidebar-link">
+                        <a href="{{ path('app_affaire_devis_index') }}" class="sidebar-link  {{ app.request.get('_route') == 'app_affaire_devis_index' ? 'active' }} ">
                             <i class="bi bi-list-ul"></i>
                             <span> Liste </span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="{{ path('app_demande_index') }}" class="sidebar-link  {{ app.request.get('_route') == 'app_demande_index' ? 'active' }} ">
+                            <i class="bi bi-list-ul"></i>
+                            <span> Demandes </span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-stack"></i>

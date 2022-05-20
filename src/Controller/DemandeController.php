@@ -32,6 +32,8 @@ class DemandeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            dd($request);
             $demandeRepository->add($demande);
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
         }

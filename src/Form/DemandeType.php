@@ -25,6 +25,16 @@ class DemandeType extends AbstractType
             ->add('ville')
             ->add('codePostal')
             ->add('pays')
+            ->add('typeEchafaudage',ChoiceType::class, [
+                'choices' => [
+                    'Façade' => 'Façade',
+                    'Parapluie' => 'Parapluie',
+                    'Plateforme' => 'Plateforme',
+                    'Echafaudage Particulier' => 'Echafaudage Particulier'
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('typeDePrestation',ChoiceType::class, [
                 'choices' => [
                     'Estimation' => 'Estimation',
@@ -185,6 +195,7 @@ class DemandeType extends AbstractType
             )
             ->add('intermediaire', EntityType::class, [
                     'class' => Interlocuteur::class,
+                    'required'=> false,
                     'choice_label' => function ($interlocuteur) {
                         return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
                     }

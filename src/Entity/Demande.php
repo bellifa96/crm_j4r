@@ -118,6 +118,9 @@ class Demande
     #[ORM\Column(type: 'string', length: 255)]
     private $gcPeripherique;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $typeEchafaudage;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -431,6 +434,18 @@ class Demande
     public function setGcPeripherique(string $gcPeripherique): self
     {
         $this->gcPeripherique = $gcPeripherique;
+
+        return $this;
+    }
+
+    public function getTypeEchafaudage(): ?string
+    {
+        return $this->typeEchafaudage;
+    }
+
+    public function setTypeEchafaudage(string $typeEchafaudage): self
+    {
+        $this->typeEchafaudage = $typeEchafaudage;
 
         return $this;
     }
