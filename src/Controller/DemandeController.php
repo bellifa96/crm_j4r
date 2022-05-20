@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[Route('/demande')]
 class DemandeController extends AbstractController
@@ -56,6 +60,35 @@ class DemandeController extends AbstractController
             'nav'=> [['app_affaire_devis_new','Transformer en devis',$demande->getId()]]
         ]);
     }
+
+    #[Route('/form/template', name: 'app_demande_form', methods: ['GET','POST'])]
+    public function getForm(Request $request,Environment $environment): Response
+    {
+
+        $response = new Response();
+
+        if($request->request->get('data') == "Façade"){
+            $path = "demande/echafaudage/facade.html.twig";
+        }
+
+        if(!empty($path)) {
+
+            try {
+                $html = $environment->render($path);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        }
+
+
+        return $response;
+    }
+
 
     #[Route('/{id}/edit', name: 'app_demande_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
