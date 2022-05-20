@@ -185,22 +185,6 @@
         </div>
     </div>
 
-
-    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
-    <div class="col-md-12">
-        <h6>Consoles</h6>
-        <div id="demande_consoles">
-            <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required" value="0.4">
-            <label for="demande_consoles_0" class="required">0,4 m</label>
-
-            <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required" value="0.7">
-            <label for="demande_consoles_1" class="required">0,7 m</label>
-
-            <input type="radio" id="demande_consoles_2" name="demande[consoles]" required="required" value="Autre">
-            <label for="demande_consoles_2" class="required">Autre</label>
-        </div>
-    </div>
-
     <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
     <div class="col-md-12">
         <h6>Largeur de travail</h6>
@@ -218,8 +202,108 @@
         </div>
     </div>
 
-    <div class="mt-5 text-center">
-        <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+
+    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+    <div class="col-md-12">
+        <h6>Consoles</h6>
+        <div id="demande_consoles">
+            <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required" value="0.4">
+            <label for="demande_consoles_0" class="required">0,4 m</label>
+
+            <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required" value="0.7">
+            <label for="demande_consoles_1" class="required">0,7 m</label>
+
+            <input type="radio" id="demande_consoles_2" name="demande[consoles]" required="required" value="Autre">
+            <label for="demande_consoles_2" class="required">Autre</label>
+        </div>
     </div>
+
+
+    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+    <div class="col-md-12">
+        <h6>Distance à la façade</h6>
+        <div id="demande_distance_a_la_facade">
+            <input type="radio" id="demande_distance_a_la_facade_0" name="demande[distanceALaFacade]"
+                   required="required" value="0.2">
+            <label for="demande_distance_a_la_facade_0" class="required">0,2 m</label>
+
+            <input type="radio" id="demande_distance_a_la_facade_1" name="demande[distanceALaFacade]"
+                   required="required" value="Autre">
+            <label for="demande_distance_a_la_facade_1" class="required">Autre</label>
+        </div>
+    </div>
+
+    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+    <div class="col-md-12">
+        <h6>Hauteur des planchers</h6>
+        <div class="row" id="demande_hauteur_des_planchers">
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_0" class="required ">Sous la corniche</label>
+                <input type="text" id="demande_hauteur_des_planchers_0" class="form-control"
+                       name="demande[hauteurDesPlanchers][MSousLaCorniche]" required="required"
+                       placeholder="m sous la corniche">
+            </div>
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_1" class="required">Au dessus du sol</label>
+                <input type="text" id="demande_hauteur_des_planchers_1" class="form-control"
+                       name="demande[hauteurDesPlanchers]|[MAuDessusDuSol]" required="required"
+                       placeholder="m au dessus du sol">
+            </div>
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_2" class="required">Autre</label>
+                <input type="text" id="demande_hauteur_des_planchers_2" class="form-control"
+                       name="demande[hauteurDesPlanchers]|[Autre]" required="required"
+                       placeholder="Autre">
+            </div>
+        </div>
+    </div>
+
+    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+
+    <div>
+        <h6>Equipements</h6>
+        <div id="demande_equipements">
+            <input type="radio" id="demande_equipements_0" name="demande[equipements]" required="required"
+                   value="GC MDS">
+            <label for="demande_equipements_0" class="required">GC MDS</label>
+
+            <input type="radio" id="demande_equipements_1" name="demande[equipements]" required="required"
+                   value="Pare gravois">
+            <label for="demande_equipements_1" class="required">Pare gravois</label>
+
+            <input type="radio" id="demande_equipements_2" name="demande[equipements]" required="required"
+                   value="GC avant">
+            <label for="demande_equipements_2" class="required">GC avant</label>
+
+            <input type="radio" id="demande_equipements_3" name="demande[equipements]" required="required"
+                   value="Passage piéton">
+            <label for="demande_equipements_3" class="required">Passage piéton</label>
+
+            <input type="radio" id="demande_equipements_4" name="demande[equipements]" required="required"
+                   value="Protection couvreur">
+            <label for="demande_equipements_4" class="required">Protection couvreur</label>
+        </div>
+    </div>
+    <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
+
+    <div>
+        <h6>Acces</h6>
+        <div id="demande_acces">
+            <input type="radio" id="demande_acces_0" name="demande[acces]" required="required" value="Planche à trappe">
+            <label for="demande_acces_0" class="required">Planche à trappe</label>
+
+            <input type="radio" id="demande_acces_1" name="demande[acces]" required="required"
+                   value="Volée alu à palier incorporé">
+            <label for="demande_acces_1" class="required">Vollée alu à palier incorporé</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="mt-5 text-center">
+    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+</div>
 
 </div>

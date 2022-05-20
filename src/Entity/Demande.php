@@ -124,6 +124,29 @@ class Demande
     #[ORM\Column(type: 'array')]
     private $dimensions = [];
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $distanceALaFacade;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $rapportDistanceALaFacade;
+
+
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $bache;
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $hauteurDesPlanchers = [];
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $largeurPassagePieton;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $protectionCouvreur;
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $bacheEtFilet = [];
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -460,6 +483,91 @@ class Demande
     public function setDimensions(array $dimensions): self
     {
         $this->dimensions = $dimensions;
+        return $this;
+    }
+
+    public function getDistanceALaFacade(): ?string
+    {
+        return $this->distanceALaFacade;
+    }
+
+    public function setDistanceALaFacade(?string $distanceALaFacade): self
+    {
+        $this->distanceALaFacade = $distanceALaFacade;
+
+        return $this;
+    }
+
+    public function getRapportDistanceALaFacade(): ?string
+    {
+        return $this->rapportDistanceALaFacade;
+    }
+
+    public function setRapportDistanceALaFacade(?string $rapportDistanceALaFacade): self
+    {
+        $this->rapportDistanceALaFacade = $rapportDistanceALaFacade;
+
+        return $this;
+    }
+
+
+    public function getBache(): ?string
+    {
+        return $this->bache;
+    }
+
+    public function setBache(?string $bache): self
+    {
+        $this->bache = $bache;
+
+        return $this;
+    }
+
+    public function getHauteurDesPlanchers(): ?array
+    {
+        return $this->hauteurDesPlanchers;
+    }
+
+    public function setHauteurDesPlanchers(?array $hauteurDesPlanchers): self
+    {
+        $this->hauteurDesPlanchers = $hauteurDesPlanchers;
+
+        return $this;
+    }
+
+    public function getLargeurPassagePieton(): ?string
+    {
+        return $this->largeurPassagePieton;
+    }
+
+    public function setLargeurPassagePieton(?string $largeurPassagePieton): self
+    {
+        $this->largeurPassagePieton = $largeurPassagePieton;
+
+        return $this;
+    }
+
+    public function getProtectionCouvreur(): ?string
+    {
+        return $this->protectionCouvreur;
+    }
+
+    public function setProtectionCouvreur(?string $protectionCouvreur): self
+    {
+        $this->protectionCouvreur = $protectionCouvreur;
+
+        return $this;
+    }
+
+    public function getBacheEtFilet(): ?array
+    {
+        return $this->bacheEtFilet;
+    }
+
+    public function setBacheEtFilet(?array $bacheEtFilet): self
+    {
+        $this->bacheEtFilet = $bacheEtFilet;
+
         return $this;
     }
 }
