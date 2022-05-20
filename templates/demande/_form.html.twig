@@ -302,12 +302,15 @@
 
                 <hr style="color: #0d4377; padding: 2px 0; margin: 10px 0;">
                 <div class="col-md-12">
-                    <h6>Largeur</h6>
+                    <h6>Largeur de travail</h6>
                     <div id="demande_consoles">
-                        <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required" value="0.4">
-                        <label for="demande_consoles_0" class="required">0,4 m</label>
-                        <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required" value="0.7">
-                        <label for="demande_consoles_1" class="required">0,7 m</label>
+                        <input type="radio" id="demande_largeur_de_travail_0" name="demande[largeurDeTravail]" required="required" value="0.4">
+                        <label for="demande_largeur_de_travail_0" class="required">0,7 m</label>
+                        <input type="radio" id="demande_largeur_de_travail_1" name="demande[largeurDeTravail]" required="required" value="1">
+                        <label for="demande_largeur_de_travail_1" class="required">1 m</label>
+
+                        <input type="radio" id="demande_largeur_de_travail_2" name="demande[largeurDeTravail]" required="required" value="Autre">
+                        <label for="demande_largeur_de_travail_2" class="required">Autre</label>
                     </div>
                 </div>
 
@@ -395,5 +398,19 @@
             }
         });
 
+        $("input[name='demande[largeurDeTravail]']").change(function () {
+            if ($("input[name='demande[largeurDeTravail]']:checked").val() === "Ancrages simples" || $("input[name='demande[largeurDeTravail]']:checked").val() === "Butonnages"
+                || $("input[name='demande[largeurDeTravail]']:checked").val() === "Cravatages" || $("input[name='demande[largeurDeTravail]']:checked").val() === "Verinage"
+
+            ) {
+                $('#demande_ammarages_autre').remove();
+            } else if ($('#demande_ammarages_autre').length === 0) {
+                let div = `<input type="text" id="demande_ammarages_autre" name="demande[largeurDeTravail]" required="required"   class="form-control">`;
+                $('#demande_ammarages').append(div);
+            }
+        });
+
+
+        largeurDeTravail
 
     </script>

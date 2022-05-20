@@ -27,6 +27,7 @@ class CreateAdminCommand extends Command
 
     public function __construct(UserPasswordHasherInterface $passwordHasher,EntityManagerInterface $entityManager)
     {
+        parent::__construct();
         $this->em = $entityManager;
         $this->passwordHasher = $passwordHasher;
     }
