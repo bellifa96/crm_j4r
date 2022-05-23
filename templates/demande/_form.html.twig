@@ -1,5 +1,9 @@
 <style>
 
+    .col-md-2-5{
+        flex: 0 0 auto;
+        width: 20%;
+    }
     .form-control:focus {
         box-shadow: none;
         border-color: #1ab2e4
@@ -233,7 +237,7 @@
         </div>
         <div class="col-md-9 row ">
             {% for child in form.typeEchafaudage %}
-                <div class="col-md-3 required">
+                <div class="col-md-2-5 required">
                     <input type="radio" id="{{ child.vars.id }}"
                            name="{{ form.vars.id ~ '[' ~ form.typeEchafaudage.vars.name ~ ']' }}" required="required"
                            class="te"
