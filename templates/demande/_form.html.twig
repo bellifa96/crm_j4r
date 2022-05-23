@@ -95,13 +95,12 @@
     .te:checked + .te-label {
         background: #2bb3e5;
         color: white;
-        box-shadow: 0px 0px 20px #2bb3e5;
+        box-shadow: 0 0 10px #2bb3e5;
     }
 
     .te:checked + .te-label::after {
         color: #3d3f43;
         border: 2px solid #2bb3e5;
-        color: #2bb3e5;
         content: "✔";
         font-size: 24px;
         position: absolute;
@@ -228,10 +227,14 @@
 
 
     <div class="demande_typeEchafaudage">
-        <label class="control-label required">Type d'échafaudage</label>
         <div class="row justify-content-center">
+
+            <div class="col-md-2">
+                <label class="labels" style="position: relative;top: 50%;">Type d'échafaudage</label>
+            </div>
+
             {% for child in form.typeEchafaudage %}
-                <div class="col-md-2">
+                <div class="col-md-2 required">
                     <input type="radio" id="{{ child.vars.id }}"
                            name="{{ form.vars.id ~ '[' ~ form.typeEchafaudage.vars.name ~ ']' }}" required="required"
                            class="te"
