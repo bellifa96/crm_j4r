@@ -49,6 +49,77 @@
         cursor: pointer;
         border: solid 1px #BA68C8
     }
+
+
+    section {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    section > div {
+        flex: 1;
+        padding: 0.5rem;
+    }
+
+    .te {
+        display: none;
+    }
+
+    .te:not(:disabled) ~ .te-label {
+        cursor: pointer;
+    }
+
+    .te:disabled ~ .te-label {
+        color: #bcc2bf;
+        border-color: #bcc2bf;
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+
+    .te-label {
+
+        font-weight: 900;
+        height: 100%;
+        display: block;
+        background: white;
+        border: 2px solid #20df80;
+        border-radius: 20px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 3px 10px -2px rgba(161, 170, 166, 0.5);
+        position: relative;
+    }
+
+    .te:checked + .te-label {
+        background: #20df80;
+        color: white;
+        box-shadow: 0px 0px 20px rgba(0, 255, 128, 0.75);
+    }
+
+    .te:checked + .te-label::after {
+        color: #3d3f43;
+        border: 2px solid #1dc973;
+        content: "";
+        font-size: 24px;
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 50px;
+        width: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
+    }
+
+
+    @media only screen and (max-width: 700px) {
+        section {
+            flex-direction: column;
+        }
+    }
 </style>
 
 {{ form_start(form) }}
@@ -149,6 +220,29 @@
     </div>
 </div>
 
+
+<div class="page-block col-md-10 m-auto mt-4">
+
+
+    <div class="demande_typeEchafaudage">
+        <label class="control-label required">Type d'échafaudage</label>
+        <section>
+            {% for child in form.typeEchafaudage %}
+                <div>
+                    <input type="radio" id="{{ child.vars.id }}"
+                           name="{{ form.vars.id ~ '[' ~ form.typeEchafaudage.vars.name ~ ']' }}" required="required"
+                           class="te"
+                           value="{{ child.vars.label }}">
+                    <label for="{{ child.vars.id }}" class="te-label required mt-2">
+                        {{ child.vars.label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+</div>
+
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-end">
@@ -165,8 +259,7 @@
                     </div>
                     <div class="col-md-12">
                     </div>
-                    <div class="col-md-12"><label class="labels">Type d'échafaudage</label>
-                        {{ form_widget(form.typeEchafaudage,{"attr":{"class":"form-control","placeholder":"Type d'échafaudage"}}) }}
+                    <div class="col-md-12"><label class="labels"></label>
                     </div>
                     <div class="col-md-12">
 
