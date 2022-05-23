@@ -136,7 +136,7 @@
     $(document).on("change", "input[name='demande[documentsSouhaites]']", function () {
         if ($("input[name='demande[documentsSouhaites]']:checked").val() === "NDC" || $("input[name='demande[documentsSouhaites]']:checked").val() === "Plan") {
             $('#demande_documentsSouhaites_2_autre').parent().remove();
-        } else if ($('#demande_documentsSouhaites_2_autre').length === 0) {
+        } else if ($('#demande_documentsSouhaites_2_autre').length === 2) {
             let div = `<div class="col-md-6 row">
                                 <input type="text" id="demande_documentsSouhaites_2_autre"
                                        name="demande[documentsSouhaites]"
@@ -180,6 +180,7 @@
     $(document).on("change", "input[name='demande[ammarages]']", function () {
         if ($("input[name='demande[ammarages]']:checked").val() === "Ancrages simples" || $("input[name='demande[ammarages]']:checked").val() === "Butonnages"
             || $("input[name='demande[ammarages]']:checked").val() === "Cravatages" || $("input[name='demande[ammarages]']:checked").val() === "Verinage"
+            || $("input[name='demande[ammarages]']:checked").val() === "Lest"
 
         ) {
             $('#demande_ammarages_autre').remove();
