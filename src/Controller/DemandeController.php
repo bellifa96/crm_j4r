@@ -75,7 +75,7 @@ class DemandeController extends AbstractController
         return $this->renderForm('demande/new.html.twig', [
             'demande' => $demande,
             'form' => $form,
-            'title'=>'Créer une nouvelle affaires',
+            'title'=>'Créer une nouvelle Demande',
             'nav'=>[]
         ]);
     }
