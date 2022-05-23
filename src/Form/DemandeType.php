@@ -30,7 +30,7 @@ class DemandeType extends AbstractType
                     'Façade' => 'Façade',
                     'Parapluie' => 'Parapluie',
                     'Plateforme' => 'Plateforme',
-                    'Echafaudage Particulier' => 'Echafaudage Particulier'
+                    'Particulier' => 'Particulier'
                 ],
                 'expanded' => true,
                 'multiple' => false
