@@ -239,10 +239,7 @@
             </div>
             {% for child in form.typeEchafaudage %}
                 <div class="col-md-2-5 required mt-2">
-                    <input type="radio" id="demande_typeEchafaudage_{{ child.vars.id }}"
-                           name="demande[typeEchafaudage]" required="required"
-                           class="te"
-                           value="{{ child.vars.label }}">
+                   {{ form_widget(child,{'attr':{'class':'te'}}) }}
                     <label for="{{ child.vars.id }}" class="te-label required mt-2">
                         {{ child.vars.label }}
                     </label>
@@ -311,7 +308,7 @@
 <script>
 
 
-    $('#demande_typeEchafaudage').change(function () {
+    $("input[name='demande[typeEchafaudage]']").change(function () {
         $('.form-container').remove();
         var path = "{{ path('app_demande_form') }}";
         $.post(path, {data: $("input[name='demande[typeEchafaudage]']:checked").val()}, function (data) {
