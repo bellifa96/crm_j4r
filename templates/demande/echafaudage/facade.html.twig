@@ -31,50 +31,51 @@
         </div>
     </div>
 
-    <div class="col-md-12  mt-2">
 
+    <div class="row">
+        <div class="col-md-3 text-end labels">
+            Documents souhaites :
+        </div>
+        <div class="col-md-9">
 
-        <div class="row">
-            <div class="col-md-3 text-end labels">
-                Documents souhaites :
-            </div>
-            <div class="col-md-9">
-
-                <div id="demande_documentsSouhaites" class="row">
-                    <div class="col-md-auto">
-                        <input type="checkbox" id="demande_documentsSouhaites_0" name="demande[documentsSouhaites][]"
-                               checked
-                               value="Plan">
-                        <label for="demande_documentsSouhaites_0" class="required">PLAN</label>
-                    </div>
-                    <div class="col-md-auto">
-                        <input type="checkbox" id="demande_documentsSouhaites_1" name="demande[documentsSouhaites][]"
-                               value="NDC">
-                        <label for="demande_documentsSouhaites_1" class="required">NDC</label>
-                    </div>
-                    <div class="col-md-auto">
-                        <input type="checkbox" id="demande_documentsSouhaites_2" name="demande[documentsSouhaites][]"
-                               value="Autre">
-                        <label for="demande_documentsSouhaites_2" class="required">Autre</label>
-                    </div>
+            <div id="demande_documentsSouhaites" class="row">
+                <div class="col-md-4">
+                    <input type="checkbox" id="demande_documentsSouhaites_0" name="demande[documentsSouhaites][]"
+                           checked
+                           value="Plan">
+                    <label for="demande_documentsSouhaites_0" class="required">PLAN</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" id="demande_documentsSouhaites_1" name="demande[documentsSouhaites][]"
+                           value="NDC">
+                    <label for="demande_documentsSouhaites_1" class="required">NDC</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" id="demande_documentsSouhaites_2" name="demande[documentsSouhaites][]"
+                           value="Autre">
+                    <label for="demande_documentsSouhaites_2" class="required">Autre</label>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-12 mt-2">
-        <div class="row">
-            <div class="col-md-3 text-end labels">
-                Fonds de plan :
-            </div>
-            <div class="col-md-9">
-                <div id="demande_fondsDePlan">
+    <div class="row">
+        <div class="col-md-3 text-end labels">
+            Fonds de plan :
+        </div>
+        <div class="col-md-9">
+            <div id="demande_fondsDePlan" class="row">
+                <div class="col-md-4">
+
                     <input type="radio" id="demande_fondsDePlan_0" name="demande[fondsDePlan]"
                            required="required" value="1">
                     <label for="demande_fondsDePlan_0" class="required">Oui</label>
+                </div>
+                <div class="col-md-4">
                     <input type="radio" id="demande_fondsDePlan_1" name="demande[fondsDePlan]"
                            required="required" value="0">
-                    <label for="demande_fondsDePlan_1" class="required">Non</label></div>
+                    <label for="demande_fondsDePlan_1" class="required">Non</label>
+                </div>
             </div>
         </div>
     </div>
@@ -85,22 +86,31 @@
                 Travaux prevus :
             </div>
             <div class="col-md-9">
-                <div id="demande_travauxPrevus">
-                    <input type="checkbox" id="demande_travauxPrevus_0" name="demande[travauxPrevus][]"
-                           value="Peinture/Ravalement">
-                    <label for="demande_travauxPrevus_0">Peinture / Ravalement</label>
+                <div id="demande_travauxPrevus" class="row">
+                    <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_1" name="demande[travauxPrevus][]"
-                           value="Bardage/Isolation">
-                    <label for="demande_travauxPrevus_1">Bardage / Isolation</label>
+                        <input type="checkbox" id="demande_travauxPrevus_0" name="demande[travauxPrevus][]"
+                               value="Peinture/Ravalement">
+                        <label for="demande_travauxPrevus_0">Peinture / Ravalement</label>
+                    </div>
+                    <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_2" name="demande[travauxPrevus][]"
-                           value="Maçonnerie/Pierre">
-                    <label for="demande_travauxPrevus_2">Maçonnerie / Pierre</label>
+                        <input type="checkbox" id="demande_travauxPrevus_1" name="demande[travauxPrevus][]"
+                               value="Bardage/Isolation">
+                        <label for="demande_travauxPrevus_1">Bardage / Isolation</label>
+                    </div>
+                    <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_3" name="demande[travauxPrevus][]"
-                           value="Autre">
-                    <label for="demande_travauxPrevus_3">Autre</label>
+                        <input type="checkbox" id="demande_travauxPrevus_2" name="demande[travauxPrevus][]"
+                               value="Maçonnerie/Pierre">
+                        <label for="demande_travauxPrevus_2">Maçonnerie / Pierre</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <input type="checkbox" id="demande_travauxPrevus_3" name="demande[travauxPrevus][]"
+                               value="Autre">
+                        <label for="demande_travauxPrevus_3">Autre</label>
+                    </div>
                 </div>
             </div>
         </div>
