@@ -37,8 +37,37 @@ class DemandeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $data = $request->request->all()['demande'];
+            $demande->setTypeDePrestation($data['typeDePrestation']);
+            $demande->setDocumentsSouhaites($data['documentsSouhaites']);
+            $demande->setFondsDePlan($data['fondsDePlan']);
 
-            dd($request->request,$form->getData());
+
+            if($demande->getTypeEchafaudage() == "Façade"){
+                $demande->setTravauxPrevus($data['travauxPrevus']);
+                $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']);
+                $demande->setTypeDeMateriel($data['typeDeMateriel']);
+                $demande->setDimensions($data['dimensionsGlobales']);
+                $demande->setAmmarages($data['ammarages']);
+                $demande->setLargeurDeTravail($data['largeurDeTravail']);
+                $demande->setConsoles($data['consoles']);
+                $demande->setDistanceALaFacade($data['distanceALaFacade']);
+                $data['rapportDistanceALaFacade']? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) :"";
+                $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']);
+                $demande->setEquipements($data['equipements']);
+                $demande->setProtectionCouvreur($data['protectionCouvreur']);
+                $demande->setLargeurPassagePieton($data['largeurPassagePieton']);
+                $demande->setAcces($data['acces']);
+                $demande->setBacheEtFilet($data['bacheEtFilet']);
+                $data['bache'] ? $demande->setBache($data['bache']): "";
+            }
+
+
+        //   dd($data['typeDePrestation']);
+
+
+           // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
+
             $demandeRepository->add($demande);
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
         }

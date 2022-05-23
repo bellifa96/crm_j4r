@@ -52,10 +52,6 @@ class Demande
     private $typeDePrestation;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
-    private $documentsSouhaites;
-
-    #[Gedmo\Versioned]
     #[ORM\Column(type: 'boolean')]
     private $fondsDePlan;
 
@@ -70,10 +66,6 @@ class Demande
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'float')]
     private $dimensionsGlobales;
-
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
-    private $ammarages;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Devis::class)]
     private $devis;
@@ -146,6 +138,12 @@ class Demande
 
     #[ORM\Column(type: 'array', nullable: true)]
     private $bacheEtFilet = [];
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $documentsSouhaites = [];
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $ammarages = [];
 
     public function __construct()
     {
@@ -241,18 +239,6 @@ class Demande
         return $this;
     }
 
-    public function getDocumentsSouhaites(): ?string
-    {
-        return $this->documentsSouhaites;
-    }
-
-    public function setDocumentsSouhaites(string $documentsSouhaites): self
-    {
-        $this->documentsSouhaites = $documentsSouhaites;
-
-        return $this;
-    }
-
     public function getFondsDePlan(): ?bool
     {
         return $this->fondsDePlan;
@@ -298,18 +284,6 @@ class Demande
     public function setDimensionsGlobales(float $dimensionsGlobales): self
     {
         $this->dimensionsGlobales = $dimensionsGlobales;
-
-        return $this;
-    }
-
-    public function getAmmarages(): ?string
-    {
-        return $this->ammarages;
-    }
-
-    public function setAmmarages(string $ammarages): self
-    {
-        $this->ammarages = $ammarages;
 
         return $this;
     }
@@ -567,6 +541,30 @@ class Demande
     public function setBacheEtFilet(?array $bacheEtFilet): self
     {
         $this->bacheEtFilet = $bacheEtFilet;
+
+        return $this;
+    }
+
+    public function getDocumentsSouhaites(): ?array
+    {
+        return $this->documentsSouhaites;
+    }
+
+    public function setDocumentsSouhaites(?array $documentsSouhaites): self
+    {
+        $this->documentsSouhaites = $documentsSouhaites;
+
+        return $this;
+    }
+
+    public function getAmmarages(): ?array
+    {
+        return $this->ammarages;
+    }
+
+    public function setAmmarages(?array $ammarages): self
+    {
+        $this->ammarages = $ammarages;
 
         return $this;
     }
