@@ -45,6 +45,12 @@ import 'jquery-ui-bundle';
 import 'jquery-ui-bundle/jquery-ui.css';
 
 $(function () {
+    $('input').each(function() {
+
+        if($(this).is(':checkbox') || $(this).is(':checkbox')){
+            $(this).checkboxradio();
+        }
+    });
     $(".datepicker").datepicker({
         closeText: 'Fermer',
         prevText: '&#x3c;Préc',
