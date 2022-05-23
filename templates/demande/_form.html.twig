@@ -131,7 +131,7 @@
             $('#form-container').append(JSON.parse(data).message);
         })
 
-    })
+    });
 
     $(document).on("change", "input[name='demande[documentsSouhaites][]']", function () {
 
@@ -153,7 +153,7 @@
             $('#demande_documentsSouhaites_2_autre').parent().remove();
 
         }
-    })
+    });
 
 
     $(document).on("change", "input[name='demande[travauxPrevus][]']", function () {
@@ -171,7 +171,7 @@
         } else if(!arr.includes("Autre") && $('#demande_travauxPrevus_autre').length > 0){
             $('#demande_travauxPrevus_autre').parent().remove();
         }
-    })
+    });
 
 
     $(document).on("change", "input[name='demande[typeDeMateriel]']", function () {
@@ -312,6 +312,29 @@
             $('#demande_acces').append(div);
         }
     });
+
+    $(document).on("change", "input[name='demande[bache][]']", function () {
+
+        let arr = [];
+        $.each($("input[name='demande[bache][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if (arr.includes("Themee") && $('#demande_bache_2_themee').length === 0) {
+            let div = `<div class="col-md-6 row">
+                                <input type="text" id="demande_bache_2_themee"
+                                       name="demande[bache][]"
+                                       class="form-control">
+                       </div>`;
+            $('#demande_bache').append(div);
+
+        } else if(!arr.includes("Themee") &&  $('#demande_bache_2_themee').length > 0) {
+
+            $('#demande_bache_2_themee').parent().remove();
+
+        }
+    });
+
 
 
 </script>
