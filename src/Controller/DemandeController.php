@@ -69,6 +69,14 @@ class DemandeController extends AbstractController
 
         if($request->request->get('data') == "Façade"){
             $path = "demande/echafaudage/facade.html.twig";
+        }elseif($request->request->get('data') == "Parapluie"){
+            $path = "demande/echafaudage/parapluie.html.twig";
+
+        }elseif($request->request->get('data') == "Particulier"){
+            $path = "demande/echafaudage/particulier.html.twig";
+
+        }elseif($request->request->get('data') == "Plateforme"){
+            $path = "demande/echafaudage/plateforme.html.twig";
         }
 
         if(!empty($path)) {
