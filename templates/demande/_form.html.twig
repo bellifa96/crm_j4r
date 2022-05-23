@@ -36,7 +36,8 @@
     }
 
     .labels {
-        font-size: 11px
+        font-size: 11px;
+        color: #0d4377;
     }
 
     .add-service {
@@ -81,6 +82,7 @@
         font-weight: 900;
         height: 100%;
         display: block;
+        color: #0d4377;
         background: white;
         border: 2px solid #2bb3e5;
         border-radius: 20px;
@@ -227,9 +229,9 @@
 
     <div class="demande_typeEchafaudage">
         <label class="control-label required">Type d'échafaudage</label>
-        <section>
+        <div class="row justify-content-center">
             {% for child in form.typeEchafaudage %}
-                <div>
+                <div class="col-md-2">
                     <input type="radio" id="{{ child.vars.id }}"
                            name="{{ form.vars.id ~ '[' ~ form.typeEchafaudage.vars.name ~ ']' }}" required="required"
                            class="te"
@@ -239,7 +241,7 @@
                     </label>
                 </div>
             {% endfor %}
-        </section>
+        </div>
     </div>
 
 </div>
