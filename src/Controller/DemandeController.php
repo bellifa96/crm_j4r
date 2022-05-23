@@ -92,8 +92,6 @@ class DemandeController extends AbstractController
             }
             $response->setContent(json_encode(['code' => 200, 'message' => $html]));
         }
-
-
         return $response;
     }
 

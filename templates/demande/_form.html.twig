@@ -133,16 +133,25 @@
 
     })
 
-    $(document).on("change", "input[name='demande[documentsSouhaites]']", function () {
-        if ($("input[name='demande[documentsSouhaites]']:checked").val() === "NDC" || $("input[name='demande[documentsSouhaites]']:checked").val() === "Plan") {
-            $('#demande_documentsSouhaites_2_autre').parent().remove();
-        } else if ($('#demande_documentsSouhaites_2_autre').length === 2) {
+    $(document).on("change", "input[name='demande[documentsSouhaites][]']", function () {
+
+        let arr = [];
+        $.each($("input[name='demande[documentsSouhaites][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if (arr.includes("Autre") && $('#demande_documentsSouhaites_2_autre').length === 0) {
             let div = `<div class="col-md-6 row">
                                 <input type="text" id="demande_documentsSouhaites_2_autre"
-                                       name="demande[documentsSouhaites]"
+                                       name="demande[documentsSouhaites][]"
                                        class="form-control">
                        </div>`;
             $('#demande_documentsSouhaites').append(div);
+
+        } else if(!arr.includes("Autre") &&  $('#demande_documentsSouhaites_2_autre').length > 0) {
+
+            $('#demande_documentsSouhaites_2_autre').parent().remove();
+
         }
     })
 
@@ -159,7 +168,7 @@
                             </div>`;
             $('#demande_travauxPrevus').append(div);
 
-        } else {
+        } else if(!arr.includes("Autre") && $('#demande_travauxPrevus_autre').length > 0){
             $('#demande_travauxPrevus_autre').parent().remove();
         }
     })
@@ -177,16 +186,16 @@
         }
     });
 
-    $(document).on("change", "input[name='demande[ammarages]']", function () {
-        if ($("input[name='demande[ammarages]']:checked").val() === "Ancrages simples" || $("input[name='demande[ammarages]']:checked").val() === "Butonnages"
-            || $("input[name='demande[ammarages]']:checked").val() === "Cravatages" || $("input[name='demande[ammarages]']:checked").val() === "Verinage"
-            || $("input[name='demande[ammarages]']:checked").val() === "Lest"
-
-        ) {
-            $('#demande_ammarages_autre').remove();
-        } else if ($('#demande_ammarages_autre').length === 0) {
-            let div = `<input type="text" id="demande_ammarages_autre" name="demande[ammarages]" required="required"   class="form-control">`;
+    $(document).on("change", "input[name='demande[ammarages][]']", function () {
+        let arr = [];
+        $.each($("input[name='demande[ammarages][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+        if (arr.includes("Autre") && $('#demande_ammarages_autre').length === 0) {
+            let div = `<input type="text" id="demande_ammarages_autre" name="demande[ammarages][]" required="required"   class="form-control">`;
             $('#demande_ammarages').append(div);
+        }else if (!arr.includes("Autre") && $('#demande_ammarages_autre').length > 0) {
+            $('#demande_ammarages_autre').remove();
         }
     });
 
@@ -237,10 +246,14 @@
     });
 
 
-    $(document).on("change", "input[name='demande[equipements]']", function () {
-        $('.equipement_sous_param').remove();
+    $(document).on("change", "input[name='demande[equipements][]']", function () {
 
-        if ($("input[name='demande[equipements]']:checked").val() === "Passage piéton") {
+        let arr = [];
+        $.each($("input[name='demande[equipements][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if ( arr.includes("Passage piéton") && $('#demande_largeur_pssage_pieton').length === 0) {
             let div = `
                   <div id="demande_largeur_pssage_pieton" class="equipement_sous_param">
                     <input type="radio" id="demande_largeur_pssage_pieton_0" name="demande[largeurPassagePieton]" required="required" value="0.7">
@@ -257,7 +270,12 @@
                 </div>
             `;
             $('#demande_equipements').parent().append(div);
-        }else if($("input[name='demande[equipements]']:checked").val() === "Protection couvreur"){
+        }else if(!arr.includes("Passage piéton") && $('#demande_largeur_pssage_pieton').length > 0){
+            $('#demande_largeur_pssage_pieton').remove();
+        }
+
+
+        if ( arr.includes("Protection couvreur") && $('#demande_protection_couvreur').length === 0) {
             let div = `
                   <div id="demande_protection_couvreur" class="equipement_sous_param">
                     <input type="radio" id="demande_protection_couvreur_0" name="demande[protectionCouvreur]" required="required" value="En moise">
@@ -269,6 +287,9 @@
             `;
             $('#demande_equipements').parent().append(div);
         }
+        else if(!arr.includes("Protection couvreur") && $('#demande_protection_couvreur').length > 0){
+            $('#demande_protection_couvreur').remove();
+        }
     });
 
     $(document).on("change", "input[name='demande[largeurPassagePieton]']", function () {
@@ -279,6 +300,16 @@
         } else if ($('#demande_protection_couvreur_autre').length === 0) {
             let div = `<input type="text" id="demande_protection_couvreur_autre" name="demande[largeurPassagePieton]" required="required"  class="form-control">`;
             $('#demande_largeur_pssage_pieton').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[acces]']", function () {
+        if ($("input[name='demande[acces]']:checked").val() === "Volée alu à palier incorporé" || $("input[name='demande[acces]']:checked").val() === "Planche à trappe")
+        {
+            $('#demande_acces_autre').remove();
+        } else if ($('#demande_protection_couvreur_autre').length === 0) {
+            let div = `<input type="text" id="demande_acces_autre" name="demande[acces]" required="required"  class="form-control">`;
+            $('#demande_acces').append(div);
         }
     });
 
