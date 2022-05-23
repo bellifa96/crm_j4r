@@ -239,8 +239,8 @@
             </div>
             {% for child in form.typeEchafaudage %}
                 <div class="col-md-2-5 required mt-2">
-                    <input type="radio" id="{{ child.vars.id }}"
-                           name="{{ form.vars.id ~ '[' ~ form.typeEchafaudage.vars.name ~ ']' }}" required="required"
+                    <input type="radio" id="demande_typeEchafaudage_{{ child.vars.id }}"
+                           name="demande[typeEchafaudage]" required="required"
                            class="te"
                            value="{{ child.vars.label }}">
                     <label for="{{ child.vars.id }}" class="te-label required mt-2">
