@@ -231,11 +231,12 @@
 <div class="page-block col-md-10 m-auto mt-4">
 
 
-    <div class="demande_typeEchafaudage row justify-content-start">
-        <div class="col-md-2 text-end mt-2">
-            <label class="labels" style="position: relative;top: 50%;">Type d'échafaudage</label>
-        </div>
-        <div class="col-md-8 row ">
+    <div class="demande_typeEchafaudage col-md-8 m-auto ">
+
+        <div class="row justify-content-center">
+            <div class="col-md-auto text-end mt-2">
+                <label class="labels" style="position: relative;top: 50%;">Type d'échafaudage</label>
+            </div>
             {% for child in form.typeEchafaudage %}
                 <div class="col-md-2-5 required mt-2">
                     <input type="radio" id="{{ child.vars.id }}"
