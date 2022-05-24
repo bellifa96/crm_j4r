@@ -2,9 +2,12 @@
 
 namespace App\Entity\Ged;
 
+use App\Entity\Affaire\Evenement;
 use App\Entity\TimesTrait;
 use App\Entity\User;
 use App\Repository\Ged\FichierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FichierRepository::class)]
@@ -30,8 +33,12 @@ class Fichier
     #[ORM\JoinColumn(nullable: false)]
     private $typeFichier;
 
+    #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'fichiers')]
+    private $evenements;
+
     public function __construct(){
         $this->isDeleted = false;
+        $this->evenements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +90,33 @@ class Fichier
     public function setTypeFichier(?TypeFichier $typeFichier): self
     {
         $this->typeFichier = $typeFichier;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->addFichier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            $evenement->removeFichier($this);
+        }
 
         return $this;
     }

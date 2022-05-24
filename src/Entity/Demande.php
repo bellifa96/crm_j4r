@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
+use App\Entity\Affaire\Evenement;
 use App\Entity\Contact\Contact;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\DemandeRepository;
@@ -155,12 +156,16 @@ class Demande
     #[ORM\Column(type: 'string', length: 255)]
     private $statutCommercial;
 
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Evenement::class)]
+    private $evenements;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
         $this->ContactsSecondairesClient = new ArrayCollection();
         $this->statut = "A traiter";
         $this->statutCommercial = "A relancer";
+        $this->evenements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -637,6 +642,36 @@ class Demande
     public function setStatutCommercial(string $statutCommercial): self
     {
         $this->statutCommercial = $statutCommercial;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getDemande() === $this) {
+                $evenement->setDemande(null);
+            }
+        }
 
         return $this;
     }

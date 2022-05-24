@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Affaire\Evenement;
 use App\Entity\Entite\Depot;
 use App\Entity\Ged\Fichier;
 use App\Entity\User\Poste;
@@ -85,6 +86,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Demande::class)]
     private $demandes;
 
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Evenement::class)]
+    private $evenements;
+
+    #[ORM\OneToMany(mappedBy: 'attribueA', targetEntity: Evenement::class)]
+    private $evenementsAttribues;
+
 
     public function __construct()
     {
@@ -93,6 +100,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->depots = new ArrayCollection();
         $this->fichiers = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->evenements = new ArrayCollection();
+        $this->evenementsAttribues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -366,6 +375,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($demande->getCreateur() === $this) {
                 $demande->setCreateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getCreateur() === $this) {
+                $evenement->setCreateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenementsAttribues(): Collection
+    {
+        return $this->evenementsAttribues;
+    }
+
+    public function addEvenementsAttribue(Evenement $evenementsAttribue): self
+    {
+        if (!$this->evenementsAttribues->contains($evenementsAttribue)) {
+            $this->evenementsAttribues[] = $evenementsAttribue;
+            $evenementsAttribue->setAttribueA($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenementsAttribue(Evenement $evenementsAttribue): self
+    {
+        if ($this->evenementsAttribues->removeElement($evenementsAttribue)) {
+            // set the owning side to null (unless already changed)
+            if ($evenementsAttribue->getAttribueA() === $this) {
+                $evenementsAttribue->setAttribueA(null);
             }
         }
 
