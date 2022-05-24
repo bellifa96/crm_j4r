@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
+use App\Entity\Contact\Contact;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\DemandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -145,9 +146,16 @@ class Demande
     #[ORM\Column(type: 'array', nullable: true)]
     private $ammarages = [];
 
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandes')]
+    private $contactPrincipalClient;
+
+    #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'contactSecondairesDemandes')]
+    private $ContactsSecondairesClient;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
+        $this->ContactsSecondairesClient = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -565,6 +573,42 @@ class Demande
     public function setAmmarages(?array $ammarages): self
     {
         $this->ammarages = $ammarages;
+
+        return $this;
+    }
+
+    public function getContactPrincipalClient(): ?Contact
+    {
+        return $this->contactPrincipalClient;
+    }
+
+    public function setContactPrincipalClient(?Contact $contactPrincipalClient): self
+    {
+        $this->contactPrincipalClient = $contactPrincipalClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContactsSecondairesClient(): Collection
+    {
+        return $this->ContactsSecondairesClient;
+    }
+
+    public function addContactsSecondairesClient(Contact $contactsSecondairesClient): self
+    {
+        if (!$this->ContactsSecondairesClient->contains($contactsSecondairesClient)) {
+            $this->ContactsSecondairesClient[] = $contactsSecondairesClient;
+        }
+
+        return $this;
+    }
+
+    public function removeContactsSecondairesClient(Contact $contactsSecondairesClient): self
+    {
+        $this->ContactsSecondairesClient->removeElement($contactsSecondairesClient);
 
         return $this;
     }

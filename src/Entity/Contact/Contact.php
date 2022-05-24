@@ -3,8 +3,11 @@
 namespace App\Entity\Contact;
 
 use App\Entity\AdresseTrait;
+use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\Contact\ContactRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
@@ -52,6 +55,18 @@ class Contact
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $commentaire;
+
+    #[ORM\OneToMany(mappedBy: 'contactPrincipalClient', targetEntity: Demande::class)]
+    private $demandes;
+
+    #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'ContactsSecondairesClient')]
+    private $contactSecondairesDemandes;
+
+    public function __construct()
+    {
+        $this->demandes = new ArrayCollection();
+        $this->contactSecondairesDemandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -186,6 +201,63 @@ class Contact
     public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): self
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes[] = $demande;
+            $demande->setContactPrincipalClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): self
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getContactPrincipalClient() === $this) {
+                $demande->setContactPrincipalClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getContactSecondairesDemandes(): Collection
+    {
+        return $this->contactSecondairesDemandes;
+    }
+
+    public function addContactSecondairesDemande(Demande $contactSecondairesDemande): self
+    {
+        if (!$this->contactSecondairesDemandes->contains($contactSecondairesDemande)) {
+            $this->contactSecondairesDemandes[] = $contactSecondairesDemande;
+            $contactSecondairesDemande->addContactsSecondairesClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactSecondairesDemande(Demande $contactSecondairesDemande): self
+    {
+        if ($this->contactSecondairesDemandes->removeElement($contactSecondairesDemande)) {
+            $contactSecondairesDemande->removeContactsSecondairesClient($this);
+        }
 
         return $this;
     }
