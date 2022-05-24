@@ -41,11 +41,15 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'intermediaire', targetEntity: Demande::class)]
     private $demandesIntermediaire;
 
+    #[ORM\OneToMany(mappedBy: 'maitreDOuvrage', targetEntity: Demande::class)]
+    private $demandesMaitreDOuvrage;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->demandesIntermediaire = new ArrayCollection();
+        $this->demandesMaitreDOuvrage = new ArrayCollection();
 
     }
 
@@ -199,6 +203,36 @@ class Interlocuteur
             // set the owning side to null (unless already changed)
             if ($demandesIntermediaire->getIntermediaire() === $this) {
                 $demandesIntermediaire->setIntermediaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesMaitreDOuvrage(): Collection
+    {
+        return $this->demandesMaitreDOuvrage;
+    }
+
+    public function addDemandesMaitreDOuvrage(Demande $demandesMaitreDOuvrage): self
+    {
+        if (!$this->demandesMaitreDOuvrage->contains($demandesMaitreDOuvrage)) {
+            $this->demandesMaitreDOuvrage[] = $demandesMaitreDOuvrage;
+            $demandesMaitreDOuvrage->setMaitreDOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesMaitreDOuvrage(Demande $demandesMaitreDOuvrage): self
+    {
+        if ($this->demandesMaitreDOuvrage->removeElement($demandesMaitreDOuvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesMaitreDOuvrage->getMaitreDOuvrage() === $this) {
+                $demandesMaitreDOuvrage->setMaitreDOuvrage(null);
             }
         }
 

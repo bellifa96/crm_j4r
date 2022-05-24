@@ -62,10 +62,18 @@ class Contact
     #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'ContactsSecondairesClient')]
     private $contactSecondairesDemandes;
 
+    #[ORM\OneToMany(mappedBy: 'contactMaitreDOuvrage', targetEntity: Demande::class)]
+    private $DemandesContactMaitreDOuvrage;
+
+    #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'contactMaitreDOuvrageSecondaires')]
+    private $demandesContactMaitreDOuvrageSecondaires;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->contactSecondairesDemandes = new ArrayCollection();
+        $this->DemandesContactMaitreDOuvrage = new ArrayCollection();
+        $this->demandesContactMaitreDOuvrageSecondaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +265,63 @@ class Contact
     {
         if ($this->contactSecondairesDemandes->removeElement($contactSecondairesDemande)) {
             $contactSecondairesDemande->removeContactsSecondairesClient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesContactMaitreDOuvrage(): Collection
+    {
+        return $this->DemandesContactMaitreDOuvrage;
+    }
+
+    public function addDemandesContactMaitreDOuvrage(Demande $demandesContactMaitreDOuvrage): self
+    {
+        if (!$this->DemandesContactMaitreDOuvrage->contains($demandesContactMaitreDOuvrage)) {
+            $this->DemandesContactMaitreDOuvrage[] = $demandesContactMaitreDOuvrage;
+            $demandesContactMaitreDOuvrage->setContactMaitreDOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesContactMaitreDOuvrage(Demande $demandesContactMaitreDOuvrage): self
+    {
+        if ($this->DemandesContactMaitreDOuvrage->removeElement($demandesContactMaitreDOuvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesContactMaitreDOuvrage->getContactMaitreDOuvrage() === $this) {
+                $demandesContactMaitreDOuvrage->setContactMaitreDOuvrage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesContactMaitreDOuvrageSecondaires(): Collection
+    {
+        return $this->demandesContactMaitreDOuvrageSecondaires;
+    }
+
+    public function addDemandesContactMaitreDOuvrageSecondaire(Demande $demandesContactMaitreDOuvrageSecondaire): self
+    {
+        if (!$this->demandesContactMaitreDOuvrageSecondaires->contains($demandesContactMaitreDOuvrageSecondaire)) {
+            $this->demandesContactMaitreDOuvrageSecondaires[] = $demandesContactMaitreDOuvrageSecondaire;
+            $demandesContactMaitreDOuvrageSecondaire->addContactMaitreDOuvrageSecondaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesContactMaitreDOuvrageSecondaire(Demande $demandesContactMaitreDOuvrageSecondaire): self
+    {
+        if ($this->demandesContactMaitreDOuvrageSecondaires->removeElement($demandesContactMaitreDOuvrageSecondaire)) {
+            $demandesContactMaitreDOuvrageSecondaire->removeContactMaitreDOuvrageSecondaire($this);
         }
 
         return $this;
