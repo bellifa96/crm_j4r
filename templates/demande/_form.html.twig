@@ -460,7 +460,7 @@
     $(document).on("change", "input[name='demande[acces]']", function () {
         if ($("input[name='demande[acces]']:checked").val() === "Volée alu à palier incorporé" || $("input[name='demande[acces]']:checked").val() === "Planche à trappe") {
             $('#demande_acces_autre').remove();
-        } else if ($('#demande_protection_couvreur_autre').length === 0) {
+        } else if ($('#demande_acces_autre').length === 0) {
             let div = `<input type="text" id="demande_acces_autre" name="demande[acces]" required="required"  class="form-control">`;
             $('#demande_acces').append(div);
         }
@@ -488,16 +488,16 @@
         }
     });
 
-    /*$(document).on("change", "input[name='demande[finitionPlancher]']", function () {
-        if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes")
+    $(document).on("change", "input[name='demande[finitionPlancher]']", function () {
+        if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes"
             || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers combi")
         {
-            $('#finitionPlancher').remove();
+            $('#demande_finitionPlancher_autre').remove();
         } else if ($('#demande_finitionPlancher_autre').length === 0) {
-            let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required"  class="form-control">`;
-            $('#finitionPlancher').append(div);
+            let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required" class="form-control">`;
+            $('#demande_finitionPlancher').append(div);
         }
-    });*/
+    });
 
 
 </script>
