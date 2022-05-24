@@ -1,54 +1,310 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Demande{% endblock %}
+{% block title %}Demande N°{{ demande.id }}{% endblock %}
 
 {% block body %}
-    <h1>Demande</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ demande.id }}</td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ demande.commentaire }}</td>
-            </tr>
-            <tr>
-                <th>NomChantier</th>
-                <td>{{ demande.nomChantier }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ demande.date }}</td>
-            </tr>
-            <tr>
-                <th>Adresse1</th>
-                <td>{{ demande.adresse1 }}</td>
-            </tr>
-            <tr>
-                <th>Adresse2</th>
-                <td>{{ demande.adresse2 }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ demande.ville }}</td>
-            </tr>
-            <tr>
-                <th>CodePostal</th>
-                <td>{{ demande.codePostal }}</td>
-            </tr>
-            <tr>
-                <th>Pays</th>
-                <td>{{ demande.pays }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <style>
+        .labels {
+            font-size: 11px;
+            color: #0d4377;
+            font-weight: bold;
+        }
 
-    <a href="{{ path('app_demande_index') }}">back to list</a>
+        .bg-leasy {
+            background: #e2e8ed;
+            border-radius: 5px;
+        }
+    </style>
 
-    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}">edit</a>
+    <div class="col-md-10 m-auto row justify-content-around mb-4">
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Statut
+            </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.statut }}
+            </div>
+        </div>
 
-    {{ include('demande/_delete_form.html.twig') }}
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Statut commercial
+            </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.statutCommercial }}
+            </div>
+        </div>
+
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Createur
+            </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.createur.lastname~" "~demande.createur.firstname }}
+            </div>
+        </div>
+
+    </div>
+    <div class="page-block col-md-10 m-auto">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Client</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels required">Nom du chantier</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.nomChantier }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Adresse 1</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.adresse1 }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Complément d'adresse</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.adresse2 }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Intermediaire</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Code postal</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.codePostal }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Ville</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.ville }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Pays</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.pays }}
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="page-block col-md-10 m-auto mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mt-1">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Type de préstation</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.typeDePrestation }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Documents souhaités </label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.documentsSouhaites|join('-') }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Fonds de plan </label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.fondsDePlan }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Travaux prevus </label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {{ demande.travauxPrevus|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Classe d'échafaudage
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.ClasseDEchaffaudage }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Type de materiel
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.TypeDeMateriel }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Dimensions globales :
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {{ demande.dimensionsGlobales|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Ammarages
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {{ demande.ammarages|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Largeur de travail
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.LargeurDeTravail }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Consoles
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.consoles }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Distance à la façade
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.distanceALaFacade }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Hauteur des planchers
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.hauteurDesPlanchers %}
+                            <div> {{ key~" : "~value }} </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Équipements
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.equipements %}
+                            <div>
+                                {% if value == "Passage piéton" %}
+                                    {{ value~" : "~demande.largeurPassagePieton }}
+                                {% elseif value == "Protection couvreur" %}
+                                    {{ value~" : "~demande.protectionCouvreur }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Accés
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.acces }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        Bâche et filet
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.bacheEtFilet %}
+                            <div>
+                                {{ key~" : "~value }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.bache %}
+                            <div>
+                                {{ value }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 {% endblock %}

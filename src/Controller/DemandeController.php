@@ -37,7 +37,11 @@ class DemandeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+
             $data = $request->request->all()['demande'];
+
+       //     dd($data);
             $demande->setTypeDePrestation($data['typeDePrestation']);
             $demande->setDocumentsSouhaites($data['documentsSouhaites']);
             $demande->setFondsDePlan($data['fondsDePlan']);
@@ -52,14 +56,15 @@ class DemandeController extends AbstractController
                 $demande->setLargeurDeTravail($data['largeurDeTravail']);
                 $demande->setConsoles($data['consoles']);
                 $demande->setDistanceALaFacade($data['distanceALaFacade']);
-                $data['rapportDistanceALaFacade']? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) :"";
+                key_exists('rapportDistanceALaFacade',$data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) :"";
                 $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']);
                 $demande->setEquipements($data['equipements']);
-                $demande->setProtectionCouvreur($data['protectionCouvreur']);
-                $demande->setLargeurPassagePieton($data['largeurPassagePieton']);
+                key_exists('protectionCouvreur',$data)? $demande->setProtectionCouvreur($data['protectionCouvreur']) :"";
+                key_exists('largeurPassagePieton',$data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) :"";
                 $demande->setAcces($data['acces']);
                 $demande->setBacheEtFilet($data['bacheEtFilet']);
-                $data['bache'] ? $demande->setBache($data['bache']): "";
+                key_exists('bache',$data) ? $demande->setBache($data['bache']): "";
+                $demande->setDimensionsGlobales($data['dimensionsGlobales']);
             }
 
 

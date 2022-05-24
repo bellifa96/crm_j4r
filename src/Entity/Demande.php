@@ -64,10 +64,6 @@ class Demande
     #[ORM\Column(type: 'string', length: 255)]
     private $typeDeMateriel;
 
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float')]
-    private $dimensionsGlobales;
-
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Devis::class)]
     private $devis;
 
@@ -76,39 +72,36 @@ class Demande
     private $travauxPrevus = [];
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'string',length: 255,nullable: true)]
     private $largeurDeTravail;
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'float')]
     private $consoles;
 
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
-    private $equipements;
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $acces;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float',nullable: true)]
     private $porteeLibre;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float',nullable: true)]
     private $longueur;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $traitementDesPignons;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $finitionPlancher;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $gcPeripherique;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -122,11 +115,6 @@ class Demande
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $rapportDistanceALaFacade;
-
-
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $bache;
 
     #[ORM\Column(type: 'array', nullable: true)]
     private $hauteurDesPlanchers = [];
@@ -152,10 +140,27 @@ class Demande
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'contactSecondairesDemandes')]
     private $ContactsSecondairesClient;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $equipements = [];
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $bache = [];
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $dimensionsGlobales = [];
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $statut;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $statutCommercial;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
         $this->ContactsSecondairesClient = new ArrayCollection();
+        $this->statut = "A traiter";
+        $this->statutCommercial = "A relancer";
     }
 
     public function getId(): ?int
@@ -284,18 +289,6 @@ class Demande
         return $this;
     }
 
-    public function getDimensionsGlobales(): ?float
-    {
-        return $this->dimensionsGlobales;
-    }
-
-    public function setDimensionsGlobales(float $dimensionsGlobales): self
-    {
-        $this->dimensionsGlobales = $dimensionsGlobales;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Devis>
      */
@@ -338,12 +331,12 @@ class Demande
         return $this;
     }
 
-    public function getLargeurDeTravail(): ?float
+    public function getLargeurDeTravail(): ?string
     {
         return $this->largeurDeTravail;
     }
 
-    public function setLargeurDeTravail(float $largeurDeTravail): self
+    public function setLargeurDeTravail(?string $largeurDeTravail): self
     {
         $this->largeurDeTravail = $largeurDeTravail;
 
@@ -358,18 +351,6 @@ class Demande
     public function setConsoles(float $consoles): self
     {
         $this->consoles = $consoles;
-
-        return $this;
-    }
-
-    public function getEquipements(): ?string
-    {
-        return $this->equipements;
-    }
-
-    public function setEquipements(string $equipements): self
-    {
-        $this->equipements = $equipements;
 
         return $this;
     }
@@ -391,7 +372,7 @@ class Demande
         return $this->porteeLibre;
     }
 
-    public function setPorteeLibre(float $porteeLibre): self
+    public function setPorteeLibre(?float $porteeLibre): self
     {
         $this->porteeLibre = $porteeLibre;
 
@@ -403,7 +384,7 @@ class Demande
         return $this->longueur;
     }
 
-    public function setLongueur(float $longueur): self
+    public function setLongueur(?float $longueur): self
     {
         $this->longueur = $longueur;
 
@@ -415,7 +396,7 @@ class Demande
         return $this->traitementDesPignons;
     }
 
-    public function setTraitementDesPignons(string $traitementDesPignons): self
+    public function setTraitementDesPignons(?string $traitementDesPignons): self
     {
         $this->traitementDesPignons = $traitementDesPignons;
 
@@ -427,7 +408,7 @@ class Demande
         return $this->finitionPlancher;
     }
 
-    public function setFinitionPlancher(string $finitionPlancher): self
+    public function setFinitionPlancher(?string $finitionPlancher): self
     {
         $this->finitionPlancher = $finitionPlancher;
 
@@ -439,7 +420,7 @@ class Demande
         return $this->gcPeripherique;
     }
 
-    public function setGcPeripherique(string $gcPeripherique): self
+    public function setGcPeripherique(?string $gcPeripherique): self
     {
         $this->gcPeripherique = $gcPeripherique;
 
@@ -488,19 +469,6 @@ class Demande
     public function setRapportDistanceALaFacade(?string $rapportDistanceALaFacade): self
     {
         $this->rapportDistanceALaFacade = $rapportDistanceALaFacade;
-
-        return $this;
-    }
-
-
-    public function getBache(): ?string
-    {
-        return $this->bache;
-    }
-
-    public function setBache(?string $bache): self
-    {
-        $this->bache = $bache;
 
         return $this;
     }
@@ -609,6 +577,66 @@ class Demande
     public function removeContactsSecondairesClient(Contact $contactsSecondairesClient): self
     {
         $this->ContactsSecondairesClient->removeElement($contactsSecondairesClient);
+
+        return $this;
+    }
+
+    public function getEquipements(): ?array
+    {
+        return $this->equipements;
+    }
+
+    public function setEquipements(?array $equipements): self
+    {
+        $this->equipements = $equipements;
+
+        return $this;
+    }
+
+    public function getBache(): ?array
+    {
+        return $this->bache;
+    }
+
+    public function setBache(?array $bache): self
+    {
+        $this->bache = $bache;
+
+        return $this;
+    }
+
+    public function getDimensionsGlobales(): ?array
+    {
+        return $this->dimensionsGlobales;
+    }
+
+    public function setDimensionsGlobales(?array $dimensionsGlobales): self
+    {
+        $this->dimensionsGlobales = $dimensionsGlobales;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getStatutCommercial(): ?string
+    {
+        return $this->statutCommercial;
+    }
+
+    public function setStatutCommercial(string $statutCommercial): self
+    {
+        $this->statutCommercial = $statutCommercial;
 
         return $this;
     }
