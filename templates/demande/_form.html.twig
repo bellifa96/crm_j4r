@@ -370,7 +370,7 @@
         if ($("input[name='demande[consoles]']:checked").val() === "0.4" || $("input[name='demande[consoles]']:checked").val() === "0.7"
         ) {
             $('#demande_consoles_autre').remove();
-        } else if ($('#demande_console_autre').length === 0) {
+        } else if ($('#demande_consoles_autre').length === 0) {
             let div = `<input type="text" id="demande_consoles_autre" name="demande[consoles]" required="required"  class="form-control">`;
             $('#demande_consoles').append(div);
         }
