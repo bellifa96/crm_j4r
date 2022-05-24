@@ -71,7 +71,7 @@ $(function () {
         yearSuffix: '',
         numberOfMonths: 1,
         showButtonPanel: true,
-        changeYear: true
+        changeYear: true,
     });
 
 
