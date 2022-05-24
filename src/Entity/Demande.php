@@ -9,6 +9,7 @@ use App\Repository\DemandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
@@ -17,6 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Demande
 {
     use AdresseTrait;
+    use TimesTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -138,6 +140,7 @@ class Demande
     private $contactPrincipalClient;
 
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'contactSecondairesDemandes')]
+    #[JoinTable(name:"demande_contact_secondaires")]
     private $ContactsSecondairesClient;
 
     #[ORM\Column(type: 'array', nullable: true)]
@@ -155,12 +158,24 @@ class Demande
     #[ORM\Column(type: 'string', length: 255)]
     private $statutCommercial;
 
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandesMaitreDOuvrage')]
+    private $maitreDOuvrage;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'DemandesContactMaitreDOuvrage')]
+    private $contactMaitreDOuvrage;
+
+    #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'demandesContactMaitreDOuvrageSecondaires')]
+    #[JoinTable(name:"demande_contact__maitre_ouvrage_secondaires")]
+
+    private $contactMaitreDOuvrageSecondaires;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
         $this->ContactsSecondairesClient = new ArrayCollection();
         $this->statut = "A traiter";
         $this->statutCommercial = "A relancer";
+        $this->contactMaitreDOuvrageSecondaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -637,6 +652,54 @@ class Demande
     public function setStatutCommercial(string $statutCommercial): self
     {
         $this->statutCommercial = $statutCommercial;
+
+        return $this;
+    }
+
+    public function getMaitreDOuvrage(): ?Interlocuteur
+    {
+        return $this->maitreDOuvrage;
+    }
+
+    public function setMaitreDOuvrage(?Interlocuteur $maitreDOuvrage): self
+    {
+        $this->maitreDOuvrage = $maitreDOuvrage;
+
+        return $this;
+    }
+
+    public function getContactMaitreDOuvrage(): ?Contact
+    {
+        return $this->contactMaitreDOuvrage;
+    }
+
+    public function setContactMaitreDOuvrage(?Contact $contactMaitreDOuvrage): self
+    {
+        $this->contactMaitreDOuvrage = $contactMaitreDOuvrage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContactMaitreDOuvrageSecondaires(): Collection
+    {
+        return $this->contactMaitreDOuvrageSecondaires;
+    }
+
+    public function addContactMaitreDOuvrageSecondaire(Contact $contactMaitreDOuvrageSecondaire): self
+    {
+        if (!$this->contactMaitreDOuvrageSecondaires->contains($contactMaitreDOuvrageSecondaire)) {
+            $this->contactMaitreDOuvrageSecondaires[] = $contactMaitreDOuvrageSecondaire;
+        }
+
+        return $this;
+    }
+
+    public function removeContactMaitreDOuvrageSecondaire(Contact $contactMaitreDOuvrageSecondaire): self
+    {
+        $this->contactMaitreDOuvrageSecondaires->removeElement($contactMaitreDOuvrageSecondaire);
 
         return $this;
     }
