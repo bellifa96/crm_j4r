@@ -27,6 +27,8 @@ class DevisController extends AbstractController
     #[Route('/new/{id}', name: 'app_affaire_devis_new', methods: ['GET', 'POST'])]
     public function new(Demande $demande,Request $request, DevisRepository $devisRepository): Response
     {
+
+        $this->index($request);
         $devi = new Devis();
         $devi->setDemande($demande);
         $form = $this->createForm(DevisType::class, $devi);
