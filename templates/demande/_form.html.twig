@@ -460,7 +460,7 @@
     $(document).on("change", "input[name='demande[acces]']", function () {
         if ($("input[name='demande[acces]']:checked").val() === "Volée alu à palier incorporé" || $("input[name='demande[acces]']:checked").val() === "Planche à trappe") {
             $('#demande_acces_autre').remove();
-        } else if ($('#demande_protection_couvreur_autre').length === 0) {
+        } else if ($('#demande_acces_autre').length === 0) {
             let div = `<input type="text" id="demande_acces_autre" name="demande[acces]" required="required"  class="form-control">`;
             $('#demande_acces').append(div);
         }
@@ -473,31 +473,31 @@
             arr.push($(this).val());
         });
 
-        if (arr.includes("Themee") && $('#demande_bache_2_themee').length === 0) {
+        if (arr.includes("Themee") && $('#demande_bache_themee').length === 0) {
             let div = `<div class="col-md-6 row">
-                                <input type="text" id="demande_bache_2_themee"
+                                <input type="text" id="demande_bache_themee"
                                        name="demande[bache][]"
                                        class="form-control">
                        </div>`;
             $('#demande_bache').append(div);
 
-        } else if (!arr.includes("Themee") && $('#demande_bache_2_themee').length > 0) {
+        } else if (!arr.includes("Themee") && $('#demande_bache_themee').length > 0) {
 
-            $('#demande_bache_2_themee').parent().remove();
+            $('#demande_bache_themee').parent().remove();
 
         }
     });
 
-    /*$(document).on("change", "input[name='demande[finitionPlancher]']", function () {
-        if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes")
+    $(document).on("change", "input[name='demande[finitionPlancher]']", function () {
+        if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes"
             || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers combi")
         {
-            $('#finitionPlancher').remove();
+            $('#demande_finitionPlancher_autre').remove();
         } else if ($('#demande_finitionPlancher_autre').length === 0) {
-            let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required"  class="form-control">`;
-            $('#finitionPlancher').append(div);
+            let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required" class="form-control">`;
+            $('#demande_finitionPlancher').append(div);
         }
-    });*/
+    });
 
 
 </script>
