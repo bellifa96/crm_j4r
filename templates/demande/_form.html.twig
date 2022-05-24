@@ -473,17 +473,18 @@
             arr.push($(this).val());
         });
 
-        if (arr.includes("Themee") && $('#demande_bache_themee').length === 0) {
-            let div = `<div class="col-md-6 row">
-                                <input type="text" id="demande_bache_themee"
+        if (arr.includes("Thémée") && $('#demande_bache_autre').length === 0) {
+            let div = `<div class="col-md-6">
+                                <input type="text" id="demande_bache_autre"
                                        name="demande[bache][]"
                                        class="form-control">
                        </div>`;
-            $('#demande_bache').append(div);
 
-        } else if (!arr.includes("Themee") && $('#demande_bache_themee').length > 0) {
+            $('#demande_themee').append(div);
 
-            $('#demande_bache_themee').parent().remove();
+        } else if (!arr.includes("Thémée") && $('#demande_bache_autre').length > 0) {
+
+            $('#demande_bache_autre').parent().remove();
 
         }
     });

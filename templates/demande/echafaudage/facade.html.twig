@@ -353,14 +353,14 @@
                 <div class="col-md-4">
                     <label for="demande_hauteur_des_planchers_1" class="required">Au dessus du sol en m</label>
                     <input type="text" id="demande_hauteur_des_planchers_1" class="form-control"
-                           name="demande[hauteurDesPlanchers]|[MAuDessusDuSol]" required="required"
+                           name="demande[hauteurDesPlanchers][MAuDessusDuSol]" required="required"
                            placeholder="m au dessus du sol">
                 </div>
 
                 <div class="col-md-4">
                     <label for="demande_hauteur_des_planchers_2" class="required">Autre</label>
                     <input type="text" id="demande_hauteur_des_planchers_2" class="form-control"
-                           name="demande[hauteurDesPlanchers]|[Autre]" required="required"
+                           name="demande[hauteurDesPlanchers][Autre]" required="required"
                            placeholder="Autre">
                 </div>
             </div>
@@ -457,11 +457,12 @@
                                value="Sur cadre">
                         <label for="demande_bache_1" class="required">Sur cadre</label>
                     </div>
-                    <div class="col-md-12">
-
-                        <input type="checkbox" id="demande_bache_2" name="demande[bache][]"
-                               value="Autre">
-                        <label for="demande_bache_2" class="required">Thémée</label>
+                    <div class="col-md-12 row" id="demande_themee">
+                        <div class="col-md-6">
+                            <input type="checkbox" id="demande_bache_2" name="demande[bache][]"
+                                   value="Thémée">
+                            <label for="demande_bache_2" class="required">Thémée</label>
+                        </div>
                     </div>
                     <div class="col-md-12">
 
