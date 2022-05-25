@@ -337,8 +337,9 @@
                          </div>`;
             data = JSON.parse(data);
             if (data.length > 0) {
+                console.log(data),
                 $(div).insertAfter($("#demande_maitreDOuvrage").parent().parent());
-                data.forEach((key, value) => {
+                data.forEach((value, key) => {
                     $('#demande_contact_principal_maitre_douvrage').append($('<option>', {
                         value: value.id,
                         text: value.text
@@ -363,8 +364,7 @@
             data = JSON.parse(data);
             if (data.length > 0) {
                 $(div).insertAfter($("#demande_intermediaire").parent().parent());
-                data.forEach((key, value) => {
-                    console.log(data),
+                data.forEach((value, key) => {
                     $('#demande_contact_principal_intermediaire').append($('<option>', {
                         value: value.id,
                         text: value.text
