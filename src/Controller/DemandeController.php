@@ -22,8 +22,8 @@ class DemandeController extends AbstractController
     {
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandeRepository->findAll(),
-            'title'=>'Liste des demandes',
-            'nav'=>[['app_demande_new','ajouter une demande']]
+            'title' => 'Liste des demandes',
+            'nav' => [['app_demande_new', 'ajouter une demande']]
         ]);
     }
 
@@ -38,50 +38,14 @@ class DemandeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-
-            $data = $request->request->all()['demande'];
-
-       //     dd($data);
-            $demande->setTypeDePrestation($data['typeDePrestation']);
-            $demande->setDocumentsSouhaites($data['documentsSouhaites']);
-            $demande->setFondsDePlan($data['fondsDePlan']);
-
-
-            if($demande->getTypeEchafaudage() == "Façade"){
-                $demande->setTravauxPrevus($data['travauxPrevus']);
-                $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']);
-                $demande->setTypeDeMateriel($data['typeDeMateriel']);
-                $demande->setDimensions($data['dimensionsGlobales']);
-                $demande->setAmmarages($data['ammarages']);
-                $demande->setLargeurDeTravail($data['largeurDeTravail']);
-                $demande->setConsoles($data['consoles']);
-                $demande->setDistanceALaFacade($data['distanceALaFacade']);
-                key_exists('rapportDistanceALaFacade',$data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) :"";
-                $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']);
-                $demande->setEquipements($data['equipements']);
-                key_exists('protectionCouvreur',$data)? $demande->setProtectionCouvreur($data['protectionCouvreur']) :"";
-                key_exists('largeurPassagePieton',$data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) :"";
-                $demande->setAcces($data['acces']);
-                $demande->setBacheEtFilet($data['bacheEtFilet']);
-                key_exists('bache',$data) ? $demande->setBache($data['bache']): "";
-                $demande->setDimensionsGlobales($data['dimensionsGlobales']);
-            }
-
-
-        //   dd($data['typeDePrestation']);
-
-
-           // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
-
-            $demandeRepository->add($demande);
-            return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+            return $this->extracted($request, $demande, $demandeRepository);
         }
 
         return $this->renderForm('demande/new.html.twig', [
             'demande' => $demande,
             'form' => $form,
-            'title'=>'Créer une nouvelle Demande',
-            'nav'=>[]
+            'title' => 'Créer une nouvelle Demande',
+            'nav' => []
         ]);
     }
 
@@ -90,30 +54,30 @@ class DemandeController extends AbstractController
     {
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
-            'title'=> "Demande N° ".$demande->getId(),
-            'nav'=> [['app_affaire_devis_new','Transformer en devis',$demande->getId()],['app_demande_edit','Modifier',$demande->getId()]]
+            'title' => "Demande N° " . $demande->getId(),
+            'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]
         ]);
     }
 
-    #[Route('/form/template', name: 'app_demande_form', methods: ['GET','POST'])]
-    public function getForm(Request $request,Environment $environment): Response
+    #[Route('/form/template', name: 'app_demande_form', methods: ['GET', 'POST'])]
+    public function getForm(Request $request, Environment $environment): Response
     {
 
         $response = new Response();
 
-        if($request->request->get('data') == "Façade"){
+        if ($request->request->get('data') == "Façade") {
             $path = "demande/echafaudage/facade.html.twig";
-        }elseif($request->request->get('data') == "Parapluie"){
+        } elseif ($request->request->get('data') == "Parapluie") {
             $path = "demande/echafaudage/parapluie.html.twig";
 
-        }elseif($request->request->get('data') == "Particulier"){
+        } elseif ($request->request->get('data') == "Particulier") {
             $path = "demande/echafaudage/particulier.html.twig";
 
-        }elseif($request->request->get('data') == "Plateforme"){
+        } elseif ($request->request->get('data') == "Plateforme") {
             $path = "demande/echafaudage/plateforme.html.twig";
         }
 
-        if(!empty($path)) {
+        if (!empty($path)) {
 
             try {
                 $html = $environment->render($path);
@@ -138,7 +102,7 @@ class DemandeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($request->request,$form->getData());
+            dd($request->request, $form->getData());
 
             $demandeRepository->add($demande);
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
@@ -147,18 +111,73 @@ class DemandeController extends AbstractController
         return $this->renderForm('demande/edit.html.twig', [
             'demande' => $demande,
             'form' => $form,
-            'title'=>'Liste des demandes',
-            'nav'=>[['app_demande_new','ajouter une demande']]
+            'title' => 'Liste des demandes',
+            'nav' => [['app_demande_new', 'ajouter une demande']]
         ]);
     }
 
     #[Route('/{id}', name: 'app_demande_delete', methods: ['POST'])]
     public function delete(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $demande->getId(), $request->request->get('_token'))) {
             $demandeRepository->remove($demande);
         }
 
+        return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param Request $request
+     * @param Demande $demande
+     * @param DemandeRepository $demandeRepository
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function extracted(Request $request, Demande $demande, DemandeRepository $demandeRepository): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        $data = $request->request->all()['demande'];
+
+        dump('ici');
+        //die;
+        dd($data);
+        $demande->setTypeDePrestation($data['typeDePrestation']);
+        $demande->setDocumentsSouhaites($data['documentsSouhaites']);
+        $demande->setFondsDePlan($data['fondsDePlan']);
+
+
+        key_exists('travauxPrevus') ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
+        key_exists('classeDEchaffaudage') ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
+        key_exists('typeDeMateriel') ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
+        key_exists('dimensionsGlobales') ? $demande->setDimensions($data['dimensionsGlobales']) : "";
+        key_exists('ammarages') ? $demande->setAmmarages($data['ammarages']) : "";
+        key_exists('largeurDeTravail') ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : "";
+        key_exists('consoles') ? $demande->setConsoles($data['consoles']) : "";
+        key_exists('distanceALaFacade') ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : "";
+        key_exists('rapportDistanceALaFacade', $data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) : "";
+        key_exists('hauteurDesPlanchers') ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : "";
+        key_exists('equipements') ? $demande->setEquipements($data['equipements']) : "";
+        key_exists('protectionCouvreur', $data) ? $demande->setProtectionCouvreur($data['protectionCouvreur']) : "";
+        key_exists('largeurPassagePieton', $data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) : "";
+        key_exists('acces') ? $demande->setAcces($data['acces']) : "";
+        key_exists('bacheEtFilet') ? $demande->setBacheEtFilet($data['bacheEtFilet']) : "";
+        key_exists('bache', $data) ? $demande->setBache($data['bache']) : "";
+        key_exists('dimensionsGlobales') ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : "";
+        key_exists('porteeLibre') ? $demande->setPorteeLibre($data['porteeLibre']) : "";
+        key_exists('longueur') ? $demande->setLongueur($data['porteeLibre']) : "";
+        key_exists('hauteurDesPlanchers') ? $demande->setHauteurDesPlanchers($data['hauteur']) : "";
+        key_exists('traitementDesPignons') ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : "";
+        key_exists('finitionPlancher') ? $demande->setFinitionPlancher($data['finitionPlancher']) : "";
+        key_exists('gcPeripherique') ? $demande->setGcPeripherique($data['gcPeripherique']) : "";
+        key_exists('dimensions') ? $demande->setDimensions($data['dimensions']) : "";
+
+
+        //   dd($data['typeDePrestation']);
+
+
+        // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
+
+        $demandeRepository->add($demande);
         return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
     }
 }
