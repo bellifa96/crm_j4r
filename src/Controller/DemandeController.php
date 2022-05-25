@@ -91,7 +91,7 @@ class DemandeController extends AbstractController
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
             'title'=> "Demande N° ".$demande->getId(),
-            'nav'=> [['app_affaire_devis_new','Transformer en devis',$demande->getId()],['app_demande_edit','Modifier',$demande->getId()]]
+            'nav'=> [['app_affaire_devis_new','Transformer en devis',$demande->getId()],['app_demande_edit','Modifier',$demande->getId()],['app_affaire_evenement_new','Ajouter un evenement',$demande->getId()]]
         ]);
     }
 

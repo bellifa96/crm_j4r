@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Demande
 {
     use AdresseTrait;
-
+    use TimesTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

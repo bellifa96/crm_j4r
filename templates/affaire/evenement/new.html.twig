@@ -3,7 +3,9 @@
 {% block title %}New Evenement{% endblock %}
 
 {% block body %}
-    <h1>Create new Evenement</h1>
+
+    <h6 style="color: #0E4377;">demande N° {{ evenement.demande.id }}</h6>
+    <h6  style="color: #0E4377;">createur : {{ evenement.createur.lastname }}</h6>
 
     {{ include('affaire/evenement/_form.html.twig') }}
 

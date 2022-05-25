@@ -42,7 +42,6 @@ class Contact
     #[ORM\JoinColumn(nullable: false)]
     private $societe;
 
-
     #[ORM\ManyToOne(targetEntity: ContactService::class, inversedBy: 'contacts')]
     #[ORM\JoinColumn(nullable: false)]
     private $service;
