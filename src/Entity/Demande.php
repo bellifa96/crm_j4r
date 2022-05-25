@@ -159,6 +159,15 @@ class Demande
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Evenement::class)]
     private $evenements;
 
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandesMaitreDOuvrage')]
+    private $maitreDOuvrage;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandesContactPrincipalMaitreDOuvrage')]
+    private $contactPrincipalMaitreDOuvrage;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandesContactPrincipalIntermediaire')]
+    private $contactPrincipalIntermediaire;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -672,6 +681,42 @@ class Demande
                 $evenement->setDemande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaitreDOuvrage(): ?Interlocuteur
+    {
+        return $this->maitreDOuvrage;
+    }
+
+    public function setMaitreDOuvrage(?Interlocuteur $maitreDOuvrage): self
+    {
+        $this->maitreDOuvrage = $maitreDOuvrage;
+
+        return $this;
+    }
+
+    public function getContactPrincipalMaitreDOuvrage(): ?Contact
+    {
+        return $this->contactPrincipalMaitreDOuvrage;
+    }
+
+    public function setContactPrincipalMaitreDOuvrage(?Contact $contactPrincipalMaitreDOuvrage): self
+    {
+        $this->contactPrincipalMaitreDOuvrage = $contactPrincipalMaitreDOuvrage;
+
+        return $this;
+    }
+
+    public function getContactIntermediaire(): ?Contact
+    {
+        return $this->contactIntermediaire;
+    }
+
+    public function setContactIntermediaire(?Contact $contactIntermediaire): self
+    {
+        $this->contactIntermediaire = $contactIntermediaire;
 
         return $this;
     }

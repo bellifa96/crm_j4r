@@ -44,6 +44,8 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'maitreDOuvrage', targetEntity: Demande::class)]
     private $demandesMaitreDOuvrage;
 
+
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -238,4 +240,5 @@ class Interlocuteur
 
         return $this;
     }
+
 }
