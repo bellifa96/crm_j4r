@@ -295,7 +295,14 @@
         $.post(path, {data: $("input[name='demande[typeEchafaudage]']:checked").val()}, function (data) {
             $('#form-container').append(JSON.parse(data).message);
         })
+    });
 
+    $("#demande_client").change(function () {
+        $('.form-container').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {id: $("#demande_client").val()}, function (data) {
+            console.log(data);
+        })
     });
 
     $(document).on("change", "input[name='demande[documentsSouhaites][]']", function () {

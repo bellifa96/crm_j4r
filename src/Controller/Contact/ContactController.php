@@ -83,4 +83,22 @@ class ContactController extends AbstractController
 
         return $this->redirectToRoute('app_contact_contact_index', [], Response::HTTP_SEE_OTHER);
     }
+     #[Route('/interlocteur/contact/get', name: 'app_contact_interlocuteur_get_contact', methods: ['POST'])]
+    public function getInterlocuteurContact(Request $request, ContactRepository $contactRepository): Response
+    {
+        $id = $request->request->get('id');
+        $contacts = $contactRepository->findBySociete($id);
+        $data = [];
+        foreach ($contacts as $val){
+            $data[] = [
+                'id' => $val->getId(),
+                'text' => $val->getNom(). " " . $val->getPrenom()
+            ];
+        }
+        //dd($contacts);
+        //dd($data);
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        return $response;
+    }
 }
