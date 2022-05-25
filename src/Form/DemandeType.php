@@ -53,7 +53,7 @@ class DemandeType extends AbstractType
             )
             ->add('maitreDOuvrage', EntityType::class, [
                 'class' => Interlocuteur::class,
-                'required' => true,
+                'required' => false,
                 'choice_label' => function ($interlocuteur) {
                     return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
                 }
