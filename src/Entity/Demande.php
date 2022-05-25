@@ -159,6 +159,9 @@ class Demande
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Evenement::class)]
     private $evenements;
 
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'demandesMaitreDOuvrage')]
+    private $maitreDOuvrage;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -672,6 +675,18 @@ class Demande
                 $evenement->setDemande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaitreDOuvrage(): ?Interlocuteur
+    {
+        return $this->maitreDOuvrage;
+    }
+
+    public function setMaitreDOuvrage(?Interlocuteur $maitreDOuvrage): self
+    {
+        $this->maitreDOuvrage = $maitreDOuvrage;
 
         return $this;
     }

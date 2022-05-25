@@ -25,7 +25,7 @@ class DemandeType extends AbstractType
             ->add('ville')
             ->add('codePostal')
             ->add('pays')
-            ->add('typeEchafaudage',ChoiceType::class, [
+            ->add('typeEchafaudage', ChoiceType::class, [
                 'choices' => [
                     'Façade' => 'Façade',
                     'Parapluie' => 'Parapluie',
@@ -45,12 +45,19 @@ class DemandeType extends AbstractType
             )
             ->add('intermediaire', EntityType::class, [
                     'class' => Interlocuteur::class,
-                    'required'=> false,
+                    'required' => false,
                     'choice_label' => function ($interlocuteur) {
                         return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
                     }
                 ]
-            );
+            )
+            ->add('maitreDOuvrage', EntityType::class, [
+                'class' => Interlocuteur::class,
+                'required' => true,
+                'choice_label' => function ($interlocuteur) {
+                    return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
+                }
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
