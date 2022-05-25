@@ -1,9 +1,10 @@
 <style>
 
-    .col-md-2-5{
+    .col-md-2-5 {
         flex: 0 0 auto;
         width: 20%;
     }
+
     .form-control:focus {
         box-shadow: none;
         border-color: #1ab2e4
@@ -129,8 +130,8 @@
         }
     }
 
-    label{
-        color:#0d4377;
+    label {
+        color: #0d4377;
     }
 </style>
 
@@ -145,15 +146,6 @@
                 </div>
                 <div class="col-md-9">
                     {{ form_widget(form.client,{"attr":{"class":"form-control form-control-sm-2","autofocus":"on"}}) }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Contact principal</label>
-                </div>
-                <div class="col-md-9">
-
                 </div>
             </div>
 
@@ -262,7 +254,7 @@
             </div>
             {% for child in form.typeEchafaudage %}
                 <div class="col-md-2-5 required mt-2">
-                   {{ form_widget(child,{'attr':{'class':'te'}}) }}
+                    {{ form_widget(child,{'attr':{'class':'te'}}) }}
                     <label for="{{ child.vars.id }}" class="te-label required mt-2">
                         {{ child.vars.label }}
                     </label>
@@ -280,16 +272,16 @@
 
 <div class="page-block col-md-10 m-auto mt-4">
 
-        <div class="col-md-4">
-            <div class="p-3 py-5">
+    <div class="col-md-4">
+        <div class="p-3 py-5">
 
-                <div class="col-md-12"><label class="labels">Commentaire</label>
-                    {{ form_widget(form.commentaire,{"attr":{"class":"form-control","placeholder":"Commentaire"}}) }}
-                </div>
-                <br>
-
+            <div class="col-md-12"><label class="labels">Commentaire</label>
+                {{ form_widget(form.commentaire,{"attr":{"class":"form-control","placeholder":"Commentaire"}}) }}
             </div>
+            <br>
+
         </div>
+    </div>
 </div>
 
 {{ form_end(form) }}
@@ -307,10 +299,78 @@
     });
 
     $("#demande_client").change(function () {
-        $('.form-container').remove();
+        $('.contact-client').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
         $.post(path, {id: $("#demande_client").val()}, function (data) {
-            console.log(data);
+            const div = `<div class="row mt-2 contact-client">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]" id="demande_contact_principal_client"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                $(div).insertAfter($("#demande_client").parent().parent());
+                data.forEach((value, key) => {
+                    $('#demande_contact_principal_client').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
+        })
+    });
+
+    $("#demande_maitreDOuvrage").change(function () {
+        $('.contact-maitre-douvrage').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {id: $("#demande_maitreDOuvrage").val()}, function (data) {
+            const div = `<div class="row mt-2 contact-maitre-douvrage">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]" id="demande_contact_principal_maitre_douvrage"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                $(div).insertAfter($("#demande_maitreDOuvrage").parent().parent());
+                data.forEach((key, value) => {
+                    $('#demande_contact_principal_maitre_douvrage').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
+        })
+    });
+
+    $("#demande_intermediaire").change(function () {
+        $('.contact-intermediaire').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {id: $("#demande_intermediaire").val()}, function (data) {
+            const div = `<div class="row mt-2 contact-intermediaire">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]" id="demande_contact_principal_intermediaire"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                $(div).insertAfter($("#demande_intermediaire").parent().parent());
+                data.forEach((key, value) => {
+                    console.log(data),
+                    $('#demande_contact_principal_intermediaire').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
         })
     });
 
@@ -516,8 +576,7 @@
 
     $(document).on("change", "input[name='demande[finitionPlancher]']", function () {
         if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes"
-            || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers combi")
-        {
+            || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers combi") {
             $('#demande_finitionPlancher_autre').remove();
         } else if ($('#demande_finitionPlancher_autre').length === 0) {
             let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required" class="form-control">`;
