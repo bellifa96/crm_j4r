@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Form\DemandeType;
 use App\Repository\DemandeRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +21,15 @@ use Twig\Error\SyntaxError;
 #[Route('/demande')]
 class DemandeController extends AbstractController
 {
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+
+        $this->em = $em;
+    }
+
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
     public function index(DemandeRepository $demandeRepository): Response
     {
@@ -38,7 +51,7 @@ class DemandeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            return $this->extracted($request, $demande, $demandeRepository);
+            return $this->extracted($request, $demande, $demandeRepository,);
         }
 
         return $this->renderForm('demande/new.html.twig', [
@@ -138,41 +151,42 @@ class DemandeController extends AbstractController
     {
         $data = $request->request->all()['demande'];
 
-        dd($data);
         $demande->setTypeDePrestation($data['typeDePrestation']);
         $demande->setDocumentsSouhaites($data['documentsSouhaites']);
         $demande->setFondsDePlan($data['fondsDePlan']);
 
-        key_exists('maitreDOuvrage') ? $demande->setMaitreDOuvrage($data['maitreDOuvrage']) : "";
-        key_exists('contactPrincipalMaitreDOuvrage') ? $demande->setContactPrincipalMaitreDOuvrage($data['contactPrincipalMaitreDOuvrage']) : "";
-        key_exists('intermediaire') ? $demande->setIntermediaire($data['intermediaire']) : "";
-        key_exists('contactPrincipalIntermediaire') ? $demande->setContactPrincipalIntermediaire($data['contactPrincipalIntermediaire']) : "";
+
+        key_exists('contactPrincipalMaitreDOuvrage', $data) ? $contatcPMO = $this->em->getRepository(Contact::class)->find($data['contactPrincipalMaitreDOuvrage']) : $contatcPMO = null;
+        !empty($contatcPMO) ? $demande->setContactPrincipalMaitreDOuvrage($contatcPMO) : "";
+
+        key_exists('contactPrincipalIntermediaire', $data) ? $contatcI = $this->em->getRepository(Contact::class)->find($data['contactPrincipalIntermediaire']) : $contatcI = null;
+        !empty($contatcI) ? $demande->setContactIntermediaire($contatcI) : "";
 
 
-        key_exists('travauxPrevus') ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
-        key_exists('classeDEchaffaudage') ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
-        key_exists('typeDeMateriel') ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
-        key_exists('dimensionsGlobales') ? $demande->setDimensions($data['dimensionsGlobales']) : "";
-        key_exists('ammarages') ? $demande->setAmmarages($data['ammarages']) : "";
-        key_exists('largeurDeTravail') ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : "";
-        key_exists('consoles') ? $demande->setConsoles($data['consoles']) : "";
-        key_exists('distanceALaFacade') ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : "";
+        key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
+        key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
+        key_exists('typeDeMateriel',$data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
+        key_exists('dimensionsGlobales', $data) ? $demande->setDimensions($data['dimensionsGlobales']) : "";
+        key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : "";
+        key_exists('largeurDeTravail', $data) ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : "";
+        key_exists('consoles', $data) ? $demande->setConsoles($data['consoles']) : "";
+        key_exists('distanceALaFacade', $data) ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : "";
         key_exists('rapportDistanceALaFacade', $data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) : "";
-        key_exists('hauteurDesPlanchers') ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : "";
-        key_exists('equipements') ? $demande->setEquipements($data['equipements']) : "";
+        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : "";
+        key_exists('equipements', $data) ? $demande->setEquipements($data['equipements']) : "";
         key_exists('protectionCouvreur', $data) ? $demande->setProtectionCouvreur($data['protectionCouvreur']) : "";
         key_exists('largeurPassagePieton', $data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) : "";
-        key_exists('acces') ? $demande->setAcces($data['acces']) : "";
-        key_exists('bacheEtFilet') ? $demande->setBacheEtFilet($data['bacheEtFilet']) : "";
+        key_exists('acces', $data) ? $demande->setAcces($data['acces']) : "";
+        key_exists('bacheEtFilet', $data) ? $demande->setBacheEtFilet($data['bacheEtFilet']) : "";
         key_exists('bache', $data) ? $demande->setBache($data['bache']) : "";
-        key_exists('dimensionsGlobales') ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : "";
-        key_exists('porteeLibre') ? $demande->setPorteeLibre($data['porteeLibre']) : "";
-        key_exists('longueur') ? $demande->setLongueur($data['porteeLibre']) : "";
-        key_exists('hauteurDesPlanchers') ? $demande->setHauteurDesPlanchers($data['hauteur']) : "";
-        key_exists('traitementDesPignons') ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : "";
-        key_exists('finitionPlancher') ? $demande->setFinitionPlancher($data['finitionPlancher']) : "";
-        key_exists('gcPeripherique') ? $demande->setGcPeripherique($data['gcPeripherique']) : "";
-        key_exists('dimensions') ? $demande->setDimensions($data['dimensions']) : "";
+        key_exists('dimensionsGlobales', $data) ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : "";
+        key_exists('porteeLibre', $data) ? $demande->setPorteeLibre($data['porteeLibre']) : "";
+        key_exists('longueur', $data) ? $demande->setLongueur($data['porteeLibre']) : "";
+        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteur']) : "";
+        key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : "";
+        key_exists('finitionPlancher', $data) ? $demande->setFinitionPlancher($data['finitionPlancher']) : "";
+        key_exists('gcPeripherique', $data) ? $demande->setGcPeripherique($data['gcPeripherique']) : "";
+        key_exists('dimensions', $data) ? $demande->setDimensions($data['dimensions']) : "";
 
 
         //   dd($data['typeDePrestation']);

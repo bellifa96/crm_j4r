@@ -18,6 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Demande
 {
     use AdresseTrait;
+    use TimesTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -58,7 +59,7 @@ class Demande
     private $fondsDePlan;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $classeDEchaffaudage;
 
     #[Gedmo\Versioned]
@@ -77,12 +78,12 @@ class Demande
     private $largeurDeTravail;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'string',length: 255,nullable: true,)]
     private $consoles;
 
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $acces;
 
     #[Gedmo\Versioned]
@@ -284,7 +285,7 @@ class Demande
         return $this->classeDEchaffaudage;
     }
 
-    public function setClasseDEchaffaudage(string $classeDEchaffaudage): self
+    public function setClasseDEchaffaudage(?string $classeDEchaffaudage): self
     {
         $this->classeDEchaffaudage = $classeDEchaffaudage;
 
@@ -357,12 +358,12 @@ class Demande
         return $this;
     }
 
-    public function getConsoles(): ?float
+    public function getConsoles(): ?string
     {
         return $this->consoles;
     }
 
-    public function setConsoles(float $consoles): self
+    public function setConsoles(?string $consoles): self
     {
         $this->consoles = $consoles;
 
@@ -374,7 +375,7 @@ class Demande
         return $this->acces;
     }
 
-    public function setAcces(string $acces): self
+    public function setAcces(?string $acces): self
     {
         $this->acces = $acces;
 
