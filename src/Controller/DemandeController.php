@@ -138,12 +138,15 @@ class DemandeController extends AbstractController
     {
         $data = $request->request->all()['demande'];
 
-        dump('ici');
-        //die;
         dd($data);
         $demande->setTypeDePrestation($data['typeDePrestation']);
         $demande->setDocumentsSouhaites($data['documentsSouhaites']);
         $demande->setFondsDePlan($data['fondsDePlan']);
+
+        key_exists('maitreDOuvrage') ? $demande->setMaitreDOuvrage($data['maitreDOuvrage']) : "";
+        key_exists('contactPrincipalMaitreDOuvrage') ? $demande->setContactPrincipalMaitreDOuvrage($data['contactPrincipalMaitreDOuvrage']) : "";
+        key_exists('intermediaire') ? $demande->setIntermediaire($data['intermediaire']) : "";
+        key_exists('contactPrincipalIntermediaire') ? $demande->setContactPrincipalIntermediaire($data['contactPrincipalIntermediaire']) : "";
 
 
         key_exists('travauxPrevus') ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";

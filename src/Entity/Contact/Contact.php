@@ -314,7 +314,7 @@ class Contact
     {
         if (!$this->demandesContactPrincipalIntermediaire->contains($demandesContactPrincipalIntermediaire)) {
             $this->demandesContactPrincipalIntermediaire[] = $demandesContactPrincipalIntermediaire;
-            $demandesContactPrincipalIntermediaire->setContactIntermediaire($this);
+            $demandesContactPrincipalIntermediaire->setContactPrincipalIntermediaire($this);
         }
 
         return $this;
@@ -324,8 +324,8 @@ class Contact
     {
         if ($this->demandesContactPrincipalIntermediaire->removeElement($demandesContactPrincipalIntermediaire)) {
             // set the owning side to null (unless already changed)
-            if ($demandesContactPrincipalIntermediaire->getContactIntermediaire() === $this) {
-                $demandesContactPrincipalIntermediaire->setContactIntermediaire(null);
+            if ($demandesContactPrincipalIntermediaire->setContactPrincipalIntermediaire() === $this) {
+                $demandesContactPrincipalIntermediaire->setContactPrincipalIntermediaire(null);
             }
         }
 
