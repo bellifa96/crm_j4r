@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
 use App\Entity\Entite\Depot;
 use App\Entity\Ged\Fichier;
@@ -92,6 +93,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'attribueA', targetEntity: Evenement::class)]
     private $evenementsAttribues;
 
+    #[ORM\OneToMany(mappedBy: 'referent', targetEntity: Devis::class)]
+    private $devis;
+
 
     public function __construct()
     {
@@ -102,6 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->demandes = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->evenementsAttribues = new ArrayCollection();
+        $this->devis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -435,6 +440,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($evenementsAttribue->getAttribueA() === $this) {
                 $evenementsAttribue->setAttribueA(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Devis>
+     */
+    public function getDevis(): Collection
+    {
+        return $this->devis;
+    }
+
+    public function addDevi(Devis $devi): self
+    {
+        if (!$this->devis->contains($devi)) {
+            $this->devis[] = $devi;
+            $devi->setReferent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevi(Devis $devi): self
+    {
+        if ($this->devis->removeElement($devi)) {
+            // set the owning side to null (unless already changed)
+            if ($devi->getReferent() === $this) {
+                $devi->setReferent(null);
             }
         }
 

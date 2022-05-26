@@ -32,6 +32,12 @@ class Lot
     #[ORM\OneToMany(mappedBy: 'lot', targetEntity: SousLot::class)]
     private $sousLots;
 
+    #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'lots')]
+    private $devis;
+
+    #[ORM\Column(type: 'integer')]
+    private $code;
+
     public function __construct()
     {
         $this->sousLots = new ArrayCollection();
@@ -95,4 +101,31 @@ class Lot
 
         return $this;
     }
+
+    public function getDevis(): ?Devis
+    {
+        return $this->devis;
+    }
+
+    public function setDevis(?Devis $devis): self
+    {
+        $this->devis = $devis;
+
+        return $this;
+    }
+
+    public function getCode(): ?int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+
+
 }

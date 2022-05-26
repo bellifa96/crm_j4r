@@ -79,7 +79,7 @@ $(function () {
 
     $('.multi-select').multipleSelect();
 
-    $('.table').DataTable({
+    $('.datatable').DataTable({
         "oLanguage": {
             sSearch: "",
             searchPlaceholder: "Chercher"

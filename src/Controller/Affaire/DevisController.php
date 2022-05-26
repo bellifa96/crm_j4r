@@ -3,6 +3,9 @@
 namespace App\Controller\Affaire;
 
 use App\Entity\Affaire\Devis;
+use App\Entity\Affaire\Lot;
+use App\Entity\Affaire\Ouvrage;
+use App\Entity\Affaire\SousLot;
 use App\Entity\Demande;
 use App\Form\Affaire\DevisType;
 use App\Repository\Affaire\DevisRepository;
@@ -28,8 +31,13 @@ class DevisController extends AbstractController
     public function new(Demande $demande,Request $request, DevisRepository $devisRepository): Response
     {
 
-        $this->index($request);
         $devi = new Devis();
+        $lot = new Lot();
+        $sousLot = new SousLot();
+        $lot->addSousLot($sousLot);
+        $ouvrage = new Ouvrage();
+        $sousLot->addOuvrage($ouvrage);
+        $devi->addLot($lot);
         $devi->setDemande($demande);
         $form = $this->createForm(DevisType::class, $devi);
         $form->handleRequest($request);
@@ -42,6 +50,7 @@ class DevisController extends AbstractController
         return $this->renderForm('affaire/devis/new.html.twig', [
             'devi' => $devi,
             'form' => $form,
+            'demande'=> $demande,
             'title'=> 'Créer un nouveau devis',
             'nav'=> []
         ]);

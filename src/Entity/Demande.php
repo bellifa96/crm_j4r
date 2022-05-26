@@ -63,7 +63,7 @@ class Demande
     private $classeDEchaffaudage;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeDeMateriel;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Devis::class)]
@@ -297,7 +297,7 @@ class Demande
         return $this->typeDeMateriel;
     }
 
-    public function setTypeDeMateriel(string $typeDeMateriel): self
+    public function setTypeDeMateriel(?string $typeDeMateriel): self
     {
         $this->typeDeMateriel = $typeDeMateriel;
 

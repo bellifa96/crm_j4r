@@ -52,7 +52,7 @@ class Societe
     private $dateDeCreation;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $email;
 
     #[ORM\OneToOne(mappedBy: 'societe', targetEntity: Interlocuteur::class, cascade: ['persist', 'remove'])]
@@ -168,7 +168,7 @@ class Societe
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

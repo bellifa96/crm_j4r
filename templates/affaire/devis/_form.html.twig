@@ -1,4 +1,477 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<style>
+    .labels {
+        font-size: 11px;
+        color: #0d4377;
+        font-weight: bold;
+    }
+
+    .bg-leasy {
+        background: #e2e8ed;
+        border-radius: 5px;
+    }
+
+    .bi {
+        font-size: 1.5rem;
+    }
+</style>
+
+<div class="page-block col-md-10 m-auto mt-4">
+
+    <div class="row">
+
+
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Client</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Maitre D'ouvrage</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Intermediaire</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels required">Nom du chantier</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.nomChantier }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Adresse</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.adresse1 }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Complément d'adresse</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.adresse2 }}
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Code postal</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.codePostal }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Ville</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.ville }}
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Pays</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.pays }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="page-block col-md-10 m-auto mt-4">
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    {{ form_label(form.titre,'Titre', {'label_attr':{'class':'labels'}}) }}
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end labels">
+                    {{ form_label(form.description,'',{'label_attr':{'class':'labels'}}) }}
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.description,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end labels">
+                    {{ form_label(form.referent,'',{'label_attr':{'class':'labels'}}) }}
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.referent,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end labels">
+                    {{ form_label(form.statut,'',{'label_attr':{'class':'labels'}}) }}
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.statut,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% for row in form.lots %}
+
+        <div class="mt-4" id="lot_div_{{ loop.index }}">
+
+            <table class="table">
+                <thead>
+                <tr class="tr-head text-center">
+                    <th>N°</th>
+                    <th>Dénomination</th>
+                    <th>Déboursé Total HT</th>
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ loop.index }} </td>
+                    <td>{{ form_widget(row.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                    <td id="lot_debourse_total_ht_{{ loop.index }}">
+                        <div class="form-control-sm-2">
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row justify-content-center">
+                            <div class="col-md-auto">
+                                <a href="#"><i class="bi bi-plus-circle"></i></a>
+                            </div>
+                            <div class="col-md-auto">
+                                <a href="#"><i class="bi bi-three-dots"></i></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table text-center">
+
+                <thead>
+                <tr class="tr-head">
+                    <th>titre</th>
+                    <th>type d'ouvrage</th>
+                    <th>prix unitaire déboursé</th>
+                    <th>quantité d'ouvrage</th>
+                    <th>déboursé HT calculé</th>
+                    <th>marge</th>
+                    <th>prix de vente ht</th>
+                    <th></th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for sousLot in row.sousLots %}
+                    {% for ouvrage in sousLot.ouvrages %}
+
+                        <tr>
+                            <td>{{ form_widget(ouvrage.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.typeDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.prixUnitaireDebourse,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.quantiteDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.debourseHTCalcule,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.marge,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.prixDeVenteHT,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-auto">
+                                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+                                    </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-auto">
+            <a href="#">
+                + Créer un ouvrage
+            </a>
+        </div>
+
+        <div class="col-md-auto">
+            <a href="#">
+                + Créer un nouveau lot
+            </a>
+        </div>
+
+    </div>
+</div>
+
 {{ form_end(form) }}
+
+
+</div>
+
+<div class="col-md-10 m-auto mt-2">
+    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+
+</div>
+
+
+<div class="page-block col-md-10 m-auto mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mt-1">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Type de préstation</label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.typeDePrestation }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Documents souhaités </label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.documentsSouhaites|join('-') }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Fonds de plan </label>
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.fondsDePlan }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Travaux prevus </label>
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {{ demande.travauxPrevus|join('\n')|nl2br }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Classe d'échafaudage
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.ClasseDEchaffaudage }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Type de materiel
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.TypeDeMateriel }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Dimensions globales :
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {{ demande.dimensionsGlobales|join('\n')|nl2br }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Ammarages
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {{ demande.ammarages|join('\n')|nl2br }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Largeur de travail
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.LargeurDeTravail }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Consoles
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.consoles }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Distance à la façade
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.distanceALaFacade }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Hauteur des planchers
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {% for key,value in demande.hauteurDesPlanchers %}
+                        <div> {{ key~" : "~value }} </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Équipements
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {% for key,value in demande.equipements %}
+                        <div>
+                            {% if value == "Passage piéton" %}
+                                {{ value~" : "~demande.largeurPassagePieton }}
+                            {% elseif value == "Protection couvreur" %}
+                                {{ value~" : "~demande.protectionCouvreur }}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Accés
+                </div>
+                <div class="col-md-9 form-control-sm-2">
+                    {{ demande.acces }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    Bâche et filet
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {% for key,value in demande.bacheEtFilet %}
+                        <div>
+                            {{ key~" : "~value }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                </div>
+                <div class="col-md-9 bg-leasy">
+                    {% for key,value in demande.bache %}
+                        <div>
+                            {{ value }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="page-block col-md-10 m-auto mt-4">
+    <div class="row mt-2">
+        <div class="col-md-auto text-end">
+            Commentaire
+        </div>
+        <div class="col-md-10 bg-leasy">
+            {{ demande.commentaire|nl2br }}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page-block col-md-10 m-auto mt-4">
+    <div class="col-md-6 m-auto row mt-2">
+        <div class="col-md-5 text-end">
+            Date de création
+        </div>
+        <div class="col-md-auto bg-leasy">
+            {{ demande.createdAt|date('d/m/y H:i:s') }}
+        </div>
+    </div>
+
+    <div class="col-md-6 m-auto row mt-2">
+        <div class="col-md-5 text-end">
+            Date de la dernière modification
+        </div>
+        <div class="col-md-auto bg-leasy">
+            {{ demande.updatedAt|date('d/m/y H:i:s') }}
+        </div>
+    </div>
+
+</div>
+
