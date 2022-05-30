@@ -338,7 +338,7 @@
                             {% for fichier in interlocuteur.fichiers %}
 
                                 {% if fichier.isDeleted != true %}
-                                    <tr class="bg-blue  border-bottom text-center" style="border-color: #f8f9fa;">
+                                    <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
                                         <td>{{ fichier.typeFichier.titre }}</td>
                                         <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td>{{ fichier.createur.firstname }}</td>
