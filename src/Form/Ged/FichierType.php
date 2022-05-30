@@ -19,6 +19,7 @@ class FichierType extends AbstractType
         $builder
             ->add('fichier',FileType::class)
             ->add('typeFichier',EntityType::class,[
+                'placeholder'=> 'Veuillez sélectionner le type de fichier',
                 'class'=>TypeFichier::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
