@@ -358,23 +358,28 @@
                         </table>
                     </div>
 
-                    <div class="col-md-auto page-block">
+                    <div class="col-md-auto" style="height:max-content;background-color:white;">
+
+                        <div class="row text-start mb-4">
+                            <b style="color:#0E4377;">Document à charger</b>
+                        </div>
                         {{ form_start(form) }}
 
+
                         <div class="row">
-                            <div class="col-md-3">
-                                <label class="labels">Type de documents </label>
+                            <div class="col-md-3  text-end"">
+                                <label class="labels">Type</label>
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control'}}) }}
+                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-2 mb-2">
                             <div class="col-md-3">
                                 <label class="labels"> </label>
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.fichier,{'attr':{'class':'form-control'}}) }}
+                                {{ form_widget(form.fichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
                             </div>
                         </div>
 
