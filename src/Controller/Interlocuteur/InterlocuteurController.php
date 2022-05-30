@@ -95,7 +95,7 @@ class InterlocuteurController extends AbstractController
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
             'form'=>$form->createView(),
             'interlocuteur' => $interlocuteur,
-            'title' => 'Liste des interlocuteurs',
+            'title' => !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom(),
             'nav' => [['app_interlocuteur_interlocuteur_edit', 'Modifier', $interlocuteur->getId()]],
 
         ]);
