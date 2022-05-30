@@ -166,7 +166,7 @@ class FichierController extends AbstractController
     public function delete(Request $request, Fichier $fichier, FichierRepository $fichierRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $fichier->getId(), $request->request->get('_token'))) {
-            $fichier->setIsDeleted();
+            $fichier->setIsDeleted(true);
             $fichierRepository->add($fichier);
         }
         return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
