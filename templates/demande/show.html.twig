@@ -217,7 +217,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Classe d'échafaudage
+                        <label class="labels"> Classe d'échafaudage </label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.ClasseDEchaffaudage }}
@@ -226,7 +226,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Type de materiel
+                        <label class="labels"> Type de materiel</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.TypeDeMateriel }}
@@ -235,7 +235,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Dimensions globales :
+                        <label class="labels">Dimensions globales :</label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {{ demande.dimensionsGlobales|join('\n')|nl2br }}
@@ -244,7 +244,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Ammarages
+                        <label class="labels">Ammarages</label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {{ demande.ammarages|join('\n')|nl2br }}
@@ -253,7 +253,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Largeur de travail
+                        <label class="labels">   Largeur de travail</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.LargeurDeTravail }}
@@ -267,7 +267,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Consoles
+                        <label class="labels"> Consoles</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.consoles }}
@@ -276,7 +276,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Distance à la façade
+                        <label class="labels">  Distance à la façade</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.distanceALaFacade }}
@@ -285,7 +285,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Hauteur des planchers
+                        <label class="labels">  Hauteur des planchers</label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {% for key,value in demande.hauteurDesPlanchers %}
@@ -296,7 +296,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Équipements
+                        <label class="labels"> Équipements</label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {% for key,value in demande.equipements %}
@@ -315,7 +315,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Accés
+                        <label class="labels">  Accés</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.acces }}
@@ -324,7 +324,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        Bâche et filet
+                        <label class="labels">  Bâche et filet </label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {% for key,value in demande.bacheEtFilet %}
