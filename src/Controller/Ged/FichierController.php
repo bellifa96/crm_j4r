@@ -72,7 +72,7 @@ class FichierController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_ged_fichier_deleted', methods: ['GET'])]
+    #[Route('/trash', name: 'app_ged_fichier_deleted', methods: ['GET'])]
     public function trash(FichierRepository $fichierRepository): Response
     {
         return $this->render('ged/fichier/index.html.twig', [
