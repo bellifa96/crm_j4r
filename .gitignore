@@ -9,7 +9,7 @@
 /vendor/
 /public/uploads/photo/contact/*
 ###< symfony/framework-bundle ###
-
+/uploads/
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

@@ -4,6 +4,7 @@ namespace App\Entity\Interlocuteur;
 
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
+use App\Entity\Ged\Fichier;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -44,6 +45,8 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'maitreDOuvrage', targetEntity: Demande::class)]
     private $demandesMaitreDOuvrage;
 
+    #[ORM\OneToMany(mappedBy: 'interlocuteur', targetEntity: Fichier::class)]
+    private $fichiers;
 
 
     public function __construct()
@@ -52,6 +55,7 @@ class Interlocuteur
         $this->demandes = new ArrayCollection();
         $this->demandesIntermediaire = new ArrayCollection();
         $this->demandesMaitreDOuvrage = new ArrayCollection();
+        $this->fichiers = new ArrayCollection();
 
     }
 
@@ -240,5 +244,36 @@ class Interlocuteur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getFichiers(): Collection
+    {
+        return $this->fichiers;
+    }
+
+    public function addFichier(Fichier $fichier): self
+    {
+        if (!$this->fichiers->contains($fichier)) {
+            $this->fichiers[] = $fichier;
+            $fichier->setInterlocuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichier(Fichier $fichier): self
+    {
+        if ($this->fichiers->removeElement($fichier)) {
+            // set the owning side to null (unless already changed)
+            if ($fichier->getInterlocuteur() === $this) {
+                $fichier->setInterlocuteur(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

@@ -79,6 +79,12 @@
                             <span>Type de documents</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_ged_fichier_deleted' ? 'active' }} ">
+                        <a href="{{ path('app_ged_fichier_deleted') }}" class="sidebar-link">
+                            <i class="bi bi-trash"></i>
+                            <span>Corbeille</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

@@ -3,6 +3,7 @@
 namespace App\Entity\Ged;
 
 use App\Entity\Affaire\Evenement;
+use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\TimesTrait;
 use App\Entity\User;
 use App\Repository\Ged\FichierRepository;
@@ -13,8 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: FichierRepository::class)]
 class Fichier
 {
-    use TimesTrait;
 
+    use TimesTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -35,6 +36,9 @@ class Fichier
 
     #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'fichiers')]
     private $evenements;
+
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'fichiers')]
+    private $interlocuteur;
 
     public function __construct(){
         $this->isDeleted = false;
@@ -120,4 +124,17 @@ class Fichier
 
         return $this;
     }
+
+    public function getInterlocuteur(): ?Interlocuteur
+    {
+        return $this->interlocuteur;
+    }
+
+    public function setInterlocuteur(?Interlocuteur $interlocuteur): self
+    {
+        $this->interlocuteur = $interlocuteur;
+
+        return $this;
+    }
+
 }

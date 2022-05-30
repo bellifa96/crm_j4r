@@ -5,28 +5,85 @@ namespace App\Controller\Ged;
 use App\Entity\Ged\Fichier;
 use App\Form\Ged\FichierType;
 use App\Repository\Ged\FichierRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/ged/fichier')]
 class FichierController extends AbstractController
 {
+
+    private $filesystem;
+
+    public function __construct( Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
+
+    #[Route("/getfile/{id}/", name: "app_ged_get_id")]
+    public function getFile(Fichier $fichier, Request $request, FichierRepository $fichierRepository)
+    {
+        $folder = $fichier->getTypeFichier()->getTitre();
+        $fileName = $folder . '/' . $fichier->getFichier();
+
+        if ($this->filesystem->exists(__dir__ . '/../../../uploads/' . $fileName)) {
+            return new BinaryFileResponse(__dir__ . '/../../../uploads/' . $fileName);
+        } else {
+            $this->addFlash('danger', "Ce fichier n'éxiste pas");
+            return $this->redirectToRoute('app_home');
+        }
+
+
+    }
+
+
+    #[Route("/downloadfile/{id}/", name: "app_ged_download")]
+    public function downloadFile(Fichier $fichier, Request $request)
+    {
+
+        $folder = $fichier->getTypeFichier()->getTitre();
+        $fileName = $folder . '/' . $fichier->getFichier();
+       // $extension = pathinfo(__dir__ . '/../../uploads/' . $fileName, PATHINFO_EXTENSION);
+        $name = str_replace("/", "-", $fileName);
+        $response = new BinaryFileResponse(__dir__ . '/../../../uploads/' . $fileName);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $name
+        );
+        return $response;
+
+    }
+
     #[Route('/', name: 'app_ged_fichier_index', methods: ['GET'])]
     public function index(FichierRepository $fichierRepository): Response
     {
         return $this->render('ged/fichier/index.html.twig', [
             'fichiers' => $fichierRepository->findAll(),
-            'title'=> 'Document',
-            'nav'=>[],
+            'title' => 'Document',
+            'nav' => [],
+        ]);
+    }
+
+    #[Route('/', name: 'app_ged_fichier_deleted', methods: ['GET'])]
+    public function trash(FichierRepository $fichierRepository): Response
+    {
+        return $this->render('ged/fichier/index.html.twig', [
+            'fichiers' => $fichierRepository->findByIsDeleted(true),
+            'title' => 'Corbeille',
+            'nav' => [],
         ]);
     }
 
     #[Route('/new', name: 'app_ged_fichier_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FichierRepository $fichierRepository,SluggerInterface $slugger): Response
+    public function new(Request $request, FichierRepository $fichierRepository, SluggerInterface $slugger): Response
     {
         $fichier = new Fichier();
         $fichier->setCreateur($this->getUser());
@@ -43,13 +100,13 @@ class FichierController extends AbstractController
                 $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
 
                     $brochureFile->move(
-                        __DIR__."/../../../uploads/".$fichier->getTypeFichier()->getTitre()."/",
+                        __DIR__ . "/../../../uploads/" . $fichier->getTypeFichier()->getTitre() . "/",
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -68,8 +125,8 @@ class FichierController extends AbstractController
         return $this->renderForm('ged/fichier/new.html.twig', [
             'fichier' => $fichier,
             'form' => $form,
-            'title'=> 'Document',
-            'nav'=>[],
+            'title' => 'Document',
+            'nav' => [],
 
         ]);
     }
@@ -79,8 +136,8 @@ class FichierController extends AbstractController
     {
         return $this->render('ged/fichier/show.html.twig', [
             'fichier' => $fichier,
-            'title'=> 'Document',
-            'nav'=>[],
+            'title' => 'Document',
+            'nav' => [],
 
         ]);
     }
@@ -99,8 +156,8 @@ class FichierController extends AbstractController
         return $this->renderForm('ged/fichier/edit.html.twig', [
             'fichier' => $fichier,
             'form' => $form,
-            'title'=> 'Document',
-            'nav'=>[],
+            'title' => 'Document',
+            'nav' => [],
 
         ]);
     }
@@ -108,10 +165,10 @@ class FichierController extends AbstractController
     #[Route('/{id}', name: 'app_ged_fichier_delete', methods: ['POST'])]
     public function delete(Request $request, Fichier $fichier, FichierRepository $fichierRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$fichier->getId(), $request->request->get('_token'))) {
-            $fichierRepository->remove($fichier);
+        if ($this->isCsrfTokenValid('delete' . $fichier->getId(), $request->request->get('_token'))) {
+            $fichier->setIsDeleted();
+            $fichierRepository->add($fichier);
         }
-
         return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
     }
 }
