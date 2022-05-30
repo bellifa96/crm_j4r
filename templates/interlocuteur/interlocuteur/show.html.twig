@@ -324,8 +324,7 @@
                     <div class="col-md-6">
                         <table class="table bg-leasy">
                             <thead>
-                            <tr class="tr-head">
-                                <th>Nom</th>
+                            <tr class="tr-head text-center">
                                 <th>Type</th>
                                 <th>date de chargement</th>
                                 <th>Par</th>
@@ -336,8 +335,7 @@
                             {% for fichier in interlocuteur.fichiers %}
 
                                 {% if fichier.isDeleted != true %}
-                                    <tr>
-                                        <td>{{ fichier.fichier }}</td>
+                                    <tr class="bg-blue  border-bottom text-center">
                                         <td>{{ fichier.typeFichier.titre }}</td>
                                         <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td>{{ fichier.createur.firstname }}</td>
