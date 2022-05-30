@@ -182,7 +182,7 @@ class DemandeController extends AbstractController
         key_exists('dimensionsGlobales', $data) ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : "";
         key_exists('porteeLibre', $data) ? $demande->setPorteeLibre($data['porteeLibre']) : "";
         key_exists('longueur', $data) ? $demande->setLongueur($data['porteeLibre']) : "";
-        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteur']) : "";
+        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : "";
         key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : "";
         key_exists('finitionPlancher', $data) ? $demande->setFinitionPlancher($data['finitionPlancher']) : "";
         key_exists('gcPeripherique', $data) ? $demande->setGcPeripherique($data['gcPeripherique']) : "";
