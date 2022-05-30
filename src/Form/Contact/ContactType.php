@@ -5,16 +5,19 @@ namespace App\Form\Contact;
 use App\Entity\Contact\Contact;
 use App\Entity\Contact\ContactService;
 use App\Entity\Contact\Fonction;
+use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\Interlocuteur\Societe;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ContactType extends AbstractType
 {
@@ -28,11 +31,31 @@ class ContactType extends AbstractType
             ->add('telephone')
             ->add('dateAnniversaire')
             ->add('commentaire')
+            ->add('lienLinkedin',TextType::class,[
+                'required'=>false,
+            ])
 
-            ->add('genre',ChoiceType::class,[
-                'choices'=> [
-                    'Homme'=>'Homme',
-                    'Femme'=>'Femme'
+            ->add('photo', FileType::class, [
+                'mapped' => false,
+
+                'required'=>false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/gif',
+                            'image/png',
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+                'data_class'=> null
+            ])
+            ->add('genre', ChoiceType::class, [
+                'choices' => [
+                    'Homme' => 'Homme',
+                    'Femme' => 'Femme'
                 ]
             ])
             ->add('service', EntityType::class, [

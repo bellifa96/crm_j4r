@@ -60,62 +60,58 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels required">Adresse</label>
+                        <label class="labels required">Contact Principal Client</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.adresse1 : demande.client.personne.adresse1 }}
+                        {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
                     </div>
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels required">Complément D'adresse</label>
+                {% if demande.maitreDOuvrage is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Maitre D'ouvrage</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom }}
+                        </div>
                     </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.adresse2 : demande.client.personne.adresse2 }}
-                    </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels required">Code Postal</label>
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels required">Contact Principal maitre d'ouvrage</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.contactPrincipalMaitreDOuvrage is not empty ? demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom : "NC" }}
+                        </div>
                     </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.codePostal : demande.client.personne.codePostal }}
+                {% endif %}
+
+
+                {% if demande.intermediaire is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Intermediaire</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels required">Ville</label>
+
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels required">Contact Principal intermédiaire</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
+                        </div>
                     </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.ville : demande.client.personne.ville }}
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels required">Pays</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.pays : demande.client.personne.pays }}
-                    </div>
-                </div>
+                {% endif %}
+
             </div>
 
 
             <div class="col-md-6">
-
-
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="page-block col-md-10 m-auto mt-4">
-
-        <div class="row">
-            <div class=" {{ demande.intermediaire is not empty ? "col-md-6" : "col-md-6 m-auto" }}">
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
@@ -172,67 +168,12 @@
                         {{ demande.pays }}
                     </div>
                 </div>
-
             </div>
 
-
-            {% if demande.intermediaire is not empty %}
-                <div class="col-md-6">
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels">Intermediaire</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels required">Adresse</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.adresse1 : demande.intermediaire.personne.adresse1 }}
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels required">Complément D'adresse</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.adresse2 : demande.intermediaire.personne.adresse2 }}
-                        </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels required">Code Postal</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.codePostal : demande.intermediaire.personne.codePostal }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels required">Ville</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.ville : demande.intermediaire.personne.ville }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-3 text-end">
-                            <label class="labels required">Pays</label>
-                        </div>
-                        <div class="col-md-9 form-control-sm-2">
-                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.pays : demande.intermediaire.personne.pays }}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
+
+
 
 
     <div class="page-block col-md-10 m-auto mt-4">

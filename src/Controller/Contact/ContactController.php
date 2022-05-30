@@ -7,6 +7,7 @@ use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Contact\ContactType;
 use App\Repository\Contact\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +34,27 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $photo = $form->get('photo')->getData();
+
+
+            if ($photo) {
+                $newFilename = $contact->getId().'.'.$photo->guessExtension();
+                try {
+                    $photo->move(
+                        __DIR__.'/../../../public/uploads/photo/contact/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger',$e->getMessage());
+                }
+
+                $contact->setPhoto($newFilename);
+            }
+
             $contactRepository->add($contact);
+
             return $this->redirectToRoute('app_contact_contact_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -62,6 +83,30 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->get('photo')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = $contact->getId().'.'.$photo->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photo->move(
+                        __DIR__.'/../../../public/uploads/photo/contact/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $contact->setPhoto($newFilename);
+            }
+
             $contactRepository->add($contact);
             return $this->redirectToRoute('app_contact_contact_index', [], Response::HTTP_SEE_OTHER);
         }

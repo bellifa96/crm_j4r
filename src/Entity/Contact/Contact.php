@@ -67,6 +67,12 @@ class Contact
     #[ORM\OneToMany(mappedBy: 'contactPrincipalIntermediaire', targetEntity: Demande::class)]
     private $demandesContactPrincipalIntermediaire;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $lienLinkedin;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
@@ -327,6 +333,30 @@ class Contact
                 $demandesContactPrincipalIntermediaire->setContactPrincipalIntermediaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getLienLinkedin(): ?string
+    {
+        return $this->lienLinkedin;
+    }
+
+    public function setLienLinkedin(?string $lienLinkedin): self
+    {
+        $this->lienLinkedin = $lienLinkedin;
 
         return $this;
     }

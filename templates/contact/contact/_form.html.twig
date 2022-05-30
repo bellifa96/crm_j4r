@@ -52,10 +52,15 @@
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5"
                      width="150px"
-                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                <span class="font-weight-bold" id="nom"></span>
-                <span class="text-black-50" id="email"></span>
-                <span> </span>
+                     src="{{contact.photo is not empty ? asset('uploads/photo/contact/'~contact.photo) : 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg' }}">
+                <div class="col-md-12"><label class="labels">Photo du contact</label>
+                    {{ form_widget(form.photo,{"attr":{"class":"form-control","placeholder":"Photo de profil"}}) }}
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <label class="labels">Lien LinkedIn</label>
+                    {{ form_widget(form.lienLinkedin,{"attr":{"class":"form-control","placeholder":"Lien du profil Linkedin"}}) }}
+                </div>
             </div>
         </div>
         <div class="col-md-5 border-end">
