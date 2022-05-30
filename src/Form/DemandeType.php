@@ -40,7 +40,8 @@ class DemandeType extends AbstractType
 
                     'choice_label' => function ($interlocuteur) {
                         return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
-                    }
+                    },
+                    'placeholder' => '--Veuillez choisir un client--'
                 ]
             )
             ->add('intermediaire', EntityType::class, [
