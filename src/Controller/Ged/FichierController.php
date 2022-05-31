@@ -22,7 +22,7 @@ class FichierController extends AbstractController
 
     private $filesystem;
 
-    public function __construct( Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
     }
@@ -51,7 +51,7 @@ class FichierController extends AbstractController
 
         $folder = $fichier->getTypeFichier()->getTitre();
         $fileName = $folder . '/' . $fichier->getFichier();
-       // $extension = pathinfo(__dir__ . '/../../uploads/' . $fileName, PATHINFO_EXTENSION);
+        // $extension = pathinfo(__dir__ . '/../../uploads/' . $fileName, PATHINFO_EXTENSION);
         $name = str_replace("/", "-", $fileName);
         $response = new BinaryFileResponse(__dir__ . '/../../../uploads/' . $fileName);
         $response->setContentDisposition(
@@ -66,7 +66,7 @@ class FichierController extends AbstractController
     public function index(FichierRepository $fichierRepository): Response
     {
         return $this->render('ged/fichier/index.html.twig', [
-            'fichiers' => $fichierRepository->findAll(),
+            'fichiers' => $fichierRepository->findByIsDeleted(false),
             'title' => 'Document',
             'nav' => [],
         ]);
@@ -77,6 +77,7 @@ class FichierController extends AbstractController
     {
         return $this->render('ged/fichier/index.html.twig', [
             'fichiers' => $fichierRepository->findByIsDeleted(true),
+            'trash' => true,
             'title' => 'Corbeille',
             'nav' => [],
         ]);
@@ -167,8 +168,20 @@ class FichierController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $fichier->getId(), $request->request->get('_token'))) {
             $fichier->setIsDeleted(true);
+            $fichier->getSupprimePar($this->getUser());
+            $fichier->setSupprimeLe(new \datetime('now'));
             $fichierRepository->add($fichier);
         }
+        return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/restore/{id}', name: 'app_ged_fichier_restore', methods: ['GET'])]
+    public function restore(Request $request, Fichier $fichier, FichierRepository $fichierRepository): Response
+    {
+        $fichier->setIsDeleted(false);
+        $fichier->setRestaurePar($this->getUser());
+        $fichier->setRestaurerLe(new \datetime('now'));
+        $fichierRepository->add($fichier);
         return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
     }
 }

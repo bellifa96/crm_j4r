@@ -1,41 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fichier index{% endblock %}
+{% block title %}GED{% endblock %}
 
 {% block body %}
-    <h1>Fichier index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
+    <div class="col-md-10 m-auto mt-4 page-block">
+
+        <table class="table datatable">
+            <thead>
+            <tr class="tr-head text-center">
                 <th>Id</th>
-                <th>Fichier</th>
-                <th>IsDeleted</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <th>Type</th>
+                <th>{{ trash is defined ? "Crée le" }}</th>
+                <th>Par</th>
+                <th>Modifié le</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for fichier in fichiers %}
-            <tr>
-                <td>{{ fichier.id }}</td>
-                <td>{{ fichier.fichier }}</td>
-                <td>{{ fichier.isDeleted ? 'Yes' : 'No' }}</td>
-                <td>{{ fichier.createdAt ? fichier.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ fichier.updatedAt ? fichier.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_ged_fichier_show', {'id': fichier.id}) }}">show</a>
-                    <a href="{{ path('app_ged_fichier_edit', {'id': fichier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for fichier in fichiers %}
+                <tr class="text-center">
+                    <td>{{ fichier.id }}</td>
+                    <td>{{ fichier.typeFichier.titre }}</td>
+                    <td>{{ fichier.createdAt ? fichier.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ fichier.createur.firstname~" "~fichier.createur.lastname }}</td>
+                    <td>{{ fichier.updatedAt ? fichier.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                           target="_blank"><i class="fa fa-search"
+                                              style="font-size: 1rem;"
+                                              aria-hidden="true"></i></a>
+                        <a href="{{ path('app_ged_download' , {'id':fichier.id}) }}"
+                           download="{{ fichier.fichier }}"><i
+                                    class="fa fa-download"
+                                    style="font-size: 1rem;margin-left:5%;"
+                                    aria-hidden="true"></i></a>
+                        <form method="post"
+                              id="formDeleteFile-{{ fichier.id }}"
+                              style="display:contents;"
+                              action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
+                              onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
+                            <input type="hidden" name="_method"
+                                   value="DELETE">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('delete' ~ fichier.id) }}">
+                            <button style="border-color: transparent;    background-color:transparent;">
+                                <i class="fa fa-trash deleteFile grab"
+                                   style="font-size: 1rem;margin-left:5%; color: #0E4377;"
+                                   aria-hidden="true"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_ged_fichier_new') }}">Create new</a>
 {% endblock %}

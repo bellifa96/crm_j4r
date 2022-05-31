@@ -40,6 +40,18 @@ class Fichier
     #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'fichiers')]
     private $interlocuteur;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private $supprimePar;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private $restaurePar;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $supprimeLe;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $restaurerLe;
+
     public function __construct(){
         $this->isDeleted = false;
         $this->evenements = new ArrayCollection();
@@ -133,6 +145,54 @@ class Fichier
     public function setInterlocuteur(?Interlocuteur $interlocuteur): self
     {
         $this->interlocuteur = $interlocuteur;
+
+        return $this;
+    }
+
+    public function getSupprimePar(): ?User
+    {
+        return $this->supprimePar;
+    }
+
+    public function setSupprimePar(?User $supprimePar): self
+    {
+        $this->supprimePar = $supprimePar;
+
+        return $this;
+    }
+
+    public function getRestaurePar(): ?User
+    {
+        return $this->restaurePar;
+    }
+
+    public function setRestaurePar(?User $restaurePar): self
+    {
+        $this->restaurePar = $restaurePar;
+
+        return $this;
+    }
+
+    public function getSupprimeLe(): ?\DateTimeInterface
+    {
+        return $this->supprimeLe;
+    }
+
+    public function setSupprimeLe(?\DateTimeInterface $supprimeLe): self
+    {
+        $this->supprimeLe = $supprimeLe;
+
+        return $this;
+    }
+
+    public function getRestaurerLe(): ?\DateTimeInterface
+    {
+        return $this->restaurerLe;
+    }
+
+    public function setRestaurerLe(?\DateTimeInterface $restaurerLe): self
+    {
+        $this->restaurerLe = $restaurerLe;
 
         return $this;
     }
