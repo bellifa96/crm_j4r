@@ -67,6 +67,7 @@ class FichierController extends AbstractController
     {
         return $this->render('ged/fichier/index.html.twig', [
             'fichiers' => $fichierRepository->findByIsDeleted(false),
+            'trash' => false,
             'title' => 'Document',
             'nav' => [],
         ]);
@@ -168,11 +169,11 @@ class FichierController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $fichier->getId(), $request->request->get('_token'))) {
             $fichier->setIsDeleted(true);
-            $fichier->getSupprimePar($this->getUser());
+            $fichier->setSupprimePar($this->getUser());
             $fichier->setSupprimeLe(new \datetime('now'));
             $fichierRepository->add($fichier);
         }
-        return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_ged_fichier_deleted', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/restore/{id}', name: 'app_ged_fichier_restore', methods: ['GET'])]

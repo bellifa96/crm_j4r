@@ -11,7 +11,7 @@
             <tr class="tr-head text-center">
                 <th>Id</th>
                 <th>Type</th>
-                <th>{{ trash is defined ? "Crée le" }}</th>
+                <th>{{ not trash  ? "Crée le" :"Supprimé le" }}</th>
                 <th>Par</th>
                 <th>Modifié le</th>
                 <th>actions</th>
@@ -22,8 +22,22 @@
                 <tr class="text-center">
                     <td>{{ fichier.id }}</td>
                     <td>{{ fichier.typeFichier.titre }}</td>
-                    <td>{{ fichier.createdAt ? fichier.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ fichier.createur.firstname~" "~fichier.createur.lastname }}</td>
+                    <td>
+                        {% if not trash %}
+                            {{ fichier.createdAt ? fichier.createdAt|date('Y-m-d H:i:s') : '' }}
+                        {% else %}
+                            {{ fichier.supprimeLe ? fichier.supprimeLe|date('Y-m-d H:i:s') : '' }}
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        {% if trash %}
+                            {{ fichier.supprimePar.firstname~" "~fichier.supprimePar.lastname }}
+                        {% else %}
+                            {{ fichier.createur.firstname~" "~fichier.createur.lastname }}
+                        {% endif %}
+
+                    </td>
                     <td>{{ fichier.updatedAt ? fichier.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
                         <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
@@ -35,25 +49,33 @@
                                     class="fa fa-download"
                                     style="font-size: 1rem;margin-left:5%;"
                                     aria-hidden="true"></i></a>
-                        <form method="post"
-                              id="formDeleteFile-{{ fichier.id }}"
-                              style="display:contents;"
-                              action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
-                              onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
-                            <input type="hidden" name="_method"
-                                   value="DELETE">
-                            <input type="hidden" name="_token"
-                                   value="{{ csrf_token('delete' ~ fichier.id) }}">
-                            <button style="border-color: transparent;    background-color:transparent;">
-                                <i class="fa fa-trash deleteFile grab"
-                                   style="font-size: 1rem;margin-left:5%; color: #0E4377;"
-                                   aria-hidden="true"></i></button>
-                        </form>
+                        {% if trash %}
+                            <a href="{{ path('app_ged_fichier_restore' , {'id':fichier.id}) }}"><i
+                                        class="fa fa-refresh"
+                                        style="font-size: 1rem;margin-left:5%;"
+                                        aria-hidden="true"></i></a>
+                        {% else %}
+                            <form method="post"
+                                  id="formDeleteFile-{{ fichier.id }}"
+                                  style="display:contents;"
+                                  action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
+                                  onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
+                                <input type="hidden" name="_method"
+                                       value="DELETE">
+                                <input type="hidden" name="_token"
+                                       value="{{ csrf_token('delete' ~ fichier.id) }}">
+                                <button style="border-color: transparent;    background-color:transparent;">
+                                    <i class="fa fa-trash deleteFile grab"
+                                       style="font-size: 1rem;margin-left:5%; color: #0E4377;"
+                                       aria-hidden="true"></i></button>
+                            </form>
+                        {% endif %}
+
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">no records found</td>
+                    <td colspan="6" class="text-center">Aucun fichier trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>
