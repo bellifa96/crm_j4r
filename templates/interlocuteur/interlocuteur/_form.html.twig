@@ -365,15 +365,14 @@
                 <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
             </div>
 
+            {{ form_end(form) }}
 
             <div class="mt-4">
                 <button type="submit" class="btn btn-info">Enregistrer</button>
-
-                {% if interlocuteur.id is not empty and is_granted('ROLE_ADMIN')  %}
+                {% if interlocuteur.id is not empty and is_granted('ROLE_ADMIN') %}
                     {{ include('interlocuteur/interlocuteur/_delete_form.html.twig') }}
                 {% endif %}
             </div>
-            {{ form_end(form) }}
         </div>
     </div>
 
