@@ -155,6 +155,9 @@ class DemandeController extends AbstractController
         $demande->setDocumentsSouhaites($data['documentsSouhaites']);
         $demande->setFondsDePlan($data['fondsDePlan']);
 
+        key_exists('contactPrincipalClient', $data) ? $contatcC = $this->em->getRepository(Contact::class)->find($data['contactPrincipalClient']) : $contatcC = null;
+        !empty($contatcC) ? $demande->setContactPrincipalClient($contatcC) : "";
+
 
         key_exists('contactPrincipalMaitreDOuvrage', $data) ? $contatcPMO = $this->em->getRepository(Contact::class)->find($data['contactPrincipalMaitreDOuvrage']) : $contatcPMO = null;
         !empty($contatcPMO) ? $demande->setContactPrincipalMaitreDOuvrage($contatcPMO) : "";
