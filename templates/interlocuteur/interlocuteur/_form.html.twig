@@ -1,9 +1,10 @@
 <style>
 
 
-    .label{
+    .label {
         font-weight: bold;
     }
+
     .button-label {
         display: inline-block;
         padding: 0.5em 2em;
@@ -76,28 +77,37 @@
     <div class="row d-flex justify-content-center align-items-center">
         {{ form_start(form) }}
 
+
         <div class="col-lg-6 m-auto page-block page-block-sm page-block-margin-bottom offset-4">
 
+
             <div class="justify-content-center">
-                <div class="checkbox col-md-12 m-auto">
-                    <div class="button-wrap text-center">
-                        <input class="hidden radio-label type" type="radio" name="type" id="societe" checked="checked"
-                               value="societe"/>
-                        <label class="button-label" for="societe">
-                            <h1>Société</h1>
-                        </label>
-                        <input class="hidden radio-label type" type="radio" name="type" id="personne" value="personne"/>
-                        <label class="button-label" for="personne">
-                            <h1>Personne</h1>
-                        </label>
+                {% if interlocuteur.id is empty %}
+                    <div class="checkbox col-md-12 m-auto">
+                        <div class="button-wrap text-center">
+                            <input class="hidden radio-label type" type="radio" name="type" id="societe"
+                                   checked="checked"
+                                   value="societe"/>
+                            <label class="button-label" for="societe">
+                                <h1>Société</h1>
+                            </label>
+                            <input class="hidden radio-label type" type="radio" name="type" id="personne"
+                                   value="personne"/>
+                            <label class="button-label" for="personne">
+                                <h1>Personne</h1>
+                            </label>
+                        </div>
                     </div>
-                </div>
+                    {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
+                {% endif %}
                 <div class="col-md-8 societe m-auto">
                     {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input", "autofocus":"on"}}) }}
                 </div>
-            </div>
-            {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
 
+                <div class="col-md-12 m-auto mt-4">
+                    {{ form_widget(form.roles,{"attr":{"class":""}}) }}
+                </div>
+            </div>
 
         </div>
 
@@ -359,6 +369,9 @@
             <div class="mt-4">
                 <button type="submit" class="btn btn-info">Enregistrer</button>
 
+                {% if interlocuteur.id is not empty and is_granted('ROLE_ADMIN')  %}
+                    {{ include('interlocuteur/interlocuteur/_delete_form.html.twig') }}
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
@@ -519,7 +532,7 @@
     })
 
     function typeShow() {
-        if ($('#interlocuteur_type').val() === 'societe') {
+        if ($('#interlocuteur_type').val() === 'societe' || "{{ interlocuteur.type }}" === "societe") {
             $('.personne').slideUp();
             $('.societe').slideDown();
             $('.personne-input').each(function () {

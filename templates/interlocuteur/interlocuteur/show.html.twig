@@ -8,33 +8,37 @@
     <style>
 
 
-        .table-ged>:not(caption)>*>* {
+        .table-ged > :not(caption) > * > * {
             padding: 0rem;
         }
-        .labels{
+
+        .labels {
             color: #0d4377;
         }
 
-        .d-block{
+        .d-block {
             color: #0d4377;
             font-weight: bold;
         }
-        .btn-info-2{
+
+        .btn-info-2 {
             background: #17a2b8;
             color: #fff;
             border-color: #17a2b8;
             font-size: .7rem;
         }
-        .btn-info-2:hover{
+
+        .btn-info-2:hover {
             background: #138496;
             color: #fff;
             border-color: #117a8b;
             font-size: .7rem;
         }
 
-        .nav-item > .active{
+        .nav-item > .active {
             font-weight: bold;
         }
+
         .bg-blue {
             font-size: 0.75rem !important;
             overflow: hidden;
@@ -94,24 +98,42 @@
 
     <!-- PAGE DISPLAY -->
     <div class="col-lg-12 page-block page-block-margin-bottom">
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">Rôles</span>
+                    </div>
+                    <div class="col-md-6">
+                        {% for role in interlocuteur.roles %}
+                            <span class="data-element bg-blue "><b>{{ role }}</b></span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row mt-2">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Raison Sociale</span>
+                        <span class="d-block">{{ interlocuteur.societe is not empty ? "Raison Sociale" : "Nom" }}</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.raisonSociale }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.raisonSociale : interlocuteur.personne.nom }}</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Nom commercial</span>
+                        <span class="d-block">{{ interlocuteur.societe is not empty ? "Nom commercial" : "Prénom" }}</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.nom }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.nom : interlocuteur.personne.prenom }}</span>
                     </div>
                 </div>
             </div>
@@ -124,7 +146,7 @@
                         <span class="d-block">Adresse</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.adresse1 }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse1 : interlocuteur.personne.adresse1 }}</span>
                     </div>
                 </div>
             </div>
@@ -144,20 +166,20 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Activité principale</span>
+                        <span class="d-block">Complément d'adresse</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre : "NC" }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse2 : interlocuteur.personne.adresse2 }}</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Forme Juridique</span>
+                        <span class="d-block">Code Postal</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.formeJuridique }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.codePostal : interlocuteur.personne.codePostal }}</span>
                     </div>
                 </div>
             </div>
@@ -167,29 +189,69 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Activités Secondaire</span>
+                        <span class="d-block">Ville</span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
-
-                        {% set activite = [] %}
-                        {% for act in interlocuteur.societe.activitesSecondaires %}
-                            {% set activite = activite|merge([act.titre]) %}
-                        {% endfor %}
-                        <span class="data-element">{{ activite|join(', ') }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Dirigeant</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe.nom }}</span>
+                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.ville : interlocuteur.personne.ville }}</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        {% if interlocuteur.societe is not empty %}
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3 font-weight-bold text-end">
+                            <span class="d-block">Activité principale</span>
+                        </div>
+                        <div class="col-md-6 bg-blue pr-1">
+                            <span class="data-element">{{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre : "NC" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3 font-weight-bold text-end">
+                            <span class="d-block">Forme Juridique</span>
+                        </div>
+                        <div class="col-md-6 bg-blue pr-1">
+                            <span class="data-element">{{ interlocuteur.societe.formeJuridique }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3 font-weight-bold text-end">
+                            <span class="d-block">Activités Secondaire</span>
+                        </div>
+                        <div class="col-md-6 bg-blue pr-1">
+
+                            {% set activite = [] %}
+                            {% for act in interlocuteur.societe.activitesSecondaires %}
+                                {% set activite = activite|merge([act.titre]) %}
+                            {% endfor %}
+                            <span class="data-element">{{ activite|join(', ') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3 font-weight-bold text-end">
+                            <span class="d-block">Dirigeant</span>
+                        </div>
+                        <div class="col-md-6 bg-blue pr-1">
+                            <span class="data-element">{{ interlocuteur.societe.nom }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
 
 
         <div class="row mt-2">
@@ -207,6 +269,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
     </div>
@@ -391,22 +455,22 @@
                         {{ form_start(form) }}
 
 
-                            <div class="row">
-                                <div class="col-md-3  text-end">
-                                    <label class="labels">Type</label>
-                                </div>
-                                <div class="col-md-9">
-                                    {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
-                                </div>
+                        <div class="row">
+                            <div class="col-md-3  text-end">
+                                <label class="labels">Type</label>
                             </div>
-                            <div class="row mt-2 mb-2">
-                                <div class="col-md-3">
-                                    <label class="labels"> </label>
-                                </div>
-                                <div class="col-md-9">
-                                    {{ form_widget(form.fichier,{'attr':{'class':''}}) }}
-                                </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
                             </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-3">
+                                <label class="labels"> </label>
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.fichier,{'attr':{'class':''}}) }}
+                            </div>
+                        </div>
 
                         <div class="row justify-content-end">
                             <div class="col-md-auto">
@@ -428,8 +492,6 @@
         </div>
 
     </div>
-
-
 {% endblock %}
 
 

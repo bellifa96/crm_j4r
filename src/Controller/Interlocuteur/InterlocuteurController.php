@@ -8,6 +8,10 @@ use App\Form\Ged\FichierType;
 use App\Form\Interlocuteur\InterlocuteurType;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +30,57 @@ class InterlocuteurController extends AbstractController
             'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
         ]);
     }
+
+    #[Route('/soustraitants', name: 'app_interlocuteur_interlocuteur_index_sous_traitant', methods: ['GET'])]
+    public function sousTraitant(InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        return $this->render('interlocuteur/interlocuteur/index.html.twig', [
+            'interlocuteurs' => $interlocuteurRepository->findAllByRole('ROLE_SOUS_TRAITANT'),
+            'title' => 'Liste des sous traitants',
+            'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
+        ]);
+    }
+
+    #[Route('/transporteurs', name: 'app_interlocuteur_interlocuteur_index_transporteur', methods: ['GET'])]
+    public function transporteur(InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        return $this->render('interlocuteur/interlocuteur/index.html.twig', [
+            'interlocuteurs' => $interlocuteurRepository->findAllByRole('ROLE_TRANSPORTEUR'),
+            'title' => 'Liste des transporteurs',
+            'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
+        ]);
+    }
+
+    #[Route('/fournisseurs', name: 'app_interlocuteur_interlocuteur_index_fournisseur', methods: ['GET'])]
+    public function fournisseur(InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        return $this->render('interlocuteur/interlocuteur/index.html.twig', [
+            'interlocuteurs' => $interlocuteurRepository->findAllByRole('ROLE_FOURNISSEUR'),
+            'title' => 'Liste des fournisseurs',
+            'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
+        ]);
+    }
+
+    #[Route('/client', name: 'app_interlocuteur_interlocuteur_index_client', methods: ['GET'])]
+    public function client(InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        return $this->render('interlocuteur/interlocuteur/index.html.twig', [
+            'interlocuteurs' => $interlocuteurRepository->findAllByRole('ROLE_CLIENT'),
+            'title' => 'Liste des clients',
+            'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
+        ]);
+    }
+
+    #[Route('/partenaire', name: 'app_interlocuteur_interlocuteur_index_partenaire', methods: ['GET'])]
+    public function partenaire(InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        return $this->render('interlocuteur/interlocuteur/index.html.twig', [
+            'interlocuteurs' => $interlocuteurRepository->findAllByRole('ROLE_PARTENAIRE'),
+            'title' => 'Liste des sous partenaire',
+            'nav' => [['app_interlocuteur_interlocuteur_new', 'Créer']],
+        ]);
+    }
+
 
     #[Route('/new', name: 'app_interlocuteur_interlocuteur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, InterlocuteurRepository $interlocuteurRepository): Response
@@ -55,8 +110,8 @@ class InterlocuteurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_show', methods: ['GET','POST'])]
-    public function show(Request $request,Interlocuteur $interlocuteur,FichierRepository $fichierRepository, SluggerInterface $slugger): Response
+    #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger): Response
     {
         $fichier = new Fichier();
 
@@ -93,7 +148,7 @@ class InterlocuteurController extends AbstractController
         }
 
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
             'interlocuteur' => $interlocuteur,
             'title' => !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom(),
             'nav' => [['app_interlocuteur_interlocuteur_edit', 'Modifier', $interlocuteur->getId()]],
@@ -126,13 +181,19 @@ class InterlocuteurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_interlocuteur_interlocuteur_delete', methods: ['POST', 'GET'])]
+    #[IsGranted("ROLE_ADMIN")]
     public function delete(Request $request, Interlocuteur $interlocuteur, InterlocuteurRepository $interlocuteurRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $interlocuteur->getId(), $request->request->get('_token'))) {
-            $interlocuteurRepository->remove($interlocuteur);
-        }
 
+        if ($this->isCsrfTokenValid('delete' . $interlocuteur->getId(), $request->request->get('_token'))) {
+            try {
+                $interlocuteurRepository->remove($interlocuteur);
+            } catch (OptimisticLockException|ORMException|ForeignKeyConstraintViolationException $e) {
+                $this->addFlash('danger','Vous ne pouvez pas supprimer cette fiche car des éléments y sont liés');
+                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
+            }
+        }
         return $this->redirectToRoute('app_interlocuteur_interlocuteur_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -18,7 +18,9 @@
                 <th>Pays</th>
                 <th>Type</th>
                 <th>Siret</th>
+                <th>Activité</th>
                 <th>Commentaire</th>
+
             </tr>
             </thead>
             <tbody>
@@ -78,12 +80,13 @@
                         {% endif %}
                     </td>
 
+                    <td>{{ interlocuteur.societe is not empty and interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre: "" }}</td>
 
                     <td>{{ interlocuteur.commentaire }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="10">Aucun résultat trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -68,9 +68,8 @@
                     <span class="font-weight-bold" id="nom"> {{ contact.nom~" "~contact.prenom }}</span>
                     <span class="text-black-50"
                           id="societe">
-
                         <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':contact.societe.id}) }}">
-                            {{ contact.societe.societe is not empty ? contact.societe.societe.raisonSociale : contact.societe.nom }}
+                            {{ contact.societe.societe is not empty ? contact.societe.societe.raisonSociale : contact.societe.personne.nom~" "~contact.societe.personne.prenom }}
                         </a>
                     </span>
                     {% if contact.lienLinkedin is not empty %}

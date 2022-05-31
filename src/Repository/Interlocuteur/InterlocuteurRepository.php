@@ -75,4 +75,14 @@ class InterlocuteurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByRole($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.roles LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('i.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

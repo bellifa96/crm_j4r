@@ -48,6 +48,9 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'interlocuteur', targetEntity: Fichier::class)]
     private $fichiers;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $roles = [];
+
 
     public function __construct()
     {
@@ -271,6 +274,18 @@ class Interlocuteur
                 $fichier->setInterlocuteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(?array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

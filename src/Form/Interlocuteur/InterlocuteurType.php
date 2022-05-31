@@ -14,19 +14,36 @@ class InterlocuteurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('type', ChoiceType::class, [
-                'attr'=>[
-                    'class'=> 'form-control',
-                    'style'=>'display:none;'
-                ],
-                'choices' => [
-                    'Societé' => 'societe',
-                    'Personne' => 'personne',
 
-                ],
-                'required' =>true,
-            ])
+        if(empty($options['data']->getId())){
+            $builder
+                ->add('type', ChoiceType::class, [
+                    'attr'=>[
+                        'class'=> 'form-control',
+                        'style'=>'display:none;'
+                    ],
+                    'choices' => [
+                        'Societé' => 'societe',
+                        'Personne' => 'personne',
+
+                    ],
+                    'required' =>true,
+                ]);
+        }
+        $builder
+            ->add('roles', ChoiceType::class, array(
+                    'choices' => [
+                        'Client' => 'ROLE_CLIENT',
+                        'Fournisseur' => 'ROLE_FOURNISSEUR',
+                        'Sous Traitant' => 'ROLE_SOUS_TRAITANT',
+                        'Transporteur' => 'ROLE_TRANSPORTEUR',
+                        'Partenaire' => 'Partenaire'
+                    ],
+                    'multiple' => true,
+                    'expanded' => true,
+                )
+            )
+
             ->add('societe', SocieteType::class,[
                 'attr'=>[
                     'class'=> ''

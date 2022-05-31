@@ -99,7 +99,13 @@
             <div class="page-content col-md-10">
                 {% include 'include/title.html.twig' with {'title': title, 'nav': nav} %}
 
-                {% block body %}{% endblock %}
+                {% block body %}
+                    {% for type, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ type }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endblock %}
 
             </div>
 
