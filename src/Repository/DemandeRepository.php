@@ -47,6 +47,19 @@ class DemandeRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findAllDemande($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->Where('d.client = :val')
+            ->orWhere('d.intermediaire = :val')
+            ->orWhere('d.maitreDOuvrage = :val')
+            ->setParameter('val', $value)
+            ->distinct()
+            ->orderBy('d.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Demande[] Returns an array of Demande objects
     //  */

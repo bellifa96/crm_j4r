@@ -6,6 +6,7 @@ use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Ged\FichierType;
 use App\Form\Interlocuteur\InterlocuteurType;
+use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
@@ -111,10 +112,13 @@ class InterlocuteurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger): Response
+    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger,DemandeRepository $demandeRepository): Response
     {
         $fichier = new Fichier();
 
+        $demamndes =$demandeRepository->findAllDemande($interlocuteur->getId());
+
+      //  dd($demamndes);
 
         $form = $this->createForm(FichierType::class, $fichier);
         $form->handleRequest($request);
@@ -150,6 +154,7 @@ class InterlocuteurController extends AbstractController
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
             'form' => $form->createView(),
             'interlocuteur' => $interlocuteur,
+            'demandes'=> $demamndes,
             'title' => !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom(),
             'nav' => [['app_interlocuteur_interlocuteur_edit', 'Modifier', $interlocuteur->getId()]],
 
