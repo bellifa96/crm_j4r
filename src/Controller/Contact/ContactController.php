@@ -131,8 +131,16 @@ class ContactController extends AbstractController
      #[Route('/interlocteur/contact/get', name: 'app_contact_interlocuteur_get_contact', methods: ['POST'])]
     public function getInterlocuteurContact(Request $request, ContactRepository $contactRepository): Response
     {
-        $id = $request->request->get('id');
-        $contacts = $contactRepository->findBySociete($id);
+        $dataRequest = $request->request->all();
+        key_exists('id', $dataRequest) ? $id = $dataRequest['id'] : $id = null;
+        key_exists('idClient', $dataRequest) ? $idClient = $dataRequest['idClient'] : $idClient = null;
+        key_exists('idMaitreOuvrage', $dataRequest) ? $idMaitreOuvrage = $dataRequest['idMaitreOuvrage'] : $idMaitreOuvrage = null;
+        key_exists('idIntermediaire', $dataRequest) ? $idItermediaire = $dataRequest['idIntermediaire'] : $idItermediaire = null;
+        if (!empty($id)){
+            $contacts = $contactRepository->findBySociete($id);
+        }else{
+            $contacts = $contactRepository->findAllBySocieteId($idClient, $idMaitreOuvrage, $idItermediaire);
+        }
         $data = [];
         foreach ($contacts as $val){
             $data[] = [

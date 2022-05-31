@@ -139,9 +139,6 @@ class Demande
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandes')]
     private $contactPrincipalClient;
 
-    #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'contactSecondairesDemandes')]
-    private $ContactsSecondairesClient;
-
     #[ORM\Column(type: 'array', nullable: true)]
     private $equipements = [];
 
@@ -169,13 +166,16 @@ class Demande
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandesContactPrincipalIntermediaire')]
     private $contactPrincipalIntermediaire;
 
+    #[ORM\OneToMany(mappedBy: 'contactsSecondaires', targetEntity: Contact::class)]
+    private $contactsSecondaires;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
-        $this->ContactsSecondairesClient = new ArrayCollection();
         $this->statut = "A traiter";
         $this->statutCommercial = "A relancer";
         $this->evenements = new ArrayCollection();
+        $this->contactsSecondaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -572,30 +572,6 @@ class Demande
         return $this;
     }
 
-    /**
-     * @return Collection<int, Contact>
-     */
-    public function getContactsSecondairesClient(): Collection
-    {
-        return $this->ContactsSecondairesClient;
-    }
-
-    public function addContactsSecondairesClient(Contact $contactsSecondairesClient): self
-    {
-        if (!$this->ContactsSecondairesClient->contains($contactsSecondairesClient)) {
-            $this->ContactsSecondairesClient[] = $contactsSecondairesClient;
-        }
-
-        return $this;
-    }
-
-    public function removeContactsSecondairesClient(Contact $contactsSecondairesClient): self
-    {
-        $this->ContactsSecondairesClient->removeElement($contactsSecondairesClient);
-
-        return $this;
-    }
-
     public function getEquipements(): ?array
     {
         return $this->equipements;
@@ -718,6 +694,36 @@ class Demande
     public function setContactIntermediaire(?Contact $contactIntermediaire): self
     {
         $this->contactIntermediaire = $contactIntermediaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContactsSecondaires(): Collection
+    {
+        return $this->contactsSecondaires;
+    }
+
+    public function addContactsSecondaire(Contact $contactsSecondaire): self
+    {
+        if (!$this->contactsSecondaires->contains($contactsSecondaire)) {
+            $this->contactsSecondaires[] = $contactsSecondaire;
+            $contactsSecondaire->setContactsSecondaires($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactsSecondaire(Contact $contactsSecondaire): self
+    {
+        if ($this->contactsSecondaires->removeElement($contactsSecondaire)) {
+            // set the owning side to null (unless already changed)
+            if ($contactsSecondaire->getContactsSecondaires() === $this) {
+                $contactsSecondaire->setContactsSecondaires(null);
+            }
+        }
 
         return $this;
     }

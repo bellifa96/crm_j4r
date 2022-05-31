@@ -58,9 +58,6 @@ class Contact
     #[ORM\OneToMany(mappedBy: 'contactPrincipalClient', targetEntity: Demande::class)]
     private $demandes;
 
-    #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'ContactsSecondairesClient')]
-    private $contactSecondairesDemandes;
-
     #[ORM\OneToMany(mappedBy: 'contactPrincipalMaitreDOuvrage', targetEntity: Demande::class)]
     private $demandesContactPrincipalMaitreDOuvrage;
 
@@ -73,12 +70,13 @@ class Contact
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $lienLinkedin;
 
+    #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'contactsSecondaires')]
+    private $contactsSecondaires;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
-        $this->contactSecondairesDemandes = new ArrayCollection();
         $this->DemandesContactMaitreDOuvrage = new ArrayCollection();
-        $this->demandesContactMaitreDOuvrageSecondaires = new ArrayCollection();
         $this->demandesContactPrincipalMaitreDOuvrage = new ArrayCollection();
         $this->demandesContactPrincipalIntermediaire = new ArrayCollection();
     }
@@ -253,33 +251,6 @@ class Contact
     /**
      * @return Collection<int, Demande>
      */
-    public function getContactSecondairesDemandes(): Collection
-    {
-        return $this->contactSecondairesDemandes;
-    }
-
-    public function addContactSecondairesDemande(Demande $contactSecondairesDemande): self
-    {
-        if (!$this->contactSecondairesDemandes->contains($contactSecondairesDemande)) {
-            $this->contactSecondairesDemandes[] = $contactSecondairesDemande;
-            $contactSecondairesDemande->addContactsSecondairesClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContactSecondairesDemande(Demande $contactSecondairesDemande): self
-    {
-        if ($this->contactSecondairesDemandes->removeElement($contactSecondairesDemande)) {
-            $contactSecondairesDemande->removeContactsSecondairesClient($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Demande>
-     */
     public function getDemandesContactPrincipalMaitreDOuvrage(): Collection
     {
         return $this->demandesContactPrincipalMaitreDOuvrage;
@@ -357,6 +328,18 @@ class Contact
     public function setLienLinkedin(?string $lienLinkedin): self
     {
         $this->lienLinkedin = $lienLinkedin;
+
+        return $this;
+    }
+
+    public function getContactsSecondaires(): ?Demande
+    {
+        return $this->contactsSecondaires;
+    }
+
+    public function setContactsSecondaires(?Demande $contactsSecondaires): self
+    {
+        $this->contactsSecondaires = $contactsSecondaires;
 
         return $this;
     }

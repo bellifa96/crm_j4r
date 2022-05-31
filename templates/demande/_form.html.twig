@@ -199,6 +199,16 @@
 
             <div class="row mt-2">
                 <div class="col-md-3 text-end">
+                    <label class="labels">Contacts Secondaires</label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-control tel-code form-control-sm-2" name="demande[contactsSecondaires]"
+                            id="demande_contacts_secondaires" multiple></select>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
                 </div>
                 <div class="col-md-9 form-control-sm-2 bg-white">
                 </div>
@@ -338,7 +348,7 @@
             data = JSON.parse(data);
             if (data.length > 0) {
                 console.log(data),
-                $(div).insertAfter($("#demande_maitreDOuvrage").parent().parent());
+                    $(div).insertAfter($("#demande_maitreDOuvrage").parent().parent());
                 data.forEach((value, key) => {
                     $('#demande_contact_principal_maitre_douvrage').append($('<option>', {
                         value: value.id,
@@ -373,6 +383,26 @@
             }
         })
     });
+
+    $("#demande_client, #demande_maitreDOuvrage, #demande_intermediaire").change(function () {
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        let param = {
+            idClient: $("#demande_client").val(),
+            idMaitreOuvrage: $("#demande_maitreDOuvrage").val(),
+            idIntermediaire: $("#demande_intermediaire").val()
+        }
+        $.post(path, param, function (data) {
+            data = JSON.parse(data);
+            $('#demande_contacts_secondaires').children().remove();
+            data.forEach((value, key) => {
+                $('#demande_contacts_secondaires').append($('<option>', {
+                    value: value.id,
+                    text: value.text
+                }));
+            })
+        })
+    })
+    ;
 
     $(document).on("change", "input[name='demande[documentsSouhaites][]']", function () {
 

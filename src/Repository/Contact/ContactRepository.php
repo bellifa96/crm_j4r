@@ -47,6 +47,23 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllBySocieteId($idClient, $idMaitreOuvrage, $idItermediaire)
+    {
+        return $this->createQueryBuilder('c')
+            ->join("c.societe", "s")
+            ->Where('s.id = :val')
+            ->orWhere('s.id = :val2')
+            ->orWhere('s.id = :val3')
+            ->setParameter('val', $idClient)
+            ->setParameter('val2',$idMaitreOuvrage)
+            ->setParameter('val3', $idItermediaire)
+            ->orderBy('c.nom', 'ASC')
+            ->distinct()
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Contact[] Returns an array of Contact objects
     //  */
