@@ -367,10 +367,15 @@
 
             {{ form_end(form) }}
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-info">Enregistrer</button>
+            <div class="row mt-4 justify-content-between">
+                <div class="col-md-auto">
+                    <button type="submit" class="btn btn-info">Enregistrer</button>
+                </div>
+
                 {% if interlocuteur.id is not empty and is_granted('ROLE_ADMIN') %}
-                    {{ include('interlocuteur/interlocuteur/_delete_form.html.twig') }}
+                    <div class="col-md-auto">
+                        {{ include('interlocuteur/interlocuteur/_delete_form.html.twig') }}
+                    </div>
                 {% endif %}
             </div>
         </div>
