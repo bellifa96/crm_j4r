@@ -108,6 +108,20 @@
                     </div>
                 {% endif %}
 
+                {% if demande.contactsSecondaires is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Contacts Secondaires</label>
+                        </div>
+                        <div class="col-md-9 bg-leasy">
+                            {% for contact in demande.contactsSecondaires %}
+                               {{ contact.nom~" "~contact.prenom }}<br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {% endif %}
+
             </div>
 
 

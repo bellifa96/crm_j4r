@@ -28,10 +28,10 @@ class Evenement
     #[ORM\JoinColumn(nullable: false)]
     private $createur;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'datetime')]
     private $dateDeDebut;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'datetime', length: 255)]
     private $dateDeFin;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -97,24 +97,24 @@ class Evenement
         return $this;
     }
 
-    public function getDateDeDebut(): ?string
+    public function getDateDeDebut(): ?\datetime
     {
         return $this->dateDeDebut;
     }
 
-    public function setDateDeDebut(string $dateDeDebut): self
+    public function setDateDeDebut(\datetime $dateDeDebut): self
     {
         $this->dateDeDebut = $dateDeDebut;
 
         return $this;
     }
 
-    public function getDateDeFin(): ?string
+    public function getDateDeFin(): ?\datetime
     {
         return $this->dateDeFin;
     }
 
-    public function setDateDeFin(string $dateDeFin): self
+    public function setDateDeFin(\datetime $dateDeFin): self
     {
         $this->dateDeFin = $dateDeFin;
 

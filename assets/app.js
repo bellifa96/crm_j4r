@@ -44,7 +44,7 @@ import 'select2/dist/css/select2.css';
 import 'jquery-ui-bundle';
 import 'jquery-ui-bundle/jquery-ui.css';
 
-import { Calendar } from '@fullcalendar/core';
+import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -55,21 +55,24 @@ $(function () {
     console.log('ici')
     var calendarEl = document.getElementById('calendar');
 
-    let calendar = new Calendar(calendarEl, {
-        lang: 'fr',
-        plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek'
-        }
-    });
-    calendar.render();
+
+    if (calendarEl != null) {
+        let calendar = new Calendar(calendarEl, {
+            lang: 'fr',
+            plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            }
+        });
+        calendar.render();
+    }
 
 
-    $('input').each(function() {
-        if($(this).is(':checkbox') || $(this).is(':checkbox')){
+    $('input').each(function () {
+        if ($(this).is(':checkbox') || $(this).is(':checkbox')) {
             $(this).checkboxradio();
         }
     });
@@ -114,7 +117,8 @@ $(function () {
     });
 
 
-});
+})
+;
 
 $(window).on('load', function () {
     $("#divLoader").css('display', 'none');

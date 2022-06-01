@@ -165,6 +165,12 @@ class DemandeController extends AbstractController
         key_exists('contactPrincipalIntermediaire', $data) ? $contatcI = $this->em->getRepository(Contact::class)->find($data['contactPrincipalIntermediaire']) : $contatcI = null;
         !empty($contatcI) ? $demande->setContactIntermediaire($contatcI) : "";
 
+        if(key_exists('contactsSecondaires',$data)){
+            foreach ($data['contactsSecondaires'] as $val){
+                $contact = $this->em->getRepository(Contact::class)->find($val);
+                !empty($contact) ? $demande->addContactsSecondaire($contact) : "";
+            }
+        }
 
         key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
         key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
