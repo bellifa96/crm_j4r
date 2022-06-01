@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[Route('/affaire/evenement')]
 class EvenementController extends AbstractController
@@ -24,8 +28,29 @@ class EvenementController extends AbstractController
         ]);
     }
 
+    #[Route('/new/modal', name: 'app_affaire_evenement_new_modal', methods: ['GET', 'POST'])]
+    public function getModal(Request $request, Environment $environment): Response
+    {
+        $evenement = new Evenement();
+        $form = $this->createForm(EvenementType::class, $evenement);
+        $response = new Response();
+        try {
+            $html = $environment->render("affaire/evenement/modal_form.html.twig", [
+                'form' => $form->createView()
+            ]);
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
+        $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        return $response;
+    }
+
     #[Route('/new/{id}', name: 'app_affaire_evenement_new', methods: ['GET', 'POST'])]
-    public function new(Demande $demande,Request $request, EvenementRepository $evenementRepository): Response
+    public function new(Demande $demande, Request $request, EvenementRepository $evenementRepository): Response
     {
         $evenement = new Evenement();
         $evenement->setCreateur($this->getUser());
@@ -78,7 +103,7 @@ class EvenementController extends AbstractController
     #[Route('/{id}', name: 'app_affaire_evenement_delete', methods: ['POST'])]
     public function delete(Request $request, Evenement $evenement, EvenementRepository $evenementRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $evenement->getId(), $request->request->get('_token'))) {
             $evenementRepository->remove($evenement);
         }
 
