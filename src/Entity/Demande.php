@@ -172,6 +172,27 @@ class Demande
     #[ORM\Column(type: 'array', nullable: true)]
     private $hauteur = [];
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $commentaireMetre;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $commentaireApresNegociation;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $commentaireClients;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $dateDuReleve;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $dateDeRemise;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $dateDeValidationDirection;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $DateEnvoieClient;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -739,6 +760,90 @@ class Demande
     public function setHauteur(?array $hauteur): self
     {
         $this->hauteur = $hauteur;
+
+        return $this;
+    }
+
+    public function getCommentaireMetre(): ?string
+    {
+        return $this->commentaireMetre;
+    }
+
+    public function setCommentaireMetre(?string $commentaireMetre): self
+    {
+        $this->commentaireMetre = $commentaireMetre;
+
+        return $this;
+    }
+
+    public function getCommentaireApresNegociation(): ?string
+    {
+        return $this->commentaireApresNegociation;
+    }
+
+    public function setCommentaireApresNegociation(?string $commentaireApresNegociation): self
+    {
+        $this->commentaireApresNegociation = $commentaireApresNegociation;
+
+        return $this;
+    }
+
+    public function getCommentaireClients(): ?string
+    {
+        return $this->commentaireClients;
+    }
+
+    public function setCommentaireClients(?string $commentaireClients): self
+    {
+        $this->commentaireClients = $commentaireClients;
+
+        return $this;
+    }
+
+    public function getDateDuReleve(): ?string
+    {
+        return $this->dateDuReleve;
+    }
+
+    public function setDateDuReleve(?string $dateDuReleve): self
+    {
+        $this->dateDuReleve = $dateDuReleve;
+
+        return $this;
+    }
+
+    public function getDateDeRemise(): ?string
+    {
+        return $this->dateDeRemise;
+    }
+
+    public function setDateDeRemise(?string $dateDeRemise): self
+    {
+        $this->dateDeRemise = $dateDeRemise;
+
+        return $this;
+    }
+
+    public function getDateDeValidationDirection(): ?\DateTimeInterface
+    {
+        return $this->dateDeValidationDirection;
+    }
+
+    public function setDateDeValidationDirection(?\DateTimeInterface $dateDeValidationDirection): self
+    {
+        $this->dateDeValidationDirection = $dateDeValidationDirection;
+
+        return $this;
+    }
+
+    public function getDateEnvoieClient(): ?\DateTimeInterface
+    {
+        return $this->DateEnvoieClient;
+    }
+
+    public function setDateEnvoieClient(?\DateTimeInterface $DateEnvoieClient): self
+    {
+        $this->DateEnvoieClient = $DateEnvoieClient;
 
         return $this;
     }

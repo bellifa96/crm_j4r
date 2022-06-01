@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]"
                            required="required"
-                           value="Estimation" class="required">
+                           value="Estimation" class="required" {{ demande.typeDePrestation == "Estimation" ? "checked" :"" }}>
                     <label for="demande_typeDePrestation_0" class="required">Estimation</label>
                 </div>
 

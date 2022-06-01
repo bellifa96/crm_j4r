@@ -18,8 +18,14 @@ class DemandeType extends AbstractType
     {
         $builder
             ->add('commentaire')
+            ->add('commentaireMetre')
+            ->add('commentaireApresNegociation')
+            ->add('commentaireClients')
             ->add('nomChantier')
             ->add('date')
+            ->add('dateDuReleve')
+            ->add('dateDeRemise')
+
             ->add('adresse1')
             ->add('adresse2')
             ->add('ville')

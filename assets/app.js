@@ -49,10 +49,35 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
+/*import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+import ImageTool from '@editorjs/image';
+*/
+
+
 $(function () {
 
+    /*const editor = new EditorJS({
 
-    console.log('ici')
+        holder: 'editorjs',
+
+        tools: {
+            header: {
+                class: Header,
+                inlineToolbar: ['link']
+            },
+            list: {
+                class: List,
+                inlineToolbar: true
+            },
+            image: {
+                class: ImageTool,
+            }
+        },
+        data: {}
+    })*/
+
     var calendarEl = document.getElementById('calendar');
 
 

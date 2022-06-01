@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@editorjs/image": "^2.6.2",
         "@hotwired/stimulus": "^3.0.0",
         "@popperjs/core": "^2.11.5",
         "@symfony/stimulus-bridge": "^3.0.0",
@@ -23,6 +24,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@editorjs/editorjs": "^2.24.3",
+        "@editorjs/header": "^2.6.2",
+        "@editorjs/list": "^1.7.0",
         "@fullcalendar/core": "^5.11.0",
         "@fullcalendar/daygrid": "^5.11.0",
         "@fullcalendar/list": "^5.11.0",

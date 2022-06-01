@@ -78,6 +78,12 @@ class DemandeController extends AbstractController
 
         $response = new Response();
 
+
+        if ($request->request->get('id')) {
+            $demande = $this->em->getRepository(Demande::class)->find($request->request->get('id'));
+        } else {
+            $demande = new Demande();
+        }
         if ($request->request->get('data') == "Façade") {
             $path = "demande/echafaudage/facade.html.twig";
         } elseif ($request->request->get('data') == "Parapluie") {
@@ -93,7 +99,7 @@ class DemandeController extends AbstractController
         if (!empty($path)) {
 
             try {
-                $html = $environment->render($path);
+                $html = $environment->render($path, ['demande' => $demande]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -165,8 +171,8 @@ class DemandeController extends AbstractController
         key_exists('contactPrincipalIntermediaire', $data) ? $contatcI = $this->em->getRepository(Contact::class)->find($data['contactPrincipalIntermediaire']) : $contatcI = null;
         !empty($contatcI) ? $demande->setContactIntermediaire($contatcI) : "";
 
-        if(key_exists('contactsSecondaires',$data)){
-            foreach ($data['contactsSecondaires'] as $val){
+        if (key_exists('contactsSecondaires', $data)) {
+            foreach ($data['contactsSecondaires'] as $val) {
                 $contact = $this->em->getRepository(Contact::class)->find($val);
                 !empty($contact) ? $demande->addContactsSecondaire($contact) : "";
             }
@@ -174,7 +180,7 @@ class DemandeController extends AbstractController
 
         key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
         key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
-        key_exists('typeDeMateriel',$data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
+        key_exists('typeDeMateriel', $data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
         key_exists('dimensionsGlobales', $data) ? $demande->setDimensions($data['dimensionsGlobales']) : "";
         key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : "";
         key_exists('largeurDeTravail', $data) ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : "";

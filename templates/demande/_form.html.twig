@@ -177,6 +177,32 @@
                     {{ form_widget(form.adresse2,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Adresse postale"}}) }}
                 </div>
             </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de la demande</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.date,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date du relevé</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de remise</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="row mt-2">
@@ -209,10 +235,10 @@
 
             <div class="row mt-2" style="justify-content: flex-end;">
                 <div class="col-md-6 row">
-                    <div class="col-md-4 text-end">
-                        <label class="labels">Code postal</label>
+                    <div class=" text-end" style="flex: 0 0 auto; width: 37.33333333%;">
+                        <label class="labels" style="margin-right: 2%;">Code postal</label>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         {{ form_widget(form.codePostal,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Code postal"}}) }}
                     </div>
                 </div>
@@ -267,9 +293,20 @@
 
 </div>
 
+
 <div class="page-block col-md-10 m-auto mt-4" id="form-container">
 
+    {% if demande.id is not empty %}
 
+        {% if demande.typeEchafaudage == "Façade" %}
+            {% include 'demande/echafaudage/facade.html.twig' with {'demande': demande} %}
+            {% elseif  demande.typeEchafaudage == "Parapluie"  %}
+                {% include 'demande/echafaudage/parapluie.html.twig' with {'demande': demande} %}
+
+        {% endif %}
+
+
+    {% endif %}
 </div>
 
 <div class="page-block col-md-10 m-auto mt-4">
@@ -286,6 +323,7 @@
     </div>
 </div>
 
+
 {{ form_end(form) }}
 
 
@@ -295,7 +333,7 @@
     $("input[name='demande[typeEchafaudage]']").change(function () {
         $('.form-container').remove();
         var path = "{{ path('app_demande_form') }}";
-        $.post(path, {data: $("input[name='demande[typeEchafaudage]']:checked").val()}, function (data) {
+        $.post(path, {data: $("input[name='demande[typeEchafaudage]']:checked").val(),id:"{{ demande.id }}" } , function (data) {
             $('#form-container').append(JSON.parse(data).message);
         })
     });
