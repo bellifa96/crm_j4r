@@ -59,7 +59,7 @@
 
                 <div class="col-md-12 mt-2">
                     <label class="labels">Lien LinkedIn</label>
-                    <span> <a href="https://www.linkedin.com/search/results/all/?keywords={{contact.prenom}}%20{{contact.nom}}" title="Recherche LinkedIn du contact" target="_blank"><i class="bi bi-linkedin" style="font-size: 20px;"></i> </a> </span>
+                    <span> <a id="linkedin" href="https://www.linkedin.com/search/results/all/?keywords={{contact.prenom}}%20{{contact.nom}}" title="Recherche LinkedIn du contact" target="_blank"><i class="bi bi-linkedin" style="font-size: 20px;"></i> </a> </span>
                     {{ form_widget(form.lienLinkedin,{"attr":{"class":"form-control","placeholder":"Lien du profil Linkedin"}}) }}
                 </div>
             </div>
@@ -189,6 +189,13 @@
                 $("#add-service").modal('show');
             })
         }
+    })
+
+    $('#contact_nom ,#contact_prenom').change(function () {
+        let url = "https://www.linkedin.com/search/results/all/?keywords="+$('#contact_nom').val()+" "+$('#contact_prenom').val();
+
+        console.log(url)
+        $('#linkedin').attr('href',url);
     })
 
 </script>
