@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}DashBoard{% endblock %}
-
     {% block javascripts %}
         {{ encore_entry_script_tags('chart') }}
-    {% endblock %}
+        {{ encore_entry_script_tags('app') }}
 
+    {% endblock %}
 {% block body %}
 
+    <div class="col-md-8 page-block">
+        <div id='calendar'></div>
+    </div>
+
+
     <div class="example-wrapper">
+
 
         <section class="section">
             <div class="row">
@@ -37,5 +43,4 @@
 
     </div>
 {% endblock %}
-
 
