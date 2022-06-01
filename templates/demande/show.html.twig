@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-md-9 bg-leasy">
                             {% for contact in demande.contactsSecondaires %}
-                               {{ contact.nom~" "~contact.prenom }}<br>
+                                {{ contact.nom~" "~contact.prenom }}<br>
                             {% endfor %}
                         </div>
                     </div>
@@ -267,7 +267,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">   Largeur de travail</label>
+                        <label class="labels"> Largeur de travail</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.LargeurDeTravail }}
@@ -290,7 +290,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">  Distance à la façade</label>
+                        <label class="labels"> Distance à la façade</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.distanceALaFacade }}
@@ -299,7 +299,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">  Hauteur des planchers</label>
+                        <label class="labels"> Hauteur des planchers</label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {% for key,value in demande.hauteurDesPlanchers %}
@@ -329,7 +329,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">  Accés</label>
+                        <label class="labels"> Accés</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.acces }}
@@ -338,7 +338,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">  Bâche et filet </label>
+                        <label class="labels"> Bâche et filet </label>
                     </div>
                     <div class="col-md-9 bg-leasy">
                         {% for key,value in demande.bacheEtFilet %}
@@ -396,7 +396,28 @@
             <div class="col-md-auto bg-leasy">
                 {{ demande.updatedAt|date('d/m/y H:i:s') }}
             </div>
+            <span class="border px-3 p-1 add-evenement add-button"><i
+                        class="fa fa-plus"></i>  Ajouter un Evènement</span>
         </div>
 
     </div>
+
+    <script>
+
+        $('.add-evenement').click(function () {
+            if ($('#add-evenement').length > 0) {
+                $("#add-evenement").modal('show');
+
+            } else {
+                var path = "{{ path('app_affaire_evenement_new_modal') }}";
+
+                $.get(path, function (data) {
+                    $('body').append(JSON.parse(data).message);
+                    $("#add-evenement").modal('show');
+                })
+            }
+        })
+
+
+    </script>
 {% endblock %}
