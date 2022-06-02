@@ -1,20 +1,106 @@
+<style>
+    /*.modal-content {
+        transition-property: none;
+        transition-duration: 150ms;
+        transform: translateX(0%);
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        display: inline-flex;
+        flex-direction: row;
+        background: #fff;
+        height: 100%;
+        max-width: 100vw;
+        min-width: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 1111;
+        box-shadow: -3px 0 8px 0 rgb(66 91 118 / 21%);
+        right: 0;
+    }*/
+
+
+
+</style>
+
 <div class="modal fade col-md-4" id="add-evenement" data-bs-backdrop="static"
      data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered">
         <div class="modal-content">
+            <form class="form-control" method="POST" onsubmit="return submitEvenement(event)" id="evenement-form">
 
-            <div class="modal-header">
-                <h5 class="modal-title"
-                    id="exampleModalLabel">Ajouter un nouvel évènement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button class="btn">{{ button_label|default('Save') }}</button>
-                {{ form_end(form) }}
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">Ajouter un nouvel évènement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    {{ form_start(form) }}
+                    <div class="row mt-3">
+                        <div class="col-md-4"><label class="labels">Titre</label>
+                            {{ form_widget(form.titre,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Titre"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Description</label>
+                            {{ form_widget(form.description,{"attr":{"class":"form-control","placeholder":"Description"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Date de début</label>
+                            {{ form_widget(form.dateDeDebut,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Date de fin</label>
+                            {{ form_widget(form.dateDeFin,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Priorité</label>
+                            {{ form_widget(form.priorite,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Type d'évènement</label>
+                            {{ form_widget(form.typeDEvenement,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"><label class="labels">Attribuer à</label>
+                            {{ form_widget(form.attribueA,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="modal-footer">
+                    <div id="footer-load" style="display: none;">
+
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+
+                    <div id="modal_button">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler
+                        </button>
+
+                        <button type="submit" class="btn btn-primary submit" value="create"
+                                name="create_new_evenement"
+                                id="create_new_evenement" onclick="$('#modal_button').hide();$('#footer-load').show();">
+                            Enregistrer
+                        </button>
+                    </div>
+
+                </div>
+            </form>
         </div>
     </div>
 </div>
