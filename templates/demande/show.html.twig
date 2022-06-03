@@ -14,7 +14,52 @@
         .bg-leasy {
             background: #e2e8ed;
             border-radius: 5px;
+
         }
+
+        #mySideButton span {
+            position: absolute;
+            right: -80px;
+            top: 15%;
+            transition: 0.3s;
+            padding: 50px;
+            width: 100px;
+            text-decoration: none;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            background-color: #11caf0;
+            font-size: 100%;
+        }
+
+        #mySideButton span:hover {
+            right: 0;
+            background-color: #11caf0;
+        }
+
+        /*.add-button {
+            width: 55%;
+            height: 45px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: #2bc3f2;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .add-button:hover {
+            background-color: #0e3155;
+            box-shadow: 0px 15px 20px rgba(43, 195, 241, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }*/
     </style>
 
     <div class="col-md-10 m-auto row justify-content-around mb-4">
@@ -379,7 +424,7 @@
     </div>
 
 
-    <div class="page-block col-md-10 m-auto mt-4">
+    <div id="button" class="page-block col-md-10 m-auto mt-4">
         <div class="col-md-6 m-auto row mt-2">
             <div class="col-md-5 text-end">
                 Date de création
@@ -396,8 +441,9 @@
             <div class="col-md-auto bg-leasy">
                 {{ demande.updatedAt|date('d/m/y H:i:s') }}
             </div>
-            <span class="border px-3 p-1 add-evenement add-button"><i
-                        class="fa fa-plus"></i>  Ajouter un Evènement</span>
+            <div id="mySideButton"><span class="border px-3 p-1 add-evenement add-button"><i
+                       class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
+            </div>
         </div>
 
     </div>
