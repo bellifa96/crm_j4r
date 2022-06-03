@@ -1,23 +1,18 @@
 <style>
-    .modal-content {
-        /*transition-property: none;
-        transition-duration: 150ms;
-        transform: translateX(0%);
-        position: fixed;
-        top: 0px;
-        bottom: 0px;
-        display: inline-flex;
-        flex-direction: row;
-        background: #fff;
+    .modal-dialog{
+        position:absolute;
+        right: 0;
+        top: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    /*.modal-content {
         height: 100%;
-        max-width: 100vw;
-        min-width: 300px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        z-index: 1111;
-        box-shadow: -3px 0 8px 0 rgb(66 91 118 / 21%);
-        right: 0;*/
-        margin-right: 0;
+    }
+
+    .modal{
+        height: 100%;
     }
 
 
@@ -27,7 +22,7 @@
 <div class="modal fade col-md-4" id="add-evenement" data-bs-backdrop="static"
      data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-control" method="POST" onsubmit="return submitEvenement(event)" id="evenement-form">
 
@@ -90,7 +85,8 @@
                     </div>
 
                     <div id="modal_button">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Annuler
                         </button>
 
                         <button type="submit" class="btn btn-primary submit" value="create"
