@@ -303,6 +303,12 @@
             {% elseif  demande.typeEchafaudage == "Parapluie"  %}
                 {% include 'demande/echafaudage/parapluie.html.twig' with {'demande': demande} %}
 
+            {% elseif  demande.typeEchafaudage == "Plateforme"  %}
+                {% include 'demande/echafaudage/plateforme.html.twig' with {'demande': demande} %}
+
+            {% elseif  demande.typeEchafaudage == "Particulier"  %}
+                {% include 'demande/echafaudage/particulier.html.twig' with {'demande': demande} %}
+
         {% endif %}
 
 
@@ -621,7 +627,7 @@
         if (arr.includes("Thémée") && $('#demande_bache_autre').length === 0) {
             let div = `<div class="col-md-6">
                                 <input type="text" id="demande_bache_autre"
-                                       name="demande[bache][][]"
+                                       name="demande[bache][themee]"
                                        class="form-control">
                        </div>`;
 

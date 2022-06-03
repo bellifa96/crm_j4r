@@ -78,7 +78,6 @@ class DemandeController extends AbstractController
 
         $response = new Response();
 
-
         if ($request->request->get('id')) {
             $demande = $this->em->getRepository(Demande::class)->find($request->request->get('id'));
         } else {
@@ -121,10 +120,7 @@ class DemandeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($request->request, $form->getData());
-
-            $demandeRepository->add($demande);
-            return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+            return $this->extracted($request, $demande, $demandeRepository,);
         }
 
         return $this->renderForm('demande/edit.html.twig', [
@@ -178,6 +174,8 @@ class DemandeController extends AbstractController
             }
         }
 
+
+  //     dd($data);
         key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
         key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
         key_exists('typeDeMateriel', $data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
