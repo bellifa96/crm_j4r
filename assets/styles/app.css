@@ -264,3 +264,22 @@ body .page-head ul li {
     cursor: pointer;
     border: solid 1px #BA68C8
 }
+
+.evenement-button{
+    position: absolute;
+    right: -230px;
+    top: 15%;
+    transition: 0.3s;
+    padding: 50px;
+    text-decoration: none;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    background-color: #11caf0;
+    font-size: 150%;
+    height: auto;
+}
+
+.evenement-button:hover{
+    right: 0;
+    background-color: #11caf0;
+}
