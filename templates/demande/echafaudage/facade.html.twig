@@ -10,19 +10,22 @@
                 <div class="col-md-4">
                     <input type="radio" id="demande_typeDePrestation_0" name="demande[typeDePrestation]"
                            required="required"
-                           value="Estimation" class="required" {{ demande.typeDePrestation == "Estimation" ? "checked" :"" }}>
+                           value="Estimation"
+                           class="required" {{ demande.typeDePrestation == "Estimation" ? "checked" :"" }}>
                     <label for="demande_typeDePrestation_0" class="required">Estimation</label>
                 </div>
 
                 <div class="col-md-4">
-                    <input type="radio" id="demande_typeDePrestation_1" name="demande[typeDePrestation]"
+                    <input type="radio" id="demande_typeDePrestation_1"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Pre-etude" ? "checked" :"" }}
                            required="required" class="required"
                            value="Pre-etude">
                     <label for="demande_typeDePrestation_1" class="required">Pré-étude</label>
                 </div>
 
                 <div class="col-md-4">
-                    <input type="radio" id="demande_typeDePrestation_2" name="demande[typeDePrestation]"
+                    <input type="radio" id="demande_typeDePrestation_2"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Execution" ? "checked" :"" }}
                            required="required" class="required"
                            value="Execution">
                     <label for="demande_typeDePrestation_2" class="required">Exécution</label>
@@ -40,18 +43,20 @@
 
             <div id="demande_documentsSouhaites" class="row">
                 <div class="col-md-4">
-                    <input type="checkbox" id="demande_documentsSouhaites_0" name="demande[documentsSouhaites][]"
-                           checked
+                    <input type="checkbox" id="demande_documentsSouhaites_0"
+                           name="demande[documentsSouhaites][]" {{ "Plan" in demande.documentsSouhaites ? "checked" :"" }}
                            value="Plan">
                     <label for="demande_documentsSouhaites_0" class="required">PLAN</label>
                 </div>
                 <div class="col-md-4">
-                    <input type="checkbox" id="demande_documentsSouhaites_1" name="demande[documentsSouhaites][]"
+                    <input type="checkbox" id="demande_documentsSouhaites_1"
+                           name="demande[documentsSouhaites][]" {{ "NDC" in demande.documentsSouhaites ? "checked" :"" }}
                            value="NDC">
                     <label for="demande_documentsSouhaites_1" class="required">NDC</label>
                 </div>
                 <div class="col-md-4">
-                    <input type="checkbox" id="demande_documentsSouhaites_2" name="demande[documentsSouhaites][]"
+                    <input type="checkbox" id="demande_documentsSouhaites_2"
+                           name="demande[documentsSouhaites][]" {{ "Autre" in demande.documentsSouhaites ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_documentsSouhaites_2" class="required">Autre</label>
                 </div>
@@ -67,12 +72,14 @@
             <div id="demande_fondsDePlan" class="row">
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_fondsDePlan_0" name="demande[fondsDePlan]"
+                    <input type="radio" id="demande_fondsDePlan_0"
+                           name="demande[fondsDePlan]" {{ "1" == demande.fondsDePlan ? "checked" :"" }}
                            required="required" value="1">
                     <label for="demande_fondsDePlan_0" class="required">Oui</label>
                 </div>
                 <div class="col-md-4">
-                    <input type="radio" id="demande_fondsDePlan_1" name="demande[fondsDePlan]"
+                    <input type="radio" id="demande_fondsDePlan_1"
+                           name="demande[fondsDePlan]" {{ "0" == demande.fondsDePlan ? "checked" :"" }}
                            required="required" value="0">
                     <label for="demande_fondsDePlan_1" class="required">Non</label>
                 </div>
@@ -92,28 +99,45 @@
             <div id="demande_travauxPrevus" class="row">
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_0" name="demande[travauxPrevus][]"
+                    <input type="checkbox" id="demande_travauxPrevus_0"
+                           name="demande[travauxPrevus][]" {{ "travauxPrevus" in demande.travauxPrevus ? "checked" :"" }}
                            value="Peinture/Ravalement">
                     <label for="demande_travauxPrevus_0">Peinture / Ravalement</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_1" name="demande[travauxPrevus][]"
+                    <input type="checkbox" id="demande_travauxPrevus_1"
+                           name="demande[travauxPrevus][]" {{ "Bardage/Isolation" in demande.travauxPrevus ? "checked" :"" }}
                            value="Bardage/Isolation">
                     <label for="demande_travauxPrevus_1">Bardage / Isolation</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_travauxPrevus_2" name="demande[travauxPrevus][]"
+                    <input type="checkbox" id="demande_travauxPrevus_2"
+                           name="demande[travauxPrevus][]" {{ "Maçonnerie/Pierre" in demande.travauxPrevus ? "checked" :"" }}
                            value="Maçonnerie/Pierre">
                     <label for="demande_travauxPrevus_2">Maçonnerie / Pierre</label>
                 </div>
                 <div class="col-md-4">
-
-                    <input type="checkbox" id="demande_travauxPrevus_3" name="demande[travauxPrevus][]"
+                    <input type="checkbox" id="demande_travauxPrevus_3"
+                           name="demande[travauxPrevus][]" {{ "Autre" in demande.travauxPrevus ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_travauxPrevus_3">Autre</label>
                 </div>
+
+
+                {% if "Autre" in demande.travauxPrevus %}
+                    {% for val in demande.travauxPrevus %}
+                        {% if val !="Peinture/Ravalement" and val != "Bardage/Isolation" and val!="Maçonnerie/Pierre" and val != "Autre" %}
+                            <div class="col-md-12 mt-2">
+                                <input type="text" id="demande_travauxPrevus_autre" name="demande[travauxPrevus][]"
+                                       class="form-control">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+
             </div>
         </div>
     </div>
@@ -124,45 +148,56 @@
         <div class="col-md-9">
             <div id="demande_classeDEchaffaudage" class="row">
                 <div class="col-md-4">
-                    <input type="radio" id="demande_classeDEchaffaudage_0" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_0"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 1 (75daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 1 (75daN/m² sur 1,5 niv.)">
                     <label for="demande_classeDEchaffaudage_0" class="required">Classe 1 (75daN/m² sur 1,5 niv.)</label>
                 </div>
                 <div class="col-md-4">
-                    <input type="radio" id="demande_classeDEchaffaudage_1" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_1"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 2 (150daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 2 (150daN/m² sur 1,5 niv.)">
-                    <label for="demande_classeDEchaffaudage_1" class="required">Classe 2 (150daN/m² sur 1,5 niv.)</label>
+                    <label for="demande_classeDEchaffaudage_1" class="required">Classe 2 (150daN/m² sur 1,5
+                        niv.)</label>
                 </div>
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_classeDEchaffaudage_2" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_2"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 3 (200daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 3 (200daN/m² sur 1,5 niv.)">
-                    <label for="demande_classeDEchaffaudage_2" class="required">Classe 3 (200daN/m² sur 1,5 niv.)</label>
+                    <label for="demande_classeDEchaffaudage_2" class="required">Classe 3 (200daN/m² sur 1,5
+                        niv.)</label>
                 </div>
 
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_classeDEchaffaudage_3" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_3"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 4 (300daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 4 (300daN/m² sur 1,5 niv.)">
-                    <label for="demande_classeDEchaffaudage_3" class="required">Classe 4 (300daN/m² sur 1,5 niv.)</label>
+                    <label for="demande_classeDEchaffaudage_3" class="required">Classe 4 (300daN/m² sur 1,5
+                        niv.)</label>
 
                 </div>
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_classeDEchaffaudage_4" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_4"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 5 (450daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 5 (450daN/m² sur 1,5 niv.)">
-                    <label for="demande_classeDEchaffaudage_4" class="required">Classe 5 (450daN/m² sur 1,5 niv.)</label>
+                    <label for="demande_classeDEchaffaudage_4" class="required">Classe 5 (450daN/m² sur 1,5
+                        niv.)</label>
 
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_classeDEchaffaudage_5" name="demande[classeDEchaffaudage]"
+                    <input type="radio" id="demande_classeDEchaffaudage_5"
+                           name="demande[classeDEchaffaudage]" {{ "Classe 6 (600daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
                            required="required" value="Classe 6 (600daN/m² sur 1,5 niv.)">
-                    <label for="demande_classeDEchaffaudage_5" class="required">Classe 6 (600daN/m² sur 1,5 niv.)</label>
+                    <label for="demande_classeDEchaffaudage_5" class="required">Classe 6 (600daN/m² sur 1,5
+                        niv.)</label>
                 </div>
                 <div class="col-md-4">
                 </div>
@@ -176,22 +211,33 @@
         <div class="col-md-9">
             <div id="demande_typeDeMateriel" class="row">
                 <div class="col-md-4">
-                    <input type="radio" id="demande_typeDeMateriel_0" name="demande[typeDeMateriel]"
+                    <input type="radio" id="demande_typeDeMateriel_0"
+                           name="demande[typeDeMateriel]" {{ "Universel" == demande.typeDeMateriel ? "checked" : "" }}
                            required="required" value="Universel">
                     <label for="demande_typeDeMateriel_0" class="required">Universel</label>
                 </div>
 
                 <div class="col-md-4">
-                    <input type="radio" id="demande_typeDeMateriel_1" name="demande[typeDeMateriel]"
+                    <input type="radio" id="demande_typeDeMateriel_1"
+                           name="demande[typeDeMateriel]" {{ "Eurofacadacier" == demande.typeDeMateriel ? "checked" : "" }}
                            required="required" value="Eurofacadacier">
                     <label for="demande_typeDeMateriel_1" class="required">Eurofacadacier</label>
                 </div>
 
                 <div class="col-md-4">
-                    <input type="radio" id="demande_typeDeMateriel_2" name="demande[typeDeMateriel]"
+                    <input type="radio" id="demande_typeDeMateriel_2"
+                           name="demande[typeDeMateriel]" {{ demande.typeDeMateriel !="Eurofacadacier" and demande.typeDeMateriel != "Universel" and demande.typeDeMateriel is not empty ? "checked" : "" }}
                            required="required" value="Autre">
                     <label for="demande_typeDeMateriel_2" class="required">Autre</label>
                 </div>
+
+                {% if demande.typeDeMateriel !="Eurofacadacier" and demande.typeDeMateriel != "Universel" and demande.typeDeMateriel is not empty %}
+                    <div class="col-md-12 mt-2">
+                        <input type="text" id="demande_typeDeMateriel_autre" name="demande[typeDeMateriel]"
+                               value="{{ demande.typeDeMateriel }}"
+                               class="form-control">
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -204,12 +250,14 @@
             <div class="col-md-4">
                 <label for="demande_dimensionsGlobales_longueur_totale" class="required">Longueur totale en m</label>
                 <input type="text" id="demande_dimensionsGlobales_longueur_totale" class="form-control"
+                       value='{{ "longueurTotale" in demande.dimensionsGlobales|keys ? demande.dimensionsGlobales["longueurTotale"] : "" }}'
                        name="demande[dimensionsGlobales][longueurTotale]" required="required" placeholder="m env.">
             </div>
             <div class="col-md-4">
 
                 <label for="demande_dimensionsGlobales_hauteur_totale" class="required">Hauteur Totale en m</label>
                 <input type="text" id="demande_dimensionsGlobales_hauteur_totale" class="form-control"
+                       value='{{ "hauteurTotale" in demande.dimensionsGlobales|keys ? demande.dimensionsGlobales["hauteurTotale"] : "" }}'
                        name="demande[dimensionsGlobales][hauteurTotale]" required="required" placeholder="m env.">
             </div>
         </div>
@@ -223,34 +271,51 @@
             <div id="demande_ammarages" class="row">
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_ammarages_0" name="demande[ammarages][]"
+                    <input type="checkbox" id="demande_ammarages_0"
+                           name="demande[ammarages][]" {{ "Ancrages simples"  in demande.ammarages ? "checked" :"" }}
                            value="Ancrages simples">
                     <label for="demande_ammarages_0" class="required">Ancrages simples</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_ammarages_1" name="demande[ammarages][]"
+                    <input type="checkbox" id="demande_ammarages_1"
+                           name="demande[ammarages][]" {{ "Cravatages"  in demande.ammarages ? "checked" :"" }}
                            value="Cravatages">
                     <label for="demande_ammarages_1" class="required">Cravatages</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_ammarages_2" name="demande[ammarages][]"
+                    <input type="checkbox" id="demande_ammarages_2"
+                           name="demande[ammarages][]" {{ "Verinage"  in demande.ammarages ? "checked" :"" }}
                            value="Verinage">
                     <label for="demande_ammarages_2" class="required">Vérinage</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_ammarages_3" name="demande[ammarages][]"
+                    <input type="checkbox" id="demande_ammarages_3"
+                           name="demande[ammarages][]" {{ "Lest"  in demande.ammarages ? "checked" :"" }}
                            value="Lest">
                     <label for="demande_ammarages_3" class="required">Lest</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_ammarages_4" name="demande[ammarages][]"
+                    <input type="checkbox" id="demande_ammarages_4"
+                           name="demande[ammarages][]" {{ "Autre"  in demande.ammarages ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_ammarages_4" class="required">Autre</label>
                 </div>
+                {% if "Autre"  in demande.ammarages %}
+
+                    {% for val in demande.ammarages %}
+                        {% if val !="Ancrages simples" and val != "Cravatages" and val!="Lest" and val != "Autre" and val !="Verinage" %}
+                            <div class="col-md-12 mt-2">
+                                <input type="text" id="demande_ammarages_autre" name="demande[ammarages][]"
+                                       class="form-control"
+                                       value="{{ val }}"/>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -263,25 +328,35 @@
             <div id="demande_largeur_de_travail" class="row">
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_largeur_de_travail_0" name="demande[largeurDeTravail]"
+                    <input type="radio" id="demande_largeur_de_travail_0"
+                           name="demande[largeurDeTravail]" {{ "0.7" == demande.largeurDeTravail ? "checked" :"" }}
                            required="required"
-                           value="0.4">
+                           value="0.7">
                     <label for="demande_largeur_de_travail_0" class="required">0,7 m</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_largeur_de_travail_1" name="demande[largeurDeTravail]"
+                    <input type="radio" id="demande_largeur_de_travail_1"
+                           name="demande[largeurDeTravail]" {{ "1" == demande.largeurDeTravail ? "checked" :"" }}
                            required="required"
                            value="1">
                     <label for="demande_largeur_de_travail_1" class="required">1 m</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_largeur_de_travail_2" name="demande[largeurDeTravail]"
+                    <input type="radio" id="demande_largeur_de_travail_2"
+                           name="demande[largeurDeTravail]" {{ demande.largeurDeTravail !="1" and demande.largeurDeTravail != "0.7" and demande.largeurDeTravail is not empty  ?  "checked":"" }}
                            required="required"
                            value="Autre">
                     <label for="demande_largeur_de_travail_2" class="required">Autre</label>
                 </div>
+                {% if demande.largeurDeTravail !="1" and demande.largeurDeTravail != "0.7" and demande.largeurDeTravail is not empty %}
+                    <div class="col-md-12 mt-2">
+                        <input type="text" id="demande_largeurDeTravail_autre" name="demande[largeurDeTravail]"
+                               value="{{ demande.largeurDeTravail }}"
+                               class="form-control">
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -293,23 +368,34 @@
             <div id="demande_consoles" class="row">
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_consoles_0" name="demande[consoles]" required="required"
+                    <input type="radio" id="demande_consoles_0" name="demande[consoles]"
+                           required="required" {{ "0.4" == demande.consoles ? "checked" :"" }}
                            value="0.4">
                     <label for="demande_consoles_0" class="required">0,4 m</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_consoles_1" name="demande[consoles]" required="required"
+                    <input type="radio" id="demande_consoles_1" name="demande[consoles]"
+                           required="required" {{ "0.7" == demande.consoles ? "checked" :"" }}
                            value="0.7">
                     <label for="demande_consoles_1" class="required">0,7 m</label>
                 </div>
 
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_consoles_2" name="demande[consoles]" required="required"
+                    <input type="radio" id="demande_consoles_2" name="demande[consoles]"
+                           required="required" {{ demande.consoles !="0.4" and demande.consoles != "0.7"  and demande.consoles is not empty ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_consoles_2" class="required">Autre</label>
                 </div>
+
+                {% if demande.consoles !="0.4" and demande.consoles != "0.7" and demande.consoles is not empty %}
+                    <div class="col-md-12 mt-2">
+                        <input type="text" id="demande_consoles_autre" name="demande[consoles]"
+                               value="{{ demande.consoles }}"
+                               class="form-control">
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -322,16 +408,54 @@
             <div id="demande_distance_a_la_facade" class="row">
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_distance_a_la_facade_0" name="demande[distanceALaFacade]"
+                    <input type="radio" id="demande_distance_a_la_facade_0"
+                           name="demande[distanceALaFacade]" {{ "0.2" == demande.distanceALaFacade ? "checked" :"" }}
                            required="required" value="0.2">
                     <label for="demande_distance_a_la_facade_0" class="required">0,2 m</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_distance_a_la_facade_1" name="demande[distanceALaFacade]"
+                    <input type="radio" id="demande_distance_a_la_facade_1"
+                           name="demande[distanceALaFacade]" {{ demande.distanceALaFacade != "0.2"  and demande.distanceALaFacade is not empty ? "checked" :"" }}
                            required="required" value="Autre">
                     <label for="demande_distance_a_la_facade_1" class="required">Autre</label>
                 </div>
+                {% if demande.distanceALaFacade !="0.2" and demande.distanceALaFacade is not empty %}
+                    <div class="col-md-12 mt-2">
+                        <input type="text" id="demande_distance_a_la_facade_autre" name="demande[distanceALaFacade]"
+                               value="{{ demande.distanceALaFacade }}"
+                               class="form-control"/>
+                    </div>
+
+                {% elseif  demande.distanceALaFacade =="0.2" %}
+                    <div id="demande_rapport_distance_a_la_facade">
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_0"
+                               name="demande[rapportDistanceALaFacade]" required="required" value="Par rapport au brut"
+                                {{ "Par rapport au brut" == demande.rapportDistanceALaFacade ? "checked" :"" }}
+                        >
+                        <label for="demande_rapport_distance_a_la_facade_0" class="required">Par rapport au brut</label>
+
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_1"
+                               name="demande[rapportDistanceALaFacade]" required="required" value="Par rapport au fini"
+                                {{ "Par rapport au fini" == demande.rapportDistanceALaFacade ? "checked" :"" }}
+                        >
+                        <label for="demande_rapport_distance_a_la_facade_1" class="required">Par rapport au fini</label>
+
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_2"
+                               name="demande[rapportDistanceALaFacade]" required="required" value="Autre"
+                                {{ "Par rapport au fini" != demande.rapportDistanceALaFacade  and  "Par rapport au brut" != demande.rapportDistanceALaFacade and  demande.rapportDistanceALaFacade  is not empty ? "checked" :"" }}
+                        >
+                        <label for="demande_rapport_distance_a_la_facade_2" class="required">Autre</label>
+
+
+                        {% if demande.rapportDistanceALaFacade != "Par rapport au fini" and demande.rapportDistanceALaFacade != "Par rapport au brut" and demande.rapportDistanceALaFacade is not empty %}
+                            <input type="text" id="demande_rapport_distance_a_la_facade_autre"
+                                   name="demande[rapportDistanceALaFacade]" required="required"
+                                   value="{{ demande.rapportDistanceALaFacade }}"/>
+                        {% endif %}
+
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -346,11 +470,13 @@
                     <label for="demande_hauteur_des_planchers_0" class="required ">Sous la corniche en m</label>
                     <input type="text" id="demande_hauteur_des_planchers_0" class="form-control"
                            name="demande[hauteurDesPlanchers][MSousLaCorniche]" required="required"
+                           value="{{ 'MSousLaCorniche' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['MSousLaCorniche'] :'' }}"
                            placeholder="m sous la corniche">
                 </div>
                 <div class="col-md-4">
                     <label for="demande_hauteur_des_planchers_1" class="required">Au dessus du sol en m</label>
                     <input type="text" id="demande_hauteur_des_planchers_1" class="form-control"
+                           value="{{ 'MAuDessusDuSol' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['MAuDessusDuSol'] :'' }}"
                            name="demande[hauteurDesPlanchers][MAuDessusDuSol]" required="required"
                            placeholder="m au dessus du sol">
                 </div>
@@ -359,6 +485,7 @@
                     <label for="demande_hauteur_des_planchers_2" class="required">Autre</label>
                     <input type="text" id="demande_hauteur_des_planchers_2" class="form-control"
                            name="demande[hauteurDesPlanchers][Autre]"
+                           value="{{ 'Autre' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['Autre'] :'' }}"
                            placeholder="Autre">
                 </div>
             </div>
@@ -372,34 +499,84 @@
             <div id="demande_equipements" class="row">
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_equipements_0" name="demande[equipements][]"
+                    <input type="checkbox" id="demande_equipements_0"
+                           name="demande[equipements][]" {{ 'GC MDS' in demande.equipements ? "checked" :'' }}
                            value="GC MDS">
                     <label for="demande_equipements_0" class="required">GC MDS</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_equipements_1" name="demande[equipements][]"
+                    <input type="checkbox" id="demande_equipements_1"
+                           name="demande[equipements][]" {{ 'Pare gravois' in demande.equipements ? "checked" :'' }}
                            value="Pare gravois">
                     <label for="demande_equipements_1" class="required">Pare gravois</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_equipements_2" name="demande[equipements][]"
+                    <input type="checkbox" id="demande_equipements_2"
+                           name="demande[equipements][]" {{ 'GC avant' in demande.equipements ? "checked" :'' }}
                            value="GC avant">
                     <label for="demande_equipements_2" class="required">GC avant</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_equipements_3" name="demande[equipements][]"
+                    <input type="checkbox" id="demande_equipements_3"
+                           name="demande[equipements][]" {{ 'Passage piéton' in demande.equipements ? "checked" :'' }}
                            value="Passage piéton">
                     <label for="demande_equipements_3" class="required">Passage piéton</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="checkbox" id="demande_equipements_4" name="demande[equipements][]"
+                    <input type="checkbox" id="demande_equipements_4"
+                           name="demande[equipements][]" {{ 'Protection couvreur' in demande.equipements ? "checked" :'' }}
                            value="Protection couvreur">
                     <label for="demande_equipements_4" class="required">Protection couvreur</label>
                 </div>
+
+                {% if 'Passage piéton' in demande.equipements %}
+
+                    <div id="demande_largeur_pssage_pieton" class="equipement_sous_param mt-2">
+                        <input type="radio" id="demande_largeur_pssage_pieton_0" name="demande[largeurPassagePieton]"
+                               required="required"
+                               value="0.7" {{ "0.7" == demande.largeurPassagePieton ? "checked" :"" }}>
+                        <label for="demande_largeur_pssage_pieton_0" class="required">Largeur 0,7 m</label>
+
+                        <input type="radio" id="demande_largeur_pssage_pieton_1" name="demande[largeurPassagePieton]"
+                               required="required" value="1" {{ "1" == demande.largeurPassagePieton ? "checked" :"" }}>
+                        <label for="demande_largeur_pssage_pieton_1" class="required">Largeur 1 m</label>
+
+                        <input type="radio" id="demande_largeur_pssage_pieton_2" name="demande[largeurPassagePieton]"
+                               required="required"
+                               value="1.5" {{ "1.5" == demande.largeurPassagePieton ? "checked" :"" }}>
+                        <label for="demande_largeur_pssage_pieton_2" class="required">Largeur 1,5 m</label>
+
+                        <input type="radio" id="demande_largeur_pssage_pieton_3" name="demande[largeurPassagePieton]"
+                               required="required"
+                               value="Autre" {{ "0.7" != demande.largeurPassagePieton and "1.5" != demande.largeurPassagePieton and "1" != demande.largeurPassagePieton and "0.7" != demande.largeurPassagePieton ? "checked" :"" and demande.largeurPassagePieton is not empty ? "checked" :"" }}>
+                        <label for="demande_largeur_pssage_pieton_3" class="required">Autre</label>
+
+                        {% if  "0.7" != demande.largeurPassagePieton and "1.5" != demande.largeurPassagePieton and "1" != demande.largeurPassagePieton and "0.7" != demande.largeurPassagePieton ? "checked" :"" and demande.largeurPassagePieton is not empty %}
+                            <input type="text" id="demande_protection_couvreur_autre"
+                                   name="demande[largeurPassagePieton]" required="required" class="form-control"
+                                   value="{{ demande.largeurPassagePieton }}">
+
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if 'Protection couvreur' in demande.equipements %}
+                    <div id="demande_protection_couvreur" class="equipement_sous_param">
+                        <input type="radio" id="demande_protection_couvreur_0" name="demande[protectionCouvreur]"
+                               required="required"
+                               value="En moise" {{ "En moise" == demande.protectionCouvreur ? "checked" :"" }}>
+                        <label for="demande_protection_couvreur_0" class="required">En moise</label>
+
+                        <input type="radio" id="demande_protection_couvreur_1" name="demande[protectionCouvreur]"
+                               required="required"
+                               value="Grillagée" {{ "Grillagée" == demande.protectionCouvreur ? "checked" :"" }}>
+                        <label for="demande_protection_couvreur_1" class="required">Grillagée</label>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -411,22 +588,30 @@
             <div id="demande_acces" class="row">
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_acces_0" name="demande[acces]" required="required"
+                    <input type="radio" id="demande_acces_0" name="demande[acces]"
+                           required="required" {{ "Planche à trappe" == demande.acces ? "checked" :"" }}
                            value="Planche à trappe">
                     <label for="demande_acces_0" class="required">Planche à trappe</label>
                 </div>
 
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_acces_1" name="demande[acces]" required="required"
+                    <input type="radio" id="demande_acces_1" name="demande[acces]"
+                           required="required" {{ "Volée alu à palier incorporé" == demande.acces ? "checked" :"" }}
                            value="Volée alu à palier incorporé">
                     <label for="demande_acces_1" class="required">Vollée alu à palier incorporé</label>
                 </div>
                 <div class="col-md-4">
 
-                    <input type="radio" id="demande_acces_2" name="demande[acces]" required="required"
+                    <input type="radio" id="demande_acces_2" name="demande[acces]"
+                           required="required" {{ "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_acces_2" class="required">Autre</label>
+
+                    {% if "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty %}
+                        <input type="text" id="demande_acces_autre" name="demande[acces]" required="required"
+                               class="form-control" value="{{ demande.acces }}">
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -440,31 +625,46 @@
                 <div class="col-md-4">
                     <label for="demande_bache_et_filet_0" class="required">Bâche</label>
                     <input type="text" id="demande_bache_et_filet_0" name="demande[bacheEtFilet][bache]"
+                           value="{{ 'bache' in demande.bacheEtFilet|keys ? demande.bacheEtFilet['bache'] : '' }}"
                            required="required"
                            class="form-control" placeholder=".....g/m²">
 
-                    <div class="col-md-12">
-                        <input type="checkbox" id="demande_bache_0" name="demande[bache][]"
+                    <div class="col-md-12 mt-2">
+                        <input type="checkbox" id="demande_bache_0"
+                               name="demande[bache][]" {{ "Directement sur l'échafaudage" in demande.bache  ? "checked" :"" }}
                                value="Directement sur l'échafaudage">
                         <label for="demande_bache_0" class="required">Directement sur l'échafaudage</label>
 
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-2">
 
-                        <input type="checkbox" id="demande_bache_1" name="demande[bache][]"
+                        <input type="checkbox" id="demande_bache_1"
+                               name="demande[bache][]" {{ "Sur cadre" in demande.bache  ? "checked" :"" }}
                                value="Sur cadre">
                         <label for="demande_bache_1" class="required">Sur cadre</label>
                     </div>
-                    <div class="col-md-12 row" id="demande_themee">
+                    <div class="col-md-12 row  mt-2" id="demande_themee">
                         <div class="col-md-6">
-                            <input type="checkbox" id="demande_bache_2" name="demande[bache][]"
+                            <input type="checkbox" id="demande_bache_2"
+                                   name="demande[bache][]" {{ "Thémée" in demande.bache  ? "checked" :"" }}
                                    value="Thémée">
                             <label for="demande_bache_2" class="required">Thémée</label>
                         </div>
-                    </div>
-                    <div class="col-md-12">
 
-                        <input type="checkbox" id="demande_bache_3" name="demande[bache][]"
+                        {% if "Thémée" in demande.bache %}
+                                {% if "themee" in demande.bache|keys %}
+                                    <div class="col-md-6">
+                                        <input type="text" id="demande_bache_autre" value="{{ demande.bache['themee'] }}"
+                                               name="demande[bache][themee]"
+                                               class="form-control">
+                                    </div>
+                                {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12  mt-2">
+
+                        <input type="checkbox" id="demande_bache_3"
+                               name="demande[bache][]" {{ "M1" in demande.bache ? "checked" :"" }}
                                value="M1">
                         <label for="demande_bache_3" class="required">M1</label>
                     </div>
@@ -473,6 +673,7 @@
                 <div class="col-md-4">
                     <label for="demande_bache_et_filet_1" class="required">Filet</label>
                     <input type="text" id="demande_bache_et_filet_1" name="demande[bacheEtFilet][filet]"
+                           value="{{ 'filet' in demande.bacheEtFilet|keys ? demande.bacheEtFilet['filet'] : '' }}"
                            required="required"
                            class="form-control" placeholder=".....g/m²">
 
