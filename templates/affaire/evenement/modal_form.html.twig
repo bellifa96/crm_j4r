@@ -39,7 +39,7 @@
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="form-control" method="POST" onsubmit="return submitEvenement(event)" id="evenement-form">
+            {{ form_start(form, {'attr':{"onsubmit"="return submitEvenement(event)"}}) }}
 
                 <div class="modal-header">
                     <h5 class="modal-title"
@@ -47,7 +47,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modal-body">
-                    {{ form_start(form) }}
                     <div class="row mt-3">
                         <div class="col-md-4"><label class="labels">Titre</label>
                             {{ form_widget(form.titre,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Titre"}}) }}
@@ -89,7 +88,6 @@
                             {{ form_widget(form.attribueA,{"attr":{"class":"form-control"}}) }}
                         </div>
                     </div>
-                    {{ form_end(form) }}
                 </div>
                 <div class="modal-footer">
                     <div id="footer-load" style="display: none;">
@@ -112,7 +110,7 @@
                     </div>
 
                 </div>
-            </form>
+            {{ form_end(form) }}
         </div>
     </div>
 </div>
