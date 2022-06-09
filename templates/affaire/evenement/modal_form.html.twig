@@ -1,6 +1,6 @@
 <style>
-    .modal-dialog{
-        position:absolute;
+    .modal-dialog {
+        position: absolute;
         right: 0;
         top: 0;
         padding: 0;
@@ -8,30 +8,26 @@
         width: 33%;
     }
 
-    .modal-content{
+    .modal-content {
         width: 100%;
     }
 
-    .modal-body input:focus  {
+    .modal-body input:focus {
         border-color: #28c0f0;
         box-shadow: 0 0 0 0.1rem rgb(134 183 254);
     }
 
-    .modal-body textarea:focus  {
-        border-color: #28c0f0;
-        box-shadow: 0 0 0 0.1rem rgb(134 183 254);
-    }
-    .modal-body select:focus  {
+    .modal-body textarea:focus {
         border-color: #28c0f0;
         box-shadow: 0 0 0 0.1rem rgb(134 183 254);
     }
 
+    .modal-body select:focus {
+        border-color: #28c0f0;
+        box-shadow: 0 0 0 0.1rem rgb(134 183 254);
+    }
 
-
-
-
-
-
+dd
 </style>
 
 <div class="modal fade" id="add-evenement" data-bs-backdrop="static"
@@ -39,7 +35,7 @@
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            {{ form_start(form, {'attr':{"onsubmit"="return submitEvenement(event)"}}) }}
+            {{ form_start(form, {'attr':{"class":"form-control","onsubmit":"return submitService(event)"}}) }}
 
                 <div class="modal-header">
                     <h5 class="modal-title"
