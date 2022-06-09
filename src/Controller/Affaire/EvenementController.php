@@ -49,6 +49,36 @@ class EvenementController extends AbstractController
         return $response;
     }
 
+    #[Route('/new/evenement', name: 'app_affaire_evenement_new_evenement', methods: ['GET', 'POST'])]
+    public function newEvenement(Request $request, EvenementRepository $evenementRepository): Response
+    {
+
+        $data = $request->request->all()['evenement'];
+        $response = new Response();
+
+        if (!empty($data['titre']) and !empty($data['code'])) {
+            $evenement = new Evenement();
+            $evenement->setCreateur($this->getUser());
+            $evenement->setTitre(htmlspecialchars($data['evenement_titre'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setDescription(htmlspecialchars($data['evenement_description'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setDateDeDebut(htmlspecialchars($data['evenement_dateDeDebut'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setDateDeFin(htmlspecialchars($data['evenement_dateDeFin'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setPriorite(htmlspecialchars($data['evenement_priorite'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setTypeDEvenement(htmlspecialchars($data['evenement_typeDEvenement'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setAttribueA(htmlspecialchars($data['evenement_dateDeDebut'], ENT_QUOTES, 'UTF-8'));
+            try {
+                $evenementRepository->add($evenement);
+                $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
+            } catch (UniqueConstraintViolationException $e) {
+                $response->setContent(json_encode(['code' => 404, 'message' => "Une activité avec le même titre existe dans la base de données"]));
+            }
+        } else {
+            $response->setContent(json_encode(['code' => 404, 'message' => 'Veuillez remplir tous les champs du formulaire']));
+        }
+        return $response;
+
+    }
+
     #[Route('/new/{id}', name: 'app_affaire_evenement_new', methods: ['GET', 'POST'])]
     public function new(Demande $demande, Request $request, EvenementRepository $evenementRepository): Response
     {

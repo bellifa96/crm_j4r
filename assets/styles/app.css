@@ -265,7 +265,7 @@ body .page-head ul li {
     border: solid 1px #BA68C8
 }
 
-.evenement-button{
+.add-evenement{
     position: absolute;
     right: -230px;
     top: 15%;
@@ -279,7 +279,7 @@ body .page-head ul li {
     height: auto;
 }
 
-.evenement-button:hover{
+.add-evenement:hover{
     right: 0;
     background-color: #11caf0;
 }

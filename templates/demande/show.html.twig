@@ -397,7 +397,7 @@
             <div class="col-md-auto bg-leasy">
                 {{ demande.updatedAt|date('d/m/y H:i:s') }}
             </div>
-            <div><span class="border px-3 p-1 evenement-button add-button"><i
+            <div><span class="border px-3 p-1 add-evenement add-button"><i
                        class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
             </div>
         </div>
@@ -406,7 +406,7 @@
 
     <script>
 
-        $('.evenement-button').click(function () {
+        $('.add-evenement').click(function () {
             if ($('#add-evenement').length > 0) {
                 $("#add-evenement").modal('show');
 
@@ -419,6 +419,43 @@
                 })
             }
         })
+
+
+        function submitEvenement(event) {
+            event.preventDefault();
+
+            $("#service-error").length > 0 ? $("#service-error").remove() : "";
+            var evenement = {
+                titre: $("#evenement_titre").val(),
+                description: $("#evenement_description").val(),
+                dateDeDebut : $("#evenement_dateDeDebut").val(),
+                dateDeFin : $("#evenement_dateDeFin").val(),
+                priorite : $("#evenement_priorite").val(),
+                typeDEvenement : $("#evenement_typeDEvenement").val(),
+                attribueA : $("#evenement_attribueA").val(),
+            };
+
+            $.post("{{ path('app_affaire_evenement_new_evenement') }}", {evenement}, function (data) {
+
+                data = JSON.parse(data);
+
+                if (data.code == 200) {
+
+                    $("#add-service").modal('hide');
+                    $('#add-service').remove()
+                } else {
+
+                    $('#modal_button').show();
+                    $('#footer-load').hide()
+
+                    $('#modal-body').append(`
+                  <div class="alert alert-danger mt-2" role="alert" id="service-error">
+                      ${data.message}
+                   </div>
+                `)
+                }
+            })
+        }
 
 
     </script>
