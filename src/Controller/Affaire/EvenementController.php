@@ -58,6 +58,7 @@ class EvenementController extends AbstractController
 
         if (!empty($data['titre']) and !empty($data['code'])) {
             $evenement = new Evenement();
+            //$evenement->setDemande($this->get);
             $evenement->setCreateur($this->getUser());
             $evenement->setTitre(htmlspecialchars($data['evenement_titre'], ENT_QUOTES, 'UTF-8'));
             $evenement->setDescription(htmlspecialchars($data['evenement_description'], ENT_QUOTES, 'UTF-8'));
@@ -66,6 +67,8 @@ class EvenementController extends AbstractController
             $evenement->setPriorite(htmlspecialchars($data['evenement_priorite'], ENT_QUOTES, 'UTF-8'));
             $evenement->setTypeDEvenement(htmlspecialchars($data['evenement_typeDEvenement'], ENT_QUOTES, 'UTF-8'));
             $evenement->setAttribueA(htmlspecialchars($data['evenement_dateDeDebut'], ENT_QUOTES, 'UTF-8'));
+
+            dd($evenement);
             try {
                 $evenementRepository->add($evenement);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));

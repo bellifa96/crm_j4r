@@ -424,7 +424,7 @@
         function submitEvenement(event) {
             event.preventDefault();
 
-            $("#service-error").length > 0 ? $("#service-error").remove() : "";
+            $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
             var evenement = {
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
@@ -441,15 +441,15 @@
 
                 if (data.code == 200) {
 
-                    $("#add-service").modal('hide');
-                    $('#add-service').remove()
+                    $("#add-evenement").modal('hide');
+                    $('#add-evenement').remove()
                 } else {
 
                     $('#modal_button').show();
                     $('#footer-load').hide()
 
                     $('#modal-body').append(`
-                  <div class="alert alert-danger mt-2" role="alert" id="service-error">
+                  <div class="alert alert-danger mt-2" role="alert" id="evenement-error">
                       ${data.message}
                    </div>
                 `)
