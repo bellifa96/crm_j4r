@@ -31,7 +31,7 @@ class Evenement
     #[ORM\Column(type: 'datetime')]
     private $dateDeDebut;
 
-    #[ORM\Column(type: 'datetime', length: 255)]
+    #[ORM\Column(type: 'datetime')]
     private $dateDeFin;
 
     #[ORM\Column(type: 'string', length: 255)]

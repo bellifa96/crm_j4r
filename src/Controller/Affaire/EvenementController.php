@@ -56,7 +56,9 @@ class EvenementController extends AbstractController
         $data = $request->request->all()['evenement'];
         $response = new Response();
 
-        if (!empty($data['titre']) and !empty($data['code'])) {
+        if (!empty($data['evenement_titre']) and !empty($data['evenement_description']) and !empty($data['evenement_dateDeDebut'])
+            and !empty($data['evenement_dateDeFin']) and !empty($data['evenement_priorite']) and !empty($data['evenement_typeDEvenement'])
+            and !empty($data['evenement_attribueA'])) {
             $evenement = new Evenement();
             //$evenement->setDemande($this->get);
             $evenement->setCreateur($this->getUser());
@@ -66,9 +68,9 @@ class EvenementController extends AbstractController
             $evenement->setDateDeFin(htmlspecialchars($data['evenement_dateDeFin'], ENT_QUOTES, 'UTF-8'));
             $evenement->setPriorite(htmlspecialchars($data['evenement_priorite'], ENT_QUOTES, 'UTF-8'));
             $evenement->setTypeDEvenement(htmlspecialchars($data['evenement_typeDEvenement'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setAttribueA(htmlspecialchars($data['evenement_dateDeDebut'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setAttribueA(htmlspecialchars($data['evenement_attribueA'], ENT_QUOTES, 'UTF-8'));
 
-            dd($evenement);
+            //dd($evenement);
             try {
                 $evenementRepository->add($evenement);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
