@@ -57,13 +57,13 @@ dd
 
                     <div class="row mt-3">
                         <div class="col-md-8"><label class="labels">Date de début</label>
-                            {{ form_widget(form.dateDeDebut) }}
+                            {{ form_widget(form.dateDeDebut,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
                         </div>
                     </div>
 
                     <div class="row mt-3">
                         <div class="col-md-8"><label class="labels">Date de fin</label>
-                            {{ form_widget(form.dateDeFin) }}
+                            {{ form_widget(form.dateDeFin,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
                         </div>
                     </div>
 

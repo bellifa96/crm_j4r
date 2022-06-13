@@ -4,6 +4,7 @@ namespace App\Form\Affaire;
 
 use App\Entity\Affaire\Evenement;
 use App\Entity\User;
+use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,8 +18,12 @@ class EvenementType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('dateDeDebut')
-            ->add('dateDeFin')
+            ->add('dateDeDebut', DateTimeType::class, [
+                'placeholder' => '--Veuillez sélectionner une date--'
+            ])
+            ->add('dateDeFin', DateTimeType::class, [
+                'placeholder' => '--Veuillez sélectionner une date--'
+            ])
             ->add('priorite')
             ->add('typeDEvenement')
             ->add('attribueA', EntityType::class, [
