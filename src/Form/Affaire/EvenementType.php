@@ -24,21 +24,21 @@ class EvenementType extends AbstractType
             ->add('typeDEvenement')
             ->add('attribueA', EntityType::class, [
                 'class' => User::class,
-                'query_builder' => function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastname', 'ASC');
                 },
-                'choice_label' => function($user){
-                    return $user->getLastname().' '.$user->getFirstname();
+                'choice_label' => function ($user) {
+                    return $user->getLastname() . ' ' . $user->getFirstname();
                 }
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Evenement::class,
+            'allow_extra_field' => true,
         ]);
     }
 }

@@ -30,6 +30,7 @@ import './datatable_custom';
 
 global.$ = global.jQuery = $;
 
+
 import 'multiple-select/src/multiple-select';
 import 'multiple-select/src/multiple-select.scss';
 import 'multiple-select/dist/multiple-select.css';
@@ -49,14 +50,15 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
-/*import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import ImageTool from '@editorjs/image';
-*/
-
+import icons from "trumbowyg/dist/trumbowyg.min"
+import "trumbowyg/dist/ui/icons.svg"
+import "trumbowyg/dist/ui/trumbowyg.min.css"
+$.trumbowyg.svgPath = icons
 
 $(function () {
+
+
+    $('.editor').trumbowyg();
 
     /*const editor = new EditorJS({
 
@@ -101,6 +103,7 @@ $(function () {
             $(this).checkboxradio();
         }
     });
+
     $(".datepicker").datepicker({
         closeText: 'Fermer',
         prevText: '&#x3c;Préc',
@@ -125,7 +128,9 @@ $(function () {
     });
 
 
+
     $('.tel-code').select2();
+
 
 
     $('.multi-select').multipleSelect();

@@ -56,6 +56,8 @@ class EvenementController extends AbstractController
         $data = $request->request->all()['evenement'];
         $response = new Response();
 
+        dd($request);
+
         if (!empty($data['evenement_titre']) and !empty($data['evenement_description']) and !empty($data['evenement_dateDeDebut'])
             and !empty($data['evenement_dateDeFin']) and !empty($data['evenement_priorite']) and !empty($data['evenement_typeDEvenement'])
             and !empty($data['evenement_attribueA'])) {

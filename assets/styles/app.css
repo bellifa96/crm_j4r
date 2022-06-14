@@ -258,6 +258,9 @@ body .page-head ul li {
 .add-button{
     color: black;
 }
+.editor{
+    color: black !important;
+}
 .add-button:hover {
     background: #BA68C8;
     color: #fff;

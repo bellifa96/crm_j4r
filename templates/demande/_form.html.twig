@@ -191,7 +191,7 @@
                     <label class="labels">Date du relevé</label>
                 </div>
                 <div class="col-md-9">
-                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datetimepicker","autocomplet":"off"}}) }}
                 </div>
             </div>
 
@@ -325,9 +325,13 @@
             </div>
             <br>
 
+
+
         </div>
     </div>
 </div>
+
+<div class="editor"></div>
 
 
 {{ form_end(form) }}
