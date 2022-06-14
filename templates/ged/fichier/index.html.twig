@@ -50,10 +50,21 @@
                                     style="font-size: 1rem;margin-left:5%;"
                                     aria-hidden="true"></i></a>
                         {% if trash %}
-                            <a href="{{ path('app_ged_fichier_restore' , {'id':fichier.id}) }}"><i
-                                        class="fa fa-refresh"
-                                        style="font-size: 1rem;margin-left:5%;"
-                                        aria-hidden="true"></i></a>
+                            <form method="get"
+                                  id="formRestoreFile-{{ fichier.id }}"
+                                  style="display:contents;"
+                                  action="{{ path('app_ged_fichier_restore', {'id': fichier.id}) }}"
+                                  onsubmit="return confirm('êtes vous certain de vouloir restaurer {{ fichier.fichier }}?');">
+                                <input type="hidden" name="_method"
+                                       value="DELETE">
+                                <input type="hidden" name="_token"
+                                       value="{{ csrf_token('delete' ~ fichier.id) }}">
+                                <button style="border-color: transparent;    background-color:transparent;">
+                                    <i
+                                            class="fa fa-refresh"
+                                            style="font-size: 1rem;margin-left:5%;color: #0E4377;"
+                                            aria-hidden="true"></i></button>
+                            </form>
                         {% else %}
                             <form method="post"
                                   id="formDeleteFile-{{ fichier.id }}"
