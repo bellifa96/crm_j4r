@@ -18,12 +18,8 @@ class EvenementType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('dateDeDebut', DateTimeType::class, [
-                'placeholder' => '--Veuillez sélectionner une date--'
-            ])
-            ->add('dateDeFin', DateTimeType::class, [
-                'placeholder' => '--Veuillez sélectionner une date--'
-            ])
+            ->add('dateDeDebut')
+            ->add('dateDeFin')
             ->add('priorite')
             ->add('typeDEvenement')
             ->add('attribueA', EntityType::class, [
