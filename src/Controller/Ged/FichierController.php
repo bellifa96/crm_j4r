@@ -173,7 +173,7 @@ class FichierController extends AbstractController
             $fichier->setSupprimeLe(new \datetime('now'));
             $fichierRepository->add($fichier);
         }
-        return $this->redirectToRoute('app_ged_fichier_deleted', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_ged_fichier_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/restore/{id}', name: 'app_ged_fichier_restore', methods: ['GET'])]
