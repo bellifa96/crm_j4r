@@ -91,16 +91,15 @@
             <li class="sidebar-title">
                 Devis
                 <ul>
-                    <li class="sidebar-item">
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_devis_index' ? 'active' }} ">
                         <a href="{{ path('app_affaire_devis_index') }}"
-                           class="sidebar-link  {{ app.request.get('_route') == 'app_affaire_devis_index' ? 'active' }} ">
+                           class="sidebar-link  ">
                             <i class="bi bi-list-ul"></i>
                             <span> Liste </span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="{{ path('app_demande_index') }}"
-                           class="sidebar-link  {{ app.request.get('_route') == 'app_demande_index' ? 'active' }} ">
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_demande_index' ? 'active' }}" >
+                        <a href="{{ path('app_demande_index') }}" class="sidebar-link">
                             <i class="bi bi-list-ul"></i>
                             <span> Demandes </span>
                         </a>

@@ -153,53 +153,77 @@ class DemandeController extends AbstractController
     {
         $data = $request->request->all()['demande'];
 
-        $demande->setTypeDePrestation($data['typeDePrestation']);
-        $demande->setDocumentsSouhaites($data['documentsSouhaites']);
-        $demande->setFondsDePlan($data['fondsDePlan']);
+        key_exists('typeDePrestation', $data) ? $demande->setTypeDePrestation($data['typeDePrestation']) :$demande->setTypeDePrestation(null);
+        key_exists('documentsSouhaites', $data) ? $demande->setDocumentsSouhaites($data['documentsSouhaites']) :$demande->setDocumentsSouhaites(null);
+        key_exists('fondsDePlan', $data) ? $demande->setFondsDePlan($data['fondsDePlan']) :$demande->setFondsDePlan(null);
 
         key_exists('contactPrincipalClient', $data) ? $contatcC = $this->em->getRepository(Contact::class)->find($data['contactPrincipalClient']) : $contatcC = null;
-        !empty($contatcC) ? $demande->setContactPrincipalClient($contatcC) : "";
+        !empty($contatcC) ? $demande->setContactPrincipalClient($contatcC) : $demande->setContactPrincipalClient(null);
 
 
         key_exists('contactPrincipalMaitreDOuvrage', $data) ? $contatcPMO = $this->em->getRepository(Contact::class)->find($data['contactPrincipalMaitreDOuvrage']) : $contatcPMO = null;
-        !empty($contatcPMO) ? $demande->setContactPrincipalMaitreDOuvrage($contatcPMO) : "";
+        !empty($contatcPMO) ? $demande->setContactPrincipalMaitreDOuvrage($contatcPMO) : $demande->setContactPrincipalMaitreDOuvrage(null);
 
         key_exists('contactPrincipalIntermediaire', $data) ? $contatcI = $this->em->getRepository(Contact::class)->find($data['contactPrincipalIntermediaire']) : $contatcI = null;
-        !empty($contatcI) ? $demande->setContactIntermediaire($contatcI) : "";
+        !empty($contatcI) ? $demande->setContactPrincipalIntermediaire($contatcI) : $demande->setContactPrincipalIntermediaire(null);
 
         if (key_exists('contactsSecondaires', $data)) {
             foreach ($data['contactsSecondaires'] as $val) {
                 $contact = $this->em->getRepository(Contact::class)->find($val);
-                !empty($contact) ? $demande->addContactsSecondaire($contact) : "";
+                !empty($contact) ? $demande->addContactsSecondaire($contact) :"";
             }
+        }else{
+            $demande->getContactsSecondaires()->clear();
         }
 
 
   //     dd($data);
-        key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : "";
-        key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : "";
-        key_exists('typeDeMateriel', $data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : "";
-        key_exists('dimensionsGlobales', $data) ? $demande->setDimensions($data['dimensionsGlobales']) : "";
-        key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : "";
-        key_exists('largeurDeTravail', $data) ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : "";
-        key_exists('consoles', $data) ? $demande->setConsoles($data['consoles']) : "";
-        key_exists('distanceALaFacade', $data) ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : "";
-        key_exists('rapportDistanceALaFacade', $data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) : "";
-        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : "";
-        key_exists('equipements', $data) ? $demande->setEquipements($data['equipements']) : "";
-        key_exists('protectionCouvreur', $data) ? $demande->setProtectionCouvreur($data['protectionCouvreur']) : "";
-        key_exists('largeurPassagePieton', $data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) : "";
-        key_exists('acces', $data) ? $demande->setAcces($data['acces']) : "";
-        key_exists('bacheEtFilet', $data) ? $demande->setBacheEtFilet($data['bacheEtFilet']) : "";
-        key_exists('bache', $data) ? $demande->setBache($data['bache']) : "";
-        key_exists('dimensionsGlobales', $data) ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : "";
-        key_exists('porteeLibre', $data) ? $demande->setPorteeLibre($data['porteeLibre']) : "";
-        key_exists('longueur', $data) ? $demande->setLongueur($data['porteeLibre']) : "";
-        key_exists('hauteur', $data) ? $demande->setHauteur($data['hauteur']) : "";
-        key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : "";
-        key_exists('finitionPlancher', $data) ? $demande->setFinitionPlancher($data['finitionPlancher']) : "";
-        key_exists('gcPeripherique', $data) ? $demande->setGcPeripherique($data['gcPeripherique']) : "";
-        key_exists('dimensions', $data) ? $demande->setDimensions($data['dimensions']) : "";
+        key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : $demande->setTravauxPrevus([]);
+
+        key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : $demande->setClasseDEchaffaudage(null);
+
+        key_exists('typeDeMateriel', $data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : $demande->setTypeDeMateriel(null);
+
+
+        key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : $demande->setAmmarages(null) ;
+
+        key_exists('largeurDeTravail', $data) ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : $demande->setLargeurDeTravail(null);
+
+        key_exists('consoles', $data) ? $demande->setConsoles($data['consoles']) : $demande->setConsoles(null);
+
+        key_exists('distanceALaFacade', $data) ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : $demande->setDistanceALaFacade(null) ;
+
+        key_exists('rapportDistanceALaFacade', $data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) : $demande->setRapportDistanceALaFacade(null);
+
+        key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : $demande->setHauteurDesPlanchers(null);
+
+        key_exists('equipements', $data) ? $demande->setEquipements($data['equipements']) :$demande->setEquipements(null);
+
+        key_exists('protectionCouvreur', $data) ? $demande->setProtectionCouvreur($data['protectionCouvreur']) : $demande->setProtectionCouvreur(null);
+
+        key_exists('largeurPassagePieton', $data) ? $demande->setLargeurPassagePieton($data['largeurPassagePieton']) : $demande->setLargeurPassagePieton(null);
+
+        key_exists('acces', $data) ? $demande->setAcces($data['acces']) : $demande->setAcces(null);
+
+        key_exists('bacheEtFilet', $data) ? $demande->setBacheEtFilet($data['bacheEtFilet']) : $demande->setBacheEtFilet(null) ;
+
+        key_exists('bache', $data) ? $demande->setBache($data['bache']) : $demande->setBache(null);
+
+        key_exists('dimensionsGlobales', $data) ? $demande->setDimensionsGlobales($data['dimensionsGlobales']) : $demande->setDimensionsGlobales(null);
+
+        key_exists('porteeLibre', $data) ? $demande->setPorteeLibre(floatval($data['porteeLibre'])) : $demande->setPorteeLibre(null);
+
+        key_exists('longueur', $data) ? $demande->setLongueur(floatval($data['porteeLibre'])) : $demande->setLongueur(null);
+
+        key_exists('hauteur', $data) ? $demande->setHauteur($data['hauteur']) : $demande->setHauteur(null);
+
+        key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : $demande->setTraitementDesPignons(null) ;
+
+        key_exists('finitionPlancher', $data) ? $demande->setFinitionPlancher($data['finitionPlancher']) : $demande->setFinitionPlancher(null);
+
+        key_exists('gcPeripherique', $data) ? $demande->setGcPeripherique($data['gcPeripherique']) : $demande->setGcPeripherique(null);
+
+        key_exists('dimensions', $data) ? $demande->setDimensions($data['dimensions']) : $demande->setDimensions([]);
 
 
         //   dd($data['typeDePrestation']);

@@ -149,6 +149,26 @@
                 </div>
             </div>
 
+
+            {% if demande.contactPrincipalClient is not empty and demande.client is not empty %}
+
+                <div class="row mt-2 contact-client">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]" id="demande_contact_principal_client">
+                            {% for contact in demande.client.contacts %}
+                               <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalClient  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            {% endif %}
+
+
+
             <div class="row mt-2">
                 <div class="col-md-3 text-end">
                     <label class="labels required">Nom du chantier</label>
@@ -182,7 +202,7 @@
                     <label class="labels">Date de la demande</label>
                 </div>
                 <div class="col-md-9">
-                    {{ form_widget(form.date,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                    {{ form_widget(form.date,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
                 </div>
             </div>
 
@@ -191,7 +211,7 @@
                     <label class="labels">Date du relevé</label>
                 </div>
                 <div class="col-md-9">
-                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datetimepicker","autocomplet":"off"}}) }}
+                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
                 </div>
             </div>
 
@@ -200,7 +220,7 @@
                     <label class="labels">Date de remise</label>
                 </div>
                 <div class="col-md-9">
-                    {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplet":"off"}}) }}
+                    {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
                 </div>
             </div>
         </div>
@@ -214,6 +234,22 @@
                 </div>
             </div>
 
+
+            {% if demande.contactPrincipalMaitreDOuvrage is not empty and demande.maitreDOuvrage is not empty %}
+            <div class="row mt-2 contact-maitre-douvrage">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Contact principal</label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]" id="demande_contact_principal_maitre_douvrage">
+                        {% for contact in demande.maitreDOuvrage.contacts %}
+                            <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalMaitreDOuvrage  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
+
             <div class="row mt-2">
                 <div class="col-md-3 text-end">
                     <label class="labels">Intermediaire</label>
@@ -223,13 +259,55 @@
                 </div>
             </div>
 
+            {% if demande.contactPrincipalIntermediaire is not empty and demande.intermediaire is not empty %}
+                <div class="row mt-2 contact-intermediaire">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]" id="demande_contact_principal_intermediaire">
+                            {% for contact in demande.intermediaire.contacts %}
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalIntermediaire  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="row mt-2">
                 <div class="col-md-3 text-end">
                     <label class="labels">Contacts Secondaires</label>
                 </div>
                 <div class="col-md-9">
                     <select class="form-control tel-code" name="demande[contactsSecondaires][]"
-                            id="demande_contacts_secondaires" multiple></select>
+                            id="demande_contacts_secondaires" multiple>
+                        {% for contact in demande.contactsSecondaires %}
+                            <option value="{{ contact.id }}" selected> {{ contact.nom~" "~contact.prenom }}</option>
+                        {% endfor %}
+
+                        {% if demande.intermediaire is not empty %}
+                            {% for contact in demande.intermediaire.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if demande.client is not empty %}
+                            {% for contact in demande.client.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if demande.maitreDOuvrage is not empty %}
+                            {% for contact in demande.maitreDOuvrage.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </select>
                 </div>
             </div>
 
@@ -300,14 +378,14 @@
 
         {% if demande.typeEchafaudage == "Façade" %}
             {% include 'demande/echafaudage/facade.html.twig' with {'demande': demande} %}
-            {% elseif  demande.typeEchafaudage == "Parapluie"  %}
-                {% include 'demande/echafaudage/parapluie.html.twig' with {'demande': demande} %}
+        {% elseif  demande.typeEchafaudage == "Parapluie" %}
+            {% include 'demande/echafaudage/parapluie.html.twig' with {'demande': demande} %}
 
-            {% elseif  demande.typeEchafaudage == "Plateforme"  %}
-                {% include 'demande/echafaudage/plateforme.html.twig' with {'demande': demande} %}
+        {% elseif  demande.typeEchafaudage == "Plateforme" %}
+            {% include 'demande/echafaudage/plateforme.html.twig' with {'demande': demande} %}
 
-            {% elseif  demande.typeEchafaudage == "Particulier"  %}
-                {% include 'demande/echafaudage/particulier.html.twig' with {'demande': demande} %}
+        {% elseif  demande.typeEchafaudage == "Particulier" %}
+            {% include 'demande/echafaudage/particulier.html.twig' with {'demande': demande} %}
 
         {% endif %}
 
@@ -317,21 +395,13 @@
 
 <div class="page-block col-md-10 m-auto mt-4">
 
-    <div class="col-md-4">
-        <div class="p-3 py-5">
-
-            <div class="col-md-12"><label class="labels">Commentaire</label>
-                {{ form_widget(form.commentaire,{"attr":{"class":"form-control","placeholder":"Commentaire"}}) }}
-            </div>
-            <br>
-
-
-
-        </div>
+    <div class="col-md-12"><label class="labels">Commentaire</label>
+        {{ form_widget(form.commentaire,{"attr":{"class":"form-control editor","placeholder":"Commentaire"}}) }}
     </div>
-</div>
+    <br>
 
-<div class="editor"></div>
+
+</div>
 
 
 {{ form_end(form) }}
@@ -343,7 +413,10 @@
     $("input[name='demande[typeEchafaudage]']").change(function () {
         $('.form-container').remove();
         var path = "{{ path('app_demande_form') }}";
-        $.post(path, {data: $("input[name='demande[typeEchafaudage]']:checked").val(),id:"{{ demande.id }}" } , function (data) {
+        $.post(path, {
+            data: $("input[name='demande[typeEchafaudage]']:checked").val(),
+            id: "{{ demande.id }}"
+        }, function (data) {
             $('#form-container').append(JSON.parse(data).message);
         })
     });
@@ -351,7 +424,7 @@
     $("#demande_client").change(function () {
         $('.contact-client').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_client").val()}, function (data) {
+        $.post(path, {id: $("#demande_client").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"client"}, function (data) {
             const div = `<div class="row mt-2 contact-client">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -376,7 +449,7 @@
     $("#demande_maitreDOuvrage").change(function () {
         $('.contact-maitre-douvrage').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_maitreDOuvrage").val()}, function (data) {
+        $.post(path, {id: $("#demande_maitreDOuvrage").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"maitreDOuvrage"}, function (data) {
             const div = `<div class="row mt-2 contact-maitre-douvrage">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -402,7 +475,7 @@
     $("#demande_intermediaire").change(function () {
         $('.contact-intermediaire').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_intermediaire").val()}, function (data) {
+        $.post(path, {id: $("#demande_intermediaire").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"intermediaire"}, function (data) {
             const div = `<div class="row mt-2 contact-intermediaire">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -429,15 +502,18 @@
         let param = {
             idClient: $("#demande_client").val(),
             idMaitreOuvrage: $("#demande_maitreDOuvrage").val(),
-            idIntermediaire: $("#demande_intermediaire").val()
+            idIntermediaire: $("#demande_intermediaire").val(),
+            demande:"{{ demande.id }}"
         }
         $.post(path, param, function (data) {
             data = JSON.parse(data);
             $('#demande_contacts_secondaires').children().remove();
+            console.log(data)
             data.forEach((value, key) => {
                 $('#demande_contacts_secondaires').append($('<option>', {
                     value: value.id,
-                    text: value.text
+                    text: value.text,
+                    selected:value.selected
                 }));
             })
         })

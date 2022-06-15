@@ -373,7 +373,7 @@
                 Commentaire
             </div>
             <div class="col-md-10 bg-leasy">
-                {{ demande.commentaire|nl2br }}
+                {{ demande.commentaire|raw('html') }}
             </div>
         </div>
 

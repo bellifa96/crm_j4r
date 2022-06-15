@@ -51,19 +51,19 @@ class Demande
     private $intermediaire;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $typeDePrestation;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $fondsDePlan;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $classeDEchaffaudage;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $typeDeMateriel;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Devis::class)]
@@ -74,36 +74,36 @@ class Demande
     private $travauxPrevus = [];
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string',length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $largeurDeTravail;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string',length: 255,nullable: true,)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true,)]
     private $consoles;
 
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $acces;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float',nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $porteeLibre;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'float',nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $longueur;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $traitementDesPignons;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $finitionPlancher;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $gcPeripherique;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -284,7 +284,7 @@ class Demande
         return $this->typeDePrestation;
     }
 
-    public function setTypeDePrestation(string $typeDePrestation): self
+    public function setTypeDePrestation(?string $typeDePrestation): self
     {
         $this->typeDePrestation = $typeDePrestation;
 
@@ -296,7 +296,7 @@ class Demande
         return $this->fondsDePlan;
     }
 
-    public function setFondsDePlan(bool $fondsDePlan): self
+    public function setFondsDePlan(?bool $fondsDePlan): self
     {
         $this->fondsDePlan = $fondsDePlan;
 
@@ -710,14 +710,14 @@ class Demande
         return $this;
     }
 
-    public function getContactIntermediaire(): ?Contact
+    public function getContactPrincipalIntermediaire(): ?Contact
     {
-        return $this->contactIntermediaire;
+        return $this->contactPrincipalIntermediaire;
     }
 
-    public function setContactIntermediaire(?Contact $contactIntermediaire): self
+    public function setContactPrincipalIntermediaire(?Contact $contactPrincipalIntermediaire): self
     {
-        $this->contactIntermediaire = $contactIntermediaire;
+        $this->contactPrincipalIntermediaire = $contactPrincipalIntermediaire;
 
         return $this;
     }

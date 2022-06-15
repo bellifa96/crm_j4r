@@ -6,6 +6,7 @@ use App\Entity\Contact\Contact;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Contact\ContactType;
 use App\Repository\Contact\ContactRepository;
+use App\Repository\DemandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,15 +40,15 @@ class ContactController extends AbstractController
 
 
             if ($photo) {
-                $newFilename = $contact->getId().'.'.$photo->guessExtension();
+                $newFilename = $contact->getId() . '.' . $photo->guessExtension();
                 try {
                     $photo->move(
-                        __DIR__.'/../../../public/uploads/photo/contact/',
+                        __DIR__ . '/../../../public/uploads/photo/contact/',
                         $newFilename
                     );
                 } catch (FileException $e) {
 
-                    $this->addFlash('danger',$e->getMessage());
+                    $this->addFlash('danger', $e->getMessage());
                 }
 
                 $contact->setPhoto($newFilename);
@@ -71,8 +72,8 @@ class ContactController extends AbstractController
     {
         return $this->render('contact/contact/show.html.twig', [
             'contact' => $contact,
-            'nav' => [['app_contact_contact_edit','Modifier',$contact->getId()]],
-            'title' => $contact->getNom()." ".$contact->getPrenom(),
+            'nav' => [['app_contact_contact_edit', 'Modifier', $contact->getId()]],
+            'title' => $contact->getNom() . " " . $contact->getPrenom(),
         ]);
     }
 
@@ -90,12 +91,12 @@ class ContactController extends AbstractController
             if ($photo) {
                 $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $newFilename = $contact->getId().'.'.$photo->guessExtension();
+                $newFilename = $contact->getId() . '.' . $photo->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
                     $photo->move(
-                        __DIR__.'/../../../public/uploads/photo/contact/',
+                        __DIR__ . '/../../../public/uploads/photo/contact/',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -115,7 +116,7 @@ class ContactController extends AbstractController
             'contact' => $contact,
             'form' => $form,
             'nav' => [],
-            'title' => $contact->getNom()." ".$contact->getPrenom(),
+            'title' => $contact->getNom() . " " . $contact->getPrenom(),
         ]);
     }
 
@@ -128,24 +129,59 @@ class ContactController extends AbstractController
 
         return $this->redirectToRoute('app_contact_contact_index', [], Response::HTTP_SEE_OTHER);
     }
-     #[Route('/interlocteur/contact/get', name: 'app_contact_interlocuteur_get_contact', methods: ['POST'])]
-    public function getInterlocuteurContact(Request $request, ContactRepository $contactRepository): Response
+
+    #[Route('/interlocteur/contact/get', name: 'app_contact_interlocuteur_get_contact', methods: ['POST'])]
+    public function getInterlocuteurContact(Request $request, ContactRepository $contactRepository, DemandeRepository $demandeRepository): Response
     {
         $dataRequest = $request->request->all();
+
+        key_exists('demande', $dataRequest) ? $demande = $dataRequest['demande'] : $demande = null;
         key_exists('id', $dataRequest) ? $id = $dataRequest['id'] : $id = null;
         key_exists('idClient', $dataRequest) ? $idClient = $dataRequest['idClient'] : $idClient = null;
         key_exists('idMaitreOuvrage', $dataRequest) ? $idMaitreOuvrage = $dataRequest['idMaitreOuvrage'] : $idMaitreOuvrage = null;
         key_exists('idIntermediaire', $dataRequest) ? $idItermediaire = $dataRequest['idIntermediaire'] : $idItermediaire = null;
-        if (!empty($id)){
+        key_exists('role', $dataRequest) ? $role = $dataRequest['role'] : $role = null;
+
+        if (!empty($id)) {
             $contacts = $contactRepository->findBySociete($id);
-        }else{
+        } else {
             $contacts = $contactRepository->findAllBySocieteId($idClient, $idMaitreOuvrage, $idItermediaire);
         }
         $data = [];
-        foreach ($contacts as $val){
+
+        if (!empty($demande)) {
+            $demande = $demandeRepository->find($demande);
+        }
+
+        foreach ($contacts as $val) {
+
+            $selected = false;
+            if (!empty($demande)) {
+                if ($role == "client") {
+                    if ($val == $demande->getContactPrincipalClient()) {
+                        $selected = true;
+                    }
+                } elseif ($role == "intermediaire") {
+                    if ($val == $demande->getContactPrincipalIntermediaire()) {
+                        $selected = true;
+                    }
+                } elseif ($role == "maitreDOuvrage") {
+                    if ($val == $demande->getContactPrincipalMaitreDOuvrage()) {
+                        $selected = true;
+                    }
+                } else {
+                    if ($demande->getContactsSecondaires()->contains($val)) {
+                        $selected = true;
+                    }
+
+                }
+            }
+
+
             $data[] = [
                 'id' => $val->getId(),
-                'text' => $val->getNom(). " " . $val->getPrenom()
+                'text' => $val->getNom() . " " . $val->getPrenom(),
+                'selected' => $selected,
             ];
         }
         //dd($contacts);

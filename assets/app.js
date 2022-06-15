@@ -50,15 +50,91 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
-import icons from "trumbowyg/dist/trumbowyg.min"
-import "trumbowyg/dist/ui/icons.svg"
+import "trumbowyg/dist/trumbowyg.min"
+import icons from "trumbowyg/dist/ui/icons.svg"
 import "trumbowyg/dist/ui/trumbowyg.min.css"
-$.trumbowyg.svgPath = icons
+import "trumbowyg/plugins/base64/trumbowyg.base64";
+import "trumbowyg/plugins/lineheight/trumbowyg.lineheight";
+import "trumbowyg/plugins/colors/trumbowyg.colors";
+import "trumbowyg/plugins/allowtagsfrompaste/trumbowyg.allowtagsfrompaste";
+import "trumbowyg/plugins/cleanpaste/trumbowyg.cleanpaste";
+import "trumbowyg/plugins/history/trumbowyg.history";
+import "trumbowyg/plugins/indent/trumbowyg.indent";
+import "trumbowyg/plugins/pasteimage/trumbowyg.pasteimage";
+import "trumbowyg/plugins/table/trumbowyg.table";
+import "trumbowyg/plugins/table/ui/sass/trumbowyg.table.scss"
+import "trumbowyg/plugins/table/ui/icons/table.svg";
+import "trumbowyg/plugins/table/ui/icons/table-delete.svg";
+import "trumbowyg/plugins/table/ui/icons/col-delete.svg";
+import "trumbowyg/plugins/table/ui/icons/col-left.svg";
+import "trumbowyg/plugins/table/ui/icons/col-right.svg";
+import "trumbowyg/plugins/table/ui/icons/row-delete.svg";
+import "trumbowyg/plugins/table/ui/icons/row-above.svg";
+import "trumbowyg/plugins/table/ui/icons/row-below.svg";
+import "trumbowyg/plugins/resizimg/trumbowyg.resizimg";
+import "trumbowyg/plugins/fontsize/trumbowyg.fontsize";
+import "trumbowyg/plugins/fontsize/ui/icons/fontsize.svg";
 
+
+
+import "trumbowyg/plugins/upload/trumbowyg.upload";
+
+
+import "trumbowyg/plugins/emoji/trumbowyg.emoji";
+
+
+$.trumbowyg.svgPath = icons
+$.trumbowyg.svgAbsoluteUsePath = true;
 $(function () {
 
 
-    $('.editor').trumbowyg();
+    $('.editor').trumbowyg({
+        btns: [
+            ['viewHTML'],
+            ['formatting'],
+            'btnGrp-semantic',
+            ['superscript', 'subscript'],
+            ['fontsize'],
+            ['link'],
+            ['insertImage'],
+            'btnGrp-justify',
+            'btnGrp-lists',
+            ['horizontalRule'],
+            ['removeformat'],
+            ['fullscreen'],
+            "base64", 'foreColor',
+            'backColor', 'emoji',
+            'fontfamily',
+            'highlight',
+            ['historyUndo', 'historyRedo'],
+            'indent', 'outdent',
+            'lineheight',
+            'preformatted',
+            'specialChars',
+            'table'
+        ],
+        plugins: {
+            allowTagsFromPaste: {
+                allowedTags: ['h1', 'h2', 'h3', 'h4', 'p', 'br']
+            },
+            resizimg: {
+                minSize: 32,
+                step: 4,
+            },
+            fontsize: {
+                sizeList: [
+                    '12px',
+                    '14px',
+                    '16px',
+                    '18px',
+                    '20px',
+                    '24px',
+                    '28px',
+                ]
+            }
+
+        }
+    });
 
     /*const editor = new EditorJS({
 
@@ -128,9 +204,7 @@ $(function () {
     });
 
 
-
     $('.tel-code').select2();
-
 
 
     $('.multi-select').multipleSelect();
