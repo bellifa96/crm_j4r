@@ -4,677 +4,678 @@
 
 {% block body %}
 
-<style>
+    <style>
 
 
-    .card {
-        box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
-        border-width: 0;
-        transition: all .2s;
-    }
+        .card {
+            box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+            border-width: 0;
+            transition: all .2s;
+        }
 
-    .card-header {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
-        padding-top: 0;
-        padding-bottom: 0;
-        padding-right: 0.625rem;
-        height: 3.5rem;
-        background-color: #fff;
-    }
-
-
-    .card-header.card-header-tab .card-header-title {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-    }
+        .card-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0.625rem;
+            height: 3.5rem;
+            background-color: #fff;
+        }
 
 
-    .card-header.card-header-tab .card-header-title {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-    }
-
-    .text-capitalize {
-        text-transform: capitalize !important;
-    }
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
 
 
-    .select2-container--open{
-        z-index: 999999999 !important;
-    }
-    .select2{
-        width: 100% !important;
-    }
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
 
-    .labels {
-        font-size: 11px;
-        color: #0d4377;
-        font-weight: bold;
-    }
+        .text-capitalize {
+            text-transform: capitalize !important;
+        }
 
-    .bg-leasy {
-        background: #e2e8ed;
-        border-radius: 5px;
 
-    }
-</style>
+        .select2-container--open {
+            z-index: 999999999 !important;
+        }
 
-<div class="col-md-10 m-auto row justify-content-around mb-4">
-    <div class="col-md-3 row">
-        <div class="col-md-auto labels">
-            Statut
-        </div>
-        <div class="col-md-auto form-control-sm-2 labels">
-            {{ demande.statut }}
-        </div>
-    </div>
+        .select2 {
+            width: 100% !important;
+        }
 
-    <div class="col-md-3 row">
-        <div class="col-md-auto labels">
-            Statut commercial
-        </div>
-        <div class="col-md-auto form-control-sm-2 labels">
-            {{ demande.statutCommercial }}
-        </div>
-    </div>
+        .labels {
+            font-size: 11px;
+            color: #0d4377;
+            font-weight: bold;
+        }
 
-    <div class="col-md-3 row">
-        <div class="col-md-auto labels">
-            Createur
-        </div>
-        <div class="col-md-auto form-control-sm-2 labels">
-            {{ demande.createur.lastname~" "~demande.createur.firstname }}
-        </div>
-    </div>
+        .bg-leasy {
+            background: #e2e8ed;
+            border-radius: 5px;
 
-</div>
-<div class="page-block col-md-10 m-auto">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Client</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
-                </div>
+        }
+    </style>
+
+    <div class="col-md-10 m-auto row justify-content-around mb-4">
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Statut
             </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels required">Contact Principal Client</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
-                </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.statut }}
             </div>
+        </div>
 
-            {% if demande.maitreDOuvrage is not empty %}
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Statut commercial
+            </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.statutCommercial }}
+            </div>
+        </div>
+
+        <div class="col-md-3 row">
+            <div class="col-md-auto labels">
+                Createur
+            </div>
+            <div class="col-md-auto form-control-sm-2 labels">
+                {{ demande.createur.lastname~" "~demande.createur.firstname }}
+            </div>
+        </div>
+
+    </div>
+    <div class="page-block col-md-10 m-auto">
+        <div class="row">
+            <div class="col-md-6">
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">Maitre D'ouvrage</label>
+                        <label class="labels">Client</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
-                        {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom }}
+                        {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels required">Contact Principal maitre d'ouvrage</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.contactPrincipalMaitreDOuvrage is not empty ? demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom : "NC" }}
-                    </div>
-                </div>
-            {% endif %}
-
-
-            {% if demande.intermediaire is not empty %}
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Intermediaire</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels required">Contact Principal intermédiaire</label>
+                        <label class="labels required">Contact Principal Client</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
                     </div>
                 </div>
-            {% endif %}
 
-            {% if demande.contactsSecondaires is not empty %}
+                {% if demande.maitreDOuvrage is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Maitre D'ouvrage</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels required">Contact Principal maitre d'ouvrage</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.contactPrincipalMaitreDOuvrage is not empty ? demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom : "NC" }}
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {% if demande.intermediaire is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Intermediaire</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels required">Contact Principal intermédiaire</label>
+                        </div>
+                        <div class="col-md-9 form-control-sm-2">
+                            {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if demande.contactsSecondaires is not empty %}
+                    <div class="row mt-2">
+                        <div class="col-md-3 text-end">
+                            <label class="labels">Contacts Secondaires</label>
+                        </div>
+                        <div class="col-md-9 bg-leasy">
+                            {% for contact in demande.contactsSecondaires %}
+                                {{ contact.nom~" "~contact.prenom }}<br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="col-md-6">
+
                 <div class="row mt-2">
                     <div class="col-md-3 text-end">
-                        <label class="labels">Contacts Secondaires</label>
+                        <label class="labels required">Nom du chantier</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.nomChantier }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Adresse</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.adresse1 }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Complément d'adresse</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.adresse2 }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Code postal</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.codePostal }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Ville</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.ville }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Pays</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.pays }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="page-block col-md-10 m-auto mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mt-1">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Type de préstation</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.typeDePrestation }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Documents souhaités </label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.documentsSouhaites|join('-') }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Fonds de plan </label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.fondsDePlan }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Travaux prevus </label>
                     </div>
                     <div class="col-md-9 bg-leasy">
-                        {% for contact in demande.contactsSecondaires %}
-                            {{ contact.nom~" "~contact.prenom }}<br>
+                        {{ demande.travauxPrevus|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Classe d'échafaudage </label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.ClasseDEchaffaudage }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Type de materiel</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.TypeDeMateriel }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Dimensions globales :</label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {{ demande.dimensionsGlobales|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Ammarages</label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {{ demande.ammarages|join('\n')|nl2br }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Largeur de travail</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.LargeurDeTravail }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Consoles</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.consoles }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Distance à la façade</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.distanceALaFacade }}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Hauteur des planchers</label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.hauteurDesPlanchers %}
+                            <div> {{ key~" : "~value }} </div>
                         {% endfor %}
                     </div>
                 </div>
 
-            {% endif %}
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Équipements</label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.equipements %}
+                            <div>
+                                {% if value == "Passage piéton" %}
+                                    {{ value~" : "~demande.largeurPassagePieton }}
+                                {% elseif value == "Protection couvreur" %}
+                                    {{ value~" : "~demande.protectionCouvreur }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
 
-        </div>
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Accés</label>
+                    </div>
+                    <div class="col-md-9 form-control-sm-2">
+                        {{ demande.acces }}
+                    </div>
+                </div>
 
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels"> Bâche et filet </label>
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.bacheEtFilet %}
+                            <div>
+                                {{ key~" : "~value }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
 
-        <div class="col-md-6">
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels required">Nom du chantier</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.nomChantier }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Adresse</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.adresse1 }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Complément d'adresse</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.adresse2 }}
-                </div>
-            </div>
-
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Code postal</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.codePostal }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Ville</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.ville }}
-                </div>
-            </div>
-
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Pays</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.pays }}
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-<div class="page-block col-md-10 m-auto mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row mt-1">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Type de préstation</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.typeDePrestation }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Documents souhaités </label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.documentsSouhaites|join('-') }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Fonds de plan </label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.fondsDePlan }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Travaux prevus </label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {{ demande.travauxPrevus|join('\n')|nl2br }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Classe d'échafaudage </label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.ClasseDEchaffaudage }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Type de materiel</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.TypeDeMateriel }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Dimensions globales :</label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {{ demande.dimensionsGlobales|join('\n')|nl2br }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Ammarages</label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {{ demande.ammarages|join('\n')|nl2br }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Largeur de travail</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.LargeurDeTravail }}
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Consoles</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.consoles }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Distance à la façade</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.distanceALaFacade }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Hauteur des planchers</label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {% for key,value in demande.hauteurDesPlanchers %}
-                        <div> {{ key~" : "~value }} </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Équipements</label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {% for key,value in demande.equipements %}
-                        <div>
-                            {% if value == "Passage piéton" %}
-                                {{ value~" : "~demande.largeurPassagePieton }}
-                            {% elseif value == "Protection couvreur" %}
-                                {{ value~" : "~demande.protectionCouvreur }}
-                            {% else %}
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                    </div>
+                    <div class="col-md-9 bg-leasy">
+                        {% for key,value in demande.bache %}
+                            <div>
                                 {{ value }}
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Accés</label>
-                </div>
-                <div class="col-md-9 form-control-sm-2">
-                    {{ demande.acces }}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels"> Bâche et filet </label>
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {% for key,value in demande.bacheEtFilet %}
-                        <div>
-                            {{ key~" : "~value }}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                </div>
-                <div class="col-md-9 bg-leasy">
-                    {% for key,value in demande.bache %}
-                        <div>
-                            {{ value }}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
-<div class="page-block col-md-10 m-auto mt-4">
-    <div class="row mt-2">
-        <div class="col-md-auto text-end">
-            Commentaire
-        </div>
-        <div class="col-md-10 bg-leasy">
-            {{ demande.commentaire|raw('html') }}
-        </div>
-    </div>
-
-</div>
-
-
-<div class="col-md-12 page-block mt-4">
-
-
-    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-        <li class="col nav-item" role="presentation">
-            <button class="nav-link active" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
-                    type="button"
-                    role="tab" aria-controls="taches" aria-selected="true">
-                Taches
-            </button>
-        </li>
-        <li class="col nav-item" role="presentation">
-            <button class="nav-link" id="Commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
-                    type="button"
-                    role="tab" aria-controls="Commentaires" aria-selected="false">
-                Commentaires
-            </button>
-        </li>
-        <li class="col nav-item" role="presentation">
-            <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
-                    role="tab" aria-controls="affaire" aria-selected="false">
-                Affaires
-            </button>
-        </li>
-        <li class="col nav-item" role="presentation">
-            <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
-                    role="tab" aria-controls="ged" aria-selected="false">
-                GED
-            </button>
-        </li>
-
-        <li class="col nav-item" role="presentation">
-            <button class="nav-link" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
-                    type="button"
-                    role="tab" aria-controls="historique" aria-selected="false">
-                Historique
-            </button>
-        </li>
-
-    </ul>
-
-    <div class="tab-content mt-4" id="myTabContent">
-
-        <!-- Taches -->
-        <div class="tab-pane fade show active" id="taches" role="tabpanel" aria-labelledby="taches-tab">
-
-            <div class="col-md-10 m-auto">
-                <div class="card-hover-shadow-2x mb-3 card">
-                    <div class="card-header-tab card-header">
-                        <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-                            <h4 style="margin: 0px;">
-                                <i class="fa fa-tasks"></i>
-                                &nbsp;listes des taches
-                            </h4>
-                        </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="scroll-area-sm">
-                        <table class="table text-center table-responsive">
-                            <thead>
-                            <th style="width: 2%;"></th>
-                            <th>Tache</th>
-                            <th>Description</th>
-                            <th>date Debut</th>
-                            <th>Date de fin</th>
-                            <th>Statut</th>
-                            <th>Créer par</th>
-                            <th>Attribué à</th>
-                            <th>Action</th>
-                            </thead>
-                            <tbody>
+                </div>
+            </div>
 
-                            {% set colors = {"Normale":"grey","Urgent":"red","Important":"orange","Faible":"white"} %}
-                            {% set statutColors = {"En cours":"#E98F00","Info":"#2091DE","Annuler":"grey","Achevé":"#29CA40","A traiter":"black"} %}
-                            {% for evenement in demande.evenements %}
 
-                            <tr>
-                                <td>
-                                    <i class="bi bi-bookmark-fill"
-                                       style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "grey" }};font-size: 1.1rem;"></i>
-                                </td>
-                                <td>{{ evenement.titre }}</td>
-                                <td>{{ evenement.description }}</td>
+        </div>
+    </div>
 
-                                <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
-                                <td>{{ evenement.dateDeFin|date('d/m/Y H:i') }}</td>
-                                <td>
-                                    <div style="color:{{ evenement.statut in statutColors|keys ?statutColors[evenement.statut] : "grey" }};"> {{ evenement.statut }} </div>
-                                </td>
-                                <td>{{ evenement.createur.firstname }}</td>
-                                <td>
+    <div class="page-block col-md-10 m-auto mt-4">
+        <div class="row mt-2">
+            <div class="col-md-auto text-end">
+                Commentaire
+            </div>
+            <div class="col-md-10 bg-leasy">
+                {{ demande.commentaire|raw('html') }}
+            </div>
+        </div>
 
-                                    {% for user in evenement.attribueA %}
-                                     {{ user.firstname }}<br>
-                                    {% endfor %}
-                                </td>
+    </div>
 
-                                <td>
-                                    <div class="row justify-content-center">
-                                        {% if evenement.statut != "Achevé" %}
-                                            <div class="col-md-auto">
-                                                <a href="{{ path('app_affaire_evenement_validate',{'id':evenement.id}) }}"
-                                                   class="border-0 btn-transition btn btn-outline-success">
-                                                    <i class="fa fa-check"></i></a>
+
+    <div class="col-md-12 page-block mt-4">
+
+
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link active" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
+                        type="button"
+                        role="tab" aria-controls="taches" aria-selected="true">
+                    Taches
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="Commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                        type="button"
+                        role="tab" aria-controls="Commentaires" aria-selected="false">
+                    Commentaires
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
+                        role="tab" aria-controls="affaire" aria-selected="false">
+                    Affaires
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                        role="tab" aria-controls="ged" aria-selected="false">
+                    GED
+                </button>
+            </li>
+
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
+                        type="button"
+                        role="tab" aria-controls="historique" aria-selected="false">
+                    Historique
+                </button>
+            </li>
+
+        </ul>
+
+        <div class="tab-content mt-4" id="myTabContent">
+
+            <!-- Taches -->
+            <div class="tab-pane fade show active" id="taches" role="tabpanel" aria-labelledby="taches-tab">
+
+                <div class="col-md-10 m-auto">
+                    <div class="card-hover-shadow-2x mb-3 card">
+                        <div class="card-header-tab card-header">
+                            <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+                                <h4 style="margin: 0px;">
+                                    <i class="fa fa-tasks"></i>
+                                    &nbsp;listes des taches
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="scroll-area-sm">
+                            <table class="table text-center table-responsive">
+                                <thead>
+                                <th style="width: 2%;"></th>
+                                <th>Tache</th>
+                                <th>Description</th>
+                                <th>date Debut</th>
+                                <th>Date de fin</th>
+                                <th>Statut</th>
+                                <th>Créer par</th>
+                                <th>Attribué à</th>
+                                <th>Action</th>
+                                </thead>
+                                <tbody>
+
+                                {% set colors = {"Normale":"grey","Urgent":"red","Important":"orange","Faible":"white"} %}
+                                {% set statutColors = {"En cours":"#E98F00","Info":"#2091DE","Annuler":"grey","Achevé":"#29CA40","A traiter":"black"} %}
+                                {% for evenement in demande.evenements %}
+
+                                    <tr>
+                                        <td>
+                                            <i class="bi bi-bookmark-fill"
+                                               style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "grey" }};font-size: 1.1rem;"></i>
+                                        </td>
+                                        <td>{{ evenement.titre }}</td>
+                                        <td>{{ evenement.description }}</td>
+
+                                        <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
+                                        <td>{{ evenement.dateDeFin|date('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <div style="color:{{ evenement.statut in statutColors|keys ?statutColors[evenement.statut] : "grey" }};"> {{ evenement.statut }} </div>
+                                        </td>
+                                        <td>{{ evenement.createur.firstname }}</td>
+                                        <td>
+
+                                            {% for user in evenement.attribueA %}
+                                                {{ user.firstname }}<br>
+                                            {% endfor %}
+                                        </td>
+
+                                        <td>
+                                            <div class="row justify-content-center">
+                                                {% if evenement.statut != "Achevé" %}
+                                                    <div class="col-md-auto">
+                                                        <a href="{{ path('app_affaire_evenement_validate',{'id':evenement.id}) }}"
+                                                           class="border-0 btn-transition btn btn-outline-success">
+                                                            <i class="fa fa-check"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+
+                                                {% if  is_granted('ROLE_ADMIN') %}
+                                                    <div class="col-md-auto">
+
+                                                        <form method="post"
+                                                              action="{{ path('app_affaire_evenement_delete', {'id': evenement.id}) }}"
+                                                              onsubmit="return confirm('êtes vous certain de vouloir supprimer cette tache?');">
+                                                            <input type="hidden" name="_token"
+                                                                   value="{{ csrf_token('delete' ~ evenement.id) }}">
+                                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                                <i class="fa fa-trash"></i></button>
+                                                        </form>
+                                                    </div>
+
+                                                {% endif %}
                                             </div>
-                                        {% endif %}
+                                        </td>
 
+                                    </tr>
+                                {% else %}
 
-                                        {% if  is_granted('ROLE_ADMIN') %}
-                                            <div class="col-md-auto">
+                                    <tr>
+                                        <td colspan="9">aucune tâche pour cette demande</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
 
-                                                <form method="post"
-                                                      action="{{ path('app_affaire_evenement_delete', {'id': evenement.id}) }}"
-                                                      onsubmit="return confirm('êtes vous certain de vouloir supprimer cette tache?');">
-                                                    <input type="hidden" name="_token"
-                                                           value="{{ csrf_token('delete' ~ evenement.id) }}">
-                                                    <button class="border-0 btn-transition btn btn-outline-danger">
-                                                        <i class="fa fa-trash"></i></button>
-                                                </form>
-                                            </div>
-
-                                        {% endif %}
-                                    </div>
-                                </td>
-
-                            </tr>
-                            {% else %}
-
-                                <tr>
-                                    <td colspan="9">aucune tâche pour cette demande</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                        </div>
 
                     </div>
 
                 </div>
-
-            </div>
-        </div>
-
-
-        <!-- Commentaires -->
-        <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
-
-        </div>
-        <!-- Ged -->
-        <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
-
-        </div>
-        <!-- Historique -->
-        <div class="tab-pane fade" id="historique" role="tabpanel" aria-labelledby="historique-tab">
-
-            <div class="col-md-6 m-auto row mt-2">
-                <div class="col-md-5 text-end">
-                    Date de création
-                </div>
-                <div class="col-md-auto bg-leasy">
-                    {{ demande.createdAt|date('d/m/y H:i:s') }}
-                </div>
             </div>
 
-            <div class="col-md-6 m-auto row mt-2">
-                <div class="col-md-5 text-end">
-                    Date de la dernière modification
+
+            <!-- Commentaires -->
+            <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+
+            </div>
+            <!-- Ged -->
+            <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+
+            </div>
+            <!-- Historique -->
+            <div class="tab-pane fade" id="historique" role="tabpanel" aria-labelledby="historique-tab">
+
+                <div class="col-md-6 m-auto row mt-2">
+                    <div class="col-md-5 text-end">
+                        Date de création
+                    </div>
+                    <div class="col-md-auto bg-leasy">
+                        {{ demande.createdAt|date('d/m/y H:i:s') }}
+                    </div>
                 </div>
-                <div class="col-md-auto bg-leasy">
-                    {{ demande.updatedAt|date('d/m/y H:i:s') }}
+
+                <div class="col-md-6 m-auto row mt-2">
+                    <div class="col-md-5 text-end">
+                        Date de la dernière modification
+                    </div>
+                    <div class="col-md-auto bg-leasy">
+                        {{ demande.updatedAt|date('d/m/y H:i:s') }}
+                    </div>
                 </div>
             </div>
+
         </div>
+
 
     </div>
 
 
-</div>
+    <div><span class="border px-3 p-1 add-evenement add-button"><i
+                    class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
+    </div>
 
 
-<div><span class="border px-3 p-1 add-evenement add-button"><i
-                class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
-</div>
+    <script>
 
-
-<script>
-
-    $('.add-evenement').click(function () {
-        if ($('#add-evenement').length > 0) {
-            $("#add-evenement").modal('show');
-
-        } else {
-            let path = "{{ path('app_affaire_evenement_new_modal') }}";
-
-            $.get(path, function (data) {
-                $('body').append(JSON.parse(data).message);
+        $('.add-evenement').click(function () {
+            if ($('#add-evenement').length > 0) {
                 $("#add-evenement").modal('show');
-                $('.select2').select2();
 
-
-
-            })
-        }
-    })
-
-
-    function submitEvenement(event) {
-        event.preventDefault();
-
-        let dateDebut = $("#evenement_dateDeDebut_date_year").val() + '-' + $("#evenement_dateDeDebut_date_month").val().padStart(2, '0')
-            + '-' + $("#evenement_dateDeDebut_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeDebut_time_hour").val().padStart(2, '0')
-            + ':' + $("#evenement_dateDeDebut_time_minute").val().padStart(2, '0');
-
-        let dateFin = $("#evenement_dateDeFin_date_year").val() + '-' + $("#evenement_dateDeFin_date_month").val().padStart(2, '0')
-            + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
-            + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
-
-        console.log(dateDebut);
-        console.log(dateFin);
-
-        $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
-        let evenement = {
-            demande: {{ demande.id }},
-            titre: $("#evenement_titre").val(),
-            description: $("#evenement_description").val(),
-            dateDeDebut: new String(dateDebut),
-            dateDeFin: new String(dateFin),
-            priorite: $("#evenement_priorite").val(),
-            typeDEvenement: $("#evenement_typeDEvenement").val(),
-            attribueA: $("#evenement_attribueA").val(),
-        };
-
-        $.post("{{ path('app_affaire_evenement_new_evenement') }}", {evenement}, function (data) {
-
-            data = JSON.parse(data);
-
-            if (data.code === 200) {
-
-                $("#add-evenement").modal('hide');
-                $('#add-evenement').remove()
             } else {
+                let path = "{{ path('app_affaire_evenement_new_modal') }}";
 
-                $('#modal_button').show();
-                $('#footer-load').hide()
+                $.get(path, function (data) {
+                    $('body').append(JSON.parse(data).message);
+                    $("#add-evenement").modal('show');
+                    $('.select2').select2();
 
-                $('#modal-body').append(`
+
+                })
+            }
+        })
+
+
+        function submitEvenement(event) {
+            event.preventDefault();
+
+            let dateDebut = $("#evenement_dateDeDebut_date_year").val() + '-' + $("#evenement_dateDeDebut_date_month").val().padStart(2, '0')
+                + '-' + $("#evenement_dateDeDebut_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeDebut_time_hour").val().padStart(2, '0')
+                + ':' + $("#evenement_dateDeDebut_time_minute").val().padStart(2, '0');
+
+            let dateFin = $("#evenement_dateDeFin_date_year").val() + '-' + $("#evenement_dateDeFin_date_month").val().padStart(2, '0')
+                + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
+                + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
+
+            console.log(dateDebut);
+            console.log(dateFin);
+
+            $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
+            let evenement = {
+                demande: "{{ demande.id }}",
+                titre: $("#evenement_titre").val(),
+                description: $("#evenement_description").val(),
+                dateDeDebut: new String(dateDebut),
+                dateDeFin: new String(dateFin),
+                priorite: $('input[type="radio"][name="evenement[priorite]"]:checked').val(),
+                typeDEvenement: $("#evenement_typeDEvenement").val(),
+                attribueA: $("#evenement_attribueA").val(),
+            };
+
+            console.log(evenement);
+            $.post("{{ path('app_affaire_evenement_new_evenement') }}", {evenement}, function (data) {
+
+                data = JSON.parse(data);
+
+                if (data.code === 200) {
+
+                    $("#add-evenement").modal('hide');
+                    $('#add-evenement').remove()
+                } else {
+
+                    $('#modal_button').show();
+                    $('#footer-load').hide()
+
+                    $('#modal-body').append(`
                   <div class="alert alert-danger mt-2" role="alert" id="evenement-error">
                       ${data.message}
                    </div>
                 `)
-            }
-        })
-    }
+                }
+            })
+        }
 
 
-</script>
+    </script>
 {% endblock %}
