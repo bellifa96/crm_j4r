@@ -71,11 +71,17 @@ class EvenementController extends AbstractController
             $dateFin = $data['dateDeFin'];
             $dateFin = \DateTime::createFromFormat('Y-m-d H:i', $dateFin);
 
-            $user = $userRepository->find($data['attribueA']);
+            $usersId = $data['attribueA'];
+
+            $evenement = new Evenement();
+
+            foreach ($usersId as $id){
+                $user = $userRepository->find($id);
+                $evenement->addAttribueA($user);
+            }
 
             $demande = $demandeRepository->find($data['demande']);
 
-            $evenement = new Evenement();
             $evenement->setDemande($demande);
             $evenement->setCreateur($this->getUser());
             $evenement->setTitre(htmlspecialchars($data['titre'], ENT_QUOTES, 'UTF-8'));
@@ -84,7 +90,6 @@ class EvenementController extends AbstractController
             $evenement->setDateDeFin($dateFin);
             $evenement->setPriorite(htmlspecialchars($data['priorite'], ENT_QUOTES, 'UTF-8'));
             $evenement->setTypeDEvenement(htmlspecialchars($data['typeDEvenement'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setAttribueA($user);
 
             //dd($evenement);
             try {

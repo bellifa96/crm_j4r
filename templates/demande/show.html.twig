@@ -5,7 +5,84 @@
 {% block body %}
 
     <style>
+        .table-ged > :not(caption) > * > * {
+            padding: 0rem;
+        }
 
+        .labels {
+            color: #0d4377;
+        }
+
+        .d-block {
+            color: #0d4377;
+            font-weight: bold;
+        }
+
+        .btn-info-2 {
+            background: #17a2b8;
+            color: #fff;
+            border-color: #17a2b8;
+            font-size: .7rem;
+        }
+
+        .btn-info-2:hover {
+            background: #138496;
+            color: #fff;
+            border-color: #117a8b;
+            font-size: .7rem;
+        }
+
+        .nav-item > .active {
+            font-weight: bold;
+        }
+
+        .bg-blue {
+            font-size: 0.75rem !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: calc(1em + 0.375rem + 2px) !important;
+            padding: 0 0.25rem !important;
+            background: rgba(14, 67, 119, 0.1);
+            border-radius: 5px !important;
+            white-space: nowrap;
+        }
+
+        .nav-tabs .nav-link {
+            border-top-left-radius: 0rem;
+            border-top-right-radius: 0rem;
+            color: #0E4377;
+            width: 100%;
+            border-right: 1px solid #0E4377;
+        }
+
+
+        .nav-tabs .nav-link.active {
+            background-color: #fff;
+            border-color: #0e4377 #0e4377 #0e4377;
+            color: #495057;
+        }
+
+        body .nav-tabs li button {
+            display: block;
+            padding: 5px 30px;
+        }
+
+        body .nav-tabs li .active {
+            background-color: #0E4377 !important;
+            color: white !important;
+        }
+
+        .nav-item .nav-link:hover {
+            background: #0E4377;
+            color: white !important;
+            border-color: #0E4377;
+            font-weight: 700;
+        }
+
+        .nav-tabs {
+            border: 1px solid #0E4377;
+            border-bottom: 5px solid #0E4377;
+        }
 
         .card {
             box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
@@ -495,14 +572,14 @@
                                 </thead>
                                 <tbody>
 
-                                {% set colors = {"Normale":"grey","Urgent":"red","Important":"orange","Faible":"white"} %}
+                                {% set colors = {"Normale":"green","Urgent":"red","Important":"orange","Faible":"grey"} %}
                                 {% set statutColors = {"En cours":"#E98F00","Info":"#2091DE","Annuler":"grey","Achevé":"#29CA40","A traiter":"black"} %}
                                 {% for evenement in demande.evenements %}
 
                                     <tr>
                                         <td>
                                             <i class="bi bi-bookmark-fill"
-                                               style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "grey" }};font-size: 1.1rem;"></i>
+                                               style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "green" }};font-size: 1.1rem;"></i>
                                         </td>
                                         <td>{{ evenement.titre }}</td>
                                         <td>{{ evenement.description }}</td>
@@ -572,6 +649,97 @@
             </div>
             <!-- Ged -->
             <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+
+                <div class="row mt-4 justify-content-around">
+
+                    <div class="col-md-6">
+                        <table class="table table-ged bg-leasy">
+                            <thead>
+                            <tr class="tr-head text-center">
+                                <th>Type</th>
+                                <th>date de chargement</th>
+                                <th>Par</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for fichier in demande.ged %}
+                                {% if fichier.isDeleted != true %}
+                                    <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
+                                        <td>{{ fichier.typeFichier.titre }}</td>
+                                        <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
+                                        <td>{{ fichier.createur.firstname }}</td>
+                                        <td>
+                                            <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                                               target="_blank"><i class="fa fa-search"
+                                                                  style="font-size: 1rem;"
+                                                                  aria-hidden="true"></i></a>
+                                            <a href="{{ path('app_ged_download' , {'id':fichier.id}) }}"
+                                               download="{{ fichier.fichier }}"><i
+                                                        class="fa fa-download"
+                                                        style="font-size: 1rem;margin-left:5%;"
+                                                        aria-hidden="true"></i></a>
+                                            <form method="post"
+                                                  id="formDeleteFile-{{ fichier.id }}"
+                                                  style="display:contents;"
+                                                  action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
+                                                  onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
+                                                <input type="hidden" name="_method"
+                                                       value="DELETE">
+                                                <input type="hidden" name="_token"
+                                                       value="{{ csrf_token('delete' ~ fichier.id) }}">
+                                                <button style="border-color: transparent;    background-color:transparent;">
+                                                    <i class="fa fa-trash deleteFile grab"
+                                                       style="font-size: 1rem;margin-left:5%; color: #0E4377;"
+                                                       aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-3" style="height:max-content;background-color:white;">
+
+                        <div class="row text-start mb-4">
+                            <b style="color:#0E4377;">Document à charger</b>
+                        </div>
+                        {{ form_start(form) }}
+
+
+                        <div class="row">
+                            <div class="col-md-3  text-end">
+                                <label class="labels">Type</label>
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-3">
+                                <label class="labels"> </label>
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.fichier,{'attr':{'class':''}}) }}
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col-md-auto">
+                                {{ form_widget(form.submit,{'attr':{'class':'btn btn-info-2 btn-sm'}}) }}
+
+                            </div>
+                        </div>
+
+                        {{ form_widget(form) }}
+
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
 
             </div>
             <!-- Historique -->

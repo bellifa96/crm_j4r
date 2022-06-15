@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
 use App\Entity\Contact\Contact;
+use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\DemandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -193,6 +194,9 @@ class Demande
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $DateEnvoieClient;
 
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Fichier::class)]
+    private $ged;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -200,6 +204,7 @@ class Demande
         $this->statutCommercial = "A relancer";
         $this->evenements = new ArrayCollection();
         $this->contactsSecondaires = new ArrayCollection();
+        $this->ged = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -844,6 +849,36 @@ class Demande
     public function setDateEnvoieClient(?\DateTimeInterface $DateEnvoieClient): self
     {
         $this->DateEnvoieClient = $DateEnvoieClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getGed(): Collection
+    {
+        return $this->ged;
+    }
+
+    public function addGed(Fichier $ged): self
+    {
+        if (!$this->ged->contains($ged)) {
+            $this->ged[] = $ged;
+            $ged->setDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGed(Fichier $ged): self
+    {
+        if ($this->ged->removeElement($ged)) {
+            // set the owning side to null (unless already changed)
+            if ($ged->getDemande() === $this) {
+                $ged->setDemande(null);
+            }
+        }
 
         return $this;
     }

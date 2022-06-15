@@ -3,6 +3,7 @@
 namespace App\Entity\Ged;
 
 use App\Entity\Affaire\Evenement;
+use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\TimesTrait;
 use App\Entity\User;
@@ -51,6 +52,9 @@ class Fichier
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $restaurerLe;
+
+    #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'ged')]
+    private $demande;
 
     public function __construct(){
         $this->isDeleted = false;
@@ -193,6 +197,18 @@ class Fichier
     public function setRestaurerLe(?\DateTimeInterface $restaurerLe): self
     {
         $this->restaurerLe = $restaurerLe;
+
+        return $this;
+    }
+
+    public function getDemande(): ?Demande
+    {
+        return $this->demande;
+    }
+
+    public function setDemande(?Demande $demande): self
+    {
+        $this->demande = $demande;
 
         return $this;
     }

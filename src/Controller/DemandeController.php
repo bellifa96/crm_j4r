@@ -4,15 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
+use App\Entity\Ged\Fichier;
 use App\Form\DemandeType;
+use App\Form\Ged\FichierType;
 use App\Repository\DemandeRepository;
+use App\Repository\Ged\FichierRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -62,11 +67,44 @@ class DemandeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_demande_show', methods: ['GET'])]
-    public function show(Demande $demande): Response
+    #[Route('/{id}', name: 'app_demande_show', methods: ['GET','POST'])]
+    public function show(Demande $demande,Request $request,SluggerInterface $slugger,FichierRepository $fichierRepository): Response
     {
+
+        $fichier = new Fichier();
+        $fichier->setDemande($demande);
+        $form = $this->createForm(FichierType::class, $fichier);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() and $form->isValid()){
+
+            $brochureFile = $form->get('fichier')->getData();
+
+        //    dd($brochureFile);
+            if ($brochureFile) {
+                $fichier->setCreateur($this->getUser());
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+
+                try {
+
+                    $brochureFile->move(
+                        __DIR__ . "/../../uploads/" . $fichier->getTypeFichier()->getTitre() . "/",
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $fichier->setFichier($newFilename);
+            }
+
+            $fichierRepository->add($fichier);
+        }
+
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
+            'form'=>$form->createView(),
             'title' => "Demande N° " . $demande->getId(),
             'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]
         ]);
@@ -153,9 +191,9 @@ class DemandeController extends AbstractController
     {
         $data = $request->request->all()['demande'];
 
-        key_exists('typeDePrestation', $data) ? $demande->setTypeDePrestation($data['typeDePrestation']) :$demande->setTypeDePrestation(null);
-        key_exists('documentsSouhaites', $data) ? $demande->setDocumentsSouhaites($data['documentsSouhaites']) :$demande->setDocumentsSouhaites(null);
-        key_exists('fondsDePlan', $data) ? $demande->setFondsDePlan($data['fondsDePlan']) :$demande->setFondsDePlan(null);
+        key_exists('typeDePrestation', $data) ? $demande->setTypeDePrestation($data['typeDePrestation']) : $demande->setTypeDePrestation(null);
+        key_exists('documentsSouhaites', $data) ? $demande->setDocumentsSouhaites($data['documentsSouhaites']) : $demande->setDocumentsSouhaites(null);
+        key_exists('fondsDePlan', $data) ? $demande->setFondsDePlan($data['fondsDePlan']) : $demande->setFondsDePlan(null);
 
         key_exists('contactPrincipalClient', $data) ? $contatcC = $this->em->getRepository(Contact::class)->find($data['contactPrincipalClient']) : $contatcC = null;
         !empty($contatcC) ? $demande->setContactPrincipalClient($contatcC) : $demande->setContactPrincipalClient(null);
@@ -170,14 +208,14 @@ class DemandeController extends AbstractController
         if (key_exists('contactsSecondaires', $data)) {
             foreach ($data['contactsSecondaires'] as $val) {
                 $contact = $this->em->getRepository(Contact::class)->find($val);
-                !empty($contact) ? $demande->addContactsSecondaire($contact) :"";
+                !empty($contact) ? $demande->addContactsSecondaire($contact) : "";
             }
-        }else{
+        } else {
             $demande->getContactsSecondaires()->clear();
         }
 
 
-  //     dd($data);
+        //     dd($data);
         key_exists('travauxPrevus', $data) ? $demande->setTravauxPrevus($data['travauxPrevus']) : $demande->setTravauxPrevus([]);
 
         key_exists('classeDEchaffaudage', $data) ? $demande->setClasseDEchaffaudage($data['classeDEchaffaudage']) : $demande->setClasseDEchaffaudage(null);
@@ -185,19 +223,19 @@ class DemandeController extends AbstractController
         key_exists('typeDeMateriel', $data) ? $demande->setTypeDeMateriel($data['typeDeMateriel']) : $demande->setTypeDeMateriel(null);
 
 
-        key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : $demande->setAmmarages(null) ;
+        key_exists('ammarages', $data) ? $demande->setAmmarages($data['ammarages']) : $demande->setAmmarages(null);
 
         key_exists('largeurDeTravail', $data) ? $demande->setLargeurDeTravail($data['largeurDeTravail']) : $demande->setLargeurDeTravail(null);
 
         key_exists('consoles', $data) ? $demande->setConsoles($data['consoles']) : $demande->setConsoles(null);
 
-        key_exists('distanceALaFacade', $data) ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : $demande->setDistanceALaFacade(null) ;
+        key_exists('distanceALaFacade', $data) ? $demande->setDistanceALaFacade($data['distanceALaFacade']) : $demande->setDistanceALaFacade(null);
 
         key_exists('rapportDistanceALaFacade', $data) ? $demande->setRapportDistanceALaFacade($data['rapportDistanceALaFacade']) : $demande->setRapportDistanceALaFacade(null);
 
         key_exists('hauteurDesPlanchers', $data) ? $demande->setHauteurDesPlanchers($data['hauteurDesPlanchers']) : $demande->setHauteurDesPlanchers(null);
 
-        key_exists('equipements', $data) ? $demande->setEquipements($data['equipements']) :$demande->setEquipements(null);
+        key_exists('equipements', $data) ? $demande->setEquipements($data['equipements']) : $demande->setEquipements(null);
 
         key_exists('protectionCouvreur', $data) ? $demande->setProtectionCouvreur($data['protectionCouvreur']) : $demande->setProtectionCouvreur(null);
 
@@ -205,7 +243,7 @@ class DemandeController extends AbstractController
 
         key_exists('acces', $data) ? $demande->setAcces($data['acces']) : $demande->setAcces(null);
 
-        key_exists('bacheEtFilet', $data) ? $demande->setBacheEtFilet($data['bacheEtFilet']) : $demande->setBacheEtFilet(null) ;
+        key_exists('bacheEtFilet', $data) ? $demande->setBacheEtFilet($data['bacheEtFilet']) : $demande->setBacheEtFilet(null);
 
         key_exists('bache', $data) ? $demande->setBache($data['bache']) : $demande->setBache(null);
 
@@ -217,7 +255,7 @@ class DemandeController extends AbstractController
 
         key_exists('hauteur', $data) ? $demande->setHauteur($data['hauteur']) : $demande->setHauteur(null);
 
-        key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : $demande->setTraitementDesPignons(null) ;
+        key_exists('traitementDesPignons', $data) ? $demande->setTraitementDesPignons($data['traitementDesPignons']) : $demande->setTraitementDesPignons(null);
 
         key_exists('finitionPlancher', $data) ? $demande->setFinitionPlancher($data['finitionPlancher']) : $demande->setFinitionPlancher(null);
 
