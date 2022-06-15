@@ -285,29 +285,29 @@
                         <div class="col-md-9">
                             <div id="evenement_priorite" class="row">
                                 <div class="col-md-4">
-                                    <input type="radio" id="evenement_urgent" name="evenement[priorite]"
+                                    <input type="radio" id="evenement_priorite_urgent" name="evenement[priorite]"
                                            value="Urgent">
-                                    <label for="evenement_urgent" class="required"></label>
+                                    <label for="evenement_priorite_urgent" class="required"></label>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="radio" id="evenement_important"
+                                    <input type="radio" id="evenement_priorite_important"
                                            name="evenement[priorite]" value="Important">
-                                    <label for="evenement_important" class="required"></label>
+                                    <label for="evenement_priorite_important" class="required"></label>
                                 </div>
                                 <div class="col-md-4">
                                 </div>
                                 <div class="col-md-4">
 
-                                    <input type="radio" id="evenement_normal"
+                                    <input type="radio" id="evenement_priorite_normal"
                                            name="evenement[priorite]" value="Normal">
-                                    <label for="evenement_normal" class="required"></label>
+                                    <label for="evenement_priorite_normal" class="required"></label>
                                 </div>
 
                                 <div class="col-md-4">
 
-                                    <input type="radio" id="evenement_faible"
+                                    <input type="radio" id="evenement_priorite_faible"
                                            name="evenement[priorite]" value="Faible">
-                                    <label for="evenement_faible" class="required"></label>
+                                    <label for="evenement_priorite_faible" class="required"></label>
 
                                 </div>
                             </div>
@@ -322,7 +322,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md-8"><label class="labels">Attribuer à</label>
-                            {{ form_widget(form.attribueA,{"attr":{"class":"form-control"}}) }}
+                            {{ form_widget(form.attribueA,{"attr":{"class":"select2"}}) }}
                         </div>
                     </div>
                 </div>
