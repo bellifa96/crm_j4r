@@ -40,10 +40,6 @@ class Evenement
     #[ORM\Column(type: 'string', length: 255)]
     private $typeDEvenement;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'evenementsAttribues')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $attribueA;
-
     #[ORM\ManyToMany(targetEntity: Fichier::class, inversedBy: 'evenements')]
     private $fichiers;
 
@@ -53,12 +49,16 @@ class Evenement
     #[ORM\Column(type: 'string', length: 255)]
     private $statut;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'EvenementsAttribues')]
+    private $attribueA;
+
 
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
         $this->statut = "En cours";
         $this->priorite = "Normale";
+        $this->attribueA = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,17 +150,6 @@ class Evenement
         return $this;
     }
 
-    public function getAttribueA(): ?User
-    {
-        return $this->attribueA;
-    }
-
-    public function setAttribueA(?User $attribueA): self
-    {
-        $this->attribueA = $attribueA;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Fichier>
@@ -206,6 +195,30 @@ class Evenement
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getAttribueA(): Collection
+    {
+        return $this->attribueA;
+    }
+
+    public function addAttribueA(User $attribueA): self
+    {
+        if (!$this->attribueA->contains($attribueA)) {
+            $this->attribueA[] = $attribueA;
+        }
+
+        return $this;
+    }
+
+    public function removeAttribueA(User $attribueA): self
+    {
+        $this->attribueA->removeElement($attribueA);
 
         return $this;
     }

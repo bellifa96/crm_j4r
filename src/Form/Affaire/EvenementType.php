@@ -29,6 +29,7 @@ class EvenementType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastname', 'ASC');
                 },
+                'multiple'=>true,
                 'choice_label' => function ($user) {
                     return $user->getLastname() . ' ' . $user->getFirstname();
                 }

@@ -122,6 +122,21 @@ class EvenementController extends AbstractController
         ]);
     }
 
+
+    #[Route('/validate/{id}', name: 'app_affaire_evenement_validate', methods: ['GET'])]
+    public function validate(Evenement $evenement,EvenementRepository $evenementRepository,Request $request)
+    {
+
+
+        $evenement->setStatut("Achevé");
+        $evenementRepository->add($evenement);
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+
+    }
+
+
     #[Route('/{id}', name: 'app_affaire_evenement_show', methods: ['GET'])]
     public function show(Evenement $evenement): Response
     {
@@ -158,6 +173,8 @@ class EvenementController extends AbstractController
             $evenementRepository->remove($evenement);
         }
 
-        return $this->redirectToRoute('app_affaire_evenement_index', [], Response::HTTP_SEE_OTHER);
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
     }
 }

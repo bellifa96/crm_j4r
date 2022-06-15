@@ -90,11 +90,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Evenement::class)]
     private $evenements;
 
-    #[ORM\OneToMany(mappedBy: 'attribueA', targetEntity: Evenement::class)]
-    private $evenementsAttribues;
-
     #[ORM\OneToMany(mappedBy: 'referent', targetEntity: Devis::class)]
     private $devis;
+
+    #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'attribueA')]
+    private $EvenementsAttribues;
 
 
     public function __construct()
@@ -107,6 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->evenements = new ArrayCollection();
         $this->evenementsAttribues = new ArrayCollection();
         $this->devis = new ArrayCollection();
+        $this->EvenementsAttribues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -417,36 +418,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Evenement>
-     */
-    public function getEvenementsAttribues(): Collection
-    {
-        return $this->evenementsAttribues;
-    }
-
-    public function addEvenementsAttribue(Evenement $evenementsAttribue): self
-    {
-        if (!$this->evenementsAttribues->contains($evenementsAttribue)) {
-            $this->evenementsAttribues[] = $evenementsAttribue;
-            $evenementsAttribue->setAttribueA($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvenementsAttribue(Evenement $evenementsAttribue): self
-    {
-        if ($this->evenementsAttribues->removeElement($evenementsAttribue)) {
-            // set the owning side to null (unless already changed)
-            if ($evenementsAttribue->getAttribueA() === $this) {
-                $evenementsAttribue->setAttribueA(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Devis>
      */
     public function getDevis(): Collection
@@ -471,6 +442,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($devi->getReferent() === $this) {
                 $devi->setReferent(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenementsAttribues(): Collection
+    {
+        return $this->EvenementsAttribues;
+    }
+
+    public function addEvenementsAttribue(Evenement $evenementsAttribue): self
+    {
+        if (!$this->EvenementsAttribues->contains($evenementsAttribue)) {
+            $this->EvenementsAttribues[] = $evenementsAttribue;
+            $evenementsAttribue->addAttribueA($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenementsAttribue(Evenement $evenementsAttribue): self
+    {
+        if ($this->EvenementsAttribues->removeElement($evenementsAttribue)) {
+            $evenementsAttribue->removeAttribueA($this);
         }
 
         return $this;
