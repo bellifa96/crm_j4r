@@ -50,10 +50,14 @@ class Evenement
     #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'evenements')]
     private $demande;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $statut;
+
 
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
+        $this->statut = "Normale";
     }
 
     public function getId(): ?int
@@ -189,6 +193,18 @@ class Evenement
     public function setDemande(?Demande $demande): self
     {
         $this->demande = $demande;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

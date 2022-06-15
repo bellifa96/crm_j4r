@@ -76,7 +76,6 @@ import "trumbowyg/plugins/fontsize/trumbowyg.fontsize";
 import "trumbowyg/plugins/fontsize/ui/icons/fontsize.svg";
 
 
-
 import "trumbowyg/plugins/upload/trumbowyg.upload";
 
 
@@ -174,10 +173,8 @@ $(function () {
     }
 
 
-    $('input').each(function () {
-        if ($(this).is(':checkbox') || $(this).is(':checkbox')) {
-            $(this).checkboxradio();
-        }
+    $('.checkbox,.radio').each(function () {
+        $(this).checkboxradio();
     });
 
     $(".datepicker").datepicker({

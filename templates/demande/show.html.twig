@@ -5,6 +5,56 @@
 {% block body %}
 
     <style>
+
+
+        .card {
+            box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+            border-width: 0;
+            transition: all .2s;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0.625rem;
+            height: 3.5rem;
+            background-color: #fff;
+        }
+
+
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .text-capitalize {
+            text-transform: capitalize !important;
+        }
+
+
+        .todo-indicator {
+            width: 5px;
+            height: 20px;
+            border-radius: 0.3rem;
+            opacity: .6;
+            transition: opacity .2s;
+        }
+
+        .bg-warning {
+            background-color: #f7b924 !important;
+        }
+
         .labels {
             font-size: 11px;
             color: #0d4377;
@@ -380,29 +430,165 @@
     </div>
 
 
-    <div id="button" class="page-block col-md-10 m-auto mt-4">
-        <div class="col-md-6 m-auto row mt-2">
-            <div class="col-md-5 text-end">
-                Date de création
-            </div>
-            <div class="col-md-auto bg-leasy">
-                {{ demande.createdAt|date('d/m/y H:i:s') }}
-            </div>
-        </div>
+    <div class="col-md-12 page-block mt-4">
 
-        <div class="col-md-6 m-auto row mt-2">
-            <div class="col-md-5 text-end">
-                Date de la dernière modification
+
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link active" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
+                        type="button"
+                        role="tab" aria-controls="taches" aria-selected="true">
+                    Taches
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="Commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                        type="button"
+                        role="tab" aria-controls="Commentaires" aria-selected="false">
+                    Commentaires
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
+                        role="tab" aria-controls="affaire" aria-selected="false">
+                    Affaires
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                        role="tab" aria-controls="ged" aria-selected="false">
+                    GED
+                </button>
+            </li>
+
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
+                        type="button"
+                        role="tab" aria-controls="historique" aria-selected="false">
+                    Historique
+                </button>
+            </li>
+
+        </ul>
+
+        <div class="tab-content mt-4" id="myTabContent">
+
+            <!-- Taches -->
+            <div class="tab-pane fade show active" id="taches" role="tabpanel" aria-labelledby="taches-tab">
+
+                <div class="row">
+                    <div class="col-md-10 m-auto">
+                        <div class="card-hover-shadow-2x mb-3 card">
+                            <div class="card-header-tab card-header">
+                                <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+                                    <h4 style="margin: 0px;">
+                                        <i class="fa fa-tasks"></i>
+                                        &nbsp;listes des taches
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="scroll-area-sm">
+                                <table class="table">
+                                    <thead>
+                                    <th></th>
+                                    <th>Tache</th>
+                                    <th>date Debut</th>
+                                    <th>Date de fin</th>
+                                    <th>Statut</th>
+                                    <th>Créer par</th>
+                                    <th>Attribué à</th>
+                                    <th>Action</th>
+                                    </thead>
+                                    <tbody>
+
+                                    {% set colors = {"Normale":"grey","Urgent":"red","Important":"orange","Faible":"white"} %}
+                                    {% for evenement in demande.evenements %}
+
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <i class="bi bi-bookmark-fill"
+                                                       style="color: {{ colors[evenement.statut] }};font-size: 1.1rem;"></i>
+                                                    <input class="custom-control-input"
+                                                           id="evenement_{{ evenement.id }}"
+                                                           type="checkbox"/>
+                                                </div>
+                                            </td>
+                                            <td>{{ evenement.titre }}</td>
+                                            <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
+                                            <td>{{ evenement.dateDeFin|date('d/m/Y H:i') }}</td>
+                                            <td>
+                                                <div> {{ evenement.Statut }} </div>
+                                            </td>
+                                            <td>{{ evenement.createur.firstname }}</td>
+                                            <td>{{ evenement.AttribueA.firstname }}</td>
+
+                                            <td>
+                                                <div class="widget-content-right">
+                                                    <button class="border-0 btn-transition btn btn-outline-success">
+                                                        <i class="fa fa-check"></i></button>
+                                                    <button class="border-0 btn-transition btn btn-outline-danger">
+                                                        <i class="fa fa-trash"></i>
+
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div class="col-md-auto bg-leasy">
-                {{ demande.updatedAt|date('d/m/y H:i:s') }}
+
+
+        </div>
+        <!-- Commentaires -->
+        <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+
+        </div>
+        <!-- Ged -->
+        <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+
+        </div>
+        <!-- Historique -->
+        <div class="tab-pane fade" id="historique" role="tabpanel" aria-labelledby="historique-tab">
+
+            <div class="col-md-6 m-auto row mt-2">
+                <div class="col-md-5 text-end">
+                    Date de création
+                </div>
+                <div class="col-md-auto bg-leasy">
+                    {{ demande.createdAt|date('d/m/y H:i:s') }}
+                </div>
             </div>
-            <div><span class="border px-3 p-1 add-evenement add-button"><i
-                       class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
+
+            <div class="col-md-6 m-auto row mt-2">
+                <div class="col-md-5 text-end">
+                    Date de la dernière modification
+                </div>
+                <div class="col-md-auto bg-leasy">
+                    {{ demande.updatedAt|date('d/m/y H:i:s') }}
+                </div>
             </div>
         </div>
 
     </div>
+
+
+    </div>
+
+
+    <div><span class="border px-3 p-1 add-evenement add-button"><i
+                    class="fa fa-plus"></i>  Ajouter une nouvelle tâche</span>
+    </div>
+
 
     <script>
 
@@ -411,7 +597,7 @@
                 $("#add-evenement").modal('show');
 
             } else {
-                var path = "{{ path('app_affaire_evenement_new_modal') }}";
+                let path = "{{ path('app_affaire_evenement_new_modal') }}";
 
                 $.get(path, function (data) {
                     $('body').append(JSON.parse(data).message);
@@ -427,33 +613,33 @@
             event.preventDefault();
 
             let dateDebut = $("#evenement_dateDeDebut_date_year").val() + '-' + $("#evenement_dateDeDebut_date_month").val().padStart(2, '0')
-                            + '-' + $("#evenement_dateDeDebut_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeDebut_time_hour").val().padStart(2, '0')
-                            + ':' + $("#evenement_dateDeDebut_time_minute").val().padStart(2, '0');
+                + '-' + $("#evenement_dateDeDebut_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeDebut_time_hour").val().padStart(2, '0')
+                + ':' + $("#evenement_dateDeDebut_time_minute").val().padStart(2, '0');
 
             let dateFin = $("#evenement_dateDeFin_date_year").val() + '-' + $("#evenement_dateDeFin_date_month").val().padStart(2, '0')
-                          + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
-                          + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
+                + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
+                + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
 
             console.log(dateDebut);
             console.log(dateFin);
 
             $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
-            var evenement = {
+            let evenement = {
                 demande: {{ demande.id }},
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
-                dateDeDebut : new String(dateDebut),
-                dateDeFin : new String(dateFin),
-                priorite : $("#evenement_priorite").val(),
-                typeDEvenement : $("#evenement_typeDEvenement").val(),
-                attribueA : $("#evenement_attribueA").val(),
+                dateDeDebut: new String(dateDebut),
+                dateDeFin: new String(dateFin),
+                priorite: $("#evenement_priorite").val(),
+                typeDEvenement: $("#evenement_typeDEvenement").val(),
+                attribueA: $("#evenement_attribueA").val(),
             };
 
             $.post("{{ path('app_affaire_evenement_new_evenement') }}", {evenement}, function (data) {
 
                 data = JSON.parse(data);
 
-                if (data.code == 200) {
+                if (data.code === 200) {
 
                     $("#add-evenement").modal('hide');
                     $('#add-evenement').remove()
