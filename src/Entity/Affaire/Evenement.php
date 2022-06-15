@@ -57,7 +57,8 @@ class Evenement
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
-        $this->statut = "Normale";
+        $this->statut = "En cours";
+        $this->priorite = "Normale";
     }
 
     public function getId(): ?int

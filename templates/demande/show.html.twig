@@ -490,7 +490,7 @@
                             <div class="scroll-area-sm">
                                 <table class="table">
                                     <thead>
-                                    <th></th>
+                                    <th style="width: 2%;"></th>
                                     <th>Tache</th>
                                     <th>date Debut</th>
                                     <th>Date de fin</th>
@@ -506,19 +506,14 @@
 
                                         <tr>
                                             <td>
-                                                <div class="row">
-                                                    <i class="bi bi-bookmark-fill"
-                                                       style="color: {{ colors[evenement.statut] }};font-size: 1.1rem;"></i>
-                                                    <input class="custom-control-input"
-                                                           id="evenement_{{ evenement.id }}"
-                                                           type="checkbox"/>
-                                                </div>
+                                                <i class="bi bi-bookmark-fill"
+                                                   style="color: {{ colors[evenement.priorite] }};font-size: 1.1rem;"></i>
                                             </td>
                                             <td>{{ evenement.titre }}</td>
                                             <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
                                             <td>{{ evenement.dateDeFin|date('d/m/Y H:i') }}</td>
                                             <td>
-                                                <div> {{ evenement.Statut }} </div>
+                                                <div> {{ evenement.statut }} </div>
                                             </td>
                                             <td>{{ evenement.createur.firstname }}</td>
                                             <td>{{ evenement.AttribueA.firstname }}</td>
