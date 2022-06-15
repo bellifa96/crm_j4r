@@ -507,7 +507,7 @@
                                         <tr>
                                             <td>
                                                 <i class="bi bi-bookmark-fill"
-                                                   style="color: {{ colors[evenement.priorite] }};font-size: 1.1rem;"></i>
+                                                   style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "grey"}};font-size: 1.1rem;"></i>
                                             </td>
                                             <td>{{ evenement.titre }}</td>
                                             <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
