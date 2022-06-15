@@ -426,12 +426,24 @@
         function submitEvenement(event) {
             event.preventDefault();
 
+            let dateDebut = $("#evenement_dateDeDebut_date_year").val() + '-' + $("#evenement_dateDeDebut_date_month").val().padStart(2, '0')
+                            + '-' + $("#evenement_dateDeDebut_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeDebut_time_hour").val().padStart(2, '0')
+                            + ':' + $("#evenement_dateDeDebut_time_minute").val().padStart(2, '0');
+
+            let dateFin = $("#evenement_dateDeFin_date_year").val() + '-' + $("#evenement_dateDeFin_date_month").val().padStart(2, '0')
+                          + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
+                          + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
+
+            console.log(dateDebut);
+            console.log(dateFin);
+
             $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
             var evenement = {
+                demande: {{ demande.id }},
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
-                dateDeDebut : $("#evenement_dateDeDebut").val(),
-                dateDeFin : $("#evenement_dateDeFin").val(),
+                dateDeDebut : new String(dateDebut),
+                dateDeFin : new String(dateFin),
                 priorite : $("#evenement_priorite").val(),
                 typeDEvenement : $("#evenement_typeDEvenement").val(),
                 attribueA : $("#evenement_attribueA").val(),

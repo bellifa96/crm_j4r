@@ -6,6 +6,8 @@ use App\Entity\Affaire\Evenement;
 use App\Entity\Demande;
 use App\Form\Affaire\EvenementType;
 use App\Repository\Affaire\EvenementRepository;
+use App\Repository\DemandeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,28 +51,40 @@ class EvenementController extends AbstractController
         return $response;
     }
 
-    #[Route('/new/evenement', name: 'app_affaire_evenement_new_evenement', methods: ['GET', 'POST'])]
-    public function newEvenement(Request $request, EvenementRepository $evenementRepository): Response
+    #[Route('/new/evenement', name: 'app_affaire_evenement_new_evenement', methods: ['POST'])]
+    public function newEvenement(Request $request, EvenementRepository $evenementRepository, UserRepository $userRepository, DemandeRepository $demandeRepository): Response
     {
 
         $data = $request->request->all()['evenement'];
         $response = new Response();
 
-        dd($request);
+        //dd($request);
 
-        if (!empty($data['evenement_titre']) and !empty($data['evenement_description']) and !empty($data['evenement_dateDeDebut'])
-            and !empty($data['evenement_dateDeFin']) and !empty($data['evenement_priorite']) and !empty($data['evenement_typeDEvenement'])
-            and !empty($data['evenement_attribueA'])) {
+        if (!empty($data['titre']) and !empty($data['description']) and !empty($data['dateDeDebut'])
+            and !empty($data['dateDeFin']) and !empty($data['priorite']) and !empty($data['typeDEvenement'])
+            and !empty($data['attribueA'])) {
+
+
+            $dateDebut = $data['dateDeDebut'];
+            $dateDebut = \DateTime::createFromFormat('Y-m-d H:i', $dateDebut);
+
+            $dateFin = $data['dateDeFin'];
+            $dateFin = \DateTime::createFromFormat('Y-m-d H:i', $dateFin);
+
+            $user = $userRepository->find($data['attribueA']);
+
+            $demande = $demandeRepository->find($data['demande']);
+
             $evenement = new Evenement();
-            //$evenement->setDemande($this->get);
+            $evenement->setDemande($demande);
             $evenement->setCreateur($this->getUser());
-            $evenement->setTitre(htmlspecialchars($data['evenement_titre'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setDescription(htmlspecialchars($data['evenement_description'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setDateDeDebut(htmlspecialchars($data['evenement_dateDeDebut'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setDateDeFin(htmlspecialchars($data['evenement_dateDeFin'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setPriorite(htmlspecialchars($data['evenement_priorite'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setTypeDEvenement(htmlspecialchars($data['evenement_typeDEvenement'], ENT_QUOTES, 'UTF-8'));
-            $evenement->setAttribueA(htmlspecialchars($data['evenement_attribueA'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setTitre(htmlspecialchars($data['titre'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setDescription(htmlspecialchars($data['description'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setDateDeDebut($dateDebut);
+            $evenement->setDateDeFin($dateFin);
+            $evenement->setPriorite(htmlspecialchars($data['priorite'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setTypeDEvenement(htmlspecialchars($data['typeDEvenement'], ENT_QUOTES, 'UTF-8'));
+            $evenement->setAttribueA($user);
 
             //dd($evenement);
             try {
