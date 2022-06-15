@@ -22,7 +22,6 @@ class EvenementType extends AbstractType
                 'attr' => ['min' => (new \DateTime())->format('Y-m-d H:i')]])
             ->add('dateDeFin', DateTimeType::class, ['data' => new \DateTime(),
                 'attr' => ['min' => (new \DateTime())->format('Y-m-d H:i')]])
-            ->add('priorite')
             ->add('typeDEvenement')
             ->add('attribueA', EntityType::class, [
                 'class' => User::class,
