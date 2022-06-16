@@ -8,6 +8,8 @@ use App\Form\Affaire\EvenementType;
 use App\Repository\Affaire\EvenementRepository;
 use App\Repository\DemandeRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +22,14 @@ use Twig\Error\SyntaxError;
 #[Route('/affaire/evenement')]
 class EvenementController extends AbstractController
 {
+
+    private $emailService;
+
+    public function __construct(EmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     #[Route('/', name: 'app_affaire_evenement_index', methods: ['GET'])]
     public function index(EvenementRepository $evenementRepository): Response
     {
@@ -75,8 +85,10 @@ class EvenementController extends AbstractController
 
             $evenement = new Evenement();
 
-            foreach ($usersId as $id){
+            $users = [];
+            foreach ($usersId as $id) {
                 $user = $userRepository->find($id);
+                $users[] = $user->getEmail();
                 $evenement->addAttribueA($user);
             }
 
@@ -95,6 +107,9 @@ class EvenementController extends AbstractController
             try {
                 $evenementRepository->add($evenement);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
+                $objet = $this->getUser()->getFirstname()." Vous a attribué une nouvelle Tache (".$evenement->getPriorite().")";
+                $this->emailService->send($users,$evenement, 'emails/nouvelle_tache.html.twig',$objet);
+
             } catch (UniqueConstraintViolationException $e) {
                 $response->setContent(json_encode(['code' => 404, 'message' => "Une activité avec le même titre existe dans la base de données"]));
             }
@@ -129,7 +144,7 @@ class EvenementController extends AbstractController
 
 
     #[Route('/validate/{id}', name: 'app_affaire_evenement_validate', methods: ['GET'])]
-    public function validate(Evenement $evenement,EvenementRepository $evenementRepository,Request $request)
+    public function validate(Evenement $evenement, EvenementRepository $evenementRepository, Request $request)
     {
 
 
