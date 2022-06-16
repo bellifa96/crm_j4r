@@ -49,8 +49,8 @@
                                                             Titre : <strong> {{ data.titre }}</strong><br/>
                                                             Description : {{ data.description }}<br/>
                                                             Date de debut :
-                                                            <strong> {{ data.dateDeDebut|date('m/d/Y H:s') }} </strong><br/>
-                                                            Date de fin :<strong> {{ data.dateDeFin|date('m/d/Y H:s') }} </strong><br/>
+                                                            <strong> {{ data.dateDeDebut|date('d/m/Y H:s') }} </strong><br/>
+                                                            Date de fin :<strong> {{ data.dateDeFin|date('d/m/Y H:s') }} </strong><br/>
                                                             Attribué à:
                                                             <ul>
                                                                 {% for user in data.attribueA %}
