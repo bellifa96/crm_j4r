@@ -270,19 +270,18 @@ body .page-head ul li {
 
 .add-evenement{
     position: absolute;
-    right: -230px;
-    top: 15%;
+    right: 1%;
+    top: 10px;
     transition: 0.3s;
-    padding: 50px;
     text-decoration: none;
     color: white;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px 0 0 5px;
     background-color: #11caf0;
-    font-size: 150%;
+    font-size: 130%;
     height: auto;
 }
 
 .add-evenement:hover{
     right: 0;
-    background-color: #11caf0;
+    background-color: #0e4377;
 }
