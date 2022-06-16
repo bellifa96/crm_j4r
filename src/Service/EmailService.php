@@ -27,7 +27,7 @@ class EmailService
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject($titre)
+            ->subject("JR4 - ".$titre)
             ->htmlTemplate($htmlTemplate)
 
             // pass variables (name => value) to the template

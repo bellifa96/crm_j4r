@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Evenement
 {
     #[ORM\Id]
@@ -192,6 +193,7 @@ class Evenement
         return $this->statut;
     }
 
+    #[ORM\PreUpdate]
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;

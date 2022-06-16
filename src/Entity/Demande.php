@@ -107,51 +107,67 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $gcPeripherique;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $typeEchafaudage;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array')]
     private $dimensions = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $distanceALaFacade;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $rapportDistanceALaFacade;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $hauteurDesPlanchers = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $largeurPassagePieton;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $protectionCouvreur;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $bacheEtFilet = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $documentsSouhaites = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $ammarages = [];
 
+    #[Gedmo\Versioned]
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'demandes')]
     private $contactPrincipalClient;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $equipements = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $bache = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $dimensionsGlobales = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $statut;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     private $statutCommercial;
 
@@ -173,24 +189,31 @@ class Demande
     #[ORM\Column(type: 'array', nullable: true)]
     private $hauteur = [];
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'text', nullable: true)]
     private $commentaireMetre;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'text', nullable: true)]
     private $commentaireApresNegociation;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'text', nullable: true)]
     private $commentaireClients;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dateDuReleve;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dateDeRemise;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateDeValidationDirection;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $DateEnvoieClient;
 

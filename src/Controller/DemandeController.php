@@ -9,6 +9,7 @@ use App\Form\DemandeType;
 use App\Form\Ged\FichierType;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -29,11 +30,12 @@ class DemandeController extends AbstractController
 {
 
     private $em;
+    private $emailService;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EmailService $emailService)
     {
-
         $this->em = $em;
+        $this->emailService = $emailService;
     }
 
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
@@ -53,30 +55,30 @@ class DemandeController extends AbstractController
         $demande->setCreateur($this->getUser());
         $form = $this->createForm(DemandeType::class, $demande);
 
-        if($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')){
-            $form->add('statut',ChoiceType::class,[
-                'choices'=>[
-                    'En attente éléments client'=>'En attente éléments client ',
-                    'A transmettre'=>'A transmettre',
-                    'A traiter'=>'A traiter',
-                    'En cours de relevé'=>'En cours de relevé',
-                    'En cours de devis'=>'En cours de devis',
-                    'En attente validation Direction'=>'En attente validation Direction',
-                    'Devis validé direction'=>'Devis validé direction',
-                    'Devis en attente envoie'=>'Devis en attente envoie',
-                    'Devis envoyé'=>'Devis envoyé',
-                    'A modifier suite retour client'=>'A modifier suite retour client'
+        if ($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')) {
+            $form->add('statut', ChoiceType::class, [
+                'choices' => [
+                    'En attente éléments client' => 'En attente éléments client ',
+                    'A transmettre' => 'A transmettre',
+                    'A traiter' => 'A traiter',
+                    'En cours de relevé' => 'En cours de relevé',
+                    'En cours de devis' => 'En cours de devis',
+                    'En attente validation Direction' => 'En attente validation Direction',
+                    'Devis validé direction' => 'Devis validé direction',
+                    'Devis en attente envoie' => 'Devis en attente envoie',
+                    'Devis envoyé' => 'Devis envoyé',
+                    'A modifier suite retour client' => 'A modifier suite retour client'
                 ]
             ]);
-            $form->add('statutCommercial',ChoiceType::class,[
-                'choices'=>[
-                    ''=>'',
-                    'A relancer'=>'A relancer',
-                    'En attente validation client'=>'En attente validation client',
-                    'En attente OS'=>'En attente OS',
-                    'Os validé'=>'Os validé',
-                    'Non réalisé'=>'Non réalisé',
-                    'Ne pas relancer'=>'Ne pas relancer',
+            $form->add('statutCommercial', ChoiceType::class, [
+                'choices' => [
+                    '' => '',
+                    'A relancer' => 'A relancer',
+                    'En attente validation client' => 'En attente validation client',
+                    'En attente OS' => 'En attente OS',
+                    'Os validé' => 'Os validé',
+                    'Non réalisé' => 'Non réalisé',
+                    'Ne pas relancer' => 'Ne pas relancer',
 
                 ]
             ]);
@@ -97,8 +99,8 @@ class DemandeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_demande_show', methods: ['GET','POST'])]
-    public function show(Demande $demande,Request $request,SluggerInterface $slugger,FichierRepository $fichierRepository): Response
+    #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
+    public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository): Response
     {
 
         $fichier = new Fichier();
@@ -106,11 +108,10 @@ class DemandeController extends AbstractController
         $form = $this->createForm(FichierType::class, $fichier);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() and $form->isValid()){
+        if ($form->isSubmitted() and $form->isValid()) {
 
             $brochureFile = $form->get('fichier')->getData();
 
-        //    dd($brochureFile);
             if ($brochureFile) {
                 $fichier->setCreateur($this->getUser());
                 $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -134,7 +135,7 @@ class DemandeController extends AbstractController
 
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
             'title' => "Demande N° " . $demande->getId(),
             'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]
         ]);
@@ -185,35 +186,49 @@ class DemandeController extends AbstractController
     {
 
         $form = $this->createForm(DemandeType::class, $demande);
-        $form->add('statut',ChoiceType::class,[
-            'choices'=>[
-                'En attente éléments client'=>'En attente éléments client ',
-                'A transmettre'=>'A transmettre',
-                'A traiter'=>'A traiter',
-                'En cours de relevé'=>'En cours de relevé',
-                'En cours de devis'=>'En cours de devis',
-                'En attente validation Direction'=>'En attente validation Direction',
-                'Devis validé direction'=>'Devis validé direction',
-                'Devis en attente envoie'=>'Devis en attente envoie',
-                'Devis envoyé'=>'Devis envoyé',
-                'A modifier suite retour client'=>'A modifier suite retour client'
+        $form->add('statut', ChoiceType::class, [
+            'choices' => [
+                'En attente éléments client' => 'En attente éléments client ',
+                'A transmettre' => 'A transmettre',
+                'A traiter' => 'A traiter',
+                'En cours de relevé' => 'En cours de relevé',
+                'En cours de devis' => 'En cours de devis',
+                'En attente validation Direction' => 'En attente validation Direction',
+                'Devis validé direction' => 'Devis validé direction',
+                'Devis en attente envoie' => 'Devis en attente envoie',
+                'Devis envoyé' => 'Devis envoyé',
+                'A modifier suite retour client' => 'A modifier suite retour client'
             ]
         ]);
-        $form->add('statutCommercial',ChoiceType::class,[
-            'choices'=>[
-                ''=>'',
-                'A relancer'=>'A relancer',
-                'En attente validation client'=>'En attente validation client',
-                'En attente OS'=>'En attente OS',
-                'Os validé'=>'Os validé',
-                'Non réalisé'=>'Non réalisé',
-                'Ne pas relancer'=>'Ne pas relancer',
+        $form->add('statutCommercial', ChoiceType::class, [
+            'choices' => [
+                '' => '',
+                'A relancer' => 'A relancer',
+                'En attente validation client' => 'En attente validation client',
+                'En attente OS' => 'En attente OS',
+                'Os validé' => 'Os validé',
+                'Non réalisé' => 'Non réalisé',
+                'Ne pas relancer' => 'Ne pas relancer',
 
             ]
         ]);
+        $statut = $demande->getStatut();
+        $statusCommercial = $demande->getStatutCommercial();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($demande->getStatutCommercial() != $statusCommercial) {
+                $objet = "Le statut commercial de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatutCommercial().")";
+                $template = "/emails/statut_demande.html.twig";
+                $email = $this->emailService->send($demande->getCreateur(), $demande, $template, $objet);
+            }
+            if ($demande->getStatut() != $statut) {
+                $objet = "Le statut de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatut().")";
+                $template = "/emails/statut_demande.html.twig";
+                $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
+            }
+
             return $this->extracted($request, $demande, $demandeRepository,);
         }
 
@@ -326,6 +341,7 @@ class DemandeController extends AbstractController
         // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
 
         $demandeRepository->add($demande);
-        return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+
+        return $this->redirectToRoute('app_demande_show', ['id' => $demande->getId()], Response::HTTP_SEE_OTHER);
     }
 }
