@@ -41,7 +41,6 @@ class EmailService
             dd($e);
         }
 
-        dd($email);
     }
 
 

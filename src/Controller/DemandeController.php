@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +52,35 @@ class DemandeController extends AbstractController
         $demande = new Demande();
         $demande->setCreateur($this->getUser());
         $form = $this->createForm(DemandeType::class, $demande);
+
+        if($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')){
+            $form->add('statut',ChoiceType::class,[
+                'choices'=>[
+                    'En attente éléments client'=>'En attente éléments client ',
+                    'A transmettre'=>'A transmettre',
+                    'A traiter'=>'A traiter',
+                    'En cours de relevé'=>'En cours de relevé',
+                    'En cours de devis'=>'En cours de devis',
+                    'En attente validation Direction'=>'En attente validation Direction',
+                    'Devis validé direction'=>'Devis validé direction',
+                    'Devis en attente envoie'=>'Devis en attente envoie',
+                    'Devis envoyé'=>'Devis envoyé',
+                    'A modifier suite retour client'=>'A modifier suite retour client'
+                ]
+            ]);
+            $form->add('statutCommercial',ChoiceType::class,[
+                'choices'=>[
+                    ''=>'',
+                    'A relancer'=>'A relancer',
+                    'En attente validation client'=>'En attente validation client',
+                    'En attente OS'=>'En attente OS',
+                    'Os validé'=>'Os validé',
+                    'Non réalisé'=>'Non réalisé',
+                    'Ne pas relancer'=>'Ne pas relancer',
+
+                ]
+            ]);
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -155,6 +185,32 @@ class DemandeController extends AbstractController
     {
 
         $form = $this->createForm(DemandeType::class, $demande);
+        $form->add('statut',ChoiceType::class,[
+            'choices'=>[
+                'En attente éléments client'=>'En attente éléments client ',
+                'A transmettre'=>'A transmettre',
+                'A traiter'=>'A traiter',
+                'En cours de relevé'=>'En cours de relevé',
+                'En cours de devis'=>'En cours de devis',
+                'En attente validation Direction'=>'En attente validation Direction',
+                'Devis validé direction'=>'Devis validé direction',
+                'Devis en attente envoie'=>'Devis en attente envoie',
+                'Devis envoyé'=>'Devis envoyé',
+                'A modifier suite retour client'=>'A modifier suite retour client'
+            ]
+        ]);
+        $form->add('statutCommercial',ChoiceType::class,[
+            'choices'=>[
+                ''=>'',
+                'A relancer'=>'A relancer',
+                'En attente validation client'=>'En attente validation client',
+                'En attente OS'=>'En attente OS',
+                'Os validé'=>'Os validé',
+                'Non réalisé'=>'Non réalisé',
+                'Ne pas relancer'=>'Ne pas relancer',
+
+            ]
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

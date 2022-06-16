@@ -58,6 +58,8 @@ class UserType extends AbstractType
                     'choices' => [
                         'Super admin' => 'ROLE_SUPER_ADMIN',
                         'Admin' => 'ROLE_ADMIN',
+                        'Manageur'=>'ROLE_MANAGER',
+                        'Commercial'=>'ROLE_COMMERCIAL',
                         'J4R' => 'ROLE_USER',
                     ],
                     'multiple' => true,

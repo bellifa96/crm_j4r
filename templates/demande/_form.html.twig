@@ -137,6 +137,29 @@
 
 {{ form_start(form) }}
 
+
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+    <div class="col-md-10 m-auto row justify-content-around mb-4">
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Statut
+            </div>
+            <div class="col-md-auto">
+                {{ form_widget(form.statut,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Statut commercial
+            </div>
+            <div class="col-md-auto ">
+                {{ form_widget(form.statutCommercial,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+    </div>
+
+{% endif %}
 <div class="page-block col-md-10 m-auto">
     <div class="row">
         <div class="col-md-6">
@@ -157,16 +180,16 @@
                         <label class="labels">Contact principal</label>
                     </div>
                     <div class="col-md-9">
-                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]" id="demande_contact_principal_client">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]"
+                                id="demande_contact_principal_client">
                             {% for contact in demande.client.contacts %}
-                               <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalClient  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalClient  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
 
             {% endif %}
-
 
 
             <div class="row mt-2">
@@ -236,18 +259,19 @@
 
 
             {% if demande.contactPrincipalMaitreDOuvrage is not empty and demande.maitreDOuvrage is not empty %}
-            <div class="row mt-2 contact-maitre-douvrage">
-                <div class="col-md-3 text-end">
-                    <label class="labels">Contact principal</label>
+                <div class="row mt-2 contact-maitre-douvrage">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]"
+                                id="demande_contact_principal_maitre_douvrage">
+                            {% for contact in demande.maitreDOuvrage.contacts %}
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalMaitreDOuvrage  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]" id="demande_contact_principal_maitre_douvrage">
-                        {% for contact in demande.maitreDOuvrage.contacts %}
-                            <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalMaitreDOuvrage  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
             {% endif %}
 
             <div class="row mt-2">
@@ -265,7 +289,8 @@
                         <label class="labels">Contact principal</label>
                     </div>
                     <div class="col-md-9">
-                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]" id="demande_contact_principal_intermediaire">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]"
+                                id="demande_contact_principal_intermediaire">
                             {% for contact in demande.intermediaire.contacts %}
                                 <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalIntermediaire  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
                             {% endfor %}
@@ -424,7 +449,11 @@
     $("#demande_client").change(function () {
         $('.contact-client').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_client").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"client"}, function (data) {
+        $.post(path, {
+            id: $("#demande_client").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "client"
+        }, function (data) {
             const div = `<div class="row mt-2 contact-client">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -449,7 +478,11 @@
     $("#demande_maitreDOuvrage").change(function () {
         $('.contact-maitre-douvrage').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_maitreDOuvrage").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"maitreDOuvrage"}, function (data) {
+        $.post(path, {
+            id: $("#demande_maitreDOuvrage").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "maitreDOuvrage"
+        }, function (data) {
             const div = `<div class="row mt-2 contact-maitre-douvrage">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -475,7 +508,11 @@
     $("#demande_intermediaire").change(function () {
         $('.contact-intermediaire').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
-        $.post(path, {id: $("#demande_intermediaire").val(),demande:"{{ demande.id is not empty ? demande.id : ''}}",role:"intermediaire"}, function (data) {
+        $.post(path, {
+            id: $("#demande_intermediaire").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "intermediaire"
+        }, function (data) {
             const div = `<div class="row mt-2 contact-intermediaire">
                             <div class="col-md-3 text-end">
                                 <label class="labels">Contact principal</label>
@@ -503,7 +540,7 @@
             idClient: $("#demande_client").val(),
             idMaitreOuvrage: $("#demande_maitreDOuvrage").val(),
             idIntermediaire: $("#demande_intermediaire").val(),
-            demande:"{{ demande.id }}"
+            demande: "{{ demande.id }}"
         }
         $.post(path, param, function (data) {
             data = JSON.parse(data);
@@ -513,7 +550,7 @@
                 $('#demande_contacts_secondaires').append($('<option>', {
                     value: value.id,
                     text: value.text,
-                    selected:value.selected
+                    selected: value.selected
                 }));
             })
         })

@@ -2,8 +2,11 @@ security:
 
   role_hierarchy:
     ROLE_SUPER_ADMIN: [ 'ROLE_SUPER_ADMIN','ROLE_ADMIN' ]
-    ROLE_ADMIN: [ 'ROLE_ADMIN' ]
+    ROLE_ADMIN: [ 'ROLE_ADMIN','ROLE_MANAGER' ]
+    ROLE_MANAGER: [ 'ROLE_MANAGER','ROLE_USER' ]
+    ROLE_COMMERCIAL: ['ROLE_COMMERCIAL','ROLE_USER']
     ROLE_USER: [ 'ROLE_USER' ]
+
 
   enable_authenticator_manager: true
   # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords

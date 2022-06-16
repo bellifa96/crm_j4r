@@ -200,8 +200,7 @@ class Demande
     public function __construct()
     {
         $this->devis = new ArrayCollection();
-        $this->statut = "A traiter";
-        $this->statutCommercial = "A relancer";
+        $this->statut = "A transmettre";
         $this->evenements = new ArrayCollection();
         $this->contactsSecondaires = new ArrayCollection();
         $this->ged = new ArrayCollection();
