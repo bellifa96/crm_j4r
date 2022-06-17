@@ -44,7 +44,7 @@ class DemandeController extends AbstractController
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandeRepository->findAll(),
             'title' => 'Liste des demandes',
-            'nav' => [['app_demande_new', 'ajouter une demande']]
+            'nav' => [['app_demande_new', 'Ajouter une demande']]
         ]);
     }
 
