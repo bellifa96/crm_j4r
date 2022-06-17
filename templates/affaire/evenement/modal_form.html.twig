@@ -1,5 +1,9 @@
 <style>
 
+    .modal-content{
+        width: 150%;
+    }
+
     body.evenement_priorite_urgent {
         background-color: red;
     }
@@ -22,13 +26,15 @@
         position: relative;
         z-index: 21;
         border-radius: 10px;
+        display: contents;
+        text-align: center;
     }
 
     div.background-select .card {
         margin-bottom: inherit;
         box-shadow: inherit;
         overflow: hidden;
-        padding: 0px 10px;
+        padding: 15px 0px 0px 0px;
     }
 
     div.background-select .card .color-choices {
@@ -147,7 +153,7 @@
 <div class="modal fade" id="add-evenement" data-bs-backdrop="static"
      data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             {{ form_start(form, {'attr':{"class":"form-control","onsubmit":"return submitEvenement(event)"}}) }}
 
@@ -161,22 +167,18 @@
                     <div class="col-md-6"><label class="labels">Titre</label>
                         {{ form_widget(form.titre,{"attr":{"class":"form-control","autofocus":"on","placeholder":"Titre"}}) }}
                     </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-md-8"><label class="labels">Description</label>
+                    <div class="col-md-6"><label class="labels">Description</label>
                         {{ form_widget(form.description,{"attr":{"class":"form-control","placeholder":"Description"}}) }}
                     </div>
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-md-8"><label class="labels">Date de début</label>
+                    <div class="col-md-6"><label class="labels">Date de début</label>
                         {{ form_widget(form.dateDeDebut,{"attr":{"class":"form-control  datepicker","autocomplet":"off"}}) }}
                     </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-md-8"><label class="labels">Date d'échéance</label>
+                    <div class="col-md-6"><label class="labels">Date d'échéance</label>
                         {{ form_widget(form.dateDeFin,{"attr":{"class":"form-control  datepicker","autocomplet":"off"}}) }}
                     </div>
                 </div>
@@ -215,13 +217,11 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-md-8"><label class="labels">Type d'évènement</label>
+                    <div class="col-md-6"><label class="labels">Type d'évènement</label>
                         {{ form_widget(form.typeDEvenement,{"attr":{"class":"form-control"}}) }}
                     </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-md-8"><label class="labels">Attribuer à</label>
+                    <div class="col-md-6"><label class="labels">Attribuer à</label>
                         {{ form_widget(form.attribueA,{"attr":{"class":"select2 form-control"}}) }}
                     </div>
                 </div>
