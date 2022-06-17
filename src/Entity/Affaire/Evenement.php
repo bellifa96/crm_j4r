@@ -58,7 +58,7 @@ class Evenement
     {
         $this->fichiers = new ArrayCollection();
         $this->statut = "En cours";
-        $this->priorite = "Normale";
+        $this->priorite = "Normal";
         $this->attribueA = new ArrayCollection();
     }
 
