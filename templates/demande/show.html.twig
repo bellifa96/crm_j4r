@@ -139,6 +139,178 @@
             border-radius: 5px;
 
         }
+
+        .chats::-webkit-scrollbar {
+            width: 0.125rem;
+        }
+
+        .chats::-webkit-scrollbar-thumb {
+            background: #cfd8dc;
+        }
+
+        .chats::-webkit-scrollbar-thumb:hover {
+            background: #b0bec5;
+        }
+
+        /* INPUT TEXT PLACEHOLDER CUSTOMIZE */
+        ::-webkit-input-placeholder {
+            color: #b0bec5;
+        }
+
+        ::-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        :-ms-input-placeholder {
+            color: #b0bec5;
+        }
+
+        :-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        #viewport {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #viewport > .chatbox {
+            position: relative;
+            display: table;
+            float: left;
+            margin: 1rem;
+            height: 40rem;
+            background-color: white;
+            box-shadow: 0 0.25rem 2rem rgba(38, 50, 56, 0.1);
+            overflow: hidden;
+        }
+
+        #viewport > .chatbox > .chats {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: table-cell;
+            vertical-align: bottom;
+            padding: 1rem;
+            margin-bottom: 2.875rem;
+            overflow: auto;
+        }
+
+        .chats > ul {
+            padding: 0;
+        }
+
+        .chats > ul > li {
+            position: relative;
+            list-style: none;
+            display: block;
+            margin-top: 1.5rem;
+            margin: 1rem 0;
+            transition: 0.5s all;
+        }
+
+        .chats > ul > li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .msg {
+            max-width: 85%;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            line-height: 1rem;
+            min-height: 2rem;
+            font-size: 0.875rem;
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            text-transform: capitalize;
+        }
+
+        .msg.him {
+            float: left;
+            background-color: #e91e63;
+            color: #fff;
+            border-bottom-left-radius: 0.125rem;
+        }
+
+        .msg.you {
+            float: right;
+            background-color: #eceff1;
+            color: #607d8b;
+            border-bottom-right-radius: 0.125rem;
+        }
+
+        .msg.load {
+            background-color: #f8bbd0;
+            border-bottom-left-radius: 0.125rem;
+        }
+
+        .msg > span {
+            font-weight: 500;
+            position: absolute;
+        }
+
+        .msg > span.partner {
+            color: #b0bec5;
+            font-size: 0.5rem;
+            top: 0;
+            font-size: 0.675rem;
+            margin-top: -1rem;
+        }
+
+        .msg > span.time {
+            color: #cfd8dc;
+            font-size: 0.8rem;
+            bottom: -0.35rem;
+            display: none;
+        }
+
+        .msg:hover span.time {
+            display: block;
+        }
+
+        .msg.him > span {
+            left: 0;
+        }
+
+        .msg.you > span {
+            right: 0;
+        }
+
+        .sendBox {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+        }
+
+        .sendBox input {
+            font-family: "Lato", sans-serif;
+            font-size: 0.875rem;
+            display: block;
+            width: 100%;
+            border: none;
+            padding: 0.75rem 0.75rem;
+            line-height: 1.25rem;
+            border-top: 0.125rem solid #eceff1;
+            transition: 0.5s ease-in-out;
+        }
+
+        input:hover,
+        input:focus,
+        input:active {
+            outline: none !important;
+            border-top: 0.125rem solid #e91e63;
+        }
+
+
     </style>
 
     <div class="col-md-10 m-auto row justify-content-around mb-4">
@@ -651,6 +823,102 @@
             <!-- Commentaires -->
             <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
 
+                <div id="viewport" class="row">
+
+                    <div class="chatbox col-md-3" id="metre">
+
+                        <div class="chats">
+                            <ul id="metre-ul">
+                                {% if demande.conversationMetreDemande %}
+                                    {% for message in  demande.conversationMetreDemande.messages %}
+                                        <li>
+                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                {{ message.message }}
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="sendBox row">
+                            <div class="col-md-10">
+                                <input type="text" placeholder="écrire un commentaire métré" name="message_metre">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="button message-submit" style="background: transparent; border: none;"
+                                        id="btn-metre">
+                                    <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chatbox col-md-3" id="apres-negociatio">
+                        <div class="chats">
+                            <ul id="negociation-ul">
+                                {% if demande.conversationApresNegociationDemande %}
+                                    {% for message in  demande.conversationApresNegociationDemande.messages %}
+                                        <li>
+                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                {{ message.message }}
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="sendBox row">
+                            <div class="col-md-10">
+                                <input type="text" placeholder="écrire un commentaire aprés négociation"
+                                       name="message_negociation">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="button message-submit" style="background: transparent; border: none;"
+                                        id="btn-negociation">
+                                    <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbox col-md-3" id="client">
+                        <div class="chats">
+                            <ul id="client-ul">
+                                {% if demande.conversationClient %}
+                                    {% for message in  demande.conversationClient.messages %}
+                                        <li>
+                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                {{ message.message }}
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="sendBox row">
+                            <div class="col-md-10">
+                                <input type="text" placeholder="écrire un commentaire client" name="message_client">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="button message-submit" style="background: transparent; border: none;"
+                                        id="btn-client">
+                                    <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Ged -->
             <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
@@ -843,6 +1111,51 @@
                 }
             })
         }
+
+
+        $('.message-submit').click(function () {
+
+            let url = "/conversation/message/{{ demande.id }}/";
+            let id = $(this).attr('id');
+            let message = "";
+            let ul = "";
+            if (id === "btn-metre") {
+                url += "metre"
+                message = $("input[name='message_metre']").val();
+                $("input[name='message_metre']").val("")
+                ul = 'metre-ul';
+            }else if( id === "btn-negociation"){
+                url += "negociation"
+                message = $("input[name='message_negociation']").val();
+                $("input[name='message_negociation']").val("")
+                ul = 'negociation-ul';
+            }else if(id === "btn-client"){
+                url += "client"
+                message = $("input[name='message_client']").val();
+                $("input[name='message_client']").val("")
+                ul = 'client-ul';
+            }else{
+                console.log('id')
+                return 0;
+            }
+
+
+            $.post(url, {message: message}, function (data) {
+                data = JSON.parse(data);
+                if (data.code === 200) {
+                    let li = ` <li>
+                                        <div class="msg you">
+                                        <span class="partner">
+                                            ${data.message.createur}
+                                        </span>
+                                                 ${data.message.message}
+                                        <span class="time">${data.message.date}</span>
+                             </li>`
+                    $('#' + ul).append(li)
+                }
+            })
+
+        });
 
 
     </script>

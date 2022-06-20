@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
 use App\Entity\Contact\Contact;
+use App\Entity\Conversation\ConversationApresNegociationDemande;
+use App\Entity\Conversation\ConversationClient;
+use App\Entity\Conversation\ConversationMetreDemande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\DemandeRepository;
@@ -219,6 +222,15 @@ class Demande
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Fichier::class)]
     private $ged;
+
+    #[ORM\OneToOne(mappedBy: 'demande', targetEntity: ConversationMetreDemande::class, cascade: ['persist', 'remove'])]
+    private $conversationMetreDemande;
+
+    #[ORM\OneToOne(mappedBy: 'demande', targetEntity: ConversationApresNegociationDemande::class, cascade: ['persist', 'remove'])]
+    private $conversationApresNegociationDemande;
+
+    #[ORM\OneToOne(mappedBy: 'demande', targetEntity: ConversationClient::class, cascade: ['persist', 'remove'])]
+    private $conversationClient;
 
     public function __construct()
     {
@@ -901,6 +913,72 @@ class Demande
                 $ged->setDemande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConversationMetreDemande(): ?ConversationMetreDemande
+    {
+        return $this->conversationMetreDemande;
+    }
+
+    public function setConversationMetreDemande(?ConversationMetreDemande $conversationMetreDemande): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($conversationMetreDemande === null && $this->conversationMetreDemande !== null) {
+            $this->conversationMetreDemande->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($conversationMetreDemande !== null && $conversationMetreDemande->getDemande() !== $this) {
+            $conversationMetreDemande->setDemande($this);
+        }
+
+        $this->conversationMetreDemande = $conversationMetreDemande;
+
+        return $this;
+    }
+
+    public function getConversationApresNegociationDemande(): ?ConversationApresNegociationDemande
+    {
+        return $this->conversationApresNegociationDemande;
+    }
+
+    public function setConversationApresNegociationDemande(?ConversationApresNegociationDemande $conversationApresNegociationDemande): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($conversationApresNegociationDemande === null && $this->conversationApresNegociationDemande !== null) {
+            $this->conversationApresNegociationDemande->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($conversationApresNegociationDemande !== null && $conversationApresNegociationDemande->getDemande() !== $this) {
+            $conversationApresNegociationDemande->setDemande($this);
+        }
+
+        $this->conversationApresNegociationDemande = $conversationApresNegociationDemande;
+
+        return $this;
+    }
+
+    public function getConversationClient(): ?ConversationClient
+    {
+        return $this->conversationClient;
+    }
+
+    public function setConversationClient(?ConversationClient $conversationClient): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($conversationClient === null && $this->conversationClient !== null) {
+            $this->conversationClient->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($conversationClient !== null && $conversationClient->getDemande() !== $this) {
+            $conversationClient->setDemande($this);
+        }
+
+        $this->conversationClient = $conversationClient;
 
         return $this;
     }
