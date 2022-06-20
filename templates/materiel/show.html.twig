@@ -301,6 +301,10 @@
 
             <!-- Prêts -->
             <div class="tab-pane fade" id="prets" role="tabpanel" aria-labelledby="prets-tab">
+                <div>
+                                <span class="border px-3 p-1 add-pret add-button">Prêt <i
+                                            class="fa fa-plus"></i></span>
+                </div>
 
             </div>
 
@@ -311,4 +315,26 @@
         </div>
     </div>
 
+    <script>
+
+        $('.add-pret').click(function () {
+            if ($('#add-pret').length > 0) {
+                $("#add-pret").modal('show');
+
+            } else {
+                let path = "{{ path('app_pret_new_modal') }}";
+
+                $.get(path, function (data) {
+                    $('body').append(JSON.parse(data).message);
+                    $("#add-pret").modal('show');
+                    $('.select2').select2();
+
+
+                })
+            }
+        })
+
+    </script>
+
 {% endblock %}
+
