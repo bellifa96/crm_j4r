@@ -32,7 +32,7 @@ class Pret
     private $note;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $status;
+    private $statut;
 
     #[ORM\OneToMany(mappedBy: 'pret', targetEntity: Fichier::class)]
     private $fichiers;
@@ -113,14 +113,14 @@ class Pret
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatut(): ?string
     {
-        return $this->status;
+        return $this->statut;
     }
 
-    public function setStatus(string $status): self
+    public function setStatut(string $statut): self
     {
-        $this->status = $status;
+        $this->statut = $statut;
 
         return $this;
     }

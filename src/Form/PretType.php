@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Pret;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,10 +18,18 @@ class PretType extends AbstractType
             ->add('dateDAffectation')
             ->add('dateDeRetour')
             ->add('etat')
-            ->add('etatApresRetour')
             ->add('note')
-            ->add('status')
-            ->add('utilisateur')
+            ->add('utilisateur', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.lastname', 'ASC');
+                },
+                'multiple'=>true,
+                'choice_label' => function ($user) {
+                    return $user->getLastname() . ' ' . $user->getFirstname();
+                }
+            ]);
         ;
     }
 

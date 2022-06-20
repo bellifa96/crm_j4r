@@ -681,7 +681,7 @@
                 <button class="nav-link active" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
                         type="button"
                         role="tab" aria-controls="taches" aria-selected="true">
-                    Taches
+                    Tâches
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
@@ -790,7 +790,7 @@
 
                                                         <form method="post"
                                                               action="{{ path('app_affaire_evenement_delete', {'id': evenement.id}) }}"
-                                                              onsubmit="return confirm('êtes vous certain de vouloir supprimer cette tache?');">
+                                                              onsubmit="return confirm('êtes vous certain de vouloir supprimer cette tâche?');">
                                                             <input type="hidden" name="_token"
                                                                    value="{{ csrf_token('delete' ~ evenement.id) }}">
                                                             <button class="border-0 btn-transition btn btn-outline-danger">

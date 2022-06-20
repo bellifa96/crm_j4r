@@ -2,13 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Affaire\Evenement;
 use App\Entity\Pret;
+use App\Form\Affaire\EvenementType;
 use App\Form\PretType;
+use App\Repository\Affaire\EvenementRepository;
+use App\Repository\DemandeRepository;
 use App\Repository\PretRepository;
+use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[Route('/pret')]
 class PretController extends AbstractController
@@ -38,6 +48,40 @@ class PretController extends AbstractController
             'pret' => $pret,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/new/evenement', name: 'app_pret_new_pret', methods: ['POST'])]
+    public function newEvenement(Request $request, EvenementRepository $evenementRepository, UserRepository $userRepository, DemandeRepository $demandeRepository): Response
+    {
+
+        $data = $request->request->all()['pret'];
+        $response = new Response();
+
+
+
+        return $response;
+
+    }
+
+    #[Route('/new/modal', name: 'app_pret_new_modal', methods: ['GET', 'POST'])]
+    public function getModal(Request $request, Environment $environment): Response
+    {
+        $pret = new Pret();
+        $form = $this->createForm(PretType::class, $pret);
+        $response = new Response();
+        try {
+            $html = $environment->render("pret/modal_form.html.twig", [
+                'form' => $form->createView()
+            ]);
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
+        $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        return $response;
     }
 
     #[Route('/{id}', name: 'app_pret_show', methods: ['GET'])]
