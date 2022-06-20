@@ -102,6 +102,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Pret::class)]
     private $prets;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telephone;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telephoneMobile;
+
 
     public function __construct()
     {
@@ -496,6 +502,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->materiels[] = $materiel;
             $materiel->setCreateur($this);
         }
+        return $this;
+
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
 
         return $this;
     }
@@ -538,6 +557,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $pret->setUtilisateur(null);
             }
         }
+        return $this;
+
+    }
+
+    public function getTelephoneMobile(): ?string
+    {
+        return $this->telephoneMobile;
+    }
+
+    public function setTelephoneMobile(string $telephoneMobile): self
+    {
+        $this->telephoneMobile = $telephoneMobile;
 
         return $this;
     }
