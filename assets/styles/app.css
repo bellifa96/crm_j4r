@@ -6,9 +6,10 @@ body {
 
 }
 
-table{
+table {
     color: #0E4377 !important;
 }
+
 body a {
     text-decoration: none;
     color: #0E4377;
@@ -146,6 +147,20 @@ body .page-head ul li {
     background: #e2e8ed;
 }
 
+.btn-info-2 {
+    background: #17a2b8;
+    color: #fff;
+    border-color: #17a2b8;
+    font-size: .7rem;
+}
+
+.btn-info-2:hover {
+    background: #138496;
+    color: #fff;
+    border-color: #117a8b;
+    font-size: .7rem;
+}
+
 #divLoader {
     position: fixed;
     top: 0;
@@ -255,12 +270,14 @@ body .page-head ul li {
     }
 }
 
-.add-button{
+.add-button {
     color: black;
 }
-.editor{
+
+.editor {
     color: black !important;
 }
+
 .add-button:hover {
     background: #BA68C8;
     color: #fff;
@@ -268,7 +285,7 @@ body .page-head ul li {
     border: solid 1px #BA68C8
 }
 
-.add-evenement{
+.add-evenement {
     position: absolute;
     right: 1%;
     top: 10px;
@@ -281,7 +298,7 @@ body .page-head ul li {
     height: auto;
 }
 
-.add-evenement:hover{
+.add-evenement:hover {
     right: 0;
     background-color: #0e4377;
 }

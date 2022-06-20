@@ -1,0 +1,314 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Materiel{% endblock %}
+
+{% block body %}
+    <style>
+
+        .container-1 {
+            color: #0E4377;
+        }
+
+
+        .profile-button {
+            background: #1ab2e4;
+            box-shadow: none;
+            border: none
+        }
+
+        .profile-button:hover {
+            background: #1ab2e4
+        }
+
+        .profile-button:focus {
+            background: #1ab2e4;
+            box-shadow: none
+        }
+
+        .profile-button:active {
+            background: #1ab2e4;
+            box-shadow: none
+        }
+
+        .form-control-lg-2 {
+            background: rgba(14, 67, 119, .1);
+            border-radius: 5px !important;
+            font-size: .75rem !important;
+            overflow: auto;
+            padding: 0 0.25rem !important;
+            text-overflow: ellipsis;
+            white-space: break-spaces;
+            max-height: 100px;
+            min-height: 100px;
+
+        }
+
+        .labels {
+            font-size: 11px
+        }
+
+
+        .nav-tabs .nav-link {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            color: #0E4377;
+            width: 100%;
+            border-right: 1px solid #0E4377;
+        }
+
+
+        .nav-tabs .nav-link.active {
+            background-color: #fff;
+            border-color: #0e4377 #0e4377 #0e4377;
+            color: #495057;
+        }
+
+        body .nav-tabs li button {
+            display: block;
+            padding: 5px 30px;
+        }
+
+        body .nav-tabs li .active {
+            background-color: #0E4377 !important;
+            color: white !important;
+        }
+
+        .nav-item .nav-link:hover {
+            background: #0E4377;
+            color: white !important;
+            border-color: #0E4377;
+            font-weight: 700;
+        }
+
+        .nav-tabs {
+            border: 1px solid #0E4377;
+            border-bottom: 5px solid #0E4377;
+        }
+    </style>
+
+    <div class="container-1 rounded bg-white mt-5 mb-5">
+        <div class="row">
+
+            <div class="col-md-12 m-auto border-end">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <img class="rounded-circle" alt="photo matériel"
+                         width="150px"
+                         src="{{ materiel.photo is not empty ? asset('uploads/materiel/'~materiel.photo) : 'https://cdn-icons-png.flaticon.com/512/747/747062.png' }}"/>
+                    <h6 class="mt-2">
+                        {{ materiel.titre }}
+                    </h6>
+                </div>
+                <div class="p-3">
+                    <div class="row mt-2">
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-12"><label class="labels">État du matériel</label>
+                                <div class=" form-control-sm-2 text-center">
+                                    {{ materiel.etat }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"><label class="labels">Catégorie</label>
+                                <div class=" form-control-sm-2 text-center">
+                                    {{ materiel.categorie }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"><label class="labels">Prix</label>
+                                <div class=" form-control-sm-2 text-center">
+                                    {{ materiel.prix }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"><label class="labels">Date D'acquisition </label>
+                                <div class=" form-control-sm-2 text-center">
+                                    {{ materiel.dateDAcquisition }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-5 justify-content-evenly">
+                                <div class="col-md-auto text-center">
+                                    <a href="{{ path('app_materiel_edit', {'id': materiel.id}) }}"
+                                       class="btn btn-primary profile-button">Modifier</a>
+                                </div>
+                                <div class="col-md-auto ">
+                                    {{ include('materiel/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+
+                            <div class="col-md-12"><label class="labels">Description</label>
+                                <div class=" form-control-lg-2 ">
+                                    {{ materiel.description|nl2br }}
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 "><label class="labels">Note</label>
+                                <div class=" form-control-lg-2">
+                                    {{ materiel.note|nl2br }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"><label class="labels">Adresse de stockage</label>
+                                <div class=" form-control-lg-2">
+                                    {{ materiel.adresse|nl2br }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-12 mt-5 page-block">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link active" id="ged-tab" data-bs-toggle="tab"
+                        data-bs-target="#ged"
+                        type="button"
+                        role="tab" aria-controls="ged" aria-selected="true">
+                    GED
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="prets-tab" data-bs-toggle="tab" data-bs-target="#prets"
+                        type="button"
+                        role="tab" aria-controls="prets" aria-selected="false">
+                    Prêts
+                </button>
+            </li>
+
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link" id="historiques-tab" data-bs-toggle="tab" data-bs-target="#historiques"
+                        type="button"
+                        role="tab" aria-controls="historiques" aria-selected="false">
+                    Historiques
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-4" id="myTabContent">
+
+            <!-- ged -->
+            <div class="tab-pane fade show active" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+
+                <div class="row mt-4 justify-content-around">
+
+                    <div class="col-md-6">
+                        <table class="table table-ged bg-leasy">
+                            <thead>
+                            <tr class="tr-head text-center">
+                                <th>Type</th>
+                                <th>date de chargement</th>
+                                <th>Par</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for fichier in materiel.fichiers %}
+
+                                {% if fichier.isDeleted != true %}
+                                    <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
+                                        <td>{{ fichier.typeFichier.titre }}</td>
+                                        <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
+                                        <td>{{ fichier.createur.firstname }}</td>
+                                        <td>
+                                            <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                                               target="_blank"><i class="fa fa-search"
+                                                                  style="font-size: 1rem;"
+                                                                  aria-hidden="true"></i></a>
+                                            <a href="{{ path('app_ged_download' , {'id':fichier.id}) }}"
+                                               download="{{ fichier.fichier }}"><i
+                                                        class="fa fa-download"
+                                                        style="font-size: 1rem;margin-left:5%;"
+                                                        aria-hidden="true"></i></a>
+                                            <form method="post"
+                                                  id="formDeleteFile-{{ fichier.id }}"
+                                                  style="display:contents;"
+                                                  action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
+                                                  onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
+                                                <input type="hidden" name="_method"
+                                                       value="DELETE">
+                                                <input type="hidden" name="_token"
+                                                       value="{{ csrf_token('delete' ~ fichier.id) }}">
+                                                <button style="border-color: transparent;    background-color:transparent;">
+                                                    <i class="fa fa-trash deleteFile grab"
+                                                       style="font-size: 1rem;margin-left:5%; color: #0E4377;"
+                                                       aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-3" style="height:max-content;background-color:white;">
+
+                        <div class="row text-start mb-4">
+                            <b style="color:#0E4377;">Document à charger</b>
+                        </div>
+                        {{ form_start(form) }}
+
+
+                        <div class="row">
+                            <div class="col-md-3  text-end">
+                                <label class="labels">Type</label>
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-3">
+                                <label class="labels"> </label>
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.fichier,{'attr':{'class':''}}) }}
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col-md-auto">
+                                {{ form_widget(form.submit,{'attr':{'class':'btn btn-info-2 btn-sm'}}) }}
+
+                            </div>
+                        </div>
+
+                        {{ form_widget(form) }}
+
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <!-- Prêts -->
+            <div class="tab-pane fade" id="prets" role="tabpanel" aria-labelledby="prets-tab">
+
+            </div>
+
+            <!-- Historiques -->
+            <div class="tab-pane fade" id="historiques" role="tabpanel" aria-labelledby="historiques-tab">
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

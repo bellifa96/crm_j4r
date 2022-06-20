@@ -88,6 +88,36 @@
                 </ul>
             </li>
 
+
+
+            <li class="sidebar-title">
+                Demande
+                <ul>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_demande_index' ? 'active' }} ">
+                        <a href="{{ path('app_demande_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-list-ul"></i>
+                            <span> Liste </span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item ">
+                        <a href="#" class="sidebar-link">
+                            <i class="bi bi-stack"></i>
+                            <span>Taches</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item ">
+                        <a href="#" class="sidebar-link">
+                            <i class="bi bi-bar-chart-line"></i>
+                            <span>Forecast</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
             <li class="sidebar-title">
                 Devis
                 <ul>
@@ -98,12 +128,6 @@
                             <span> Liste </span>
                         </a>
                     </li>
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_demande_index' ? 'active' }}" >
-                        <a href="{{ path('app_demande_index') }}" class="sidebar-link">
-                            <i class="bi bi-list-ul"></i>
-                            <span> Demandes </span>
-                        </a>
-                    </li>
 
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
@@ -111,12 +135,7 @@
                             <span>Taches</span>
                         </a>
                     </li>
-                    <li class="sidebar-item ">
-                        <a href="#" class="sidebar-link">
-                            <i class="bi bi-cone-striped"></i>
-                            <span>Chantier</span>
-                        </a>
-                    </li>
+
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-bar-chart-line"></i>
@@ -127,7 +146,7 @@
             </li>
 
             <li class="sidebar-title">
-                Affaires
+                Chantier
                 <ul>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link">
@@ -135,6 +154,14 @@
                             <span> Liste </span>
                         </a>
                     </li>
+
+                    <li class="sidebar-item ">
+                        <a href="#" class="sidebar-link">
+                            <i class="bi bi-stack"></i>
+                            <span>Taches</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-stack"></i>
@@ -145,7 +172,8 @@
             </li>
 
 
-            <li class="sidebar-title">Analyse
+            <li class="sidebar-title">
+                Analyse
 
                 <ul>
                     <li class="sidebar-item">
@@ -169,6 +197,27 @@
                 </ul>
             </li>
 
+
+            <li class="sidebar-title">
+                Inventaires
+
+                <ul>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_materiel_index' ? 'active' }} ">
+                        <a href="{{ path('app_materiel_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-list-ul"></i>
+                            <span> Liste </span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            <span> Prêts </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
             <li class="sidebar-title">
                 Utilisateur

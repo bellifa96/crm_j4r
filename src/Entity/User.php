@@ -96,6 +96,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'attribueA')]
     private $EvenementsAttribues;
 
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Materiel::class)]
+    private $materiels;
+
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Pret::class)]
+    private $prets;
+
 
     public function __construct()
     {
@@ -108,6 +114,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->evenementsAttribues = new ArrayCollection();
         $this->devis = new ArrayCollection();
         $this->EvenementsAttribues = new ArrayCollection();
+        $this->materiels = new ArrayCollection();
+        $this->prets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -469,6 +477,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->EvenementsAttribues->removeElement($evenementsAttribue)) {
             $evenementsAttribue->removeAttribueA($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Materiel>
+     */
+    public function getMateriels(): Collection
+    {
+        return $this->materiels;
+    }
+
+    public function addMateriel(Materiel $materiel): self
+    {
+        if (!$this->materiels->contains($materiel)) {
+            $this->materiels[] = $materiel;
+            $materiel->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMateriel(Materiel $materiel): self
+    {
+        if ($this->materiels->removeElement($materiel)) {
+            // set the owning side to null (unless already changed)
+            if ($materiel->getCreateur() === $this) {
+                $materiel->setCreateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pret>
+     */
+    public function getPrets(): Collection
+    {
+        return $this->prets;
+    }
+
+    public function addPret(Pret $pret): self
+    {
+        if (!$this->prets->contains($pret)) {
+            $this->prets[] = $pret;
+            $pret->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePret(Pret $pret): self
+    {
+        if ($this->prets->removeElement($pret)) {
+            // set the owning side to null (unless already changed)
+            if ($pret->getUtilisateur() === $this) {
+                $pret->setUtilisateur(null);
+            }
         }
 
         return $this;

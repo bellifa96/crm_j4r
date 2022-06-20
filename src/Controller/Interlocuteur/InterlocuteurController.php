@@ -14,6 +14,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -142,10 +143,12 @@ class InterlocuteurController extends AbstractController
                         __DIR__ . "/../../../uploads/" . $fichier->getTypeFichier()->getTitre() . "/",
                         $newFilename
                     );
+                    $fichier->setFichier($newFilename);
+
                 } catch (FileException $e) {
+                    $this->addFlash('danger',$e->getMessage());
                     // ... handle exception if something happens during file upload
                 }
-                $fichier->setFichier($newFilename);
             }
 
             $fichierRepository->add($fichier);

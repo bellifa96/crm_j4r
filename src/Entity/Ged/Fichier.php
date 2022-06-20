@@ -5,6 +5,8 @@ namespace App\Entity\Ged;
 use App\Entity\Affaire\Evenement;
 use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
+use App\Entity\Materiel;
+use App\Entity\Pret;
 use App\Entity\TimesTrait;
 use App\Entity\User;
 use App\Repository\Ged\FichierRepository;
@@ -55,6 +57,12 @@ class Fichier
 
     #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'ged')]
     private $demande;
+
+    #[ORM\ManyToOne(targetEntity: Materiel::class, inversedBy: 'fichiers')]
+    private $materiel;
+
+    #[ORM\ManyToOne(targetEntity: Pret::class, inversedBy: 'fichiers')]
+    private $pret;
 
     public function __construct(){
         $this->isDeleted = false;
@@ -209,6 +217,30 @@ class Fichier
     public function setDemande(?Demande $demande): self
     {
         $this->demande = $demande;
+
+        return $this;
+    }
+
+    public function getMateriel(): ?Materiel
+    {
+        return $this->materiel;
+    }
+
+    public function setMateriel(?Materiel $materiel): self
+    {
+        $this->materiel = $materiel;
+
+        return $this;
+    }
+
+    public function getPret(): ?Pret
+    {
+        return $this->pret;
+    }
+
+    public function setPret(?Pret $pret): self
+    {
+        $this->pret = $pret;
 
         return $this;
     }

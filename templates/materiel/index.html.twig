@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Materiel index{% endblock %}
+
+{% block body %}
+
+    <table class="table datatable text-center">
+        <thead class="tr-head">
+        <tr>
+            <th>N°</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Categorie</th>
+            <th>Adresse</th>
+            <th>Etat</th>
+            <th>Prix</th>
+            <th>DateDAquisition</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for materiel in materiels %}
+            <tr>
+
+                <td><a href="{{ path('app_materiel_show', {'id': materiel.id}) }}">{{ materiel.id }}</a></td>
+                <td><a href="{{ path('app_materiel_show', {'id': materiel.id}) }}">{{ materiel.titre }}</a></td>
+                <td>{{ materiel.description }}</td>
+                <td>{{ materiel.categorie }}</td>
+                <td>{{ materiel.adresse }}</td>
+                <td>{{ materiel.etat }}</td>
+                <td>{{ materiel.prix }}</td>
+                <td>{{ materiel.dateDAcquisition }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
