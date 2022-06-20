@@ -832,12 +832,12 @@
                                 {% if demande.conversationMetreDemande %}
                                     {% for message in  demande.conversationMetreDemande.messages %}
                                         <li>
-                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                            <div class="{{ message.createur == app.user ? "msg you" :"msg him" }}">
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
                                                 {{ message.message }}
-                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
                                         </li>
                                     {% endfor %}
@@ -868,7 +868,7 @@
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
                                                 {{ message.message }}
-                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
                                         </li>
                                     {% endfor %}
@@ -899,7 +899,7 @@
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
                                                 {{ message.message }}
-                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>"
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
                                         </li>
                                     {% endfor %}
