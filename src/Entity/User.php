@@ -96,6 +96,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'attribueA')]
     private $EvenementsAttribues;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telephone;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telephoneMobile;
+
 
     public function __construct()
     {
@@ -470,6 +476,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->EvenementsAttribues->removeElement($evenementsAttribue)) {
             $evenementsAttribue->removeAttribueA($this);
         }
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getTelephoneMobile(): ?string
+    {
+        return $this->telephoneMobile;
+    }
+
+    public function setTelephoneMobile(string $telephoneMobile): self
+    {
+        $this->telephoneMobile = $telephoneMobile;
 
         return $this;
     }

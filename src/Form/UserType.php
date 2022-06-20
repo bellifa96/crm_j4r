@@ -26,6 +26,8 @@ class UserType extends AbstractType
             ->add('emailPerso', EmailType::class,[
                 'required'=>false,
             ])
+            ->add('telephone')
+            ->add('telephoneMobile')
             ->add('matricule')
             ->add('firstname')
             ->add('lastname')
