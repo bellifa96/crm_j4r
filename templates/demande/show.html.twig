@@ -838,6 +838,7 @@
                             <ul id="metre-ul">
                                 {% if demande.conversationMetreDemande %}
                                     {% for message in  demande.conversationMetreDemande.messages %}
+                                        {{ dump(message.createur.id == app.user.id) }}
                                         <li>
                                             <div class="{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
@@ -872,6 +873,8 @@
                             <ul id="negociation-ul">
                                 {% if demande.conversationApresNegociationDemande %}
                                     {% for message in  demande.conversationApresNegociationDemande.messages %}
+                                        {{ dump(message.createur.id == app.user.id) }}
+
                                         <li>
                                             <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
@@ -905,7 +908,10 @@
                             </div>
                             <ul id="client-ul">
                                 {% if demande.conversationClient %}
+
                                     {% for message in  demande.conversationClient.messages %}
+                                        {{ dump(message.createur.id == app.user.id) }}
+
                                         <li>
                                             <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
