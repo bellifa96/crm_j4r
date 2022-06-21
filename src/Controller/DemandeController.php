@@ -103,6 +103,12 @@ class DemandeController extends AbstractController
     public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository): Response
     {
 
+
+        $repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
+        $demande = $this->em->find(Demande::class, $demande->getId());
+        $logs = $repo->getLogEntries($demande);
+
+      //  dd($logs);
         $fichier = new Fichier();
         $fichier->setDemande($demande);
         $form = $this->createForm(FichierType::class, $fichier);
@@ -135,6 +141,7 @@ class DemandeController extends AbstractController
 
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
+            'logs'=>$logs,
             'form' => $form->createView(),
             'title' => "Demande N° " . $demande->getId(),
             'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]

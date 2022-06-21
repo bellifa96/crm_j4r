@@ -691,7 +691,7 @@
             </li>
             <li class="col nav-item" role="presentation">
                 <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
-                        role="tab" aria-controls="affaire" aria-selected="false">
+                        role="tab" aria-controls="affaires" aria-selected="false">
                     Affaires
                 </button>
             </li>
@@ -820,6 +820,11 @@
                 </div>
             </div>
 
+
+            <!-- Affaires -->
+            <div class="tab-pane fade" id="affaires" role="tabpanel" aria-labelledby="affaires-tab">
+
+            </div>
 
             <!-- Commentaires -->
             <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
@@ -1047,6 +1052,38 @@
                         {{ demande.updatedAt|date('d/m/y H:i:s') }}
                     </div>
                 </div>
+
+
+                <div class="col-md-12" style="text-overflow:ellipsis;overflow:auto;white-space:nowrap;">
+                    <table class="table datatable">
+                        <thead>
+                        <tr class="tr-head">
+                            <th>N°Version</th>
+                            <th>Action</th>
+                            <th>Modifier par</th>
+                            <th>Date</th>
+                            <th>Données changées</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for version in logs %}
+
+                            <tr>
+                                <td>{{ version.version }}</td>
+                                <td>{{ version.action }}</td>
+                                <td>{{ version.username }}</td>
+                                <td>{{ version.loggedAt|date("d/m/Y H:i:s") }}</td>
+                                <td>{{ version.data|json_encode() }}</td>
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+
             </div>
 
         </div>
@@ -1095,7 +1132,7 @@
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
                 dateDeDebut: String(dateDebut),
-                dateDeFin:   String(dateFin),
+                dateDeFin: String(dateFin),
                 priorite: $('input[type="radio"][name="evenement[priorite]"]:checked').val(),
                 typeDEvenement: $("#evenement_typeDEvenement").val(),
                 attribueA: $("#evenement_attribueA").val(),
