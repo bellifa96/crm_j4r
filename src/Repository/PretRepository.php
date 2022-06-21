@@ -21,7 +21,7 @@ class PretRepository extends ServiceEntityRepository
         parent::__construct($registry, Pret::class);
     }
 
-    public function add(Pret $entity, bool $flush = false): void
+    public function add(Pret $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PretRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Pret $entity, bool $flush = false): void
+    public function remove(Pret $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 

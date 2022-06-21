@@ -9,7 +9,6 @@
         <tr>
             <th>N°</th>
             <th>Titre</th>
-            <th>Description</th>
             <th>Categorie</th>
             <th>Adresse</th>
             <th>Etat</th>
@@ -24,7 +23,6 @@
 
                 <td><a href="{{ path('app_materiel_show', {'id': materiel.id}) }}">{{ materiel.id }}</a></td>
                 <td><a href="{{ path('app_materiel_show', {'id': materiel.id}) }}">{{ materiel.titre }}</a></td>
-                <td>{{ materiel.description }}</td>
                 <td>{{ materiel.categorie }}</td>
                 <td>{{ materiel.adresse }}</td>
                 <td>{{ materiel.etat }}</td>

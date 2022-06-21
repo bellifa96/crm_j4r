@@ -46,6 +46,7 @@ class Pret
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
+        $this->statut = "En cours";
     }
 
     public function getId(): ?int

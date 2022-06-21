@@ -1123,9 +1123,6 @@
                 + '-' + $("#evenement_dateDeFin_date_day").val().padStart(2, '0') + ' ' + $("#evenement_dateDeFin_time_hour").val().padStart(2, '0')
                 + ':' + $("#evenement_dateDeFin_time_minute").val().padStart(2, '0');
 
-            console.log(dateDebut);
-            console.log(dateFin);
-
             $("#evenement-error").length > 0 ? $("#evenement-error").remove() : "";
             let evenement = {
                 demande: "{{ demande.id }}",

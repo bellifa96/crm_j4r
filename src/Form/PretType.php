@@ -25,7 +25,7 @@ class PretType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastname', 'ASC');
                 },
-                'multiple'=>true,
+                'multiple'=>false,
                 'choice_label' => function ($user) {
                     return $user->getLastname() . ' ' . $user->getFirstname();
                 }

@@ -8,9 +8,12 @@ use App\Form\Affaire\EvenementType;
 use App\Form\PretType;
 use App\Repository\Affaire\EvenementRepository;
 use App\Repository\DemandeRepository;
+use App\Repository\MaterielRepository;
 use App\Repository\PretRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\Cache\Exception\CacheException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,15 +53,41 @@ class PretController extends AbstractController
         ]);
     }
 
-    #[Route('/new/evenement', name: 'app_pret_new_pret', methods: ['POST'])]
-    public function newEvenement(Request $request, EvenementRepository $evenementRepository, UserRepository $userRepository, DemandeRepository $demandeRepository): Response
+    #[Route('/new/pret', name: 'app_pret_new_pret', methods: ['POST'])]
+    public function newPret(Request $request, PretRepository $pretRepository, MaterielRepository $materielRepository, UserRepository $userRepository): Response
     {
 
         $data = $request->request->all()['pret'];
         $response = new Response();
 
+        if (!empty($data['materiel']) and !empty($data['utilisateur']) and !empty($data['dateDAffectation'])
+            and !empty($data['dateDeRetour']) and !empty($data['etat']) and !empty($data['commentaire'])) {
+
+            $pret = new Pret();
+
+            $materiel = $materielRepository->find($data['materiel']);
+
+            $user = $userRepository->find($data['utilisateur']);
 
 
+            $pret->setMateriel($materiel);
+            $pret->setUtilisateur($user);
+            $pret->setDateDAffectation(htmlspecialchars($data['dateDAffectation'], ENT_QUOTES, 'UTF-8'));
+            $pret->setDateDeRetour(htmlspecialchars($data['dateDeRetour'], ENT_QUOTES, 'UTF-8'));
+            $pret->setEtat(htmlspecialchars($data['etat'], ENT_QUOTES, 'UTF-8'));
+            $pret->setNote(htmlspecialchars($data['commentaire'], ENT_QUOTES, 'UTF-8'));
+
+            //dd($pret);
+            try {
+                $pretRepository->add($pret);
+                $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $pret->getId()]])) ;
+
+            } catch (CacheException|Exception $e) {
+                $response->setContent(json_encode(['code' => 404, 'message' => "Une activité avec le même titre existe dans la base de données"]));
+            }
+        } else {
+            $response->setContent(json_encode(['code' => 404, 'message' => 'Veuillez remplir tous les champs du formulaire']));
+        }
         return $response;
 
     }
@@ -118,5 +147,18 @@ class PretController extends AbstractController
         }
 
         return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/validate/{id}', name: 'app_pret_validate', methods: ['GET'])]
+    public function validate(Pret $pret, PretRepository $pretRepository, Request $request)
+    {
+
+
+        $pret->setStatut("Rendu");
+        $pretRepository->add($pret);
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+
     }
 }

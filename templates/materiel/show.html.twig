@@ -84,6 +84,55 @@
             border: 1px solid #0E4377;
             border-bottom: 5px solid #0E4377;
         }
+
+        .card {
+            box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+            border-width: 0;
+            transition: all .2s;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0.625rem;
+            height: 3.5rem;
+            background-color: #fff;
+        }
+
+
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+
+        .card-header.card-header-tab .card-header-title {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .add-pret {
+            position: absolute;
+            right: 1%;
+            top: 10px;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px 0 0 5px;
+            background-color: #11caf0;
+            font-size: 130%;
+            height: auto;
+        }
+
+        .add-pret:hover {
+            right: 0;
+            background-color: #0e4377;
+        }
     </style>
 
     <div class="container-1 rounded bg-white mt-5 mb-5">
@@ -300,10 +349,108 @@
             </div>
 
             <!-- Prêts -->
-            <div class="tab-pane fade" id="prets" role="tabpanel" aria-labelledby="prets-tab">
-                <div>
+            <div class="tab-pane fade show active" id="prets" role="tabpanel" aria-labelledby="prets-tab">
+
+                <div class="col-md-12 m-auto mt-4">
+                    <div class="card-hover-shadow-2x mb-3 card">
+                        <div class="card-header-tab card-header">
+                            <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+                                <h4 style="margin: 0;">
+                                    <i class="fa fa-tasks"></i>
+                                    &nbsp;liste des prêts
+                                </h4>
+                            </div>
+                            <div>
                                 <span class="border px-3 p-1 add-pret add-button">Prêt <i
                                             class="fa fa-plus"></i></span>
+                            </div>
+
+                        </div>
+                        <div class="scroll-area-sm">
+                            <table class="table text-center table-responsive datatable">
+                                <thead>
+                                <tr>
+                                    <th>Prêt</th>
+                                    <th>Prêté à</th>
+                                    <th>Date de début</th>
+                                    <th>Date de remise</th>
+                                    <th>Statut</th>
+                                    <th>Etat avant le prêt</th>
+                                    <th>Etat après retour </th>
+                                    <th>Commentaire</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+
+                                {% set statutColors = {"En cours":"#E98F00","Annulé":"grey","Rendu":"#29CA40","A traiter":"black"} %}
+                                {% for pret in materiel.prets %}
+
+                                    <tr>
+                                        <td>{{ pret.id }}</td>
+                                        <td>{{ pret.utilisateur.firstname~' '~pret.utilisateur.lastname }}</td>
+
+                                        <td>{{ pret.dateDAffectation }}</td>
+                                        <td>{{ pret.dateDeRetour }}</td>
+                                        <td>
+                                            <div style="color:{{ pret.statut in statutColors|keys ?statutColors[pret.statut] : "grey" }};"> {{ pret.statut }} </div>
+                                        </td>
+                                        <td>{{ pret.etat }}</td>
+                                        <td>{% if pret.statut == "En cours" %}
+
+                                                (utilisation en cours)
+
+                                            {% else %}
+
+                                                {{ pret.etatApresRetour  }}
+
+                                            {% endif %}
+                                            </td>
+                                        <td>{{ pret.note  }}</td>
+
+                                        <td>
+                                            <div class="row justify-content-center">
+                                                {% if pret.statut != "Rendu" %}
+                                                    <div class="col-md-auto">
+                                                        <a href="{{ path('app_pret_validate',{'id':pret.id}) }}"
+                                                           class="border-0 btn-transition btn btn-outline-success">
+                                                            <i class="fa fa-check"></i></a>
+                                                    </div>
+                                                {% endif %}
+
+
+                                                {% if  is_granted('ROLE_ADMIN') %}
+                                                    <div class="col-md-auto">
+
+                                                        <form method="post"
+                                                              action="{{ path('app_pret_delete', {'id': pret.id}) }}"
+                                                              onsubmit="return confirm('Êtes-vous certain de vouloir supprimer ce prêt?');">
+                                                            <input type="hidden" name="_token"
+                                                                   value="{{ csrf_token('delete' ~ pret.id) }}">
+                                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                                <i class="fa fa-trash"></i></button>
+                                                        </form>
+                                                    </div>
+
+                                                {% endif %}
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                {% else %}
+
+                                    <tr>
+                                        <td colspan="9">Aucun prêt pour ce matériel</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -333,6 +480,42 @@
                 })
             }
         })
+
+        function submitPret(event) {
+            event.preventDefault();
+
+            $("#pret-error").length > 0 ? $("#pret-error").remove() : "";
+            let pret = {
+                materiel: {{ materiel.id }},
+                utilisateur: $("#pret_utilisateur").val(),
+                dateDAffectation: $("#pret_dateDAffectation").val(),
+                dateDeRetour: $("#pret_dateDeRetour").val(),
+                etat: $("#pret_etat").val(),
+                commentaire: $("#pret_note").val(),
+            };
+
+            console.log(pret);
+            $.post("{{ path('app_pret_new_pret') }}", {pret}, function (data) {
+
+                data = JSON.parse(data);
+
+                if (data.code === 200) {
+
+                    $("#add-pret").modal('hide');
+                    $('#add-pret').remove()
+                } else {
+
+                    $('#modal_button').show();
+                    $('#footer-load').hide()
+
+                    $('#modal-body').append(`
+                  <div class="alert alert-danger mt-2" role="alert" id="pret-error">
+                      ${data.message}
+                   </div>
+                `)
+                }
+            })
+        }
 
     </script>
 
