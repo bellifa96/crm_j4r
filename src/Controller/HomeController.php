@@ -35,6 +35,9 @@ class HomeController extends AbstractController
             'Faible' => 'grey'
         ];
         foreach ($evenements as $evenement) {
+            if($this->getUser() != $evenement->getCreateur() and !$evenement->getAttribueA()->contains($this->getUser()) and !$this->isGranted("ROLE_ADMIN")) {
+               continue;
+            }
             $calendar[] = [
                 'id' => $evenement->getId(),
                 'start' => $evenement->getDateDeDebut()->format('Y-m-d H:i:s'),
