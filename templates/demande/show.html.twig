@@ -839,7 +839,7 @@
                                 {% if demande.conversationMetreDemande %}
                                     {% for message in  demande.conversationMetreDemande.messages %}
                                         <li>
-                                            <div class="{{ message.createur == app.user ? "msg you" :"msg him" }}">
+                                            <div class="{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
@@ -873,7 +873,7 @@
                                 {% if demande.conversationApresNegociationDemande %}
                                     {% for message in  demande.conversationApresNegociationDemande.messages %}
                                         <li>
-                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                            <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
@@ -907,7 +907,7 @@
                                 {% if demande.conversationClient %}
                                     {% for message in  demande.conversationClient.messages %}
                                         <li>
-                                            <div class="{{ demande.createur == app.user ? "msg you" :"msg him" }}">
+                                            <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
