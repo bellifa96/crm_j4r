@@ -28,19 +28,13 @@ class Message
     #[ORM\ManyToOne(targetEntity: ConversationMetreDemande::class, inversedBy: 'messages')]
     private $conversationDemandeMetre;
 
-    #[ORM\OneToMany(mappedBy: 'messages', targetEntity: ConversationApresNegociationDemande::class)]
-    private $conversationApresNegociationDemandes;
 
-    #[ORM\ManyToOne(targetEntity: ConversationApresNegociationDemande::class, inversedBy: 'message')]
+    #[ORM\ManyToOne(targetEntity: ConversationApresNegociationDemande::class, inversedBy: 'messages')]
     private $conversationApresNegociationDemande;
 
     #[ORM\ManyToOne(targetEntity: ConversationClient::class, inversedBy: 'messages')]
     private $conversationClient;
 
-    public function __construct()
-    {
-        $this->conversationApresNegociationDemandes = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
