@@ -6,7 +6,7 @@
 
     <style>
         .table-ged > :not(caption) > * > * {
-            padding: 0rem;
+            padding: 0;
         }
 
         .labels {
@@ -48,8 +48,8 @@
         }
 
         .nav-tabs .nav-link {
-            border-top-left-radius: 0rem;
-            border-top-right-radius: 0rem;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
             color: #0E4377;
             width: 100%;
             border-right: 1px solid #0E4377;
@@ -245,11 +245,6 @@
             border-bottom-right-radius: 0.125rem;
         }
 
-        .msg.load {
-            background-color: #f8bbd0;
-            border-bottom-left-radius: 0.125rem;
-        }
-
         .msg > span {
             font-weight: 500;
             position: absolute;
@@ -257,7 +252,6 @@
 
         .msg > span.partner {
             color: #b0bec5;
-            font-size: 0.5rem;
             top: 0;
             font-size: 0.675rem;
             margin-top: -1rem;
@@ -309,7 +303,7 @@
             border-top: 0.125rem solid #e91e63;
         }
 
-        .chats-title{
+        .chats-title {
             border-bottom: 1px solid #e91e63;
             text-align: center;
         }
@@ -727,7 +721,7 @@
                     <div class="card-hover-shadow-2x mb-3 card">
                         <div class="card-header-tab card-header">
                             <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-                                <h4 style="margin: 0px;">
+                                <h4 style="margin: 0;">
                                     <i class="fa fa-tasks"></i>
                                     &nbsp;liste des tâches
                                 </h4>
@@ -741,15 +735,18 @@
                         <div class="scroll-area-sm">
                             <table class="table text-center table-responsive datatable">
                                 <thead>
-                                <th style="width: 2%;"></th>
-                                <th>Tâche</th>
-                                <th>Description</th>
-                                <th>Date de début</th>
-                                <th>Date d'échéance</th>
-                                <th>Statut</th>
-                                <th>Créé par</th>
-                                <th>Attribué à</th>
-                                <th>Action</th>
+                                <tr>
+                                    <th style="width: 2%;"></th>
+                                    <th>Tâche</th>
+                                    <th>Description</th>
+                                    <th>Date de début</th>
+                                    <th>Date d'échéance</th>
+                                    <th>Statut</th>
+                                    <th>Créé par</th>
+                                    <th>Attribué à</th>
+                                    <th>Action</th>
+                                </tr>
+
                                 </thead>
                                 <tbody>
 
@@ -840,10 +837,10 @@
                                     {% for message in  demande.conversationMetreDemande.messages %}
                                         {{ dump(message.createur.id == app.user.id) }}
                                         <li>
-                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
-                                        <span class="partner">
-                                            {{ message.createur.firstname~" "~message.createur.lastname }}
-                                        </span>
+                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
+                                                <span class="partner">
+                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
+                                                </span>
                                                 {{ message.message }}
                                                 <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
@@ -876,10 +873,10 @@
                                         {{ dump(message.createur.id == app.user.id) }}
 
                                         <li>
-                                            <div class='{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}'>
-                                        <span class="partner">
-                                            {{ message.createur.firstname~" "~message.createur.lastname }}
-                                        </span>
+                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
+                                                <span class="partner">
+                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
+                                                </span>
                                                 {{ message.message }}
                                                 <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
@@ -913,10 +910,10 @@
                                         {{ dump(message.createur.id == app.user.id) }}
 
                                         <li>
-                                            <div class='{{ demande.createur.id == app.user.id ? "msg you" : "msg him" }}'>
-                                        <span class="partner">
-                                            {{ message.createur.firstname~" "~message.createur.lastname }}
-                                        </span>
+                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
+                                                <span class="partner">
+                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
+                                                </span>
                                                 {{ message.message }}
                                                 <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
@@ -1101,8 +1098,8 @@
                 demande: "{{ demande.id }}",
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
-                dateDeDebut: new String(dateDebut),
-                dateDeFin: new String(dateFin),
+                dateDeDebut: String(dateDebut),
+                dateDeFin: String(dateFin),
                 priorite: $('input[type="radio"][name="evenement[priorite]"]:checked').val(),
                 typeDEvenement: $("#evenement_typeDEvenement").val(),
                 attribueA: $("#evenement_attribueA").val(),
@@ -1143,17 +1140,17 @@
                 message = $("input[name='message_metre']").val();
                 $("input[name='message_metre']").val("")
                 ul = 'metre-ul';
-            }else if( id === "btn-negociation"){
+            } else if (id === "btn-negociation") {
                 url += "negociation"
                 message = $("input[name='message_negociation']").val();
                 $("input[name='message_negociation']").val("")
                 ul = 'negociation-ul';
-            }else if(id === "btn-client"){
+            } else if (id === "btn-client") {
                 url += "client"
                 message = $("input[name='message_client']").val();
                 $("input[name='message_client']").val("")
                 ul = 'client-ul';
-            }else{
+            } else {
                 console.log('id')
                 return 0;
             }
