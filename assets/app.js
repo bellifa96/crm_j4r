@@ -49,6 +49,8 @@ import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+
 
 
 import "trumbowyg/dist/trumbowyg.min"
@@ -140,9 +142,9 @@ $(function () {
     var calendarEl = document.getElementById('calendar');
 
     let calendar = new Calendar(calendarEl, {
-        lang: 'fr',
+        locale: 'fr',
         timeZone: 'Europe/Paris',
-        plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+        plugins: [dayGridPlugin, timeGridPlugin, listPlugin,interactionPlugin],
         initialView: 'dayGridMonth',
         headerToolbar: {
             left: 'prev,next today',
@@ -152,8 +154,8 @@ $(function () {
         editable: true,
         eventResizableFromStart: true,
         dragScroll:true,
-        eventRender: function (info) {
-            let tooltip = new Tooltip(info.el, {
+        eventDidMount: function(info) {
+           $(info.el).tooltip({
                 title: info.event.extendedProps.description,
                 placement: 'top',
                 trigger: 'hover',
@@ -176,9 +178,10 @@ $(function () {
     calendar.on('eventChange', (e) => {
 
         let url = `/calendar/evenement/update/${e.event.id}`
+        console.log(e.event)
         let donnees = {
-            "start": e.event.start,
-            "end": e.event.end,
+            start: e.event.start,
+            end: e.event.end || e.event.start,
         }
 
         let xhr = new XMLHttpRequest
@@ -190,7 +193,7 @@ $(function () {
         console.log(e.event.id)
 
     })
-    calendar.on('eventMouseover', (e) => {
+    calendar.on('eventMouseEnter', (e) => {
 
     })
 

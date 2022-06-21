@@ -189,6 +189,7 @@ class Demande
     #[ORM\OneToMany(mappedBy: 'contactsSecondaires', targetEntity: Contact::class)]
     private $contactsSecondaires;
 
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'array', nullable: true)]
     private $hauteur = [];
 

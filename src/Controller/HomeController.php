@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Affaire\Evenement;
 use App\Repository\Affaire\EvenementRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,21 +49,35 @@ class HomeController extends AbstractController
                 'backgroundColor' => $colors[$evenement->getPriorite()],
                 'borderColor' => $colors[$evenement->getPriorite()],
                 'allDay' => false,
+                'hasEnd'=>true,
                 'url' => '',
             ];
         }
         return new Response(json_encode($calendar));
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
     #[Route('/calendar/evenement/update/{id}', name: 'app_calendar_update')]
-    public function calendarUpdate(Evenement $evenement,Request $request):Response
+    public function calendarUpdate(Evenement $evenement,Request $request,EvenementRepository $evenementRepository):Response
     {
         $data = json_decode($request->getContent());
 
-        dd($data);
 
-        $evenement->setDateDeDebut();
-        $evenement->setDateDeFin();
+        $evenement->setDateDeDebut(new \DateTime($data->start));
+        $evenement->setDateDeFin(new \DateTime($data->end));
+        try {
+            $evenementRepository->add($evenement);
+            return new Response(json_encode(['code'=>200,'message'=>'ok']));
+
+        } catch (OptimisticLockException $e) {
+            return new Response(json_encode($e->getMessage()));
+        } catch (ORMException $e) {
+            return new Response(json_encode($e->getMessage()));
+        }
+
 
     }
 

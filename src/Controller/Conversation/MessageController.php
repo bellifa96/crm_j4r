@@ -68,8 +68,6 @@ class MessageController extends AbstractController
 
         }
         return new Response(json_encode(['code' => 403, 'message' => 'commentaire vide']));
-
-
     }
 
 
