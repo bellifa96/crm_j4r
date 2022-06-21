@@ -835,12 +835,11 @@
                             <ul id="metre-ul">
                                 {% if demande.conversationMetreDemande %}
                                     {% for message in  demande.conversationMetreDemande.messages %}
-                                        {{ dump(message.createur.id == app.user.id) }}
                                         <li>
-                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
-                                                <span class="partner">
-                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
-                                                </span>
+                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
                                                 {{ message.message }}
                                                 <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
@@ -870,10 +869,8 @@
                             <ul id="negociation-ul">
                                 {% if demande.conversationApresNegociationDemande %}
                                     {% for message in  demande.conversationApresNegociationDemande.messages %}
-                                        {{ dump(message.createur.id == app.user.id) }}
-
                                         <li>
-                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
+                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
                                                 <span class="partner">
                                                     {{ message.createur.firstname~" "~message.createur.lastname }}
                                                 </span>
@@ -907,13 +904,12 @@
                                 {% if demande.conversationClient %}
 
                                     {% for message in  demande.conversationClient.messages %}
-                                        {{ dump(message.createur.id == app.user.id) }}
 
                                         <li>
-                                            <div class='msg {{ demande.createur.id == app.user.id ? "you" :"him" }}'>
-                                                <span class="partner">
-                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
-                                                </span>
+                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
                                                 {{ message.message }}
                                                 <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
                                             </div>
@@ -1099,7 +1095,7 @@
                 titre: $("#evenement_titre").val(),
                 description: $("#evenement_description").val(),
                 dateDeDebut: String(dateDebut),
-                dateDeFin: String(dateFin),
+                dateDeFin:   String(dateFin),
                 priorite: $('input[type="radio"][name="evenement[priorite]"]:checked').val(),
                 typeDEvenement: $("#evenement_typeDEvenement").val(),
                 attribueA: $("#evenement_attribueA").val(),
