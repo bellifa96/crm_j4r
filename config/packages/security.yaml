@@ -70,10 +70,10 @@ security:
   access_control:
     # - { path: ^/admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
-    - { path: ^/login, roles: PUBLIC_ACCESS }
-    - { path: ^/api/login_check  , roles: PUBLIC_ACCESS }
-    - { path: ^/, roles: ROLE_USER }
-    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/login, roles: PUBLIC_ACCESS, requires_channel: https }
+    - { path: ^/api/login_check  , roles: PUBLIC_ACCESS, requires_channel: https }
+    - { path: ^/, roles: ROLE_USER, requires_channel: https }
+    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
 
 
 when@test:
