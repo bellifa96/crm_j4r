@@ -475,11 +475,15 @@
                     $('body').append(JSON.parse(data).message);
                     $("#add-pret").modal('show');
                     $('.select2').select2();
+                    $('#pret_etat').val("{{ materiel.etat }}");
+
+                    let h5 = `<h5 class="modal-title"
+                        id="exampleModalLabel">Accorder un prêt de : {{ materiel.titre }}</h5>`;
+                    $(h5).insertBefore($("#close_btn"));
 
 
-                })
-            }
-        })
+                })}
+            })
 
         function submitPret(event) {
             event.preventDefault();
