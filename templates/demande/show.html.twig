@@ -840,7 +840,7 @@
                                     {% for message in  demande.conversationMetreDemande.messages %}
                                         {{ dump(message.createur.id == app.user.id) }}
                                         <li>
-                                            <div class="{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}">
+                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
@@ -876,7 +876,7 @@
                                         {{ dump(message.createur.id == app.user.id) }}
 
                                         <li>
-                                            <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
+                                            <div class='{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}'>
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
@@ -913,7 +913,7 @@
                                         {{ dump(message.createur.id == app.user.id) }}
 
                                         <li>
-                                            <div class="{{ demande.createur.id == app.user.id ? "msg you" :"msg him" }}">
+                                            <div class='{{ demande.createur.id == app.user.id ? "msg you" : "msg him" }}'>
                                         <span class="partner">
                                             {{ message.createur.firstname~" "~message.createur.lastname }}
                                         </span>
