@@ -50,6 +50,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
+
 import "trumbowyg/dist/trumbowyg.min"
 import icons from "trumbowyg/dist/ui/icons.svg"
 import "trumbowyg/dist/ui/trumbowyg.min.css"
@@ -135,42 +136,63 @@ $(function () {
         }
     });
 
-    /*const editor = new EditorJS({
-
-        holder: 'editorjs',
-
-        tools: {
-            header: {
-                class: Header,
-                inlineToolbar: ['link']
-            },
-            list: {
-                class: List,
-                inlineToolbar: true
-            },
-            image: {
-                class: ImageTool,
-            }
-        },
-        data: {}
-    })*/
 
     var calendarEl = document.getElementById('calendar');
 
+    let calendar = new Calendar(calendarEl, {
+        lang: 'fr',
+        timeZone: 'Europe/Paris',
+        plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        editable: true,
+        eventResizableFromStart: true,
+        dragScroll:true,
+        eventRender: function (info) {
+            let tooltip = new Tooltip(info.el, {
+                title: info.event.extendedProps.description,
+                placement: 'top',
+                trigger: 'hover',
+                container: 'body'
+            });
+        },
+
+    });
+    calendar.render()
 
     if (calendarEl != null) {
-        let calendar = new Calendar(calendarEl, {
-            lang: 'fr',
-            plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,listWeek'
-            }
-        });
-        calendar.render();
+        let data = [];
+        $.get('/calendar', function (response) {
+            data = JSON.parse(response);
+            calendar.setOption('events', data)
+        })
+
     }
+
+    calendar.on('eventChange', (e) => {
+
+        let url = `/calendar/evenement/update/${e.event.id}`
+        let donnees = {
+            "start": e.event.start,
+            "end": e.event.end,
+        }
+
+        let xhr = new XMLHttpRequest
+        xhr.open("PUT", url)
+        xhr.send(JSON.stringify(donnees))
+    })
+    calendar.on('eventClick', (e) => {
+
+        console.log(e.event.id)
+
+    })
+    calendar.on('eventMouseover', (e) => {
+
+    })
 
 
     $('.checkbox,.radio').each(function () {
