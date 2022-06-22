@@ -73,6 +73,13 @@
             border: 1px solid #0E4377;
             border-bottom: 5px solid #0E4377;
         }
+
+        .lien-societe:hover{
+            background-color: #0e4377;
+            color : #fff;
+            border-radius: 50px;
+            padding: 5px;
+        }
     </style>
 
     {% for label, messages in app.flashes %}
@@ -88,6 +95,12 @@
 
         <div class="row mt-2">
             <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block" style="font-size: 15px"> <a href="https://www.societe.com/societe/{{ interlocuteur.societe.raisonSociale }}-{{ interlocuteur.societe.siren }}.html"
+                              target="_blank" class="lien-societe"></i>Societe.com</a> </span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
@@ -410,17 +423,17 @@
                                 </td>
                                 <td>
                                     {% if demande.maitreDOuvrage is not empty %}
-                                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.maitreDOuvrage.id}) }}">
-                                        {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }}
-                                    </a>
+                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.maitreDOuvrage.id}) }}">
+                                            {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }}
+                                        </a>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {%  if  demande.intermediaire is not empty %}
-                                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.intermediaire.id}) }}">
+                                    {% if  demande.intermediaire is not empty %}
+                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.intermediaire.id}) }}">
 
-                                        {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }}
-                                    </a>
+                                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }}
+                                        </a>
                                     {% endif %}
                                 </td>
 
