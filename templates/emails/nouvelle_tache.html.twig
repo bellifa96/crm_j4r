@@ -46,12 +46,12 @@
                                                             data-size="m9_text2"
                                                             style="color: rgb(143, 150, 161); font-family: 'Raleway', sans-serif; font-size: 15px; font-weight: 500; line-height: 26px;"
                                                             align="left" valign="top">
-                                                            Demande: <a href="https://j4r.bellidev.com/demande/{{ demande.id }}">{{ demande.reference }}</a><br>
-                                                            Nom du chantier : {{ demaande.nomChantier}} <br>
-                                                            Client : {{ demande.client.societe is not empty ? demande.client.societe.raisonSociale : demande.client.personne.nom  }} <br>
-                                                            Maitre d'ouvrage : {{ demande.maitreDOuvrage.societe is not empty ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom  }} <br>
-                                                            CP : {{ demande.codePostal }} <br>
-                                                            Ville : {{ demande.ville }} <br>
+                                                            Demande: <a href="https://j4r.bellidev.com/demande/{{ data.demande.id }}">{{ data.demande.reference }}</a><br>
+                                                            Nom du chantier : {{ data.demande.nomChantier}} <br>
+                                                            Client : {{ data.demande.client.societe is not empty ? data.demande.client.societe.raisonSociale : data.demande.client.personne.nom  }} <br>
+                                                            Maitre d'ouvrage : {{ data.demande.maitreDOuvrage.societe is not empty ? data.demande.maitreDOuvrage.societe.raisonSociale : data.demande.maitreDOuvrage.personne.nom  }} <br>
+                                                            CP : {{ data.demande.codePostal }} <br>
+                                                            Ville : {{ data.demande.ville }} <br>
                                                             Titre : <strong> {{ data.titre }}</strong><br/>
                                                             Description : {{ data.description }}<br/>
                                                             Date de debut :

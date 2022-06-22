@@ -107,7 +107,7 @@ class EvenementController extends AbstractController
             try {
                 $evenementRepository->add($evenement);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
-                $objet = $this->getUser()->getFirstname()." attribue Tache (".$evenement->getPriorite().") - ".$evenement->getDemande()->getNomChantier();
+                $objet = $this->getUser()->getFirstname()." attribue Tache (".$evenement->getPriorite().") - ".$evenement->getDemande()->getNomChantier()." - échéance :".$evenement->getDateDeFin()->format('d/m/Y H:i');
                 $this->emailService->send($users,$evenement, 'emails/nouvelle_tache.html.twig',$objet);
 
             } catch (UniqueConstraintViolationException $e) {
