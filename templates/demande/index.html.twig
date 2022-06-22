@@ -19,17 +19,19 @@
         <table class="table datatable text-center">
             <thead>
             <tr class="tr-head text-center">
-                <th>N°</th>
-                <th>NomChantier</th>
+                <th>N°Demande</th>
+                <th>Nom Chantier</th>
                 <th>Type d'Échafaudage</th>
                 <th>Client</th>
                 <th>Maitre d'ouvrage</th>
                 <th>Intermediaire</th>
                 <th>Date</th>
-                <th>Adresse</th>
                 <th>Ville</th>
                 <th>CP</th>
                 <th>Par</th>
+                <th>Statut</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +53,20 @@
                     <td>{{ demande.adresse2 }}</td>
                     <td>{{ demande.ville }}</td>
                     <td>{{ demande.codePostal }}</td>
+                    <td>{{ demand.statut }}</td>
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
+                    <td></td>
+                    <td>
+                        {% for fichier in demande.fichiers %}
+                            {% if fichier.code == "DEVIS" %}
+                                <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                                   target="_blank"><i class="fa fa-search"
+                                                      style="font-size: 1rem;"
+                                                      aria-hidden="true"></i></a>
+                            {% endif %}
+                        {% endfor %}
+
+                    </td>
 
 
                 </tr>
@@ -125,12 +140,12 @@
     <script>
         $('#vue').click(function () {
             console.log($(this).val())
-            if($(this).val() === "globale"){
+            if ($(this).val() === "globale") {
                 $('#commerciale').slideDown();
                 $('#globale').slideUp();
                 $(this).val('commerciale');
                 $(this).text('Vue globale')
-            }else if($(this).val() === "commerciale"){
+            } else if ($(this).val() === "commerciale") {
                 $('#commerciale').slideUp();
                 $('#globale').slideDown();
                 $(this).val('globale');
