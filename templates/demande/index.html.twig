@@ -116,6 +116,8 @@
 
                     <td>{{ demande.statutCommercial }}</td>
                     <td>
+                        {% set devis = null %}
+
                         {% for fichier in demande.ged %}
 
                             {% if fichier.typeFichier.code == "DEVIS" %}
@@ -123,9 +125,9 @@
                             {% endif %}
 
                         {% endfor %}
-                        {% if devis is defined and devis is not empty %}
+                        {% if devis is not empty %}
 
-                            <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                            <a href="{{ path('app_ged_get_id' , {'id':devis.id}) }}"
                                target="_blank"><i class="fa fa-search"
                                                   style="font-size: 1rem;"
                                                   aria-hidden="true"></i></a>
