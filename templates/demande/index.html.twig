@@ -58,7 +58,7 @@
                     <td></td>
                     <td>
                         {% for fichier in demande.ged %}
-                            {% if fichier.code == "DEVIS" %}
+                            {% if fichier.typeFichier.code == "DEVIS" %}
                                 <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
                                    target="_blank"><i class="fa fa-search"
                                                       style="font-size: 1rem;"
