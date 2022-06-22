@@ -52,7 +52,6 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 
 
-
 import "trumbowyg/dist/trumbowyg.min"
 import icons from "trumbowyg/dist/ui/icons.svg"
 import "trumbowyg/dist/ui/trumbowyg.min.css"
@@ -139,66 +138,70 @@ $(function () {
     });
 
 
-    var calendarEl = document.getElementById('calendar');
+    let calendarEl = document.getElementById('calendar');
 
-    let calendar = new Calendar(calendarEl, {
-        locale: 'fr',
-        timeZone: 'Europe/Paris',
-        plugins: [dayGridPlugin, timeGridPlugin, listPlugin,interactionPlugin],
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek'
-        },
-        editable: true,
-        eventResizableFromStart: true,
-        dragScroll:true,
-        eventDidMount: function(info) {
-           $(info.el).tooltip({
-                title: info.event.extendedProps.description,
-                placement: 'top',
-                trigger: 'hover',
-                container: 'body'
-            });
-        },
+    let calendar = null;
 
-    });
-    calendar.render()
 
     if (calendarEl != null) {
+        calendar = new Calendar(calendarEl, {
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            },
+            editable: true,
+            eventResizableFromStart: true,
+            dragScroll: true,
+            eventDidMount: function (info) {
+                $(info.el).tooltip({
+                    title: info.event.extendedProps.description,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });
+            },
+
+        });
+        calendar.render()
         let data = [];
         $.get('/calendar', function (response) {
             data = JSON.parse(response);
             calendar.setOption('events', data)
         })
 
+
+        calendar.on('eventChange', (e) => {
+
+            let url = `/calendar/evenement/update/${e.event.id}`
+            console.log(e.event)
+            let donnees = {
+                start: e.event.start,
+                end: e.event.end || e.event.start,
+            }
+
+            let xhr = new XMLHttpRequest
+            xhr.open("PUT", url)
+            xhr.send(JSON.stringify(donnees))
+        })
+        calendar.on('eventClick', (e) => {
+
+            console.log(e.event.id)
+
+        })
+        calendar.on('eventMouseEnter', (e) => {
+
+        })
+
     }
 
-    calendar.on('eventChange', (e) => {
-
-        let url = `/calendar/evenement/update/${e.event.id}`
-        console.log(e.event)
-        let donnees = {
-            start: e.event.start,
-            end: e.event.end || e.event.start,
-        }
-
-        let xhr = new XMLHttpRequest
-        xhr.open("PUT", url)
-        xhr.send(JSON.stringify(donnees))
-    })
-    calendar.on('eventClick', (e) => {
-
-        console.log(e.event.id)
-
-    })
-    calendar.on('eventMouseEnter', (e) => {
-
-    })
 
 
-    $('.checkbox,.radio').each(function () {
+    $('.checkbox-input,.radio-input').each(function () {
         $(this).checkboxradio();
     });
 

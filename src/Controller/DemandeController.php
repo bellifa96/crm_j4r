@@ -41,6 +41,12 @@ class DemandeController extends AbstractController
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
     public function index(DemandeRepository $demandeRepository): Response
     {
+        foreach ($demandeRepository->findAll() as $demande){
+            if(empty($demande->getReference())){
+                $demande->setReference(date('y').date('m').'-'.$demande->getId());
+                $demandeRepository->add($demande);
+            }
+        }
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandeRepository->findAll(),
             'title' => 'Liste des demandes',
@@ -100,9 +106,14 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
-    public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository): Response
+    public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository,DemandeRepository $demandeRepository): Response
     {
 
+
+        if(empty($demande->getReference())){
+            $demande->setReference(date('y').date('m').'-'.$demande->getId());
+            $demandeRepository->add($demande);
+        }
 
         $repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
         $demande = $this->em->find(Demande::class, $demande->getId());
@@ -143,7 +154,7 @@ class DemandeController extends AbstractController
             'demande' => $demande,
             'logs'=>$logs,
             'form' => $form->createView(),
-            'title' => "Demande N° " . $demande->getId(),
+            'title' => "Demande N° " . $demande->getReference(),
             'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]
         ]);
     }
@@ -348,6 +359,10 @@ class DemandeController extends AbstractController
         // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
 
         $demandeRepository->add($demande);
+        if(empty($demande->getReference())){
+            $demande->setReference(date('y').date('m').'-'.$demande->getId());
+            $demandeRepository->add($demande);
+        }
 
         return $this->redirectToRoute('app_demande_show', ['id' => $demande->getId()], Response::HTTP_SEE_OTHER);
     }

@@ -41,6 +41,9 @@ class InterlocuteurType extends AbstractType
                     ],
                     'multiple' => true,
                     'expanded' => true,
+                    'choice_attr' => function($choice, $key, $value) {
+                        return ['class' => 'checkbox-input'];
+                    },
                 )
             )
 

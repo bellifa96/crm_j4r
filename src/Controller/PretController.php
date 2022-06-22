@@ -11,6 +11,7 @@ use App\Repository\DemandeRepository;
 use App\Repository\MaterielRepository;
 use App\Repository\PretRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Cache\Exception\CacheException;
@@ -31,6 +32,8 @@ class PretController extends AbstractController
     {
         return $this->render('pret/index.html.twig', [
             'prets' => $pretRepository->findAll(),
+            'title'=> 'Liste des prêts',
+            'nav'=>[]
         ]);
     }
 
@@ -50,18 +53,20 @@ class PretController extends AbstractController
         return $this->renderForm('pret/new.html.twig', [
             'pret' => $pret,
             'form' => $form,
+            'title'=> 'Liste des prêts',
+            'nav'=>[]
         ]);
     }
 
     #[Route('/new/pret', name: 'app_pret_new_pret', methods: ['POST'])]
-    public function newPret(Request $request, PretRepository $pretRepository, MaterielRepository $materielRepository, UserRepository $userRepository): Response
+    public function newPret(Request $request, PretRepository $pretRepository, MaterielRepository $materielRepository, UserRepository $userRepository,EmailService $emailService): Response
     {
 
         $data = $request->request->all()['pret'];
         $response = new Response();
 
         if (!empty($data['materiel']) and !empty($data['utilisateur']) and !empty($data['dateDAffectation'])
-            and !empty($data['dateDeRetour']) and !empty($data['etat']) and !empty($data['commentaire'])) {
+            and !empty($data['etat']) ) {
 
             $pret = new Pret();
 
@@ -80,6 +85,8 @@ class PretController extends AbstractController
             //dd($pret);
             try {
                 $pretRepository->add($pret);
+                $objet = $this->getUser()->getFirstname().' Vous a attribué le matériel ('.$pret->getMateriel()->getTitre().')';
+                $emailService->send([$pret->getUtilisateur()->getEmail()],$pret,'emails/pret.html.twig',$objet);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $pret->getId()]])) ;
 
             } catch (CacheException|Exception $e) {

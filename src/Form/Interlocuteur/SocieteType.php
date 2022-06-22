@@ -34,13 +34,13 @@ class SocieteType extends AbstractType
             ->add('siret', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Siret required',
-                    'class' => 'societe-form'
+                    'class' => 'societe-form required'
                 ]
             ])
             ->add('siren', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Siren',
-                    'class' => 'societe-form'
+                    'class' => 'societe-form required'
                 ]
             ])
             ->add('activitePrincipale', EntityType::class, [
@@ -89,8 +89,8 @@ class SocieteType extends AbstractType
             ])
             ->add('adresse1', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Adresse required',
-                    'class' => 'societe-form'
+                    'placeholder' => 'Adresse',
+                    'class' => 'societe-form required'
                 ]
             ])
             ->add('adresse2', TextType::class, [
@@ -102,14 +102,14 @@ class SocieteType extends AbstractType
             ])
             ->add('ville', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Ville required',
-                    'class' => 'societe-form'
+                    'placeholder' => 'Ville',
+                    'class' => 'societe-form required'
                 ]
             ])
             ->add('codePostal', NumberType::class, [
                 'attr' => [
-                    'placeholder' => 'Code postal required',
-                    'class' => 'societe-form'
+                    'placeholder' => 'Code postal',
+                    'class' => 'societe-form required'
                 ]
             ])
             ->add('pays', ChoiceType::class, [

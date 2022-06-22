@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use function Sodium\add;
@@ -19,6 +20,9 @@ class DemandeType extends AbstractType
         $builder
             ->add('commentaire')
             ->add('nomChantier')
+            ->add('reference',TextType::class,[
+                'required'=>false,
+            ])
             ->add('date')
             ->add('dateDuReleve')
             ->add('dateDeRemise')

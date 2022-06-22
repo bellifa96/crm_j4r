@@ -73,7 +73,22 @@
 
 </style>
 
+
+{% if not form.vars.valid %}
+    <ul>
+        {# Loop through every form item #}
+        {% for child in form.children %}
+            {# Display the errors of the form item #}
+            {%for error in child.vars.errors%}
+                <h1>{{error.message}}</h1>
+            {%endfor%}
+        {%endfor%}
+    </ul>
+{%endif%}
+
 <div class="container mt-5">
+
+
     <div class="row d-flex justify-content-center align-items-center">
         {{ form_start(form) }}
 
@@ -101,11 +116,11 @@
                     {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
                 {% endif %}
                 <div class="col-md-8 societe m-auto">
-                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input", "autofocus":"on"}}) }}
+                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input required", "autofocus":"on"}}) }}
                 </div>
 
                 <div class="col-md-12 m-auto mt-4">
-                    {{ form_widget(form.roles,{"attr":{"class":""}}) }}
+                    {{ form_widget(form.roles) }}
                 </div>
             </div>
 
@@ -121,7 +136,7 @@
                                 Raison Sociale
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.raisonSociale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.raisonSociale,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
 
@@ -139,7 +154,7 @@
                                 Adresse
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.adresse1,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.adresse1,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
 
@@ -156,7 +171,7 @@
                                 Ville
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
 
@@ -165,7 +180,7 @@
                                 Code Postal
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.codePostal,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.codePostal,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
                         <div class="col-md-12 row mt-3">
@@ -173,7 +188,7 @@
                                 Pays
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.pays,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.pays,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
 
@@ -185,7 +200,7 @@
                                 Siret
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.societe.siret,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                {{ form_widget(form.societe.siret,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
                             </div>
                         </div>
 
@@ -258,7 +273,7 @@
                                 Nom
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input", 'autofocus':'on'}}) }}
+                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input required", 'autofocus':'on'}}) }}
                             </div>
                         </div>
 
@@ -267,7 +282,7 @@
                                 Prénom
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.prenom,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.prenom,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
 
@@ -276,27 +291,19 @@
                                 Email
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.email,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.email,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
 
-                        <div class="col-md-12 row mt-3">
-                            <div class="col-md-3 text-end label">
-                                Téléphone
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control form-control-sm-2 personne-input"/>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="col-md-12 row mt-3">
-                            <div class="col-md-3">
+                            <div class="col-md-3 text-end label">
                                 Adresse
                             </div>
                             <div class="col-md-9 text-end label">
-                                {{ form_widget(form.personne.adresse1,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.adresse1,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
                         <div class="col-md-12 row mt-3">
@@ -304,7 +311,7 @@
                                 Complément
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.adresse2,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.adresse2,{'attr':{"class":"form-control form-control-sm-2 personne-input "}}) }}
                             </div>
                         </div>
                         <div class="col-md-12 row mt-3">
@@ -312,7 +319,7 @@
                                 Ville
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.ville,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.ville,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
 
@@ -321,7 +328,7 @@
                                 Code Postal
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.codePostal,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.codePostal,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
 
@@ -330,7 +337,7 @@
                                 Pays
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.personne.pays,{'attr':{"class":"form-control form-control-sm-2 personne-input"}}) }}
+                                {{ form_widget(form.personne.pays,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
                             </div>
                         </div>
 
@@ -364,6 +371,8 @@
             <div class="comment mt-4">
                 <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
             </div>
+            {{ form_widget(form) }}
+
 
             {{ form_end(form) }}
 
@@ -543,12 +552,22 @@
                 $(this).val("");
                 $(this).prop('required', false);
             })
+            $('.societe-input').each(function () {
+                if ($(this).hasClass('required')) {
+                    $(this).prop('required', true);
+                }
+            })
         } else {
             $('.societe').slideUp();
             $('.personne').slideDown();
             $('.societe-input').each(function () {
                 $(this).val("");
                 $(this).prop('required', false);
+            })
+            $('.personne-input').each(function () {
+                if ($(this).hasClass('required')) {
+                    $(this).prop('required', true);
+                }
             })
         }
     }

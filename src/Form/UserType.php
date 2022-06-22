@@ -29,8 +29,13 @@ class UserType extends AbstractType
             ->add('telephone')
             ->add('telephoneMobile')
             ->add('matricule')
+            ->add('pseudo')
             ->add('firstname')
             ->add('lastname')
+            ->add('signature', FileType::class, [
+                "data_class" => null,
+                "required" => false,
+            ])
             ->add('photo', FileType::class, [
                 "data_class" => null,
                 "required" => false,

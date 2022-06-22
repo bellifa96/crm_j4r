@@ -3,20 +3,19 @@
 {% block title %}Pret index{% endblock %}
 
 {% block body %}
-    <h1>Pret index</h1>
 
-    <table class="table">
+    <table class="table datatable">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateDAffectation</th>
-                <th>DateDeRetour</th>
-                <th>Etat</th>
-                <th>EtatApreesRetour</th>
-                <th>Note</th>
-                <th>Status</th>
-                <th>actions</th>
-            </tr>
+        <tr class="tr-head">
+            <th>Id</th>
+            <th>Date d'affectation</th>
+            <th>Date de retour</th>
+            <th>État</th>
+            <th>État après Retour</th>
+            <th>Note</th>
+            <th>Status</th>
+            <th>Attribué à</th>
+        </tr>
         </thead>
         <tbody>
         {% for pret in prets %}
@@ -28,10 +27,8 @@
                 <td>{{ pret.etatApreesRetour }}</td>
                 <td>{{ pret.note }}</td>
                 <td>{{ pret.status }}</td>
-                <td>
-                    <a href="{{ path('app_pret_show', {'id': pret.id}) }}">show</a>
-                    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
-                </td>
+                <td>{{ pret.utilisateur.firstname~" "~pret.utilisateur.lastanme }}</td>
+
             </tr>
         {% else %}
             <tr>
@@ -40,6 +37,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_pret_new') }}">Create new</a>
 {% endblock %}

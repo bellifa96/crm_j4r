@@ -7,7 +7,21 @@
             margin-left: 2px;
         }
     </style>
+
+    {% if not form.vars.valid %}
+        <ul>
+            {# Loop through every form item #}
+            {% for child in form.children %}
+                {# Display the errors of the form item #}
+                {%for error in child.vars.errors%}
+                    <div class="alert alert-danger">{{error.message}}</div>
+                {%endfor%}
+            {%endfor%}
+        </ul>
+    {%endif%}
+
     {{ form_start(form,{'attr':{"id":"dropzone"}}) }}
+
 
 
     <div class="col-md-12 ">
@@ -30,6 +44,16 @@
                         </div>
                         <div class="col-md-9">
                             {{ form_widget(form.lastname,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Pseudo
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.pseudo,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'Prénom'}}) }}
                         </div>
                     </div>
                 </div>
@@ -172,6 +196,9 @@
 
                 <div class="col-md-12  mb-3">
                     {{ form_widget(form.photo,{'attr':{'class':'form-control form-control-sm drop',}}) }}
+                </div>
+                <div class="col-md-12  mb-3">
+                    {{ form_widget(form.signature,{'attr':{'class':'form-control form-control-sm drop',}}) }}
                 </div>
             </div>
         </div>

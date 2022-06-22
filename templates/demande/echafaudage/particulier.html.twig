@@ -27,6 +27,21 @@
                            value="Execution">
                     <label for="demande_typeDePrestation_2" class="required">Exécution</label>
                 </div>
+                <div class="col-md-4">
+                    <input type="radio" id="demande_typeDePrestation_3"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Appel d’offre direct" ? "checked" :"" }}
+                           class="required"
+                           value="Appel d’offre direct">
+                    <label for="demande_typeDePrestation_3" class="required">Appel d’offre direct</label>
+                </div>
+
+                <div class="col-md-4">
+                    <input type="radio" id="demande_typeDePrestation_4"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Appel d’offre indirect" ? "checked" :"" }}
+                           class="required"
+                           value="Appel d’offre indirect">
+                    <label for="demande_typeDePrestation_3" class="required">Appel d’offre indirect</label>
+                </div>
             </div>
         </div>
     </div>

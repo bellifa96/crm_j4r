@@ -79,6 +79,9 @@
                     <div class="col-md-12"><label class="labels">Téléphone fixe</label>
                         {{ form_widget(form.telephone,{"attr":{"class":"form-control","placeholder":"Téléphone fixe"}}) }}
                     </div>
+                    <div class="col-md-12"><label class="labels">Email</label>
+                        {{ form_widget(form.email,{"attr":{"class":"form-control","placeholder":"Adresse Email"}}) }}
+                    </div>
                     <div class="col-md-12"><label class="labels">Adresse 1</label>
                         {{ form_widget(form.adresse1,{"attr":{"class":"form-control","placeholder":"Adresse postale"}}) }}
 
@@ -94,9 +97,6 @@
                     </div>
                     <div class="col-md-12"><label class="labels">Pays</label>
                         {{ form_widget(form.pays,{"attr":{"class":"form-control","placeholder":"Pays"}}) }}
-                    </div>
-                    <div class="col-md-12"><label class="labels">Email</label>
-                        {{ form_widget(form.email,{"attr":{"class":"form-control","placeholder":"Adresse Email"}}) }}
                     </div>
 
                 </div>

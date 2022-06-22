@@ -246,6 +246,14 @@
                     {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
                 </div>
             </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Référence demande</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.reference,{"attr":{"class":"form-control form-control-sm-2","autocomplete":"off"}}) }}
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="row mt-2">
@@ -765,6 +773,32 @@
             let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required" class="form-control">`;
             $('#demande_finitionPlancher').append(div);
         }
+    });
+
+
+    function sumDG() {
+        let sum = parseFloat($('#demande_dimensionsGlobales_longueur_totale').val()) * parseFloat($('#demande_dimensionsGlobales_hauteur_totale').val());
+        if ($('#sumDG').length > 0) {
+            $('#sumDG-input').val(isNaN(sum) ? 0 : sum)
+        } else {
+            let p = '<p id="sumDG">' + (isNaN(sum) ? 0 : sum) + '</p>'
+
+            let div = `
+                    <div class="col-md-4" id="sumDG">
+                        <label for="sumDG-label">Surface m2</label>
+                        <input type="text" id="sumDG-input" class="form-control" disabled
+                               value='0'
+                     >
+            </div>
+            `;
+            $('#demande_dimensionsGlobales_hauteur_totale').parent().parent().append(div)
+            $('#sumDG-input').val(isNaN(sum) ? 0 : sum)
+
+        }
+    }
+
+    $(document).on("change", "#demande_dimensionsGlobales_longueur_totale, #demande_dimensionsGlobales_hauteur_totale", function () {
+        sumDG();
     });
 
 

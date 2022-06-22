@@ -19,7 +19,7 @@ class Pret
     #[ORM\Column(type: 'string', length: 255)]
     private $dateDAffectation;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $dateDeRetour;
 
     #[ORM\Column(type: 'text')]
@@ -71,7 +71,7 @@ class Pret
         return $this->dateDeRetour;
     }
 
-    public function setDateDeRetour(string $dateDeRetour): self
+    public function setDateDeRetour(?string $dateDeRetour): self
     {
         $this->dateDeRetour = $dateDeRetour;
 

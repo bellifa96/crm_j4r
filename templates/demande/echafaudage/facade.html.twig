@@ -30,6 +30,22 @@
                            value="Execution">
                     <label for="demande_typeDePrestation_2" class="required">Exécution</label>
                 </div>
+
+                <div class="col-md-4">
+                    <input type="radio" id="demande_typeDePrestation_3"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Appel d’offre direct" ? "checked" :"" }}
+                           class="required"
+                           value="Appel d’offre direct">
+                    <label for="demande_typeDePrestation_3" class="required">Appel d’offre direct</label>
+                </div>
+
+                <div class="col-md-4">
+                    <input type="radio" id="demande_typeDePrestation_4"
+                           name="demande[typeDePrestation]" {{ demande.typeDePrestation == "Appel d’offre indirect" ? "checked" :"" }}
+                           class="required"
+                           value="Appel d’offre indirect">
+                    <label for="demande_typeDePrestation_3" class="required">Appel d’offre indirect</label>
+                </div>
             </div>
         </div>
     </div>
@@ -369,14 +385,14 @@
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_consoles_0" name="demande[consoles]"
-                           {{ "0.4" == demande.consoles ? "checked" :"" }}
+                            {{ "0.4" == demande.consoles ? "checked" :"" }}
                            value="0.4">
                     <label for="demande_consoles_0" class="required">0,4 m</label>
                 </div>
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_consoles_1" name="demande[consoles]"
-                           {{ "0.7" == demande.consoles ? "checked" :"" }}
+                            {{ "0.7" == demande.consoles ? "checked" :"" }}
                            value="0.7">
                     <label for="demande_consoles_1" class="required">0,7 m</label>
                 </div>
@@ -384,7 +400,7 @@
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_consoles_2" name="demande[consoles]"
-                           {{ demande.consoles !="0.4" and demande.consoles != "0.7"  and demande.consoles is not empty ? "checked" :"" }}
+                            {{ demande.consoles !="0.4" and demande.consoles != "0.7"  and demande.consoles is not empty ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_consoles_2" class="required">Autre</label>
                 </div>
@@ -589,7 +605,7 @@
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_acces_0" name="demande[acces]"
-                           {{ "Planche à trappe" == demande.acces ? "checked" :"" }}
+                            {{ "Planche à trappe" == demande.acces ? "checked" :"" }}
                            value="Planche à trappe">
                     <label for="demande_acces_0" class="required">Planche à trappe</label>
                 </div>
@@ -597,14 +613,14 @@
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_acces_1" name="demande[acces]"
-                           {{ "Volée alu à palier incorporé" == demande.acces ? "checked" :"" }}
+                            {{ "Volée alu à palier incorporé" == demande.acces ? "checked" :"" }}
                            value="Volée alu à palier incorporé">
                     <label for="demande_acces_1" class="required">Vollée alu à palier incorporé</label>
                 </div>
                 <div class="col-md-4">
 
                     <input type="radio" id="demande_acces_2" name="demande[acces]"
-                           {{ "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty ? "checked" :"" }}
+                            {{ "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty ? "checked" :"" }}
                            value="Autre">
                     <label for="demande_acces_2" class="required">Autre</label>
 
@@ -652,13 +668,13 @@
                         </div>
 
                         {% if "Thémée" in demande.bache %}
-                                {% if "themee" in demande.bache|keys %}
-                                    <div class="col-md-6">
-                                        <input type="text" id="demande_bache_autre" value="{{ demande.bache['themee'] }}"
-                                               name="demande[bache][themee]"
-                                               class="form-control">
-                                    </div>
-                                {% endif %}
+                            {% if "themee" in demande.bache|keys %}
+                                <div class="col-md-6">
+                                    <input type="text" id="demande_bache_autre" value="{{ demande.bache['themee'] }}"
+                                           name="demande[bache][themee]"
+                                           class="form-control">
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="col-md-12  mt-2">

@@ -4,8 +4,20 @@
 
 {% block body %}
 
-    <table class="table datatable text-center">
-        <thead>
+
+
+
+    <style>
+        table {
+            overflow: auto;
+        }
+    </style>
+
+    <button class="btn btn-info-2 mb-4" id="vue" value="globale">Vue Commerciale</button>
+    <div id="globale">
+
+        <table class="table datatable text-center">
+            <thead>
             <tr class="tr-head text-center">
                 <th>N°</th>
                 <th>NomChantier</th>
@@ -19,30 +31,116 @@
                 <th>CP</th>
                 <th>Par</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for demande in demandes %}
-            <tr >
-                <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.id }}</a></td>
-                <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
-                <td>{{ demande.typeEchafaudage }}</td>
-                <td><a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a></td>
-                <td>{%  if demande.intermediaire is not empty %}<a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.intermediaire.id}) }}"> {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }} </a>{% endif %}</td>
-                <td>{%  if demande.maitreDOuvrage is not empty %}<a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.maitreDOuvrage.id}) }}"> {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }} </a>{% endif %}</td>
-                <td>{{ demande.date }}</td>
-                <td>{{ demande.adresse2 }}</td>
-                <td>{{ demande.ville }}</td>
-                <td>{{ demande.codePostal }}</td>
-                <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
+            </thead>
+            <tbody>
+            {% for demande in demandes %}
+                <tr>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.id }}</a></td>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
+                    <td>{{ demande.typeEchafaudage }}</td>
+                    <td>
+                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a>
+                    </td>
+                    <td>{% if demande.intermediaire is not empty %}<a
+                            href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.intermediaire.id}) }}"> {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }} </a>{% endif %}
+                    </td>
+                    <td>{% if demande.maitreDOuvrage is not empty %}<a
+                            href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.maitreDOuvrage.id}) }}"> {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }} </a>{% endif %}
+                    </td>
+                    <td>{{ demande.date }}</td>
+                    <td>{{ demande.adresse2 }}</td>
+                    <td>{{ demande.ville }}</td>
+                    <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
 
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div id="commerciale" style="display: none;">
+
+
+        <table class="table datatable text-center">
+            <thead>
+            <tr class="tr-head text-center">
+                <th>N°Devis</th>
+                <th>Date</th>
+                <th>Editeur</th>
+                <th>Type</th>
+                <th>Montant HT</th>
+                <th>Type de Travaux</th>
+                <th>Neuf/Réno</th>
+                <th>Type de consultation</th>
+                <th>Nom</th>
+                <th>Pour Promoteur</th>
+                <th>Adresse</th>
+                <th>CP</th>
+                <th>Ville</th>
+                <th>Interlocuteur</th>
+                <th>Statut</th>
 
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for demande in demandes %}
+                <tr>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.reference }}</a></td>
+                    <td>{{ demande.date }}</td>
+                    <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
+                    <td>{{ demande.typeDePrestation }}</td>
+                    <td> 0.00 €</td>
+                    <td>{{ demande.neufReno }}</td>
+                    <td>{{ demande.typeEchafaudage }}</td>
+                    <td>{{ demande.typeDePrestation }}</td>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
 
+                    <td>
+                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a>
+                    </td>
+                    <td>{{ demande.adresse2 }}</td>
+                    <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.ville }}</td>
+                    <td>
+                        {% if demande.maitreDOuvrage is not empty %}<a
+                            href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.maitreDOuvrage.id}) }}"> {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }} </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ demande.statutCommercial }}</td>
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        $('#vue').click(function () {
+            console.log($(this).val())
+            if($(this).val() === "globale"){
+                $('#commerciale').slideDown();
+                $('#globale').slideUp();
+                $(this).val('commerciale');
+                $(this).text('Vue globale')
+            }else if($(this).val() === "commerciale"){
+                $('#commerciale').slideUp();
+                $('#globale').slideDown();
+                $(this).val('globale');
+                $(this).text('Vue commerciale')
+
+            }
+        })
+    </script>
 {% endblock %}

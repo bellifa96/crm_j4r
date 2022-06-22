@@ -233,6 +233,12 @@ class Demande
     #[ORM\OneToOne(mappedBy: 'demande', targetEntity: ConversationClient::class, cascade: ['persist', 'remove'])]
     private $conversationClient;
 
+    #[ORM\Column(type: 'string', length: 255,nullable: true,unique: true)]
+    private $reference;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $neufReno;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -980,6 +986,30 @@ class Demande
         }
 
         $this->conversationClient = $conversationClient;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getNeufReno(): ?string
+    {
+        return $this->neufReno;
+    }
+
+    public function setNeufReno(?string $neufReno): self
+    {
+        $this->neufReno = $neufReno;
 
         return $this;
     }

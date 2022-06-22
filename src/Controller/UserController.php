@@ -37,7 +37,7 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
             'title' => 'Gestion des utilisateurs',
-            'nav' => [['app_user_new','Ajouter un utilisateur']],
+            'nav' => [['app_user_new', 'Ajouter un utilisateur']],
         ]);
     }
 
@@ -50,6 +50,43 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+
+            $brochureFile = $form->get('photo')->getData();
+
+            if (!empty($brochureFile)) {
+                $newFilename = $user->getId() . '.' . $brochureFile->guessExtension();
+
+                try {
+                    $brochureFile->move(
+                        __DIR__ . '/../../public/uploads/photo/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger', "La photo de profile n'a pas pu être charger ");
+                }
+
+                $user->setPhoto($newFilename);
+            }
+
+            $signature = $form->get('signature')->getData();
+
+            if (!empty($signature)) {
+                $newFilename = $user->getId() . '.' . $signature->guessExtension();
+
+                try {
+                    $signature->move(
+                        __DIR__ . '/../../public/uploads/signature/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger', "La signature n'a pas pu être charger ");
+                }
+
+                $user->setSignature($newFilename);
+            }
+
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -68,7 +105,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'title' => $user->getFirstname()." ".$user->getLastname(),
+            'title' => $user->getFirstname() . " " . $user->getLastname(),
             'nav' => [],
 
         ]);
@@ -78,6 +115,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
     {
         $photo = $user->getPhoto();
+        $signatureOld = $user->getSignature();
 
 
         $form = $this->createForm(UserType::class, $user);
@@ -88,7 +126,7 @@ class UserController extends AbstractController
             $brochureFile = $form->get('photo')->getData();
 
             if (!empty($brochureFile)) {
-                $newFilename = $user->getId().'.'.$brochureFile->guessExtension();
+                $newFilename = $user->getId() . '.' . $brochureFile->guessExtension();
 
                 try {
                     $brochureFile->move(
@@ -97,12 +135,32 @@ class UserController extends AbstractController
                     );
                 } catch (FileException $e) {
 
-                    $this->addFlash('danger',"La photo de profile n'a pas pu être charger ");
+                    $this->addFlash('danger', "La photo de profile n'a pas pu être charger ");
                 }
 
                 $user->setPhoto($newFilename);
-            }else{
+            } else {
                 $user->setPhoto($photo);
+            }
+
+            $signature = $form->get('signature')->getData();
+
+            if (!empty($signature)) {
+                $newFilename = $user->getId() . '.' . $signature->guessExtension();
+
+                try {
+                    $signature->move(
+                        __DIR__ . '/../../public/uploads/signature/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger', "La signature n'a pas pu être charger ");
+                }
+
+                $user->setSignature($newFilename);
+            } else {
+                $user->setSignature($signatureOld);
             }
 
             $userRepository->add($user);
@@ -112,7 +170,7 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'title' => "Modifier l'utilisateur ".$user->getFirstname()." ".$user->getLastname(),
+            'title' => "Modifier l'utilisateur " . $user->getFirstname() . " " . $user->getLastname(),
             'nav' => [],
 
         ]);

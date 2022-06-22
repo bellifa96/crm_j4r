@@ -98,9 +98,14 @@ class InterlocuteurController extends AbstractController
             } elseif ($interlocuteur->getType() == "societe") {
                 $interlocuteur->setPersonne(NULL);
             }
-
-            $interlocuteurRepository->add($interlocuteur);
-            return $this->redirectToRoute('app_interlocuteur_interlocuteur_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $interlocuteurRepository->add($interlocuteur);
+                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
+            } catch (OptimisticLockException $e) {
+                dd($e);
+            } catch (ORMException $e) {
+                dd($e);
+            }
         }
 
         return $this->renderForm('interlocuteur/interlocuteur/new.html.twig', [
