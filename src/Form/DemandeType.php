@@ -34,6 +34,10 @@ class DemandeType extends AbstractType
                 'choices' => [
                     'Façade' => 'Façade',
                     'Parapluie' => 'Parapluie',
+                    'Protection couvreur' => 'Protection couvreur',
+                    'Escalier' => 'Escalier',
+                    'Echafaudage roulant' => 'Echafaudage roulant',
+                    "Sapine d'accès" => "Sapine d'accès",
                     'Plateforme' => 'Plateforme',
                     'Particulier' => 'Particulier'
                 ],
