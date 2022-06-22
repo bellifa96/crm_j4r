@@ -112,6 +112,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Message::class)]
     private $messages;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $pseudo;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $signature;
+
 
     public function __construct()
     {
@@ -604,6 +610,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $message->setCreateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(?string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getSignature(): ?string
+    {
+        return $this->signature;
+    }
+
+    public function setSignature(?string $signature): self
+    {
+        $this->signature = $signature;
 
         return $this;
     }
