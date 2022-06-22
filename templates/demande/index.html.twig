@@ -57,7 +57,7 @@
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
                     <td></td>
                     <td>
-                        {% for fichier in demande.fichiers %}
+                        {% for fichier in demande.ged %}
                             {% if fichier.code == "DEVIS" %}
                                 <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
                                    target="_blank"><i class="fa fa-search"
