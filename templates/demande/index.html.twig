@@ -57,14 +57,6 @@
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
                     <td></td>
                     <td>
-                        {% for fichier in demande.ged %}
-                            {% if fichier.typeFichier.code == "DEVIS" %}
-                                <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
-                                   target="_blank"><i class="fa fa-search"
-                                                      style="font-size: 1rem;"
-                                                      aria-hidden="true"></i></a>
-                            {% endif %}
-                        {% endfor %}
 
                     </td>
 
@@ -98,6 +90,7 @@
                 <th>CP</th>
                 <th>Ville</th>
                 <th>Statut</th>
+                <th></th>
 
             </tr>
             </thead>
@@ -124,6 +117,16 @@
                     <td>{{ demande.ville }}</td>
 
                     <td>{{ demande.statutCommercial }}</td>
+                    <td>
+                        {% for fichier in demande.ged %}
+                            {% if fichier.typeFichier.code == "DEVIS" %}
+                                <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
+                                   target="_blank"><i class="fa fa-search"
+                                                      style="font-size: 1rem;"
+                                                      aria-hidden="true"></i></a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
 
 
                 </tr>
