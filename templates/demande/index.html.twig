@@ -74,17 +74,14 @@
                 <th>N°Devis</th>
                 <th>Date</th>
                 <th>Editeur</th>
-                <th>Type</th>
-                <th>Montant HT</th>
-                <th>Type de Travaux</th>
-                <th>Neuf/Réno</th>
+                <th>Type d'échafaudage</th>
                 <th>Type de consultation</th>
-                <th>Nom</th>
-                <th>Pour Promoteur</th>
-                <th>Adresse</th>
+                <th>Neuf/Réno</th>
+                <th>Client</th>
+                <th>Maitre d'ouvrage</th>
+                <th>Chantier</th>
                 <th>CP</th>
                 <th>Ville</th>
-                <th>Interlocuteur</th>
                 <th>Statut</th>
 
             </tr>
@@ -95,25 +92,24 @@
                     <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.reference }}</a></td>
                     <td>{{ demande.date }}</td>
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
-                    <td>{{ demande.typeDePrestation }}</td>
-                    <td> 0.00 €</td>
-                    <td>{{ demande.neufReno }}</td>
                     <td>{{ demande.typeEchafaudage }}</td>
                     <td>{{ demande.typeDePrestation }}</td>
+                    <td>{{ demande.neufReno }}</td>
                     <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
 
                     <td>
                         <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a>
                     </td>
-                    <td>{{ demande.adresse2 }}</td>
-                    <td>{{ demande.codePostal }}</td>
-                    <td>{{ demande.ville }}</td>
                     <td>
                         {% if demande.maitreDOuvrage is not empty %}<a
                             href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.maitreDOuvrage.id}) }}"> {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }} </a>
                         {% endif %}
                     </td>
+                    <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.ville }}</td>
+
                     <td>{{ demande.statutCommercial }}</td>
+
 
                 </tr>
             {% else %}
