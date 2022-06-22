@@ -855,11 +855,48 @@
                         </div>
                         <div class="sendBox row">
                             <div class="col-md-10">
-                                <input type="text" placeholder="écrire un commentaire métré" name="message_metre">
+                                <input type="text" placeholder="écrire un commentaire métré" name="message_metre"
+                                       class="">
                             </div>
                             <div class="col-md-2">
                                 <button class="button message-submit" style="background: transparent; border: none;"
                                         id="btn-metre">
+                                    <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chatbox col-md-3" id="client">
+                        <div class="chats">
+                            <div class="chats-title border-bottom-1">
+                                <h6>Commentaires client</h6>
+                            </div>
+                            <ul id="client-ul">
+                                {% if demande.conversationClient %}
+
+                                    {% for message in  demande.conversationClient.messages %}
+
+                                        <li>
+                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                {{ message.message }}
+                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="sendBox row">
+                            <div class="col-md-10">
+                                <input type="text" placeholder="écrire un commentaire client" name="message_client">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="button message-submit" style="background: transparent; border: none;"
+                                        id="btn-client">
                                     <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
                                 </button>
                             </div>
@@ -900,41 +937,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chatbox col-md-3" id="client">
-                        <div class="chats">
-                            <div class="chats-title border-bottom-1">
-                                <h6>Commentaires client</h6>
-                            </div>
-                            <ul id="client-ul">
-                                {% if demande.conversationClient %}
 
-                                    {% for message in  demande.conversationClient.messages %}
 
-                                        <li>
-                                            <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
-                                        <span class="partner">
-                                            {{ message.createur.firstname~" "~message.createur.lastname }}
-                                        </span>
-                                                {{ message.message }}
-                                                <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
-                            </ul>
-                        </div>
-                        <div class="sendBox row">
-                            <div class="col-md-10">
-                                <input type="text" placeholder="écrire un commentaire client" name="message_client">
-                            </div>
-                            <div class="col-md-2">
-                                <button class="button message-submit" style="background: transparent; border: none;"
-                                        id="btn-client">
-                                    <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- Ged -->
@@ -956,7 +960,7 @@
                             {% for fichier in demande.ged %}
                                 {% if fichier.isDeleted != true %}
                                     <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
-                                        <td>{{ fichier.typeFichier.titre }}</td>
+                                        <td class="get-frame" id="{{ fichier.id }}">{{ fichier.typeFichier.titre }}</td>
                                         <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td>{{ fichier.createur.firstname }}</td>
                                         <td>
@@ -990,6 +994,9 @@
                             {% endfor %}
                             </tbody>
                         </table>
+
+                        <iframe src="" height="200" width="300" id="iframe-ged"></iframe>
+
                     </div>
 
                     <div class="col-md-3" style="height:max-content;background-color:white;">
@@ -1063,7 +1070,6 @@
                             <th>Modifier par</th>
                             <th>Date</th>
                             <th>Données changées</th>
-
                         </tr>
                         </thead>
                         <tbody>
