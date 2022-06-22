@@ -113,6 +113,11 @@
                                 <a href="tel:{{ contact.telephone }}"> {{ contact.telephone }}</a>
                             </div>
                         </div>
+                        <div class="col-md-12"><label class="labels">Email</label>
+                            <div class=" form-control-sm-2 text-center">
+                                <a href="mailto: {{ contact.email }}">{{ contact.email }}</a>
+                            </div>
+                        </div>
                         <div class="col-md-12"><label class="labels">Adresse 1</label>
                             <div class=" form-control-sm-2 text-center">
                                 {{ contact.adresse1 }}
@@ -138,11 +143,7 @@
                                 {{ contact.pays }}
                             </div>
                         </div>
-                        <div class="col-md-12"><label class="labels">Email</label>
-                            <div class=" form-control-sm-2 text-center">
-                                <a href="mailto: {{ contact.email }}">{{ contact.email }}</a>
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>
