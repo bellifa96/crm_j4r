@@ -42,7 +42,7 @@ class HomeController extends AbstractController
             }
             $calendar[] = [
                 'id' => $evenement->getId(),
-                'start' => $evenement->getDateDeDebut()->format('Y-m-d H:i:s'),
+                'start' => $evenement->getDateDeFin()->format('Y-m-d H:i:s'),
                 'end' => $evenement->getDateDeFin()->format('Y-m-d H:i:s'),
                 'title' => $evenement->getTitre(),
                 'description' => $evenement->getDescription(),
