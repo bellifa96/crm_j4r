@@ -13,15 +13,14 @@
             {# Loop through every form item #}
             {% for child in form.children %}
                 {# Display the errors of the form item #}
-                {%for error in child.vars.errors%}
-                    <div class="alert alert-danger">{{error.message}}</div>
-                {%endfor%}
-            {%endfor%}
+                {% for error in child.vars.errors %}
+                    <div class="alert alert-danger">{{ error.message }}</div>
+                {% endfor %}
+            {% endfor %}
         </ul>
-    {%endif%}
+    {% endif %}
 
     {{ form_start(form,{'attr':{"id":"dropzone"}}) }}
-
 
 
     <div class="col-md-12 ">
@@ -195,10 +194,24 @@
 
 
                 <div class="col-md-12  mb-3">
-                    {{ form_widget(form.photo,{'attr':{'class':'form-control form-control-sm drop',}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Photo de profil
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.photo,{'attr':{'class':'form-control form-control-sm drop'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12  mb-3">
-                    {{ form_widget(form.signature,{'attr':{'class':'form-control form-control-sm drop',}}) }}
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Signature mail
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.signature,{'attr':{'class':'form-control form-control-sm drop'}}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
