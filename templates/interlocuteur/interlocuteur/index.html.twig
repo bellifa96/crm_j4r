@@ -19,7 +19,12 @@
                 <th>Type</th>
                 <th>Siret</th>
                 <th>Activité</th>
-                <th>Rôle</th>
+                {% if path('app_interlocuteur_interlocuteur_index') == path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) %}
+                    <th>Rôle</th>
+                {% else %}
+                    <th>Commentaire</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -81,11 +86,17 @@
 
                     <td>{{ interlocuteur.societe is not empty and interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre: "" }}</td>
 
-                    <td>
-                        {% for role in interlocuteur.roles %}
-                            {{ role }}
-                        {% endfor %}
-                    </td>
+                    {% if path('app_interlocuteur_interlocuteur_index') == path(app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')) %}
+                        <td>
+                            {% for role in interlocuteur.roles %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
+                    {% else %}
+                        <td>{{ interlocuteur.commentaire }}</td>
+                    {% endif %}
+
                 </tr>
             {% else %}
                 <tr>
