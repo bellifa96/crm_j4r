@@ -17,7 +17,7 @@
                                     <h4>{{user.lastname~" "~user.firstname}}</h4>
                                     <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : ""}} {{ user.service ? user.service.titre : ""}}</p>
                                     <p class="text-muted font-size-sm">48 bd Félix Faure, Aubervilliers</p>
-                                    <button class="btn btn-primary">Modifier</button>
+                                    <a href="{{ path('app_user_edit',{'id':user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
                                     <button class="btn btn-outline-primary">Supprimer</button>
                                 </div>
                             </div>
