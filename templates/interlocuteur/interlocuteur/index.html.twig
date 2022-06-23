@@ -19,7 +19,7 @@
                 <th>Type</th>
                 <th>Siret</th>
                 <th>Activité</th>
-                <th>Commentaire</th>
+                <th>Rôle</th>
             </tr>
             </thead>
             <tbody>
@@ -81,7 +81,11 @@
 
                     <td>{{ interlocuteur.societe is not empty and interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre: "" }}</td>
 
-                    <td>{{ interlocuteur.commentaire }}</td>
+                    <td>
+                        {% for role in interlocuteur.roles %}
+                            {{ role }}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>

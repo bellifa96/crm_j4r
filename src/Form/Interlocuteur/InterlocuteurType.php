@@ -37,7 +37,7 @@ class InterlocuteurType extends AbstractType
                         'Fournisseur' => 'ROLE_FOURNISSEUR',
                         'Sous Traitant' => 'ROLE_SOUS_TRAITANT',
                         'Transporteur' => 'ROLE_TRANSPORTEUR',
-                        'Partenaire' => 'Partenaire'
+                        'Partenaire' => 'ROLE_PARTENAIRE'
                     ],
                     'multiple' => true,
                     'expanded' => true,
