@@ -482,208 +482,26 @@
     </div>
 
 
-    <div class="page-block col-md-10 m-auto mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row mt-1">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Type de préstation</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.typeDePrestation }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Documents souhaités </label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.documentsSouhaites|join('-') }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Fonds de plan </label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.fondsDePlan }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Travaux prevus </label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {{ demande.travauxPrevus|join('\n')|nl2br }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Classe d'échafaudage </label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.ClasseDEchaffaudage }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Type de materiel</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.TypeDeMateriel }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Dimensions globales :</label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {{ demande.dimensionsGlobales|join('\n')|nl2br }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels">Ammarages</label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {{ demande.ammarages|join('\n')|nl2br }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Largeur de travail</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.LargeurDeTravail }}
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Consoles</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.consoles }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Distance à la façade</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.distanceALaFacade }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Hauteur des planchers</label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {% for key,value in demande.hauteurDesPlanchers %}
-                            <div> {{ key~" : "~value }} </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Équipements</label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {% for key,value in demande.equipements %}
-                            <div>
-                                {% if value == "Passage piéton" %}
-                                    {{ value~" : "~demande.largeurPassagePieton }}
-                                {% elseif value == "Protection couvreur" %}
-                                    {{ value~" : "~demande.protectionCouvreur }}
-                                {% else %}
-                                    {{ value }}
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Accés</label>
-                    </div>
-                    <div class="col-md-9 form-control-sm-2">
-                        {{ demande.acces }}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                        <label class="labels"> Bâche et filet </label>
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {% for key,value in demande.bacheEtFilet %}
-                            <div>
-                                {{ key~" : "~value }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3 text-end">
-                    </div>
-                    <div class="col-md-9 bg-leasy">
-                        {% for key,value in demande.bache %}
-                            <div>
-                                {{ value }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <div class="page-block col-md-10 m-auto mt-4">
-        <div class="row mt-2">
-            <div class="col-md-auto text-end">
-                Commentaire
-            </div>
-            <div class="col-md-10 bg-leasy">
-                {{ demande.commentaire|raw('html') }}
-            </div>
-        </div>
-
-    </div>
-
-
     <div class="col-md-12 page-block mt-4">
 
 
         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
             <li class="col nav-item" role="presentation">
-                <button class="nav-link active" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
+                <button class="nav-link {{ demande.menu is empty ? 'active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                        type="button"
+                        role="tab" aria-controls="details" aria-selected="true">
+                    Détail demande
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'active' : '' }}" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
                         type="button"
                         role="tab" aria-controls="taches" aria-selected="true">
                     Tâches
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="Commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                <button class="nav-link{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'active' : '' }}" id="commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
                         type="button"
                         role="tab" aria-controls="Commentaires" aria-selected="false">
                     Commentaires
@@ -696,14 +514,14 @@
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
                         role="tab" aria-controls="ged" aria-selected="false">
                     GED
                 </button>
             </li>
 
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'active' : '' }}" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
                         type="button"
                         role="tab" aria-controls="historique" aria-selected="false">
                     Historique
@@ -714,8 +532,201 @@
 
         <div class="tab-content mt-4" id="myTabContent">
 
+
+            <!-- Détails -->
+            <div class="tab-pane fade {{ demande.menu is empty ? 'show active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'show active' : '' }}" id="details" role="tabpanel" aria-labelledby="details-tab">
+                <div class="page-block col-md-12 m-auto mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row mt-1">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Type de préstation</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.typeDePrestation }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Documents souhaités </label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.documentsSouhaites|join('-') }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Fonds de plan </label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.fondsDePlan }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Travaux prevus </label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {{ demande.travauxPrevus|join('\n')|nl2br }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Classe d'échafaudage </label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.ClasseDEchaffaudage }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Type de materiel</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.TypeDeMateriel }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Dimensions globales</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {{ demande.dimensionsGlobales|join('\n')|nl2br }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Ammarages</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {{ demande.ammarages|join('\n')|nl2br }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Largeur de travail</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.LargeurDeTravail }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Consoles</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.consoles }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Distance à la façade</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.distanceALaFacade }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Hauteur des planchers</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for key,value in demande.hauteurDesPlanchers %}
+                                        <div> {{ key~" : "~value }} </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Équipements</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for key,value in demande.equipements %}
+                                        <div>
+                                            {% if value == "Passage piéton" %}
+                                                {{ value~" : "~demande.largeurPassagePieton }}
+                                            {% elseif value == "Protection couvreur" %}
+                                                {{ value~" : "~demande.protectionCouvreur }}
+                                            {% else %}
+                                                {{ value }}
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Accés</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {{ demande.acces }}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels"> Bâche et filet </label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for key,value in demande.bacheEtFilet %}
+                                        <div>
+                                            {{ key~" : "~value }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for key,value in demande.bache %}
+                                        <div>
+                                            {{ value }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="page-block col-md-12 m-auto mt-4">
+                    <div class="row mt-2">
+                        <div class="col-md-auto text-end">
+                            Commentaire
+                        </div>
+                        <div class="col-md-10 bg-leasy">
+                            {{ demande.commentaire|raw('html') }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
             <!-- Taches -->
-            <div class="tab-pane fade show active" id="taches" role="tabpanel" aria-labelledby="taches-tab">
+            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'show active' : '' }}" id="taches" role="tabpanel" aria-labelledby="taches-tab">
 
                 <div class="col-md-12 m-auto mt-4">
                     <div class="card-hover-shadow-2x mb-3 card">
@@ -827,7 +838,7 @@
             </div>
 
             <!-- Commentaires -->
-            <div class="tab-pane fade" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'show active' : '' }}" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
 
                 <div id="viewport" class="row">
 
@@ -942,7 +953,7 @@
                 </div>
             </div>
             <!-- Ged -->
-            <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'show active' : '' }}" id="ged" role="tabpanel" aria-labelledby="ged-tab">
 
                 <div class="row mt-4 justify-content-around">
 
@@ -1040,7 +1051,7 @@
 
             </div>
             <!-- Historique -->
-            <div class="tab-pane fade" id="historique" role="tabpanel" aria-labelledby="historique-tab">
+            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'show active' : '' }}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
 
                 <div class="col-md-6 m-auto row mt-2">
                     <div class="col-md-5 text-end">
@@ -1205,6 +1216,15 @@
                              </li>`
                     $('#' + ul).append(li)
                 }
+            })
+
+        });
+
+        $("#details-tab, #taches-tab, #commentaires-tab, #affaires-tab, #ged-tab").click( function (){
+
+            let id = $(this).attr('id');
+            $.get("/demande/menu/demande/" + id + "/{{ demande.id }}", function (data){
+                console.log(data);
             })
 
         });

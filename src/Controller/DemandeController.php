@@ -13,6 +13,8 @@ use App\Service\EmailService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -108,7 +110,7 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
     public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository,DemandeRepository $demandeRepository): Response
     {
-
+        dump($demande);
 
         if(empty($demande->getReference())){
             $demande->setReference(date('y').date('m').'-'.$demande->getId());
@@ -266,6 +268,29 @@ class DemandeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route ('/menu/demande/{value}/{id}', name: 'app_demande_menu', methods: ['GET'])]
+    public function activeMenu(Demande $demande, $value, DemandeRepository $demandeRepository) :Response
+    {
+        $menu = $demande->getMenu();
+        $menu[$this->getUser()->getId()] = $value;
+        $demande->setMenu($menu);
+        try {
+            $demandeRepository->add($demande);
+            return new Response(json_encode([
+                'code' => 200,
+                'message' => 'Ok'
+            ]));
+        } catch (OptimisticLockException|ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode([
+            'code' => 404,
+            'message' => 'Erreur'
+        ]));
+
     }
 
     /**

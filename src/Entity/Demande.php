@@ -239,6 +239,9 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $neufReno;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $menu = [];
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -1010,6 +1013,18 @@ class Demande
     public function setNeufReno(?string $neufReno): self
     {
         $this->neufReno = $neufReno;
+
+        return $this;
+    }
+
+    public function getMenu(): ?array
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?array $menu): self
+    {
+        $this->menu = $menu;
 
         return $this;
     }
