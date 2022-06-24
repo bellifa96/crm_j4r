@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UpdatePasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -100,16 +101,33 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET','POST'])]
+    public function show(User $user,Request $request,UserRepository $userRepository,UserPasswordHasherInterface $passwordHasher): Response
     {
+
+        if($user !== $this->getUser() and !$this->isGranted("ROLE_ADMIN")){
+            return $this->redirectToRoute('app_user_show', ['id'=>$this->getUser()->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        $form = $this->createForm(UpdatePasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+            $userRepository->add($user);
+            return $this->redirectToRoute('app_user_show', ['id'=>$user->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'form'=>$form->createView(),
             'title' => $user->getFirstname() . " " . $user->getLastname(),
             'nav' => [],
 
         ]);
     }
+
+
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response

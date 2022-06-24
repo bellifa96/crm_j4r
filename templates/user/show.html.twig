@@ -18,7 +18,7 @@
                                     <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : ""}} {{ user.service ? user.service.titre : ""}}</p>
                                     <p class="text-muted font-size-sm">48 bd Félix Faure, Aubervilliers</p>
                                     <a href="{{ path('app_user_edit',{'id':user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
-                                    <button class="btn btn-outline-primary">Supprimer</button>
+                                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">Changer le mot de passe</button>
                                 </div>
                             </div>
                         </div>
@@ -173,6 +173,61 @@
         </div>
     </div>
 
+
+
+
+
+
+    <!-- Modal -->
+
+
+    <script>
+
+        let modal = `
+         <div class="modal fade" id="passwordModal"   role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Changer le mot de passe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(form) }}
+
+                <div class="modal-body">
+                    <div class="col-md-12 mb-3">
+                        <div class="row">
+                            <div class="col-md-3 text-end fw-bold">
+                                Mot de passe
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.password.first,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'mot de passe'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12  mb-3">
+                        <div class="row">
+                            <div class="col-md-3 text-end fw-bold">
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.password.second,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','required':'true','placeholder':'repeter le mot de passse'}}) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit"  class="btn btn-primary">Enregistrer</button>
+                </div>
+                {{form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+        `
+
+        $('body').append(modal);
+    </script>
     <style>
         body {
             margin-top: 20px;
