@@ -518,12 +518,14 @@
 
                     const etablissementAdresse = data.etablissement.adresseEtablissement;
 
-                    let adresse = etablissementAdresse.numeroVoieEtablissement + " "
-                        + etablissementAdresse.typeVoieEtablissement + " "
-                        + etablissementAdresse.libelleVoieEtablissement + " "
 
-                    let cp = etablissementAdresse.codePostalEtablissement;
-                    let ville = etablissementAdresse.libelleCommuneEtablissement;
+                    const nve =  etablissementAdresse.numeroVoieEtablissement !== null ? etablissementAdresse.numeroVoieEtablissement : "" ;
+                    const tve = etablissementAdresse.typeVoieEtablissement !== null ? etablissementAdresse.typeVoieEtablissement : "" ;
+                    const lve = etablissementAdresse.libelleVoieEtablissement !== null ? etablissementAdresse.libelleVoieEtablissement : "";
+                    let adresse = nve + " " + tve + " " + lve;
+
+                    let cp = etablissementAdresse.codePostalEtablissement != null ? etablissementAdresse.codePostalEtablissement : " ";
+                    let ville = etablissementAdresse.libelleCommuneEtablissement != null ? etablissementAdresse.libelleCommuneEtablissement : " " ;
 
                     $("#interlocuteur_societe_adresse1").val(adresse);
                     $('#interlocuteur_societe_codePostal').val(cp);
@@ -539,6 +541,7 @@
     }
 
     $('#interlocuteur_societe_siren').on("keyup change", function () {
+        $('#interlocuteur_societe_siren').val($('#interlocuteur_societe_siren').val().replace(/\s/g,''))
         if ($('#interlocuteur_societe_siren').val().length === 9) {
             requestSiren();
         }
