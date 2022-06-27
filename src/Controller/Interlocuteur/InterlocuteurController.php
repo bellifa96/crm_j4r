@@ -2,6 +2,7 @@
 
 namespace App\Controller\Interlocuteur;
 
+use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Ged\FichierType;
@@ -100,7 +101,7 @@ class InterlocuteurController extends AbstractController
             }
             try {
                 $interlocuteurRepository->add($interlocuteur);
-                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id' => $interlocuteur->getId()], Response::HTTP_SEE_OTHER);
             } catch (OptimisticLockException $e) {
                 dd($e);
             } catch (ORMException $e) {
@@ -118,13 +119,13 @@ class InterlocuteurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger,DemandeRepository $demandeRepository): Response
+    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger, DemandeRepository $demandeRepository): Response
     {
         $fichier = new Fichier();
 
-        $demamndes =$demandeRepository->findAllDemande($interlocuteur->getId());
+        $demamndes = $demandeRepository->findAllDemande($interlocuteur->getId());
 
-      //  dd($demamndes);
+        //  dd($demamndes);
 
         $form = $this->createForm(FichierType::class, $fichier);
         $form->handleRequest($request);
@@ -151,7 +152,7 @@ class InterlocuteurController extends AbstractController
                     $fichier->setFichier($newFilename);
 
                 } catch (FileException $e) {
-                    $this->addFlash('danger',$e->getMessage());
+                    $this->addFlash('danger', $e->getMessage());
                     // ... handle exception if something happens during file upload
                 }
             }
@@ -162,7 +163,7 @@ class InterlocuteurController extends AbstractController
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
             'form' => $form->createView(),
             'interlocuteur' => $interlocuteur,
-            'demandes'=> $demamndes,
+            'demandes' => $demamndes,
             'title' => !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom(),
             'nav' => [['app_interlocuteur_interlocuteur_edit', 'Modifier', $interlocuteur->getId()]],
 
@@ -203,10 +204,32 @@ class InterlocuteurController extends AbstractController
             try {
                 $interlocuteurRepository->remove($interlocuteur);
             } catch (OptimisticLockException|ORMException|ForeignKeyConstraintViolationException $e) {
-                $this->addFlash('danger','Vous ne pouvez pas supprimer cette fiche car des éléments y sont liés');
-                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
+                $this->addFlash('danger', 'Vous ne pouvez pas supprimer cette fiche car des éléments y sont liés');
+                return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id' => $interlocuteur->getId()], Response::HTTP_SEE_OTHER);
             }
         }
         return $this->redirectToRoute('app_interlocuteur_interlocuteur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route ('/menu/interlocuteur/{value}/{id}', name: 'app_interlocuteur_interlocuteur_menu', methods: ['GET'])]
+    public function activeMenu(Interlocuteur $interlocuteur, $value, InterlocuteurRepository $interlocuteurRepository): Response
+    {
+        $menu = $interlocuteur->getMenu();
+        $menu[$this->getUser()->getId()] = $value;
+        $interlocuteur->setMenu($menu);
+        try {
+            $interlocuteurRepository->add($interlocuteur);
+            return new Response(json_encode([
+                'code' => 200,
+                'message' => 'Ok'
+            ]));
+        } catch (OptimisticLockException|ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode([
+            'code' => 404,
+            'message' => 'Erreur'
+        ]));
     }
 }

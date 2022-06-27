@@ -51,6 +51,9 @@ class Interlocuteur
     #[ORM\Column(type: 'array', nullable: true)]
     private $roles = [];
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $menu = [];
+
 
     public function __construct()
     {
@@ -286,6 +289,18 @@ class Interlocuteur
     public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getMenu(): ?array
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?array $menu): self
+    {
+        $this->menu = $menu;
 
         return $this;
     }

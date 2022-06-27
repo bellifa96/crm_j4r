@@ -284,53 +284,61 @@
 
         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
             <li class="col nav-item" role="presentation">
-                <button class="nav-link active" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts"
+                <button class="nav-link {{ interlocuteur.menu is empty ? 'active' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active' : '' }}"
+                        id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts"
                         type="button"
                         role="tab" aria-controls="contacts" aria-selected="true">
                     Contacts
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="demandes-tab" data-bs-toggle="tab" data-bs-target="#demandes" type="button"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'demandes-tab' ? 'active' : '' }}"
+                        id="demandes-tab" data-bs-toggle="tab" data-bs-target="#demandes" type="button"
                         role="tab" aria-controls="demandes" aria-selected="false">
                     Demandes
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="devis-tab" data-bs-toggle="tab" data-bs-target="#devis" type="button"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'devis-tab' ? 'active' : '' }}"
+                        id="devis-tab" data-bs-toggle="tab" data-bs-target="#devis" type="button"
                         role="tab" aria-controls="devis" aria-selected="false">
                     Devis
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'affaires-tab' ? 'active' : '' }}"
+                        id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
                         role="tab" aria-controls="affaire" aria-selected="false">
                     Affaires
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active' : '' }}"
+                        id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers"
                         type="button"
                         role="tab" aria-controls="chantiers" aria-selected="false">
                     Chantiers
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="accreditation-tab" data-bs-toggle="tab" data-bs-target="#accreditation"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'accreditation-tab' ? 'active' : '' }}"
+                        id="accreditation-tab" data-bs-toggle="tab" data-bs-target="#accreditation"
                         type="button"
                         role="tab" aria-controls="accreditation" aria-selected="false">
                     Accréditation
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active' : '' }}"
+                        id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques"
                         type="button"
                         role="tab" aria-controls="statistiques" aria-selected="false">
                     Statistiques
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}"
+                        id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
                         role="tab" aria-controls="ged" aria-selected="false">
                     GED
                 </button>
@@ -341,7 +349,8 @@
         <div class="tab-content mt-4" id="myTabContent">
 
             <!-- Contact -->
-            <div class="tab-pane fade show active" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+            <div class="tab-pane fade {{ interlocuteur.menu is empty ? 'active show' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active show' : '' }}"
+                 id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
 
                 <div class="row justify-content-end mt-4 mb-2">
                     <a href="{{ path('app_contact_contact_new',{'id':interlocuteur.id}) }}"
@@ -386,7 +395,10 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
+
+            <!-- Demandes -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'demandes-tab' ? 'active show' : '' }}"
+                 id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
 
                 <div class="col-md-12 m-auto mt-4">
 
@@ -456,16 +468,37 @@
 
 
             </div>
-            <div class="tab-pane fade" id="devis" role="tabpanel" aria-labelledby="devis-tab">devis</div>
-            <div class="tab-pane fade" id="affaires" role="tabpanel" aria-labelledby="affaires-tab">affaires</div>
-            <div class="tab-pane fade" id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">chantiers</div>
-            <div class="tab-pane fade" id="accreditation" role="tabpanel" aria-labelledby="accreditation-tab">
+
+            <!-- Devis -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'devis-tab' ? 'active show' : '' }}"
+                 id="devis" role="tabpanel" aria-labelledby="devis-tab">devis
+            </div>
+
+            <!--Affaires -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'affaires-tab' ? 'active show' : '' }}"
+                 id="affaires" role="tabpanel" aria-labelledby="affaires-tab">affaires
+            </div>
+
+            <!-- Chantiers -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active show' : '' }}"
+                 id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">chantiers
+            </div>
+
+            <!-- Accréditations -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'accreditations-tab' ? 'active show' : '' }}"
+                 id="accreditation" role="tabpanel" aria-labelledby="accreditation-tab">
                 accreditation
             </div>
-            <div class="tab-pane fade" id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
+
+            <!-- Statistiques -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active show' : '' }}"
+                 id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
                 statistiques
             </div>
-            <div class="tab-pane fade" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+
+            <!-- Ged -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active show' : '' }}"
+                 id="ged" role="tabpanel" aria-labelledby="ged-tab">
 
                 <div class="row mt-4 justify-content-around">
 
@@ -565,6 +598,19 @@
         </div>
 
     </div>
+
+    <script>
+
+        $("#contacts-tab, #demandes-tab, #devis-tab, #affaires-tab, #chantiers-tab, #accreditation-tab, #statistiques-tab, #ged-tab").click(function () {
+
+            let id = $(this).attr('id');
+            $.get("/interlocuteur/interlocuteur/menu/interlocuteur/" + id + "/{{ interlocuteur.id }}", function (data) {
+                console.log(data);
+            })
+
+        });
+
+    </script>
 {% endblock %}
 
 
