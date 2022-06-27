@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Materiel;
 use App\Form\Ged\FichierType;
 use App\Form\MaterielType;
-use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\MaterielRepository;
 use Doctrine\ORM\OptimisticLockException;
