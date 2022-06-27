@@ -1,0 +1,737 @@
+<div class="row mt-3 facade plateforme particulier">
+    <div class="col-md-3 text-end labels">
+        Classe d echaffaudage :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_classeDEchaffaudage" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_classeDEchaffaudage_0"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 1 (75daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 1 (75daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_0" class="required">Classe 1 (75daN/m² sur 1,5 niv.)</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_classeDEchaffaudage_1"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 2 (150daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 2 (150daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_1" class="required">Classe 2 (150daN/m² sur 1,5
+                    niv.)</label>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_classeDEchaffaudage_2"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 3 (200daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 3 (200daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_2" class="required">Classe 3 (200daN/m² sur 1,5
+                    niv.)</label>
+            </div>
+
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_classeDEchaffaudage_3"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 4 (300daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 4 (300daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_3" class="required">Classe 4 (300daN/m² sur 1,5
+                    niv.)</label>
+
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_classeDEchaffaudage_4"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 5 (450daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 5 (450daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_4" class="required">Classe 5 (450daN/m² sur 1,5
+                    niv.)</label>
+
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_classeDEchaffaudage_5"
+                       name="demande[classeDEchaffaudage]" {{ "Classe 6 (600daN/m² sur 1,5 niv.)" == demande.classeDEchaffaudage ? "checked" : "" }}
+                       value="Classe 6 (600daN/m² sur 1,5 niv.)">
+                <label for="demande_classeDEchaffaudage_5" class="required">Classe 6 (600daN/m² sur 1,5
+                    niv.)</label>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade plateforme parapluie">
+    <div class="col-md-3 text-end labels">
+        Type de materiel :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_typeDeMateriel" class="row">
+            <div class="col-md-4 facade plateforme">
+                <input type="radio" id="demande_typeDeMateriel_0"
+                       name="demande[typeDeMateriel]" {{ "Universel" == demande.typeDeMateriel ? "checked" : "" }}
+                       value="Universel">
+                <label for="demande_typeDeMateriel_0" class="required">Universel</label>
+            </div>
+            <div class="col-md-4 facade plateforme">
+                <input type="radio" id="demande_typeDeMateriel_1"
+                       name="demande[typeDeMateriel]" {{ "Eurofacadacier" == demande.typeDeMateriel ? "checked" : "" }}
+                       value="Eurofacadacier">
+                <label for="demande_typeDeMateriel_1" class="required">Eurofacadacier</label>
+            </div>
+            <div class="col-md-4 parapluie">
+                <input type="radio" id="demande_typeDeMateriel_2"
+                       name="demande[typeDeMateriel]" {{ "Couvralu" == demande.typeDeMateriel ? "checked" :"" }}
+                       value="Couvralu">
+                <label for="demande_typeDeMateriel_2" class="required">Couvralu</label>
+            </div>
+            <div class="col-md-4 parapluie">
+                <input type="radio" id="demande_typeDeMateriel_3"
+                       name="demande[typeDeMateriel]" {{ "Couvralu XL" == demande.typeDeMateriel ? "checked" :"" }}
+                       value="Couvralu XL">
+                <label for="demande_typeDeMateriel_3" class="required">Couvralu XL</label>
+            </div>
+            <div class="col-md-4 parapluie">
+                <input type="radio" id="demande_typeDeMateriel_4"
+                       name="demande[typeDeMateriel]" {{ "Fixe" == demande.typeDeMateriel ? "checked" :"" }}
+                       value="Fixe">
+                <label for="demande_typeDeMateriel_4" class="required">Fixe</label>
+            </div>
+            <div class="col-md-4 parapluie">
+                <input type="radio" id="demande_typeDeMateriel_5"
+                       name="demande[typeDeMateriel]" {{ "Roulant" == demande.typeDeMateriel ? "checked" :"" }}
+                       value="Roulant">
+                <label for="demande_typeDeMateriel_5" class="required">Roulant</label>
+            </div>
+
+            <div class="col-md-4 facade plateforme parapluie">
+                <input type="radio" id="demande_typeDeMateriel_6"
+                       name="demande[typeDeMateriel]" {{ demande.typeDeMateriel !="Eurofacadacier" and demande.typeDeMateriel != "Universel" and demande.typeDeMateriel is not empty ? "checked" : "" }}
+                       value="Autre">
+                <label for="demande_typeDeMateriel_6" class="required">Autre</label>
+            </div>
+
+            {% if demande.typeDeMateriel !="Eurofacadacier" and demande.typeDeMateriel != "Universel" and demande.typeDeMateriel != "Couvralu" and demande.typeDeMateriel != "Couvralu XL" and demande.typeDeMateriel != "Fixe" and demande.typeDeMateriel != "Roulant" and demande.typeDeMateriel is not empty %}
+                <div class="col-md-12 mt-2">
+                    <input type="text" id="demande_typeDeMateriel_autre" name="demande[typeDeMateriel]"
+                           value="{{ demande.typeDeMateriel }}"
+                           class="form-control">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade particulier">
+    <div class="col-md-3 text-end labels">
+        Dimensions globales :
+    </div>
+    <div class="col-md-9 row">
+
+        <div class="col-md-4">
+            <label for="demande_dimensionsGlobales_longueur_totale" class="required">Longueur totale en m</label>
+            <input type="text" id="demande_dimensionsGlobales_longueur_totale" class="form-control"
+                   value='{{ "longueurTotale" in demande.dimensionsGlobales|keys ? demande.dimensionsGlobales["longueurTotale"] : "" }}'
+                   name="demande[dimensionsGlobales][longueurTotale]" placeholder="m env.">
+        </div>
+        <div class="col-md-4">
+
+            <label for="demande_dimensionsGlobales_hauteur_totale" class="required">Hauteur Totale en m</label>
+            <input type="text" id="demande_dimensionsGlobales_hauteur_totale" class="form-control"
+                   value='{{ "hauteurTotale" in demande.dimensionsGlobales|keys ? demande.dimensionsGlobales["hauteurTotale"] : "" }}'
+                   name="demande[dimensionsGlobales][hauteurTotale]" placeholder="m env.">
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade parapluie plateforme particulier">
+    <div class="col-md-3 text-end labels">
+        Ammarages :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_ammarages" class="row">
+            <div class="col-md-4 facade parapluie plateforme particulier ">
+
+                <input type="checkbox" id="demande_ammarages_0"
+                       name="demande[ammarages][]" {{ "Ancrages simples"  in demande.ammarages ? "checked" :"" }}
+                       value="Ancrages simples">
+                <label for="demande_ammarages_0" class="required">Ancrages simples</label>
+            </div>
+            <div class="col-md-4 facade parapluie plateforme particulier">
+
+                <input type="checkbox" id="demande_ammarages_1"
+                       name="demande[ammarages][]" {{ "Cravatages"  in demande.ammarages ? "checked" :"" }}
+                       value="Cravatages">
+                <label for="demande_ammarages_1" class="required">Cravatages</label>
+            </div>
+            <div class="col-md-4 facade">
+
+                <input type="checkbox" id="demande_ammarages_2"
+                       name="demande[ammarages][]" {{ "Verinage"  in demande.ammarages ? "checked" :"" }}
+                       value="Verinage">
+                <label for="demande_ammarages_2" class="required">Vérinage</label>
+            </div>
+            <div class="col-md-4 facade parapluie plateforme particulier">
+
+                <input type="checkbox" id="demande_ammarages_3"
+                       name="demande[ammarages][]" {{ "Lest"  in demande.ammarages ? "checked" :"" }}
+                       value="Lest">
+                <label for="demande_ammarages_3" class="required">Lest</label>
+            </div>
+            <div class="col-md-4 parapluie plateforme particulier">
+
+                <input type="checkbox" id="demande_ammarages_4"
+                       name="demande[ammarages][]" {{ "Butonnages"  in demande.ammarages ? "checked" :"" }}
+                       value="Butonnages">
+                <label for="demande_ammarages_4" class="required">Butonnages</label>
+            </div>
+            <div class="col-md-4 parapluie plateforme particulier">
+
+                <input type="checkbox" id="demande_ammarages_5"
+                       name="demande[ammarages][]" {{ "Autostable"  in demande.ammarages ? "checked" :"" }}
+                       value="Autostable">
+                <label for="demande_ammarages_5" class="required">Autostable</label>
+            </div>
+            <div class="col-md-4 facade parapluie plateforme particulier">
+
+                <input type="checkbox" id="demande_ammarages_6"
+                       name="demande[ammarages][]" {{ "Autre"  in demande.ammarages ? "checked" :"" }}
+                       value="Autre">
+                <label for="demande_ammarages_6" class="required">Autre</label>
+            </div>
+            {% if "Autre"  in demande.ammarages %}
+
+                {% for val in demande.ammarages %}
+                    {% if val !="Ancrages simples" and val != "Cravatages" and val!="Lest" and val != "Autre" and val !="Verinage" and val !="Butonnages" and val != "Autostable" %}
+                        <div class="col-md-12 mt-2">
+                            <input type="text" id="demande_ammarages_autre" name="demande[ammarages][]"
+                                   class="form-control"
+                                   value="{{ val }}"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade">
+    <div class="col-md-3 text-end labels">
+        Largeur de travail :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_largeur_de_travail" class="row">
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_largeur_de_travail_0"
+                       name="demande[largeurDeTravail]" {{ "0.7" == demande.largeurDeTravail ? "checked" :"" }}
+
+                       value="0.7">
+                <label for="demande_largeur_de_travail_0" class="required">0,7 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_largeur_de_travail_1"
+                       name="demande[largeurDeTravail]" {{ "1" == demande.largeurDeTravail ? "checked" :"" }}
+
+                       value="1">
+                <label for="demande_largeur_de_travail_1" class="required">1 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_largeur_de_travail_2"
+                       name="demande[largeurDeTravail]" {{ demande.largeurDeTravail !="1" and demande.largeurDeTravail != "0.7" and demande.largeurDeTravail is not empty  ?  "checked":"" }}
+
+                       value="Autre">
+                <label for="demande_largeur_de_travail_2" class="required">Autre</label>
+            </div>
+            {% if demande.largeurDeTravail !="1" and demande.largeurDeTravail != "0.7" and demande.largeurDeTravail is not empty %}
+                <div class="col-md-12 mt-2">
+                    <input type="text" id="demande_largeurDeTravail_autre" name="demande[largeurDeTravail]"
+                           value="{{ demande.largeurDeTravail }}"
+                           class="form-control">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade">
+    <div class="col-md-3 text-end labels">
+        Consoles :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_consoles" class="row">
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_consoles_0" name="demande[consoles]"
+                        {{ "0.4" == demande.consoles ? "checked" :"" }}
+                       value="0.4">
+                <label for="demande_consoles_0" class="required">0,4 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_consoles_1" name="demande[consoles]"
+                        {{ "0.7" == demande.consoles ? "checked" :"" }}
+                       value="0.7">
+                <label for="demande_consoles_1" class="required">0,7 m</label>
+            </div>
+
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_consoles_2" name="demande[consoles]"
+                        {{ demande.consoles !="0.4" and demande.consoles != "0.7"  and demande.consoles is not empty ? "checked" :"" }}
+                       value="Autre">
+                <label for="demande_consoles_2" class="required">Autre</label>
+            </div>
+
+            {% if demande.consoles !="0.4" and demande.consoles != "0.7" and demande.consoles is not empty %}
+                <div class="col-md-12 mt-2">
+                    <input type="text" id="demande_consoles_autre" name="demande[consoles]"
+                           value="{{ demande.consoles }}"
+                           class="form-control">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade">
+    <div class="col-md-3 text-end labels">
+        Distance à la façade :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_distance_a_la_facade" class="row">
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_distance_a_la_facade_0"
+                       name="demande[distanceALaFacade]" {{ "0.2" == demande.distanceALaFacade ? "checked" :"" }}
+                       value="0.2">
+                <label for="demande_distance_a_la_facade_0" class="required">0,2 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_distance_a_la_facade_1"
+                       name="demande[distanceALaFacade]" {{ demande.distanceALaFacade != "0.2"  and demande.distanceALaFacade is not empty ? "checked" :"" }}
+                       value="Autre">
+                <label for="demande_distance_a_la_facade_1" class="required">Autre</label>
+            </div>
+            {% if demande.distanceALaFacade !="0.2" and demande.distanceALaFacade is not empty %}
+                <div class="col-md-12 mt-2">
+                    <input type="text" id="demande_distance_a_la_facade_autre" name="demande[distanceALaFacade]"
+                           value="{{ demande.distanceALaFacade }}"
+                           class="form-control"/>
+                </div>
+
+            {% elseif  demande.distanceALaFacade =="0.2" %}
+                <div id="demande_rapport_distance_a_la_facade">
+                    <input type="radio" id="demande_rapport_distance_a_la_facade_0"
+                           name="demande[rapportDistanceALaFacade]" value="Par rapport au brut"
+                            {{ "Par rapport au brut" == demande.rapportDistanceALaFacade ? "checked" :"" }}
+                    >
+                    <label for="demande_rapport_distance_a_la_facade_0" class="required">Par rapport au brut</label>
+
+                    <input type="radio" id="demande_rapport_distance_a_la_facade_1"
+                           name="demande[rapportDistanceALaFacade]" value="Par rapport au fini"
+                            {{ "Par rapport au fini" == demande.rapportDistanceALaFacade ? "checked" :"" }}
+                    >
+                    <label for="demande_rapport_distance_a_la_facade_1" class="required">Par rapport au fini</label>
+
+                    <input type="radio" id="demande_rapport_distance_a_la_facade_2"
+                           name="demande[rapportDistanceALaFacade]" value="Autre"
+                            {{ "Par rapport au fini" != demande.rapportDistanceALaFacade  and  "Par rapport au brut" != demande.rapportDistanceALaFacade and  demande.rapportDistanceALaFacade  is not empty ? "checked" :"" }}
+                    >
+                    <label for="demande_rapport_distance_a_la_facade_2" class="required">Autre</label>
+
+
+                    {% if demande.rapportDistanceALaFacade != "Par rapport au fini" and demande.rapportDistanceALaFacade != "Par rapport au brut" and demande.rapportDistanceALaFacade is not empty %}
+                        <input type="text" id="demande_rapport_distance_a_la_facade_autre"
+                               name="demande[rapportDistanceALaFacade]"
+                               value="{{ demande.rapportDistanceALaFacade }}"/>
+                    {% endif %}
+
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade">
+    <div class="col-md-3 text-end labels">
+        Hauteur des planchers :
+    </div>
+    <div class="col-md-9">
+        <div class="row" id="demande_hauteur_des_planchers">
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_0" class="required ">Sous la corniche en m</label>
+                <input type="text" id="demande_hauteur_des_planchers_0" class="form-control"
+                       name="demande[hauteurDesPlanchers][MSousLaCorniche]"
+                       value="{{ 'MSousLaCorniche' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['MSousLaCorniche'] :'' }}"
+                       placeholder="m sous la corniche">
+            </div>
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_1" class="required">Au dessus du sol en m</label>
+                <input type="text" id="demande_hauteur_des_planchers_1" class="form-control"
+                       value="{{ 'MAuDessusDuSol' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['MAuDessusDuSol'] :'' }}"
+                       name="demande[hauteurDesPlanchers][MAuDessusDuSol]"
+                       placeholder="m au dessus du sol">
+            </div>
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_des_planchers_2" class="required">Autre</label>
+                <input type="text" id="demande_hauteur_des_planchers_2" class="form-control"
+                       name="demande[hauteurDesPlanchers][Autre]"
+                       value="{{ 'Autre' in demande.hauteurDesPlanchers|keys ? demande.hauteurDesPlanchers['Autre'] :'' }}"
+                       placeholder="Autre">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade">
+    <div class="col-md-3 text-end labels">
+        Equipements :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_equipements" class="row">
+            <div class="col-md-4">
+
+                <input type="checkbox" id="demande_equipements_0"
+                       name="demande[equipements][]" {{ 'GC MDS' in demande.equipements ? "checked" :'' }}
+                       value="GC MDS">
+                <label for="demande_equipements_0" class="required">GC MDS</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="checkbox" id="demande_equipements_1"
+                       name="demande[equipements][]" {{ 'Pare gravois' in demande.equipements ? "checked" :'' }}
+                       value="Pare gravois">
+                <label for="demande_equipements_1" class="required">Pare gravois</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="checkbox" id="demande_equipements_2"
+                       name="demande[equipements][]" {{ 'GC avant' in demande.equipements ? "checked" :'' }}
+                       value="GC avant">
+                <label for="demande_equipements_2" class="required">GC avant</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="checkbox" id="demande_equipements_3"
+                       name="demande[equipements][]" {{ 'Passage piéton' in demande.equipements ? "checked" :'' }}
+                       value="Passage piéton">
+                <label for="demande_equipements_3" class="required">Passage piéton</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="checkbox" id="demande_equipements_4"
+                       name="demande[equipements][]" {{ 'Protection couvreur' in demande.equipements ? "checked" :'' }}
+                       value="Protection couvreur">
+                <label for="demande_equipements_4" class="required">Protection couvreur</label>
+            </div>
+
+            {% if 'Passage piéton' in demande.equipements %}
+
+                <div id="demande_largeur_pssage_pieton" class="equipement_sous_param mt-2">
+                    <input type="radio" id="demande_largeur_pssage_pieton_0" name="demande[largeurPassagePieton]"
+
+                           value="0.7" {{ "0.7" == demande.largeurPassagePieton ? "checked" :"" }}>
+                    <label for="demande_largeur_pssage_pieton_0" class="required">Largeur 0,7 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_1" name="demande[largeurPassagePieton]"
+                           value="1" {{ "1" == demande.largeurPassagePieton ? "checked" :"" }}>
+                    <label for="demande_largeur_pssage_pieton_1" class="required">Largeur 1 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_2" name="demande[largeurPassagePieton]"
+
+                           value="1.5" {{ "1.5" == demande.largeurPassagePieton ? "checked" :"" }}>
+                    <label for="demande_largeur_pssage_pieton_2" class="required">Largeur 1,5 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_3" name="demande[largeurPassagePieton]"
+
+                           value="Autre" {{ "0.7" != demande.largeurPassagePieton and "1.5" != demande.largeurPassagePieton and "1" != demande.largeurPassagePieton and "0.7" != demande.largeurPassagePieton ? "checked" :"" and demande.largeurPassagePieton is not empty ? "checked" :"" }}>
+                    <label for="demande_largeur_pssage_pieton_3" class="required">Autre</label>
+
+                    {% if  "0.7" != demande.largeurPassagePieton and "1.5" != demande.largeurPassagePieton and "1" != demande.largeurPassagePieton and "0.7" != demande.largeurPassagePieton ? "checked" :"" and demande.largeurPassagePieton is not empty %}
+                        <input type="text" id="demande_protection_couvreur_autre"
+                               name="demande[largeurPassagePieton]" class="form-control"
+                               value="{{ demande.largeurPassagePieton }}">
+
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if 'Protection couvreur' in demande.equipements %}
+                <div id="demande_protection_couvreur" class="equipement_sous_param">
+                    <input type="radio" id="demande_protection_couvreur_0" name="demande[protectionCouvreur]"
+
+                           value="En moise" {{ "En moise" == demande.protectionCouvreur ? "checked" :"" }}>
+                    <label for="demande_protection_couvreur_0" class="required">En moise</label>
+
+                    <input type="radio" id="demande_protection_couvreur_1" name="demande[protectionCouvreur]"
+
+                           value="Grillagée" {{ "Grillagée" == demande.protectionCouvreur ? "checked" :"" }}>
+                    <label for="demande_protection_couvreur_1" class="required">Grillagée</label>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 facade plateforme particulier">
+    <div class="col-md-3 text-end labels">
+        Acces :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_acces" class="row">
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_acces_0" name="demande[acces]"
+                        {{ "Planche à trappe" == demande.acces ? "checked" :"" }}
+                       value="Planche à trappe">
+                <label for="demande_acces_0" class="required">Planche à trappe</label>
+            </div>
+
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_acces_1" name="demande[acces]"
+                        {{ "Volée alu à palier incorporé" == demande.acces ? "checked" :"" }}
+                       value="Volée alu à palier incorporé">
+                <label for="demande_acces_1" class="required">Vollée alu à palier incorporé</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_acces_2" name="demande[acces]"
+                        {{ "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty ? "checked" :"" }}
+                       value="Autre">
+                <label for="demande_acces_2" class="required">Autre</label>
+
+                {% if "Planche à trappe" != demande.acces and "Volée alu à palier incorporé" != demande.acces  and demande.acces is not empty %}
+                    <input type="text" id="demande_acces_autre" name="demande[acces]"
+                           class="form-control" value="{{ demande.acces }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-= facade">
+    <div class="col-md-3 text-end labels">
+        Bâche et filet :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_bache_et_filet" class="row">
+            <div class="col-md-4">
+                <label for="demande_bache_et_filet_0" class="required">Bâche</label>
+                <input type="text" id="demande_bache_et_filet_0" name="demande[bacheEtFilet][bache]"
+                       value="{{ 'bache' in demande.bacheEtFilet|keys ? demande.bacheEtFilet['bache'] : '' }}"
+
+                       class="form-control" placeholder=".....g/m²">
+
+                <div class="col-md-12 mt-2">
+                    <input type="checkbox" id="demande_bache_0"
+                           name="demande[bache][]" {{ "Directement sur l'échafaudage" in demande.bache  ? "checked" :"" }}
+                           value="Directement sur l'échafaudage">
+                    <label for="demande_bache_0" class="required">Directement sur l'échafaudage</label>
+
+                </div>
+                <div class="col-md-12 mt-2">
+
+                    <input type="checkbox" id="demande_bache_1"
+                           name="demande[bache][]" {{ "Sur cadre" in demande.bache  ? "checked" :"" }}
+                           value="Sur cadre">
+                    <label for="demande_bache_1" class="required">Sur cadre</label>
+                </div>
+                <div class="col-md-12 row  mt-2" id="demande_themee">
+                    <div class="col-md-6">
+                        <input type="checkbox" id="demande_bache_2"
+                               name="demande[bache][]" {{ "Thémée" in demande.bache  ? "checked" :"" }}
+                               value="Thémée">
+                        <label for="demande_bache_2" class="required">Thémée</label>
+                    </div>
+
+                    {% if "Thémée" in demande.bache %}
+                        {% if "themee" in demande.bache|keys %}
+                            <div class="col-md-6">
+                                <input type="text" id="demande_bache_autre" value="{{ demande.bache['themee'] }}"
+                                       name="demande[bache][themee]"
+                                       class="form-control">
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col-md-12  mt-2">
+
+                    <input type="checkbox" id="demande_bache_3"
+                           name="demande[bache][]" {{ "M1" in demande.bache ? "checked" :"" }}
+                           value="M1">
+                    <label for="demande_bache_3" class="required">M1</label>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <label for="demande_bache_et_filet_1" class="required">Filet</label>
+                <input type="text" id="demande_bache_et_filet_1" name="demande[bacheEtFilet][filet]"
+                       value="{{ 'filet' in demande.bacheEtFilet|keys ? demande.bacheEtFilet['filet'] : '' }}"
+
+                       class="form-control" placeholder=".....g/m²">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 parapluie">
+    <div class="col-md-3 text-end labels">
+        Portée libre :
+    </div>
+    <div class="col-md-9 row">
+        <div id="demande_porteeLibre" class="col-md-4">
+
+            <label for="demande_porteeLibre" class="required">Portée libre (en m env.)</label>
+            <input type="text" id="demande_porteeLibre" class="form-control" value="{{ demande.porteeLibre }}"
+                   name="demande[porteeLibre]">
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 parapluie">
+    <div class="col-md-3 text-end labels">
+        Longueur :
+    </div>
+    <div class="col-md-9 row">
+        <div id="demande_longueur" class="col-md-4">
+
+            <label for="demande_longueur" class="required">Longueur (en m env.)</label>
+            <input type="text" id="demande_longueur" name="demande[longueur]"
+                   value="{{ demande.longueur }}"
+                   class="form-control">
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 parapluie">
+    <div class="col-md-3 text-end labels">
+        Hauteur :
+    </div>
+    <div class="col-md-9">
+        <div class="row" id="demande_hauteur_des_planchers">
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_0" class="required ">Hauteur libre par rapport au faîtage</label>
+                <input type="text" id="demande_hauteur_0" class="form-control"
+                       value="{{ 'Faîtage' in demande.hauteur|keys ? demande.hauteur['Faîtage'] : '' }}"
+                       name="demande[hauteur][Faîtage]"
+                       placeholder="en m">
+            </div>
+            <div class="col-md-4">
+                <label for="demande_hauteur_1" class="required">Hauteur totale depuis le sol</label>
+                <input type="text" id="demande_hauteur_1" class="form-control"
+                       value="{{ 'Sol' in demande.hauteur|keys ? demande.hauteur['Sol'] : '' }}"
+                       name="demande[hauteur][Sol]"
+                       placeholder="en m">
+            </div>
+
+            <div class="col-md-4">
+                <label for="demande_hauteur_2" class="required">Autre</label>
+                <input type="text" id="demande_hauteur_2" class="form-control"
+                       name="demande[hauteur][Autre]"
+                       value="{{ 'Autre' in demande.hauteur|keys ? demande.hauteur['Autre'] : '' }}"
+                       placeholder="Autre">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3 parapluie">
+    <div class="col-md-3 text-end labels">
+        Traitement des pignons :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_traitementDesPignons" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_traitementDesPignons_0" name="demande[traitementDesPignons]"
+                        {{ "Echafaudage"  == demande.traitementDesPignons ? "checked" :"" }}
+                       value="Echafaudage">
+                <label for="demande_traitementDesPignons_0" class="required">Structure en échafaudage</label>
+            </div>
+            <div class="col-md-5">
+                <input type="radio" id="demande_traitementDesPignons_1" name="demande[traitementDesPignons]"
+                        {{ "Hors fourniture" == demande.traitementDesPignons ? "checked" :"" }}
+                       value="Hors fourniture">
+                <label for="demande_traitementDesPignons_1" class="required">Autre système hors fourniture (hors
+                    étude)</label>
+            </div>
+            <div class="col-md-3">
+                <input type="radio" id="demande_traitementDesPignons_2" name="demande[traitementDesPignons]"
+                        {{ "Bache" == demande.traitementDesPignons ? "checked" :"" }}
+                       value="Bache">
+                <label for="demande_traitementDesPignons_2" class="required">Bâche</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 plateforme">
+    <div class="col-md-3 text-end labels">
+        Finition plancher
+    </div>
+    <div class="col-md-9">
+        <div id="demande_finitionPlancher" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_finitionPlancher_0"
+                       name="demande[finitionPlancher]" {{ "Planchers acier"  == demande.finitionPlancher ? "checked" :"" }}
+                       value="Planchers acier">
+                <label for="demande_finitionPlancher_0" class="required">Planchers acier</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_finitionPlancher_1"
+                       name="demande[finitionPlancher]" {{ "Planchers combi"  == demande.finitionPlancher ? "checked" :"" }}
+                       value="Planchers combi">
+                <label for="demande_finitionPlancher_1" class="required">Planchers combi</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_finitionPlancher_2"
+                       name="demande[finitionPlancher]" {{ "Planchers scenes"  == demande.finitionPlancher ? "checked" :"" }}
+                       value="Planchers scenes">
+                <label for="demande_finitionPlancher_2" class="required">Planchers scènes</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_finitionPlancher_3"
+                       name="demande[finitionPlancher]" {{ demande.finitionPlancher is not empty  and "Planchers acier" != demande.finitionPlancher and "Planchers scenes" != demande.finitionPlancher and "Planchers combi"  != demande.finitionPlancher ? "checked" :"" }}
+                       value="Autre">
+                <label for="demande_finitionPlancher_3" class="required">Autre</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-3 plateforme">
+    <div class="col-md-3 text-end labels">
+        GC périphérique :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_gcPeripherique" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_gcPeripherique_0"
+                       name="demande[gcPeripherique]" {{ "Moises" == demande.gcPeripherique ? "checked" : "" }}
+                       value="Moises">
+                <label for="demande_gcPeripherique_0" class="required">Moises</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_gcPeripherique_1"
+                       name="demande[gcPeripherique]" {{ "GC public grillage" == demande.gcPeripherique ? "checked" : "" }}
+                       value="GC public grillage">
+                <label for="demande_gcPeripherique_1" class="required">GC public grillagé</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_gcPeripherique_2"
+                       name="demande[gcPeripherique]" {{ "GC public barraude" == demande.gcPeripherique ? "checked" : "" }}
+                       value="GC public barraude">
+                <label for="demande_gcPeripherique_2" class="required">GC public barraudé</label>
+            </div>
+        </div>
+    </div>
+</div>
