@@ -55,6 +55,9 @@ class Materiel
     #[ORM\Column(type: 'text', nullable: true)]
     private $note;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $menu = [];
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -255,6 +258,18 @@ class Materiel
     public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getMenu(): ?array
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?array $menu): self
+    {
+        $this->menu = $menu;
 
         return $this;
     }

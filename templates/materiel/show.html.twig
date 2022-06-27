@@ -224,7 +224,7 @@
     <div class="col-md-12 mt-5 page-block">
         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
             <li class="col nav-item" role="presentation">
-                <button class="nav-link active" id="ged-tab" data-bs-toggle="tab"
+                <button class="nav-link {{ materiel.menu is empty ? 'active' : '' }}{{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}" id="ged-tab" data-bs-toggle="tab"
                         data-bs-target="#ged"
                         type="button"
                         role="tab" aria-controls="ged" aria-selected="true">
@@ -232,7 +232,7 @@
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="prets-tab" data-bs-toggle="tab" data-bs-target="#prets"
+                <button class="nav-link {{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'prets-tab' ? 'active' : '' }}" id="prets-tab" data-bs-toggle="tab" data-bs-target="#prets"
                         type="button"
                         role="tab" aria-controls="prets" aria-selected="false">
                     Prêts
@@ -240,7 +240,7 @@
             </li>
 
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="historiques-tab" data-bs-toggle="tab" data-bs-target="#historiques"
+                <button class="nav-link {{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'historiques-tab' ? 'active' : '' }}" id="historiques-tab" data-bs-toggle="tab" data-bs-target="#historiques"
                         type="button"
                         role="tab" aria-controls="historiques" aria-selected="false">
                     Historiques
@@ -251,7 +251,7 @@
         <div class="tab-content mt-4" id="myTabContent">
 
             <!-- ged -->
-            <div class="tab-pane fade show active" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+            <div class="tab-pane fade {{ materiel.menu is empty ? 'show active' : '' }}{{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'ged-tab' ? 'show active' : '' }}" id="ged" role="tabpanel" aria-labelledby="ged-tab">
 
                 <div class="row mt-4 justify-content-around">
 
@@ -349,7 +349,7 @@
             </div>
 
             <!-- Prêts -->
-            <div class="tab-pane fade" id="prets" role="tabpanel" aria-labelledby="prets-tab">
+            <div class="tab-pane fade {{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'prets-tab' ? 'show active' : '' }}" id="prets" role="tabpanel" aria-labelledby="prets-tab">
 
                 <div class="col-md-12 m-auto mt-4">
                     <div class="card-hover-shadow-2x mb-3 card">
@@ -456,7 +456,7 @@
             </div>
 
             <!-- Historiques -->
-            <div class="tab-pane fade" id="historiques" role="tabpanel" aria-labelledby="historiques-tab">
+            <div class="tab-pane fade {{ materiel.menu is not empty and app.user.id in materiel.menu|keys and materiel.menu[app.user.id] ==  'historiques-tab' ? 'show active' : '' }}" id="historiques" role="tabpanel" aria-labelledby="historiques-tab">
 
             </div>
         </div>
@@ -520,6 +520,15 @@
                 }
             })
         }
+
+        $("#prets-tab, #historiques-tab, #ged-tab").click(function () {
+
+            let id = $(this).attr('id');
+            $.get("/materiel/menu/materiel/" + id + "/{{ materiel.id }}", function (data) {
+                console.log(data);
+            })
+
+        });
 
     </script>
 

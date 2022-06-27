@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Materiel;
 use App\Form\Ged\FichierType;
 use App\Form\MaterielType;
+use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\MaterielRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -170,5 +174,28 @@ class MaterielController extends AbstractController
         }
 
         return $this->redirectToRoute('app_materiel_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route ('/menu/materiel/{value}/{id}', name: 'app_materiel_menu', methods: ['GET'])]
+    public function activeMenu(Materiel $materiel, $value, MaterielRepository $materielRepository) :Response
+    {
+        $menu = $materiel->getMenu();
+        $menu[$this->getUser()->getId()] = $value;
+        $materiel->setMenu($menu);
+        try {
+            $materielRepository->add($materiel);
+            return new Response(json_encode([
+                'code' => 200,
+                'message' => 'Ok'
+            ]));
+        } catch (OptimisticLockException|ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode([
+            'code' => 404,
+            'message' => 'Erreur'
+        ]));
+
     }
 }
