@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transport{% endblock %}
+
+{% block body %}
+    <h1>Transport</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transport.id }}</td>
+            </tr>
+            <tr>
+                <th>CodeChantierJ4R</th>
+                <td>{{ transport.codeChantierJ4R }}</td>
+            </tr>
+            <tr>
+                <th>CodeChantierLayher</th>
+                <td>{{ transport.codeChantierLayher }}</td>
+            </tr>
+            <tr>
+                <th>ReferenceCommande</th>
+                <td>{{ transport.referenceCommande }}</td>
+            </tr>
+            <tr>
+                <th>CodeIBM</th>
+                <td>{{ transport.codeIBM }}</td>
+            </tr>
+            <tr>
+                <th>CodeERP</th>
+                <td>{{ transport.codeERP }}</td>
+            </tr>
+            <tr>
+                <th>NCommande</th>
+                <td>{{ transport.nCommande }}</td>
+            </tr>
+            <tr>
+                <th>TypeDeTransport</th>
+                <td>{{ transport.typeDeTransport }}</td>
+            </tr>
+            <tr>
+                <th>TypeDeVehicule</th>
+                <td>{{ transport.typeDeVehicule }}</td>
+            </tr>
+            <tr>
+                <th>TonnageCommandé</th>
+                <td>{{ transport.tonnageCommandé }}</td>
+            </tr>
+            <tr>
+                <th>TonnagePrepare</th>
+                <td>{{ transport.tonnagePrepare }}</td>
+            </tr>
+            <tr>
+                <th>TonnageLivre</th>
+                <td>{{ transport.tonnageLivre }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ transport.prix }}</td>
+            </tr>
+            <tr>
+                <th>MontantDeLaCourse</th>
+                <td>{{ transport.montantDeLaCourse }}</td>
+            </tr>
+            <tr>
+                <th>AdresseEnlevement</th>
+                <td>{{ transport.adresseEnlevement }}</td>
+            </tr>
+            <tr>
+                <th>DateDEnlevementDemande</th>
+                <td>{{ transport.dateDEnlevementDemande }}</td>
+            </tr>
+            <tr>
+                <th>InstructionEnlevementConducteur</th>
+                <td>{{ transport.instructionEnlevementConducteur }}</td>
+            </tr>
+            <tr>
+                <th>AdresseLivraison</th>
+                <td>{{ transport.adresseLivraison }}</td>
+            </tr>
+            <tr>
+                <th>DateLivraisonDemande</th>
+                <td>{{ transport.dateLivraisonDemande }}</td>
+            </tr>
+            <tr>
+                <th>ReferenceLivraison</th>
+                <td>{{ transport.referenceLivraison }}</td>
+            </tr>
+            <tr>
+                <th>InstructionLivraisonConducteur</th>
+                <td>{{ transport.instructionLivraisonConducteur }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_transport_index') }}">back to list</a>
+
+    <a href="{{ path('app_affaire_transport_edit', {'id': transport.id}) }}">edit</a>
+
+    {{ include('affaire/transport/_delete_form.html.twig') }}
+{% endblock %}

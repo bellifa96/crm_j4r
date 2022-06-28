@@ -1,0 +1,431 @@
+<?php
+
+namespace App\Entity\Affaire;
+
+use App\Entity\Contact\Contact;
+use App\Entity\Interlocuteur\Interlocuteur;
+use App\Entity\User;
+use App\Repository\Affaire\TransportRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: TransportRepository::class)]
+class Transport
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'transports')]
+    private $donneurDOrdre;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $codeChantierJ4R;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'transportConducteurTravaux')]
+    private $ConducteurDeTravaux;
+
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'transports')]
+    private $sousTraitantPrincipal;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $codeChantierLayher;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $referenceCommande;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $codeIBM;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $codeERP;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $nCommande;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $typeDeTransport;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $typeDeVehicule;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $tonnageCommande;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $tonnagePrepare;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $tonnageLivre;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $prix;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $montantDeLaCourse;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transports')]
+    private $chauffeur;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $adresseEnlevement;
+
+    #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'transportTransporteur')]
+    private $transporteur;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'TransportContactEnlevement')]
+    private $contactEnlevement;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $dateDEnlevementDemande;
+
+    #[ORM\Column(type: 'text')]
+    private $instructionEnlevementConducteur;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $adresseLivraison;
+
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transportLivraison')]
+    private $contactLivraison;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $dateLivraisonDemande;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $referenceLivraison;
+
+    #[ORM\Column(type: 'text')]
+    private $instructionLivraisonConducteur;
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getDonneurDOrdre(): ?User
+    {
+        return $this->donneurDOrdre;
+    }
+
+    public function setDonneurDOrdre(?User $donneurDOrdre): self
+    {
+        $this->donneurDOrdre = $donneurDOrdre;
+
+        return $this;
+    }
+
+    public function getCodeChantierJ4R(): ?string
+    {
+        return $this->codeChantierJ4R;
+    }
+
+    public function setCodeChantierJ4R(?string $codeChantierJ4R): self
+    {
+        $this->codeChantierJ4R = $codeChantierJ4R;
+
+        return $this;
+    }
+
+    public function getConducteurDeTravaux(): ?User
+    {
+        return $this->ConducteurDeTravaux;
+    }
+
+    public function setConducteurDeTravaux(?User $ConducteurDeTravaux): self
+    {
+        $this->ConducteurDeTravaux = $ConducteurDeTravaux;
+
+        return $this;
+    }
+
+    public function getSousTraitantPrincipal(): ?Interlocuteur
+    {
+        return $this->sousTraitantPrincipal;
+    }
+
+    public function setSousTraitantPrincipal(?Interlocuteur $sousTraitantPrincipal): self
+    {
+        $this->sousTraitantPrincipal = $sousTraitantPrincipal;
+
+        return $this;
+    }
+
+    public function getCodeChantierLayher(): ?string
+    {
+        return $this->codeChantierLayher;
+    }
+
+    public function setCodeChantierLayher(string $codeChantierLayher): self
+    {
+        $this->codeChantierLayher = $codeChantierLayher;
+
+        return $this;
+    }
+
+    public function getReferenceCommande(): ?string
+    {
+        return $this->referenceCommande;
+    }
+
+    public function setReferenceCommande(string $referenceCommande): self
+    {
+        $this->referenceCommande = $referenceCommande;
+
+        return $this;
+    }
+
+    public function getCodeIBM(): ?string
+    {
+        return $this->codeIBM;
+    }
+
+    public function setCodeIBM(string $codeIBM): self
+    {
+        $this->codeIBM = $codeIBM;
+
+        return $this;
+    }
+
+    public function getCodeERP(): ?string
+    {
+        return $this->codeERP;
+    }
+
+    public function setCodeERP(string $codeERP): self
+    {
+        $this->codeERP = $codeERP;
+
+        return $this;
+    }
+
+    public function getNCommande(): ?string
+    {
+        return $this->nCommande;
+    }
+
+    public function setNCommande(string $nCommande): self
+    {
+        $this->nCommande = $nCommande;
+
+        return $this;
+    }
+
+    public function getTypeDeTransport(): ?string
+    {
+        return $this->typeDeTransport;
+    }
+
+    public function setTypeDeTransport(string $typeDeTransport): self
+    {
+        $this->typeDeTransport = $typeDeTransport;
+
+        return $this;
+    }
+
+    public function getTypeDeVehicule(): ?string
+    {
+        return $this->typeDeVehicule;
+    }
+
+    public function setTypeDeVehicule(string $typeDeVehicule): self
+    {
+        $this->typeDeVehicule = $typeDeVehicule;
+
+        return $this;
+    }
+
+    public function getTonnageCommande(): ?string
+    {
+        return $this->tonnageCommande;
+    }
+
+    public function setTonnageCommande(string $tonnageCommande): self
+    {
+        $this->tonnageCommande = $tonnageCommande;
+
+        return $this;
+    }
+
+    public function getTonnagePrepare(): ?string
+    {
+        return $this->tonnagePrepare;
+    }
+
+    public function setTonnagePrepare(string $tonnagePrepare): self
+    {
+        $this->tonnagePrepare = $tonnagePrepare;
+
+        return $this;
+    }
+
+    public function getTonnageLivre(): ?string
+    {
+        return $this->tonnageLivre;
+    }
+
+    public function setTonnageLivre(string $tonnageLivre): self
+    {
+        $this->tonnageLivre = $tonnageLivre;
+
+        return $this;
+    }
+
+    public function getPrix(): ?string
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(string $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getMontantDeLaCourse(): ?string
+    {
+        return $this->montantDeLaCourse;
+    }
+
+    public function setMontantDeLaCourse(string $montantDeLaCourse): self
+    {
+        $this->montantDeLaCourse = $montantDeLaCourse;
+
+        return $this;
+    }
+
+    public function getChauffeur(): ?Contact
+    {
+        return $this->chauffeur;
+    }
+
+    public function setChauffeur(?Contact $chauffeur): self
+    {
+        $this->chauffeur = $chauffeur;
+
+        return $this;
+    }
+
+
+    public function getAdresseEnlevement(): ?string
+    {
+        return $this->adresseEnlevement;
+    }
+
+    public function setAdresseEnlevement(string $adresseEnlevement): self
+    {
+        $this->adresseEnlevement = $adresseEnlevement;
+
+        return $this;
+    }
+
+    public function getTransporteur(): ?Interlocuteur
+    {
+        return $this->transporteur;
+    }
+
+    public function setTransporteur(?Interlocuteur $transporteur): self
+    {
+        $this->transporteur = $transporteur;
+
+        return $this;
+    }
+
+    public function getContactEnlevement(): ?Contact
+    {
+        return $this->contactEnlevement;
+    }
+
+    public function setContactEnlevement(?Contact $contactEnlevement): self
+    {
+        $this->contactEnlevement = $contactEnlevement;
+
+        return $this;
+    }
+
+    public function getDateDEnlevementDemande(): ?string
+    {
+        return $this->dateDEnlevementDemande;
+    }
+
+    public function setDateDEnlevementDemande(string $dateDEnlevementDemande): self
+    {
+        $this->dateDEnlevementDemande = $dateDEnlevementDemande;
+
+        return $this;
+    }
+
+    public function getInstructionEnlevementConducteur(): ?string
+    {
+        return $this->instructionEnlevementConducteur;
+    }
+
+    public function setInstructionEnlevementConducteur(string $instructionEnlevementConducteur): self
+    {
+        $this->instructionEnlevementConducteur = $instructionEnlevementConducteur;
+
+        return $this;
+    }
+
+    public function getAdresseLivraison(): ?string
+    {
+        return $this->adresseLivraison;
+    }
+
+    public function setAdresseLivraison(string $adresseLivraison): self
+    {
+        $this->adresseLivraison = $adresseLivraison;
+
+        return $this;
+    }
+
+    public function getContactLivraison(): ?Contact
+    {
+        return $this->contactLivraison;
+    }
+
+    public function setContactLivraison(?Contact $contactLivraison): self
+    {
+        $this->contactLivraison = $contactLivraison;
+
+        return $this;
+    }
+
+    public function getDateLivraisonDemande(): ?string
+    {
+        return $this->dateLivraisonDemande;
+    }
+
+    public function setDateLivraisonDemande(string $dateLivraisonDemande): self
+    {
+        $this->dateLivraisonDemande = $dateLivraisonDemande;
+
+        return $this;
+    }
+
+    public function getReferenceLivraison(): ?string
+    {
+        return $this->referenceLivraison;
+    }
+
+    public function setReferenceLivraison(string $referenceLivraison): self
+    {
+        $this->referenceLivraison = $referenceLivraison;
+
+        return $this;
+    }
+
+    public function getInstructionLivraisonConducteur(): ?string
+    {
+        return $this->instructionLivraisonConducteur;
+    }
+
+    public function setInstructionLivraisonConducteur(string $instructionLivraisonConducteur): self
+    {
+        $this->instructionLivraisonConducteur = $instructionLivraisonConducteur;
+
+        return $this;
+    }
+
+}

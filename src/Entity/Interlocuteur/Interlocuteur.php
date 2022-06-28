@@ -2,6 +2,7 @@
 
 namespace App\Entity\Interlocuteur;
 
+use App\Entity\Affaire\Transport;
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
@@ -54,6 +55,12 @@ class Interlocuteur
     #[ORM\Column(type: 'array', nullable: true)]
     private $menu = [];
 
+    #[ORM\OneToMany(mappedBy: 'sousTraitantPrincipal', targetEntity: Transport::class)]
+    private $transports;
+
+    #[ORM\OneToMany(mappedBy: 'transporteur', targetEntity: Transport::class)]
+    private $transportTransporteur;
+
 
     public function __construct()
     {
@@ -62,6 +69,8 @@ class Interlocuteur
         $this->demandesIntermediaire = new ArrayCollection();
         $this->demandesMaitreDOuvrage = new ArrayCollection();
         $this->fichiers = new ArrayCollection();
+        $this->transports = new ArrayCollection();
+        $this->transportTransporteur = new ArrayCollection();
 
     }
 
@@ -301,6 +310,66 @@ class Interlocuteur
     public function setMenu(?array $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports;
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transports->contains($transport)) {
+            $this->transports[] = $transport;
+            $transport->setSousTraitantPrincipal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transports->removeElement($transport)) {
+            // set the owning side to null (unless already changed)
+            if ($transport->getSousTraitantPrincipal() === $this) {
+                $transport->setSousTraitantPrincipal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransportTransporteur(): Collection
+    {
+        return $this->transportTransporteur;
+    }
+
+    public function addTransportTransporteur(Transport $transportTransporteur): self
+    {
+        if (!$this->transportTransporteur->contains($transportTransporteur)) {
+            $this->transportTransporteur[] = $transportTransporteur;
+            $transportTransporteur->setTransporteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransportTransporteur(Transport $transportTransporteur): self
+    {
+        if ($this->transportTransporteur->removeElement($transportTransporteur)) {
+            // set the owning side to null (unless already changed)
+            if ($transportTransporteur->getTransporteur() === $this) {
+                $transportTransporteur->setTransporteur(null);
+            }
+        }
 
         return $this;
     }

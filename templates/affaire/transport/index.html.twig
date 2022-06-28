@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transport index{% endblock %}
+
+{% block body %}
+    <h1>Transport index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CodeChantierJ4R</th>
+                <th>CodeChantierLayher</th>
+                <th>ReferenceCommande</th>
+                <th>CodeIBM</th>
+                <th>CodeERP</th>
+                <th>NCommande</th>
+                <th>TypeDeTransport</th>
+                <th>TypeDeVehicule</th>
+                <th>TonnageCommandé</th>
+                <th>TonnagePrepare</th>
+                <th>TonnageLivre</th>
+                <th>Prix</th>
+                <th>MontantDeLaCourse</th>
+                <th>AdresseEnlevement</th>
+                <th>DateDEnlevementDemande</th>
+                <th>InstructionEnlevementConducteur</th>
+                <th>AdresseLivraison</th>
+                <th>DateLivraisonDemande</th>
+                <th>ReferenceLivraison</th>
+                <th>InstructionLivraisonConducteur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transport in transports %}
+            <tr>
+                <td>{{ transport.id }}</td>
+                <td>{{ transport.codeChantierJ4R }}</td>
+                <td>{{ transport.codeChantierLayher }}</td>
+                <td>{{ transport.referenceCommande }}</td>
+                <td>{{ transport.codeIBM }}</td>
+                <td>{{ transport.codeERP }}</td>
+                <td>{{ transport.nCommande }}</td>
+                <td>{{ transport.typeDeTransport }}</td>
+                <td>{{ transport.typeDeVehicule }}</td>
+                <td>{{ transport.tonnageCommandé }}</td>
+                <td>{{ transport.tonnagePrepare }}</td>
+                <td>{{ transport.tonnageLivre }}</td>
+                <td>{{ transport.prix }}</td>
+                <td>{{ transport.montantDeLaCourse }}</td>
+                <td>{{ transport.adresseEnlevement }}</td>
+                <td>{{ transport.dateDEnlevementDemande }}</td>
+                <td>{{ transport.instructionEnlevementConducteur }}</td>
+                <td>{{ transport.adresseLivraison }}</td>
+                <td>{{ transport.dateLivraisonDemande }}</td>
+                <td>{{ transport.referenceLivraison }}</td>
+                <td>{{ transport.instructionLivraisonConducteur }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_transport_show', {'id': transport.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_transport_edit', {'id': transport.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_transport_new') }}">Create new</a>
+{% endblock %}

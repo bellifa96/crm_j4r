@@ -88,7 +88,14 @@ class InterlocuteurController extends AbstractController
     #[Route('/new', name: 'app_interlocuteur_interlocuteur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, InterlocuteurRepository $interlocuteurRepository): Response
     {
+
+        $route = $request->headers->get('referer');
+
         $interlocuteur = new Interlocuteur();
+        if(str_contains($route,'interlocuteur/interlocuteur/soustraitants')){
+            $interlocuteur->setRoles(['ROLE_SOUS_TRAITANT']);
+        }
+
         $form = $this->createForm(InterlocuteurType::class, $interlocuteur);
         $form->handleRequest($request);
 

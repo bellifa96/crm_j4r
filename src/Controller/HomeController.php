@@ -40,17 +40,24 @@ class HomeController extends AbstractController
             if($this->getUser() != $evenement->getCreateur() and !$evenement->getAttribueA()->contains($this->getUser()) and !$this->isGranted("ROLE_ADMIN")) {
                continue;
             }
+            $url = "";
+            $title = "";
+            if(!empty($evenement->getDemande())){
+                $url = "/demande/".$evenement->getDemande()->getId();
+                $title = "Demande : ";
+            }
             $calendar[] = [
                 'id' => $evenement->getId(),
                 'start' => $evenement->getDateDeFin()->format('Y-m-d H:i:s'),
                 'end' => $evenement->getDateDeFin()->format('Y-m-d H:i:s'),
-                'title' => $evenement->getTitre(),
+                'title' => $title.$evenement->getTitre(),
                 'description' => $evenement->getDescription(),
-                'backgroundColor' => $colors[$evenement->getPriorite()],
+                'backgroundColor' => "white",
                 'borderColor' => $colors[$evenement->getPriorite()],
+                'textColor' => $colors[$evenement->getPriorite()],
                 'allDay' => false,
                 'hasEnd'=>true,
-                'url' => '',
+                'url' => $url,
             ];
         }
         return new Response(json_encode($calendar));

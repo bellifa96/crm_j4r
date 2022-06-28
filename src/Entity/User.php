@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
+use App\Entity\Affaire\Transport;
 use App\Entity\Conversation\Message;
 use App\Entity\Entite\Depot;
 use App\Entity\Ged\Fichier;
@@ -118,6 +119,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $signature;
 
+    #[ORM\OneToMany(mappedBy: 'donneurDOrdre', targetEntity: Transport::class)]
+    private $transports;
+
+    #[ORM\OneToMany(mappedBy: 'ConducteurDeTravaux', targetEntity: Transport::class)]
+    private $transportConducteurTravaux;
+
 
     public function __construct()
     {
@@ -133,6 +140,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->materiels = new ArrayCollection();
         $this->prets = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->transports = new ArrayCollection();
+        $this->transportConducteurTravaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -634,6 +643,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSignature(?string $signature): self
     {
         $this->signature = $signature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports;
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transports->contains($transport)) {
+            $this->transports[] = $transport;
+            $transport->setDonneurDOrdre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transports->removeElement($transport)) {
+            // set the owning side to null (unless already changed)
+            if ($transport->getDonneurDOrdre() === $this) {
+                $transport->setDonneurDOrdre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransportConducteurTravaux(): Collection
+    {
+        return $this->transportConducteurTravaux;
+    }
+
+    public function addTransportConducteurTravaux(Transport $transportConducteurTravaux): self
+    {
+        if (!$this->transportConducteurTravaux->contains($transportConducteurTravaux)) {
+            $this->transportConducteurTravaux[] = $transportConducteurTravaux;
+            $transportConducteurTravaux->setConducteurDeTravaux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransportConducteurTravaux(Transport $transportConducteurTravaux): self
+    {
+        if ($this->transportConducteurTravaux->removeElement($transportConducteurTravaux)) {
+            // set the owning side to null (unless already changed)
+            if ($transportConducteurTravaux->getConducteurDeTravaux() === $this) {
+                $transportConducteurTravaux->setConducteurDeTravaux(null);
+            }
+        }
 
         return $this;
     }

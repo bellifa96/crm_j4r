@@ -3,6 +3,7 @@
 namespace App\Entity\Contact;
 
 use App\Entity\AdresseTrait;
+use App\Entity\Affaire\Transport;
 use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Repository\Contact\ContactRepository;
@@ -73,12 +74,24 @@ class Contact
     #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'contactsSecondaires')]
     private $contactsSecondaires;
 
+    #[ORM\OneToMany(mappedBy: 'chauffeur', targetEntity: Transport::class)]
+    private $transports;
+
+    #[ORM\OneToMany(mappedBy: 'contactEnlevement', targetEntity: Transport::class)]
+    private $TransportContactEnlevement;
+
+    #[ORM\OneToMany(mappedBy: 'contactLivraison', targetEntity: Transport::class)]
+    private $transportLivraison;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->DemandesContactMaitreDOuvrage = new ArrayCollection();
         $this->demandesContactPrincipalMaitreDOuvrage = new ArrayCollection();
         $this->demandesContactPrincipalIntermediaire = new ArrayCollection();
+        $this->transports = new ArrayCollection();
+        $this->TransportContactEnlevement = new ArrayCollection();
+        $this->transportLivraison = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -340,6 +353,96 @@ class Contact
     public function setContactsSecondaires(?Demande $contactsSecondaires): self
     {
         $this->contactsSecondaires = $contactsSecondaires;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports;
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transports->contains($transport)) {
+            $this->transports[] = $transport;
+            $transport->setChauffeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transports->removeElement($transport)) {
+            // set the owning side to null (unless already changed)
+            if ($transport->getChauffeur() === $this) {
+                $transport->setChauffeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransportContactEnlevement(): Collection
+    {
+        return $this->TransportContactEnlevement;
+    }
+
+    public function addTransportContactEnlevement(Transport $transportContactEnlevement): self
+    {
+        if (!$this->TransportContactEnlevement->contains($transportContactEnlevement)) {
+            $this->TransportContactEnlevement[] = $transportContactEnlevement;
+            $transportContactEnlevement->setContactEnlevement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransportContactEnlevement(Transport $transportContactEnlevement): self
+    {
+        if ($this->TransportContactEnlevement->removeElement($transportContactEnlevement)) {
+            // set the owning side to null (unless already changed)
+            if ($transportContactEnlevement->getContactEnlevement() === $this) {
+                $transportContactEnlevement->setContactEnlevement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transport>
+     */
+    public function getTransportLivraison(): Collection
+    {
+        return $this->transportLivraison;
+    }
+
+    public function addTransportLivraison(Transport $transportLivraison): self
+    {
+        if (!$this->transportLivraison->contains($transportLivraison)) {
+            $this->transportLivraison[] = $transportLivraison;
+            $transportLivraison->setContactLivraison($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransportLivraison(Transport $transportLivraison): self
+    {
+        if ($this->transportLivraison->removeElement($transportLivraison)) {
+            // set the owning side to null (unless already changed)
+            if ($transportLivraison->getContactLivraison() === $this) {
+                $transportLivraison->setContactLivraison(null);
+            }
+        }
 
         return $this;
     }
