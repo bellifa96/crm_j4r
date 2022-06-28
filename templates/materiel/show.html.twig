@@ -397,7 +397,8 @@
                                             <div style="color:{{ pret.statut in statutColors|keys ?statutColors[pret.statut] : "grey" }};"> {{ pret.statut }} </div>
                                         </td>
                                         <td>{{ pret.etat }}</td>
-                                        <td>{% if pret.statut == "En cours" %}
+                                        <td>
+                                            {% if pret.statut == "En cours" %}
 
                                                 (utilisation en cours)
 
@@ -406,7 +407,7 @@
                                                 {{ pret.etatApresRetour  }}
 
                                             {% endif %}
-                                            </td>
+                                        </td>
                                         <td>{{ pret.note  }}</td>
 
                                         <td>
@@ -475,7 +476,7 @@
                     $('body').append(JSON.parse(data).message);
                     $("#add-pret").modal('show');
                     $('.select2').select2();
-                    $('#pret_etat').val("{{ materiel.etat }}");
+                    $('#pret_etat').val(`{{ materiel.etat }}`);
 
                     let h5 = `<h5 class="modal-title"
                         id="exampleModalLabel">Accorder un prêt de : {{ materiel.titre }}</h5>`;
@@ -522,7 +523,6 @@
         }
 
         $("#prets-tab, #historiques-tab, #ged-tab").click(function () {
-
             let id = $(this).attr('id');
             $.get("/materiel/menu/materiel/" + id + "/{{ materiel.id }}", function (data) {
                 console.log(data);
