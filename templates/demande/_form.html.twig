@@ -801,5 +801,55 @@
         sumDG();
     });
 
+    $(document).on("change", "input[name='demande[implantation]']", function () {
+        if ($("input[name='demande[implantation]']:checked").val() === "Surface à implanter") {
+            let div = `
+                    <div id="demande_surface_implantation">
+                        <input type="radio" id="demande_surface_implantation_0" name="demande[implantation][surface]" required="required" value="Sol meuble (terre, trous,...)">
+                        <label for="demande_surface_implantation_0" class="required">Sol meuble (terre, trous,...)</label>
+
+                        <input type="radio" id="demande_surface_implantation_1" name="demande[implantation][surface]" required="required" value="Sol dur (béton, enrobé,...)">
+                        <label for="demande_surface_implantation_1" class="required">Sol dur (béton, enrobé,...)</label>
+                    </div>
+            `;
+            $('#demande_surface_implantation').append(div);
+            $('#demande_zone_implantation').remove();
+            $('#demande_desencombrement_implantation').remove();
+
+        } else if ($("input[name='demande[implantation]']:checked").val() === "Zone à implanter") {
+            let div = `
+                    <div id="demande_zone_implantation">
+                        <input type="radio" id="demande_zone_implantation_0" name="demande[implantation][zone]" required="required" value="Emprise chantier">
+                        <label for="demande_zone_implantation_0" class="required">Emprise chantier</label>
+
+                        <input type="radio" id="demande_zone_implantation_1" name="demande[implantation][zone]" required="required" value="Cour intérieure">
+                        <label for="demande_zone_implantation_1" class="required">Cour intérieure</label>
+
+                        <input type="radio" id="demande_zone_implantation_2" name="demande[implantation][zone]" required="required" value="Trottoir">
+                        <label for="demande_zone_implantation_2" class="required">Trottoir</label>
+                    </div>
+            `;
+            $('#demande_zone_implantation').append(div);
+            $('#demande_surface_implantation').remove();
+            $('#demande_desencombrement_implantation').remove();
+
+        }
+        else if ($("input[name='demande[implantation]']:checked").val() === "Désencombrement") {
+            let div = `
+                    <div id="demande_desencombrement_implantation">
+                        <input type="radio" id="demande_desencombrement_implantation_0" name="demande[implantation][desencombrement]" required="required" value="A prévoir / Charge client">
+                        <label for="demande_desencombrement_implantation_0" class="required">A prévoir / Charge client</label>
+
+                        <input type="radio" id="demande_desencombrement_implantation_1" name="demande[implantation][desencombrement]" required="required" value="Situation">
+                        <label for="demande_desencombrement_implantation_1" class="required">Situation</label>
+                    </div>
+            `;
+            $('#demande_desencombrement_implantation').append(div);
+            $('#demande_surface_implantation').remove();
+            $('#demande_zone_implantation').remove();
+
+        }
+    });
+
 
 </script>
