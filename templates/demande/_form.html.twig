@@ -833,8 +833,7 @@
             $('#demande_surface_implantation').remove();
             $('#demande_desencombrement_implantation').remove();
 
-        }
-        else if ($("input[name='demande[implantation]']:checked").val() === "Désencombrement") {
+        } else if ($("input[name='demande[implantation]']:checked").val() === "Désencombrement") {
             let div = `
                     <div id="demande_desencombrement_implantation">
                         <input type="radio" id="demande_desencombrement_implantation_0" name="demande[implantation][desencombrement]" required="required" value="A prévoir / Charge client">
@@ -867,12 +866,37 @@
             `;
             $('#demande_balisage_zoneDeStockage').parent().append(div);
 
-        } else{
+        } else {
             $('#demande_balisage_zoneDeStockage').remove();
 
         }
     });
 
+    $(document).on("change", "input[name='demande[manutentionSupplementaire]']", function () {
+        if ($("input[name='demande[manutentionSupplementaire]']:checked").val() === "Cage d'escalier") {
+            let div = `
+                    <div id="demande_escalier_manutentionSupplementaire">
+                        <input type="number" id="demande_escalier_manutentionSupplementaire_0" name="demande[manutentionSupplementaire][escalier]" required="required">
+                        <label for="demande_escalier_manutentionSupplementaire_0" class="required">Nombre d'étage à monter</label>
+
+                        <input type="number" id="demande_escalier_manutentionSupplementaire_1" name="demande[manutentionSupplementaire][escalier]" required="required">
+                        <label for="demande_escalier_manutentionSupplementaire_1" class="required">Largeur de passage</label>
+
+                        <input type="radio" id="demande_escalier_manutentionSupplementaire_2" name="demande[manutentionSupplementaire][escalier]" required="required" value="Colimasson">
+                        <label for="demande_escalier_manutentionSupplementaire_2" class="required">Colimasson</label>
+
+                        <input type="radio" id="demande_escalier_manutentionSupplementaire_3" name="demande[manutentionSupplementaire][escalier]" required="required" value="Droit">
+                        <label for="demande_escalier_manutentionSupplementaire_3" class="required">Droit</label>
+
+                    </div>
+            `;
+            $('#demande_escalier_manutentionSupplementaire').parent().append(div);
+
+        } else {
+            $('#demande_escalier_manutentionSupplementaire').remove();
+
+        }
+    });
 
 
 </script>
