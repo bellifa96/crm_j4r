@@ -266,27 +266,41 @@
             <div class="col-md-4">
 
                 <input type="radio" id="demande_consoles_0" name="demande[consoles]"
-                        {{ "0.4" == demande.consoles ? "checked" :"" }}
-                       value="0.4">
-                <label for="demande_consoles_0" class="required">0,4 m</label>
+                        {{ "0.28" == demande.consoles ? "checked" :"" }}
+                       value="0.28">
+                <label for="demande_consoles_0" class="required">0,28 m</label>
             </div>
             <div class="col-md-4">
 
                 <input type="radio" id="demande_consoles_1" name="demande[consoles]"
-                        {{ "0.7" == demande.consoles ? "checked" :"" }}
-                       value="0.7">
-                <label for="demande_consoles_1" class="required">0,7 m</label>
+                        {{ "0.39" == demande.consoles ? "checked" :"" }}
+                       value="0.39">
+                <label for="demande_consoles_1" class="required">0,39 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_consoles_2" name="demande[consoles]"
+                        {{ "0.73" == demande.consoles ? "checked" :"" }}
+                       value="0.73">
+                <label for="demande_consoles_3" class="required">0,73 m</label>
+            </div>
+            <div class="col-md-4">
+
+                <input type="radio" id="demande_consoles_4" name="demande[consoles]"
+                        {{ "1.09" == demande.consoles ? "checked" :"" }}
+                       value="1.09">
+                <label for="demande_consoles_4" class="required">1,09 m</label>
             </div>
 
             <div class="col-md-4">
 
-                <input type="radio" id="demande_consoles_2" name="demande[consoles]"
-                        {{ demande.consoles !="0.4" and demande.consoles != "0.7"  and demande.consoles is not empty ? "checked" :"" }}
+                <input type="radio" id="demande_consoles_5" name="demande[consoles]"
+                        {{ demande.consoles !="0.28" and demande.consoles != "0.39" and demande.consoles != "0.73" and demande.consoles != "1.09"and  demande.consoles is not empty ? "checked" :"" }}
                        value="Autre">
-                <label for="demande_consoles_2" class="required">Autre</label>
+                <label for="demande_consoles_5" class="required">Autre</label>
             </div>
 
-            {% if demande.consoles !="0.4" and demande.consoles != "0.7" and demande.consoles is not empty %}
+            {% if demande.consoles !="0.28" and demande.consoles != "0.39" and demande.consoles != "0.73" and demande.consoles != "1.09"and  demande.consoles is not empty %}
                 <div class="col-md-12 mt-2">
                     <input type="text" id="demande_consoles_autre" name="demande[consoles]"
                            value="{{ demande.consoles }}"
@@ -731,6 +745,318 @@
                        name="demande[gcPeripherique]" {{ "GC public barraude" == demande.gcPeripherique ? "checked" : "" }}
                        value="GC public barraude">
                 <label for="demande_gcPeripherique_2" class="required">GC public barraudé</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Structure d'échafaudage :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_structureEchafaudage" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_structureEchafaudage_0"
+                       name="demande[structureEchafaudage]" {{ "Pleine" == demande.structureEchafaudage ? "checked" : "" }}
+                       value="Pleine">
+                <label for="demande_structureEchafaudage_0" class="required">Pleine</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_structureEchafaudage_1"
+                       name="demande[structureEchafaudage]" {{ "Vide" == demande.structureEchafaudage ? "checked" : "" }}
+                       value="Vide">
+                <label for="demande_structureEchafaudage_1" class="required">Vide</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Garde-corps :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_gardeCorps" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_gardeCorps_0"
+                       name="demande[gardeCorps]" {{ "Avant (contre la façade)" == demande.gardeCorps ? "checked" : "" }}
+                       value="Avant (contre la façade)">
+                <label for="demande_gardeCorps_0" class="required">Avant (contre la façade)</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_gardeCorps_1"
+                       name="demande[gardeCorps]" {{ "Arrière" == demande.gardeCorps ? "checked" : "" }}
+                       value="Arrière">
+                <label for="demande_gardeCorps_1" class="required">Arrière</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Type de montage :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_typeDeMontage" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_typeDeMontage_0"
+                       name="demande[typeDeMontage]" {{ "Ceinturage complet/Périphérique" == demande.typeDeMontage ? "checked" : "" }}
+                       value="Ceinturage complet/Périphérique">
+                <label for="demande_typeDeMontage_0" class="required">Ceinturage complet/Périphérique</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_typeDeMontage_1"
+                       name="demande[typeDeMontage]" {{ "Par façade" == demande.typeDeMontage ? "checked" : "" }}
+                       value="Par façade">
+                <label for="demande_typeDeMontage_1" class="required">Par façade</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_typeDeMontage_2"
+                       name="demande[typeDeMontage]" {{ "Par phase" == demande.typeDeMontage ? "checked" : "" }}
+                       value="Par phase">
+                <label for="demande_typeDeMontage_2" class="required">Par phase</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_typeDeMontage_3"
+                       name="demande[typeDeMontage]" {{ "Avancement" == demande.typeDeMontage ? "checked" : "" }}
+                       value="Avancement">
+                <label for="demande_typeDeMontage_3" class="required">Avancement</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Utilisation du matériel :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_utilisationDuMateriel" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_utilisationDuMateriel_0"
+                       name="demande[utilisationDuMateriel]" {{ "Rotation (la location n ’est pas interrompu pendant les phases de montage et démontage)" == demande.utilisationDuMateriel ? "checked" : "" }}
+                       value="Rotation (la location n ’est pas interrompu pendant les phases de montage et démontage)">
+                <label for="demande_utilisationDuMateriel_0" class="required">Rotation (la location n ’est pas interrompu pendant les phases de montage et démontage)</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_utilisationDuMateriel_1"
+                       name="demande[utilisationDuMateriel]" {{ "Mise à disposition d’un parc de matériel   (la location n ’est pas interrompu pendant les phases de montage et démontage)" == demande.utilisationDuMateriel ? "checked" : "" }}
+                       value="Mise à disposition d’un parc de matériel   (la location n ’est pas interrompu pendant les phases de montage et démontage)">
+                <label for="demande_utilisationDuMateriel_1" class="required">Mise à disposition d’un parc de matériel   (la location n ’est pas interrompu pendant les phases de montage et démontage)</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_utilisationDuMateriel_2"
+                       name="demande[utilisationDuMateriel]" {{ "A l’avancement" == demande.utilisationDuMateriel ? "checked" : "" }}
+                       value="A l’avancement">
+                <label for="demande_utilisationDuMateriel_2" class="required">A l’avancement</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Implantation :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_implantation" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_implantation_0"
+                       name="demande[implantation]" {{ "Structure à implanter" == demande.implantation ? "checked" : "" }}
+                       value="Structure à implanter">
+                <label for="demande_implantation_0" class="required">Structure à implanter</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_implantation_1"
+                       name="demande[implantation]" {{ "Zone à implanter" == demande.implantation ? "checked" : "" }}
+                       value="Zone à implanter">
+                <label for="demande_implantation_1" class="required">Zone à implanter</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_implantation_2"
+                       name="demande[implantation]" {{ "Accès" == demande.implantation ? "checked" : "" }}
+                       value="Accès">
+                <label for="demande_implantation_2" class="required">Accès</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_implantation_3"
+                       name="demande[implantation]" {{ "Désencombrement" == demande.implantation ? "checked" : "" }}
+                       value="Désencombrement">
+                <label for="demande_implantation_3" class="required">Désencombrement</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Mise à disposition de cantonnement :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_cantonnement" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_cantonnement_0"
+                       name="demande[cantonnement]" {{ "Installation de chantier (WC, MICRO ONDES,...)" == demande.cantonnement ? "checked" : "" }}
+                       value="Installation de chantier (WC, MICRO ONDES,...)">
+                <label for="demande_cantonnement_0" class="required">Installation de chantier (WC, MICRO ONDES,...)</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_cantonnement_1"
+                       name="demande[cantonnement]" {{ "Mise à disposition de roulotte" == demande.cantonnement ? "checked" : "" }}
+                       value="Mise à disposition de roulotte">
+                <label for="demande_cantonnement_1" class="required">Mise à disposition de roulotte</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_cantonnement_2"
+                       name="demande[cantonnement]" {{ "Mise à disposition de pièces" == demande.cantonnement ? "checked" : "" }}
+                       value="Mise à disposition de pièces">
+                <label for="demande_cantonnement_2" class="required">Mise à disposition de pièces</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_cantonnement_3"
+                       name="demande[cantonnement]" {{ "Néant" == demande.cantonnement ? "checked" : "" }}
+                       value="Néant">
+                <label for="demande_cantonnement_3" class="required">Néant</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Zone de stockage prévu par le client :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_zoneDeStockage" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_0"
+                       name="demande[zoneDeStockage]" {{ "Surface de stockage" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Surface de stockage">
+                <label for="demande_zoneDeStockage_0" class="required">Surface de stockage</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_1"
+                       name="demande[zoneDeStockage]" {{ "Aire de livraison" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Aire de livraison">
+                <label for="demande_zoneDeStockage_1" class="required">Aire de livraison</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_2"
+                       name="demande[zoneDeStockage]" {{ "Troittoir" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Troittoir">
+                <label for="demande_zoneDeStockage_2" class="required">Troittoir</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_3"
+                       name="demande[zoneDeStockage]" {{ "Place de parking" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Place de parking">
+                <label for="demande_zoneDeStockage_3" class="required">Place de parking</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_4"
+                       name="demande[zoneDeStockage]" {{ "Zone définie" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Zone définie">
+                <label for="demande_zoneDeStockage_4" class="required">Zone définie</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_5"
+                       name="demande[zoneDeStockage]" {{ "Balisage à prévoir" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Balisage à prévoir">
+                <label for="demande_zoneDeStockage_5" class="required">Balisage à prévoir</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_zoneDeStockage_6"
+                       name="demande[zoneDeStockage]" {{ "Réservation de place par le client" == demande.zoneDeStockage ? "checked" : "" }}
+                       value="Réservation de place par le client">
+                <label for="demande_zoneDeStockage_6" class="required">Réservation de place par le client</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Manutention supplémentaire :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_manutentionSupplementaire" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_0"
+                       name="demande[manutentionSupplementaire]" {{ "Montage" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Montage">
+                <label for="demande_manutentionSupplementaire_0" class="required">Montage</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_1"
+                       name="demande[manutentionSupplementaire]" {{ "Démontage" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Démontage">
+                <label for="demande_manutentionSupplementaire_1" class="required">Démontage</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_2"
+                       name="demande[manutentionSupplementaire]" {{ "Manutention vers cours intérieure" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Manutention vers cours intérieure">
+                <label for="demande_manutentionSupplementaire_2" class="required">Manutention vers cours intérieure</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_3"
+                       name="demande[manutentionSupplementaire]" {{ "Cage d'escalier" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Cage d'escalier">
+                <label for="demande_manutentionSupplementaire_3" class="required">Cage d'escalier</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_4"
+                       name="demande[manutentionSupplementaire]" {{ "Temps estimé de manutention" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Temps estimé de manutention">
+                <label for="demande_manutentionSupplementaire_4" class="required">Temps estimé de manutention</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_manutentionSupplementaire_5"
+                       name="demande[manutentionSupplementaire]" {{ "Mètre linéaire à marcher" == demande.manutentionSupplementaire ? "checked" : "" }}
+                       value="Mètre linéaire à marcher">
+                <label for="demande_manutentionSupplementaire_5" class="required">Mètre linéaire à marcher</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-3 text-end labels">
+        Liste marériel à prévoir :
+    </div>
+    <div class="col-md-9">
+        <div id="demande_materielAPrevoir" class="row">
+            <div class="col-md-4">
+                <input type="radio" id="demande_materielAPrevoir_0"
+                       name="demande[materielAPrevoir]" {{ "Pitons" == demande.materielAPrevoir ? "checked" : "" }}
+                       value="Pitons">
+                <label for="demande_materielAPrevoir_0" class="required">Pitons</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_materielAPrevoir_1"
+                       name="demande[materielAPrevoir]" {{ "Cheville" == demande.materielAPrevoir ? "checked" : "" }}
+                       value="Cheville">
+                <label for="demande_materielAPrevoir_1" class="required">Cheville</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_materielAPrevoir_2"
+                       name="demande[materielAPrevoir]" {{ "Protection pour montant 1,50m" == demande.materielAPrevoir ? "checked" : "" }}
+                       value="Protection pour montant 1,50m">
+                <label for="demande_materielAPrevoir_2" class="required">Protection pour montant 1,50m</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_materielAPrevoir_3"
+                       name="demande[materielAPrevoir]" {{ "Filets" == demande.materielAPrevoir ? "checked" : "" }}
+                       value="Filets">
+                <label for="demande_materielAPrevoir_3" class="required">Filets</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" id="demande_materielAPrevoir_4"
+                       name="demande[materielAPrevoir]" {{ "Protection de sol" == demande.materielAPrevoir ? "checked" : "" }}
+                       value="Protection de sol">
+                <label for="demande_materielAPrevoir_4" class="required">Protection de sol</label>
             </div>
         </div>
     </div>
