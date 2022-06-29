@@ -851,5 +851,28 @@
         }
     });
 
+    $(document).on("change", "input[name='demande[zoneDeStockage]']", function () {
+        if ($("input[name='demande[zoneDeStockage]']:checked").val() === "Balisage à prévoir") {
+            let div = `
+                    <div id="demande_balisage_zoneDeStockage">
+                        <input type="radio" id="demande_balisage_zoneDeStockage_0" name="demande[zoneDeStockage][balisage]" required="required" value="Cônes">
+                        <label for="demande_balisage_zoneDeStockage_0" class="required">Cônes</label>
+
+                        <input type="radio" id="demande_balisage_zoneDeStockage_1" name="demande[zoneDeStockage][balisage]" required="required" value="Barrières HERAS">
+                        <label for="demande_balisage_zoneDeStockage_1" class="required">Barrières HERAS</label>
+
+                        <input type="radio" id="demande_balisage_zoneDeStockage_2" name="demande[zoneDeStockage][balisage]" required="required" value="Rubalisage">
+                        <label for="demande_balisage_zoneDeStockage_2" class="required">Rubalisage</label>
+                    </div>
+            `;
+            $('#demande_balisage_zoneDeStockage').parent().append(div);
+
+        } else{
+            $('#demande_balisage_zoneDeStockage').remove();
+
+        }
+    });
+
+
 
 </script>
