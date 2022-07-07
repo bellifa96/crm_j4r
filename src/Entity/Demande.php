@@ -233,7 +233,7 @@ class Demande
     #[ORM\OneToOne(mappedBy: 'demande', targetEntity: ConversationClient::class, cascade: ['persist', 'remove'])]
     private $conversationClient;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true,unique: true)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $reference;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
