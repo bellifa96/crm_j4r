@@ -47,6 +47,16 @@ class DemandeRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByQ($q)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.reference')
+            ->Where('d.reference LIKE :val')
+            ->setParameter('val', "%" . $q . "%")
+            ->orderBy('d.reference', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     public function findAllDemande($value)
     {

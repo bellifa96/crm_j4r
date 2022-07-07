@@ -5,22 +5,31 @@
 {% block body %}
     <h1>Transport index</h1>
 
-    <table class="table">
+    <table class="table datatable">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>CodeChantierJ4R</th>
-                <th>CodeChantierLayher</th>
-                <th>ReferenceCommande</th>
-                <th>CodeIBM</th>
-                <th>CodeERP</th>
-                <th>NCommande</th>
-                <th>TypeDeTransport</th>
+            <tr class="tr-head">
+                <th>Code J4R</th>
+                <th>Code Layher</th>
+                <th>N°Commande</th>
+                <th>IBM</th>
+                <th>ERP</th>
+                <th>CDT Travaux</th>
+                <th>Adresse chantier</th>
+                <th>Poids Commandé</th>
+                <th>Heure prévue</th>
+                <th>Heure d'arrivé Layher</th>
+                <th>Nbr d'heure prévues</th>
+                <th>Nbr d'heure passée</th>
+
+
+                <th>Type TRSP</th>
                 <th>TypeDeVehicule</th>
                 <th>TonnageCommandé</th>
                 <th>TonnagePrepare</th>
                 <th>TonnageLivre</th>
+                <th>Base de prix</th>
                 <th>Prix</th>
+
                 <th>MontantDeLaCourse</th>
                 <th>AdresseEnlevement</th>
                 <th>DateDEnlevementDemande</th>
@@ -35,19 +44,20 @@
         <tbody>
         {% for transport in transports %}
             <tr>
-                <td>{{ transport.id }}</td>
                 <td>{{ transport.codeChantierJ4R }}</td>
                 <td>{{ transport.codeChantierLayher }}</td>
-                <td>{{ transport.referenceCommande }}</td>
+                <td>{{ transport.id }}</td>
                 <td>{{ transport.codeIBM }}</td>
                 <td>{{ transport.codeERP }}</td>
-                <td>{{ transport.nCommande }}</td>
-                <td>{{ transport.typeDeTransport }}</td>
+                <td>{{ transport.conducteurDeTravaux.firstname~" "~transport.conducteurDeTravaux.telephoneMobile }}</td>
                 <td>{{ transport.typeDeVehicule }}</td>
-                <td>{{ transport.tonnageCommandé }}</td>
+                <td>{{ transport.tonnageCommande }}</td>
                 <td>{{ transport.tonnagePrepare }}</td>
                 <td>{{ transport.tonnageLivre }}</td>
-                <td>{{ transport.prix }}</td>
+
+                <td>{{ transport.prix['type'] }}</td>
+                <td>{{ transport.prix['montant'] }}</td>
+
                 <td>{{ transport.montantDeLaCourse }}</td>
                 <td>{{ transport.adresseEnlevement }}</td>
                 <td>{{ transport.dateDEnlevementDemande }}</td>

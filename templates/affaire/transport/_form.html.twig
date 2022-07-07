@@ -1,4 +1,243 @@
+<style>
+    form {
+        color: #0E4377;
+    }
+
+    .labels {
+        color: #0E4377;
+        text-align: left;
+        display: block;
+        font-weight: bold;
+        padding-top: 1rem;
+    }
+
+</style>
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-end">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+                <div class="col-md-12"><label class="labels">Code chantier J4R</label>
+                    {{ form_widget(form.codeChantierJ4R,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">Conducteur de Travaux</label>
+                    {{ form_widget(form.ConducteurDeTravaux,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">Sous traitant principal</label>
+                    {{ form_widget(form.sousTraitantPrincipal,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">Code chantier Layher</label>
+                    {{ form_widget(form.codeChantierLayher,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">référence commande</label>
+                    {{ form_widget(form.referenceCommande,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">code IBM</label>
+                    {{ form_widget(form.codeIBM,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">code ERP</label>
+                    {{ form_widget(form.codeERP,{"attr":{"class":"form-control"}}) }}
+                </div>
+                <div class="col-md-12"><label class="labels">N° commande</label>
+                    {{ form_widget(form.nCommande,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-5 border-end">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div class="col-md-12"><label class="labels">Type de transport</label>
+                    {{ form_widget(form.typeDeTransport,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Type de véhicule</label>
+                    {{ form_widget(form.typeDeVehicule,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Tonnage commandé</label>
+                    {{ form_widget(form.tonnageCommande,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Tonnage Préparé</label>
+                    {{ form_widget(form.tonnagePrepare,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Tonnage livré</label>
+                    {{ form_widget(form.tonnageLivre,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6" id="prix">
+                            <label class="labels">Prix</label>
+
+                            <select id="transport_prix_type" name="transport[prix][type]" class="form-control">
+                                <option value="A la tonne"> A la tonne</option>
+                                <option value="Au tour">Au tour</option>
+                                <option value="A l’heure"> A l’heure</option>
+                                <option value="Spécial"> Spécial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Montant</label>
+
+                            <input type="number" id="transport_prix_montant" name="transport[prix][montant]"
+                                   value="{{ transport.prix['montant'] }}"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Montant de la course</label>
+                    {{ form_widget(form.montantDeLaCourse,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Transporteur</label>
+                    {{ form_widget(form.transporteur,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Chauffeur</label>
+                    {{ form_widget(form.chauffeur,{"attr":{"class":"form-control"}}) }}
+                </div>
+            </div>
+
+            <div class="row justify-content-center m-4">
+                <div class="col-md-auto">
+                    <button class="btn btn-info">{{ button_label|default('Enregistrer') }}</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mt-4">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+                    <h4><u>Enlevement</u></h4>
+
+                    <div class="col-md-12"><label class="labels">Adresse d'enlevement</label>
+                        {{ form_widget(form.adresseEnlevement,{"attr":{"class":"form-control"}}) }}
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Contact à l'enlevement</label>
+                        {{ form_widget(form.contactEnlevement,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Date d'enlevement demandé</label>
+                        {{ form_widget(form.dateDEnlevementDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                    </div>
+
+                    <div class="col-md-12 row justify-content-around">
+                        <div class="col-md-6"><label class="labels">Heure d'enlevement</label>
+                            {{ form_widget(form.heureEnlevement,{"attr":{"class":"form-control"}}) }}
+                        </div>
+                        <div class="col-md-6"><label class="labels"></label>
+                            {{ form_widget(form.heureEnlevementFin,{"attr":{"class":"form-control"}}) }}
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Référence</label>
+                        {{ form_widget(form.referenceEnlevement,{"attr":{"class":"form-control"}}) }}
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Instruction à l'elevement pour conducteur</label>
+                        {{ form_widget(form.instructionEnlevementConducteur,{"attr":{"class":"form-control"}}) }}
+                    </div>
+
+
+                <h4 class="mr-4"><u>Livraison</u></h4>
+
+                <div class="col-md-12"><label class="labels">Adresse de Livraison</label>
+                    {{ form_widget(form.adresseLivraison,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Contact à la livraison</label>
+                    {{ form_widget(form.contactLivraison,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Date de livraison demandé</label>
+                    {{ form_widget(form.dateLivraisonDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                </div>
+
+                <div class="col-md-12 row justify-content-around">
+                    <div class="col-md-6"><label class="labels">Heure Livraison</label>
+                        {{ form_widget(form.heureLivraison,{"attr":{"class":"form-control"}}) }}
+                    </div>
+                    <div class="col-md-6"><label class="labels">Et</label>
+                        {{ form_widget(form.heureLivraisonFin,{"attr":{"class":"form-control"}}) }}
+                    </div>
+
+                </div>
+
+                <div class="col-md-12"><label class="labels">Référence</label>
+                    {{ form_widget(form.referenceLivraison,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Instruction à la livraison pour conducteur</label>
+                    {{ form_widget(form.instructionLivraisonConducteur,{"attr":{"class":"form-control"}}) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}
+
+<script>
+
+    $("#transport_codeChantierJ4R").autocomplete({
+        source: "/affaire/transport/chantier/code/" + $("#transport_codeChantierJ4R").val()
+    });
+
+
+    function prixSpecial() {
+
+        if ($("#transport_prix_type").val() === "Spécial") {
+
+            let div = `
+                         <div class="col-md-6" id="prix-intitule">
+                            <label class="labels">Intitulé</label>
+
+                            <input type="text"  id="transport_prix_intitule" name="transport[prix][intitule]" value="{{ "intitule" in transport.prix|keys ? transport.prix['intitule'] :'' }}"
+                                   class="form-control"/>
+                        </div>
+            `;
+            $(div).insertAfter("#prix");
+        } else if ($("#transport_prix_type").val() != "Spécial" && $('#prix-intitule').length > 0) {
+            $('#prix-intitule').remove()
+        }
+    }
+
+
+
+    function prix() {
+        if ($("#transport_prix_type").val() == "A la tonne") {
+            $("#transport_prix_montant").val(42)
+        }
+    }
+
+    function MontantCourse(){
+        let type = $("#transport_prix_type").val();
+        let livre = $("#transport_tonnageLivre").val();
+        let prix = $("#transport_prix_montant").val();
+        console.log(type,livre,prix)
+        if(type === "A la tonne" &&  livre.length > 0 && prix.length > 0){
+             $('#transport_montantDeLaCourse').val(livre * prix);
+        }
+    }
+    prixSpecial();
+
+    $("#transport_tonnageLivre").change(function () {
+        MontantCourse();
+    })
+    $("#transport_prix_type").change(function () {
+        prixSpecial();
+        MontantCourse();
+    })
+
+</script>

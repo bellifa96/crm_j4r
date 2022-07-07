@@ -59,15 +59,12 @@ class Transport
     private $tonnageLivre;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $prix;
-
-    #[ORM\Column(type: 'string', length: 255)]
     private $montantDeLaCourse;
 
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transports')]
     private $chauffeur;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $adresseEnlevement;
 
     #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'transportTransporteur')]
@@ -76,28 +73,51 @@ class Transport
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'TransportContactEnlevement')]
     private $contactEnlevement;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $dateDEnlevementDemande;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text',nullable: true)]
     private $instructionEnlevementConducteur;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $adresseLivraison;
 
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transportLivraison')]
     private $contactLivraison;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $dateLivraisonDemande;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $referenceLivraison;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text',nullable: true)]
     private $instructionLivraisonConducteur;
 
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    private $referenceEnlevement;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $heureEnlevement;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $heureLivraison;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $heureLivraisonFin;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $heureEnlevementFin;
+
+    #[ORM\Column(type: 'array')]
+    private $prix = [];
+
+
+    public function __construct(){
+        $this->prix['type'] = "A la tonne";
+        $this->prix['montant'] = 42;
+        $this->codeChantierLayher = "100FUR";
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -271,18 +291,6 @@ class Transport
         return $this;
     }
 
-    public function getPrix(): ?string
-    {
-        return $this->prix;
-    }
-
-    public function setPrix(string $prix): self
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
     public function getMontantDeLaCourse(): ?string
     {
         return $this->montantDeLaCourse;
@@ -313,7 +321,7 @@ class Transport
         return $this->adresseEnlevement;
     }
 
-    public function setAdresseEnlevement(string $adresseEnlevement): self
+    public function setAdresseEnlevement(?string $adresseEnlevement): self
     {
         $this->adresseEnlevement = $adresseEnlevement;
 
@@ -349,7 +357,7 @@ class Transport
         return $this->dateDEnlevementDemande;
     }
 
-    public function setDateDEnlevementDemande(string $dateDEnlevementDemande): self
+    public function setDateDEnlevementDemande(?string $dateDEnlevementDemande): self
     {
         $this->dateDEnlevementDemande = $dateDEnlevementDemande;
 
@@ -361,7 +369,7 @@ class Transport
         return $this->instructionEnlevementConducteur;
     }
 
-    public function setInstructionEnlevementConducteur(string $instructionEnlevementConducteur): self
+    public function setInstructionEnlevementConducteur(?string $instructionEnlevementConducteur): self
     {
         $this->instructionEnlevementConducteur = $instructionEnlevementConducteur;
 
@@ -373,7 +381,7 @@ class Transport
         return $this->adresseLivraison;
     }
 
-    public function setAdresseLivraison(string $adresseLivraison): self
+    public function setAdresseLivraison(?string $adresseLivraison): self
     {
         $this->adresseLivraison = $adresseLivraison;
 
@@ -397,7 +405,7 @@ class Transport
         return $this->dateLivraisonDemande;
     }
 
-    public function setDateLivraisonDemande(string $dateLivraisonDemande): self
+    public function setDateLivraisonDemande(?string $dateLivraisonDemande): self
     {
         $this->dateLivraisonDemande = $dateLivraisonDemande;
 
@@ -409,7 +417,7 @@ class Transport
         return $this->referenceLivraison;
     }
 
-    public function setReferenceLivraison(string $referenceLivraison): self
+    public function setReferenceLivraison(?string $referenceLivraison): self
     {
         $this->referenceLivraison = $referenceLivraison;
 
@@ -421,11 +429,85 @@ class Transport
         return $this->instructionLivraisonConducteur;
     }
 
-    public function setInstructionLivraisonConducteur(string $instructionLivraisonConducteur): self
+    public function setInstructionLivraisonConducteur(?string $instructionLivraisonConducteur): self
     {
         $this->instructionLivraisonConducteur = $instructionLivraisonConducteur;
 
         return $this;
     }
+
+
+    public function getReferenceEnlevement(): ?string
+    {
+        return $this->referenceEnlevement;
+    }
+
+    public function setReferenceEnlevement(string $referenceEnlevement): self
+    {
+        $this->referenceEnlevement = $referenceEnlevement;
+
+        return $this;
+    }
+
+    public function getheureEnlevement(): ?\datetime
+    {
+        return $this->heureEnlevement;
+    }
+
+    public function setheureEnlevement(?\datetime $heureEnlevement): self
+    {
+        $this->heureEnlevement = $heureEnlevement;
+
+        return $this;
+    }
+
+    public function getheureLivraison(): ?\datetime
+    {
+        return $this->heureLivraison;
+    }
+
+    public function setheureLivraison(?\datetime $heureLivraison): self
+    {
+        $this->heureLivraison = $heureLivraison;
+
+        return $this;
+    }
+
+    public function getHeureLivraisonFin(): ?\datetime
+    {
+        return $this->heureLivraisonFin;
+    }
+
+    public function setHeureLivraisonFin(?\datetime $heureLivraisonFin): self
+    {
+        $this->heureLivraisonFin = $heureLivraisonFin;
+
+        return $this;
+    }
+
+    public function getHeureEnlevementFin(): ?\datetime
+    {
+        return $this->heureEnlevementFin;
+    }
+
+    public function setHeureEnlevementFin(?\datetime $heureEnlevementFin): self
+    {
+        $this->heureEnlevementFin = $heureEnlevementFin;
+
+        return $this;
+    }
+
+    public function getPrix(): ?array
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(array $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
 
 }
