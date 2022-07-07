@@ -242,6 +242,33 @@ class Demande
     #[ORM\Column(type: 'array', nullable: true)]
     private $menu = [];
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $gardeCorps;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $typeDeMontage;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $utilisationDuMatériel;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $Implantation;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $cantonnement;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $zoneDeStockage;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $manutentionSupplementaire;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $materielAPrevoir;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $structureEchafaudage;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -1025,6 +1052,114 @@ class Demande
     public function setMenu(?array $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getGardeCorps(): ?string
+    {
+        return $this->gardeCorps;
+    }
+
+    public function setGardeCorps(?string $gardeCorps): self
+    {
+        $this->gardeCorps = $gardeCorps;
+
+        return $this;
+    }
+
+    public function getTypeDeMontage(): ?string
+    {
+        return $this->typeDeMontage;
+    }
+
+    public function setTypeDeMontage(?string $typeDeMontage): self
+    {
+        $this->typeDeMontage = $typeDeMontage;
+
+        return $this;
+    }
+
+    public function getUtilisationDuMatériel(): ?string
+    {
+        return $this->utilisationDuMatériel;
+    }
+
+    public function setUtilisationDuMatériel(?string $utilisationDuMatériel): self
+    {
+        $this->utilisationDuMatériel = $utilisationDuMatériel;
+
+        return $this;
+    }
+
+    public function getImplantation(): ?string
+    {
+        return $this->Implantation;
+    }
+
+    public function setImplantation(?string $Implantation): self
+    {
+        $this->Implantation = $Implantation;
+
+        return $this;
+    }
+
+    public function getCantonnement(): ?string
+    {
+        return $this->cantonnement;
+    }
+
+    public function setCantonnement(?string $cantonnement): self
+    {
+        $this->cantonnement = $cantonnement;
+
+        return $this;
+    }
+
+    public function getZoneDeStockage(): ?string
+    {
+        return $this->zoneDeStockage;
+    }
+
+    public function setZoneDeStockage(?string $zoneDeStockage): self
+    {
+        $this->zoneDeStockage = $zoneDeStockage;
+
+        return $this;
+    }
+
+    public function getManutentionSupplementaire(): ?string
+    {
+        return $this->manutentionSupplementaire;
+    }
+
+    public function setManutentionSupplementaire(?string $manutentionSupplementaire): self
+    {
+        $this->manutentionSupplementaire = $manutentionSupplementaire;
+
+        return $this;
+    }
+
+    public function getMaterielAPrevoir(): ?string
+    {
+        return $this->materielAPrevoir;
+    }
+
+    public function setMaterielAPrevoir(?string $materielAPrevoir): self
+    {
+        $this->materielAPrevoir = $materielAPrevoir;
+
+        return $this;
+    }
+
+    public function getStructureEchafaudage(): ?string
+    {
+        return $this->structureEchafaudage;
+    }
+
+    public function setStructureEchafaudage(?string $structureEchafaudage): self
+    {
+        $this->structureEchafaudage = $structureEchafaudage;
 
         return $this;
     }

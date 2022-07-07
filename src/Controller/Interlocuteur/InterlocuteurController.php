@@ -267,6 +267,12 @@ class InterlocuteurController extends AbstractController
         $interlocuteur = new Interlocuteur();
         if (str_contains($route, 'interlocuteur/interlocuteur/soustraitants')) {
             $interlocuteur->setRoles(['ROLE_SOUS_TRAITANT']);
+        }elseif (str_contains($route,'interlocuteur/interlocuteur/client')){
+            $interlocuteur->setRoles(['ROLE_CLIENT']);
+        }elseif (str_contains($route,'interlocuteur/interlocuteur/transporteurs')){
+            $interlocuteur->setRoles(['ROLE_TRANSPORTEUR']);
+        }elseif (str_contains($route,'interlocuteur/interlocuteur/fournisseurs')){
+            $interlocuteur->setRoles(['ROLE_FOURNISSEUR']);
         }
 
         $form = $this->createForm(InterlocuteurType::class, $interlocuteur);
