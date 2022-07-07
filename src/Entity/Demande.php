@@ -111,7 +111,7 @@ class Demande
     private $gcPeripherique;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeEchafaudage;
 
     #[Gedmo\Versioned]
@@ -171,7 +171,7 @@ class Demande
     private $statut;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $statutCommercial;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Evenement::class)]
@@ -547,7 +547,7 @@ class Demande
         return $this->typeEchafaudage;
     }
 
-    public function setTypeEchafaudage(string $typeEchafaudage): self
+    public function setTypeEchafaudage(?string $typeEchafaudage): self
     {
         $this->typeEchafaudage = $typeEchafaudage;
         return $this;
@@ -725,7 +725,7 @@ class Demande
         return $this->statutCommercial;
     }
 
-    public function setStatutCommercial(string $statutCommercial): self
+    public function setStatutCommercial(?string $statutCommercial): self
     {
         $this->statutCommercial = $statutCommercial;
 

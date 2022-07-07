@@ -11,6 +11,7 @@ use App\Form\Interlocuteur\InterlocuteurType;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
+use App\Repository\Interlocuteur\SocieteRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
@@ -27,7 +28,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class InterlocuteurController extends AbstractController
 {
     #[Route('/', name: 'app_interlocuteur_interlocuteur_index', methods: ['GET'])]
-    public function index(InterlocuteurRepository $interlocuteurRepository,UserRepository $userRepository): Response
+    public function index(InterlocuteurRepository $interlocuteurRepository,UserRepository $userRepository,DemandeRepository $demandeRepository,SocieteRepository $societeRepository): Response
     {
 
         $data = [
@@ -172,6 +173,9 @@ class InterlocuteurController extends AbstractController
         ];
 
         foreach ($data as $key => $val) {
+            if(!empty($societeRepository->findOneBySiret($key))){
+                continue;
+            };
             $user = $userRepository->findOneByFirstname($val['user']);
             $interlocuteur = new Interlocuteur();
             $interlocuteur->setRoles(["ROLE_CLIENT"]);
@@ -187,6 +191,8 @@ class InterlocuteurController extends AbstractController
             $interlocuteur->setSociete($societe);
             $interlocuteurRepository->add($interlocuteur);
             $demande = new Demande();
+
+            $demande->setNomChantier($val['societe']);
             $demande->setReference($val['nchantier']);
             $demande->setClient($interlocuteur);
             $demande->setDate($val['date']);
@@ -196,7 +202,11 @@ class InterlocuteurController extends AbstractController
             $demande->setAdresse1($val['adresse']);
             $demande->setVille($val['ville']);
             $demande->setCodePostal($val['cp']);
+            $demande->setPays('France');
 
+
+
+            $demandeRepository->add($demande);
             $interlocuteurRepository->add($interlocuteur);
 
         }
