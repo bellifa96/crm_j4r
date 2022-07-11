@@ -56,7 +56,7 @@ class ContactController extends AbstractController
 
             $contactRepository->add($contact);
 
-            return $this->redirectToRoute('app_contact_contact_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/contact/new.html.twig', [

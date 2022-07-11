@@ -51,8 +51,8 @@ class DemandeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('d')
             ->select('d.reference')
-            ->Where('d.reference LIKE :val')
-            ->setParameter('val', "%" . $q . "%")
+            ->where('d.reference LIKE :val')
+            ->setParameter('val',  $q )
             ->orderBy('d.reference', 'ASC')
             ->getQuery()
             ->getResult();

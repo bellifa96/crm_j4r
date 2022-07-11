@@ -49,7 +49,12 @@ class TransportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $transportRepository->add($transport, true);
+            $transport->setNCommande((date('y')%10).date("m").sprintf("%02d", $transport->getId()));
+            $transportRepository->add($transport, true);
+
+
 
             return $this->redirectToRoute('app_affaire_transport_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -172,7 +172,7 @@ class InterlocuteurController extends AbstractController
             ["user" => "06 73 87 85 52", "societe" => "", 'nchantier' => "", "statut" => "", "ville" => "", "cp" => "", "adresse" => "351, Impasse des Armoiries", "nomChantier" => "", "date" => ""],
         ];
 
-        foreach ($data as $key => $val) {
+     /*   foreach ($data as $key => $val) {
             if(!empty($societeRepository->findOneBySiret($key))){
                 continue;
             };
@@ -209,7 +209,7 @@ class InterlocuteurController extends AbstractController
             $demandeRepository->add($demande);
             $interlocuteurRepository->add($interlocuteur);
 
-        }
+        }*/
         return $this->render('interlocuteur/interlocuteur/index.html.twig', [
             'interlocuteurs' => $interlocuteurRepository->findAll(),
             'title' => 'Liste des interlocuteurs',

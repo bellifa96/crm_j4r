@@ -21,14 +21,9 @@
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
 
                 <div class="col-md-12"><label class="labels">Code chantier J4R</label>
-                    {{ form_widget(form.codeChantierJ4R,{"attr":{"class":"form-control"}}) }}
+                    {{ form_widget(form.chantier,{"attr":{"class":"form-control"}}) }}
                 </div>
-                <div class="col-md-12"><label class="labels">Conducteur de Travaux</label>
-                    {{ form_widget(form.ConducteurDeTravaux,{"attr":{"class":"form-control"}}) }}
-                </div>
-                <div class="col-md-12"><label class="labels">Sous traitant principal</label>
-                    {{ form_widget(form.sousTraitantPrincipal,{"attr":{"class":"form-control"}}) }}
-                </div>
+
                 <div class="col-md-12"><label class="labels">Code chantier Layher</label>
                     {{ form_widget(form.codeChantierLayher,{"attr":{"class":"form-control"}}) }}
                 </div>
@@ -41,9 +36,6 @@
                 </div>
                 <div class="col-md-12"><label class="labels">code ERP</label>
                     {{ form_widget(form.codeERP,{"attr":{"class":"form-control"}}) }}
-                </div>
-                <div class="col-md-12"><label class="labels">N° commande</label>
-                    {{ form_widget(form.nCommande,{"attr":{"class":"form-control"}}) }}
                 </div>
 
 
@@ -102,7 +94,10 @@
                 </div>
 
                 <div class="col-md-12"><label class="labels">Chauffeur</label>
-                    {{ form_widget(form.chauffeur,{"attr":{"class":"form-control"}}) }}
+                    <select id="transport_chauffeur" name="transport[chauffeur]" class="form-control">
+                        <option></option>
+
+                    </select>
                 </div>
             </div>
 
@@ -114,74 +109,59 @@
 
         </div>
 
-        <div class="col-md-4 mt-4">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+        <div class="col-md-4 mt-4 mb-2">
+            <h6 class="text-center"><u>Transport</u></h6>
 
-                    <h4><u>Enlevement</u></h4>
-
-                    <div class="col-md-12"><label class="labels">Adresse d'enlevement</label>
-                        {{ form_widget(form.adresseEnlevement,{"attr":{"class":"form-control"}}) }}
-                    </div>
-
-                    <div class="col-md-12"><label class="labels">Contact à l'enlevement</label>
-                        {{ form_widget(form.contactEnlevement,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-                    </div>
-
-                    <div class="col-md-12"><label class="labels">Date d'enlevement demandé</label>
-                        {{ form_widget(form.dateDEnlevementDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-                    </div>
-
-                    <div class="col-md-12 row justify-content-around">
-                        <div class="col-md-6"><label class="labels">Heure d'enlevement</label>
-                            {{ form_widget(form.heureEnlevement,{"attr":{"class":"form-control"}}) }}
-                        </div>
-                        <div class="col-md-6"><label class="labels"></label>
-                            {{ form_widget(form.heureEnlevementFin,{"attr":{"class":"form-control"}}) }}
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-12"><label class="labels">Référence</label>
-                        {{ form_widget(form.referenceEnlevement,{"attr":{"class":"form-control"}}) }}
-                    </div>
-
-                    <div class="col-md-12"><label class="labels">Instruction à l'elevement pour conducteur</label>
-                        {{ form_widget(form.instructionEnlevementConducteur,{"attr":{"class":"form-control"}}) }}
-                    </div>
-
-
-                <h4 class="mr-4"><u>Livraison</u></h4>
-
-                <div class="col-md-12"><label class="labels">Adresse de Livraison</label>
-                    {{ form_widget(form.adresseLivraison,{"attr":{"class":"form-control"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Contact à la livraison</label>
-                    {{ form_widget(form.contactLivraison,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Date de livraison demandé</label>
-                    {{ form_widget(form.dateLivraisonDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-                </div>
-
-                <div class="col-md-12 row justify-content-around">
-                    <div class="col-md-6"><label class="labels">Heure Livraison</label>
-                        {{ form_widget(form.heureLivraison,{"attr":{"class":"form-control"}}) }}
-                    </div>
-                    <div class="col-md-6"><label class="labels">Et</label>
-                        {{ form_widget(form.heureLivraisonFin,{"attr":{"class":"form-control"}}) }}
-                    </div>
-
-                </div>
-
-                <div class="col-md-12"><label class="labels">Référence</label>
-                    {{ form_widget(form.referenceLivraison,{"attr":{"class":"form-control"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Instruction à la livraison pour conducteur</label>
-                    {{ form_widget(form.instructionLivraisonConducteur,{"attr":{"class":"form-control"}}) }}
-                </div>
+            <div class="col-md-12"><label class="labels">Adresse de Livraison</label>
+                {{ form_widget(form.adresseLivraison,{"attr":{"class":"form-control"}}) }}
             </div>
+
+            <div class="col-md-12"><label class="labels">Contact à la livraison</label>
+                {{ form_widget(form.contactLivraison,{"attr":{"class":"form-control","autocomplete":"off"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Date de livraison demandé</label>
+                {{ form_widget(form.dateLivraisonDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+            </div>
+
+            <div class="col-md-12">
+                <label class="labels">Heure Livraison</label>
+                {{ form_widget(form.heureLivraison,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Référence</label>
+                {{ form_widget(form.referenceLivraison,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Instruction à la livraison pour conducteur</label>
+                {{ form_widget(form.instructionLivraisonConducteur,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Adresse d'enlevement</label>
+                {{ form_widget(form.adresseEnlevement,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Contact à l'enlevement</label>
+                {{ form_widget(form.contactEnlevement,{"attr":{"class":"form-control","autocomplete":"off"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Date d'enlevement demandé</label>
+                {{ form_widget(form.dateDEnlevementDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+            </div>
+
+            <div class="col-md-12">
+                <label class="labels">Heure d'enlevement</label>
+                {{ form_widget(form.heureEnlevement,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Référence</label>
+                {{ form_widget(form.referenceEnlevement,{"attr":{"class":"form-control"}}) }}
+            </div>
+
+            <div class="col-md-12"><label class="labels">Instruction à l'elevement pour conducteur</label>
+                {{ form_widget(form.instructionEnlevementConducteur,{"attr":{"class":"form-control"}}) }}
+            </div>
+
 
         </div>
     </div>
@@ -214,22 +194,40 @@
     }
 
 
-
     function prix() {
         if ($("#transport_prix_type").val() == "A la tonne") {
             $("#transport_prix_montant").val(42)
         }
     }
 
-    function MontantCourse(){
+    function MontantCourse() {
         let type = $("#transport_prix_type").val();
         let livre = $("#transport_tonnageLivre").val();
         let prix = $("#transport_prix_montant").val();
-        console.log(type,livre,prix)
-        if(type === "A la tonne" &&  livre.length > 0 && prix.length > 0){
-             $('#transport_montantDeLaCourse').val(livre * prix);
+        console.log(type, livre, prix)
+        if (type === "A la tonne" && livre.length > 0 && prix.length > 0) {
+            $('#transport_montantDeLaCourse').val(livre * prix);
         }
     }
+
+    function chauffeur() {
+        if ($("#transport_transporteur").val().length > 0) {
+            $.post("{{ path('app_contact_interlocuteur_get_contact') }}", {id: $("#transport_transporteur").val()}, function (response) {
+                let data = JSON.parse(response);
+
+                if (data.length > 0) {
+                    data.forEach((value, key) => {
+                        $('#transport_chauffeur').append($('<option>', {
+                            value: value.id,
+                            text: value.text,
+                            selected: value.selected
+                        }));
+                    })
+                }
+            })
+        }
+    }
+
     prixSpecial();
 
     $("#transport_tonnageLivre").change(function () {
@@ -239,5 +237,12 @@
         prixSpecial();
         MontantCourse();
     })
+
+
+    $("#transport_transporteur").change(function () {
+        chauffeur();
+    })
+
+    chauffeur();
 
 </script>

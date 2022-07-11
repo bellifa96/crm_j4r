@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
+use App\Entity\Affaire\Transport;
 use App\Entity\Contact\Contact;
 use App\Entity\Conversation\ConversationApresNegociationDemande;
 use App\Entity\Conversation\ConversationClient;
@@ -268,6 +269,9 @@ class Demande
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $structureEchafaudage;
+
+    #[ORM\OneToOne(mappedBy: 'chantier', targetEntity: Transport::class, cascade: ['persist', 'remove'])]
+    private $transport;
 
     public function __construct()
     {
@@ -1162,5 +1166,32 @@ class Demande
         $this->structureEchafaudage = $structureEchafaudage;
 
         return $this;
+    }
+
+    public function getTransport(): ?Transport
+    {
+        return $this->transport;
+    }
+
+    public function setTransport(?Transport $transport): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($transport === null && $this->transport !== null) {
+            $this->transport->setChantier(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($transport !== null && $transport->getChantier() !== $this) {
+            $transport->setChantier($this);
+        }
+
+        $this->transport = $transport;
+
+        return $this;
+    }
+
+    public function __toString():string
+    {
+        return $this->nomChantier;
     }
 }

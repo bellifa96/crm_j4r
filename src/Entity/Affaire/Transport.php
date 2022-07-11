@@ -3,6 +3,7 @@
 namespace App\Entity\Affaire;
 
 use App\Entity\Contact\Contact;
+use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\User;
 use App\Repository\Affaire\TransportRepository;
@@ -40,7 +41,7 @@ class Transport
     #[ORM\Column(type: 'string', length: 255)]
     private $codeERP;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $nCommande;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -103,14 +104,11 @@ class Transport
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $heureLivraison;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $heureLivraisonFin;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $heureEnlevementFin;
-
     #[ORM\Column(type: 'array')]
     private $prix = [];
+
+    #[ORM\OneToOne(inversedBy: 'transport', targetEntity: Demande::class, cascade: ['persist', 'remove'])]
+    private $chantier;
 
 
     public function __construct(){
@@ -224,7 +222,7 @@ class Transport
         return $this->nCommande;
     }
 
-    public function setNCommande(string $nCommande): self
+    public function setNCommande(?string $nCommande): self
     {
         $this->nCommande = $nCommande;
 
@@ -473,29 +471,6 @@ class Transport
         return $this;
     }
 
-    public function getHeureLivraisonFin(): ?\datetime
-    {
-        return $this->heureLivraisonFin;
-    }
-
-    public function setHeureLivraisonFin(?\datetime $heureLivraisonFin): self
-    {
-        $this->heureLivraisonFin = $heureLivraisonFin;
-
-        return $this;
-    }
-
-    public function getHeureEnlevementFin(): ?\datetime
-    {
-        return $this->heureEnlevementFin;
-    }
-
-    public function setHeureEnlevementFin(?\datetime $heureEnlevementFin): self
-    {
-        $this->heureEnlevementFin = $heureEnlevementFin;
-
-        return $this;
-    }
 
     public function getPrix(): ?array
     {
@@ -505,6 +480,18 @@ class Transport
     public function setPrix(array $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getChantier(): ?Demande
+    {
+        return $this->chantier;
+    }
+
+    public function setChantier(?Demande $chantier): self
+    {
+        $this->chantier = $chantier;
 
         return $this;
     }
