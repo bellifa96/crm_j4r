@@ -110,11 +110,15 @@ class Transport
     #[ORM\OneToOne(inversedBy: 'transport', targetEntity: Demande::class, cascade: ['persist', 'remove'])]
     private $chantier;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $statut;
+
 
     public function __construct(){
         $this->prix['type'] = "A la tonne";
         $this->prix['montant'] = 42;
         $this->codeChantierLayher = "100FUR";
+        $this->statut = "Demande CDT";
     }
     public function getId(): ?int
     {
@@ -492,6 +496,18 @@ class Transport
     public function setChantier(?Demande $chantier): self
     {
         $this->chantier = $chantier;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }
