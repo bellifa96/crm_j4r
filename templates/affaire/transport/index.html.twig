@@ -8,6 +8,7 @@
     <table class="table datatable">
         <thead>
             <tr class="tr-head">
+                <th>id</th>
                 <th>Code J4R</th>
                 <th>Code Layher</th>
                 <th>N°Commande</th>
@@ -44,6 +45,7 @@
         <tbody>
         {% for transport in transports %}
             <tr>
+                <td><a href="{{ path('app_affaire_transport_show',{'id':transport.id}) }}">{{ transport.id }}</a> </td>
                 <td>{{ transport.codeChantierJ4R }}</td>
                 <td>{{ transport.codeChantierLayher }}</td>
                 <td>{{ transport.id }}</td>
