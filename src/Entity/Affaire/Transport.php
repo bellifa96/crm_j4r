@@ -32,13 +32,13 @@ class Transport
     #[ORM\Column(type: 'string', length: 255)]
     private $codeChantierLayher;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $referenceCommande;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $codeIBM;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $codeERP;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
@@ -186,7 +186,7 @@ class Transport
         return $this->referenceCommande;
     }
 
-    public function setReferenceCommande(string $referenceCommande): self
+    public function setReferenceCommande(?string $referenceCommande): self
     {
         $this->referenceCommande = $referenceCommande;
 
@@ -198,7 +198,7 @@ class Transport
         return $this->codeIBM;
     }
 
-    public function setCodeIBM(string $codeIBM): self
+    public function setCodeIBM(?string $codeIBM): self
     {
         $this->codeIBM = $codeIBM;
 
@@ -210,7 +210,7 @@ class Transport
         return $this->codeERP;
     }
 
-    public function setCodeERP(string $codeERP): self
+    public function setCodeERP(?string $codeERP): self
     {
         $this->codeERP = $codeERP;
 
