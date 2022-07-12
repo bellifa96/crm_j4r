@@ -124,28 +124,31 @@
         <div class="col-md-4 mt-4 mb-2">
             <h6 class="text-center"><u>Adresse</u></h6>
 
-            <div class="col-md-12"><label class="labels">Adresse d'enlevement</label>
+            <div class="col-md-12"><label class="labels">Adresse d'enlèvement</label>
                 {{ form_widget(form.adresseEnlevement,{"attr":{"class":"form-control"}}) }}
             </div>
 
-            <div class="col-md-12"><label class="labels">Contact à l'enlevement</label>
+            <div class="col-md-12"><label class="labels">Contact à l'enlèvement</label>
                 {{ form_widget(form.contactEnlevement,{"attr":{"class":"form-control","autocomplete":"off"}}) }}
             </div>
 
-            <div class="col-md-12"><label class="labels">Date d'enlevement demandé</label>
-                {{ form_widget(form.dateDEnlevementDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-            </div>
+            <div class="row">
+                <div class="col-md-6"><label class="labels">Date d'enlèvement demandé</label>
+                    {{ form_widget(form.dateDEnlevementDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                </div>
 
-            <div class="col-md-12">
-                <label class="labels">Heure d'enlevement</label>
-                {{ form_widget(form.heureEnlevement,{"attr":{"class":"form-control"}}) }}
+                <div class="col-md-6">
+                    <label class="labels">Heure d'enlèvement</label>
+                    {{ form_widget(form.heureEnlevement,{"attr":{"class":"form-control"}}) }}
+                </div>
+
             </div>
 
             <div class="col-md-12"><label class="labels">Référence</label>
                 {{ form_widget(form.referenceEnlevement,{"attr":{"class":"form-control"}}) }}
             </div>
 
-            <div class="col-md-12"><label class="labels">Instruction à l'elevement pour conducteur</label>
+            <div class="col-md-12"><label class="labels">Instruction à l'enlèvement pour conducteur</label>
                 {{ form_widget(form.instructionEnlevementConducteur,{"attr":{"class":"form-control"}}) }}
             </div>
 
@@ -158,13 +161,16 @@
                 {{ form_widget(form.contactLivraison,{"attr":{"class":"form-control","autocomplete":"off"}}) }}
             </div>
 
-            <div class="col-md-12"><label class="labels">Date de livraison demandé</label>
-                {{ form_widget(form.dateLivraisonDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
-            </div>
+            <div class="row">
 
-            <div class="col-md-12">
-                <label class="labels">Heure Livraison</label>
-                {{ form_widget(form.heureLivraison,{"attr":{"class":"form-control"}}) }}
+                <div class="col-md-6"><label class="labels">Date de livraison demandé</label>
+                    {{ form_widget(form.dateLivraisonDemande,{"attr":{"class":"form-control datepicker","autocomplete":"off"}}) }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="labels">Heure Livraison</label>
+                    {{ form_widget(form.heureLivraison,{"attr":{"class":"form-control"}}) }}
+                </div>
             </div>
 
             <div class="col-md-12"><label class="labels">Référence</label>
