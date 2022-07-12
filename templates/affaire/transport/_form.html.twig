@@ -43,6 +43,16 @@
                     {{ form_widget(form.codeERP,{"attr":{"class":"form-control"}}) }}
                 </div>
 
+
+                <div class="col-md-12"><label class="labels">Tonnage commandé (en kg)</label>
+                    {{ form_widget(form.tonnageCommande,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Tonnage Préparé (en kg)</label>
+                    {{ form_widget(form.tonnagePrepare,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+
                 <div class="col-md-12"><label class="labels">Instruction Commande</label>
                     {{ form_widget(form.instructionCommande,{"attr":{"class":"form-control"}}) }}
                 </div>
@@ -55,16 +65,6 @@
                 <div class="col-md-12"><label class="labels">Type de transport</label>
                     {{ form_widget(form.typeDeTransport,{"attr":{"class":"form-control"}}) }}
                 </div>
-
-
-                <div class="col-md-12"><label class="labels">Tonnage commandé (en kg)</label>
-                    {{ form_widget(form.tonnageCommande,{"attr":{"class":"form-control"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Tonnage Préparé (en kg)</label>
-                    {{ form_widget(form.tonnagePrepare,{"attr":{"class":"form-control"}}) }}
-                </div>
-
 
                 <div class="col-md-12"><label class="labels">Montant de la course</label>
                     {{ form_widget(form.montantDeLaCourse,{"attr":{"class":"form-control"}}) }}
