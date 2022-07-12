@@ -74,6 +74,10 @@ class Interlocuteur
 
     }
 
+    public function __toString(): string
+    {
+        return (!empty($this->getSociete())) ? $this->getSociete()->getRaisonSociale() : $this->getPersonne()->getNom()." ".$this->getPersonne()->getPrenom();
+    }
 
     public function getId(): ?int
     {
@@ -373,6 +377,7 @@ class Interlocuteur
 
         return $this;
     }
+
 
 
 }

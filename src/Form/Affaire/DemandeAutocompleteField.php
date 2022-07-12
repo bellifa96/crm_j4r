@@ -17,7 +17,10 @@ class DemandeAutocompleteField extends AbstractType
         $resolver->setDefaults([
             'class' => Demande::class,
             'placeholder' => 'nom chantier,adresse,cp,ville',
-            'choice_label' => 'nomChantier',
+            'choice_label' => function(Demande $demande){
+                  return (!empty($demande->getClient()->getSociete()) ? $demande->getClient()->getSociete()->getRaisonSociale() : $demande->getClient()->getPersonne()->getNom()." - ".$demande->getClient()->getPersonne()->getPrenom())
+                     ." - ".$demande->getNomChantier()." - ".$demande->getAdresse1()." - ".$demande->getCodePostal()." - ".$demande->getVille();
+            },
 
             'searchable_fields' => ['nomChantier','adresse1','codePostal','ville']
             //'security' => 'ROLE_SOMETHING',

@@ -39,6 +39,7 @@ class TransportType extends AbstractType
             ])
             ->add('typeDeVehicule', ChoiceType::class, [
                 'choices' => [
+                    '26T'=>'26T',
                     'Benne' => 'Benne',
                     '19 T' => '19 T',
                     'Semi sans grue' => 'Semi sans grue',

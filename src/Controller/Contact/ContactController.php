@@ -2,9 +2,11 @@
 
 namespace App\Controller\Contact;
 
+use App\Entity\Affaire\Transport;
 use App\Entity\Contact\Contact;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Contact\ContactType;
+use App\Repository\Affaire\TransportRepository;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\DemandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,7 +58,7 @@ class ContactController extends AbstractController
 
             $contactRepository->add($contact);
 
-            return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id'=>$interlocuteur->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_interlocuteur_interlocuteur_show', ['id' => $interlocuteur->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/contact/new.html.twig', [
@@ -175,6 +177,44 @@ class ContactController extends AbstractController
                     }
 
                 }
+            }
+
+
+            $data[] = [
+                'id' => $val->getId(),
+                'text' => $val->getNom() . " " . $val->getPrenom(),
+                'selected' => $selected,
+            ];
+        }
+        //dd($contacts);
+        //dd($data);
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        return $response;
+    }
+
+
+    #[Route('/interlocteur/contact/chauffeur/', name: 'app_contact_interlocuteur_get_contact_chauffeur', methods: ['POST'])]
+    public function getChauffeurs(Request $request, ContactRepository $contactRepository,TransportRepository $transportRepository ): Response
+    {
+        $dataRequest = $request->request->all();
+
+        key_exists('id', $dataRequest) ? $id = $dataRequest['id'] : $id = null;
+        key_exists('transport', $dataRequest) ? $transport = $dataRequest['transport'] : $transport = null;
+
+
+
+        $contacts = $contactRepository->findBySociete($id);
+        $transport = $transportRepository->find($transport);
+
+        $data = [];
+
+
+        foreach ($contacts as $val) {
+
+            $selected = false;
+            if (!empty($val->getTransports()->contains($transport))) {
+               $selected = true;
             }
 
 

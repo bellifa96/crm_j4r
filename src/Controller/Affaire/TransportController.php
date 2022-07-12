@@ -5,6 +5,7 @@ namespace App\Controller\Affaire;
 use App\Entity\Affaire\Transport;
 use App\Form\Affaire\TransportType;
 use App\Repository\Affaire\TransportRepository;
+use App\Repository\Contact\ContactRepository;
 use App\Repository\DemandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,7 @@ class TransportController extends AbstractController
 
 
     #[Route('/new', name: 'app_affaire_transport_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TransportRepository $transportRepository): Response
+    public function new(Request $request, TransportRepository $transportRepository,ContactRepository $contactRepository): Response
     {
         $transport = new Transport();
         $transport->setDonneurDOrdre($this->getUser());
@@ -50,11 +51,13 @@ class TransportController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $data = $request->request->all();
+            $id = $data['transport']['chauffeur'];
+            $chauffeur = $contactRepository->find($id);
+            !empty($chauffeur) ? $transport->setChauffeur($chauffeur) : $transport->setChauffeur(null);
             $transportRepository->add($transport, true);
-            $transport->setNCommande((date('y')%10).date("m").sprintf("%02d", $transport->getId()));
+            $transport->setNCommande((date('y')%10).date("m").sprintf("%04d", $transport->getId()));
             $transportRepository->add($transport, true);
-
-
 
             return $this->redirectToRoute('app_affaire_transport_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,16 +75,22 @@ class TransportController extends AbstractController
     {
         return $this->render('affaire/transport/show.html.twig', [
             'transport' => $transport,
+            'title' => '',
+            'nav'=>[],
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_affaire_transport_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Transport $transport, TransportRepository $transportRepository): Response
+    public function edit(Request $request, Transport $transport, TransportRepository $transportRepository,ContactRepository $contactRepository): Response
     {
         $form = $this->createForm(TransportType::class, $transport);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $request->request->all();
+            $id = $data['transport']['chauffeur'];
+            $chauffeur = $contactRepository->find($id);
+            !empty($chauffeur) ? $transport->setChauffeur($chauffeur) : $transport->setChauffeur(null);
             $transportRepository->add($transport, true);
 
             return $this->redirectToRoute('app_affaire_transport_index', [], Response::HTTP_SEE_OTHER);

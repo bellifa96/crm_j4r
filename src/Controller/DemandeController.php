@@ -97,6 +97,10 @@ class DemandeController extends AbstractController
 
 
             return $this->extracted($request, $demande, $demandeRepository,);
+
+            $demande->setReference((date('y')%10).date("m").sprintf("%04d", $demande->getId()));
+
+            return $this->extracted($request, $demande, $demandeRepository,);
         }
 
         return $this->renderForm('demande/new.html.twig', [
