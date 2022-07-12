@@ -6,6 +6,7 @@ use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
+use App\Entity\TimesTrait;
 use App\Entity\User;
 use App\Repository\Affaire\TransportRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TransportRepository::class)]
 class Transport
 {
+    use TimesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -35,13 +38,13 @@ class Transport
     #[ORM\Column(type: 'string', length: 255)]
     private $codeChantierLayher;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $referenceCommande;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeERP;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $nCommande;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -53,10 +56,10 @@ class Transport
     #[ORM\Column(type: 'string', length: 255)]
     private $tonnageCommande;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $tonnagePrepare;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $tonnageLivre;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -65,7 +68,7 @@ class Transport
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transports')]
     private $chauffeur;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adresseEnlevement;
 
     #[ORM\ManyToOne(targetEntity: Interlocuteur::class, inversedBy: 'transportTransporteur')]
@@ -74,28 +77,28 @@ class Transport
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'TransportContactEnlevement')]
     private $contactEnlevement;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dateDEnlevementDemande;
 
-    #[ORM\Column(type: 'text',nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $instructionEnlevementConducteur;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adresseLivraison;
 
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'transportLivraison')]
     private $contactLivraison;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dateLivraisonDemande;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $referenceLivraison;
 
-    #[ORM\Column(type: 'text',nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $instructionLivraisonConducteur;
 
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $referenceEnlevement;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -116,17 +119,19 @@ class Transport
     #[ORM\Column(type: 'text', nullable: true)]
     private $instructionCommande;
 
-    #[ORM\OneToMany(mappedBy: 'transport', targetEntity: Fichier::class,cascade:["persist"])]
+    #[ORM\OneToMany(mappedBy: 'transport', targetEntity: Fichier::class, cascade: ["persist"])]
     private $fichiers;
 
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->prix['type'] = "A la tonne";
         $this->prix['montant'] = 42;
         $this->codeChantierLayher = "100FUR";
         $this->statut = "Demande CDT";
         $this->fichiers = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;

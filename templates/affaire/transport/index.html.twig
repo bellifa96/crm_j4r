@@ -5,8 +5,11 @@
 {% block body %}
     <h1>Transport index</h1>
 
-    <table class="table datatable">
-        <thead>
+    <div class="row" style="overflow: auto;">
+
+
+        <table class="table datatable table-responsive">
+            <thead>
             <tr class="tr-head">
                 <th>id</th>
                 <th>Code J4R</th>
@@ -21,7 +24,6 @@
                 <th>Heure d'arrivé Layher</th>
                 <th>Nbr d'heure prévues</th>
                 <th>Nbr d'heure passée</th>
-
                 <th>Type TRSP</th>
                 <th>TypeDeVehicule</th>
                 <th>TonnageCommandé</th>
@@ -29,7 +31,6 @@
                 <th>TonnageLivre</th>
                 <th>Base de prix</th>
                 <th>Prix</th>
-
                 <th>MontantDeLaCourse</th>
                 <th>AdresseEnlevement</th>
                 <th>Date D'enlèvement Demandée</th>
@@ -38,47 +39,50 @@
                 <th>DateLivraisonDemande</th>
                 <th>ReferenceLivraison</th>
                 <th>InstructionLivraisonConducteur</th>
-                <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for transport in transports %}
-            <tr>
-                <td><a href="{{ path('app_affaire_transport_show',{'id':transport.id}) }}">{{ transport.id }}</a> </td>
-                <td>{{ transport.codeChantierJ4R }}</td>
-                <td>{{ transport.codeChantierLayher }}</td>
-                <td>{{ transport.id }}</td>
-                <td>{{ transport.codeERP }}</td>
-                <td>{{ transport.statut }}</td>
-                <td>{{ transport.chantier.createur.firstname~" "~transport.chantier.createur.telephoneMobile }}</td>
-                <td>{{ transport.typeDeVehicule }}</td>
-                <td>{{ transport.tonnageCommande }}</td>
-                <td>{{ transport.tonnagePrepare }}</td>
-                <td>{{ transport.tonnageLivre }}</td>
+            </thead>
+            <tbody>
+            {% for transport in transports %}
+                <tr>
+                    <td><a href="{{ path('app_affaire_transport_show',{'id':transport.id}) }}">{{ transport.id }}</a>
+                    </td>
+                    <td>{{ transport.codeChantierJ4R }}</td>
+                    <td>{{ transport.codeChantierLayher }}</td>
+                    <td>{{ transport.id }}</td>
+                    <td>{{ transport.codeERP }}</td>
+                    <td>{{ transport.statut }}</td>
+                    <td>{{ transport.chantier.createur.firstname~" "~transport.chantier.createur.telephoneMobile }}</td>
+                    <td>{{ transport.typeDeVehicule }}</td>
+                    <td>{{ transport.tonnageCommande }}</td>
+                    <td>{{ transport.tonnagePrepare }}</td>
+                    <td>{{ transport.tonnageLivre }}</td>
+                    <td>{{ transport.prix['type'] }}</td>
+                    <td>{{ transport.prix['montant'] }}</td>
+                    <td>{{ transport.montantDeLaCourse }}</td>
+                    <td>{{ transport.adresseEnlevement }}</td>
+                    <td>{{ transport.dateDEnlevementDemande~" "~transport.heureLivraison|date('H:i') }}</td>
+                    <td>{{ transport.instructionEnlevementConducteur }}</td>
+                    <td>{{ transport.adresseLivraison }}</td>
+                    <td>{{ transport.dateLivraisonDemande }}</td>
+                    <td>{{ transport.referenceLivraison }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                    <td>{{ transport.instructionLivraisonConducteur }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="28">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-                <td>{{ transport.prix['type'] }}</td>
-                <td>{{ transport.prix['montant'] }}</td>
-
-                <td>{{ transport.montantDeLaCourse }}</td>
-                <td>{{ transport.adresseEnlevement }}</td>
-                <td>{{ transport.dateDEnlevementDemande~" "~transport.heureLivraison|date('H:i') }}</td>
-                <td>{{ transport.instructionEnlevementConducteur }}</td>
-                <td>{{ transport.adresseLivraison }}</td>
-                <td>{{ transport.dateLivraisonDemande }}</td>
-                <td>{{ transport.referenceLivraison }}</td>
-                <td>{{ transport.instructionLivraisonConducteur }}</td>
-                <td>
-                    <a href="{{ path('app_affaire_transport_show', {'id': transport.id}) }}">show</a>
-                    <a href="{{ path('app_affaire_transport_edit', {'id': transport.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="22">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    </div>
     <a href="{{ path('app_affaire_transport_new') }}">Create new</a>
+
 {% endblock %}
