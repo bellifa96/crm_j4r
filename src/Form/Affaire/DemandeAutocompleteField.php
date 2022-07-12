@@ -22,7 +22,7 @@ class DemandeAutocompleteField extends AbstractType
                      ." - ".$demande->getNomChantier()." - ".$demande->getAdresse1()." - ".$demande->getCodePostal()." - ".$demande->getVille();
             },
 
-            'searchable_fields' => ['nomChantier','adresse1','codePostal','ville','client',]
+            'searchable_fields' => ['nomChantier','adresse1','codePostal','ville','client.societe.raisonSociale',]
             //'security' => 'ROLE_SOMETHING',
         ]);
     }
