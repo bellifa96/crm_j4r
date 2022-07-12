@@ -36,9 +36,6 @@ class Transport
     private $referenceCommande;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
-    private $codeIBM;
-
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $codeERP;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
@@ -197,17 +194,6 @@ class Transport
         return $this;
     }
 
-    public function getCodeIBM(): ?string
-    {
-        return $this->codeIBM;
-    }
-
-    public function setCodeIBM(?string $codeIBM): self
-    {
-        $this->codeIBM = $codeIBM;
-
-        return $this;
-    }
 
     public function getCodeERP(): ?string
     {

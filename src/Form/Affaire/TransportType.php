@@ -26,7 +26,6 @@ class TransportType extends AbstractType
             ->add('codeChantierLayher')
             ->add('chantier', DemandeAutocompleteField::class)
             ->add('referenceCommande')
-            ->add('codeIBM')
             ->add('codeERP')
             ->add('typeDeTransport', ChoiceType::class, [
                 'choices' => [
