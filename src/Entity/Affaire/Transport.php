@@ -50,10 +50,10 @@ class Transport
     #[ORM\Column(type: 'string', length: 255)]
     private $tonnageCommande;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $tonnagePrepare;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $tonnageLivre;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -263,7 +263,7 @@ class Transport
         return $this->tonnagePrepare;
     }
 
-    public function setTonnagePrepare(string $tonnagePrepare): self
+    public function setTonnagePrepare(?string $tonnagePrepare): self
     {
         $this->tonnagePrepare = $tonnagePrepare;
 
