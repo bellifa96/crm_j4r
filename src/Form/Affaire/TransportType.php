@@ -8,10 +8,12 @@ use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\User;
 use App\Form\Contact\ContactAutocompleteField;
+use App\Form\Ged\FichierType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -39,7 +41,7 @@ class TransportType extends AbstractType
             ])
             ->add('typeDeVehicule', ChoiceType::class, [
                 'choices' => [
-                    '26T'=>'26T',
+                    '26T' => '26T',
                     'Benne' => 'Benne',
                     '19 T' => '19 T',
                     'Semi sans grue' => 'Semi sans grue',
@@ -60,7 +62,6 @@ class TransportType extends AbstractType
             ->add('heureEnlevement', TimeType::class, [])
             ->add('heureLivraison', TimeType::class)
             ->add('instructionLivraisonConducteur')
-
             ->add('transporteur', EntityType::class, [
                 'class' => Interlocuteur::class,
                 'query_builder' => function (EntityRepository $repository) {
@@ -68,15 +69,14 @@ class TransportType extends AbstractType
                         ->where('i.roles LIKE :role')
                         ->setParameter('role', '%ROLE_TRANSPORTEUR%');
                 },
-                "required"=>false,
+                "required" => false,
                 'choice_label' => function (Interlocuteur $i) {
                     return !empty($i->getSociete()) ? $i->getSociete()->getRaisonSociale() : $i->getPersonne()->getNom() . " " . $i->getPersonne()->getPrenom();
                 }
 
             ])
             ->add('contactEnlevement', ContactAutocompleteField::class)
-            ->add('contactLivraison', ContactAutocompleteField::class)
-            ;
+            ->add('contactLivraison', ContactAutocompleteField::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

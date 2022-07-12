@@ -3,6 +3,7 @@
 namespace App\Entity\Ged;
 
 use App\Entity\Affaire\Evenement;
+use App\Entity\Affaire\Transport;
 use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\Materiel;
@@ -63,6 +64,9 @@ class Fichier
 
     #[ORM\ManyToOne(targetEntity: Pret::class, inversedBy: 'fichiers')]
     private $pret;
+
+    #[ORM\ManyToOne(targetEntity: Transport::class, inversedBy: 'fichiers')]
+    private $transport;
 
     public function __construct(){
         $this->isDeleted = false;
@@ -241,6 +245,18 @@ class Fichier
     public function setPret(?Pret $pret): self
     {
         $this->pret = $pret;
+
+        return $this;
+    }
+
+    public function getTransport(): ?Transport
+    {
+        return $this->transport;
+    }
+
+    public function setTransport(?Transport $transport): self
+    {
+        $this->transport = $transport;
 
         return $this;
     }

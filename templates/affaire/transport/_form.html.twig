@@ -58,6 +58,42 @@
             </div>
 
 
+            {% if form.fichiers is defined %}
+                <div class="col-md-12">
+                    <label class="labels">Documents et photo</label>
+                    <div class='fichiers'
+                         data-prototype="{{ form_widget(form.fichiers.vars.prototype)|e('html_attr') }}">
+                        {% for row in form.fichiers %}
+                            <div id="fichiers_0">
+
+                                {{ form_widget(row.fichier,{'attr': {'class': 'form-control h-25 doc '}}) }}
+
+                                {{ form_widget(row.typeFichier,{'attr': {'class': 'form-control doc h-25 '}}) }}
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-12 table example-wrapper " id="tabFichier"
+                     style="height:max-content;padding:0;background-color:white;">
+                    <table class="table table-sm text-center " id="class">
+
+                        <thead class="">
+                        <tr style="background-color: #0e4377;" class="text-white">
+                            <th>Nom</th>
+                            <th> Type</th>
+
+                            <th class="" style="width:16%"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
         </div>
         <div class="col-md-5 border-end mt-4">
             <h6 class="text-center"><u>Transport</u></h6>
@@ -281,5 +317,76 @@
     })
 
     chauffeur();
+
+
+    let $collectionHolder;
+
+    let $addNewItem = $('<a style="width:30%;line-height: 1;font-size: .7rem; margin-top:5px;margin-bottom:5px;" href="#" class="h-25 p-1 btn-sm btn btn-info">Charger</a>');
+
+    $(document).ready(function () {
+        $collectionHolder = $('.fichiers');
+        $('.fichiers').append($addNewItem);
+
+        $collectionHolder.data('index', $collectionHolder.find('.fichiers').length)
+
+
+        $addNewItem.click(function (e) {
+
+            e.preventDefault();
+
+            addNewForm();
+        })
+    });
+    var tmp = $(".fichiers").find('div').html();
+
+    /*
+     * creates a new form and appends it to the collectionHolder
+     */
+    function addNewForm() {
+        var index = $('.fichiers div').length;
+        const regex = /0/gi
+        var rep = '<div id="fichiers_' + index + '">' + tmp + '</div>';
+        var rep = rep.replace(regex, index);
+
+        // addRemoveButton($rep);
+        // $addNewItem.before($rep);
+
+
+        let hidebox = '#fichiers_' + (index - 1)
+        let tr = `
+           <tr class="bg-blue  border-bottom" style=" border-radius: 10px;border-color: #f8f9fa;" id="tr_` + (index - 1) + `">
+                <td style="vertical-align: middle;">` + $('#transport_fichiers_' + (index - 1) + '_fichier').val() + `</td>
+                <td style="vertical-align: middle;">` + $('#transport_fichiers_' + (index - 1) + '_typeFichier').val() + `</td>
+                <td>
+                 <i class="fa fa-trash deleteFile grab" style="font-size: 1rem;margin-left:5%; color: #0E4377;" aria-hidden="true"></i>
+                </td>
+                <input id="` + (index - 1) + `" class='formId' name="formId" type="hidden" value="` + (index - 1) + `">
+            </tr>`;
+
+        $('#tbody').append(tr);
+
+        $(hidebox).hide();
+
+        $('.fichiers').prepend(rep);
+        $('#transport_fichiers_' + index + '_fichier').val('');
+        $('#transport_fichiers_' + index + '_typeFichier').val('');
+
+
+    }
+
+    jQuery(this).bind("click", function (e) {
+        jQuery('.deleteFile').bind("click", function (e) {
+            $('#transport_fichiers_' + $(this).parent().next().val() + '_fichier').remove();
+            $('#transport_fichiers_' + $(this).parent().next().val() + '_typeFichier').remove();
+
+            var index = $('.fichiers div').length;
+            /*  var hidebox = '#files_' + $(this).parent().next().val();
+              $(hidebox).remove();*/
+
+            var tr_delete = '#tr_' + $(this).parent().next().val();
+            $(tr_delete).remove();
+        });
+
+    });
 
 </script>

@@ -4,9 +4,12 @@ namespace App\Entity\Affaire;
 
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
+use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\User;
 use App\Repository\Affaire\TransportRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TransportRepository::class)]
@@ -113,12 +116,16 @@ class Transport
     #[ORM\Column(type: 'text', nullable: true)]
     private $instructionCommande;
 
+    #[ORM\OneToMany(mappedBy: 'transport', targetEntity: Fichier::class,cascade:["persist"])]
+    private $fichiers;
+
 
     public function __construct(){
         $this->prix['type'] = "A la tonne";
         $this->prix['montant'] = 42;
         $this->codeChantierLayher = "100FUR";
         $this->statut = "Demande CDT";
+        $this->fichiers = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -509,6 +516,36 @@ class Transport
     public function setInstructionCommande(?string $instructionCommande): self
     {
         $this->instructionCommande = $instructionCommande;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fichier>
+     */
+    public function getFichiers(): Collection
+    {
+        return $this->fichiers;
+    }
+
+    public function addFichier(Fichier $fichier): self
+    {
+        if (!$this->fichiers->contains($fichier)) {
+            $this->fichiers[] = $fichier;
+            $fichier->setTransport($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichier(Fichier $fichier): self
+    {
+        if ($this->fichiers->removeElement($fichier)) {
+            // set the owning side to null (unless already changed)
+            if ($fichier->getTransport() === $this) {
+                $fichier->setTransport(null);
+            }
+        }
 
         return $this;
     }

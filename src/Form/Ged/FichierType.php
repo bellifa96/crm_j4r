@@ -27,9 +27,6 @@ class FichierType extends AbstractType
                 },
                 'choice_label' => 'titre',
             ])
-            ->add('submit',SubmitType::class,[
-                'label'=>'Charger'
-            ])
         ;
     }
 
