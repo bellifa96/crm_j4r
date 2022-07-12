@@ -56,9 +56,6 @@
                     {{ form_widget(form.typeDeTransport,{"attr":{"class":"form-control"}}) }}
                 </div>
 
-                <div class="col-md-12"><label class="labels">Type de véhicule</label>
-                    {{ form_widget(form.typeDeVehicule,{"attr":{"class":"form-control"}}) }}
-                </div>
 
                 <div class="col-md-12"><label class="labels">Tonnage commandé (en kg)</label>
                     {{ form_widget(form.tonnageCommande,{"attr":{"class":"form-control"}}) }}
@@ -68,10 +65,30 @@
                     {{ form_widget(form.tonnagePrepare,{"attr":{"class":"form-control"}}) }}
                 </div>
 
+
+                <div class="col-md-12"><label class="labels">Montant de la course</label>
+                    {{ form_widget(form.montantDeLaCourse,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Type de véhicule</label>
+                    {{ form_widget(form.typeDeVehicule,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Transporteur</label>
+                    {{ form_widget(form.transporteur,{"attr":{"class":"form-control"}}) }}
+                </div>
+
+                <div class="col-md-12"><label class="labels">Chauffeur</label>
+                    <select id="transport_chauffeur" name="transport[chauffeur]" class="form-control">
+                        <option></option>
+
+                    </select>
+                </div>
+
+
                 <div class="col-md-12"><label class="labels">Tonnage livré (en kg)</label>
                     {{ form_widget(form.tonnageLivre,{"attr":{"class":"form-control"}}) }}
                 </div>
-
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6" id="prix">
@@ -94,20 +111,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-12"><label class="labels">Montant de la course</label>
-                    {{ form_widget(form.montantDeLaCourse,{"attr":{"class":"form-control"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Transporteur</label>
-                    {{ form_widget(form.transporteur,{"attr":{"class":"form-control"}}) }}
-                </div>
-
-                <div class="col-md-12"><label class="labels">Chauffeur</label>
-                    <select id="transport_chauffeur" name="transport[chauffeur]" class="form-control">
-                        <option></option>
-
-                    </select>
-                </div>
             </div>
 
             <div class="row justify-content-center m-4">
@@ -229,7 +232,7 @@
 
         console.log(type, tonnage, prix)
         if (type === "A la tonne" && tonnage.length > 0 && prix.length > 0) {
-            $('#transport_montantDeLaCourse').val((tonnage * prix/1000).toFixed(2));
+            $('#transport_montantDeLaCourse').val((tonnage * prix / 1000).toFixed(2));
         }
     }
 
