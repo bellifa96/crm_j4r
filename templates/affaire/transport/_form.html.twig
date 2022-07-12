@@ -247,6 +247,7 @@
     prixSpecial();
 
     $("#transport_tonnageLivre,#transport_tonnagePrepare,#transport_tonnageCommande").change(function () {
+        $(this).val($(this).val().replaceAll(' ','').replaceAll(',','.'))
         MontantCourse();
     })
     $("#transport_prix_type").change(function () {

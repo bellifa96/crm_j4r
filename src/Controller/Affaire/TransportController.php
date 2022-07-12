@@ -8,6 +8,7 @@ use App\Repository\Affaire\TransportRepository;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\DemandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,6 +85,21 @@ class TransportController extends AbstractController
     public function edit(Request $request, Transport $transport, TransportRepository $transportRepository,ContactRepository $contactRepository): Response
     {
         $form = $this->createForm(TransportType::class, $transport);
+        $form->add('statut',ChoiceType::class,[
+           'choices'=>[
+               'Demande CDT'=>'Demande CDT',
+               'ERP validé'=>'ERP validé',
+               'En attente Affrêtement'=>'En attente Affrêtement',
+               'Affrété'=>'Affrété',
+               'Commande prête'=>'Commande prête',
+               'Livré'=>'Livré',
+               'Reliquat'=>'Reliquat',
+               'Facturé'=>'Facturé',
+               'Vérifié'=>'Vérifier',
+               'Litige'=>'Litige',
+               'Payé'=>'Payé',
+           ]
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

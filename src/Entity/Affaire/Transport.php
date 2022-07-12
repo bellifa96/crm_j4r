@@ -110,6 +110,9 @@ class Transport
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $instructionCommande;
+
 
     public function __construct(){
         $this->prix['type'] = "A la tonne";
@@ -494,6 +497,18 @@ class Transport
     public function setStatut(?string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getInstructionCommande(): ?string
+    {
+        return $this->instructionCommande;
+    }
+
+    public function setInstructionCommande(?string $instructionCommande): self
+    {
+        $this->instructionCommande = $instructionCommande;
 
         return $this;
     }
