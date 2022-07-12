@@ -229,7 +229,7 @@
 
         console.log(type, tonnage, prix)
         if (type === "A la tonne" && tonnage.length > 0 && prix.length > 0) {
-            $('#transport_montantDeLaCourse').val(tonnage * prix/1000);
+            $('#transport_montantDeLaCourse').val((tonnage * prix/1000).toFixed(2));
         }
     }
 
