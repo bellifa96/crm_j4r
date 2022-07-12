@@ -366,7 +366,9 @@
                         <th>Prénom</th>
                         <th>Email</th>
                         <th>Portable</th>
+                        <th>Service</th>
                         <th>Fonction</th>
+
                         </thead>
                         <tbody>
                         {% for contact in interlocuteur.contacts %}
@@ -382,6 +384,9 @@
                                 </td>
                                 <td>
                                     {{ contact.telephoneMobile }}
+                                </td>
+                                <td>
+                                    {{ contact.service is not empty ? contact.service.titre : "NC" }}
                                 </td>
                                 <td>
                                     {{ contact.fonction }}
