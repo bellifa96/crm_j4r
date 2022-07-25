@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Rib{% endblock %}
+
+{% block body %}
+    <h1>Create new Rib</h1>
+
+    {{ include('society/rib/_form.html.twig') }}
+
+    <a href="{{ path('app_society_rib_index') }}">back to list</a>
+{% endblock %}

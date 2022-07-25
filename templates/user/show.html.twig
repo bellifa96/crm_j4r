@@ -164,6 +164,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header text-center fw-bold">
+                                    Signature
+                                </div>
+                                <div class="card-body">
+                                    {% if user.signature is not empty %}
+                                    <iframe id="inlineFrameExample" style="width: 100%;"
+
+                                            src="{{ asset('uploads/signature/'~user.signature)  }}"
+                                    ></iframe>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

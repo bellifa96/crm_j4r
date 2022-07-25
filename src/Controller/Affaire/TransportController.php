@@ -4,12 +4,14 @@ namespace App\Controller\Affaire;
 
 use App\Entity\Affaire\Transport;
 use App\Entity\Ged\Fichier;
+use App\Entity\Interlocuteur\Interlocuteur;
 use App\Form\Affaire\TransportType;
 use App\Form\Ged\FichierType;
 use App\Repository\Affaire\TransportRepository;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
+use App\Repository\Interlocuteur\InterlocuteurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -82,7 +84,7 @@ class TransportController extends AbstractController
                     $file->setTransport($transport);
                     $file->setCreateur($this->getUser());
                     $bilanFile = $data[$key];
-                    
+
                     $folder = $file->getTypeFichier()->getTitre();
 
                     $newFilename = $folder . ' ' . uniqid() . '.' . $bilanFile->guessExtension();
@@ -164,6 +166,36 @@ class TransportController extends AbstractController
 
         return $this->redirectToRoute('app_affaire_transport_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/fournisseur/adresse/{id}', name: 'app_affaire_transport_fournisseur_adresse', methods: ['POST'])]
+    public function fournisseurAdresse(Request $request, Interlocuteur $interlocuteur, ContactRepository $contactRepository,TransportRepository $transportRepository): Response
+    {
+
+        $dataRequest = $request->request->all();
+
+        key_exists('transport', $dataRequest) ? $transport = $dataRequest['transport'] : $transport = null;
+
+        $transport = $transportRepository->find($transport);
+
+
+        $data=[];
+
+        foreach ($interlocuteur->getContacts() as $val){
+            $selected = false;
+            if ( $val->getTransportContactEnlevement() === $val) {
+                $selected = true;
+            }
+            $data[] = [
+                'id' => $val->getId(),
+                'text' => $val->getNom() . " " . $val->getPrenom(),
+                'selected' => $selected,
+            ];
+        }
+
+        return new Response(json_encode($data));
+    }
+
 
     /**
      * @param Transport $transport

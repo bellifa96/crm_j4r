@@ -6,6 +6,7 @@ use App\Entity\Affaire\Transport;
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
+use App\Entity\Society\Rib;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,6 +62,9 @@ class Interlocuteur
     #[ORM\OneToMany(mappedBy: 'transporteur', targetEntity: Transport::class)]
     private $transportTransporteur;
 
+    #[ORM\OneToMany(mappedBy: 'interlocuteur', targetEntity: Rib::class)]
+    private $ribs;
+
 
     public function __construct()
     {
@@ -71,6 +75,7 @@ class Interlocuteur
         $this->fichiers = new ArrayCollection();
         $this->transports = new ArrayCollection();
         $this->transportTransporteur = new ArrayCollection();
+        $this->ribs = new ArrayCollection();
 
     }
 
@@ -372,6 +377,36 @@ class Interlocuteur
             // set the owning side to null (unless already changed)
             if ($transportTransporteur->getTransporteur() === $this) {
                 $transportTransporteur->setTransporteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rib>
+     */
+    public function getRibs(): Collection
+    {
+        return $this->ribs;
+    }
+
+    public function addRib(Rib $rib): self
+    {
+        if (!$this->ribs->contains($rib)) {
+            $this->ribs[] = $rib;
+            $rib->setInterlocuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRib(Rib $rib): self
+    {
+        if ($this->ribs->removeElement($rib)) {
+            // set the owning side to null (unless already changed)
+            if ($rib->getInterlocuteur() === $this) {
+                $rib->setInterlocuteur(null);
             }
         }
 

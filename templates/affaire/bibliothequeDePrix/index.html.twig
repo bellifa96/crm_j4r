@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bibliotheque de prix{% endblock %}
+
+{% block body %}
+
+    <style>
+        .nav-link {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            min-width: 11.25rem !important;
+        }
+
+        .nav-tabs {
+            border-bottom: 8px solid #d9e2ec;
+        }
+
+        #add-ouvrage {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start:1rem;
+            padding-inline-end: 1rem;
+            background: #109cf1;
+            color: #ffffff;
+            width: min-content;
+            font-family: Lato,sans-serif;
+            border: 0px;
+        }
+        #add-ouvrage:hover {
+            background:  #0d8cd9;
+        }
+
+        .chakra-input{
+            width: 100%;
+            min-width: 0px;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            position: relative;
+            appearance: none;
+            font-size: 1rem;
+            padding-inline: 0px;
+            height: 1.8rem;
+            border-radius: 0px;
+            border:0px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-color: #d9e2ec;
+            background: #00000000;
+            color: #486581;
+            opacity: 1;
+
+        }
+        .chakra-input:focus{
+            border-color: #109cf1;
+        }
+        .chakra-input:focus-visible {
+            border-color: rgb(16, 156, 241);
+            border-top-color: rgb(16, 156, 241);
+            border-right-color: #109cf1;
+            border-bottom-color: rgb(16, 156, 241);
+            border-left-color: rgb(16, 156, 241);
+            box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
+        }
+        .modal-footer{
+            border: 0px;
+            justify-content: space-between;
+        }
+
+        .pointer { cursor: pointer; }
+        .pointer:hover{
+            background: #edf8ff;
+        }
+
+        .tpoints{
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        #svg-button{
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            color: currentcolor;
+            vertical-align: middle;
+            color: #d9e2ec;
+            appearance: none;
+            border: 0;
+            background: unset;
+        }
+        #svg-button:hover{
+            color: #0d8cd9;
+        }
+
+    </style>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-ouvrages-tab" data-bs-toggle="tab" data-bs-target="#nav-ouvrages"
+                    type="button" role="tab" aria-controls="nav-ouvrages" aria-selected="true">
+                Ouvrages
+            </button>
+            <button class="nav-link" id="nav-composants-tab" data-bs-toggle="tab" data-bs-target="#nav-composants"
+                    type="button" role="tab" aria-controls="nav-composants" aria-selected="false">
+                Composants
+            </button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-ouvrages" role="tabpanel" aria-labelledby="nav-ouvrages-tab">
+
+            <div class="pt-5">
+
+                <div class="row justify-content-around pb-5">
+                    <div class="col-md-4">
+                                <input placeholder="Rechercher un ouvrage"  class="chakra-input " value="">
+                    </div>
+                    <div class="col-md-8 row justify-content-end">
+                        <button type="button" class="col-md-12" id="add-ouvrage">Ajouter un ouvrage</button>
+                    </div>
+                </div>
+
+                <table class="table datatable" id="table-ouvrage" style="background: white;">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Dénomination</th>
+                        <th>Unité</th>
+                        <th>Déboursé HT</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for ouvrage in ouvrages %}
+                        <tr  class="pointer">
+                            <td  onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';" >{{ ouvrage.code }}</td>
+                            <td  onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';" >{{ ouvrage.denomination }}</td>
+                            <td  onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';" >{{ ouvrage.unite }}</td>
+                            <td  onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';" >{{ ouvrage.debourseHTCalcule }}</td>
+                            <td>
+                                <button id="svg-button">
+                                    <svg viewBox="0 0 408 408" focusable="false" class="chakra-icon tpoints"><path fill="currentColor" d="M51,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S79.05,153,51,153z M357,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S385.05,153,357,153z M204,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S232.05,153,204,153z"></path></svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">aucun ouvrage trouvé</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
+
+            Composants
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+        $('#add-ouvrage').click(function () {
+            $('#modal-ouvrage').remove();
+            var path = "{{ path('app_affaire_modal_ouvrage') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-ouvrage").modal('show');
+
+            })
+        })
+
+        function submitOuvrageEvenement(event) {
+            event.preventDefault();
+
+            const ouvrage = {
+                code: $('#ouvrage_code').val(),
+                denomination: $('#ouvrage_code').val(),
+                unite: $('#ouvrage_unite').val(),
+                duht: $('#ouvrage_DUHT').val(),
+            }
+
+            $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
+                    let data = JSON.parse(response);
+                    if(data.code === 200){
+
+                     /*   const tr = `
+                        <tr>
+                            <td>${ouvrage.code}</td>
+                            <td>${ouvrage.denomination}</td>
+                            <td>${ouvrage.unite}</td>
+                            <td>${ouvrage.duht}</td>
+                        </tr>
+                        `;
+                        $('#table-ouvrage tbody').append(tr);
+                        $('#modal-ouvrage').modal('hide');
+                        $('#modal-ouvrage').remove();*/
+
+                        location.reload();
+
+
+                    }
+            });
+
+
+        }
+    </script>
+
+
+
+
+
+{% endblock %}

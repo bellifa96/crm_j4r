@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rib index{% endblock %}
+
+{% block body %}
+    <h1>Rib index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Iban</th>
+                <th>Bic</th>
+                <th>TypeDeCompte</th>
+                <th>NomBanque</th>
+                <th>Commentaire</th>
+                <th>EtatDuCompte</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rib in ribs %}
+            <tr>
+                <td>{{ rib.id }}</td>
+                <td>{{ rib.iban }}</td>
+                <td>{{ rib.bic }}</td>
+                <td>{{ rib.typeDeCompte }}</td>
+                <td>{{ rib.nomBanque }}</td>
+                <td>{{ rib.commentaire }}</td>
+                <td>{{ rib.etatDuCompte }}</td>
+                <td>{{ rib.createdAt ? rib.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ rib.updatedAt ? rib.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_society_rib_show', {'id': rib.id}) }}">show</a>
+                    <a href="{{ path('app_society_rib_edit', {'id': rib.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_society_rib_new') }}">Create new</a>
+{% endblock %}

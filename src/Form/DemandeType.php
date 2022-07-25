@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,16 +21,39 @@ class DemandeType extends AbstractType
         $builder
             ->add('commentaire')
             ->add('nomChantier')
-            ->add('reference',TextType::class,[
-                'required'=>false,
+            ->add('reference', TextType::class, [
+                'required' => false,
             ])
             ->add('date')
             ->add('dateDuReleve')
             ->add('dateDeRemise')
+            ->add('dateDebutPrevisionnel')
+
             ->add('adresse1')
             ->add('adresse2')
             ->add('ville')
             ->add('codePostal')
+            ->add('faireUnReleve')
+            ->add('userReleve', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.firstname', 'ASC');
+                },
+                'choice_label' => 'firstname',
+            ])
+
+            ->add('faireUnDevis')
+            ->add('userDevis', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.firstname', 'ASC');
+                },
+                'choice_label' => 'firstname',
+            ])
+
+
             ->add('typeEchafaudage', ChoiceType::class, [
                 'choices' => [
                     'Façade' => 'Façade',
@@ -58,6 +82,7 @@ class DemandeType extends AbstractType
                     'Autres' => 'Façade Spécifique'
 
                 ],
+                'required'=>false,
                 'expanded' => true,
                 'multiple' => false
             ])
@@ -212,6 +237,19 @@ class DemandeType extends AbstractType
                     'class' => 'societe-form  required'
                 ]
             ]);
+
+
+        if (!empty($options['data']->getId())) {
+            $builder->add('createur', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.firstname', 'ASC');
+                },
+                'choice_label' => 'firstname',
+
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

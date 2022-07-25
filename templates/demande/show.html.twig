@@ -311,6 +311,7 @@
 
     </style>
 
+
     <div class="col-md-10 m-auto row justify-content-around mb-4">
         <div class="col-md-3 row">
             <div class="col-md-auto labels">
@@ -326,7 +327,7 @@
                 Statut commercial
             </div>
             <div class="col-md-auto form-control-sm-2 labels">
-                {{ demande.statutCommercial }}
+                {{ demande.statutCommercial is not empty ? demande.statutCommercial : "Aucun" }}
             </div>
         </div>
 
@@ -1037,7 +1038,8 @@
 
                         <div class="row justify-content-end">
                             <div class="col-md-auto">
-                                {{ form_widget(form.submit,{'attr':{'class':'btn btn-info-2 btn-sm'}}) }}
+
+                                <button type="submit" class="btn btn-info-2 btn-sm">Charger</button>
 
                             </div>
                         </div>
@@ -1111,6 +1113,19 @@
 
     <script>
 
+
+        $('.page-head ul').append("<li> <a href='#'  id='transferer' data-toggle='modal' data-target='#transferer+'  class='btn btn-info btn-sm mr-1'>transférer </a> </li>");
+
+        $('#transferer').click(function () {
+
+            $('.user-modal').remove();
+            let path = "{{ path('app_demande_form') }}";
+            $.post(path, {
+                id: "{{ demande.id }}"
+            }, function (data) {
+                $('#body').append(JSON.parse(data).message);
+            })
+        })
         $('.add-evenement').click(function () {
             if ($('#add-evenement').length > 0) {
                 $("#add-evenement").modal('show');

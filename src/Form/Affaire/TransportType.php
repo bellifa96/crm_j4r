@@ -9,6 +9,7 @@ use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\User;
 use App\Form\Contact\ContactAutocompleteField;
 use App\Form\Ged\FichierType;
+use App\Form\Interlocuteur\InterlocuteurAutocompleteField;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -52,7 +53,7 @@ class TransportType extends AbstractType
             ->add('tonnagePrepare')
             ->add('tonnageLivre')
             ->add('montantDeLaCourse')
-            ->add('adresseEnlevement')
+            ->add('adresseEnlevement',InterlocuteurAutocompleteField::class)
             ->add('dateDEnlevementDemande')
             ->add('instructionEnlevementConducteur')
             ->add('adresseLivraison')
@@ -75,7 +76,9 @@ class TransportType extends AbstractType
                 }
 
             ])
-            ->add('contactEnlevement', ContactAutocompleteField::class)
+            ->add('contactEnlevement', EntityType::class,[
+                'class'=> Contact::class
+            ])
             ->add('contactLivraison', ContactAutocompleteField::class);
     }
 

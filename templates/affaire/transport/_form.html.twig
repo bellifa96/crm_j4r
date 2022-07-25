@@ -165,8 +165,10 @@
             </div>
 
             <div class="col-md-12"><label class="labels">Contact à l'enlèvement</label>
-                {{ form_widget(form.contactEnlevement,{"attr":{"class":"form-control","autocomplete":"off"}}) }}
-            </div>
+                <select id="transport_contactEnlevement" name="transport[contactEnlevement]" class="form-control"
+                        autocomplete="off">
+
+                </select></div>
 
             <div class="row">
                 <div class="col-md-6"><label class="labels">Date d'enlèvement demandé</label>
@@ -388,5 +390,34 @@
         });
 
     });
+
+
+    function adresse(element) {
+        console.log(element.val())
+
+
+        $.post('/affaire/transport/fournisseur/adresse/' + element.val(), {transport:"{{ transport.id }}"}, function (response) {
+            let data = JSON.parse(response);
+
+            if (data.length > 0) {
+                data.forEach((value, key) => {
+                    $('#transport_contactEnlevement').append($('<option>', {
+                        value: value.id,
+                        text: value.text,
+                        selected: value.selected
+                    }));
+                })
+            }
+            console.log(data)
+        })
+    }
+
+    $('#transport_adresseEnlevement_autocomplete').change(function () {
+
+        if($('#transport_typeDeTransport').val() === "LIV (livraison)"){
+            $('#transport_adresseLivraison').val($('#transport_adresseEnlevement_autocomplete').text())
+        }
+        adresse($(this));
+    })
 
 </script>

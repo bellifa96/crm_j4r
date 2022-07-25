@@ -129,6 +129,14 @@
                         </a>
                     </li>
 
+                    <li class="sidebar-item {{ app.request.get('_route') == '' ? 'active' }} ">
+                        <a href="{{ path('app_affaire_bibliotheque_de_prix') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-currency-dollar"></i>
+                            <span> Bibliothèque de prix </span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-stack"></i>

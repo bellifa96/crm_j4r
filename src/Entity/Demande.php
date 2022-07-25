@@ -273,6 +273,21 @@ class Demande
     #[ORM\OneToOne(mappedBy: 'chantier', targetEntity: Transport::class, cascade: ['persist', 'remove'])]
     private $transport;
 
+    #[ORM\Column(type: 'boolean')]
+    private $faireUnReleve;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'DemandesReleves')]
+    private $userReleve;
+
+    #[ORM\Column(type: 'boolean')]
+    private $faireUnDevis;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'demandesFairesDevis')]
+    private $userDevis;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $dateDebutPrevisionnel;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -1193,5 +1208,65 @@ class Demande
     public function __toString():string
     {
         return $this->nomChantier;
+    }
+
+    public function isFaireUnReleve(): ?bool
+    {
+        return $this->faireUnReleve;
+    }
+
+    public function setFaireUnReleve(bool $faireUnReleve): self
+    {
+        $this->faireUnReleve = $faireUnReleve;
+
+        return $this;
+    }
+
+    public function getUserReleve(): ?User
+    {
+        return $this->userReleve;
+    }
+
+    public function setUserReleve(?User $userReleve): self
+    {
+        $this->userReleve = $userReleve;
+
+        return $this;
+    }
+
+    public function isFaireUnDevis(): ?bool
+    {
+        return $this->faireUnDevis;
+    }
+
+    public function setFaireUnDevis(bool $faireUnDevis): self
+    {
+        $this->faireUnDevis = $faireUnDevis;
+
+        return $this;
+    }
+
+    public function getUserDevis(): ?User
+    {
+        return $this->userDevis;
+    }
+
+    public function setUserDevis(?User $userDevis): self
+    {
+        $this->userDevis = $userDevis;
+
+        return $this;
+    }
+
+    public function getDateDebutPrevisionnel(): ?string
+    {
+        return $this->dateDebutPrevisionnel;
+    }
+
+    public function setDateDebutPrevisionnel(?string $dateDebutPrevisionnel): self
+    {
+        $this->dateDebutPrevisionnel = $dateDebutPrevisionnel;
+
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
+use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Transport;
 use App\Entity\Conversation\Message;
 use App\Entity\Entite\Depot;
@@ -125,6 +126,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'ConducteurDeTravaux', targetEntity: Transport::class)]
     private $transportConducteurTravaux;
 
+    #[ORM\OneToMany(mappedBy: 'userReleve', targetEntity: Demande::class)]
+    private $DemandesReleves;
+
+    #[ORM\OneToMany(mappedBy: 'userDevis', targetEntity: Demande::class)]
+    private $demandesFairesDevis;
+
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Ouvrage::class)]
+    private $ouvrages;
+
 
     public function __construct()
     {
@@ -142,6 +152,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->messages = new ArrayCollection();
         $this->transports = new ArrayCollection();
         $this->transportConducteurTravaux = new ArrayCollection();
+        $this->DemandesReleves = new ArrayCollection();
+        $this->demandesFairesDevis = new ArrayCollection();
+        $this->ouvrages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -701,6 +714,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($transportConducteurTravaux->getConducteurDeTravaux() === $this) {
                 $transportConducteurTravaux->setConducteurDeTravaux(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesReleves(): Collection
+    {
+        return $this->DemandesReleves;
+    }
+
+    public function addDemandesRelefe(Demande $demandesRelefe): self
+    {
+        if (!$this->DemandesReleves->contains($demandesRelefe)) {
+            $this->DemandesReleves[] = $demandesRelefe;
+            $demandesRelefe->setUserReleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesRelefe(Demande $demandesRelefe): self
+    {
+        if ($this->DemandesReleves->removeElement($demandesRelefe)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesRelefe->getUserReleve() === $this) {
+                $demandesRelefe->setUserReleve(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesFairesDevis(): Collection
+    {
+        return $this->demandesFairesDevis;
+    }
+
+    public function addDemandesFairesDevi(Demande $demandesFairesDevi): self
+    {
+        if (!$this->demandesFairesDevis->contains($demandesFairesDevi)) {
+            $this->demandesFairesDevis[] = $demandesFairesDevi;
+            $demandesFairesDevi->setUserDevis($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesFairesDevi(Demande $demandesFairesDevi): self
+    {
+        if ($this->demandesFairesDevis->removeElement($demandesFairesDevi)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesFairesDevi->getUserDevis() === $this) {
+                $demandesFairesDevi->setUserDevis(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ouvrage>
+     */
+    public function getOuvrages(): Collection
+    {
+        return $this->ouvrages;
+    }
+
+    public function addOuvrage(Ouvrage $ouvrage): self
+    {
+        if (!$this->ouvrages->contains($ouvrage)) {
+            $this->ouvrages[] = $ouvrage;
+            $ouvrage->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOuvrage(Ouvrage $ouvrage): self
+    {
+        if ($this->ouvrages->removeElement($ouvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($ouvrage->getCreateur() === $this) {
+                $ouvrage->setCreateur(null);
             }
         }
 

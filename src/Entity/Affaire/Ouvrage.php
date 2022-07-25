@@ -3,6 +3,7 @@
 namespace App\Entity\Affaire;
 
 use App\Entity\TimesTrait;
+use App\Entity\User;
 use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,42 +23,48 @@ class Ouvrage
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
-    private $titre;
+    private $denomination;
 
     #[ORM\ManyToOne(targetEntity: SousLot::class, inversedBy: 'ouvrages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $sousLot;
 
-    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Commposant::class)]
-    private $commposants;
-
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeDOuvrage;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $code;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float',nullable: true)]
     private $prixUnitaireDebourse;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer',nullable: true)]
     private $quantiteDOuvrage;
 
     #[ORM\Column(type: 'float')]
     private $debourseHTCalcule;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float',nullable: true)]
     private $marge;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float',nullable: true)]
     private $prixDeVenteHT;
 
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
     private $lot;
 
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Composant::class)]
+    private $composants;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $unite;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
+    private $createur;
+
     public function __construct()
     {
-        $this->commposants = new ArrayCollection();
+        $this->composants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,14 +72,14 @@ class Ouvrage
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getDenomination(): ?string
     {
-        return $this->titre;
+        return $this->denomination;
     }
 
-    public function setTitre(string $titre): self
+    public function setDenomination(string $denomination): self
     {
-        $this->titre = $titre;
+        $this->denomination = $denomination;
 
         return $this;
     }
@@ -89,42 +96,12 @@ class Ouvrage
         return $this;
     }
 
-    /**
-     * @return Collection<int, Commposant>
-     */
-    public function getCommposants(): Collection
-    {
-        return $this->commposants;
-    }
-
-    public function addCommposant(Commposant $commposant): self
-    {
-        if (!$this->commposants->contains($commposant)) {
-            $this->commposants[] = $commposant;
-            $commposant->setOuvrage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommposant(Commposant $commposant): self
-    {
-        if ($this->commposants->removeElement($commposant)) {
-            // set the owning side to null (unless already changed)
-            if ($commposant->getOuvrage() === $this) {
-                $commposant->setOuvrage(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTypeDOuvrage(): ?string
     {
         return $this->typeDOuvrage;
     }
 
-    public function setTypeDOuvrage(string $typeDOuvrage): self
+    public function setTypeDOuvrage(?string $typeDOuvrage): self
     {
         $this->typeDOuvrage = $typeDOuvrage;
 
@@ -160,7 +137,7 @@ class Ouvrage
         return $this->quantiteDOuvrage;
     }
 
-    public function setQuantiteDOuvrage(int $quantiteDOuvrage): self
+    public function setQuantiteDOuvrage(?int $quantiteDOuvrage): self
     {
         $this->quantiteDOuvrage = $quantiteDOuvrage;
 
@@ -184,7 +161,7 @@ class Ouvrage
         return $this->marge;
     }
 
-    public function setMarge(float $marge): self
+    public function setMarge(?float $marge): self
     {
         $this->marge = $marge;
 
@@ -196,7 +173,7 @@ class Ouvrage
         return $this->prixDeVenteHT;
     }
 
-    public function setPrixDeVenteHT(float $prixDeVenteHT): self
+    public function setPrixDeVenteHT(?float $prixDeVenteHT): self
     {
         $this->prixDeVenteHT = $prixDeVenteHT;
 
@@ -211,6 +188,60 @@ class Ouvrage
     public function setLot(?Lot $lot): self
     {
         $this->lot = $lot;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Composant>
+     */
+    public function getComposants(): Collection
+    {
+        return $this->composants;
+    }
+
+    public function addComposant(Composant $composant): self
+    {
+        if (!$this->composants->contains($composant)) {
+            $this->composants[] = $composant;
+            $composant->setOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComposant(Composant $composant): self
+    {
+        if ($this->composants->removeElement($composant)) {
+            // set the owning side to null (unless already changed)
+            if ($composant->getOuvrage() === $this) {
+                $composant->setOuvrage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUnite(): ?string
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?string $unite): self
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
+    public function getCreateur(): ?User
+    {
+        return $this->createur;
+    }
+
+    public function setCreateur(?User $createur): self
+    {
+        $this->createur = $createur;
 
         return $this;
     }

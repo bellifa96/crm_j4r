@@ -16,12 +16,22 @@ class InterlocuteurAutocompleteField extends AbstractType
     {
         $resolver->setDefaults([
             'class' => Interlocuteur::class,
-            'placeholder' => 'Choose a Interlocuteur',
+            'placeholder' => 'Veuillez choisir un fournisseur',
             //'choice_label' => 'name',
 
-            'query_builder' => function(InterlocuteurRepository $interlocuteurRepository) {
-                return $interlocuteurRepository->createQueryBuilder('interlocuteur');
+            'query_builder' => function (InterlocuteurRepository $interlocuteurRepository) {
+                return $interlocuteurRepository->createQueryBuilder('i')
+                    ->join('i.societe', 's')
+                    ->where('i.roles LIKE :role')
+                    ->setParameter('role', '%ROLE_FOURNISSEUR%');
             },
+            'choice_label' => function (Interlocuteur $interlocuteur) {
+                return $interlocuteur->getSociete()->getRaisonSociale() . " - " . $interlocuteur->getSociete()->getAdresse1() . ", " . $interlocuteur->getSociete()->getCodePostal() . " " . $interlocuteur->getSociete()->getVille();
+            },
+
+            'searchable_fields' => ['societe.adresse1', 'societe.codePostal', 'societe.ville', 'societe.raisonSociale']
+
+
             //'security' => 'ROLE_SOMETHING',
         ]);
     }

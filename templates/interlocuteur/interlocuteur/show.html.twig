@@ -337,6 +337,14 @@
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
+                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'comptabilite-tab' ? 'active' : '' }}"
+                        id="comptabilite-tab" data-bs-toggle="tab" data-bs-target="#comptabilite"
+                        type="button"
+                        role="tab" aria-controls="comptabilite" aria-selected="false">
+                    Comptabilité
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
                 <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}"
                         id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
                         role="tab" aria-controls="ged" aria-selected="false">
@@ -495,10 +503,100 @@
                 accreditation
             </div>
 
+
             <!-- Statistiques -->
             <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active show' : '' }}"
                  id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
                 statistiques
+            </div>
+
+            <!-- Comptabilité -->
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'comptabilite-tab' ? 'active show' : '' }}"
+                 id="comptabilite" role="tabpanel" aria-labelledby="comptabilite-tab">
+
+                <div class="row justify-content-end">
+                    <div class="col-md-auto">
+                        <button type="button" id="rib-show" action="RIB+"
+                                class="btn btn-info p-1 btn-sm">RIB +
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mt-4 justify-content-around">
+
+                    <div class="col-md-12">
+                        <table class="table datatable bg-leasy">
+                            <thead>
+                            <tr class="tr-head text-center">
+                                <th>Statut</th>
+                                <th>Compte</th>
+                                <th>IBAN</th>
+                                <th>BIC</th>
+                                <th>Banque</th>
+                                <th>Commentaire</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{ form_start(formRIB) }}
+                            <tr class="  border-bottom rib-form" style="
+    border-radius: 10px;border-color: #f8f9fa;background: white;">
+
+                                <td style="vertical-align: middle;">{{ form_widget(formRIB.etatDuCompte,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                                <td style="vertical-align: middle;">{{ form_widget(formRIB.typeDeCompte,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
+
+
+                                <td style="vertical-align: middle;">
+                                    {{ form_widget(formRIB.iban,{'attr':{'class':'form-control form-control-sm-2 '}} ) }}
+                                </td>
+                                <td style="vertical-align: middle;">{{ form_widget(formRIB.bic,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
+                                <td style="vertical-align: middle;">{{ form_widget(formRIB.nomBanque,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
+                                <td style="vertical-align: middle;">{{ form_widget(formRIB.commentaire,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
+
+                                <td style="vertical-align: middle;">
+                                    <button type="submit" class="btn btn-info p-1 btn-sm">Créer</button>
+                                </td>
+
+                            </tr>
+
+                            {{ form_end(formRIB) }}
+
+                            {% for rib in interlocuteur.ribs %}
+                                <tr class="text-center">
+                                    <td>
+                                        <a href="{{ path('app_society_rib_show',{'id':rib.id}) }}">{{ rib.etatDuCompte }}</a>
+                                    </td>
+                                    <td>{{ rib.typeDeCompte }}</td>
+                                    <td>{{ rib.iban }}</td>
+                                    <td>{{ rib.bic }}</td>
+                                    <td>{{ rib.nomBanque }}</td>
+                                    <td>{{ rib.commentaire }}</td>
+                                    <td>
+                                        <form method="post"
+                                              action="{{ path('app_society_rib_delete', {'id': rib.id}) }}"
+                                              onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="hidden" name="_token"
+                                                   value="{{ csrf_token('delete' ~ rib.id) }}">
+                                            <button style="border-color: transparent;    background-color:transparent;">
+                                                <i class="fa fa-trash deleteFile grab"
+                                                   style="font-size: 1rem;margin-left:5%; color: red;"
+                                                   aria-hidden="true"></i></button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center">Aucun rib trouvé</td>
+                                </tr>
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
             </div>
 
             <!-- Ged -->
@@ -571,7 +669,7 @@
                                 <label class="labels">Type</label>
                             </div>
                             <div class="col-md-9">
-                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2-2'}}) }}
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -585,8 +683,7 @@
 
                         <div class="row justify-content-end">
                             <div class="col-md-auto">
-                                {{ form_widget(form.submit,{'attr':{'class':'btn btn-info-2 btn-sm'}}) }}
-
+                                <button type="submit" class="btn btn-info-2 btn-sm">Charger</button>
                             </div>
                         </div>
 
@@ -606,7 +703,27 @@
 
     <script>
 
-        $("#contacts-tab, #demandes-tab, #devis-tab, #affaires-tab, #chantiers-tab, #accreditation-tab, #statistiques-tab, #ged-tab").click(function () {
+        $('.rib-form').hide()
+
+        if ($(".error-rib").length) {
+            $('.rib-form').show()
+            $('#rib-show').text('RIB -')
+        }
+
+        $('#rib-show').click(function () {
+            if ($('#rib-show').attr('action') == "RIB+") {
+                $('.rib-form').show()
+                $('#rib-show').attr('action', 'RIB-')
+                $('#rib-show').text('RIB -')
+            } else {
+                $('.rib-form').hide()
+                $('#rib-show').attr('action', 'RIB+')
+                $('#rib-show').text('RIB +')
+            }
+
+        })
+
+        $("#comptabilite-tab,#contacts-tab, #demandes-tab, #devis-tab, #affaires-tab, #chantiers-tab, #accreditation-tab, #statistiques-tab, #ged-tab").click(function () {
 
             let id = $(this).attr('id');
             $.get("/interlocuteur/interlocuteur/menu/interlocuteur/" + id + "/{{ interlocuteur.id }}", function (data) {

@@ -6,12 +6,15 @@ use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\Interlocuteur\Societe;
+use App\Entity\Society\Rib;
 use App\Form\Ged\FichierType;
 use App\Form\Interlocuteur\InterlocuteurType;
+use App\Form\Society\RibType;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\Interlocuteur\InterlocuteurRepository;
 use App\Repository\Interlocuteur\SocieteRepository;
+use App\Repository\Society\RibRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
@@ -28,7 +31,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class InterlocuteurController extends AbstractController
 {
     #[Route('/', name: 'app_interlocuteur_interlocuteur_index', methods: ['GET'])]
-    public function index(InterlocuteurRepository $interlocuteurRepository,UserRepository $userRepository,DemandeRepository $demandeRepository,SocieteRepository $societeRepository): Response
+    public function index(InterlocuteurRepository $interlocuteurRepository, UserRepository $userRepository, DemandeRepository $demandeRepository, SocieteRepository $societeRepository): Response
     {
 
         $data = [
@@ -172,44 +175,44 @@ class InterlocuteurController extends AbstractController
             ["user" => "06 73 87 85 52", "societe" => "", 'nchantier' => "", "statut" => "", "ville" => "", "cp" => "", "adresse" => "351, Impasse des Armoiries", "nomChantier" => "", "date" => ""],
         ];
 
-     /*   foreach ($data as $key => $val) {
-            if(!empty($societeRepository->findOneBySiret($key))){
-                continue;
-            };
-            $user = $userRepository->findOneByFirstname($val['user']);
-            $interlocuteur = new Interlocuteur();
-            $interlocuteur->setRoles(["ROLE_CLIENT"]);
-            $interlocuteur->setType("societe");
-            $societe = new Societe();
-            $societe->setSiret($key);
-            $societe->setSiren($key);
-            $societe->setAdresse1($val['adresse']);
-            $societe->setVille($val['ville']);
-            $societe->setCodePostal($val['cp']);
-            $societe->setPays('France');
-            $societe->setRaisonSociale($val['societe']);
-            $interlocuteur->setSociete($societe);
-            $interlocuteurRepository->add($interlocuteur);
-            $demande = new Demande();
+        /*   foreach ($data as $key => $val) {
+               if(!empty($societeRepository->findOneBySiret($key))){
+                   continue;
+               };
+               $user = $userRepository->findOneByFirstname($val['user']);
+               $interlocuteur = new Interlocuteur();
+               $interlocuteur->setRoles(["ROLE_CLIENT"]);
+               $interlocuteur->setType("societe");
+               $societe = new Societe();
+               $societe->setSiret($key);
+               $societe->setSiren($key);
+               $societe->setAdresse1($val['adresse']);
+               $societe->setVille($val['ville']);
+               $societe->setCodePostal($val['cp']);
+               $societe->setPays('France');
+               $societe->setRaisonSociale($val['societe']);
+               $interlocuteur->setSociete($societe);
+               $interlocuteurRepository->add($interlocuteur);
+               $demande = new Demande();
 
-            $demande->setNomChantier($val['societe']);
-            $demande->setReference($val['nchantier']);
-            $demande->setClient($interlocuteur);
-            $demande->setDate($val['date']);
+               $demande->setNomChantier($val['societe']);
+               $demande->setReference($val['nchantier']);
+               $demande->setClient($interlocuteur);
+               $demande->setDate($val['date']);
 
-            empty($user) ? $demande->setCreateur($this->getUser()) : $demande->setCreateur($user);
-            $demande->setStatut($val['statut']);
-            $demande->setAdresse1($val['adresse']);
-            $demande->setVille($val['ville']);
-            $demande->setCodePostal($val['cp']);
-            $demande->setPays('France');
+               empty($user) ? $demande->setCreateur($this->getUser()) : $demande->setCreateur($user);
+               $demande->setStatut($val['statut']);
+               $demande->setAdresse1($val['adresse']);
+               $demande->setVille($val['ville']);
+               $demande->setCodePostal($val['cp']);
+               $demande->setPays('France');
 
 
 
-            $demandeRepository->add($demande);
-            $interlocuteurRepository->add($interlocuteur);
+               $demandeRepository->add($demande);
+               $interlocuteurRepository->add($interlocuteur);
 
-        }*/
+           }*/
         return $this->render('interlocuteur/interlocuteur/index.html.twig', [
             'interlocuteurs' => $interlocuteurRepository->findAll(),
             'title' => 'Liste des interlocuteurs',
@@ -277,11 +280,11 @@ class InterlocuteurController extends AbstractController
         $interlocuteur = new Interlocuteur();
         if (str_contains($route, 'interlocuteur/interlocuteur/soustraitants')) {
             $interlocuteur->setRoles(['ROLE_SOUS_TRAITANT']);
-        }elseif (str_contains($route,'interlocuteur/interlocuteur/client')){
+        } elseif (str_contains($route, 'interlocuteur/interlocuteur/client')) {
             $interlocuteur->setRoles(['ROLE_CLIENT']);
-        }elseif (str_contains($route,'interlocuteur/interlocuteur/transporteurs')){
+        } elseif (str_contains($route, 'interlocuteur/interlocuteur/transporteurs')) {
             $interlocuteur->setRoles(['ROLE_TRANSPORTEUR']);
-        }elseif (str_contains($route,'interlocuteur/interlocuteur/fournisseurs')){
+        } elseif (str_contains($route, 'interlocuteur/interlocuteur/fournisseurs')) {
             $interlocuteur->setRoles(['ROLE_FOURNISSEUR']);
         }
 
@@ -315,13 +318,22 @@ class InterlocuteurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_interlocuteur_interlocuteur_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Interlocuteur $interlocuteur, FichierRepository $fichierRepository, SluggerInterface $slugger, DemandeRepository $demandeRepository): Response
+    public function show(Request $request, Interlocuteur $interlocuteur,RibRepository $ribRepository, FichierRepository $fichierRepository, SluggerInterface $slugger, DemandeRepository $demandeRepository): Response
     {
-        $fichier = new Fichier();
 
+
+        $fichier = new Fichier();
         $demamndes = $demandeRepository->findAllDemande($interlocuteur->getId());
 
-        //  dd($demamndes);
+        $rib = new Rib();
+        $rib->setInterlocuteur($interlocuteur);
+        $formRIB = $this->createForm(RibType::class, $rib);
+        $formRIB->handleRequest($request);
+
+        if ($formRIB->isSubmitted() && $formRIB->isValid()) {
+            $ribRepository->add($rib, true);
+            return $this->redirectToRoute('app_interlocuteur_interlocuteur_show',['id'=>$interlocuteur->getId()]);
+        }
 
         $form = $this->createForm(FichierType::class, $fichier);
         $form->handleRequest($request);
@@ -359,6 +371,7 @@ class InterlocuteurController extends AbstractController
         return $this->render('interlocuteur/interlocuteur/show.html.twig', [
             'form' => $form->createView(),
             'interlocuteur' => $interlocuteur,
+            'formRIB'=>$formRIB->createView(),
             'demandes' => $demamndes,
             'title' => !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom(),
             'nav' => [['app_interlocuteur_interlocuteur_edit', 'Modifier', $interlocuteur->getId()]],

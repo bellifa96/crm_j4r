@@ -138,8 +138,8 @@
 {{ form_start(form) }}
 
 
-{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-    <div class="col-md-10 m-auto row justify-content-around mb-4">
+<div class="col-md-10 m-auto row justify-content-around mb-4">
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
         <div class="col-md-4 row">
             <div class="col-md-auto labels">
                 Statut
@@ -148,7 +148,6 @@
                 {{ form_widget(form.statut,{"attr":{"class":"form-control form-control-sm-2"}}) }}
             </div>
         </div>
-
         <div class="col-md-4 row">
             <div class="col-md-auto labels">
                 Statut commercial
@@ -157,9 +156,26 @@
                 {{ form_widget(form.statutCommercial,{"attr":{"class":"form-control form-control-sm-2"}}) }}
             </div>
         </div>
-    </div>
+    {% endif %}
 
-{% endif %}
+    {% if form.createur is defined and app.user == demande.createur or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+
+
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Conducteur de travaux
+            </div>
+            <div class="col-md-auto ">
+                {{ form_widget(form.createur,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+
 <div class="page-block col-md-10 m-auto">
     <div class="row">
         <div class="col-md-6">
@@ -244,6 +260,14 @@
                 </div>
                 <div class="col-md-9">
                     {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de début prévisionnel</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDebutPrevisionnel,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
                 </div>
             </div>
             <div class="row mt-2">
@@ -375,6 +399,28 @@
                 </div>
             </div>
 
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels" for="demande_faireUnReleve">Faire un relevé</label>
+                    {{ form_widget(form.faireUnReleve,{"attr":{"class":"checkbox-input"}}) }}
+
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.userReleve,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels" for="demande_faireUnDevis">Faire un Devis</label>
+                    {{ form_widget(form.faireUnDevis,{"attr":{"class":"checkbox-input"}}) }}
+
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.userDevis,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+                </div>
+            </div>
+
 
         </div>
 
@@ -424,6 +470,8 @@
 
 
     {% endif %}
+
+
 </div>
 
 <div class="page-block col-md-10 m-auto mt-4">
@@ -436,12 +484,41 @@
 
 </div>
 
-
+<div class="mt-5 text-center">
+    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+</div>
 {{ form_end(form) }}
 
 
 <script>
 
+
+    function releveDevis() {
+
+        if ($('#demande_faireUnReleve').is(':checked')) {
+            $('#demande_userReleve').show();
+            $('#demande_userReleve').attr('required',true);
+
+        } else {
+            $('#demande_userReleve').hide();
+            $('#demande_userReleve').attr('required',false);
+        }
+
+        if ($('#demande_faireUnDevis').is(':checked')) {
+            $('#demande_userDevis').show();
+            $('#demande_userDevis').attr('required',true);
+
+        } else {
+            $('#demande_userDevis').hide();
+            $('#demande_userDevis').attr('required',false);
+        }
+    }
+
+    $('#demande_faireUnReleve, #demande_faireUnDevis').change(function () {
+        releveDevis();
+    })
+
+    releveDevis();
 
     $("input[name='demande[typeEchafaudage]']").change(function () {
         $('.form-container').remove();
@@ -899,4 +976,7 @@
     });
 
 
+
+
 </script>
+
