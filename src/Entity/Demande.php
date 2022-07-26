@@ -295,6 +295,8 @@ class Demande
         $this->evenements = new ArrayCollection();
         $this->contactsSecondaires = new ArrayCollection();
         $this->ged = new ArrayCollection();
+        $this->faireUnReleve = false;
+        $this->faireUnDevis = false;
     }
 
     public function getId(): ?int

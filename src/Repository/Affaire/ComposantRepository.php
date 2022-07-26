@@ -21,7 +21,7 @@ class ComposantRepository extends ServiceEntityRepository
         parent::__construct($registry, Composant::class);
     }
 
-    public function add(Composant $entity, bool $flush = false): void
+    public function add(Composant $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 

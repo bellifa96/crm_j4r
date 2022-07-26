@@ -1,0 +1,306 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}composant:{{ composant.intitule }}{% endblock %}
+
+{% block body %}
+
+    <style>
+        .nav-link {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            min-width: 11.25rem !important;
+        }
+
+        .nav-tabs {
+            border-bottom: 5px solid #d9e2ec;
+        }
+
+        #add-composant {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            background: #109cf1;
+            color: #ffffff;
+            width: min-content;
+            font-family: Lato, sans-serif;
+            border: 0px;
+        }
+
+        #add-composant:hover {
+            background: #0d8cd9;
+        }
+
+        .chakra-input {
+            width: 100%;
+            min-width: 0px;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            position: relative;
+            appearance: none;
+            font-size: 1rem;
+            padding-inline: 0px;
+            height: 1.8rem;
+            border-radius: 0px;
+            border: 0px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-color: #d9e2ec;
+            background: #00000000;
+            color: #486581;
+            opacity: 1;
+
+        }
+
+        .chakra-input:focus {
+            border-color: #109cf1;
+        }
+
+        .chakra-input:focus-visible {
+            border-color: rgb(16, 156, 241);
+            border-top-color: rgb(16, 156, 241);
+            border-right-color: #109cf1;
+            border-bottom-color: rgb(16, 156, 241);
+            border-left-color: rgb(16, 156, 241);
+            box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
+        }
+
+        .modal-footer {
+            border: 0px;
+            justify-content: space-between;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .pointer:hover {
+            background: #edf8ff;
+        }
+
+        .tpoints {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        #svg-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            color: currentcolor;
+            vertical-align: middle;
+            color: #d9e2ec;
+            appearance: none;
+            border: 0;
+            background: unset;
+        }
+
+        #svg-button:hover {
+            color: #0d8cd9;
+        }
+
+        .svg-composant {
+            width: 9rem;
+            height: 9rem;
+            color: transparent;
+        }
+
+
+        #add-composant-fill {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            border: 1px solid #109cf1;
+            background: transparent;
+            color: #109cf1;
+            width: min-content;
+            font-family: Lato, sans-serif;
+        }
+
+        .labels {
+            display: block;
+            text-align: start;
+            font-size: 0.75rem;
+            margin-inline-end: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            transition-duration: 0.2s;
+            opacity: 1;
+            color: #627d98;
+        }
+
+        #composant_note {
+            height: min-content;
+        }
+    </style>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-composants-tab" data-bs-toggle="tab"
+                    data-bs-target="#nav-composants"
+                    type="button" role="tab" aria-controls="nav-composants" aria-selected="true">
+                composants
+            </button>
+            <button class="nav-link" id="nav-composants-tab" data-bs-toggle="tab" data-bs-target="#nav-composants"
+                    type="button" role="tab" aria-controls="nav-composants" aria-selected="false">
+                Composants
+            </button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
+
+            <div class="pt-5">
+
+
+                <div class="page-block bg-white">
+                    <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                        Informations
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+
+                            <label class="labels" for="composant_type">Type</label>
+                            <select id="composant_type" name="composant[type]"
+                                    class="col-md-12 chakra-input composant-edit"
+                                    required>
+                                {% for type in types %}
+                                    <option value="{{ type.id }}"><span
+                                                class="badge badge-pill badge-primary">{{ type.titre }}</span></option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                        <div class="col-md-2">
+                            <label class="labels" for="composant_code">Code</label>
+                            <input type="text" id="composant_code" name="composant[code]"
+                                   class="col-md-12 chakra-input composant-edit" value="{{ composant.code }}"
+                                   required/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="labels" for="composant_denomination">Intitulé</label>
+                            <input type="text" id="composant_intitule" name="composant[intitule]"
+                                   value="{{ composant.intitule }}"
+                                   class="col-md-12 chakra-input composant-edit" required/>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="labels" for="composant_unite">Unité</label>
+                            <input type="text" id="composant_unite" name="composant[unite]"
+                                   value="{{ composant.unite }}"
+                                   class="col-md-12 chakra-input composant-edit"
+                                   required/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="labels" for="composant_DUHT">Déboursé unitaire HT</label>
+                            <input type="number" id="composant_DUHT" name="composant[DUHT]"
+                                   value="{{ composant.debourseUnitaireHT }}"
+                                   class="col-md-12 chakra-input composant-edit"
+                                   required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-block bg-white mt-4 mb-4">
+                    <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                        Notes du composant
+                    </div>
+
+                    <textarea placeholder="Noter les informations complémentaires relatives à cet composant"
+                              id="composant_note" name="composant[note]"
+                              class="col-md-12 chakra-input composant-edit"
+                              oninput="auto_grow(this)">{{ composant.note|raw }}</textarea>
+                </div>
+            </div>
+
+
+            {% if composant.ouvrages is not empty %}
+                <div class="row">
+                    Ce composant est utilisé dans un ouvrage de la bibliothèque de prix. En modifiant ce composant, le prix de débours de l'ensemble de ces ouvrages sera mis à jour.
+                </div>
+
+                <path fill="currentColor" d="M23.119,20,13.772,2.15h0a2,2,0,0,0-3.543,0L.881,20a2,2,0,0,0,1.772,2.928H21.347A2,2,0,0,0,23.119,20ZM11,8.423a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h-.028a1.528,1.528,0,0,1-1.522-1.47,1.476,1.476,0,0,1,1.448-1.53h.028A1.527,1.527,0,0,1,13.5,18.4,1.475,1.475,0,0,1,12.05,19.933Z"></path>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
+
+            Composants
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+
+
+        $('.composant-edit').change(function () {
+            const composant = {
+                type: $('#composant_type').val(),
+                code: $('#composant_code').val(),
+                intitule: $('#composant_intitule').val(),
+                unite: $('#composant_unite').val(),
+                duht: $('#composant_DUHT').val(),
+            }
+
+            $.post("{{ path('app_affaire_composant_edit',{'id':composant.id}) }}", {composant}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    console.log(data, composant);
+                }
+            })
+
+        })
+
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
+    </script>
+
+
+
+
+
+{% endblock %}

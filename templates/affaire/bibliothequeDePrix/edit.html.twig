@@ -5,6 +5,10 @@
 {% block body %}
 
     <style>
+        .badge{
+            font-size: 1em;
+            line-height: 1.5;
+        }
         .nav-link {
             padding-top: 1rem !important;
             padding-bottom: 1rem !important;
@@ -15,7 +19,7 @@
             border-bottom: 5px solid #d9e2ec;
         }
 
-        #add-ouvrage {
+        .add-button-devis {
             display: inline-flex;
             appearance: none;
             -webkit-box-align: center;
@@ -43,7 +47,7 @@
             border: 0px;
         }
 
-        #add-ouvrage:hover {
+        .add-button-devis:hover {
             background: #0d8cd9;
         }
 
@@ -156,7 +160,7 @@
             font-family: Lato, sans-serif;
         }
 
-        .labels{
+        .labels {
             display: block;
             text-align: start;
             font-size: 0.75rem;
@@ -166,6 +170,9 @@
             transition-duration: 0.2s;
             opacity: 1;
             color: #627d98;
+        }
+        #ouvrage_note{
+            height: min-content;
         }
     </style>
 
@@ -196,24 +203,27 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label class="labels" for="ouvrage_code">Code</label>
-                                <input type="text" id="ouvrage_code" name="ouvrage[code]" class="col-md-12 chakra-input" value="{{ ouvrage.code }}"
+                                <input type="text" id="ouvrage_code" name="ouvrage[code]"
+                                       class="col-md-12 chakra-input ouvrage-edit" value="{{ ouvrage.code }}"
                                        required/>
                             </div>
                             <div class="col-md-4">
                                 <label class="labels" for="ouvrage_denomination">Dénomination</label>
-                                <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]" value="{{ ouvrage.denomination }}"
-                                       class="col-md-12 chakra-input" required/>
+                                <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]"
+                                       value="{{ ouvrage.denomination }}"
+                                       class="col-md-12 chakra-input ouvrage-edit" required/>
                             </div>
                             <div class="col-md-2">
                                 <label class="labels" for="ouvrage_unite">Unité</label>
                                 <input type="text" id="ouvrage_unite" name="ouvrage[unite]" value="{{ ouvrage.unite }}"
-                                       class="col-md-12 chakra-input"
+                                       class="col-md-12 chakra-input ouvrage-edit"
                                        required/>
                             </div>
                             <div class="col-md-3">
                                 <label class="labels" for="ouvrage_DUHT">Déboursé unitaire HT</label>
-                                <input type="number" id="ouvrage_DUHT" name="ouvrage[DUHT]" value="{{ ouvrage.debourseHTCalcule }}"
-                                       class="col-md-12 chakra-input"
+                                <input type="number" id="ouvrage_DUHT" name="ouvrage[DUHT]"
+                                       value="{{ ouvrage.debourseHTCalcule }}"
+                                       class="col-md-12 chakra-input ouvrage-edit"
                                        required/>
                             </div>
                         </div>
@@ -225,7 +235,8 @@
                         Notes de l'ouvrage
                     </div>
 
-                    <textarea placeholder="Noter les informations complémentaires relatives à cet ouvrage"  class="col-md-12 chakra-input" oninput="auto_grow(this)" ></textarea>
+                    <textarea placeholder="Noter les informations complémentaires relatives à cet ouvrage" id="ouvrage_note" name="ouvrage[note]"
+                              class="col-md-12 chakra-input ouvrage-edit" oninput="auto_grow(this)">{{ ouvrage.note|raw }}</textarea>
 
 
                 </div>
@@ -236,14 +247,14 @@
                             <p style="font-size: 22px;font-weight: 600;">Composants de l'ouvrage</p>
                         </div>
                         <div class="col-md-8 row justify-content-end">
-                            <button type="button" class="col-md-auto" id="add-ouvrage">Créer un nouveau composant
+                            <button type="button" class="col-md-auto m-2" id="add-ouvrage-fill">Créer un nouveau composant
                             </button>
-                            <button type="button" class="col-md-auto" id="add-ouvrage">Importer un composant existant
+                            <button type="button" class="col-md-auto add-button-devis m-2" id="import-composant">Importer un composant existant
                             </button>
 
                         </div>
                     </div>
-                    <table class="table" id="table-ouvrage" style="background: white;">
+                    <table class="table datatable" id="table-ouvrage" style="background: white;">
                         <thead>
                         <tr>
                             <th>Type</th>
@@ -257,12 +268,13 @@
                         </thead>
                         <tbody>
 
-                        {% for composant in ouvrages.composants %}
+                        {% for composant in ouvrage.composants %}
                             <tr class="pointer">
-                                <td>{{ composant.type }}</td>
+                                <td><span class="badge badge-pill"  style="background:{{ composant.typeComposant.couleur }};">{{ composant.typeComposant.titre }}</span></td>
                                 <td>{{ composant.code }}</td>
                                 <td>{{ composant.intitule }}</td>
                                 <td>{{ composant.unite }}</td>
+                                <td>{{ composant.debourseUnitaireHT }}</td>
                                 <td>{{ composant.debourseUnitaireHT }}</td>
                                 <td>
                                     <button id="svg-button">
@@ -304,7 +316,7 @@
                     <div class="col-md-12 row justify-content-center">
                         <button type="button" class="col-md-auto m-2" id="add-ouvrage-fill">Créer un nouveau composant
                         </button>
-                        <button type="button" class="col-md-auto m-2" id="add-ouvrage">Importer un composant existant
+                        <button type="button" class="col-md-auto m-2 add-button-devis" id="import-composant">Importer un composant existant
                         </button>
                     </div>
 
@@ -323,9 +335,45 @@
 
 
     <script>
+
+
+        $('#import-composant').click(function () {
+
+            const data = {
+                id:"{{ ouvrage.id }}"
+            }
+            $('#modal-import-composant').remove();
+            var path = "{{ path('app_affaire_modal_composant_liste',{'id':ouvrage.id}) }}";
+            $.post(path,{data} ,function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-import-composant").modal('show');
+
+            })
+
+        })
+
+        $('.ouvrage-edit').change(function () {
+
+            const ouvrage = {
+                code: $('#ouvrage_code').val(),
+                denomination: $('#ouvrage_denomination').val(),
+                unite: $('#ouvrage_unite').val(),
+                duht: $('#ouvrage_DUHT').val(),
+                note:$('#ouvrage_note').val(),
+            }
+
+            $.post("{{ path('app_affaire_ouvrage_edit',{'id':ouvrage.id}) }}", {ouvrage}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                     console.log(data,ouvrage);
+                }
+            })
+
+        })
+
         function auto_grow(element) {
             element.style.height = "5px";
-            element.style.height = (element.scrollHeight)+"px";
+            element.style.height = (element.scrollHeight) + "px";
         }
 
         $('#add-ouvrage').click(function () {
@@ -338,6 +386,25 @@
             })
         })
 
+        function submitImportComposantEvent(event){
+            event.preventDefault();
+
+            let data = {};
+            $('.check-composant').each(function (index) {
+                if($(this).is(':checked')){
+                    console.log($(this).val());
+                    data[index]= ($(this).val())
+                }
+            })
+
+            $.post("{{ path('app_affaire_composant_import',{'id':ouvrage.id}) }}", data, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200){
+                    location.reload();
+
+                }
+            })
+        }
         function submitOuvrageEvenement(event) {
             event.preventDefault();
 
@@ -351,27 +418,45 @@
             $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-
-                    /*   const tr = `
-                       <tr>
-                           <td>${ouvrage.code}</td>
-                           <td>${ouvrage.denomination}</td>
-                           <td>${ouvrage.unite}</td>
-                           <td>${ouvrage.duht}</td>
-                       </tr>
-                       `;
-                       $('#table-ouvrage tbody').append(tr);
-                       $('#modal-ouvrage').modal('hide');
-                       $('#modal-ouvrage').remove();*/
-
                     location.reload();
-
-
                 }
             });
-
-
         }
+
+
+        function submitComposantEvenement(event) {
+            event.preventDefault();
+
+            const composant = {
+                type: $('#composant_type').val(),
+                code: $('#composant_code').val(),
+                intitule: $('#composant_intitule').val(),
+                unite: $('#composant_unite').val(),
+                duht: $('#composant_DUHT').val(),
+                ouvrage: "{{ ouvrage.id }}",
+            }
+
+            $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {
+                let data = JSON.parse(response);
+
+                if (data.code === 200) {
+                    location.reload();
+                }
+            });
+        }
+
+
+        $('#add-ouvrage-fill').click(function () {
+            $('#modal-composant').remove();
+            let path = "{{ path('app_affaire_modal_composant') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-composant").modal('show');
+
+            })
+        })
+
+
     </script>
 
 

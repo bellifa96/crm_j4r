@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeComposant{% endblock %}
+
+{% block body %}
+    <h1>TypeComposant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ type_composant.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ type_composant.titre }}</td>
+            </tr>
+            <tr>
+                <th>Couleur</th>
+                <td>{{ type_composant.couleur }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_type_composant_index') }}">back to list</a>
+
+    <a href="{{ path('app_affaire_type_composant_edit', {'id': type_composant.id}) }}">edit</a>
+
+    {{ include('affaire/type_composant/_delete_form.html.twig') }}
+{% endblock %}

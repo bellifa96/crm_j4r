@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeComposant{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeComposant</h1>
+
+    {{ include('affaire/type_composant/_form.html.twig') }}
+
+    <a href="{{ path('app_affaire_type_composant_index') }}">back to list</a>
+{% endblock %}

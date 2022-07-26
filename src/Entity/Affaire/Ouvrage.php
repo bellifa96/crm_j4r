@@ -53,14 +53,17 @@ class Ouvrage
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
     private $lot;
 
-    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Composant::class)]
-    private $composants;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $unite;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
     private $createur;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $note;
+
+    #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
+    private $composants;
 
     public function __construct()
     {
@@ -192,36 +195,6 @@ class Ouvrage
         return $this;
     }
 
-    /**
-     * @return Collection<int, Composant>
-     */
-    public function getComposants(): Collection
-    {
-        return $this->composants;
-    }
-
-    public function addComposant(Composant $composant): self
-    {
-        if (!$this->composants->contains($composant)) {
-            $this->composants[] = $composant;
-            $composant->setOuvrage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComposant(Composant $composant): self
-    {
-        if ($this->composants->removeElement($composant)) {
-            // set the owning side to null (unless already changed)
-            if ($composant->getOuvrage() === $this) {
-                $composant->setOuvrage(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUnite(): ?string
     {
         return $this->unite;
@@ -242,6 +215,45 @@ class Ouvrage
     public function setCreateur(?User $createur): self
     {
         $this->createur = $createur;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Composant>
+     */
+    public function getComposants(): Collection
+    {
+        return $this->composants;
+    }
+
+    public function addComposant(Composant $composant): self
+    {
+        if (!$this->composants->contains($composant)) {
+            $this->composants[] = $composant;
+            $composant->addOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComposant(Composant $composant): self
+    {
+        if ($this->composants->removeElement($composant)) {
+            $composant->removeOuvrage($this);
+        }
 
         return $this;
     }
