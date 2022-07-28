@@ -235,6 +235,8 @@ class DemandeController extends AbstractController
 
         $users = $userRepository->findAll();
 
+        $createur = $demande->getCreateur();
+
         $tmpUserReleve= $demande->getUserReleve();
         $tmpUserDevis = $demande->getUserDevis();
 
@@ -300,6 +302,13 @@ class DemandeController extends AbstractController
                 $template = "/emails/statut_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
+
+            if ($demande->getCreateur() !== $createur) {
+                $objet = "La demande N°" . $demande->getId() . " vous a été transféré par ".$createur->getPseudo();
+                $template = "/emails/transfere_demande.html.twig";
+                $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
+            }
+
 
             return $this->extracted($request, $demande, $demandeRepository,);
         }

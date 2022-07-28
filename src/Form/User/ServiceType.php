@@ -14,6 +14,8 @@ class ServiceType extends AbstractType
     {
         $builder
             ->add('titre', TextType::class)
+            ->add('code', TextType::class)
+
         ;
     }
 

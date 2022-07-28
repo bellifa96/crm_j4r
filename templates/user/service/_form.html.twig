@@ -1,4 +1,34 @@
-{{ form_start(form) }}
-    {{ form_widget(form.code,{'attr':{'autofocus':'on'}}) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="col-md-6 m-auto page-block">
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+
+                <div class="col-md-auto labels">
+                    Titre
+                </div>
+                <div class="col-md-auto">
+                    {{ form_widget(form.titre,{'attr':{'class':'form-control-sm-2','autofocus':'on'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="row">
+                <div class="col-md-auto labels">
+                    Code
+                </div>
+                <div class="col-md-auto">
+                    {{ form_widget(form.code,{'attr':{'class':'form-control-sm-2'}}) }}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button class="btn btn-info-2 mt-4">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+
+
+</div>
