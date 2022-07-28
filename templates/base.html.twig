@@ -116,3 +116,21 @@
 </body>
 
 </html>
+
+<script>
+    function prixDeVente(){
+
+
+        $('#composant_DUHT').val($('#composant_DUHT').val().replaceAll(',','.'))
+        $('#composant_marge').val($('#composant_marge').val().replaceAll(',','.'))
+        const prix =$('#composant_DUHT').val();
+        const marge = $('#composant_marge').val();
+
+        const prixDeVente = prix * marge ;
+
+        console.log(prixDeVente);
+
+        $('#composant_prix_de_vente').val(prixDeVente.toFixed(3));
+
+    }
+</script>

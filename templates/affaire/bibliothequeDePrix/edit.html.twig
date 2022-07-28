@@ -178,14 +178,12 @@
 
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-ouvrages-tab" data-bs-toggle="tab" data-bs-target="#nav-ouvrages"
-                    type="button" role="tab" aria-controls="nav-ouvrages" aria-selected="true">
+            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link active" id="nav-ouvrage-tab" >
                 Ouvrages
-            </button>
-            <button class="nav-link" id="nav-composants-tab" data-bs-toggle="tab" data-bs-target="#nav-composants"
-                    type="button" role="tab" aria-controls="nav-composants" aria-selected="false">
+            </a>
+            <a  href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link" id="nav-composants-tab" >
                 Composants
-            </button>
+            </a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -263,6 +261,8 @@
                             <th>Unité</th>
                             <th>Déboursé unitaire HT</th>
                             <th>Déboursé HT</th>
+                            <th>Marge</th>
+                            <th>Prix de vente</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -274,8 +274,11 @@
                                 <td>{{ composant.code }}</td>
                                 <td>{{ composant.intitule }}</td>
                                 <td>{{ composant.unite }}</td>
-                                <td>{{ composant.debourseUnitaireHT }}</td>
-                                <td>{{ composant.debourseUnitaireHT }}</td>
+                                <td>{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
+                                <td>{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
+                                <td>{{ composant.marge|number_format(2,'.',' ') }}  %</td>
+                                <td>{{ composant.prixDeVente|number_format(2,'.',' ') }} €</td>
+
                                 <td>
                                     <button id="svg-button">
                                         <svg viewBox="0 0 408 408" focusable="false" class="chakra-icon tpoints">
@@ -434,6 +437,7 @@
                 unite: $('#composant_unite').val(),
                 duht: $('#composant_DUHT').val(),
                 ouvrage: "{{ ouvrage.id }}",
+                marge:$('#composant_marge').val(),
             }
 
             $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {

@@ -41,6 +41,12 @@ class Composant
     #[ORM\ManyToMany(targetEntity: Ouvrage::class, inversedBy: 'composants')]
     private $ouvrages;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $marge;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $prixDeVente;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -167,6 +173,30 @@ class Composant
     public function removeOuvrage(Ouvrage $ouvrage): self
     {
         $this->ouvrages->removeElement($ouvrage);
+
+        return $this;
+    }
+
+    public function getMarge(): ?float
+    {
+        return $this->marge;
+    }
+
+    public function setMarge(?float $marge): self
+    {
+        $this->marge = $marge;
+
+        return $this;
+    }
+
+    public function getPrixDeVente(): ?float
+    {
+        return $this->prixDeVente;
+    }
+
+    public function setPrixDeVente(?float $prixDeVente): self
+    {
+        $this->prixDeVente = $prixDeVente;
 
         return $this;
     }

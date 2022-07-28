@@ -18,6 +18,7 @@ import './styles/pagination.scss'
 
 import './styles/app.css';
 
+
 // start the Stimulus application
 import './bootstrap';
 import * as $ from "jquery";
@@ -246,10 +247,15 @@ $(function () {
     });
 
 
+
+
 })
 ;
+
+
 
 $(window).on('load', function () {
     $("#divLoader").css('display', 'none');
 })
+
 
