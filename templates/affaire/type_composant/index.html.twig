@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TypeComposant index{% endblock %}
+{% block title %}Liste des composants{% endblock %}
 
 {% block body %}
-    <h1>TypeComposant index</h1>
 
-    <table class="table">
+    <table class="table datatable">
         <thead>
-            <tr>
+            <tr class="tr-head">
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Couleur</th>
@@ -19,19 +18,17 @@
             <tr>
                 <td>{{ type_composant.id }}</td>
                 <td>{{ type_composant.titre }}</td>
-                <td>{{ type_composant.couleur }}</td>
+                <td><div  class="badge" style="background:{{ type_composant.couleur  }};line-height: 1em;font-size: 1em; ">{{ type_composant.couleur }}</div> </td>
                 <td>
-                    <a href="{{ path('app_affaire_type_composant_show', {'id': type_composant.id}) }}">show</a>
-                    <a href="{{ path('app_affaire_type_composant_edit', {'id': type_composant.id}) }}">edit</a>
+                    <a href="{{ path('app_affaire_type_composant_edit', {'id': type_composant.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucun composant trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_affaire_type_composant_new') }}">Create new</a>
 {% endblock %}

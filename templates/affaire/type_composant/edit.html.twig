@@ -3,11 +3,8 @@
 {% block title %}Edit TypeComposant{% endblock %}
 
 {% block body %}
-    <h1>Edit TypeComposant</h1>
 
-    {{ include('affaire/type_composant/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('affaire/type_composant/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_affaire_type_composant_index') }}">back to list</a>
 
-    {{ include('affaire/type_composant/_delete_form.html.twig') }}
 {% endblock %}

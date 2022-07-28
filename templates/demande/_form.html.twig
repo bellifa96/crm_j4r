@@ -158,7 +158,7 @@
         </div>
     {% endif %}
 
-    {% if form.createur is defined and app.user == demande.createur or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+    {% if form.createur is defined and app.user == demande.createur and ( is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') ) %}
 
 
         <div class="col-md-4 row">
