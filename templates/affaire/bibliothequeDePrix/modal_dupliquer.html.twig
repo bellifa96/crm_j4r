@@ -1,47 +1,49 @@
 <!-- Modal -->
-<div class="modal fade modal-ouvrage" id="modal-ouvrage" tabindex="-1" aria-labelledby="modal-ouvrage-label" aria-hidden="true"
+<div class="modal fade modal-ouvrage" id="modal-ouvrage-dupliquer" tabindex="-1"
+     aria-labelledby="modal-ouvrage-dupliquer-label" aria-hidden="true"
      style="color: #486178;">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content">
-            <form onsubmit="return submitOuvrageEvenement(event)" name="demande">
+            <form action="{{ path('app_affaire_ouvrage_dupliquer',{'id':ouvrage.id}) }}" name="dupliquer_ouvrage"
+                  method="post">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-ouvrage-label">Ajout d'un ouvrage dans la bibliothèque de
+                    <h5 class="modal-title" id="modal-ouvrage-label">Duplication d'un ouvrage dans la bibliothèque de
                         prix</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        L'ajout d'un ouvrage au sein de la bibliothèque de prix permet de l'utiliser ultérieurement lors
-                        de
-                        la création de devis
+                        La duplication de l'ouvrage va ajouter un nouvel ouvrage au sein de la bibliothèque de prix.
+                        Attention à la création de doublon.
                     </p>
                     <div class="row">
                         <div class="col-md-3">
                             <label class="labels" for="ouvrage_code">Code</label>
-                            <input type="text" id="ouvrage_code" name="ouvrage[code]" class="col-md-12 chakra-input"
+                            <input type="text" id="ouvrage_code" name="ouvrage[code]" class="col-md-12 chakra-input"  value="{{ ouvrage.code }}"
                                    required/>
                         </div>
                         <div class="col-md-4">
                             <label class="labels" for="ouvrage_denomination">Dénomination</label>
-                            <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]"
+                            <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]" value="{{ ouvrage.denomination }}"
                                    class="col-md-12 chakra-input" required/>
                         </div>
                         <div class="col-md-2">
                             <label class="labels" for="ouvrage_unite">Unité</label>
-                            <input type="text" id="ouvrage_unite" name="ouvrage[unite]" class="col-md-12 chakra-input"
+                            <input type="text" id="ouvrage_unite" name="ouvrage[unite]" class="col-md-12 chakra-input" value="{{ ouvrage.unite }}"
                                    required/>
                         </div>
                         <div class="col-md-3">
                             <label class="labels" for="ouvrage_DUHT">Déboursé unitaire HT</label>
-                            <input type="number" step="0.0001" id="ouvrage_DUHT" name="ouvrage[DUHT]" class="col-md-12 chakra-input"
+                            <input type="number" step="0.0001" id="ouvrage_DUHT" name="ouvrage[DUHT]"  value="{{ ouvrage.debourseHTCalcule }}"
+                                   class="col-md-12 chakra-input"
                                    required/>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
-                    <button type="submit" class="btn btn-primary">Ajouter un ouvrage</button>
+                    <button type="submit" class="btn btn-primary">Dupliquer</button>
                 </div>
 
             </form>

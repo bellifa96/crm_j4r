@@ -175,10 +175,10 @@
 
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link" id="nav-ouvrage-tab" >
+            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link" id="nav-ouvrage-tab">
                 Ouvrages
             </a>
-            <a  href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link active" id="nav-composants-tab" >
+            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link active" id="nav-composants-tab">
                 Composants
             </a>
         </div>
@@ -187,7 +187,6 @@
         <div class="tab-pane fade show active" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
 
             <div class="pt-5">
-
 
                 <div class="page-block bg-white">
                     <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
@@ -201,7 +200,7 @@
                                     class="col-md-12 chakra-input composant-edit"
                                     required>
                                 {% for type in types %}
-                                    <option value="{{ type.id }}"><span
+                                    <option value="{{ type.id }}" {{ composant.typeComposant == type ? 'selected' : '' }}><span
                                                 class="badge badge-pill badge-primary">{{ type.titre }}</span></option>
                                 {% endfor %}
                             </select>
@@ -235,14 +234,16 @@
                         </div>
                         <div class="col-md-2">
                             <label class="labels" for="composant_marge">Marge</label>
-                            <input type="number"  step="0.001" id="composant_marge" name="composant[marge]" class="col-md-12 chakra-input composant-edit" onchange="prixDeVente()"
+                            <input type="number" step="0.001" id="composant_marge" name="composant[marge]"
+                                   class="col-md-12 chakra-input composant-edit" onchange="prixDeVente()"
                                    value="{{ composant.marge }}"
                                    required/>
                         </div>
 
                         <div class="col-md-2">
                             <label class="labels" for="composant_prix_de_vente">Prix de vente</label>
-                            <input type="number"  step="0.001" id="composant_prix_de_vente" name="composant[prixDeVente]" class="col-md-12 chakra-input composant-edit"
+                            <input type="number" step="0.001" id="composant_prix_de_vente" name="composant[prixDeVente]"
+                                   class="col-md-12 chakra-input composant-edit"
                                    value="{{ composant.prixDeVente }}"
                                    required/>
                         </div>
@@ -261,14 +262,48 @@
                 </div>
             </div>
 
-
             {% if composant.ouvrages is not empty %}
-                <div class="row">
-                    Ce composant est utilisé dans un ouvrage de la bibliothèque de prix. En modifiant ce composant, le prix de débours de l'ensemble de ces ouvrages sera mis à jour.
+                <div class="alert alert-warning" role="alert">
+                    <b>Ce composant est utilisé dans un ouvrage </b> de la bibliothèque de prix. En modifiant ce
+                    composant, le prix de débours de l'ensemble de ces ouvrages sera mis à jour.
+
+
+                    <p class="mt-4"><b>Les ouvrages Impactés</b></p>
+
+                    <table class="table datatable" id="table-ouvrage" style="background: white;">
+                        <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Dénomination</th>
+                            <th>Unité</th>
+                            <th>Déboursé HT</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for ouvrage in composant.ouvrages %}
+                            <tr class="pointer">
+                                <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.code }}</td>
+                                <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.denomination }}</td>
+                                <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.unite }}</td>
+                                <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.debourseHTCalcule|number_format(2,'.',' ') }}
+                                    €
+                                </td>
+                            </tr>
+
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">aucun ouvrage trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
-                <path fill="currentColor" d="M23.119,20,13.772,2.15h0a2,2,0,0,0-3.543,0L.881,20a2,2,0,0,0,1.772,2.928H21.347A2,2,0,0,0,23.119,20ZM11,8.423a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Zm1.05,11.51h-.028a1.528,1.528,0,0,1-1.522-1.47,1.476,1.476,0,0,1,1.448-1.53h.028A1.527,1.527,0,0,1,13.5,18.4,1.475,1.475,0,0,1,12.05,19.933Z"></path>
             {% endif %}
+
+
+
         </div>
         <div class="tab-pane fade" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
 
@@ -291,8 +326,8 @@
                 intitule: $('#composant_intitule').val(),
                 unite: $('#composant_unite').val(),
                 duht: $('#composant_DUHT').val(),
-                marge:$('#composant_marge').val(),
-                note:$('#composant_note').val(),
+                marge: $('#composant_marge').val(),
+                note: $('#composant_note').val(),
             }
 
             $.post("{{ path('app_affaire_composant_edit',{'id':composant.id}) }}", {composant}, function (response) {

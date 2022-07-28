@@ -14,6 +14,8 @@ use App\Repository\Affaire\ComposantRepository;
 use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\Affaire\TypeComposantRepository;
+use DeepCopy\DeepCopy;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -118,6 +120,53 @@ class BibliothequeDePrixController extends AbstractController
     }
 
 
+    #[Route('/modal/ouvrage/dupliquer/{id}', name: 'app_affaire_modal_ouvrage_dupliquer', methods: ['GET', 'POST'])]
+    public function modalOuvrageDupliquer(Request $request, Environment $environment, Ouvrage $ouvrage,): Response
+    {
+        $response = new Response();
+
+        $path = "affaire/bibliothequeDePrix/modal_dupliquer.html.twig";
+
+        if (!empty($path)) {
+
+            try {
+                $html = $environment->render($path, ["ouvrage" => $ouvrage]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        }
+        return $response;
+    }
+
+
+    #[Route('/modal/composant/dupliquer/{id}', name: 'app_affaire_modal_composant_dupliquer', methods: ['GET', 'POST'])]
+    public function modalComposantDupliquer(Request $request, Environment $environment, TypeComposantRepository $typeComposantRepository, Composant $composant): Response
+    {
+        $response = new Response();
+
+        $path = "affaire/bibliothequeDePrix/modal_composant_dupliquer.html.twig";
+
+        if (!empty($path)) {
+
+            try {
+                $html = $environment->render($path, ["types" => $typeComposantRepository->findAll(), "composant" => $composant]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        }
+        return $response;
+    }
+
     #[Route('/ouvrage/new', name: 'app_affaire_ouvrage_new', methods: ['POST'])]
     public function new(Request $request, OuvrageRepository $ouvrageRepository): Response
     {
@@ -197,12 +246,11 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/composant/new', name: 'app_affaire_composant_new', methods: ['POST'])]
-    public function newComposant(Request $request, ComposantRepository $composantRepository, TypeComposantRepository $typeComposantRepository,OuvrageRepository $ouvrageRepository): Response
+    public function newComposant(Request $request, ComposantRepository $composantRepository, TypeComposantRepository $typeComposantRepository, OuvrageRepository $ouvrageRepository): Response
     {
 
         $data = $request->request->all();
         $data = $data['composant'];
-
 
 
         $composant = new Composant();
@@ -216,7 +264,7 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setPrixDeVente($composant->getMarge() * $composant->getDebourseUnitaireHT());
         $composant->setCreateur($this->getUser());
 
-        if(key_exists('ouvrage',$data)){
+        if (key_exists('ouvrage', $data)) {
             $ouvrage = $ouvrageRepository->find($data['ouvrage']);
             $composant->addOuvrage($ouvrage);
         }
@@ -266,6 +314,7 @@ class BibliothequeDePrixController extends AbstractController
     public function show(Ouvrage $ouvrage): Response
     {
 
+        dump($ouvrage);
         return $this->render('affaire/bibliothequeDePrix/edit.html.twig', [
             'ouvrage' => $ouvrage,
             'title' => 'Ouvrage : ' . $ouvrage->getDenomination(),
@@ -285,6 +334,93 @@ class BibliothequeDePrixController extends AbstractController
             'nav' => []
         ]);
 
+    }
+
+
+    #[Route('/composant/dupliquer/{id}', name: 'app_affaire_composant_dupliquer', methods: ['GET', 'POST'])]
+    public function dupliquerComposant(Request $request, Composant $composant, ComposantRepository $composantRepository, EntityManagerInterface $entityManager, TypeComposantRepository $typeComposantRepository): Response
+    {
+
+
+        $data = $request->request->all()['composant'];
+
+        $clone = $composant;
+
+
+        $type = $typeComposantRepository->find($data['type']);
+        $clone->setTypeComposant($type);
+        $clone->setCode($data['code']);
+        $clone->setDebourseUnitaireHT($data['DUHT']);
+        $clone->setIntitule($data['intitule']);
+        $clone->setUnite($data['unite']);
+        $clone->setMarge(floatval($data['marge']));
+        $clone->setPrixDeVente($clone->getMarge() * $clone->getDebourseUnitaireHT());
+        $clone->setCreateur($this->getUser());
+
+        $entityManager->detach($clone);
+
+        $composantRepository->add($clone);
+
+        return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/ouvrage/dupliquer/{id}', name: 'app_affaire_ouvrage_dupliquer', methods: ['GET', 'POST'])]
+    public function dupliquerOuvrage(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, EntityManagerInterface $entityManager, ComposantRepository $composantRepository): Response
+    {
+
+
+        $data = $request->request->all()['ouvrage'];
+
+        $clone = $ouvrage;
+
+
+        $clone->setCode($data['code']);
+        $clone->setDebourseHTCalcule($data['DUHT']);
+        $clone->setDenomination($data['denomination']);
+        $clone->setUnite($data['unite']);
+        $clone->setCreateur($this->getUser());
+        foreach ($ouvrage->getComposants() as $composant) {
+            $entityManager->detach($clone);
+            $clone->addComposant($composant);
+            $composant->addOuvrage($ouvrage);
+
+        }
+
+
+        $entityManager->detach($clone);
+
+        $ouvrageRepository->add($clone);
+
+
+    //    dd($clone);
+
+
+        //    $entityManager->flush();
+
+
+        return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_delete', methods: ['POST'])]
+    public function delete(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $ouvrage->getId(), $request->request->get('_token'))) {
+            $ouvrageRepository->remove($ouvrage);
+        }
+
+        return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/composant/{id}', name: 'app_affaire_composant_delete', methods: ['POST'])]
+    public function deleteComposant(Request $request, Composant $composant, ComposantRepository $composantRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $composant->getId(), $request->request->get('_token'))) {
+            $composantRepository->remove($composant);
+        }
+
+        return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
     }
 
 

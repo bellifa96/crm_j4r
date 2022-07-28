@@ -345,7 +345,7 @@
             const data = {
                 id:"{{ ouvrage.id }}"
             }
-            $('#modal-import-composant').remove();
+            $('.modal-composant').remove();
             var path = "{{ path('app_affaire_modal_composant_liste',{'id':ouvrage.id}) }}";
             $.post(path,{data} ,function (data) {
                 $('body').append(JSON.parse(data).message);
@@ -451,7 +451,7 @@
 
 
         $('#add-ouvrage-fill').click(function () {
-            $('#modal-composant').remove();
+            $('.modal-composant').remove();
             let path = "{{ path('app_affaire_modal_composant') }}";
             $.post(path, function (data) {
                 $('body').append(JSON.parse(data).message);
