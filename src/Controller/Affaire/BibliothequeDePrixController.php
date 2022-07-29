@@ -265,8 +265,14 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setCreateur($this->getUser());
 
         if (key_exists('ouvrage', $data)) {
+            $sum = 0;
             $ouvrage = $ouvrageRepository->find($data['ouvrage']);
             $composant->addOuvrage($ouvrage);
+            foreach ($ouvrage->getComposants() as $val) {
+                $sum += $val->getPrixDeVente();
+            }
+            $ouvrage->setPrixUnitaireDebourse($sum);
+            $ouvrageRepository->add($ouvrage);
         }
         try {
             $composantRepository->add($composant);
@@ -289,10 +295,14 @@ class BibliothequeDePrixController extends AbstractController
         $data = $request->request->all();
 
 
+        $sum = 0;
         foreach ($data as $val) {
             $composant = $composantRepository->find($val);
             $ouvrage->addComposant($composant);
+            $sum += $composant->getPrixDeVente();
         }
+        $ouvrage->setPrixUnitaireDebourse($sum);
+
         //  return new Response(json_encode($data));
 
 
@@ -314,7 +324,6 @@ class BibliothequeDePrixController extends AbstractController
     public function show(Ouvrage $ouvrage): Response
     {
 
-        dump($ouvrage);
         return $this->render('affaire/bibliothequeDePrix/edit.html.twig', [
             'ouvrage' => $ouvrage,
             'title' => 'Ouvrage : ' . $ouvrage->getDenomination(),
@@ -392,7 +401,7 @@ class BibliothequeDePrixController extends AbstractController
         $ouvrageRepository->add($clone);
 
 
-    //    dd($clone);
+        //    dd($clone);
 
 
         //    $entityManager->flush();

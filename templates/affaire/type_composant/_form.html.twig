@@ -3,7 +3,6 @@
 <div class="col-md-12 page-block mt-4">
     {{ form_start(form) }}
 
-
     <div class="row">
         <div class="col-md-6">
             <div class="col-md-3">
@@ -26,6 +25,8 @@
 
 
     </div>
+    {{ form_widget(form) }}
+
     <button class="btn btn-info mt-2">{{ button_label|default('Enregistrer') }}</button>
 
     {% if is_granted("ROLE_ADMIN") and type_composant.id is not empty%}

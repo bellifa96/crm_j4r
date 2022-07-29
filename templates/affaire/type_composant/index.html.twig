@@ -17,8 +17,8 @@
         {% for type_composant in type_composants %}
             <tr>
                 <td>{{ type_composant.id }}</td>
-                <td>{{ type_composant.titre }}</td>
-                <td><div  class="badge" style="background:{{ type_composant.couleur  }};line-height: 1em;font-size: 1em; ">{{ type_composant.couleur }}</div> </td>
+                <td><div  class="badge" style="background:{{ type_composant.couleur  }};line-height: 1em;font-size: 1em; ">{{ type_composant.titre }}</div></td>
+                <td>{{ type_composant.couleur }}</td>
                 <td>
                     <a href="{{ path('app_affaire_type_composant_edit', {'id': type_composant.id}) }}">Modifier</a>
                 </td>
