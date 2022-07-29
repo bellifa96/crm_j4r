@@ -260,7 +260,8 @@
                             <th>Intitulé</th>
                             <th>Unité</th>
                             <th>Déboursé unitaire HT</th>
-                            <th>Déboursé HT</th>
+                            <th>Quantité</th>
+                            <th>Déboursé total HT</th>
                             <th>Marge</th>
                             <th>Prix de vente</th>
                             <th></th>
@@ -274,8 +275,13 @@
                                 <td>{{ composant.code }}</td>
                                 <td>{{ composant.intitule }}</td>
                                 <td>{{ composant.unite }}</td>
-                                <td>{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
-                                <td>{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
+                                <td id="debourseUHT-{{ composant.id }}">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
+                                <td>
+                                    <input type="text" id="ouvrage-quantite-{{ composant.id }}" name="ouvrage[quantite]"
+                                           value="{{ composant.id in ouvrage.quantite|keys ? ouvrage.quantite[composant.id] : 0 }}"
+                                           class="col-md-12 chakra-input composant-quantite" required/>
+                                </td>
+                                <td id="debourseht-{{ composant.id }}">{{ composant.id in ouvrage.quantite|keys ? (ouvrage.quantite[composant.id] * composant.debourseUnitaireHT)|number_format(2,'.',' ') : composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
                                 <td>{{ composant.marge|number_format(2,'.',' ') }}  %</td>
                                 <td>{{ composant.prixDeVente|number_format(2,'.',' ') }} €</td>
 
@@ -338,6 +344,30 @@
 
 
     <script>
+
+
+        $(".composant-quantite").change(function () {
+
+
+
+            const quantite = $(this).val();
+            const id =  $(this).attr('id').replaceAll('ouvrage-quantite-','');
+            const composant = {
+                id:id,
+                quantite:quantite,
+            }
+            $('.modal-composant').remove();
+            var path = "{{ path('app_affaire_composant_quantite',{'id':ouvrage.id}) }}";
+            $.post(path,{composant} ,function (response) {
+               const data =  JSON.parse(response);
+
+               if(data.code === 200){
+                   const total = quantite * $('#debourseUHT-'+id).text().replaceAll(' ','').replaceAll('€','');
+                   $('#debourseht-'+id).html(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(total).replace(',','.'))
+               }
+
+            })
+        })
 
 
         $('#import-composant').click(function () {

@@ -65,6 +65,9 @@ class Ouvrage
     #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
     private $composants;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $quantite = [];
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
@@ -254,6 +257,18 @@ class Ouvrage
         if ($this->composants->removeElement($composant)) {
             $composant->removeOuvrage($this);
         }
+
+        return $this;
+    }
+
+    public function getQuantite(): ?array
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?array $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }

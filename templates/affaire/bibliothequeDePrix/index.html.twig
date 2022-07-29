@@ -194,6 +194,13 @@
                             </td>
                             <td>
                                 <div class="row justify-content-end">
+
+                                    {% if ouvrage.composants is not empty %}
+                                        <div class="col-md-auto">
+                                            <svg  style="width: 2rem;height: 2rem;" viewBox="0 0 25 16" focusable="false" class="chakra-icon css-trglxm"><svg width="25" height="16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="puzzle"><g><path fill="#DCF4FF" d="m9.60716,1.60706l0,-1.60707l-5.33339,0l0,5.33337l-1.60708,0c-1.47278,0 -2.66668,1.1939 -2.66668,2.66669l12.27385,1.41281l12.2738,-1.41281c0,-1.47279 -1.1939,-2.66669 -2.6667,-2.66669l-1.6071,0l0,-5.33337l-5.3333,0l0,1.60707c0,1.47279 -1.1939,2.66669 -2.6667,2.66669c-1.4728,0 -2.6667,-1.1939 -2.6667,-2.66669z"></path></g><g><path fill="#DCF4FF" d="m2.69015,10.55646l1.60708,0l0,5.33337l5.33339,0l0,-1.60708c0,-1.47278 1.1939,-2.66668 2.6667,-2.66668c1.4728,0 2.6667,1.1939 2.6667,2.66668l0,1.60708l5.3333,0l0,-5.33337l1.6071,0c1.4728,0 2.6667,-1.1939 2.6667,-2.66669l-24.54765,0c0,1.47279 1.1939,2.66669 2.66668,2.66669z"></path></g></g></svg></svg>
+                                        </div>
+
+                                    {% endif %}
                                     <div class="col-md-auto">
                                         <form method="post"
                                               action="{{ path('app_affaire_ouvrage_delete', {'id': ouvrage.id}) }}"
@@ -211,7 +218,8 @@
                                     </div>
                                     <div class="col-md-auto">
                                         <div class="col-md-auto">
-                                            <button class="btn dupliquer-ouvrage" id="dupliquer-ouvrage-{{ ouvrage.id }}" type="button">
+                                            <button class="btn dupliquer-ouvrage"
+                                                    id="dupliquer-ouvrage-{{ ouvrage.id }}" type="button">
 
                                                 <svg viewBox="0 0 18 18" focusable="false" class="action-button">
                                                     <path fill="currentColor"
@@ -301,7 +309,8 @@
                                         </form>
                                     </div>
                                     <div class="col-md-auto">
-                                        <button class="btn dupliquer-composant" id="dupliquer-composant-{{ composant.id }}" type="button">
+                                        <button class="btn dupliquer-composant"
+                                                id="dupliquer-composant-{{ composant.id }}" type="button">
 
                                             <svg viewBox="0 0 18 18" focusable="false" class="action-button">
                                                 <path fill="currentColor"
@@ -345,7 +354,7 @@
         $('.dupliquer-composant').click(function () {
 
             $('.modal-composant').remove();
-            let path = "/affaire/bibliothequeDePrix/modal/composant/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-composant-','');
+            let path = "/affaire/bibliothequeDePrix/modal/composant/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-composant-', '');
             $.post(path, function (data) {
                 $('body').append(JSON.parse(data).message);
                 $("#modal-composant-dupliquer").modal('show');
@@ -356,7 +365,7 @@
         $('.dupliquer-ouvrage').click(function () {
 
             $('.modal-ouvrage').remove();
-            let path = "/affaire/bibliothequeDePrix/modal/ouvrage/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-ouvrage-','');
+            let path = "/affaire/bibliothequeDePrix/modal/ouvrage/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-ouvrage-', '');
             $.post(path, function (data) {
                 $('body').append(JSON.parse(data).message);
                 $("#modal-ouvrage-dupliquer").modal('show');

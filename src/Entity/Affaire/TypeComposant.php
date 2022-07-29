@@ -24,6 +24,9 @@ class TypeComposant
     #[ORM\OneToMany(mappedBy: 'typeComposant', targetEntity: Composant::class)]
     private $composants;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $couleurText;
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
@@ -84,6 +87,18 @@ class TypeComposant
                 $composant->setTypeComposant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCouleurText(): ?string
+    {
+        return $this->couleurText;
+    }
+
+    public function setCouleurText(?string $couleurText): self
+    {
+        $this->couleurText = $couleurText;
 
         return $this;
     }
