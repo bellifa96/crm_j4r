@@ -30,6 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     use TimesTrait;
+    use AdresseTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
