@@ -271,7 +271,7 @@
 
                         {% for composant in ouvrage.composants %}
                             <tr class="pointer">
-                                <td><span class="badge badge-pill"  style="background:{{ composant.typeComposant.couleur }};">{{ composant.typeComposant.titre }}</span></td>
+                                <td><span class="badge badge-pill"  style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">{{ composant.typeComposant.titre }}</span></td>
                                 <td>{{ composant.code }}</td>
                                 <td>{{ composant.intitule }}</td>
                                 <td>{{ composant.unite }}</td>

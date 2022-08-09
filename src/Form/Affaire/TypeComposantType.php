@@ -15,6 +15,7 @@ class TypeComposantType extends AbstractType
         $builder
             ->add('titre')
             ->add('couleur',ColorType::class)
+            ->add('couleurText',ColorType::class)
         ;
     }
 

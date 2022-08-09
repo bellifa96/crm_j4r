@@ -277,7 +277,7 @@
                         <tr class="pointer">
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">
                                 <span class="badge badge-pill"
-                                      style="background:{{ composant.typeComposant.couleur }};">{{ composant.typeComposant.titre }}</span>
+                                      style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">{{ composant.typeComposant.titre }}</span>
                             </td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.code }}</td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.intitule }}</td>
