@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Demande;
 use App\Entity\Interlocuteur\Interlocuteur;
 use App\Entity\User;
+use App\Form\Interlocuteur\SocieteAutocompleteField;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -88,30 +89,9 @@ class DemandeType extends AbstractType
                 'expanded' => true,
                 'multiple' => false
             ])
-            ->add('client', EntityType::class, [
-                    'class' => Interlocuteur::class,
-
-                    'choice_label' => function ($interlocuteur) {
-                        return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
-                    },
-                    'placeholder' => '--Veuillez choisir un client--'
-                ]
-            )
-            ->add('intermediaire', EntityType::class, [
-                    'class' => Interlocuteur::class,
-                    'required' => false,
-                    'choice_label' => function ($interlocuteur) {
-                        return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
-                    }
-                ]
-            )
-            ->add('maitreDOuvrage', EntityType::class, [
-                'class' => Interlocuteur::class,
-                'required' => false,
-                'choice_label' => function ($interlocuteur) {
-                    return !empty($interlocuteur->getSociete()) ? $interlocuteur->getSociete()->getRaisonSociale() : $interlocuteur->getPersonne()->getNom();
-                }
-            ])
+            ->add('client', SocieteAutocompleteField::class)
+            ->add('intermediaire',SocieteAutocompleteField::class)
+            ->add('maitreDOuvrage', SocieteAutocompleteField::class)
             ->add('pays', ChoiceType::class, [
                 'choices' => [
                     "Afrique du Sud" => "Afrique du Sud",
