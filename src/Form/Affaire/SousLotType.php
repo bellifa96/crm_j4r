@@ -13,6 +13,7 @@ class SousLotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('code')
             ->add('titre')
             ->add('ouvrages',CollectionType::class,[
                 'entry_type'=>OuvrageType::class

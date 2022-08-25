@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div class="modal fade modal-devis" id="modal-devis" tabindex="-1" aria-labelledby="modal-devis-label"
+     aria-hidden="true"
+     style="color: #486178;">
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content">
+            <form method="post" action="{{ path('app_affaire_devis_new',{'id':demande.id}) }}" name="devis_titre">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-ouvrage-label">Créer un nouveau devis pour la demande
+                        N°{{ demande.reference }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>
+                        Veuillez définir un nom pour le devis
+                    </h6>
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <label class="labels" for="devis_nom">Nom</label>
+                            <input type="text" id="devis_nom" name="devis[nom]" class="col-md-12 form-control"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                        <button type="submit" class="btn btn-primary">Suivant</button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

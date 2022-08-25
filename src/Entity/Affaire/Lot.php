@@ -35,7 +35,7 @@ class Lot
     #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'lots')]
     private $devis;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
 
     public function __construct()
@@ -114,12 +114,12 @@ class Lot
         return $this;
     }
 
-    public function getCode(): ?int
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setCode(int $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 

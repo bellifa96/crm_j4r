@@ -17,8 +17,9 @@
                     {% if link[3] is defined and link[3] is empty %}
                     target="_blank"
                     {% endif %}
-
+                    id="{{ link[2]|replace({' ':'-'}) }}"
                     class="btn btn-info btn-sm">{{ link[2] |trans }}
+
                 {% else %}
                     href="
                     {% if link[2] is defined and link[2] is not empty %}
@@ -35,6 +36,7 @@
                     target="_blank"
                     {% endif %}
 
+                    id="{{ link[1]|replace({' ':'-'}) }}"
                     class="btn btn-info btn-sm">{{ link[1] |trans }}
                 {% endif %}
             </a>

@@ -296,9 +296,9 @@
             transition: 0.5s ease-in-out;
         }
 
-        input:hover,
-        input:focus,
-        input:active {
+        .chatin:hover,
+        .chatin:focus,
+        .chatin:active {
             outline: none !important;
             border-top: 0.125rem solid #e91e63;
         }
@@ -868,7 +868,7 @@
                         <div class="sendBox row">
                             <div class="col-md-10">
                                 <input type="text" placeholder="écrire un commentaire métré" name="message_metre"
-                                       class="">
+                                       class="chatin">
                             </div>
                             <div class="col-md-2">
                                 <button class="button message-submit" style="background: transparent; border: none;"
@@ -904,7 +904,7 @@
                         </div>
                         <div class="sendBox row">
                             <div class="col-md-10">
-                                <input type="text" placeholder="écrire un commentaire client" name="message_client">
+                                <input type="text" placeholder="écrire un commentaire client" name="message_client" class="chatin">
                             </div>
                             <div class="col-md-2">
                                 <button class="button message-submit" style="background: transparent; border: none;"
@@ -938,7 +938,7 @@
                         </div>
                         <div class="sendBox row">
                             <div class="col-md-10">
-                                <input type="text" placeholder="écrire un commentaire aprés négociation"
+                                <input type="text" placeholder="écrire un commentaire aprés négociation" class="chatin"
                                        name="message_negociation">
                             </div>
                             <div class="col-md-2">
@@ -1114,7 +1114,22 @@
     <script>
 
 
-        $('.page-head ul').append("<li> <a href='#'  id='transferer' data-toggle='modal' data-target='#transferer+'  class='btn btn-info btn-sm mr-1'>transférer </a> </li>");
+        $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Devis + </a> </li>");
+
+
+
+        $('#devis-add').click(function () {
+
+            $('#modal-devis').remove();
+            let path = "{{ path('app_affaire_devis_modal_titre',{'id':demande.id}) }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-devis").modal('show');
+
+            })
+        })
+
+
 
         $('#transferer').click(function () {
 

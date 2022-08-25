@@ -160,7 +160,6 @@ class PretController extends AbstractController
     public function validate(Pret $pret, PretRepository $pretRepository, Request $request)
     {
 
-
         $pret->setStatut("Rendu");
         $pretRepository->add($pret);
         $route = $request->headers->get('referer');

@@ -302,3 +302,38 @@ body .page-head ul li {
     right: 0;
     background-color: #0e4377;
 }
+
+
+.chakra-input {
+    width: 100%;
+    min-width: 0px;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    position: relative;
+    appearance: none;
+    font-size: 1rem;
+    padding-inline: 0px;
+    height: 1.8rem;
+    border-radius: 0px;
+    border: 0px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: #d9e2ec;
+    background: #00000000;
+    color: #486581;
+    opacity: 1;
+
+}
+
+.chakra-input:focus {
+    border-color: #109cf1;
+}
+
+.chakra-input:focus-visible {
+    border-color: rgb(16, 156, 241);
+    border-top-color: rgb(16, 156, 241);
+    border-right-color: #109cf1;
+    border-bottom-color: rgb(16, 156, 241);
+    border-left-color: rgb(16, 156, 241);
+    box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
+}

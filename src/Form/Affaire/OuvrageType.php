@@ -12,7 +12,7 @@ class OuvrageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
+            ->add('denomination')
             ->add('typeDOuvrage')
             ->add('prixUnitaireDebourse')
             ->add('quantiteDOuvrage')

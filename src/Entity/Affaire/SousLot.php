@@ -31,6 +31,9 @@ class SousLot
     #[ORM\OneToMany(mappedBy: 'sousLot', targetEntity: Ouvrage::class)]
     private $ouvrages;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $code;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -91,6 +94,18 @@ class SousLot
                 $ouvrage->setSousLot(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
