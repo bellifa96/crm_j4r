@@ -17,12 +17,12 @@
                                     <h4>{{ user.firstname~" "~user.lastname }}</h4>
                                     <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : "" }} {{ user.service ? user.service.titre : "" }}</p>
                                     <p class="text-muted font-size-sm">
-                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
                                             {{ user.adresse1~", "~user.codePostal~" "~user.ville }}
                                         {% endif %}
                                     </p>
-                                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
-                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles  %}
+                                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles  %}
                                             <a href="{{ path('app_user_edit',{'id':user.id}) }}">
                                                 <button class="btn btn-primary">Modifier</button>
                                             </a>
@@ -45,7 +45,7 @@
                                 </h6>
                                 <span class="text-secondary">{{ user.telephone }}</span>
                             </li>
-                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">
@@ -66,7 +66,7 @@
                                     </a>
                                 </span>
                             </li>
-                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">
                                         <i class="bi bi-envelope"></i>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
 
-                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
 
                         <div class="row gutters-sm">
                             <div class="col-sm-6 mb-3">
