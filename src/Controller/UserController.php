@@ -123,9 +123,9 @@ class UserController extends AbstractController
     public function show(User $user,Request $request,UserRepository $userRepository,UserPasswordHasherInterface $passwordHasher): Response
     {
 
-        if($user !== $this->getUser() and !$this->isGranted("ROLE_ADMIN")){
+      /*  if($user !== $this->getUser() and !$this->isGranted("ROLE_ADMIN")){
             return $this->redirectToRoute('app_user_show', ['id'=>$this->getUser()->getId()], Response::HTTP_SEE_OTHER);
-        }
+        }*/
 
         $form = $this->createForm(UpdatePasswordType::class, $user);
         $form->handleRequest($request);
