@@ -8,6 +8,7 @@ use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Transport;
 use App\Entity\Conversation\Message;
 use App\Entity\Entite\Depot;
+use App\Entity\Entite\Entite;
 use App\Entity\Ged\Fichier;
 use App\Entity\User\Poste;
 
@@ -138,6 +139,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $signatureM;
+
+    #[ORM\ManyToOne(targetEntity: Entite::class, inversedBy: 'users')]
+    private $entite;
 
 
     public function __construct()
@@ -822,6 +826,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSignatureM(?string $signatureM): self
     {
         $this->signatureM = $signatureM;
+
+        return $this;
+    }
+
+    public function getEntite(): ?Entite
+    {
+        return $this->entite;
+    }
+
+    public function setEntite(?Entite $entite): self
+    {
+        $this->entite = $entite;
 
         return $this;
     }

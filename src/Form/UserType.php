@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Entite\Entite;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Workflow\Event\EnteredEvent;
 
 class UserType extends AbstractType
 {
@@ -46,6 +48,21 @@ class UserType extends AbstractType
                 "data_class" => null,
                 "required" => false,
             ])
+
+            ->add('entite', EntityType::class, [
+                'class' => Entite::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.nom', 'ASC');
+                },
+                'choice_label' => function (Entite $enite) {
+                    return $enite->getNom()." - ".$enite->getAdresse1().", ".$enite->getCodePostal()." ".$enite->getVille();
+                },
+                'required' => false,
+                'placeholder' => 'Choisir une entité J4R',
+
+            ])
+
             ->add('service', EntityType::class, [
                 'class' => User\Service::class,
                 'query_builder' => function (EntityRepository $er) {

@@ -78,7 +78,7 @@
                 <div class="col-md-12  mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
-                            Téléphone
+                            Téléphone fixe
                         </div>
                         <div class="col-md-9">
                             {{ form_widget(form.telephone,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','placeholder':'Téléphone'}}) }}
@@ -113,6 +113,16 @@
                         </div>
                         <div class="col-md-9">
                             {{ form_widget(form.matricule,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            J4R
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.entite,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
                         </div>
                     </div>
                 </div>
@@ -280,6 +290,10 @@
             </div>
         </div>
 
+
+        <button class="btn btn-j4r mb-4">{{ button_label|default('Enregistrer') }}</button>
+
+
         {% if user.signature is not empty %}
 
             <div class="col-sm-12 mb-3">
@@ -328,7 +342,6 @@
     </div>
 
 
-    <button class="btn btn-j4r">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
 
 </div>

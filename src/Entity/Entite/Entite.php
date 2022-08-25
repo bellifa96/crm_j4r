@@ -4,6 +4,7 @@ namespace App\Entity\Entite;
 
 use App\Entity\AdresseTrait;
 use App\Entity\TimesTrait;
+use App\Entity\User;
 use App\Repository\Entite\EntiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -44,9 +45,13 @@ class Entite
     #[ORM\OneToMany(mappedBy: 'entite', targetEntity: SousEntite::class)]
     private $sousEntites;
 
+    #[ORM\OneToMany(mappedBy: 'entite', targetEntity: User::class)]
+    private $users;
+
     public function __construct()
     {
         $this->sousEntites = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +167,36 @@ class Entite
             // set the owning side to null (unless already changed)
             if ($sousEntite->getEntite() === $this) {
                 $sousEntite->setEntite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setEntite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getEntite() === $this) {
+                $user->setEntite(null);
             }
         }
 

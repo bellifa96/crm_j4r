@@ -19,6 +19,7 @@ class EntiteController extends AbstractController
         return $this->render('entite/entite/index.html.twig', [
             'entites' => $entiteRepository->findAll(),
             'title'  => 'Entité',
+            'nav'=>[],
         ]);
     }
 
@@ -38,6 +39,7 @@ class EntiteController extends AbstractController
             'entite' => $entite,
             'form' => $form,
             'title'  => 'Entité',
+            'nav'=>[],
         ]);
     }
 
@@ -47,6 +49,8 @@ class EntiteController extends AbstractController
         return $this->render('entite/entite/show.html.twig', [
             'entite' => $entite,
             'title'  => 'Entité',
+            'nav'=>[],
+
         ]);
     }
 
@@ -65,6 +69,8 @@ class EntiteController extends AbstractController
             'entite' => $entite,
             'form' => $form,
             'title'  => 'Entité',
+            'nav'=>[],
+
         ]);
     }
 
