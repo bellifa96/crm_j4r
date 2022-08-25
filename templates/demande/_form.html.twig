@@ -531,11 +531,11 @@
         })
     });
 
-    $("#demande_client").change(function () {
+    $("#demande_client_autocomplete").change(function () {
         $('.contact-client').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
         $.post(path, {
-            id: $("#demande_client").val(),
+            id: $("#demande_client_autocomplete").val(),
             demande: "{{ demande.id is not empty ? demande.id : '' }}",
             role: "client"
         }, function (data) {
@@ -549,7 +549,7 @@
                          </div>`;
             data = JSON.parse(data);
             if (data.length > 0) {
-                $(div).insertAfter($("#demande_client").parent().parent());
+                $(div).insertAfter($("#demande_client_autocomplete").parent().parent());
                 data.forEach((value, key) => {
                     $('#demande_contact_principal_client').append($('<option>', {
                         value: value.id,
@@ -560,11 +560,11 @@
         })
     });
 
-    $("#demande_maitreDOuvrage").change(function () {
+    $("#demande_maitreDOuvrage_autocomplete").change(function () {
         $('.contact-maitre-douvrage').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
         $.post(path, {
-            id: $("#demande_maitreDOuvrage").val(),
+            id: $("#demande_maitreDOuvrage_autocomplete").val(),
             demande: "{{ demande.id is not empty ? demande.id : '' }}",
             role: "maitreDOuvrage"
         }, function (data) {
@@ -579,7 +579,7 @@
             data = JSON.parse(data);
             if (data.length > 0) {
                 console.log(data),
-                    $(div).insertAfter($("#demande_maitreDOuvrage").parent().parent());
+                    $(div).insertAfter($("#demande_maitreDOuvrage_autocomplete").parent().parent());
                 data.forEach((value, key) => {
                     $('#demande_contact_principal_maitre_douvrage').append($('<option>', {
                         value: value.id,
@@ -590,11 +590,11 @@
         })
     });
 
-    $("#demande_intermediaire").change(function () {
+    $("#demande_intermediaire_autocomplete").change(function () {
         $('.contact-intermediaire').remove();
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
         $.post(path, {
-            id: $("#demande_intermediaire").val(),
+            id: $("#demande_intermediaire_autocomplete").val(),
             demande: "{{ demande.id is not empty ? demande.id : '' }}",
             role: "intermediaire"
         }, function (data) {
@@ -608,7 +608,7 @@
                          </div>`;
             data = JSON.parse(data);
             if (data.length > 0) {
-                $(div).insertAfter($("#demande_intermediaire").parent().parent());
+                $(div).insertAfter($("#demande_intermediaire_autocomplete").parent().parent());
                 data.forEach((value, key) => {
                     $('#demande_contact_principal_intermediaire').append($('<option>', {
                         value: value.id,
@@ -619,12 +619,12 @@
         })
     });
 
-    $("#demande_client, #demande_maitreDOuvrage, #demande_intermediaire").change(function () {
+    $("#demande_client_autocomplete, #demande_maitreDOuvrage_autocomplete, #demande_intermediaire_autocomplete").change(function () {
         var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
         let param = {
-            idClient: $("#demande_client").val(),
-            idMaitreOuvrage: $("#demande_maitreDOuvrage").val(),
-            idIntermediaire: $("#demande_intermediaire").val(),
+            idClient: $("#demande_client_autocomplete").val(),
+            idMaitreOuvrage: $("#demande_maitreDOuvrage_autocomplete").val(),
+            idIntermediaire: $("#demande_intermediaire_autocomplete").val(),
             demande: "{{ demande.id }}"
         }
         $.post(path, param, function (data) {
