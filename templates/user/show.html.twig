@@ -45,6 +45,13 @@
                                 </h6>
                                 <span class="text-secondary">{{ user.telephone }}</span>
                             </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-telephone-fill"></i>
+                                    Téléphone Fixe
+                                </h6>
+                                <span class="text-secondary">{{ user.telephoneFixe }}</span>
+                            </li>
                             {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">

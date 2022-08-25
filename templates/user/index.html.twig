@@ -28,6 +28,8 @@
                                 <th>ID</th>
                                 <th>Utilisateur</th>
                                 <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Tel fixe</th>
                                 <th>Statut</th>
 
                                 <th>Roles</th>
@@ -50,6 +52,9 @@
                                         </a>
                                     </td>
                                     <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                    <td>{{ user.telephone }}</td>
+                                    <td>{{ user.telephoneFixe }}</td>
+
                                     <td>
                                         {% if user.isActif %}
                                             <span class="label label-success"> Connecté	</span>
