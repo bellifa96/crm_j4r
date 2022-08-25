@@ -243,7 +243,9 @@ $(function () {
         },
         language: {
             searchPlaceholder: "Chercher"
-        }
+        },
+        order: [[0, 'desc']],
+
     });
 
 
