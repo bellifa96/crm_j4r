@@ -148,6 +148,8 @@ class UserController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
     {
         $photo = $user->getPhoto();
