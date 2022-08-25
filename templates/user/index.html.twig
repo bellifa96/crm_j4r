@@ -42,7 +42,11 @@
                             <tbody>
                             {% for user in users %}
                                 <tr>
-                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.id }}
+                                        {% if user.linkdin is not empty %}
+                                            <span> <a href="{{ user.linkdin }}" target="_blank"><i class="bi bi-linkedin" style="font-size: 20px;"></i> </a> </span>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="{{ path('app_user_show',{'id':user.id}) }}" style="color: #555;">
                                             <div class="user_icon">

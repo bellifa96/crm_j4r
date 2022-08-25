@@ -15,6 +15,11 @@
                                      width="150">
                                 <div class="mt-3">
                                     <h4>{{ user.firstname~" "~user.lastname }}</h4>
+                                    <p class="p-0">
+                                        {% if user.linkdin is not empty %}
+                                            <span> <a href="{{ user.linkdin }}" target="_blank"><i class="bi bi-linkedin" style="font-size: 25px;"></i> </a> </span>
+                                        {% endif %}
+                                    </p>
                                     <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : "" }} {{ user.service ? user.service.titre : "" }}</p>
                                     <p class="text-muted font-size-sm">
                                         {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}

@@ -146,6 +146,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $telephoneFixe;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $linkdin;
+
 
     public function __construct()
     {
@@ -853,6 +856,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephoneFixe(?string $telephoneFixe): self
     {
         $this->telephoneFixe = $telephoneFixe;
+
+        return $this;
+    }
+
+    public function getLinkdin(): ?string
+    {
+        return $this->linkdin;
+    }
+
+    public function setLinkdin(?string $linkdin): self
+    {
+        $this->linkdin = $linkdin;
 
         return $this;
     }

@@ -31,6 +31,8 @@ class UserType extends AbstractType
                 'required'=>false,
             ])
             ->add('telephone')
+            ->add('linkdin')
+
             ->add('telephoneFixe')
             ->add('telephoneMobile')
             ->add('matricule')
