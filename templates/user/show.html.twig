@@ -22,7 +22,7 @@
                                         {% endif %}
                                     </p>
                                     {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
-                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" %}
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles  %}
                                             <a href="{{ path('app_user_edit',{'id':user.id}) }}">
                                                 <button class="btn btn-primary">Modifier</button>
                                             </a>
