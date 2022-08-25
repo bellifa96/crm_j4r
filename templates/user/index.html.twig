@@ -30,7 +30,10 @@
                                 <th>Email</th>
                                 <th>Statut</th>
                                 <th>Roles</th>
-                                <th>Action</th>
+                                {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles %}
+
+                                    <th>Action</th>
+                                {% endif %}
                             </tr>
                             </thead>
                             <tbody>
@@ -54,8 +57,9 @@
                                         {% endif %}
                                     </td>
                                     <td> {{ user.roles|join('|') }}</td>
-                                    <td>
-                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles %}
+                                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles %}
+
+                                        <td>
 
                                             <ul class="action-list row">
                                                 <li class="col-md-5">
@@ -76,8 +80,9 @@
                                                             class="btn">
                                                         <i class="bi bi-pencil-square"></i></a></li>
                                             </ul>
-                                        {% endif %}
-                                    </td>
+                                        </td>
+                                    {% endif %}
+
                                 </tr>
                             {% endfor %}
                             </tbody>
