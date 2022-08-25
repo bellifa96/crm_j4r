@@ -239,7 +239,7 @@ class DemandeType extends AbstractType
             ]);
 
 
-        if (!empty($options['data']->getId())) {
+        if (!empty($options['data']->getId()) ) {
             $builder->add('createur', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -247,7 +247,6 @@ class DemandeType extends AbstractType
                         ->orderBy('u.firstname', 'ASC');
                 },
                 'choice_label' => 'firstname',
-
             ]);
         }
     }
