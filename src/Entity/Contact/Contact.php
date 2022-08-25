@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {
-    use AdresseTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

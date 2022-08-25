@@ -31,14 +31,13 @@ class ContactType extends AbstractType
             ->add('telephone')
             ->add('dateAnniversaire')
             ->add('commentaire')
-            ->add('lienLinkedin',TextType::class,[
-                'required'=>false,
+            ->add('lienLinkedin', TextType::class, [
+                'required' => false,
             ])
-
             ->add('photo', FileType::class, [
                 'mapped' => false,
 
-                'required'=>false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -50,7 +49,7 @@ class ContactType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image',
                     ])
                 ],
-                'data_class'=> null
+                'data_class' => null
             ])
             ->add('genre', ChoiceType::class, [
                 'choices' => [
@@ -67,7 +66,7 @@ class ContactType extends AbstractType
                 'choice_label' => 'titre',
             ])
             ->add('fonction')
-            ->add('adresse1', TextType::class, [
+            /* ->add('adresse1', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Adresse required',
                     'class' => 'societe-form'
@@ -218,7 +217,9 @@ class ContactType extends AbstractType
                     'placeholder' => 'Pays',
                     'class' => 'societe-form  required'
                 ]
-            ]);;
+            ])*/
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
