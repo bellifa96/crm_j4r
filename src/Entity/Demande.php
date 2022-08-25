@@ -297,6 +297,7 @@ class Demande
         $this->ged = new ArrayCollection();
         $this->faireUnReleve = false;
         $this->faireUnDevis = false;
+        $this->date = date('m/d/Y');
     }
 
     public function getId(): ?int
