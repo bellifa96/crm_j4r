@@ -20,10 +20,19 @@
         </ul>
     {% endif %}
 
+    {% if user.photo is not empty %}
+
+        <img src="{{ asset('./uploads/photo/'~user.photo) }}" alt="Admin" class="rounded-circle"
+             width="50">
+
+    {% endif %}
+
     {{ form_start(form,{'attr':{"id":"dropzone"}}) }}
 
 
     <div class="col-md-12 ">
+
+
         <div class="row">
             <div class="col-md-6">
                 <div class="col-md-12 mb-3">
@@ -290,6 +299,24 @@
 
                                 src="{{ asset('uploads/signature/'~user.signature) }}"
                         ></iframe>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% if user.signatureM is not empty %}
+
+            <div class="col-sm-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header text-center fw-bold">
+                        Signature document
+                    </div>
+                    <div class="card-body">
+                        <img id="inlineFrameExample" style="width: 100%;"
+
+                                src="{{ asset('uploads/signatureM/'~user.signatureM) }}"
+                        >
                     </div>
                 </div>
             </div>
