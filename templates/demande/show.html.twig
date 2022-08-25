@@ -361,7 +361,7 @@
                     </div>
                     <div class="col-md-9 form-control-sm-2">
 
-                        {% if demande.contactPrincipalClient is not empty  %}
+                        {% if demande.contactPrincipalClient is not empty %}
                             <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalClient.id}) }}">
                                 {{ demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom }}
                             </a>
@@ -386,7 +386,13 @@
                             <label class="labels required">Contact Principal maitre d'ouvrage</label>
                         </div>
                         <div class="col-md-9 form-control-sm-2">
-                            {{ demande.contactPrincipalMaitreDOuvrage is not empty ? demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom : "NC" }}
+                            {% if demande.contactPrincipalMaitreDOuvrage is not empty %}
+                                <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalMaitreDOuvrage.id}) }}">
+                                    {{ demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom }}
+                                </a>
+                            {% else %}
+                                NC
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
@@ -419,7 +425,10 @@
                         </div>
                         <div class="col-md-9 bg-leasy">
                             {% for contact in demande.contactsSecondaires %}
-                                {{ contact.nom~" "~contact.prenom }}<br>
+                                <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">
+                                    {{ contact.nom~" "~contact.prenom }}
+                                </a>
+                                <br>
                             {% endfor %}
                         </div>
                     </div>
