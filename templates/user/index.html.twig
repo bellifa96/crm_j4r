@@ -14,7 +14,8 @@
                             <div class="col col-sm-5 col-xs-12">
                                 <h4 class="title">Utilisateurs</h4>
                             </div>
-                            {# <div class="col-sm-7 col-xs-12 text-end">
+                            {#
+                            <div class="col-sm-7 col-xs-12 text-end">
                                 <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-user"></i> CRM </a>
                             </div>
                             #}
@@ -54,6 +55,8 @@
                                     </td>
                                     <td> {{ user.roles|join('|') }}</td>
                                     <td>
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" %}
+
                                         <ul class="action-list row">
                                             <li class="col-md-5">
                                                 {% if user.locked %}
@@ -72,6 +75,7 @@
                                                                     class="btn">
                                                     <i class="bi bi-pencil-square"></i></a></li>
                                         </ul>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
