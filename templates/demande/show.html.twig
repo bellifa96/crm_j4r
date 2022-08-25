@@ -413,7 +413,13 @@
                             <label class="labels required">Contact Principal intermédiaire</label>
                         </div>
                         <div class="col-md-9 form-control-sm-2">
-                            {{ demande.contactPrincipalClient is not empty ? demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom : "NC" }}
+                            {% if demande.contactPrincipalIntermediaire is not empty %}
+                                <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalIntermediaire.id}) }}">
+                                    {{ demande.contactPrincipalIntermediaire.nom~" "~demande.contactPrincipalIntermediaire.prenom }}
+                                </a>
+                            {% else %}
+                                NC
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
