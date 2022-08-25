@@ -242,7 +242,7 @@ class UserController extends AbstractController
     }
 
     #[Route("/locked/{id}", name: "user_locked")]
-    // #[Security("is_granted('ROLE_ADMIN')")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function locked(Request $request, User $user, UserRepository $userRepository)
     {
         if ($user) {
