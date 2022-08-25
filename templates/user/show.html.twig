@@ -140,10 +140,10 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">adresse</h6>
+                                    <h6 class="mb-0">Adresse</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                     {{ user.entite is not empty ? user.entite.adresse1~", "~user.entite.codePostal~" "~user.entite.ville : "NC" }}
+                                     {{ user.entite is not empty ? user.entite.nom~" "~user.entite.adresse1~", "~user.entite.codePostal~" "~user.entite.ville : "NC" }}
                                 </div>
                             </div>
                             <hr>
