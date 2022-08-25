@@ -78,16 +78,6 @@
                 <div class="col-md-12  mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
-                            Email Perso
-                        </div>
-                        <div class="col-md-9">
-                            {{ form_widget(form.emailPerso,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','placeholder':'Email Perso'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12  mb-3">
-                    <div class="row">
-                        <div class="col-md-3 text-end fw-bold">
                             Téléphone
                         </div>
                         <div class="col-md-9">
@@ -95,16 +85,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12  mb-3">
+                <div class="col-md-12 mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
-                            Téléphone Perso
+                            Service
                         </div>
                         <div class="col-md-9">
-                            {{ form_widget(form.telephoneMobile,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','placeholder':'Téléphone Perso'}}) }}
+                            {{ form_widget(form.service,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Fonction
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.poste,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Matricule
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.matricule,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="col-md-12 mb-3">
                     <div class="row">
@@ -139,6 +151,27 @@
                 </div>
             </div>
             <div class="col-md-6">
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Email Perso
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.emailPerso,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','placeholder':'Email Perso'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12  mb-3">
+                    <div class="row">
+                        <div class="col-md-3 text-end fw-bold">
+                            Téléphone Perso
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_widget(form.telephoneMobile,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off','placeholder':'Téléphone Perso'}}) }}
+                        </div>
+                    </div>
+                </div>
+
                 {% if form.password is defined %}
                     <div class="col-md-12 mb-3">
                         <div class="row">
@@ -160,16 +193,7 @@
                         </div>
                     </div>
                 {% endif %}
-                <div class="col-md-12 mb-3">
-                    <div class="row">
-                        <div class="col-md-3 text-end fw-bold">
-                            Service
-                        </div>
-                        <div class="col-md-9">
-                            {{ form_widget(form.service,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-md-12 mb-3">
                     <div class="row">
                         <div class="col-md-3 text-end fw-bold">
@@ -218,37 +242,6 @@
                         </div>
                         <div class="col-md-9">
                             {{ form_widget(form.pays,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12  mb-3">
-                    <div class="row">
-                        <div class="col-md-3 text-end fw-bold">
-                            Fonction
-                        </div>
-                        <div class="col-md-9">
-                            {{ form_widget(form.poste,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12  mb-3">
-                    <div class="row">
-                        <div class="col-md-3 text-end fw-bold">
-                            Matricule
-                        </div>
-                        <div class="col-md-9">
-                            {{ form_widget(form.matricule,{'attr':{'class':'form-control form-control-sm-2','autocomplete':'off'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12  mb-3">
-                    <div class="row">
-                        <div class="col-md-3 text-end fw-bold ">
-                            Fixe
-                        </div>
-                        <div class="col-md-9">
-                            <input type="number" class="form-control form-control-sm-2">
                         </div>
                     </div>
                 </div>
