@@ -44,7 +44,7 @@ class Demande
     private $commentaire;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $nomChantier;
 
     #[Gedmo\Versioned]
@@ -297,7 +297,7 @@ class Demande
         $this->ged = new ArrayCollection();
         $this->faireUnReleve = false;
         $this->faireUnDevis = false;
-        $this->date = date('m/d/Y');
+        $this->date = date('d/m/Y');
     }
 
     public function getId(): ?int
@@ -346,7 +346,7 @@ class Demande
         return $this->nomChantier;
     }
 
-    public function setNomChantier(string $nomChantier): self
+    public function setNomChantier(?string $nomChantier): self
     {
         $this->nomChantier = $nomChantier;
 

@@ -20,7 +20,9 @@ class DemandeType extends AbstractType
     {
         $builder
             ->add('commentaire')
-            ->add('nomChantier')
+            ->add('nomChantier', TextType::class, [
+                'required' => true,
+            ])
             ->add('reference', TextType::class, [
                 'required' => false,
             ])

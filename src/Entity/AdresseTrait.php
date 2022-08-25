@@ -9,19 +9,19 @@ use Doctrine\ORM\Mapping as ORM;
 Trait AdresseTrait
 {
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $adresse1;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $adresse2;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $ville;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $codePostal;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $pays;
 
 
@@ -30,7 +30,7 @@ Trait AdresseTrait
         return $this->adresse1;
     }
 
-    public function setAdresse1(string $adresse1): self
+    public function setAdresse1(?string $adresse1): self
     {
         $this->adresse1 = $adresse1;
 
@@ -45,7 +45,6 @@ Trait AdresseTrait
     public function setAdresse2(?string $adresse2): self
     {
         $this->adresse2 = $adresse2;
-
         return $this;
     }
 
@@ -54,7 +53,7 @@ Trait AdresseTrait
         return $this->ville;
     }
 
-    public function setVille(string $ville): self
+    public function setVille(?string $ville): self
     {
         $this->ville = $ville;
 
@@ -66,7 +65,7 @@ Trait AdresseTrait
         return $this->codePostal;
     }
 
-    public function setCodePostal(string $codePostal): self
+    public function setCodePostal(?string $codePostal): self
     {
         $this->codePostal = $codePostal;
 
@@ -78,7 +77,7 @@ Trait AdresseTrait
         return $this->pays;
     }
 
-    public function setPays(string $pays): self
+    public function setPays(?string $pays): self
     {
         $this->pays = $pays;
 
