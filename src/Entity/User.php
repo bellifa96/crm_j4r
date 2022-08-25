@@ -143,6 +143,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Entite::class, inversedBy: 'users')]
     private $entite;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telephoneFixe;
+
 
     public function __construct()
     {
@@ -838,6 +841,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEntite(?Entite $entite): self
     {
         $this->entite = $entite;
+
+        return $this;
+    }
+
+    public function getTelephoneFixe(): ?string
+    {
+        return $this->telephoneFixe;
+    }
+
+    public function setTelephoneFixe(?string $telephoneFixe): self
+    {
+        $this->telephoneFixe = $telephoneFixe;
 
         return $this;
     }

@@ -31,6 +31,7 @@ class UserType extends AbstractType
                 'required'=>false,
             ])
             ->add('telephone')
+            ->add('telephoneFixe')
             ->add('telephoneMobile')
             ->add('matricule')
             ->add('pseudo')

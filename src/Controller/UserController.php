@@ -154,6 +154,7 @@ class UserController extends AbstractController
     {
         $photo = $user->getPhoto();
         $signatureOld = $user->getSignature();
+        $signatureMOld = $user->getSignatureM();
 
 
         $form = $this->createForm(UserType::class, $user);
@@ -217,6 +218,9 @@ class UserController extends AbstractController
                 }
 
                 $user->setSignatureM($newFilename);
+            }
+            else {
+                $user->setSignatureM($signatureMOld);
             }
 
             $userRepository->add($user);
