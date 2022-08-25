@@ -120,6 +120,39 @@
                             </div>
                         </div>
 
+                        {% if contact.societe.societe is not empty %}
+                            {% set societe = contact.societe.societe %}
+                        {% else %}
+                            {% set societe = contact.societe.personne %}
+                        {% endif %}
+
+
+                        <div class="col-md-12"><label class="labels">Adresse 1</label>
+                            <div class=" form-control-sm-2 text-center">
+                                {{ societe.adresse1 }}
+                            </div>
+                        </div>
+                        <div class="col-md-12"><label class="labels">Complément d'adresse</label>
+                            <div class=" form-control-sm-2 text-center">
+                                {{ societe.adresse2 }}
+                            </div>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Code postal</label>
+                            <div class=" form-control-sm-2 text-center">
+                                {{ societe.codePostal }}
+                            </div>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Ville</label>
+                            <div class=" form-control-sm-2 text-center">
+                                {{ societe.ville }}
+                            </div>
+                        </div>
+                        <div class="col-md-12"><label class="labels">Pays</label>
+                            <div class=" form-control-sm-2 text-center">
+                                {{ societe.pays }}
+                            </div>
+                        </div>
+
                         {#
                         <div class="col-md-12"><label class="labels">Adresse 1</label>
                             <div class=" form-control-sm-2 text-center">
