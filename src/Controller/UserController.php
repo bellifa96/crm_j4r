@@ -88,6 +88,24 @@ class UserController extends AbstractController
                 $user->setSignature($newFilename);
             }
 
+            $signature = $form->get('signatureM')->getData();
+
+            if (!empty($signature)) {
+                $newFilename = $user->getId() . '.' . $signature->guessExtension();
+
+                try {
+                    $signature->move(
+                        __DIR__ . '/../../public/uploads/signatureM/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger', "La signature des documents n'a pas pu être charger ");
+                }
+
+                $user->setSignatureM($newFilename);
+            }
+
             $userRepository->add($user);
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -179,6 +197,24 @@ class UserController extends AbstractController
                 $user->setSignature($newFilename);
             } else {
                 $user->setSignature($signatureOld);
+            }
+
+            $signature = $form->get('signatureM')->getData();
+
+            if (!empty($signature)) {
+                $newFilename = $user->getId() . '.' . $signature->guessExtension();
+
+                try {
+                    $signature->move(
+                        __DIR__ . '/../../public/uploads/signatureM/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                    $this->addFlash('danger', "La signature des documents n'a pas pu être charger ");
+                }
+
+                $user->setSignatureM($newFilename);
             }
 
             $userRepository->add($user);

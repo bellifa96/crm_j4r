@@ -179,6 +179,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-12 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header text-center fw-bold">
+                                    Signature Document
+                                </div>
+                                <div class="card-body">
+                                    {% if user.signatureM is not empty %}
+                                        <img id="inlineFrameExample" style="width: 100%;"
+
+                                                src="{{ asset('uploads/signatureM/'~user.signatureM)  }}"
+                                        >
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

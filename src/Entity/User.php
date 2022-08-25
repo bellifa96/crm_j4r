@@ -136,6 +136,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Ouvrage::class)]
     private $ouvrages;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $signatureM;
+
 
     public function __construct()
     {
@@ -807,6 +810,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $ouvrage->setCreateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSignatureM(): ?string
+    {
+        return $this->signatureM;
+    }
+
+    public function setSignatureM(?string $signatureM): self
+    {
+        $this->signatureM = $signatureM;
 
         return $this;
     }

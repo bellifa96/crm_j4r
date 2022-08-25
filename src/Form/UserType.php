@@ -38,6 +38,10 @@ class UserType extends AbstractType
                 "data_class" => null,
                 "required" => false,
             ])
+            ->add('signatureM', FileType::class, [
+                "data_class" => null,
+                "required" => false,
+            ])
             ->add('photo', FileType::class, [
                 "data_class" => null,
                 "required" => false,
