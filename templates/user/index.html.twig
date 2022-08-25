@@ -55,7 +55,7 @@
                                     </td>
                                     <td> {{ user.roles|join('|') }}</td>
                                     <td>
-                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" %}
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles %}
 
                                             <ul class="action-list row">
                                                 <li class="col-md-5">
