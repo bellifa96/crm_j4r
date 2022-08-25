@@ -185,7 +185,7 @@ class DemandeController extends AbstractController
             'logs'=>$logs,
             'form' => $form->createView(),
             'title' => "Demande N° " . $demande->getReference(),
-            'nav' => [['app_affaire_devis_new', 'Transformer en devis', $demande->getId()], ['app_demande_edit', 'Modifier', $demande->getId()]]
+            'nav' => [['app_demande_edit', 'Modifier', $demande->getId()]]
         ]);
     }
 

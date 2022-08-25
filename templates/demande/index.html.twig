@@ -24,12 +24,10 @@
                 <th>Maitre d'ouvrage</th>
                 <th>Intermediaire</th>
                 <th>Date</th>
-                <th>Ville</th>
                 <th>CP</th>
-                <th>Par</th>
+                <th>Ville</th>
                 <th>Statut</th>
-                <th></th>
-                <th></th>
+                <th>Par</th>
             </tr>
             </thead>
             <tbody>
@@ -52,12 +50,10 @@
                         {% endif %}
                     </td>
                     <td>{{ demande.date }}</td>
-                    <td>{{ demande.adresse2 }}</td>
-                    <td>{{ demande.ville }}</td>
                     <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.ville }}</td>
                     <td>{{ demande.statut }}</td>
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
-                    <td></td>
 
 
                 </tr>

@@ -349,7 +349,9 @@
                         <label class="labels">Client</label>
                     </div>
                     <div class="col-md-9 form-control-sm-2">
-                        {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
+                        {% if demande.client is not empty %}
+                            {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom }}
+                        {% endif %}
                     </div>
                 </div>
 
@@ -488,21 +490,24 @@
 
         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
             <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ demande.menu is empty ? 'active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                <button class="nav-link {{ demande.menu is empty ? 'active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}"
+                        id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
                         type="button"
                         role="tab" aria-controls="details" aria-selected="true">
                     Détail demande
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'active' : '' }}" id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'active' : '' }}"
+                        id="taches-tab" data-bs-toggle="tab" data-bs-target="#taches"
                         type="button"
                         role="tab" aria-controls="taches" aria-selected="true">
                     Tâches
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'active' : '' }}" id="commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                <button class="nav-link{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'active' : '' }}"
+                        id="commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
                         type="button"
                         role="tab" aria-controls="Commentaires" aria-selected="false">
                     Commentaires
@@ -515,14 +520,16 @@
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}"
+                        id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
                         role="tab" aria-controls="ged" aria-selected="false">
                     GED
                 </button>
             </li>
 
             <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'active' : '' }}" id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'active' : '' }}"
+                        id="historique-tab" data-bs-toggle="tab" data-bs-target="#historique"
                         type="button"
                         role="tab" aria-controls="historique" aria-selected="false">
                     Historique
@@ -535,7 +542,8 @@
 
 
             <!-- Détails -->
-            <div class="tab-pane fade {{ demande.menu is empty ? 'show active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'show active' : '' }}" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <div class="tab-pane fade {{ demande.menu is empty ? 'show active' : '' }}{{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'details-tab' ? 'show active' : '' }}"
+                 id="details" role="tabpanel" aria-labelledby="details-tab">
                 <div class="page-block col-md-12 m-auto mt-4">
                     <div class="row">
                         <div class="col-md-6">
@@ -727,7 +735,8 @@
             </div>
 
             <!-- Taches -->
-            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'show active' : '' }}" id="taches" role="tabpanel" aria-labelledby="taches-tab">
+            <div class="tab-pane fade {{ demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'taches-tab' ? 'show active' : '' }}"
+                 id="taches" role="tabpanel" aria-labelledby="taches-tab">
 
                 <div class="col-md-12 m-auto mt-4">
                     <div class="card-hover-shadow-2x mb-3 card">
@@ -839,7 +848,8 @@
             </div>
 
             <!-- Commentaires -->
-            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'show active' : '' }}" id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+            <div class="tab-pane fade {{ demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'commentaires-tab' ? 'show active' : '' }}"
+                 id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
 
                 <div id="viewport" class="row">
 
@@ -904,7 +914,8 @@
                         </div>
                         <div class="sendBox row">
                             <div class="col-md-10">
-                                <input type="text" placeholder="écrire un commentaire client" name="message_client" class="chatin">
+                                <input type="text" placeholder="écrire un commentaire client" name="message_client"
+                                       class="chatin">
                             </div>
                             <div class="col-md-2">
                                 <button class="button message-submit" style="background: transparent; border: none;"
@@ -954,7 +965,8 @@
                 </div>
             </div>
             <!-- Ged -->
-            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'show active' : '' }}" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+            <div class="tab-pane fade {{ demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'ged-tab' ? 'show active' : '' }}"
+                 id="ged" role="tabpanel" aria-labelledby="ged-tab">
 
                 <div class="row mt-4 justify-content-around">
 
@@ -1053,7 +1065,8 @@
 
             </div>
             <!-- Historique -->
-            <div class="tab-pane fade {{  demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'show active' : '' }}" id="historique" role="tabpanel" aria-labelledby="historique-tab">
+            <div class="tab-pane fade {{ demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'historique-tab' ? 'show active' : '' }}"
+                 id="historique" role="tabpanel" aria-labelledby="historique-tab">
 
                 <div class="col-md-6 m-auto row mt-2">
                     <div class="col-md-5 text-end">
@@ -1114,8 +1127,7 @@
     <script>
 
 
-        $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Devis + </a> </li>");
-
+        $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Créer un devis </a> </li>");
 
 
         $('#devis-add').click(function () {
@@ -1128,7 +1140,6 @@
 
             })
         })
-
 
 
         $('#transferer').click(function () {
@@ -1250,10 +1261,10 @@
 
         });
 
-        $("#details-tab, #taches-tab, #commentaires-tab, #affaires-tab, #ged-tab").click( function (){
+        $("#details-tab, #taches-tab, #commentaires-tab, #affaires-tab, #ged-tab").click(function () {
 
             let id = $(this).attr('id');
-            $.get("/demande/menu/demande/" + id + "/{{ demande.id }}", function (data){
+            $.get("/demande/menu/demande/" + id + "/{{ demande.id }}", function (data) {
                 console.log(data);
             })
 
