@@ -59,7 +59,7 @@ class UserType extends AbstractType
                     return $enite->getNom()." - ".$enite->getAdresse1().", ".$enite->getCodePostal()." ".$enite->getVille();
                 },
                 'required' => false,
-                'placeholder' => 'Choisir une entité J4R',
+                'placeholder' => 'Choisir une adresse pro',
 
             ])
 
