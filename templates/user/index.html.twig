@@ -26,6 +26,7 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
+                                <th></th>
                                 <th>Utilisateur</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
@@ -42,9 +43,10 @@
                             <tbody>
                             {% for user in users %}
                                 <tr>
-                                    <td>{{ user.id }}
+                                    <td>{{ user.id }}</td>
+                                    <td>
                                         {% if user.linkdin is not empty %}
-                                            <span> <a href="{{ user.linkdin }}" target="_blank"><i class="bi bi-linkedin" style="font-size: 20px;"></i> </a> </span>
+                                            <span> <a href="{{ user.linkdin }}" target="_blank"><i class="bi bi-linkedin" style="font-size: 25px;"></i> </a> </span>
                                         {% endif %}
                                     </td>
                                     <td>
