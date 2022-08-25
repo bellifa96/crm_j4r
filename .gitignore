@@ -8,6 +8,10 @@
 /var/
 /vendor/
 /public/uploads/photo/contact/*
+/public/uploads/signatureM/*
+/public/uploads/signature/*
+
+
 ###< symfony/framework-bundle ###
 /uploads/
 ###> symfony/webpack-encore-bundle ###
