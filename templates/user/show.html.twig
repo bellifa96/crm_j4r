@@ -14,11 +14,21 @@
                                 <img src="{{ asset('./uploads/photo/'~user.photo) }}" alt="Admin" class="rounded-circle"
                                      width="150">
                                 <div class="mt-3">
-                                    <h4>{{user.firstname~" "~user.lastname}}</h4>
-                                    <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : ""}} {{ user.service ? user.service.titre : ""}}</p>
-                                    <p class="text-muted font-size-sm">{{ user.adresse1~", "~user.codePostal~" "~user.ville }}</p>
-                                    <a href="{{ path('app_user_edit',{'id':user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
-                                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">Changer le mot de passe</button>
+                                    <h4>{{ user.firstname~" "~user.lastname }}</h4>
+                                    <p class="text-secondary mb-1">{{ user.poste ? user.poste.titre : "" }} {{ user.service ? user.service.titre : "" }}</p>
+                                    <p class="text-muted font-size-sm">
+                                        {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                                            {{ user.adresse1~", "~user.codePostal~" "~user.ville }}
+                                        {% endif %}
+                                    </p>
+                                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                                        <a href="{{ path('app_user_edit',{'id':user.id}) }}">
+                                            <button class="btn btn-primary">Modifier</button>
+                                        </a>
+                                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#passwordModal">Changer le mot de passe
+                                        </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -33,27 +43,32 @@
                                 </h6>
                                 <span class="text-secondary">{{ user.telephone }}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0">
-                                    <i class="bi bi-phone-fill"></i>
-                                    Téléphone Perso
-                                </h6>
-                                <span class="text-secondary">{{ user.telephoneMobile }}</span>
-                            </li>
+                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-phone-fill"></i>
+                                        Téléphone Perso
+                                    </h6>
+                                    <span class="text-secondary">{{ user.telephoneMobile }}</span>
+                                </li>
+                            {% endif %}
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">
                                     <i class="bi bi-envelope"></i>
                                     Email
                                 </h6>
-                                <span class="text-secondary">{{user.email}}</span>
+                                <span class="text-secondary">{{ user.email }}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0">
-                                    <i class="bi bi-envelope"></i>
-                                    Email Perso
-                                </h6>
-                                <span class="text-secondary">{{user.emailPerso}}</span>
-                            </li>
+                            {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-envelope"></i>
+                                        Email Perso
+                                    </h6>
+                                    <span class="text-secondary">{{ user.emailPerso }}</span>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -92,7 +107,7 @@
                                     <h6 class="mb-0">Matricule</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    {{ user.matricule}}
+                                    {{ user.matricule }}
                                 </div>
                             </div>
                             <hr>
@@ -105,12 +120,13 @@
                                 </div>
                             </div>
                             <hr>
+
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Address</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    {{ user.adresse1~", "~user.codePostal~" "~user.ville }}
+                                    J4R
                                 </div>
                             </div>
                             <hr>
@@ -123,79 +139,82 @@
                         </div>
                     </div>
 
-                    <div class="row gutters-sm">
-                        <div class="col-sm-6 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header text-center fw-bold">
-                                    Matériels
-                                </div>
-                                <div class="card-body">
-                                  <ul>
-                                      <li>
-                                          Voiture
-                                      </li>
-                                      <li>
-                                          Ordinateur
-                                      </li>
-                                      <li>
-                                          Téléphone
-                                      </li>
-                                  </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header text-center fw-bold">
-                                    Ged
-                                </div>
-                                <div class="card-body">
-                                    <ul>
-                                        <li>
-                                            Carte Vitale
-                                        </li>
-                                        <li>
-                                            Fiche de paie
-                                        </li>
-                                        <li>
-                                            Contrat
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header text-center fw-bold">
-                                    Signature
-                                </div>
-                                <div class="card-body">
-                                    {% if user.signature is not empty %}
-                                    <iframe id="inlineFrameExample" style="width: 100%;"
+                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" in app.user.roles or app.user == user %}
 
-                                            src="{{ asset('uploads/signature/'~user.signature)  }}"
-                                    ></iframe>
-                                    {% endif %}
+                        <div class="row gutters-sm">
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header text-center fw-bold">
+                                        Matériels
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>
+                                                Voiture
+                                            </li>
+                                            <li>
+                                                Ordinateur
+                                            </li>
+                                            <li>
+                                                Téléphone
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header text-center fw-bold">
+                                        Ged
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>
+                                                Carte Vitale
+                                            </li>
+                                            <li>
+                                                Fiche de paie
+                                            </li>
+                                            <li>
+                                                Contrat
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header text-center fw-bold">
+                                        Signature
+                                    </div>
+                                    <div class="card-body">
+                                        {% if user.signature is not empty %}
+                                            <iframe id="inlineFrameExample" style="width: 100%;"
+
+                                                    src="{{ asset('uploads/signature/'~user.signature) }}"
+                                            ></iframe>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-header text-center fw-bold">
+                                        Signature Document
+                                    </div>
+                                    <div class="card-body">
+                                        {% if user.signatureM is not empty %}
+                                            <img id="inlineFrameExample" style="width: 100%;"
+
+                                                 src="{{ asset('uploads/signatureM/'~user.signatureM) }}"
+                                            >
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-sm-12 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header text-center fw-bold">
-                                    Signature Document
-                                </div>
-                                <div class="card-body">
-                                    {% if user.signatureM is not empty %}
-                                        <img id="inlineFrameExample" style="width: 100%;"
-
-                                                src="{{ asset('uploads/signatureM/'~user.signatureM)  }}"
-                                        >
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
 
 
                 </div>
@@ -250,7 +269,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit"  class="btn btn-primary">Enregistrer</button>
                 </div>
-                {{form_end(form) }}
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
