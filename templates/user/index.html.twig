@@ -38,7 +38,7 @@
                                 <tr>
                                     <td>{{ user.id }}</td>
                                     <td>
-                                        <a href="{{ path('app_user_show',{'id':user.id}) }}"  style="color: #555;">
+                                        <a href="{{ path('app_user_show',{'id':user.id}) }}" style="color: #555;">
                                             <div class="user_icon">
                                                 <img src="{{ asset('./uploads/photo/' ~ user.photo) }}" alt="">
                                             </div>
@@ -57,24 +57,25 @@
                                     <td>
                                         {% if "ROLE_ADMIN" in app.user.roles or "ROLE_ADMIN" %}
 
-                                        <ul class="action-list row">
-                                            <li class="col-md-5">
-                                                {% if user.locked %}
-                                                    <a href="{{ path('user_locked',{'id':user.id}) }}" class="btn">
-                                                        <i class="bi bi-lock-fill"></i>
-                                                    </a>
-                                                {% else %}
-                                                    <a href="{{ path('user_locked',{'id':user.id}) }}" class="btn"
-                                                       style="color:white;background-color: #00CA95 !important; border-color: #00CA95 !important;">
+                                            <ul class="action-list row">
+                                                <li class="col-md-5">
+                                                    {% if user.locked %}
+                                                        <a href="{{ path('user_locked',{'id':user.id}) }}" class="btn">
+                                                            <i class="bi bi-lock-fill"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ path('user_locked',{'id':user.id}) }}" class="btn"
+                                                           style="color:white;background-color: #00CA95 !important; border-color: #00CA95 !important;">
 
-                                                        <i class="bi bi-unlock-fill"></i>
-                                                    </a>
-                                                {% endif %}
-                                            </li>
-                                            <li class="col-md-5"><a href="{{ path('app_user_edit',{'id':user.id}) }}"
-                                                                    class="btn">
-                                                    <i class="bi bi-pencil-square"></i></a></li>
-                                        </ul>
+                                                            <i class="bi bi-unlock-fill"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="col-md-5"><a
+                                                            href="{{ path('app_user_edit',{'id':user.id}) }}"
+                                                            class="btn">
+                                                        <i class="bi bi-pencil-square"></i></a></li>
+                                            </ul>
                                         {% endif %}
                                     </td>
                                 </tr>
