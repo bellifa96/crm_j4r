@@ -680,3 +680,25 @@
 
 </div>
 
+<script>
+    function submitImportOuvrageEvent(event){
+        event.preventDefault();
+
+        let data = {};
+        $('.check-ouvrage').each(function (index) {
+            if($(this).is(':checked')){
+                console.log($(this).val());
+                data[index]= ($(this).val())
+            }
+        })
+
+        $.post("{{ path('app_affaire_ouvrage_import',{'id':sousLot.id}) }}", data, function (response) {
+            let data = JSON.parse(response);
+            if (data.code === 200){
+                location.reload();
+
+            }
+        })
+    }
+</script>
+

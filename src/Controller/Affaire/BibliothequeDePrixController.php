@@ -13,6 +13,7 @@ use App\Form\Affaire\TypeComposantType;
 use App\Repository\Affaire\ComposantRepository;
 use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\OuvrageRepository;
+use App\Repository\Affaire\SousLotRepository;
 use App\Repository\Affaire\TypeComposantRepository;
 use DeepCopy\DeepCopy;
 use Doctrine\ORM\EntityManagerInterface;
@@ -395,6 +396,50 @@ class BibliothequeDePrixController extends AbstractController
         $composantRepository->add($clone);
 
         return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_show', methods: ['GET'])]
+    public function showOuvrage(Ouvrage $ouvrage, TypeOuvrageRepository $typeOuvrageRepository): Response
+    {
+
+        return $this->render('affaire/bibliothequeDePrix/edit_composant.html.twig', [
+            'composant' => $ouvrage,
+            'types' => $typeOuvrageRepository->findAll(),
+            'title' => 'Ouvrage : ' . $ouvrage->getDenomination(),
+            'nav' => []
+        ]);
+
+    }
+
+    #[Route('/ouvrage/import/{id}', name: 'app_affaire_ouvrage_import', methods: ['POST'])]
+    public function importOuvrage(Request $request, OuvrageRepository $ouvrageRepository, SousLot $sousLot, SousLotRepositoryRepository $sousLotRepository): Response
+    {
+
+        $data = $request->request->all();
+
+
+        $sum = 0;
+        foreach ($data as $val) {
+            $ouvrage = $ouvrageRepository->find($val);
+            $sousLot->addOuvrage($ouvrage);
+            //$sum += $ouvrage->getPrixDeVenteHT();
+        }
+        //$sousLot->setPrixUnitaireDebourse($sum);
+
+        //  return new Response(json_encode($data));
+
+
+        try {
+            $sousLotRepository->add($sousLot);
+            return new Response(json_encode(['code' => 200]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
     }
 
     #[Route('/ouvrage/dupliquer/{id}', name: 'app_affaire_ouvrage_dupliquer', methods: ['GET', 'POST'])]
