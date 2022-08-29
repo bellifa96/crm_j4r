@@ -149,6 +149,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $linkdin;
 
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $vue = [];
+
 
     public function __construct()
     {
@@ -868,6 +871,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLinkdin(?string $linkdin): self
     {
         $this->linkdin = $linkdin;
+
+        return $this;
+    }
+
+    public function getVue(): ?array
+    {
+        return $this->vue;
+    }
+
+    public function setVue(?array $vue): self
+    {
+        $this->vue = $vue;
 
         return $this;
     }

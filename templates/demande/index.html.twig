@@ -18,7 +18,10 @@
 
     </style>
 
-    <button class="btn btn-info-2 mb-4" id="vue" value="globale">Vue Commerciale</button>
+
+    <button class="btn btn-info-2 mb-4" id="vue" value='{{ 'demandeIndex' in app.user.vue|keys  and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "commerciale" : "globale" }}'>
+        {{ 'demandeIndex' in app.user.vue|keys and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "Vue commerciale": "Vue globale" }}
+    </button>
     <div id="globale">
 
         <table class="table datatable text-center">
@@ -74,7 +77,7 @@
 
     </div>
 
-    <div id="commerciale" style="display: none;">
+    <div id="commerciale">
 
 
         <table class="table datatable text-center">
@@ -155,18 +158,37 @@
     <script>
         $('#vue').click(function () {
             console.log($(this).val())
-            if ($(this).val() === "globale") {
+
+            setVue();
+        })
+
+        function setVue(){
+            if ($('#vue').val() === "globale") {
                 $('#commerciale').slideDown();
                 $('#globale').slideUp();
-                $(this).val('commerciale');
-                $(this).text('Vue globale')
-            } else if ($(this).val() === "commerciale") {
+                $('#vue').val('commerciale');
+                $('#vue').text('Vue globale')
+                vue('DemandeVueCommerciale')
+            } else if ($('#vue').val() === "commerciale") {
                 $('#commerciale').slideUp();
                 $('#globale').slideDown();
-                $(this).val('globale');
-                $(this).text('Vue commerciale')
-
+                $('#vue').val('globale');
+                $('#vue').text('Vue commerciale')
+                vue('DemandeVueGlobal')
             }
-        })
+        }
+        if ($('#vue').val() === "globale") {
+            $('#commerciale').slideUp();
+            $('#globale').slideDown();
+        } else if ($('#vue').val() === "commerciale") {
+            $('#commerciale').slideDown();
+            $('#globale').slideUp();
+        }
+            function vue(val){
+            const url ='/user/vue/'+val+'/demandeIndex';
+            $.post(url,function (response) {
+                console.log(JSON.parse(response));
+            })
+        }
     </script>
 {% endblock %}

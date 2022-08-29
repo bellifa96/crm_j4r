@@ -118,8 +118,20 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/vue/{vue}/{index}', name: 'app_user_vue', methods: ['GET','POST'])]
+    public function vue($vue, $index,Request $request,UserRepository $userRepository): Response
+    {
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET','POST'])]
+        $vues =  $this->getUser()->getVue();
+        $vues[$index] = $vue;
+        $this->getUser()->setVue($vues);
+        $userRepository->add($this->getUser());
+     //   dd($this->getUser());
+
+        return new Response(json_encode(['code'=>200,'message'=>'ok '.$vue]));
+    }
+
+        #[Route('/{id}', name: 'app_user_show', methods: ['GET','POST'])]
     public function show(User $user,Request $request,UserRepository $userRepository,UserPasswordHasherInterface $passwordHasher): Response
     {
 
