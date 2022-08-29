@@ -48,10 +48,14 @@ class Devis
     #[ORM\OneToMany(mappedBy: 'devis', targetEntity: Lot::class)]
     private $lots;
 
+    #[ORM\OneToMany(mappedBy: 'devis', targetEntity: Ouvrage::class)]
+    private $ouvrages;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
         $this->statut = "Brouillon";
+        $this->ouvrages = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -167,6 +171,36 @@ class Devis
             // set the owning side to null (unless already changed)
             if ($lot->getDevis() === $this) {
                 $lot->setDevis(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ouvrage>
+     */
+    public function getOuvrages(): Collection
+    {
+        return $this->ouvrages;
+    }
+
+    public function addOuvrage(Ouvrage $ouvrage): self
+    {
+        if (!$this->ouvrages->contains($ouvrage)) {
+            $this->ouvrages[] = $ouvrage;
+            $ouvrage->setDevis($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOuvrage(Ouvrage $ouvrage): self
+    {
+        if ($this->ouvrages->removeElement($ouvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($ouvrage->getDevis() === $this) {
+                $ouvrage->setDevis(null);
             }
         }
 

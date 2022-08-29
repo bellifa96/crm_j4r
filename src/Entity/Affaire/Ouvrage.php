@@ -33,40 +33,53 @@ class Ouvrage
     private $typeDOuvrage;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $code;
 
     #[ORM\Column(type: 'float',nullable: true)]
+    #[Gedmo\Versioned]
     private $prixUnitaireDebourse;
 
     #[ORM\Column(type: 'integer',nullable: true)]
+    #[Gedmo\Versioned]
     private $quantiteDOuvrage;
 
     #[ORM\Column(type: 'float')]
+    #[Gedmo\Versioned]
     private $debourseHTCalcule;
 
     #[ORM\Column(type: 'float',nullable: true)]
+    #[Gedmo\Versioned]
     private $marge;
 
     #[ORM\Column(type: 'float',nullable: true)]
+    #[Gedmo\Versioned]
     private $prixDeVenteHT;
 
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
     private $lot;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $unite;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
     private $createur;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Gedmo\Versioned]
     private $note;
 
     #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
     private $composants;
 
     #[ORM\Column(type: 'array', nullable: true)]
+    #[Gedmo\Versioned]
+
     private $quantite = [];
+
+    #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'ouvrages')]
+    private $devis;
 
     public function __construct()
     {
@@ -269,6 +282,18 @@ class Ouvrage
     public function setQuantite(?array $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getDevis(): ?Devis
+    {
+        return $this->devis;
+    }
+
+    public function setDevis(?Devis $devis): self
+    {
+        $this->devis = $devis;
 
         return $this;
     }

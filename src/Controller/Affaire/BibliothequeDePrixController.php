@@ -132,7 +132,7 @@ class BibliothequeDePrixController extends AbstractController
         $ouvrages = $ouvrageRepository->findAll();
 
         foreach ($ouvrages as $key => $ouvrage) {
-            if ($devis->getOuvrage()->contains($ouvrage)) {
+            if ($devis->getOuvrages()->contains($ouvrage)) {
                 unset($ouvrages[$key]);
             }
         }
