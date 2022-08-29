@@ -122,6 +122,36 @@ class BibliothequeDePrixController extends AbstractController
         return $response;
     }
 
+    #[Route('/modal/ouvrage/liste/{id}', name: 'app_affaire_modal_ouvrage_liste', methods: ['GET', 'POST'])]
+    public function modalOuvrageListe(Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, Devis $devis): Response
+    {
+        $response = new Response();
+
+        $path = "affaire/bibliothequeDePrix/modal_ouvrage_list.html.twig";
+
+        $ouvrages = $ouvrageRepository->findAll();
+
+        foreach ($ouvrages as $key => $ouvrage) {
+            if ($devis->getOuvrage()->contains($ouvrage)) {
+                unset($ouvrages[$key]);
+            }
+        }
+
+        if (!empty($path)) {
+            try {
+                $html = $environment->render($path, ["ouvrages" => $ouvrages]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'html' => $html]));
+        }
+        return $response;
+    }
+
 
     #[Route('/modal/ouvrage/dupliquer/{id}', name: 'app_affaire_modal_ouvrage_dupliquer', methods: ['GET', 'POST'])]
     public function modalOuvrageDupliquer(Request $request, Environment $environment, Ouvrage $ouvrage,): Response
@@ -424,10 +454,8 @@ class BibliothequeDePrixController extends AbstractController
         foreach ($data as $val) {
             $ouvrage = $ouvrageRepository->find($val);
             $sousLot->addOuvrage($ouvrage);
-            //$sum += $ouvrage->getPrixDeVenteHT();
+            $sum += $ouvrage->getPrixDeVenteHT();
         }
-        //$sousLot->setPrixUnitaireDebourse($sum);
-
         //  return new Response(json_encode($data));
 
 

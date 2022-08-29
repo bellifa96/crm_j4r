@@ -40,13 +40,8 @@ class DevisController extends AbstractController
 
         $devis = new Devis();
         $devis->setTitre($nom);
-        $lot = new Lot();
-        $sousLot = new SousLot();
-        $lot->addSousLot($sousLot);
-        $ouvrage = new Ouvrage();
-        $sousLot->addOuvrage($ouvrage);
-        $devis->addLot($lot);
         $devis->setDemande($demande);
+        $devisRepository->add($devis);
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 
@@ -59,17 +54,17 @@ class DevisController extends AbstractController
             'devis' => $devis,
             'form' => $form,
             'demande'=> $demande,
-            'title'=> 'Créer un nouveau devis',
+            'title'=> "Création d'un devis - ".$devis->getTitre()." ".$devis->getId(),
             'nav'=> []
         ]);
     }
 
     #[Route('/{id}', name: 'app_affaire_devis_show', methods: ['GET'])]
-    public function show(Devis $devi): Response
+    public function show(Devis $devis): Response
     {
         return $this->render('affaire/devis/show.html.twig', [
-            'devi' => $devi,
-            'title'=> 'Devis N° '.$devi->getId(),
+            'devi' => $devis,
+            'title'=> 'Devis N° '.$devis->getId(),
             'nav'=> []
         ]);
     }
