@@ -44,6 +44,7 @@ class DemandeType extends AbstractType
                         ->orderBy('u.firstname', 'ASC');
                 },
                 'choice_label' => 'firstname',
+                'required'=>false,
             ])
 
             ->add('faireUnDevis')
@@ -54,6 +55,7 @@ class DemandeType extends AbstractType
                         ->orderBy('u.firstname', 'ASC');
                 },
                 'choice_label' => 'firstname',
+                'required'=>false,
             ])
 
 

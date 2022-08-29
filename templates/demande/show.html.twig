@@ -317,7 +317,7 @@
             <div class="col-md-auto labels">
                 Statut
             </div>
-            <div class="col-md-auto form-control-sm-2 labels">
+            <div class="col-md-auto form-control-sm-2 labels"  style="background:{{ demande.statut is not empty ? demande.statut.couleurBG  : ''}};color: {{ demande.statut is not empty ? demande.statut.couleur :'' }};">
                 {{ demande.statut }}
             </div>
         </div>
@@ -326,7 +326,7 @@
             <div class="col-md-auto labels">
                 Statut commercial
             </div>
-            <div class="col-md-auto form-control-sm-2 labels">
+            <div class="col-md-auto form-control-sm-2 labels" style="background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG :'' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : ''}};">
                 {{ demande.statutCommercial is not empty ? demande.statutCommercial : "Aucun" }}
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Affaire\Statut;
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
@@ -16,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -66,32 +68,26 @@ class DemandeController extends AbstractController
         $form = $this->createForm(DemandeType::class, $demande);
 
         if ($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')) {
-            $form->add('statut', ChoiceType::class, [
-                'choices' => [
-                    'En attente éléments client' => 'En attente éléments client ',
-                    'A transmettre' => 'A transmettre',
-                    'A traiter' => 'A traiter',
-                    'En cours de relevé' => 'En cours de relevé',
-                    'En cours de devis' => 'En cours de devis',
-                    'En attente validation Direction' => 'En attente validation Direction',
-                    'Devis validé direction' => 'Devis validé direction',
-                    'Devis en attente envoie' => 'Devis en attente envoie',
-                    'Devis envoyé' => 'Devis envoyé',
-                    'A modifier suite retour client' => 'A modifier suite retour client'
-                ]
+            $form->add('statut', EntityType::class, [
+                  'class'=>Statut::class,
+                  'query_builder'=>function(EntityRepository $er){
+                       return $er->createQueryBuilder('s')
+                           ->where('s.destination LIKE :val')
+                           ->setParameter('val','%"SD"%')
+                           ;
+                  },
+                'choice_label' => 'titre',
             ]);
-            $form->add('statutCommercial', ChoiceType::class, [
+            $form->add('statutCommercial', EntityType::class, [
+                'class'=>Statut::class,
+                'query_builder'=>function(EntityRepository $er){
+                    return $er->createQueryBuilder('s')
+                        ->where('s.destination LIKE :val')
+                        ->setParameter('val','%"SCD"%')
+                        ;
+                },
                 'required'=>false,
-                'choices' => [
-                    '' => '',
-                    'A relancer' => 'A relancer',
-                    'En attente validation client' => 'En attente validation client',
-                    'En attente OS' => 'En attente OS',
-                    'Os validé' => 'Os validé',
-                    'Non réalisé' => 'Non réalisé',
-                    'Ne pas relancer' => 'Ne pas relancer',
-
-                ]
+                'choice_label' => 'titre',
             ]);
         }
         $form->handleRequest($request);
@@ -135,6 +131,16 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
     public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository,DemandeRepository $demandeRepository,UserRepository $userRepository): Response
     {
+
+
+
+        $data = $request->query->all();
+
+        if(key_exists('menu',$data)){
+            $menu = $demande->getMenu();
+            $menu[$this->getUser()->getId()] =$data['menu'];
+        }
+
 
         $users = $userRepository->findAll();
 
@@ -242,32 +248,26 @@ class DemandeController extends AbstractController
         $tmpUserDevis = $demande->getUserDevis();
 
         $form = $this->createForm(DemandeType::class, $demande);
-        $form->add('statut', ChoiceType::class, [
-            'choices' => [
-                'En attente éléments client' => 'En attente éléments client ',
-                'A transmettre' => 'A transmettre',
-                'A traiter' => 'A traiter',
-                'En cours de relevé' => 'En cours de relevé',
-                'En cours de devis' => 'En cours de devis',
-                'En attente validation Direction' => 'En attente validation Direction',
-                'Devis validé direction' => 'Devis validé direction',
-                'Devis en attente envoie' => 'Devis en attente envoie',
-                'Devis envoyé' => 'Devis envoyé',
-                'A modifier suite retour client' => 'A modifier suite retour client'
-            ]
+        $form->add('statut', EntityType::class, [
+            'class'=>Statut::class,
+            'query_builder'=>function(EntityRepository $er){
+                return $er->createQueryBuilder('s')
+                    ->where('s.destination LIKE :val')
+                    ->setParameter('val','%"SD"%')
+                    ;
+            },
+            'choice_label' => 'titre',
         ]);
-        $form->add('statutCommercial', ChoiceType::class, [
+        $form->add('statutCommercial', EntityType::class, [
+            'class'=>Statut::class,
+            'query_builder'=>function(EntityRepository $er){
+                return $er->createQueryBuilder('s')
+                    ->where('s.destination LIKE :val')
+                    ->setParameter('val','%"SCD"%')
+                    ;
+            },
             'required'=>false,
-            'choices' => [
-                '' => '',
-                'A relancer' => 'A relancer',
-                'A modifier' => 'A modifier',
-                'Négociation' => 'Négociation',
-                'En attente OS' => 'En attente OS',
-                'Os validé' => 'Os validé',
-                'Non réalisé' => 'Non réalisé',
-
-            ]
+            'choice_label' => 'titre',
         ]);
         $statut = $demande->getStatut();
         $statusCommercial = $demande->getStatutCommercial();
@@ -293,13 +293,13 @@ class DemandeController extends AbstractController
                 $demande->setUserDevis(null);
             }
 
-            if ($demande->getStatutCommercial() != $statusCommercial) {
-                $objet = "Le statut commercial de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatutCommercial().")";
+            if ($demande->getStatutCommercial() !== $statusCommercial) {
+                $objet = "Le statut commercial de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatutCommercial()->getTitre().")";
                 $template = "/emails/statut_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
-            if ($demande->getStatut() != $statut) {
-                $objet = "Le statut de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatut().")";
+            if ($demande->getStatut() !== $statut) {
+                $objet = "Le statut de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatut()->getTitre().")";
                 $template = "/emails/statut_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
