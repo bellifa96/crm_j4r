@@ -38,6 +38,7 @@
                 <th>Ville</th>
                 <th>Statut</th>
                 <th>Par</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -66,6 +67,11 @@
                     <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
 
 
+                    <td>
+                        {% if demande.lienGed is not empty %}
+                            <a href="{{ demande.lienGed }}" target="_blank">        <i class="bi bi-files" style="font-size: 1.5rem;"></i></a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -94,6 +100,7 @@
                 <th>Tel</th>
                 <th>Date du Devis</th>
                 <th>Commentaire</th>
+                <td></td>
 
             </tr>
             </thead>
@@ -143,7 +150,11 @@
                         {% endif %}
                     </td>
 
-
+                    <td>
+                        {% if demande.lienGed is not empty %}
+                            <a href="{{ demande.lienGed }}" target="_blank">        <i class="bi bi-files" style="font-size: 1.2rem;"></i></a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
