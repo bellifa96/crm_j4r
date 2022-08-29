@@ -321,7 +321,7 @@ class BibliothequeDePrixController extends AbstractController
     }
 
 
-    #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_show', methods: ['GET'])]
+    #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_show_alex', methods: ['GET'])]
     public function show(Ouvrage $ouvrage): Response
     {
 
@@ -399,12 +399,12 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_show', methods: ['GET'])]
-    public function showOuvrage(Ouvrage $ouvrage, TypeOuvrageRepository $typeOuvrageRepository): Response
+    public function showOuvrage(Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
     {
 
         return $this->render('affaire/bibliothequeDePrix/edit_composant.html.twig', [
             'composant' => $ouvrage,
-            'types' => $typeOuvrageRepository->findAll(),
+            'types' => $ouvrageRepository->findAll(),
             'title' => 'Ouvrage : ' . $ouvrage->getDenomination(),
             'nav' => []
         ]);
