@@ -58,6 +58,7 @@ class DemandeType extends AbstractType
                 'required'=>false,
             ])
 
+            ->add('lienGed')
 
             ->add('typeEchafaudage', ChoiceType::class, [
                 'choices' => [
