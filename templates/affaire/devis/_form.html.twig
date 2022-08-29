@@ -303,8 +303,8 @@
         <div class="organisation3">
             <button type="button" class="lot-button">Créer un lot</button>
             <hr aria-orientation="horizontal" class="ligne">
-            <button type="button" class="lot-button" id="ouvrage">Importer des ouvrages</button>
-            <button type="button" class="ouvrage-button">Créer un ouvrage</button>
+            <button type="button" class="lot-button" id="import-ouvrage">Importer des ouvrages</button>
+            <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
         </div>
     </div>
 </div>
@@ -531,11 +531,21 @@
         })
     }
 
-    $("#ouvrage").click(function (){
+    $("#import-ouvrage").click(function (){
         $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
+        })
+    })
+
+    $('#add-ouvrage').click(function () {
+        $('.modal-ouvrage').remove();
+        let path = "{{ path('app_affaire_modal_ouvrage') }}";
+        $.post(path, function (data) {
+            $('body').append(JSON.parse(data).message);
+            $("#modal-ouvrage").modal('show');
+
         })
     })
 </script>
