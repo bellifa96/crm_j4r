@@ -34,6 +34,8 @@ class BibliothequeDePrixController extends AbstractController
     #[Route('/', name: 'app_affaire_bibliotheque_de_prix', methods: ['GET'])]
     public function index(OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
+
+        $ouvrages = $ouvrageRepository->findAll();
         return $this->render('affaire/bibliothequeDePrix/index.html.twig', [
             'ouvrages' => $ouvrageRepository->findAll(),
             'composants' => $composantRepository->findAll(),

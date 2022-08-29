@@ -124,7 +124,7 @@
                     <td>
                         {% if demande.conversationClient is not empty %}
                             <a href="{{ path('app_demande_show', {'id': demande.id,'menu':'commentaires-tab'}) }}">
-                                {{ demande.conversationClient.messages[demande.conversationClient.messages|length - 1].message }}
+                                {{ demande.conversationClient.messages[demande.conversationClient.messages|length].message }}
                             </a>
                         {% endif %}
                     </td>
