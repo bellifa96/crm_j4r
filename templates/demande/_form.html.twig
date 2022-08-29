@@ -493,6 +493,15 @@
 <script>
 
 
+    $('#demande_statutCommercial').change(function () {
+
+      //  console.log($(this).val())
+        if($(this).val() == "A modifier"){
+            $('#demande_statut').val('A modifier suite retour client')
+        }
+    })
+
+
     function releveDevis() {
 
         if ($('#demande_faireUnReleve').is(':checked')) {
