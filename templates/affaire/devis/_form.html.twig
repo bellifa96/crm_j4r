@@ -105,6 +105,103 @@
     .sous-lot {
         margin-left: 0.5rem;
     }
+
+    .organisation {
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+
+    .organisation2 {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+    }
+
+    .organisation3{
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: column;
+        width: 15rem;
+    }
+
+    .ligne{
+        opacity: 0.6;
+        border-width: 0px 0px 1px;
+        border-image: initial;
+        border-color: inherit;
+        border-style: solid;
+        width: 100%;
+    }
+
+    .lot-button{
+        margin-top: 1rem;
+        margin-inline: 0px;
+        margin-bottom: 0px;
+        display: inline-flex;
+        appearance: none;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        user-select: none;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: middle;
+        outline: transparent solid 2px;
+        outline-offset: 2px;
+        line-height: 1.2;
+        border-radius: 0.25rem;
+        font-weight: 600;
+        transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+        transition-duration: 200ms;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        font-size: 1rem;
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
+        background: #109cf1;
+        color: #FFFFFF;
+        width: 100%;
+        font-family: Lato,sans-serif;
+        border-color: inherit;
+    }
+
+    .ouvrage-button{
+        margin-top: 1rem;
+        margin-inline: 0px;
+        margin-bottom: 0px;
+        display: inline-flex;
+        appearance: none;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        user-select: none;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: middle;
+        outline: transparent solid 2px;
+        outline-offset: 2px;
+        line-height: 1.2;
+        border-radius: 0.25rem;
+        font-weight: 600;
+        transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+        transition-duration: 200ms;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        font-size: 1rem;
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
+        border: 1px solid currentcolor;
+        color: #0D8CD9;
+        background: transparent;
+        width: 100%;
+        font-family: Lato,sans-serif;
+    }
+
 </style>
 
 <div class="page-block col-md-10 m-auto mt-4">
@@ -154,6 +251,20 @@
             </div>
         </div>
 
+    </div>
+
+</div>
+
+<div class="page-block col-md-10 m-auto mt-4">
+    <div class="organisation">
+        <div class="organisation2">
+            <div class="organisation3">
+                <button type="button" class="lot-button">Créer un lot</button>
+                <hr aria-orientation="horizontal" class="ligne">
+                <button type="button" class="lot-button">Importer des ouvrages</button>
+                <button type="button" class="ouvrage-button">Créer un ouvrage</button>
+            </div>
+        </div>
     </div>
 
 </div>
