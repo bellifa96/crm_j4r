@@ -119,7 +119,7 @@
         justify-content: center;
     }
 
-    .organisation3{
+    .organisation3 {
         display: flex;
         -webkit-box-align: center;
         align-items: center;
@@ -127,16 +127,17 @@
         width: 15rem;
     }
 
-    .ligne{
+    .ligne {
         opacity: 0.6;
         border-width: 0px 0px 1px;
         border-image: initial;
         border-color: inherit;
         border-style: solid;
         width: 100%;
+        color: grey;
     }
 
-    .lot-button{
+    .lot-button {
         margin-top: 1rem;
         margin-inline: 0px;
         margin-bottom: 0px;
@@ -155,7 +156,7 @@
         line-height: 1.2;
         border-radius: 0.25rem;
         font-weight: 600;
-        transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
         transition-duration: 200ms;
         height: 2.5rem;
         min-width: 2.5rem;
@@ -165,11 +166,11 @@
         background: #109cf1;
         color: #FFFFFF;
         width: 100%;
-        font-family: Lato,sans-serif;
+        font-family: Lato, sans-serif;
         border-color: inherit;
     }
 
-    .ouvrage-button{
+    .ouvrage-button {
         margin-top: 1rem;
         margin-inline: 0px;
         margin-bottom: 0px;
@@ -188,7 +189,7 @@
         line-height: 1.2;
         border-radius: 0.25rem;
         font-weight: 600;
-        transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
         transition-duration: 200ms;
         height: 2.5rem;
         min-width: 2.5rem;
@@ -199,7 +200,18 @@
         color: #0D8CD9;
         background: transparent;
         width: 100%;
-        font-family: Lato,sans-serif;
+        font-family: Lato, sans-serif;
+    }
+
+    .svg{
+        width: 12rem;
+        height: 12rem;
+        display: inline-block;
+        line-height: 1em;
+        flex-shrink: 0;
+        color: currentcolor;
+        vertical-align: middle;
+        margin-bottom: 1.5rem;
     }
 
 </style>
@@ -255,19 +267,47 @@
 
 </div>
 
-<div class="page-block col-md-10 m-auto mt-4">
-    <div class="organisation">
-        <div class="organisation2">
-            <div class="organisation3">
-                <button type="button" class="lot-button">Créer un lot</button>
-                <hr aria-orientation="horizontal" class="ligne">
-                <button type="button" class="lot-button">Importer des ouvrages</button>
-                <button type="button" class="ouvrage-button">Créer un ouvrage</button>
-            </div>
+
+<svg viewBox="0 0 200 200" focusable="false" class="svg">
+    <circle cx="100" cy="100" r="100" fill="white"></circle>
+    <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M71.5698 35.1369C69.1936 36.0059 65.8383 35.8552 62.3071 34.6683C60.0434 37.6269 57.346 39.6281 54.89 40.2364C54.021 37.8601 54.1717 34.5049 55.3586 30.9737C52.4 28.7099 50.3988 26.0126 49.7905 23.5566C52.1668 22.6875 55.522 22.8382 59.0532 24.0251C61.317 21.0665 64.0143 19.0654 66.4703 18.457C67.3393 20.8333 67.1886 24.1886 66.0017 27.7197C68.9603 29.9835 70.9615 32.6809 71.5698 35.1369ZM33.3381 135.979C31.873 136.933 29.5902 137.353 27.0278 137.103C25.9633 139.447 24.458 141.214 22.8987 142.006C21.9441 140.541 21.524 138.258 21.7742 135.695C19.43 134.631 17.6631 133.126 16.8716 131.566C18.3367 130.612 20.6195 130.192 23.1819 130.442C24.2464 128.098 25.7516 126.331 27.3109 125.539C28.2656 127.004 28.6857 129.287 28.4354 131.85C30.7797 132.914 32.5466 134.419 33.3381 135.979ZM122.192 171.591C124.105 174.183 126.408 175.955 128.522 176.518C129.31 174.476 129.23 171.572 128.257 168.501C130.849 166.588 132.621 164.286 133.184 162.171C131.142 161.384 128.238 161.463 125.167 162.436C123.254 159.844 120.952 158.073 118.837 157.51C118.05 159.551 118.129 162.455 119.102 165.526C116.51 167.439 114.739 169.742 114.176 171.856C116.217 172.644 119.121 172.564 122.192 171.591ZM189.722 79.3415C187.475 78.7432 185.029 76.8613 182.997 74.1067C179.733 75.1405 176.648 75.2252 174.479 74.3886C175.077 72.1419 176.959 69.6957 179.714 67.6632C178.68 64.3998 178.595 61.3147 179.432 59.1453C181.678 59.7436 184.125 61.6255 186.157 64.3801C189.42 63.3463 192.506 63.2616 194.675 64.0982C194.077 66.3449 192.195 68.7911 189.44 70.8236C190.474 74.087 190.559 77.1721 189.722 79.3415Z"
+          fill="#83CDFA"></path>
+    <g clip-path="url(#clip0)">
+        <path d="M143.746 114.068H140.645V100L116.416 96.0938L120.322 131.289C123.776 131.289 126.577 134.089 126.577 137.543V140.645H140.645V126.577H143.746C147.2 126.577 150 123.776 150 120.322C150 116.868 147.2 114.068 143.746 114.068Z"
+              fill="#27BE6C"></path>
+        <path d="M120.322 100L96.0936 96.0938L86.2988 119.298L99.9998 140.645H114.068V137.543C114.068 134.089 116.868 131.289 120.322 131.289V100Z"
+              fill="#BBF3D5"></path>
+        <path d="M96.8988 114.068H100V100L75.7715 84.7852L79.6777 150C83.1318 150 85.932 147.2 85.932 143.746V140.645H100V126.577H96.8988C93.4447 126.577 90.6445 123.776 90.6445 120.322C90.6445 116.868 93.4447 114.068 96.8988 114.068Z"
+              fill="#F33725"></path>
+        <path d="M79.6772 84.7852L59.355 100V114.068H62.4562C65.9103 114.068 68.7105 116.868 68.7105 120.322C68.7105 123.776 65.9103 126.577 62.4562 126.577H59.355V140.645H73.423V143.746C73.423 147.2 76.2231 150 79.6772 150V90.6445V84.7852Z"
+              fill="#FA8E84"></path>
+        <path d="M137.543 73.4234H140.645V59.3555H126.577V56.2543C126.577 52.8002 123.776 50 120.322 50L116.416 79.6777L120.322 109.355C123.776 109.355 126.577 106.555 126.577 103.101V100H140.645V85.932H137.543C134.089 85.932 131.289 83.1318 131.289 79.6777C131.289 76.2236 134.089 73.4234 137.543 73.4234Z"
+              fill="#FFB946"></path>
+        <path d="M120.322 50C116.868 50 114.068 52.8002 114.068 56.2543V59.3555H100L96.0938 79.6777L100 100H114.068V103.101C114.068 106.555 116.868 109.355 120.322 109.355V50Z"
+              fill="#FFDCAF"></path>
+        <path d="M103.101 73.4234H100V59.3555H85.932V62.4566C85.932 65.9107 83.1318 68.7109 79.6777 68.7109L75.7715 79.6777L79.6777 90.6445C83.1318 90.6445 85.932 93.4447 85.932 96.8988V100H100V85.932H103.101C106.555 85.932 109.355 83.1318 109.355 79.6777C109.355 76.2236 106.555 73.4234 103.101 73.4234Z"
+              fill="#0D8CD9"></path>
+        <path d="M73.4234 62.4566V59.3555H59.3555V73.4234H56.2543C52.8002 73.4234 50 76.2236 50 79.6777C50 83.1318 52.8002 85.932 56.2543 85.932H59.3555V100H73.4234V96.8988C73.4234 93.4447 76.2236 90.6445 79.6777 90.6445V68.7109C76.2236 68.7109 73.4234 65.9109 73.4234 62.4566Z"
+              fill="#B0E2FF"></path>
+    </g>
+    <defs>
+        <clipPath id="clip0">
+            <rect width="100" height="100" fill="white" transform="translate(50 50)"></rect>
+        </clipPath>
+    </defs>
+</svg>
+<div class="organisation">
+    <div class="organisation2">
+        <div class="organisation3">
+            <button type="button" class="lot-button">Créer un lot</button>
+            <hr aria-orientation="horizontal" class="ligne">
+            <button type="button" class="lot-button">Importer des ouvrages</button>
+            <button type="button" class="ouvrage-button">Créer un ouvrage</button>
         </div>
     </div>
-
 </div>
+
 
 <div class="mt-4 col-md-11 m-auto">
     <div class=" css-1fnl9bt">
@@ -681,20 +721,20 @@
 </div>
 
 <script>
-    function submitImportOuvrageEvent(event){
+    function submitImportOuvrageEvent(event) {
         event.preventDefault();
 
         let data = {};
         $('.check-ouvrage').each(function (index) {
-            if($(this).is(':checked')){
+            if ($(this).is(':checked')) {
                 console.log($(this).val());
-                data[index]= ($(this).val())
+                data[index] = ($(this).val())
             }
         })
 
-        $.post("{{ path('app_affaire_ouvrage_import',{'id':sousLot.id}) }}", data, function (response) {
+        $.post("{{ path('app_affaire_ouvrage_import',{'id':demande.id}) }}", data, function (response) {
             let data = JSON.parse(response);
-            if (data.code === 200){
+            if (data.code === 200) {
                 location.reload();
 
             }

@@ -27,7 +27,7 @@ class Devis
     private $demande;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $numero;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -39,7 +39,7 @@ class Devis
     #[ORM\Column(type: 'string', length: 255)]
     private $dateDuDevis;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'devis')]
@@ -51,6 +51,7 @@ class Devis
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
+        $this->statut = "Brouillon";
     }
     public function getId(): ?int
     {
@@ -75,7 +76,7 @@ class Devis
         return $this->numero;
     }
 
-    public function setNumero(string $numero): self
+    public function setNumero(?string $numero): self
     {
         $this->numero = $numero;
 
@@ -123,7 +124,7 @@ class Devis
         return $this->statut;
     }
 
-    public function setStatut(string $statut): self
+    public function setStatut(?string $statut): self
     {
         $this->statut = $statut;
 
