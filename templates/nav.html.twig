@@ -263,18 +263,6 @@
                             <span> Liste </span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_user_poste_index' ? 'active' }}">
-                        <a href="{{ path('app_user_poste_index') }}" class="sidebar-link">
-                            <i class="bi bi-stack"></i>
-                            <span>Postes</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_user_service_index' ? 'active' }}">
-                        <a href="{{ path('app_user_service_index') }}" class="sidebar-link">
-                            <i class="bi bi-stack"></i>
-                            <span>Services</span>
-                        </a>
-                    </li>
                     <li class="sidebar-item  {{ app.request.get('_route') == 'app_entite_entite_index' ? 'active' }}">
                         <a href="{{ path('app_entite_entite_index') }}" class="sidebar-link">
                             <i class="bi bi-stack"></i>
@@ -287,6 +275,34 @@
                             <span>LOGS</span>
                         </a>
                     </li>
+
+
+                </ul>
+            </li>
+
+
+            <li class="sidebar-title">
+                Administration
+                <ul>
+                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_affaire_statut_index' ? 'active' }}">
+                        <a href="{{ path('app_affaire_statut_index') }}" class="sidebar-link">
+                            <i class="bi bi-list-ul"></i>
+                            <span> Statuts </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_user_poste_index' ? 'active' }}">
+                        <a href="{{ path('app_user_poste_index') }}" class="sidebar-link">
+                            <i class="bi bi-stack"></i>
+                            <span>Postes</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_user_service_index' ? 'active' }}">
+                        <a href="{{ path('app_user_service_index') }}" class="sidebar-link">
+                            <i class="bi bi-stack"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+
 
 
                 </ul>

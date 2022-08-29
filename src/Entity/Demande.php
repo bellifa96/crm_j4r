@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Evenement;
+use App\Entity\Affaire\Statut;
 use App\Entity\Affaire\Transport;
 use App\Entity\Contact\Contact;
 use App\Entity\Conversation\ConversationApresNegociationDemande;
@@ -167,14 +168,6 @@ class Demande
     #[ORM\Column(type: 'array', nullable: true)]
     private $dimensionsGlobales = [];
 
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
-    private $statut;
-
-    #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
-    private $statutCommercial;
-
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: Evenement::class)]
     private $evenements;
 
@@ -288,10 +281,15 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dateDebutPrevisionnel;
 
+    #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'demandes')]
+    private $statut;
+
+    #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'demandesStatutCommercial')]
+    private $statutCommercial;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
-        $this->statut = "A transmettre";
         $this->evenements = new ArrayCollection();
         $this->contactsSecondaires = new ArrayCollection();
         $this->ged = new ArrayCollection();
@@ -726,30 +724,6 @@ class Demande
     public function setDimensionsGlobales(?array $dimensionsGlobales): self
     {
         $this->dimensionsGlobales = $dimensionsGlobales;
-
-        return $this;
-    }
-
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): self
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
-
-    public function getStatutCommercial(): ?string
-    {
-        return $this->statutCommercial;
-    }
-
-    public function setStatutCommercial(?string $statutCommercial): self
-    {
-        $this->statutCommercial = $statutCommercial;
 
         return $this;
     }
@@ -1272,4 +1246,29 @@ class Demande
 
         return $this;
     }
+
+    public function getStatut(): ?Statut
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?Statut $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getStatutCommercial(): ?Statut
+    {
+        return $this->statutCommercial;
+    }
+
+    public function setStatutCommercial(?Statut $statutCommercial): self
+    {
+        $this->statutCommercial = $statutCommercial;
+
+        return $this;
+    }
+
 }
