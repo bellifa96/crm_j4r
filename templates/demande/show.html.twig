@@ -315,10 +315,20 @@
     </style>
 
 
-    <a href="{{ referer }}">
-        <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
-        Retour
-    </a>
+    <div class="row justify-content-between">
+        <div class="col-md-auto">
+            <a href="{{ referer }}">
+                <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+                Retour
+            </a>
+        </div>
+        <div class="col-md-auto">
+            {% if demande.lienGed is not empty %}
+             <a href="{{ demande.lienGed }}">        <i class="bi bi-files" style="font-size: 1.5rem;"></i></a>
+            {% endif %}
+        </div>
+    </div>
+
     <div class="col-md-10 m-auto row justify-content-around mb-4">
         <div class="col-md-3 row">
             <div class="col-md-auto labels">
