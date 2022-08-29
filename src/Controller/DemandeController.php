@@ -261,11 +261,11 @@ class DemandeController extends AbstractController
             'choices' => [
                 '' => '',
                 'A relancer' => 'A relancer',
-                'En attente validation client' => 'En attente validation client',
+                'A modifier' => 'A modifier',
+                'Négociation' => 'Négociation',
                 'En attente OS' => 'En attente OS',
                 'Os validé' => 'Os validé',
                 'Non réalisé' => 'Non réalisé',
-                'Ne pas relancer' => 'Ne pas relancer',
 
             ]
         ]);
