@@ -185,12 +185,17 @@ class DemandeController extends AbstractController
             $fichierRepository->add($fichier);
         }
 
+        $referer = $request->headers->get('referer');
+
+
+
         return $this->render('demande/show.html.twig', [
             'users'=>$users,
             'demande' => $demande,
             'logs'=>$logs,
             'form' => $form->createView(),
             'title' => "Demande N° " . $demande->getReference(),
+            'referer' => $referer,
             'nav' => [['app_demande_edit', 'Modifier la demande', $demande->getId()]]
         ]);
     }
