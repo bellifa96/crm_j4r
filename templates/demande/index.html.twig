@@ -175,37 +175,36 @@
     <script>
 
 
-        function submitStatut(event){
+        function submitStatut(event) {
             event.preventDefault();
             $('.form-submit-loader').show();
 
 
-            const id = $('.statut-select').attr('id').replaceAll('demande_statut_','');
+            const id = $('.statut-select').attr('id').replaceAll('demande_statut_', '');
 
             const val = $('.statut-select').val();
 
-            let data = {id:id,statut:val};
+            let data = {id: id, statut: val};
 
-            $.post('{{ path('app_demande_statut_update') }}',{data:data},function (response) {
-                 const data = JSON.parse(response);
-                 console.log(response)
+            $.post('{{ path('app_demande_statut_update') }}', {data: data}, function (response) {
+                const data = JSON.parse(response);
+                console.log(response)
 
                 $('.form-submit-loader').hide();
 
-                if(data.code === 200){
+                if (data.code === 200) {
                     $('#statut-success').show();
                     setTimeout(() => {
                         $('#modal-changer-statut-demande').modal('hide');
                         $('#modal-changer-statut-demande').remove();
-                        $('#badge-statut-'+id).text(data.statut);
-                        $('#badge-statut-'+id).css('color',data.couleur);
-                        $('#badge-statut-'+id).css('background-color',data.couleurBG);
-
+                        $('#badge-statut-' + id).text(data.statut);
+                        $('#badge-statut-' + id).css('color', data.couleur);
+                        $('#badge-statut-' + id).css('background-color', data.couleurBG);
 
 
                     }, "1000")
 
-                }else{
+                } else {
                     $('#statut-danger').show();
                     $('#statut-success').show();
                     setTimeout(() => {
@@ -218,8 +217,10 @@
 
 
         }
+
         $('.statut-td').dblclick(function () {
             const id = $(this).attr('id');
+            $('#modal-changer-statut-demande').remove();
 
 
             if ($('#modal-changer-statut-demande').length == 0) {
@@ -233,8 +234,6 @@
                     $('body').append(data.message);
                     $('#modal-changer-statut-demande').modal('show');
                 })
-            }else{
-                $('#modal-changer-statut-demande').modal('show');
             }
 
 
