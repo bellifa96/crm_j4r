@@ -6,6 +6,7 @@ use App\Entity\Affaire\Statut;
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
+use App\Entity\User;
 use App\Form\DemandeType;
 use App\Form\Ged\FichierType;
 use App\Repository\Affaire\StatutRepository;
@@ -45,7 +46,7 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
-    public function index(DemandeRepository $demandeRepository, StatutRepository $statutRepository): Response
+    public function index(DemandeRepository $demandeRepository, StatutRepository $statutRepository, UserRepository $userRepository): Response
     {
 
         foreach ($demandeRepository->findAll() as $demande) {
@@ -56,6 +57,7 @@ class DemandeController extends AbstractController
         }
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandeRepository->findAll(),
+            'users' => $userRepository->findAll(),
             'title' => 'Liste des demandes',
             'nav' => [['app_demande_new', 'Ajouter une demande']]
         ]);
@@ -209,9 +211,9 @@ class DemandeController extends AbstractController
             return new Response(json_encode([
                 'code' => 200,
                 'message' => 'ok',
-                'statut'=>$statut->getTitre(),
-                'couleur'=>$statut->getCouleur(),
-                'couleurBG'=>$statut->getCouleurBG()
+                'statut' => $statut->getTitre(),
+                'couleur' => $statut->getCouleur(),
+                'couleurBG' => $statut->getCouleurBG()
             ]));
 
         } catch (OptimisticLockException|ORMException $e) {

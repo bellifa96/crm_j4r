@@ -218,6 +218,39 @@
 
         }
 
+        $(document).on('change', '.statut-select', function () {
+
+
+            const code = $(".statut-select option:selected").attr('code');
+            console.log(code);
+
+
+            if (code === "ARELANCER") {
+
+                const div = `
+
+                          <div class="col-md-4 mt-4 statut-ARELANCER">
+                            <label class="labels" for="demande_date_fin">Statut</label>
+                            <input type="date" name="demande[dateFin]" id="demande_date_fin"
+                                    class="form-control datepicker ">
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mt-4 statut-ARELANCER">
+                            <label class="labels" for="demande_att_a">Statut</label>
+                            <select name="demande[attrA]" id="demande_att_a"
+                                    class="form-control ">
+                                {% for user in users %}
+                                    <option value="{{ user.id }}" >{{ user.firstname~" "~user.lastname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                `;
+                $('.row-body').append(div)
+
+            }
+        })
         $('.statut-td').dblclick(function () {
             const id = $(this).attr('id');
             $('#modal-changer-statut-demande').remove();
