@@ -245,7 +245,7 @@ $(function () {
             searchPlaceholder: "Chercher"
         },
         order: [[0, 'desc']],
-        pageLength: 25,
+        pageLength: 50,
 
 
     });
