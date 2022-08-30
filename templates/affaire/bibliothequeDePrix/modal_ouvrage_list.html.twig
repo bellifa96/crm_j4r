@@ -1,23 +1,27 @@
 <!-- Modal -->
-<div class="modal fade modal-ouvrage" id="modal-import-ouvrage" tabindex="-1" aria-labelledby="modal-import-ouvrage-label" aria-hidden="true"
+<div class="modal fade modal-ouvrage" id="modal-import-ouvrage" tabindex="-1"
+     aria-labelledby="modal-import-ouvrage-label" aria-hidden="true"
      style="color: #486178;">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content">
             <form onsubmit="return submitImportOuvrageEvent(event)" name="modal-import-ouvrage">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-import-ouvrage-label">Ajout d'un ouvrage au sous-lot ou au lot</h5>
+                    <h5 class="modal-title" id="modal-import-ouvrage-label">Ajout d'un ouvrage au sous-lot ou au
+                        lot</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        Veuillez sélectionner un ou plusieurs ouvrages à associer au lot ou au sous-lot. Le déboursé de l'ouvrage sera modifié lors de cet ajout dans la bibliothèque de prix. Les devis existants ne seront pas impactés.
+                        Veuillez sélectionner un ou plusieurs ouvrages à associer au lot ou au sous-lot. Le déboursé de
+                        l'ouvrage sera modifié lors de cet ajout dans la bibliothèque de prix. Les devis existants ne
+                        seront pas impactés.
                     </p>
                     <div class="row">
 
                         <table class="table datatable" id="table-ouvrage" style="background: white;">
                             <thead>
-                            <tr>
+                            <tr class="tr-head">
                                 <th></th>
                                 <th>Dénomination</th>
                                 <th>Code</th>
@@ -28,17 +32,21 @@
                             <tbody>
 
                             {% for ouvrage in ouvrages %}
-                                <tr class="pointer">
-                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}" class="check-ouvrage"/></td>
+                                <tr class="text-center">
+                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}"
+                                               class="check-ouvrage"/>
+                                    </td>
                                     <td onclick="document.location = ' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.denomination }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.code }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.unite }}</td>
-                                    <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }} €</td>
+                                    <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}
+                                        €
+                                    </td>
                                 </tr>
 
                             {% else %}
                                 <tr>
-                                    <td colspan="6" class="text-center">Aucun ouvrage trouvé</td>
+                                    <td colspan="5" class="text-center">Aucun ouvrage trouvé</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -48,7 +56,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
-                    <button type="submit" class="btn btn-primary" onsubmit="">Importer ce ouvrage</button>
+                    <button type="submit" class="btn btn-primary" onsubmit="">Importer</button>
                 </div>
 
             </form>

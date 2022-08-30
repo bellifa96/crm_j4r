@@ -13,8 +13,7 @@ class OuvrageType extends AbstractType
     {
         $builder
             ->add('denomination')
-            ->add('typeDOuvrage')
-            ->add('prixUnitaireDebourse')
+            ->add('unite')
             ->add('quantiteDOuvrage')
             ->add('debourseHTCalcule')
             ->add('marge')

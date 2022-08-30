@@ -81,7 +81,7 @@
         text-align: right;
     }
 
-    input {
+    .main-devis > input {
         width: 100%;
         min-width: 0px;
         outline: transparent solid 2px;
@@ -267,7 +267,7 @@
 </div>
 
 
-<div class="row justify-content-center">
+<div class="row justify-content-center main-devis">
     <svg viewBox="0 0 200 200" focusable="false" class="svg">
         <circle cx="100" cy="100" r="100" fill="white"></circle>
         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -335,16 +335,19 @@
         </div>
 
     </div>
-
-    {% for row in form.lots %}
+    {% for ouvrage in devis.ouvrages %}
 
     <div class="">
 
         <div class="css-ccobzb ">
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">
+                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination" name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255" class="chakra-input" value="{{ ouvrage.denomination }}">
+                </div>
+                <div class="tab-el-left">
+
+                </div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
@@ -360,30 +363,56 @@
             </div>
         </div>
 
-        {% for sousLot in row.sousLots %}
-        <div class="css-ccobzb sous-lot">
+        {% endfor %}
 
-            <div class="css-1r30cbj col-md-12">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+        {% for row in form.lots %}
+
+        <div class="">
+
+            <div class="css-ccobzb ">
+                <div class="css-1r30cbj">
+                    <div class="tab-el-left"></div>
+                    <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                    <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right row justify-content-center">
+                        <div class="col-md-auto">
+                            <a href="#"><i class="bi bi-plus-circle"></i></a>
+                        </div>
+                        <div class="col-md-auto">
+                            <a href="#"><i class="bi bi-three-dots"></i></a>
+                        </div>
                     </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
+                </div>
+            </div>
+
+            {% for sousLot in row.sousLots %}
+            <div class="css-ccobzb sous-lot">
+
+                <div class="css-1r30cbj col-md-12">
+                    <div class="tab-el-left"></div>
+                    <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                    <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right"></div>
+                    <div class="tab-el-right row justify-content-center">
+                        <div class="col-md-auto">
+                            <a href="#"><i class="bi bi-plus-circle"></i></a>
+                        </div>
+                        <div class="col-md-auto">
+                            <a href="#"><i class="bi bi-three-dots"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% endfor %}
-    {#  {% for sousLot in row.sousLots %}
+        {% endfor %}
+        {#  {% for sousLot in row.sousLots %}
     <div class="css-ccobzb sous-lot">
 
         <div class="css-1r30cbj col-md-12">
@@ -404,149 +433,164 @@
             </div>
         </div>
     </div>
-    #}
-</div>
+        #}
+    </div>
 
 
-{% endfor %}
-
-</div>
-
-{% for row in form.lots %}
+    {% endfor %}
 
 
-
-    <div class="mt-4" id="lot_div_{{ loop.index }}">
-
-
-        <table class="table">
-            <thead>
-            <tr class="tr-head text-center">
-                <th>Lot</th>
-                <th>Dénomination</th>
-                <th>Déboursé Total HT</th>
-                <th>Action</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="text-center">{{ loop.index }} </td>
-                <td id="lot_debourse_total_ht_{{ loop.index }}">
-
-                </td>
-                <td>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    {% for row in form.lots %}
 
 
-        <table class="table text-center">
 
-            <thead>
-            <tr class="tr-head">
-                <th>Sous-lot</th>
-                <th>type d'ouvrage</th>
-                <th>prix unitaire déboursé</th>
-                <th>quantité d'ouvrage</th>
-                <th>déboursé HT calculé</th>
-                <th>marge</th>
-                <th>prix de vente ht</th>
-                <th></th>
+        <div class="mt-4" id="lot_div_{{ loop.index }}">
 
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for sousLot in row.sousLots %}
-                {% for ouvrage in sousLot.ouvrages %}
+            <table class="table">
+                <thead>
+                <tr class="tr-head text-center">
+                    <th>Lot</th>
+                    <th>Dénomination</th>
+                    <th>Déboursé Total HT</th>
+                    <th>Action</th>
 
-                    <tr>
-                        <td>{{ form_widget(ouvrage.denomination,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.typeDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.prixUnitaireDebourse,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.quantiteDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.debourseHTCalcule,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.marge,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>{{ form_widget(ouvrage.prixDeVenteHT,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                        <td>
-                            <div class="row justify-content-center">
-                                <div class="col-md-auto">
-                                    <a href="#"><i class="bi bi-plus-circle"></i></a>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="text-center">{{ loop.index }} </td>
+                    <td id="lot_debourse_total_ht_{{ loop.index }}">
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table text-center">
+
+                <thead>
+                <tr class="tr-head">
+                    <th>Sous-lot</th>
+                    <th>type d'ouvrage</th>
+                    <th>prix unitaire déboursé</th>
+                    <th>quantité d'ouvrage</th>
+                    <th>déboursé HT calculé</th>
+                    <th>marge</th>
+                    <th>prix de vente ht</th>
+                    <th></th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for sousLot in row.sousLots %}
+                    {% for ouvrage in sousLot.ouvrages %}
+
+                        <tr>
+                            <td>{{ form_widget(ouvrage.denomination,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.typeDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.prixUnitaireDebourse,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.quantiteDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.debourseHTCalcule,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.marge,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>{{ form_widget(ouvrage.prixDeVenteHT,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
+                            <td>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-auto">
+                                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-auto">
+            <a href="#">
+                + Créer un ouvrage
+            </a>
+        </div>
+
+        <div class="col-md-auto">
+            <a href="#">
+                + Créer un nouveau lot
+            </a>
+        </div>
+
     </div>
-{% endfor %}
 
-<div class="row">
-    <div class="col-md-auto">
-        <a href="#">
-            + Créer un ouvrage
-        </a>
+    {{ form_end(form) }}
+
+
+    <div class="col-md-10 m-auto mt-2">
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+
     </div>
 
-    <div class="col-md-auto">
-        <a href="#">
-            + Créer un nouveau lot
-        </a>
-    </div>
+    <script>
+        function submitImportOuvrageEvent(event) {
+            event.preventDefault();
 
-</div>
+            let data = {};
+            $('.check-ouvrage').each(function (index) {
+                if ($(this).is(':checked')) {
+                    console.log($(this).val());
+                    data[index] = ($(this).val())
+                }
+            })
 
-{{ form_end(form) }}
+            console.log(data)
+
+            $.post("{{ path('app_affaire_ouvrage_import',{'id':devis.id}) }}", data, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    //    location.reload();
+
+                }
+            })
+        }
+
+        $("#import-ouvrage").click(function () {
+            $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+                const data = JSON.parse(response);
+                $('body').append(data.html);
+                $("#modal-import-ouvrage").modal("show");
+                $('.datatable').DataTable({
+                    "oLanguage": {
+                        sSearch: "",
+                        searchPlaceholder: "Chercher"
+
+                    },
+                    language: {
+                        searchPlaceholder: "Chercher"
+                    },
+                    order: [[0, 'desc']],
+                    pageLength: 25,
 
 
-<div class="col-md-10 m-auto mt-2">
-    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-
-</div>
-
-<script>
-    function submitImportOuvrageEvent(event) {
-        event.preventDefault();
-
-        let data = {};
-        $('.check-ouvrage').each(function (index) {
-            if ($(this).is(':checked')) {
-                console.log($(this).val());
-                data[index] = ($(this).val())
-            }
+                });
+            })
         })
 
-        $.post("{{ path('app_affaire_ouvrage_import',{'id':demande.id}) }}", data, function (response) {
-            let data = JSON.parse(response);
-            if (data.code === 200) {
-                location.reload();
+        $('#add-ouvrage').click(function () {
+            $('.modal-ouvrage').remove();
+            let path = "{{ path('app_affaire_modal_ouvrage') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-ouvrage").modal('show');
 
-            }
+            })
         })
-    }
-
-    $("#import-ouvrage").click(function (){
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
-            const data = JSON.parse(response);
-            $('body').append(data.html);
-            $("#modal-import-ouvrage").modal("show");
-        })
-    })
-
-    $('#add-ouvrage').click(function () {
-        $('.modal-ouvrage').remove();
-        let path = "{{ path('app_affaire_modal_ouvrage') }}";
-        $.post(path, function (data) {
-            $('body').append(JSON.parse(data).message);
-            $("#modal-ouvrage").modal('show');
-
-        })
-    })
-</script>
+    </script>
 

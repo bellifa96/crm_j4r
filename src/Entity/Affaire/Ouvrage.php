@@ -81,6 +81,9 @@ class Ouvrage
     #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'ouvrages')]
     private $devis;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $statut;
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
@@ -294,6 +297,18 @@ class Ouvrage
     public function setDevis(?Devis $devis): self
     {
         $this->devis = $devis;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

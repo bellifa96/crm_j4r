@@ -18,32 +18,36 @@ class DevisType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('statut',ChoiceType::class,[
-                'choices'=>[
-                    'En cours'=>'En cours',
-                    'Validé'=>'Validé',
-                    'Refusé'=>'Refusé',
+            ->add('statut', ChoiceType::class, [
+                'choices' => [
+                    'En cours' => 'En cours',
+                    'Validé' => 'Validé',
+                    'Refusé' => 'Refusé',
                 ]
             ])
-
             ->add('description')
-            ->add('referent',EntityType::class,[
-                'class'=>User::class,
-                'query_builder'=> function(EntityRepository $entityRepository){
-                            return $entityRepository->createQueryBuilder('u')
-                                ->orderBy('u.firstname','ASC');
+            ->add('referent', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $entityRepository) {
+                    return $entityRepository->createQueryBuilder('u')
+                        ->orderBy('u.firstname', 'ASC');
                 },
-                'choice_label'=> function($user){
-                            return $user->getFirstname()." ".$user->getLastname();
+                'choice_label' => function ($user) {
+                    return $user->getFirstname() . " " . $user->getLastname();
                 }
             ])
-            ->add('lots',CollectionType::class,[
-                'entry_type'=>LotType::class,
+            ->add('lots', CollectionType::class, [
+                'entry_type' => LotType::class,
                 'entry_options' => [
                     'attr' => ['class' => ''],
                 ],
             ])
-        ;
+            ->add('ouvrages', CollectionType::class, [
+                'entry_type' => OuvrageType::class,
+                'entry_options' => [
+                    'attr' => ['class' => ''],
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

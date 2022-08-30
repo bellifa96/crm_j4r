@@ -443,34 +443,6 @@ class BibliothequeDePrixController extends AbstractController
 
     }
 
-    #[Route('/ouvrage/import/{id}', name: 'app_affaire_ouvrage_import', methods: ['POST'])]
-    public function importOuvrage(Request $request, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
-    {
-
-        $data = $request->request->all();
-
-
-        $sum = 0;
-        foreach ($data as $val) {
-            $ouvrage = $ouvrageRepository->find($val);
-            $devis->addOuvrage($ouvrage);
-            $sum += $ouvrage->getPrixDeVenteHT();
-        }
-        //  return new Response(json_encode($data));
-
-
-        try {
-            $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200]));
-        } catch (OptimisticLockException $e) {
-            dd($e);
-        } catch (ORMException $e) {
-            dd($e);
-        }
-
-
-        return new Response(json_encode(['code' => 404]));
-    }
 
     #[Route('/ouvrage/dupliquer/{id}', name: 'app_affaire_ouvrage_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerOuvrage(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, EntityManagerInterface $entityManager, ComposantRepository $composantRepository): Response

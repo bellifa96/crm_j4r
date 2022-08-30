@@ -47,6 +47,9 @@ class Composant
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixDeVente;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $statut;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -197,6 +200,18 @@ class Composant
     public function setPrixDeVente(?float $prixDeVente): self
     {
         $this->prixDeVente = $prixDeVente;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }
