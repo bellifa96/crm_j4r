@@ -63,4 +63,17 @@ class StatutRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    /**
+     * @return Statut[] Returns an array of Statut objects
+     */
+    public function findAllByCode($value): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.destination LIKE :val')
+            ->setParameter('val', '%"'.$value.'"%')
+            ->getQuery()
+            ->getResult();
+    }
 }

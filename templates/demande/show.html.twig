@@ -26,8 +26,6 @@
         }
 
 
-
-
         .btn-info-2:hover {
             background: #138496;
             color: #fff;
@@ -318,13 +316,16 @@
     <div class="row justify-content-between">
         <div class="col-md-auto">
             <a href="{{ referer }}">
-                <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+                <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi"
+                     aria-hidden="true">
+                    <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
                 Retour
             </a>
         </div>
         <div class="col-md-auto">
             {% if demande.lienGed is not empty %}
-             <a href="{{ demande.lienGed }}" target="_blank">        <i class="bi bi-files" style="font-size: 1.5rem;"></i></a>
+                <a href="{{ demande.lienGed }}" target="_blank"> <i class="bi bi-files" style="font-size: 1.5rem;"></i></a>
             {% endif %}
         </div>
     </div>
@@ -334,7 +335,8 @@
             <div class="col-md-auto labels">
                 Statut
             </div>
-            <div class="col-md-auto form-control-sm-2 labels"  style="background:{{ demande.statut is not empty ? demande.statut.couleurBG  : ''}};color: {{ demande.statut is not empty ? demande.statut.couleur :'' }};">
+            <div class="col-md-auto form-control-sm-2 labels"
+                 style="background:{{ demande.statut is not empty ? demande.statut.couleurBG  : '' }};color: {{ demande.statut is not empty ? demande.statut.couleur :'' }};">
                 {{ demande.statut }}
             </div>
         </div>
@@ -343,14 +345,15 @@
             <div class="col-md-auto labels">
                 Statut commercial
             </div>
-            <div class="col-md-auto form-control-sm-2 labels" style="background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG :'' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : ''}};">
+            <div class="col-md-auto form-control-sm-2 labels statut-td" id="{{ demande.id }}"
+                 style="background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG :'' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : '' }};">
                 {{ demande.statutCommercial is not empty ? demande.statutCommercial : "Aucun" }}
             </div>
         </div>
 
         <div class="col-md-3 row">
             <div class="col-md-auto labels">
-                Createur
+                Créateur
             </div>
             <div class="col-md-auto form-control-sm-2 labels">
                 {{ demande.createur.lastname~" "~demande.createur.firstname }}
@@ -367,7 +370,9 @@
                     </div>
                     <div class="col-md-9 form-control-sm-2">
                         {% if demande.client is not empty %}
-                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> <b>{{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</b> </a>
+                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}">
+                                <b>{{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</b>
+                            </a>
                         {% endif %}
                     </div>
                 </div>
@@ -394,7 +399,7 @@
                             <label class="labels">Maitre D'ouvrage</label>
                         </div>
                         <div class="col-md-9 form-control-sm-2">
-                           <b>{{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom }}</b>
+                            <b>{{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom }}</b>
                         </div>
                     </div>
 
@@ -405,7 +410,7 @@
                         <div class="col-md-9 form-control-sm-2">
                             {% if demande.contactPrincipalMaitreDOuvrage is not empty %}
                                 <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalMaitreDOuvrage.id}) }}">
-                                   <b>{{ demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom }}</b>
+                                    <b>{{ demande.contactPrincipalMaitreDOuvrage.nom~" "~demande.contactPrincipalMaitreDOuvrage.prenom }}</b>
                                 </a>
                             {% else %}
                                 NC
@@ -421,7 +426,7 @@
                             <label class="labels">Intermediaire</label>
                         </div>
                         <div class="col-md-9 form-control-sm-2">
-                          <b>  {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}</b>
+                            <b>  {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom }}</b>
                         </div>
                     </div>
 
@@ -432,7 +437,7 @@
                         <div class="col-md-9 form-control-sm-2">
                             {% if demande.contactPrincipalIntermediaire is not empty %}
                                 <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalIntermediaire.id}) }}">
-                                <b>  {{ demande.contactPrincipalIntermediaire.nom~" "~demande.contactPrincipalIntermediaire.prenom }}</b>
+                                    <b>  {{ demande.contactPrincipalIntermediaire.nom~" "~demande.contactPrincipalIntermediaire.prenom }}</b>
                                 </a>
                             {% else %}
                                 NC
@@ -449,7 +454,7 @@
                         <div class="col-md-9 bg-leasy">
                             {% for contact in demande.contactsSecondaires %}
                                 <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">
-                                   <b>{{ contact.nom~" "~contact.prenom }}</b>
+                                    <b>{{ contact.nom~" "~contact.prenom }}</b>
                                 </a>
                                 <br>
                             {% endfor %}
@@ -815,11 +820,11 @@
                                 {% for evenement in demande.evenements %}
 
                                     <tr>
-                                        <td>
+                                        <td onclick="evenementShow({{ evenement.id }})"  style="cursor:pointer;">
                                             <i class="bi bi-bookmark-fill"
                                                style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "green" }};font-size: 1.1rem;"></i>
                                         </td>
-                                        <td>{{ evenement.titre }}</td>
+                                        <td onclick="evenementShow({{ evenement.id }})" style="cursor:pointer;"> {{ evenement.titre }}</td>
                                         <td>{{ evenement.description }}</td>
 
                                         <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
@@ -1164,6 +1169,78 @@
 
 
     <script>
+
+
+        function evenementShow(id){
+            $('.show-evenement').modal('hide');
+            $('.show-evenement').remove();
+            $.post("/affaire/evenement/show/modal/"+id,function (response) {
+                const data = JSON.parse(response);
+                $('body').append(data.message);
+                $('.show-evenement').modal('show');
+
+            })
+        }
+
+        function submitStatut(event) {
+            event.preventDefault();
+            $('.form-submit-loader').show();
+
+
+            const id = $('.statut-select').attr('id').replaceAll('demande_statut_', '');
+
+            const val = $('.statut-select').val();
+
+            let data = {id: id, statut: val};
+
+            $.post('{{ path('app_demande_statut_update') }}', {data: data}, function (response) {
+                const data = JSON.parse(response);
+                console.log(response)
+
+                $('.form-submit-loader').hide();
+
+                if (data.code === 200) {
+                    $('#statut-success').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+                        $('#' + id).text(data.statut);
+                        $('#' + id).css('color', data.couleur);
+                        $('#' + id).css('background-color', data.couleurBG);
+                    }, "1000")
+
+                } else {
+                    $('#statut-danger').show();
+                    $('#statut-success').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+
+                    }, "3000")
+                }
+            })
+        }
+
+
+
+        $('.statut-td').dblclick(function () {
+            const id = $(this).attr('id');
+
+
+            if ($('#modal-changer-statut-demande').length == 0) {
+
+
+                const url = "/demande/statut/modal/template/" + id;
+
+                $('.modal').remove();
+                $.post(url, function (response) {
+                    const data = JSON.parse(response);
+                    $('body').append(data.message);
+                    $('#modal-changer-statut-demande').modal('show');
+                })
+            }
+
+        })
 
 
         $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Créer un devis </a> </li>");

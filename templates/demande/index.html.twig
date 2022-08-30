@@ -9,6 +9,7 @@
         table {
             overflow: auto;
         }
+
         .btn-info-2 {
             background: #17a2b8 !important;
             border-color: #17a2b8 !important;
@@ -16,10 +17,12 @@
             font-size: .7rem !important;
         }
 
+
     </style>
 
 
-    <button class="btn btn-info-2 mb-4" id="vue" value='{{ 'demandeIndex' in app.user.vue|keys  and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "commerciale" : "globale" }}'>
+    <button class="btn btn-info-2 mb-4" id="vue"
+            value='{{ 'demandeIndex' in app.user.vue|keys  and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "commerciale" : "globale" }}'>
         {{ 'demandeIndex' in app.user.vue|keys and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "Vue globale": "Vue commerciale" }}
     </button>
     <div id="globale">
@@ -69,7 +72,8 @@
 
                     <td>
                         {% if demande.lienGed is not empty %}
-                            <a href="{{ demande.lienGed }}" target="_blank">        <i class="bi bi-files" style="font-size: 1.5rem;"></i></a>
+                            <a href="{{ demande.lienGed }}" target="_blank"> <i class="bi bi-files"
+                                                                                style="font-size: 1.5rem;"></i></a>
                         {% endif %}
                     </td>
                 </tr>
@@ -107,11 +111,12 @@
             <tbody>
             {% for demande in demandes %}
                 <tr class="text-center">
-                    <td>
-                        <a href="{{ path('app_demande_show', {'id': demande.id}) }}">
-                            <div class="badge "
-                                 style="font-size:1em;background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG : '' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : '' }};">{{ demande.statutCommercial }}</div>
-                        </a>
+                    <td class="statut-td" id="{{ demande.id }}">
+
+                        <div class="badge" id="badge-statut-{{ demande.id }}"
+                             style="font-size:1em;background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG : '' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : '' }};">
+                            {{ demande.statutCommercial }}
+                        </div>
                     </td>
                     <td></td>
                     <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.reference }}</a></td>
@@ -152,7 +157,8 @@
 
                     <td>
                         {% if demande.lienGed is not empty %}
-                            <a href="{{ demande.lienGed }}" target="_blank">        <i class="bi bi-files" style="font-size: 1.2rem;"></i></a>
+                            <a href="{{ demande.lienGed }}" target="_blank">
+                                <i class="bi bi-files" style="font-size: 1.2rem;"></i></a>
                         {% endif %}
                     </td>
                 </tr>
@@ -167,13 +173,78 @@
     </div>
 
     <script>
+
+
+        function submitStatut(event){
+            event.preventDefault();
+            $('.form-submit-loader').show();
+
+
+            const id = $('.statut-select').attr('id').replaceAll('demande_statut_','');
+
+            const val = $('.statut-select').val();
+
+            let data = {id:id,statut:val};
+
+            $.post('{{ path('app_demande_statut_update') }}',{data:data},function (response) {
+                 const data = JSON.parse(response);
+                 console.log(response)
+
+                $('.form-submit-loader').hide();
+
+                if(data.code === 200){
+                    $('#statut-success').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+                        $('#badge-statut-'+id).text(data.statut);
+                        $('#badge-statut-'+id).css('color',data.couleur);
+                        $('#badge-statut-'+id).css('background-color',data.couleurBG);
+
+
+
+                    }, "1000")
+
+                }else{
+                    $('#statut-danger').show();
+                    $('#statut-success').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+
+                    }, "3000")
+                }
+            })
+
+
+        }
+        $('.statut-td').dblclick(function () {
+            const id = $(this).attr('id');
+
+
+            if ($('#modal-changer-statut-demande').length == 0) {
+
+
+                const url = "/demande/statut/modal/template/" + id;
+
+                $('.modal').remove();
+                $.post(url, function (response) {
+                    const data = JSON.parse(response);
+                    $('body').append(data.message);
+                    $('#modal-changer-statut-demande').modal('show');
+                })
+            }
+
+        })
+
+
         $('#vue').click(function () {
             console.log($(this).val())
 
             setVue();
         })
 
-        function setVue(){
+        function setVue() {
             if ($('#vue').val() === "globale") {
                 $('#commerciale').slideDown();
                 $('#globale').slideUp();
@@ -188,6 +259,7 @@
                 vue('DemandeVueGlobal')
             }
         }
+
         if ($('#vue').val() === "globale") {
             $('#commerciale').slideUp();
             $('#globale').slideDown();
@@ -195,9 +267,10 @@
             $('#commerciale').slideDown();
             $('#globale').slideUp();
         }
-            function vue(val){
-            const url ='/user/vue/'+val+'/demandeIndex';
-            $.post(url,function (response) {
+
+        function vue(val) {
+            const url = '/user/vue/' + val + '/demandeIndex';
+            $.post(url, function (response) {
                 console.log(JSON.parse(response));
             })
         }

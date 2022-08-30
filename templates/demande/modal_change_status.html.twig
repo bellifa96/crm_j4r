@@ -1,0 +1,71 @@
+<!-- Modal -->
+<div class="modal fade modal-changer-statut-demande" id="modal-changer-statut-demande" tabindex="-1"
+     aria-labelledby="modal-changer-statut-demande-label" aria-hidden="true"
+     style="color: #486178;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+        <div class="modal-content">
+            <form onsubmit="return submitStatut(event)" name="demande_{{ demande.id }}">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-composant-label">Modifier le statut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        La modification du statut peut déclencher un évènement
+                    </p>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <label class="labels" for="demande_id">N°demande</label>
+                            <div class="col-md-12 form-control-sm-2">
+                                {{ demande.id }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels" for="demande_client">Client</label>
+                            <div class="col-md-12 form-control-sm-2">
+                                {{ demande.client }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels" for="demande_id">Nom Chantier</label>
+                            <div class="col-md-12 form-control-sm-2">
+                                {{ demande.nomChantier }}
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 m-auto mt-4">
+                            <label class="labels" for="demande_statut_{{ demande.id }}">Statut</label>
+                            <select name="demande_{{ demande.id }}[statut]" id="demande_statut_{{ demande.id }}"
+                                    class="statut-select form-control ">
+                                {% for statut in statuts %}
+                                    <option value="{{ statut.id }}" {{ statut == demande.statutCommercial ? "selected" : "" }}>{{ statut.titre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary" onclick="return $(this).hide()">Modifier le statut</button>
+                    <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
+                        <span class="sr-only">.</span>
+                    </div>
+                    <div class="alert alert-success" role="alert" style="display: none;" id="statut-success">
+                        Le statut a été modifié avec success
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="display: none;" id="statut-danger">
+                        erreur lors de la modification veuillez recharger la page
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

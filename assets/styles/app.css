@@ -5,6 +5,9 @@ body {
     font-size: 12px;
 
 }
+th{
+    text-align: center !important;
+}
 
 table {
     color: #0E4377 !important;

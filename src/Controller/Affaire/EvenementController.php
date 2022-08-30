@@ -40,6 +40,26 @@ class EvenementController extends AbstractController
         ]);
     }
 
+    #[Route('/show/modal/{id}', name: 'app_affaire_evenement_show_modal', methods: ['GET', 'POST'])]
+    public function getShowModal(Evenement $evenement, Request $request, Environment $environment): Response
+    {
+
+        $response = new Response();
+        try {
+            $html = $environment->render("affaire/evenement/modal_show.html.twig", [
+                'evenement' => $evenement
+            ]);
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
+        $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        return $response;
+    }
+
     #[Route('/new/modal', name: 'app_affaire_evenement_new_modal', methods: ['GET', 'POST'])]
     public function getModal(Request $request, Environment $environment): Response
     {
@@ -107,8 +127,8 @@ class EvenementController extends AbstractController
             try {
                 $evenementRepository->add($evenement);
                 $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
-                $objet = $this->getUser()->getFirstname()." attribue Tache (".$evenement->getPriorite().") - ".$evenement->getDemande()->getNomChantier()." - échéance :".$evenement->getDateDeFin()->format('d/m/Y H:i');
-                $this->emailService->send($users,$evenement, 'emails/nouvelle_tache.html.twig',$objet);
+                $objet = $this->getUser()->getFirstname() . " attribue Tache (" . $evenement->getPriorite() . ") - " . $evenement->getDemande()->getNomChantier() . " - échéance :" . $evenement->getDateDeFin()->format('d/m/Y H:i');
+                $this->emailService->send($users, $evenement, 'emails/nouvelle_tache.html.twig', $objet);
 
             } catch (UniqueConstraintViolationException $e) {
                 $response->setContent(json_encode(['code' => 404, 'message' => "Une activité avec le même titre existe dans la base de données"]));

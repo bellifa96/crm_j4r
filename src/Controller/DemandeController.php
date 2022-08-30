@@ -8,6 +8,7 @@ use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Form\DemandeType;
 use App\Form\Ged\FichierType;
+use App\Repository\Affaire\StatutRepository;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
 use App\Repository\UserRepository;
@@ -44,11 +45,12 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
-    public function index(DemandeRepository $demandeRepository): Response
+    public function index(DemandeRepository $demandeRepository, StatutRepository $statutRepository): Response
     {
-        foreach ($demandeRepository->findAll() as $demande){
-            if(empty($demande->getReference())){
-                $demande->setReference(date('y').date('m').'-'.$demande->getId());
+
+        foreach ($demandeRepository->findAll() as $demande) {
+            if (empty($demande->getReference())) {
+                $demande->setReference(date('y') . date('m') . '-' . $demande->getId());
                 $demandeRepository->add($demande);
             }
         }
@@ -69,24 +71,22 @@ class DemandeController extends AbstractController
 
         if ($this->isGranted('ROLE_ADMIN') or $this->isGranted('ROLE_SUPER_ADMIN')) {
             $form->add('statut', EntityType::class, [
-                  'class'=>Statut::class,
-                  'query_builder'=>function(EntityRepository $er){
-                       return $er->createQueryBuilder('s')
-                           ->where('s.destination LIKE :val')
-                           ->setParameter('val','%"SD"%')
-                           ;
-                  },
+                'class' => Statut::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->where('s.destination LIKE :val')
+                        ->setParameter('val', '%"SD"%');
+                },
                 'choice_label' => 'titre',
             ]);
             $form->add('statutCommercial', EntityType::class, [
-                'class'=>Statut::class,
-                'query_builder'=>function(EntityRepository $er){
+                'class' => Statut::class,
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->where('s.destination LIKE :val')
-                        ->setParameter('val','%"SCD"%')
-                        ;
+                        ->setParameter('val', '%"SCD"%');
                 },
-                'required'=>false,
+                'required' => false,
                 'choice_label' => 'titre',
             ]);
         }
@@ -95,27 +95,27 @@ class DemandeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            if($demande->isFaireUnReleve() and !empty($demande->getUserReleve()) ){
-                $objet = "Faire un relevé de la demande N°" . $demande->getId() . " pour le client ". $demande->getClient();
+            if ($demande->isFaireUnReleve() and !empty($demande->getUserReleve())) {
+                $objet = "Faire un relevé de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/releve.html.twig";
                 $email = $this->emailService->send([$demande->getUserReleve()->getEmail()], $demande, $template, $objet);
 
-            }elseif(!$demande->isFaireUnReleve() and !empty($demande->getUserReleve())){
+            } elseif (!$demande->isFaireUnReleve() and !empty($demande->getUserReleve())) {
                 $demande->setUserReleve(null);
             }
 
-            if($demande->isFaireUnDevis() and !empty($demande->getUserDevis()) ){
-                $objet = "Faire un Devis de la demande N°" . $demande->getId() . " pour le client ". $demande->getClient();
+            if ($demande->isFaireUnDevis() and !empty($demande->getUserDevis())) {
+                $objet = "Faire un Devis de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/devis.html.twig";
                 $email = $this->emailService->send([$demande->getUserDevis()->getEmail()], $demande, $template, $objet);
 
-            }elseif(!$demande->isFaireUnDevis() and !empty($demande->getUserDevis())){
+            } elseif (!$demande->isFaireUnDevis() and !empty($demande->getUserDevis())) {
                 $demande->setUserDevis(null);
             }
 
             return $this->extracted($request, $demande, $demandeRepository,);
 
-            $demande->setReference((date('y')%10).date("m").sprintf("%04d", $demande->getId()));
+            $demande->setReference((date('y') % 10) . date("m") . sprintf("%04d", $demande->getId()));
 
             return $this->extracted($request, $demande, $demandeRepository,);
         }
@@ -129,24 +129,22 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
-    public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository,DemandeRepository $demandeRepository,UserRepository $userRepository): Response
+    public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository, DemandeRepository $demandeRepository, UserRepository $userRepository): Response
     {
-
-
 
         $data = $request->query->all();
 
-        if(key_exists('menu',$data)){
+        if (key_exists('menu', $data)) {
             $menu = $demande->getMenu();
-            $menu[$this->getUser()->getId()] =$data['menu'];
+            $menu[$this->getUser()->getId()] = $data['menu'];
         }
 
 
         $users = $userRepository->findAll();
 
 
-        if(empty($demande->getReference())){
-            $demande->setReference(date('y').date('m').'-'.$demande->getId());
+        if (empty($demande->getReference())) {
+            $demande->setReference(date('y') . date('m') . '-' . $demande->getId());
             $demandeRepository->add($demande);
         }
 
@@ -154,7 +152,7 @@ class DemandeController extends AbstractController
         $demande = $this->em->find(Demande::class, $demande->getId());
         $logs = $repo->getLogEntries($demande);
 
-      //  dd($logs);
+        //  dd($logs);
         $fichier = new Fichier();
         $fichier->setDemande($demande);
         $form = $this->createForm(FichierType::class, $fichier);
@@ -188,16 +186,63 @@ class DemandeController extends AbstractController
         $referer = $request->headers->get('referer');
 
 
-
         return $this->render('demande/show.html.twig', [
-            'users'=>$users,
+            'users' => $users,
             'demande' => $demande,
-            'logs'=>$logs,
+            'logs' => $logs,
             'form' => $form->createView(),
             'title' => "Demande N° " . $demande->getReference(),
             'referer' => $referer,
             'nav' => [['app_demande_edit', 'Modifier la demande', $demande->getId()]]
         ]);
+    }
+
+    #[Route('/statut/update', name: 'app_demande_statut_update', methods: ['GET', 'POST'])]
+    public function updateStatut(Request $request, DemandeRepository $demandeRepository, StatutRepository $statutRepository): Response
+    {
+        $data = $request->request->all()['data'];
+        $demande = $demandeRepository->find($data['id']);
+        $statut = $statutRepository->find($data['statut']);
+        $demande->setStatutCommercial($statut);
+        try {
+            $demandeRepository->add($demande);
+            return new Response(json_encode([
+                'code' => 200,
+                'message' => 'ok',
+                'statut'=>$statut->getTitre(),
+                'couleur'=>$statut->getCouleur(),
+                'couleurBG'=>$statut->getCouleurBG()
+            ]));
+
+        } catch (OptimisticLockException|ORMException $e) {
+            return new Response(json_encode(['code' => 403, 'message' => $e->getMessage()]));
+        }
+
+    }
+
+    #[Route('/statut/modal/template/{id}', name: 'app_demande_statut_modal', methods: ['GET', 'POST'])]
+    public function getStatutModal(Demande $demande, Request $request, Environment $environment, StatutRepository $statutRepository): Response
+    {
+
+        $path = "demande/modal_change_status.html.twig";
+        $statuts = $statutRepository->findAllByCode('SCD');
+
+        $response = new Response();
+
+        if (!empty($path)) {
+
+            try {
+                $html = $environment->render($path, ['demande' => $demande, 'statuts' => $statuts]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        }
+        return $response;
     }
 
     #[Route('/form/template', name: 'app_demande_form', methods: ['GET', 'POST'])]
@@ -242,36 +287,34 @@ class DemandeController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'app_demande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Demande $demande, DemandeRepository $demandeRepository,UserRepository $userRepository): Response
+    public function edit(Request $request, Demande $demande, DemandeRepository $demandeRepository, UserRepository $userRepository): Response
     {
 
         $users = $userRepository->findAll();
 
         $createur = $demande->getCreateur();
 
-        $tmpUserReleve= $demande->getUserReleve();
+        $tmpUserReleve = $demande->getUserReleve();
         $tmpUserDevis = $demande->getUserDevis();
 
         $form = $this->createForm(DemandeType::class, $demande);
         $form->add('statut', EntityType::class, [
-            'class'=>Statut::class,
-            'query_builder'=>function(EntityRepository $er){
+            'class' => Statut::class,
+            'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('s')
                     ->where('s.destination LIKE :val')
-                    ->setParameter('val','%"SD"%')
-                    ;
+                    ->setParameter('val', '%"SD"%');
             },
             'choice_label' => 'titre',
         ]);
         $form->add('statutCommercial', EntityType::class, [
-            'class'=>Statut::class,
-            'query_builder'=>function(EntityRepository $er){
+            'class' => Statut::class,
+            'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('s')
                     ->where('s.destination LIKE :val')
-                    ->setParameter('val','%"SCD"%')
-                    ;
+                    ->setParameter('val', '%"SCD"%');
             },
-            'required'=>false,
+            'required' => false,
             'choice_label' => 'titre',
         ]);
         $statut = $demande->getStatut();
@@ -280,37 +323,37 @@ class DemandeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if($demande->isFaireUnReleve() and !empty($demande->getUserReleve()) and $demande->getUserReleve() !== $tmpUserReleve){
-                $objet = "Faire un relevé de la demande N°" . $demande->getId() . " pour le client ". $demande->getClient();
+            if ($demande->isFaireUnReleve() and !empty($demande->getUserReleve()) and $demande->getUserReleve() !== $tmpUserReleve) {
+                $objet = "Faire un relevé de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/releve.html.twig";
                 $email = $this->emailService->send([$demande->getUserReleve()->getEmail()], $demande, $template, $objet);
 
-            }elseif(!$demande->isFaireUnReleve() and !empty($demande->getUserReleve())){
+            } elseif (!$demande->isFaireUnReleve() and !empty($demande->getUserReleve())) {
                 $demande->setUserReleve(null);
             }
 
-            if($demande->isFaireUnDevis() and !empty($demande->getUserDevis()) and $demande->getUserDevis() !== $tmpUserDevis){
-                $objet = "Faire un Devis de la demande N°" . $demande->getId() . " pour le client ". $demande->getClient();
+            if ($demande->isFaireUnDevis() and !empty($demande->getUserDevis()) and $demande->getUserDevis() !== $tmpUserDevis) {
+                $objet = "Faire un Devis de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/devis.html.twig";
                 $email = $this->emailService->send([$demande->getUserDevis()->getEmail()], $demande, $template, $objet);
 
-            }elseif(!$demande->isFaireUnDevis() and !empty($demande->getUserDevis())){
+            } elseif (!$demande->isFaireUnDevis() and !empty($demande->getUserDevis())) {
                 $demande->setUserDevis(null);
             }
 
             if ($demande->getStatutCommercial() !== $statusCommercial) {
-                $objet = "Le statut commercial de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatutCommercial()->getTitre().")";
+                $objet = "Le statut commercial de la demande N°" . $demande->getId() . " a été mis à jour (" . $demande->getStatutCommercial()->getTitre() . ")";
                 $template = "/emails/statut_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
             if ($demande->getStatut() !== $statut) {
-                $objet = "Le statut de la demande N°" . $demande->getId() . " a été mis à jour (".$demande->getStatut()->getTitre().")";
+                $objet = "Le statut de la demande N°" . $demande->getId() . " a été mis à jour (" . $demande->getStatut()->getTitre() . ")";
                 $template = "/emails/statut_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
 
             if ($demande->getCreateur() !== $createur) {
-                $objet = "La demande N°" . $demande->getId() . " vous a été transféré par ".$createur->getPseudo();
+                $objet = "La demande N°" . $demande->getId() . " vous a été transféré par " . $createur->getPseudo();
                 $template = "/emails/transfere_demande.html.twig";
                 $email = $this->emailService->send([$demande->getCreateur()->getEmail()], $demande, $template, $objet);
             }
@@ -320,7 +363,7 @@ class DemandeController extends AbstractController
         }
 
         return $this->renderForm('demande/edit.html.twig', [
-            'users'=>$users,
+            'users' => $users,
             'demande' => $demande,
             'form' => $form,
             'title' => 'Liste des demandes',
@@ -339,7 +382,7 @@ class DemandeController extends AbstractController
     }
 
     #[Route ('/menu/demande/{value}/{id}', name: 'app_demande_menu', methods: ['GET'])]
-    public function activeMenu(Demande $demande, $value, DemandeRepository $demandeRepository) :Response
+    public function activeMenu(Demande $demande, $value, DemandeRepository $demandeRepository): Response
     {
         $menu = $demande->getMenu();
         $menu[$this->getUser()->getId()] = $value;
@@ -452,8 +495,8 @@ class DemandeController extends AbstractController
         // $demande->setDocumentsSouhaites($form->getData()['typeDePrestation']);
 
         $demandeRepository->add($demande);
-        if(empty($demande->getReference())){
-            $demande->setReference(date('y').date('m').'-'.$demande->getId());
+        if (empty($demande->getReference())) {
+            $demande->setReference(date('y') . date('m') . '-' . $demande->getId());
             $demandeRepository->add($demande);
         }
 
