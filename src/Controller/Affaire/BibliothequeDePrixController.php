@@ -444,7 +444,7 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/ouvrage/import/{id}', name: 'app_affaire_ouvrage_import', methods: ['POST'])]
-    public function importOuvrage(Request $request, OuvrageRepository $ouvrageRepository, SousLot $sousLot, SousLotRepositoryRepository $sousLotRepository): Response
+    public function importOuvrage(Request $request, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
 
         $data = $request->request->all();
@@ -453,14 +453,14 @@ class BibliothequeDePrixController extends AbstractController
         $sum = 0;
         foreach ($data as $val) {
             $ouvrage = $ouvrageRepository->find($val);
-            $sousLot->addOuvrage($ouvrage);
+            $devis->addOuvrage($ouvrage);
             $sum += $ouvrage->getPrixDeVenteHT();
         }
         //  return new Response(json_encode($data));
 
 
         try {
-            $sousLotRepository->add($sousLot);
+            $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);

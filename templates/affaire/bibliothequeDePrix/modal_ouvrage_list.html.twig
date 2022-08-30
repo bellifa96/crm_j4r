@@ -29,7 +29,7 @@
 
                             {% for ouvrage in ouvrages %}
                                 <tr class="pointer">
-                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}" class="check-composant"/></td>
+                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}" class="check-ouvrage"/></td>
                                     <td onclick="document.location = ' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.denomination }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.code }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.unite }}</td>
