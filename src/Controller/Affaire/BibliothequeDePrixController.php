@@ -158,7 +158,7 @@ class BibliothequeDePrixController extends AbstractController
     {
         $response = new Response();
 
-        $path = "affaire/bibliothequeDePrix/modal_dupliquer.html.twig";
+        $path = "affaire/bibliothequeDePrix/modal_ouvrage_dupliquer.html.twig";
 
         if (!empty($path)) {
 

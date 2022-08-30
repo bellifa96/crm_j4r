@@ -18,6 +18,7 @@
                         <table class="table datatable" id="table-ouvrage" style="background: white;">
                             <thead>
                             <tr>
+                                <th></th>
                                 <th>Dénomination</th>
                                 <th>Code</th>
                                 <th>Unité</th>
@@ -28,7 +29,8 @@
 
                             {% for ouvrage in ouvrages %}
                                 <tr class="pointer">
-                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}" class="check-ouvrage"/></td>
+                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}" class="check-composant"/></td>
+                                    <td onclick="document.location = ' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.denomination }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.code }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.unite }}</td>
                                     <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }} €</td>

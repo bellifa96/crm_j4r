@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}composant:{{ composant.denomination }}{% endblock %}
+{% block title %}composant:{{ composant.intitule }}{% endblock %}
 
 {% block body %}
 
@@ -179,7 +179,7 @@
                                    required/>
                         </div>
                         <div class="col-md-2">
-                            <label class="labels" for="composant_denomination">Intitulé</label>
+                            <label class="labels" for="composant_intitule">Intitulé</label>
                             <input type="text" id="composant_intitule" name="composant[intitule]"
                                    value="{{ composant.intitule }}"
                                    class="col-md-12 chakra-input composant-edit" required/>
