@@ -201,7 +201,6 @@ $(function () {
     }
 
 
-
     $('.checkbox-input,.radio-input').each(function () {
         $(this).checkboxradio();
     });
@@ -246,16 +245,17 @@ $(function () {
         },
         order: [[0, 'desc']],
         pageLength: 50,
+        lengthMenu: [
+            [50, 100, 500, -1],
+            [50, 100, 500, 'All']
+        ],
 
 
     });
 
 
-
-
 })
 ;
-
 
 
 $(window).on('load', function () {
