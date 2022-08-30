@@ -343,7 +343,9 @@
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
                 <div class="tab-el-left">
-                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination" name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255" class="chakra-input" value="{{ ouvrage.denomination }}">
+                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
+                           name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255"
+                           class="chakra-input" value="{{ ouvrage.denomination }}">
                 </div>
                 <div class="tab-el-left">
 
@@ -538,59 +540,79 @@
 
     </div>
 
-    <script>
-        function submitImportOuvrageEvent(event) {
-            event.preventDefault();
+</div>
+<script>
+    function submitImportOuvrageEvent(event) {
+        event.preventDefault();
 
-            let data = {};
-            $('.check-ouvrage').each(function (index) {
-                if ($(this).is(':checked')) {
-                    console.log($(this).val());
-                    data[index] = ($(this).val())
-                }
-            })
+        let data = {};
+        $('.check-ouvrage').each(function (index) {
+            if ($(this).is(':checked')) {
+                console.log($(this).val());
+                data[index] = ($(this).val())
+            }
+        })
 
-            console.log(data)
+        console.log(data)
 
-            $.post("{{ path('app_affaire_ouvrage_import',{'id':devis.id}) }}", data, function (response) {
-                let data = JSON.parse(response);
-                if (data.code === 200) {
-                    //    location.reload();
+        $.post("{{ path('app_affaire_ouvrage_import',{'id':devis.id}) }}", data, function (response) {
+            let data = JSON.parse(response);
+            if (data.code === 200) {
 
-                }
-            })
-        }
-
-        $("#import-ouvrage").click(function () {
-            $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
-                const data = JSON.parse(response);
-                $('body').append(data.html);
                 $("#modal-import-ouvrage").modal("show");
-                $('.datatable').DataTable({
-                    "oLanguage": {
-                        sSearch: "",
-                        searchPlaceholder: "Chercher"
+                if (data.code === 200) {
+                    $('#ouvrage-import-success').show();
+                    setTimeout(() => {
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
 
-                    },
-                    language: {
-                        searchPlaceholder: "Chercher"
-                    },
-                    order: [[0, 'desc']],
-                    pageLength: 25,
+                    }, "1000")
 
+                } else {
+                    $('#ouvrage-import-danger').show();
+                    setTimeout(() => {
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
+                    }, "3000")
+                }
+                //    location.reload();
 
-                });
-            })
+            }
         })
+    }
 
-        $('#add-ouvrage').click(function () {
-            $('.modal-ouvrage').remove();
-            let path = "{{ path('app_affaire_modal_ouvrage') }}";
-            $.post(path, function (data) {
-                $('body').append(JSON.parse(data).message);
-                $("#modal-ouvrage").modal('show');
+    $("#import-ouvrage").click(function () {
+        $('#modal-import-ouvrage').remove();
 
-            })
+        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
         })
-    </script>
+    })
+
+    $('#add-ouvrage').click(function () {
+        $('#modal-ouvrage').remove();
+        let path = "{{ path('app_affaire_modal_ouvrage') }}";
+        $.post(path, function (data) {
+            $('body').append(JSON.parse(data).message);
+            $("#modal-ouvrage").modal('show');
+
+        })
+    })
+</script>
 

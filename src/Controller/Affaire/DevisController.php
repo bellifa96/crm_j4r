@@ -103,7 +103,7 @@ class DevisController extends AbstractController
             foreach ($ouvrage->getComposants() as $composant) {
                 $entityManager->detach($clone);
                 $clone->addComposant($composant);
-                $composant->addOuvrage($ouvrage);
+                $composant->addOuvrage($clone);
             }
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);

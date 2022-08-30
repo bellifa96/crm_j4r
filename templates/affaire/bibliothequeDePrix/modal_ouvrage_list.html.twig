@@ -56,7 +56,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
-                    <button type="submit" class="btn btn-primary" onsubmit="">Importer</button>
+                    <button type="submit" class="btn btn-primary" onclick="return $(this).hide()">Importer</button>
+
+                    <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
+                        <span class="sr-only">.</span>
+                    </div>
+                    <div class="alert alert-success" role="alert" style="display: none;" id="ouvrage-import-success">
+                        Les ouvrages sélectionnés ont été importés avec success
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="display: none;" id="ouvrage-import-danger">
+                        erreur lors de l'importation des ouvrages veuillez recharger la page
+                    </div>
                 </div>
 
             </form>
