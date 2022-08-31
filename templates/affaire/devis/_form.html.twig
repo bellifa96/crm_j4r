@@ -213,6 +213,48 @@
         margin-top: 1.5rem;
     }
 
+    .css-15nl7at {
+        display: inline-flex;
+        appearance: none;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        user-select: none;
+        position: relative;
+        white-space: nowrap;
+        vertical-align: middle;
+        outline: transparent solid 2px;
+        outline-offset: 2px;
+        line-height: 1.2;
+        border-radius: 0.25rem;
+        font-weight: 600;
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+        transition-duration: 200ms;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        font-size: 1rem;
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
+        background: none;
+        width: min-content;
+        opacity: 1;
+        color: #109cf1;
+        font-family: Lato, sans-serif;
+        border-color: transparent;
+        overflow-wrap: break-word;
+    }
+
+    .css-15nl7at:hover{
+        color: #006DAA;
+    }
+
+    .css-gg4vpm{
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+    }
+
 </style>
 
 <div class="page-block col-md-10 m-auto mt-4">
@@ -268,6 +310,7 @@
 
 
 <div class="row justify-content-center main-devis">
+    {% if devis.ouvrages is empty and devis.lots is empty %}
     <svg viewBox="0 0 200 200" focusable="false" class="svg">
         <circle cx="100" cy="100" r="100" fill="white"></circle>
         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -303,10 +346,12 @@
         <div class="organisation3">
             <button type="button" class="lot-button">Créer un lot</button>
             <hr aria-orientation="horizontal" class="ligne">
-            <button type="button" class="lot-button" id="import-ouvrage">Importer des ouvrages</button>
+            <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
+            <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
         </div>
     </div>
 </div>
+{% endif %}
 
 
 <div class="mt-4 col-md-11 m-auto">
@@ -334,21 +379,52 @@
         </div>
 
     </div>
-    {% for ouvrage in devis.ouvrages %}
+
+    <div id="main-devis">
+        {% for ouvrage in devis.ouvrages %}
+
+            <div class="elements" id="element-{{ ouvrage.id }}">
+
+                <div class="css-ccobzb ">
+                    <div class="css-1r30cbj">
+                        <div class="tab-el-left"></div>
+                        <div class="tab-el-left">
+                            <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
+                                   name="devis[ouvrages][{{ loop.index }}][denomination]" required="required"
+                                   maxlength="255"
+                                   class="chakra-input" value="{{ ouvrage.denomination }}">
+                        </div>
+                        <div class="tab-el-left">
+
+                        </div>
+                        <div class="tab-el-right"></div>
+                        <div class="tab-el-right"></div>
+                        <div class="tab-el-right"></div>
+                        <div class="tab-el-right"></div>
+                        <div class="tab-el-right row justify-content-center">
+                            <div class="col-md-auto">
+                                <a href="#"><i class="bi bi-plus-circle"></i></a>
+                            </div>
+                            <div class="col-md-auto">
+                                <a href="#"><i class="bi bi-three-dots"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    {% for row in form.lots %}
 
     <div class="">
 
         <div class="css-ccobzb ">
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
-                <div class="tab-el-left">
-                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
-                           name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255"
-                           class="chakra-input" value="{{ ouvrage.denomination }}">
-                </div>
-                <div class="tab-el-left">
-
-                </div>
+                <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
@@ -364,56 +440,30 @@
             </div>
         </div>
 
-        {% endfor %}
+        {% for sousLot in row.sousLots %}
+        <div class="css-ccobzb sous-lot">
 
-        {% for row in form.lots %}
-
-        <div class="">
-
-            <div class="css-ccobzb ">
-                <div class="css-1r30cbj">
-                    <div class="tab-el-left"></div>
-                    <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                    <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right row justify-content-center">
-                        <div class="col-md-auto">
-                            <a href="#"><i class="bi bi-plus-circle"></i></a>
-                        </div>
-                        <div class="col-md-auto">
-                            <a href="#"><i class="bi bi-three-dots"></i></a>
-                        </div>
+            <div class="css-1r30cbj col-md-12">
+                <div class="tab-el-left"></div>
+                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right row justify-content-center">
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-plus-circle"></i></a>
                     </div>
-                </div>
-            </div>
-
-            {% for sousLot in row.sousLots %}
-            <div class="css-ccobzb sous-lot">
-
-                <div class="css-1r30cbj col-md-12">
-                    <div class="tab-el-left"></div>
-                    <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                    <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right"></div>
-                    <div class="tab-el-right row justify-content-center">
-                        <div class="col-md-auto">
-                            <a href="#"><i class="bi bi-plus-circle"></i></a>
-                        </div>
-                        <div class="col-md-auto">
-                            <a href="#"><i class="bi bi-three-dots"></i></a>
-                        </div>
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-three-dots"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
-        {#  {% for sousLot in row.sousLots %}
+    </div>
+    {% endfor %}
+    {#  {% for sousLot in row.sousLots %}
     <div class="css-ccobzb sous-lot">
 
         <div class="css-1r30cbj col-md-12">
@@ -434,110 +484,32 @@
             </div>
         </div>
     </div>
-        #}
+    #}
+</div>
+
+
+{% endfor %}
+
+
+<div class="row css-gg4vpm">
+    <div>
+        <button type="button" class="css-15nl7at">
+            + Créer un nouveau lot
+        </button>
+        <button type="button" class="css-15nl7at">
+            + Importer un ouvrage
+        </button>
+        <button type="button" class="css-15nl7at" id="add-ouvrage">
+            + Créer un ouvrage
+        </button>
     </div>
+</div>
+
+{{ form_end(form) }}
 
 
-    {% endfor %}
-
-
-    {% for row in form.lots %}
-
-
-
-        <div class="mt-4" id="lot_div_{{ loop.index }}">
-
-
-            <table class="table">
-                <thead>
-                <tr class="tr-head text-center">
-                    <th>Lot</th>
-                    <th>Dénomination</th>
-                    <th>Déboursé Total HT</th>
-                    <th>Action</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="text-center">{{ loop.index }} </td>
-                    <td id="lot_debourse_total_ht_{{ loop.index }}">
-
-                    </td>
-                    <td>
-
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-
-            <table class="table text-center">
-
-                <thead>
-                <tr class="tr-head">
-                    <th>Sous-lot</th>
-                    <th>type d'ouvrage</th>
-                    <th>prix unitaire déboursé</th>
-                    <th>quantité d'ouvrage</th>
-                    <th>déboursé HT calculé</th>
-                    <th>marge</th>
-                    <th>prix de vente ht</th>
-                    <th></th>
-
-
-                </tr>
-                </thead>
-                <tbody>
-                {% for sousLot in row.sousLots %}
-                    {% for ouvrage in sousLot.ouvrages %}
-
-                        <tr>
-                            <td>{{ form_widget(ouvrage.denomination,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.typeDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.prixUnitaireDebourse,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.quantiteDOuvrage,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.debourseHTCalcule,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.marge,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>{{ form_widget(ouvrage.prixDeVenteHT,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                            <td>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-auto">
-                                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-                </tbody>
-
-            </table>
-        </div>
-    {% endfor %}
-
-    <div class="row">
-        <div class="col-md-auto">
-            <a href="#">
-                + Créer un ouvrage
-            </a>
-        </div>
-
-        <div class="col-md-auto">
-            <a href="#">
-                + Créer un nouveau lot
-            </a>
-        </div>
-
-    </div>
-
-    {{ form_end(form) }}
-
-
-    <div class="col-md-10 m-auto mt-2">
-        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-
-    </div>
+<div class="col-md-10 m-auto mt-2">
+    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
 
 </div>
 <script>
@@ -561,11 +533,15 @@
                 $("#modal-import-ouvrage").modal("show");
                 if (data.code === 200) {
                     $('#ouvrage-import-success').show();
+                    $("#main-devis").append(data.html);
                     setTimeout(() => {
                         $('#modal-import-ouvrage').modal('hide');
                         $('#modal-import-ouvrage').remove();
 
-                    }, "1000")
+                    }, "1000");
+                    $('.svg').remove();
+                    $('.organisation').remove();
+
 
                 } else {
                     $('#ouvrage-import-danger').show();
@@ -580,7 +556,7 @@
         })
     }
 
-    $("#import-ouvrage").click(function () {
+    $(".import-ouvrage").click(function () {
         $('#modal-import-ouvrage').remove();
 
         $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
@@ -613,5 +589,7 @@
 
         })
     })
+
+
 </script>
 

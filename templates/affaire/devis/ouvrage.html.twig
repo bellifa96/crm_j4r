@@ -1,0 +1,32 @@
+{% for ouvrage in ouvrages %}
+
+    <div class="elements" id="element-{{ ouvrage.id }}">
+
+        <div class="css-ccobzb ">
+            <div class="css-1r30cbj">
+                <div class="tab-el-left"></div>
+                <div class="tab-el-left">
+                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
+                           name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255"
+                           class="chakra-input" value="{{ ouvrage.denomination }}">
+                </div>
+                <div class="tab-el-left">
+
+                </div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right row justify-content-center">
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+                    </div>
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-three-dots"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}

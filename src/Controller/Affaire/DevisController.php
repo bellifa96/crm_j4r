@@ -86,13 +86,17 @@ class DevisController extends AbstractController
     }
 
     #[Route('/ouvrage/import/{id}', name: 'app_affaire_ouvrage_import', methods: ['POST'])]
-    public function importOuvrage(Request $request, EntityManagerInterface $entityManager, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function importOuvrage(Request $request, Environment $environment, EntityManagerInterface $entityManager, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
+
+        $path = "affaire/devis/ouvrage.html.twig";
 
         $data = $request->request->all();
 
 
         $sum = 0;
+
+        $ouvrages = [];
         foreach ($data as $val) {
             $ouvrage = $ouvrageRepository->find($val);
 
@@ -110,13 +114,25 @@ class DevisController extends AbstractController
             $devis->addOuvrage($clone);
             $ouvrage->setDevis($devis);
             $ouvrageRepository->add($clone);
+            $ouvrages[] =  $clone;
         }
         //  return new Response(json_encode($data));
 
 
+
+            try {
+                $html = $environment->render($path, ["ouvrages" => $ouvrages]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+
         try {
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200]));
+            return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (ORMException $e) {

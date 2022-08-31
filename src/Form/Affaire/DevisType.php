@@ -42,12 +42,7 @@ class DevisType extends AbstractType
                     'attr' => ['class' => ''],
                 ],
             ])
-            ->add('ouvrages', CollectionType::class, [
-                'entry_type' => OuvrageType::class,
-                'entry_options' => [
-                    'attr' => ['class' => ''],
-                ],
-            ]);
+;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
