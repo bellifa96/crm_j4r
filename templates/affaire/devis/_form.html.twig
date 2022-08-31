@@ -385,8 +385,9 @@
 
             <div class="elements" id="element-{{ ouvrage.id }}">
 
-                <div class="css-ccobzb ">
+                <div class="{{ ouvrage.unite is empty or ouvrage.quantiteDOuvrage is empty or ouvrage.prixUnitaireDebourse is empty ? "css-1ip68u7" : "css-ccobzb"}}">
                     <div class="css-1r30cbj">
+                        <div class="tab-el-left"></div>
                         <div class="tab-el-left"></div>
                         <div class="tab-el-left">
                             <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
@@ -395,12 +396,30 @@
                                    class="chakra-input" value="{{ ouvrage.denomination }}">
                         </div>
                         <div class="tab-el-left">
+                            <input type="text" id="devis_ouvrages_{{ loop.index }}_unite"
+                                   name="devis[ouvrages][{{ loop.index }}][unite]" required="required"
+                                   maxlength="255"
+                                   class="chakra-input" value="{{ ouvrage.unite }}">
 
                         </div>
-                        <div class="tab-el-right"></div>
-                        <div class="tab-el-right"></div>
-                        <div class="tab-el-right"></div>
-                        <div class="tab-el-right"></div>
+                        <div class="tab-el-right">
+                            <input type="text" id="devis_ouvrages_{{ loop.index }}_quantite"
+                                   name="devis[ouvrages][{{ loop.index }}][quantite]" required="required"
+                                   maxlength="255"
+                                   class="chakra-input" value="{{ ouvrage.quantiteDOuvrage }}">
+                        </div>
+                        <div class="tab-el-right">
+                            <input type="text" id="devis_ouvrages_{{ loop.index }}_prixUnitaire"
+                                   name="devis[ouvrages][{{ loop.index }}][prixUnitaire]" required="required"
+                                   maxlength="255"
+                                   class="chakra-input" value="{{ ouvrage.prixUnitaireDebourse }}">
+                        </div>
+                        <div class="tab-el-right">
+                            <input type="text" id="devis_ouvrages_{{ loop.index }}debourseht"
+                                   name="devis[ouvrages][{{ loop.index }}][debourseht]" required="required"
+                                   maxlength="255"
+                                   class="chakra-input" value="{{ ouvrage.debourseHTCalcule }}">
+                        </div>
                         <div class="tab-el-right row justify-content-center">
                             <div class="col-md-auto">
                                 <a href="#"><i class="bi bi-plus-circle"></i></a>
