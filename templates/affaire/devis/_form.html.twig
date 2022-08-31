@@ -385,7 +385,7 @@
 
             <div class="elements" id="element-{{ ouvrage.id }}">
 
-                <div class="{{ ouvrage.unite is empty or ouvrage.quantiteDOuvrage is empty or ouvrage.prixUnitaireDebourse is empty ? "css-1ip68u7" : "css-ccobzb"}}">
+                <div class="{{ ouvrage.unite is empty or ouvrage.quantiteDOuvrage is empty or ouvrage.prixUnitaireDebourse is empty ? "css-1ip68u7" : "css-ccobzb" }}">
                     <div class="css-1r30cbj">
                         <div class="tab-el-left"></div>
                         <div class="tab-el-left"></div>
@@ -437,50 +437,48 @@
 
     {% for row in form.lots %}
 
-    <div class="">
-
-        <div class="css-ccobzb ">
-            <div class="css-1r30cbj">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
+    <div class="css-ccobzb lot">
+        <div class="css-1r30cbj">
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
+            <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right row justify-content-center">
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-plus-circle"></i></a>
                 </div>
-            </div>
-        </div>
-
-        {% for sousLot in row.sousLots %}
-        <div class="css-ccobzb sous-lot">
-
-            <div class="css-1r30cbj col-md-12">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right"></div>
-                <div class="tab-el-right row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-three-dots"></i></a>
                 </div>
             </div>
         </div>
     </div>
+
+    {% for sousLot in row.sousLots %}
+    <div class="css-ccobzb sous-lot">
+
+        <div class="css-1r30cbj col-md-12">
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
+            <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right row justify-content-center">
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-plus-circle"></i></a>
+                </div>
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-three-dots"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     {% endfor %}
     {#  {% for sousLot in row.sousLots %}
     <div class="css-ccobzb sous-lot">
@@ -504,7 +502,7 @@
         </div>
     </div>
     #}
-</div>
+    </div>
 
 
 {% endfor %}
@@ -512,8 +510,8 @@
 {% if devis.ouvrages is not empty or devis.lots is not empty %}
     <div class="row css-gg4vpm">
         <div>
-            <button type="button" class="css-15nl7at">
-                + Créer un nouveau lot
+            <button type="button" class="css-15nl7at" id="add-lot">
+                + Créer un  lot
             </button>
             <button type="button" class="css-15nl7at import-ouvrage">
                 + Importer un ouvrage
@@ -608,6 +606,31 @@
             $("#modal-ouvrage").modal('show');
 
         })
+    })
+
+    $('#add-lot').click(function () {
+        let div = `<div class="css-ccobzb lot">
+        <div class="css-1r30cbj">
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right"></div>
+            <div class="tab-el-right row justify-content-center">
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-plus-circle"></i></a>
+                </div>
+                <div class="col-md-auto">
+                    <a href="#"><i class="bi bi-three-dots"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+        `;
+        $('#main-devis').append(div);
+
     })
 
 
