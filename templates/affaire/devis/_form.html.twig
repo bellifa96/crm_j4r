@@ -245,11 +245,11 @@
         overflow-wrap: break-word;
     }
 
-    .css-15nl7at:hover{
+    .css-15nl7at:hover {
         color: #006DAA;
     }
 
-    .css-gg4vpm{
+    .css-gg4vpm {
         display: flex;
         -webkit-box-pack: justify;
         justify-content: space-between;
@@ -490,20 +490,21 @@
 
 {% endfor %}
 
-
-<div class="row css-gg4vpm">
-    <div>
-        <button type="button" class="css-15nl7at">
-            + Créer un nouveau lot
-        </button>
-        <button type="button" class="css-15nl7at">
-            + Importer un ouvrage
-        </button>
-        <button type="button" class="css-15nl7at" id="add-ouvrage">
-            + Créer un ouvrage
-        </button>
+{% if devis.ouvrages is not empty or devis.lots is not empty %}
+    <div class="row css-gg4vpm">
+        <div>
+            <button type="button" class="css-15nl7at">
+                + Créer un nouveau lot
+            </button>
+            <button type="button" class="css-15nl7at import-ouvrage">
+                + Importer un ouvrage
+            </button>
+            <button type="button" class="css-15nl7at" id="add-ouvrage">
+                + Créer un ouvrage
+            </button>
+        </div>
     </div>
-</div>
+{% endif %}
 
 {{ form_end(form) }}
 
