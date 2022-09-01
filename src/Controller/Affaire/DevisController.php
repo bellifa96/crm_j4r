@@ -175,6 +175,7 @@ class DevisController extends AbstractController
 
         $path = "affaire/devis/lot.html.twig";
 
+
         $lot = new Lot();
         $devis->addLot($lot);
         $lot->setDevis($devis);
@@ -183,7 +184,7 @@ class DevisController extends AbstractController
 
             try {
                 $lotRepository->add($lot);
-                $html = $environment->render($path);
+                $html = $environment->render($path,["lot"=>$lot]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
