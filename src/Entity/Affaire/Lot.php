@@ -22,7 +22,7 @@ class Lot
     private $id;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $titre;
 
     #[Gedmo\Versioned]
@@ -53,7 +53,7 @@ class Lot
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitre(?string $titre): self
     {
         $this->titre = $titre;
 

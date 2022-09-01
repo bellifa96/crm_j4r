@@ -344,7 +344,7 @@
 <div class="organisation">
     <div class="organisation2">
         <div class="organisation3">
-            <button type="button" class="lot-button">Créer un lot</button>
+            <button type="button" class="lot-button" id="add-lot">Créer un lot</button>
             <hr aria-orientation="horizontal" class="ligne">
             <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
             <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
@@ -511,7 +511,7 @@
     <div class="row css-gg4vpm">
         <div>
             <button type="button" class="css-15nl7at" id="add-lot">
-                + Créer un  lot
+                + Créer un lot
             </button>
             <button type="button" class="css-15nl7at import-ouvrage">
                 + Importer un ouvrage
@@ -609,28 +609,12 @@
     })
 
     $('#add-lot').click(function () {
-        let div = `<div class="css-ccobzb lot">
-        <div class="css-1r30cbj">
-            <div class="tab-el-left"></div>
-            <div class="tab-el-left"></div>
-            <div class="tab-el-left"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-plus-circle"></i></a>
-                </div>
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-three-dots"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-        `;
-        $('#main-devis').append(div);
+        let path = "{{ path('app_affaire_lot_new') }}";
+        $.post(path, function (data) {
+            $('#main-devis').append(JSON.parse(data).message);
+            $("#lot").modal('show');
 
+        })
     })
 
 

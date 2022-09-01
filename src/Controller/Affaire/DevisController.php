@@ -9,6 +9,7 @@ use App\Entity\Affaire\SousLot;
 use App\Entity\Demande;
 use App\Form\Affaire\DevisType;
 use App\Repository\Affaire\DevisRepository;
+use App\Repository\Affaire\LotRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -114,21 +115,20 @@ class DevisController extends AbstractController
             $devis->addOuvrage($clone);
             $ouvrage->setDevis($devis);
             $ouvrageRepository->add($clone);
-            $ouvrages[] =  $clone;
+            $ouvrages[] = $clone;
         }
         //  return new Response(json_encode($data));
 
 
-
-            try {
-                $html = $environment->render($path, ["ouvrages" => $ouvrages]);
-            } catch (LoaderError $e) {
-                dd($e);
-            } catch (RuntimeError $e) {
-                dd($e);
-            } catch (SyntaxError $e) {
-                dd($e);
-            }
+        try {
+            $html = $environment->render($path, ["ouvrages" => $ouvrages]);
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
 
         try {
             $devisRepository->add($devis);
@@ -166,6 +166,34 @@ class DevisController extends AbstractController
             $response->setContent(json_encode(['code' => 200, 'message' => $html]));
         }
         return $response;
+    }
+
+    #[Route('/lot', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
+    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository): Response
+    {
+        $response = new Response();
+
+        $path = "affaire/devis/lot.html.twig";
+
+        $lot = new Lot();
+        $lot->setDevis($this->getDevis());
+
+        if (!empty($path)) {
+
+            try {
+                $lotRepository->add($lot);
+                $html = $environment->render($path);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }
+            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        }
+        return $response;
+
     }
 
 
