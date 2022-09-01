@@ -13,6 +13,8 @@ class LotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('code')
+            ->add('titre')
             ->add('sousLots',CollectionType::class,[
                 'entry_type'=>SousLotType::class,
             ])

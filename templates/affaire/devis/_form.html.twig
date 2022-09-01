@@ -433,53 +433,53 @@
             </div>
 
         {% endfor %}
-    </div>
 
-    {% for row in form.lots %}
 
-    <div class="css-ccobzb lot">
-        <div class="css-1r30cbj">
-            <div class="tab-el-left"></div>
-            <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-plus-circle"></i></a>
-                </div>
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-three-dots"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+        {% for row in form.lots %}
 
-    {% for sousLot in row.sousLots %}
-    <div class="css-ccobzb sous-lot">
-
-        <div class="css-1r30cbj col-md-12">
-            <div class="tab-el-left"></div>
-            <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-plus-circle"></i></a>
-                </div>
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-three-dots"></i></a>
+        <div class="css-ccobzb lot">
+            <div class="css-1r30cbj">
+                <div class="tab-el-left"></div>
+                <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right row justify-content-center">
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+                    </div>
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-three-dots"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-    {% endfor %}
+
+        {% for sousLot in row.sousLots %}
+        <div class="css-ccobzb sous-lot">
+
+            <div class="css-1r30cbj col-md-12">
+                <div class="tab-el-left"></div>
+                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right"></div>
+                <div class="tab-el-right row justify-content-center">
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-plus-circle"></i></a>
+                    </div>
+                    <div class="col-md-auto">
+                        <a href="#"><i class="bi bi-three-dots"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>{% endfor %}
+
     {#  {% for sousLot in row.sousLots %}
     <div class="css-ccobzb sous-lot">
 
@@ -502,10 +502,11 @@
         </div>
     </div>
     #}
-    </div>
 
 
-{% endfor %}
+
+    {% endfor %}
+</div>
 
 {% if devis.ouvrages is not empty or devis.lots is not empty %}
     <div class="row css-gg4vpm">
@@ -609,7 +610,7 @@
     })
 
     $('#add-lot').click(function () {
-        let path = "{{ path('app_affaire_lot_new') }}";
+        let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
         $.post(path, function (data) {
             $('#main-devis').append(JSON.parse(data).message);
             $("#lot").modal('show');
