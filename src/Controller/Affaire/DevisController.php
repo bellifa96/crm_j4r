@@ -169,14 +169,13 @@ class DevisController extends AbstractController
     }
 
     #[Route('/lot', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
-    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository): Response
+    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository): Response
     {
         $response = new Response();
 
         $path = "affaire/devis/lot.html.twig";
 
         $lot = new Lot();
-        $lot->setDevis($this->getDevis());
 
         if (!empty($path)) {
 
