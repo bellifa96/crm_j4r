@@ -351,6 +351,19 @@
             </div>
         </div>
 
+        {% if demande.statutCommercial2 is not empty %}
+            <div class="col-md-3 row">
+                <div class="col-md-auto labels">
+                    Statut commercial 2
+                </div>
+                <div class="col-md-auto form-control-sm-2 labels statut-td" id="{{ demande.id }}"
+                     style="background:{{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleurBG :'' }};color: {{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleur : '' }};">
+                    {{ demande.statutCommercial2 is not empty ? demande.statutCommercial2 : "Aucun" }}
+                </div>
+            </div>
+
+        {% endif %}
+
         <div class="col-md-3 row">
             <div class="col-md-auto labels">
                 Créateur
@@ -820,11 +833,12 @@
                                 {% for evenement in demande.evenements %}
 
                                     <tr>
-                                        <td onclick="evenementShow({{ evenement.id }})"  style="cursor:pointer;">
+                                        <td onclick="evenementShow({{ evenement.id }})" style="cursor:pointer;">
                                             <i class="bi bi-bookmark-fill"
                                                style="color: {{ evenement.priorite in colors|keys ?colors[evenement.priorite] : "green" }};font-size: 1.1rem;"></i>
                                         </td>
-                                        <td onclick="evenementShow({{ evenement.id }})" style="cursor:pointer;"> {{ evenement.titre }}</td>
+                                        <td onclick="evenementShow({{ evenement.id }})"
+                                            style="cursor:pointer;"> {{ evenement.titre }}</td>
                                         <td>{{ evenement.description }}</td>
 
                                         <td>{{ evenement.dateDeDebut|date('d/m/Y H:i') }}</td>
@@ -1171,10 +1185,10 @@
     <script>
 
 
-        function evenementShow(id){
+        function evenementShow(id) {
             $('.show-evenement').modal('hide');
             $('.show-evenement').remove();
-            $.post("/affaire/evenement/show/modal/"+id,function (response) {
+            $.post("/affaire/evenement/show/modal/" + id, function (response) {
                 const data = JSON.parse(response);
                 $('body').append(data.message);
                 $('.show-evenement').modal('show');
@@ -1182,23 +1196,100 @@
             })
         }
 
+        $(document).on('click', '.add-button-evenement', function () {
+
+            const id = $(this).attr('id').replace('s1_', '').replace('s2_', '');
+            const indice = $(this).attr('id').replaceAll('_' + id, '');
+            let url = "/demande/modal/statut/evenement/" + id + "/" + indice;
+
+            const button = $(this);
+
+            console.log(indice);
+
+            if (button.hasClass('plus')) {
+                if ($('#div_' + indice).length == 0) {
+                    $.post(url, function (response) {
+                        const data = JSON.parse(response);
+                        $('#' + indice).append(data.message);
+                        $('.select2').select2();
+                        button.removeClass('plus');
+                        button.addClass('moins')
+                        button.text('- Annuler la tache')
+                        if (indice === "s2") {
+                            $('#demande_statut2_' + id).attr('required', true)
+                        }
+                    })
+                }
+            } else if (button.hasClass('moins')) {
+                if (indice === "s2") {
+                    $('#demande_statut2_' + id).attr('required', false)
+                }
+                $('#div_' + indice).remove();
+                button.removeClass('moins');
+                button.addClass('plus');
+                button.text('+ Ajouter une tache');
+            }
+
+
+        })
+
         function submitStatut(event) {
             event.preventDefault();
             $('.form-submit-loader').show();
 
-
             const id = $('.statut-select').attr('id').replaceAll('demande_statut_', '');
 
             const val = $('.statut-select').val();
+            const val2 = $('.statut-select-2').val();
 
-            let data = {id: id, statut: val};
+            let event1 = {};
+            let event2 = {};
+
+
+            if ($('#div_s1').length > 0) {
+
+                const date = $('#evenement_date_s1').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s1').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s1').val()
+                    + ":00";
+
+                event1 = {
+                    titre: $('#evenement_titre_s1').val(),
+                    attribueA: $('#evenement_dateDeFin_s1').val(),
+                    description: $('#evenement_description_s1').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s1_[priorite]"]:checked').val(),
+                }
+                console.log(event1);
+            }
+            if ($('#div_s2').length > 0) {
+                const date = $('#evenement_date_s2').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s2').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s2').val()
+                    + ":00";
+                event2 = {
+                    titre: $('#evenement_titre_s2').val(),
+                    attribueA: $('#evenement_dateDeFin_s2').val(),
+                    description: $('#evenement_description_s2').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s2_[priorite]"]:checked').val(),
+                }
+                console.log(event2);
+            }
+
+            let data = {
+                id: id,
+                statut: val,
+                statut2: val2,
+                event1: event1,
+                event2: event2
+            };
 
             $.post('{{ path('app_demande_statut_update') }}', {data: data}, function (response) {
                 const data = JSON.parse(response);
                 console.log(response)
 
                 $('.form-submit-loader').hide();
-
                 if (data.code === 200) {
                     $('#statut-success').show();
                     setTimeout(() => {
@@ -1219,6 +1310,8 @@
                     }, "3000")
                 }
             })
+
+
         }
 
 
@@ -1238,7 +1331,7 @@
                     $('body').append(data.message);
                     $('#modal-changer-statut-demande').modal('show');
                 })
-            }else{
+            } else {
                 $('#modal-changer-statut-demande').modal('show');
             }
 
