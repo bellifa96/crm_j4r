@@ -612,9 +612,12 @@
     $('#add-lot').click(function () {
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
         $.post(path, function (data) {
-            $('#main-devis').append(JSON.parse(data).message);
-            $("#lot").modal('show');
-
+            if (code = 200) {
+                $('#main-devis').append(JSON.parse(data).message);
+                $("#lot").modal('show');
+                $('.svg').remove();
+                $('.organisation').remove();
+            }
         })
     })
 
