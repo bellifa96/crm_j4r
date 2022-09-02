@@ -37,10 +37,14 @@ class Statut
     #[ORM\OneToMany(mappedBy: 'statutCommercial', targetEntity: Demande::class)]
     private $demandesStatutCommercial;
 
+    #[ORM\OneToMany(mappedBy: 'statutCommercial2', targetEntity: Demande::class)]
+    private $demandesStatutCommercial2;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->demandesStatutCommercial = new ArrayCollection();
+        $this->demandesStatutCommercial2 = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,5 +175,35 @@ class Statut
     function __toString()
     {
         return $this->titre;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesStatutCommercial2(): Collection
+    {
+        return $this->demandesStatutCommercial2;
+    }
+
+    public function addDemandesStatutCommercial2(Demande $demandesStatutCommercial2): self
+    {
+        if (!$this->demandesStatutCommercial2->contains($demandesStatutCommercial2)) {
+            $this->demandesStatutCommercial2[] = $demandesStatutCommercial2;
+            $demandesStatutCommercial2->setStatutCommercial2($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesStatutCommercial2(Demande $demandesStatutCommercial2): self
+    {
+        if ($this->demandesStatutCommercial2->removeElement($demandesStatutCommercial2)) {
+            // set the owning side to null (unless already changed)
+            if ($demandesStatutCommercial2->getStatutCommercial2() === $this) {
+                $demandesStatutCommercial2->setStatutCommercial2(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -290,6 +290,9 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $lienGed;
 
+    #[ORM\ManyToOne(targetEntity: Statut::class, inversedBy: 'demandesStatutCommercial2')]
+    private $statutCommercial2;
+
     public function __construct()
     {
         $this->devis = new ArrayCollection();
@@ -1282,6 +1285,18 @@ class Demande
     public function setLienGed(?string $lienGed): self
     {
         $this->lienGed = $lienGed;
+
+        return $this;
+    }
+
+    public function getStatutCommercial2(): ?Statut
+    {
+        return $this->statutCommercial2;
+    }
+
+    public function setStatutCommercial2(?Statut $statutCommercial2): self
+    {
+        $this->statutCommercial2 = $statutCommercial2;
 
         return $this;
     }

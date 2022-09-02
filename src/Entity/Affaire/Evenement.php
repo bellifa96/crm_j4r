@@ -63,6 +63,9 @@ class Evenement
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'EvenementsAttribues')]
     private $attribueA;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $code;
+
 
     public function __construct()
     {
@@ -231,6 +234,18 @@ class Evenement
     public function removeAttribueA(User $attribueA): self
     {
         $this->attribueA->removeElement($attribueA);
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

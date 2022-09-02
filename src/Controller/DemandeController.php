@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Affaire\Devis;
+use App\Entity\Affaire\Evenement;
 use App\Entity\Affaire\Statut;
 use App\Entity\Contact\Contact;
 use App\Entity\Demande;
 use App\Entity\Ged\Fichier;
 use App\Entity\User;
+use App\Form\Affaire\EvenementType;
 use App\Form\DemandeType;
 use App\Form\Ged\FichierType;
+use App\Repository\Affaire\EvenementRepository;
 use App\Repository\Affaire\StatutRepository;
 use App\Repository\DemandeRepository;
 use App\Repository\Ged\FichierRepository;
@@ -130,6 +134,32 @@ class DemandeController extends AbstractController
         ]);
     }
 
+    #[Route('/modal/statut/evenement/{id}/{statut}', name: 'app_affaire_statut_evenement_html', methods: ['GET', 'POST'])]
+    public function getStatutEvenementHTML(Demande $demande, $statut, Request $request, Environment $environment): Response
+    {
+
+        $response = new Response();
+        $evenement = new Evenement();
+        $evenement->setTitre($demande->getNomChantier());
+        $form = $this->createForm(EvenementType::class, $evenement);
+        try {
+            $html = $environment->render("affaire/evenement/evenement_statut.html.twig", [
+                'form' => $form->createView(),
+                'statut' => $statut,
+            ]);
+            $html = str_replace('<form name="evenement" method="post">', '', $html);
+            $html = str_replace('</form>', '', $html);
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
+        $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+        return $response;
+    }
+
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
     public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository, DemandeRepository $demandeRepository, UserRepository $userRepository): Response
     {
@@ -200,12 +230,56 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/statut/update', name: 'app_demande_statut_update', methods: ['GET', 'POST'])]
-    public function updateStatut(Request $request, DemandeRepository $demandeRepository, StatutRepository $statutRepository): Response
+    public function updateStatut(Request $request, EvenementRepository $evenementRepository, DemandeRepository $demandeRepository, StatutRepository $statutRepository, UserRepository $userRepository): Response
     {
         $data = $request->request->all()['data'];
         $demande = $demandeRepository->find($data['id']);
         $statut = $statutRepository->find($data['statut']);
+        $statut2 = $statutRepository->find($data['statut2']);
+
         $demande->setStatutCommercial($statut);
+        $demande->setStatutCommercial2($statut2);
+
+
+        if (key_exists('event1', $data)) {
+            $evenement = new Evenement();
+            $evenement->setDateDeDebut(new \datetime());
+            $evenement->setDateDeFin(new \datetime($data['event1']['dateDeFin']));
+            $evenement->setTypeDEvenement(!empty($statut->getCode()) ? $statut->getCode() : $statut->getTitre());
+            $evenement->setCode($statut->getId());
+            $evenement->setTitre($data['event1']['titre']);
+            $evenement->setCreateur($this->getUser());
+            foreach ($data['event1']['attribueA'] as $val) {
+                $user = $userRepository->find($val);
+                $evenement->addAttribueA($user);
+            }
+            $evenement->setDescription($data['event1']['description']);
+            $evenement->setPriorite($data['event1']['priorite']);
+            $evenement->setDemande($demande);
+            $evenementRepository->add($evenement);
+        }
+
+
+        if (key_exists('event2', $data)) {
+            $evenement = new Evenement();
+            $evenement->setDateDeDebut(new \datetime());
+            $evenement->setTypeDEvenement(!empty($statut2->getCode()) ? $statut2->getCode() : $statut2->getTitre());
+            $evenement->setCreateur($this->getUser());
+            $evenement->setCode($statut2->getId());
+            $evenement->setDateDeFin(new \datetime($data['event2']['dateDeFin']));
+            $evenement->setTitre($data['event2']['titre']);
+            foreach ($data['event2']['attribueA'] as $val) {
+                $user = $userRepository->find($val);
+                $evenement->addAttribueA($user);
+            }
+            $evenement->setDescription($data['event2']['description']);
+            $evenement->setPriorite($data['event2']['priorite']);
+            $evenement->setDemande($demande);
+
+            $evenementRepository->add($evenement);
+        }
+
+
         try {
             $demandeRepository->add($demande);
             return new Response(json_encode([

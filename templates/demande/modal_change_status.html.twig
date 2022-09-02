@@ -36,21 +36,54 @@
                         </div>
 
 
-                        <div class="col-md-4 mt-4">
-                            <label class="labels" for="demande_statut_{{ demande.id }}">Statut</label>
-                            <select name="demande_{{ demande.id }}[statut]" id="demande_statut_{{ demande.id }}"
-                                    class="statut-select form-control ">
-                                {% for statut in statuts %}
-                                    <option value="{{ statut.id }}" {{ statut == demande.statutCommercial ? "selected" : "" }} code="{{ statut.code }}">{{ statut.titre }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row" id="s1">
+                            <div class="col-md-4 mt-4">
+                                <label class="labels" for="demande_statut_{{ demande.id }}">Statut</label>
+                                <select name="demande_{{ demande.id }}[statut]" id="demande_statut_{{ demande.id }}"
+                                        class="statut-select form-control ">
+                                    {% for statut in statuts %}
+                                        <option value="{{ statut.id }}" {{ statut == demande.statutCommercial ? "selected" : "" }}
+                                                code="{{ statut.code }}">{{ statut.titre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4 mt-4">
+                                <label class="labels">.</label>
+                                <button type="button" class="btn add-button add-button-evenement d-block plus"
+                                        id="s1_{{ demande.id }}"
+                                        style="border:1px solid #BA68C8;">+ Ajouter une tache
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row" id="s2">
+                            <div class="col-md-4 mt-4">
+                                <label class="labels" for="demande_statut2_{{ demande.id }}">Statut</label>
+                                <select name="demande_{{ demande.id }}[statut2]" id="demande_statut2_{{ demande.id }}"
+                                        class="statut-select-2 form-control ">
+                                    <option></option>
+                                    {% for statut in statuts %}
+                                        <option value="{{ statut.id }}" {{ statut == demande.statutCommercial2 ? "selected" : "" }}
+                                                code="{{ statut.code }}">{{ statut.titre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4 mt-4">
+                                <label class="labels">.</label>
+                                <button type="button" class="btn add-button add-button-evenement d-block plus"
+                                        id="s2_{{ demande.id }}"
+                                        style="border:1px solid #BA68C8;">+ Ajouter une tache
+                                </button>
+                            </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary" onclick="return $(this).hide()">Modifier le statut</button>
+                    <button type="submit" class="btn btn-primary">Modifier le statut
+                    </button>
                     <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
                         <span class="sr-only">.</span>
                     </div>

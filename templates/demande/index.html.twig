@@ -113,12 +113,55 @@
                 <tr class="text-center">
                     <td class="statut-td" id="{{ demande.id }}">
 
-                        <div class="badge" id="badge-statut-{{ demande.id }}"
+                        <div class="badge col-md-12" id="badge-statut-{{ demande.id }}"
                              style="font-size:1em;background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG : '' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : '' }};">
                             {{ demande.statutCommercial }}
                         </div>
+
+                        {% if demande.statutCommercial2 is not empty %}
+                            <div class="badge col-md-12 mt-1" id="badge-statut2-{{ demande.id }}"
+                                 style="font-size:1em;background:{{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleurBG : '' }};color: {{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleur : '' }};">
+                                {{ demande.statutCommercial2 }}
+                            </div>
+                        {% endif %}
                     </td>
-                    <td></td>
+                    <td>
+                        {% set statut1Tache = "" %}
+                        {% set statut2Tache = "" %}
+
+
+                        {% for tache in demande.evenements %}
+
+                            {% if tache.code == demande.statutCommercial.id and tache.statut == "En cours" %}
+
+                                {% set statut1Tache = tache %}
+
+                            {% endif %}
+
+                            {% if tache.code == demande.statutCommercial2.id and tache.statut == "En cours" %}
+
+                                {% set statut2Tache = tache %}
+
+                            {% endif %}
+
+                        {% endfor %}
+                        <div class="badge col-md-12" id="badge-tache-1-{{ demande.id }}" style="color: #0E4377;font-size:1em;">
+
+                            {% if statut1Tache is not empty %}
+                                {{ statut1Tache.dateDeFin|date('d/m/Y H:i') }}
+                            {% else %}
+                                Aucune Tâche
+                            {% endif %}
+                        </div>
+
+                        {% if statut2Tache is not empty %}
+                            <div class="badge col-md-12 mt-1" id="badge-tache-2-{{ demande.id }}" style="color: #0E4377;font-size:1em;">
+                                {{ statut2Tache.dateDeFin|date('d/m/Y H:i') }}
+                            </div>
+                        {% endif %}
+
+
+                    </td>
                     <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.reference }}</a></td>
                     <td>
                         {% if demande.client is not empty %}
@@ -175,16 +218,94 @@
     <script>
 
 
+        $(document).on('click', '.add-button-evenement', function () {
+
+            const id = $(this).attr('id').replace('s1_', '').replace('s2_', '');
+            const indice = $(this).attr('id').replaceAll('_' + id, '');
+            let url = "/demande/modal/statut/evenement/" + id + "/" + indice;
+
+            const button = $(this);
+
+            console.log(indice);
+
+            if (button.hasClass('plus')) {
+                if ($('#div_' + indice).length == 0) {
+                    $.post(url, function (response) {
+                        const data = JSON.parse(response);
+                        $('#' + indice).append(data.message);
+                        $('.select2').select2();
+                        button.removeClass('plus');
+                        button.addClass('moins')
+                        button.text('- Annuler la tache')
+                        if (indice === "s2") {
+                            $('#demande_statut2_' + id).attr('required', true)
+                        }
+                    })
+                }
+            } else if (button.hasClass('moins')) {
+                if (indice === "s2") {
+                    $('#demande_statut2_' + id).attr('required', false)
+                }
+                $('#div_' + indice).remove();
+                button.removeClass('moins');
+                button.addClass('plus');
+                button.text('+ Ajouter une tache');
+            }
+
+
+        })
+
         function submitStatut(event) {
             event.preventDefault();
             $('.form-submit-loader').show();
 
-
             const id = $('.statut-select').attr('id').replaceAll('demande_statut_', '');
 
             const val = $('.statut-select').val();
+            const val2 = $('.statut-select-2').val();
 
-            let data = {id: id, statut: val};
+            let event1 = {};
+            let event2 = {};
+
+
+            if ($('#div_s1').length > 0) {
+
+                const date = $('#evenement_date_s1').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s1').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s1').val()
+                    + ":00";
+
+                event1 = {
+                    titre: $('#evenement_titre_s1').val(),
+                    attribueA: $('#evenement_dateDeFin_s1').val(),
+                    description: $('#evenement_description_s1').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s1_[priorite]"]:checked').val(),
+                }
+                console.log(event1);
+            }
+            if ($('#div_s2').length > 0) {
+                const date = $('#evenement_date_s2').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s2').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s1').val()
+                    + ":00";
+                event2 = {
+                    titre: $('#evenement_titre_s2').val(),
+                    attribueA: $('#evenement_dateDeFin_s2').val(),
+                    description: $('#evenement_description_s2').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s2_[priorite]"]:checked').val(),
+                }
+                console.log(event2);
+            }
+
+            let data = {
+                id: id,
+                statut: val,
+                statut2: val2,
+                event1: event1,
+                event2: event2
+            };
 
             $.post('{{ path('app_demande_statut_update') }}', {data: data}, function (response) {
                 const data = JSON.parse(response);
@@ -217,39 +338,6 @@
 
         }
 
-        $(document).on('change', '.statut-select', function () {
-
-
-            const code = $(".statut-select option:selected").attr('code');
-            console.log(code);
-
-
-            if (code === "ARELANCER") {
-
-                const div = `
-
-                          <div class="col-md-4 mt-4 statut-ARELANCER">
-                            <label class="labels" for="demande_date_fin">Statut</label>
-                            <input type="date" name="demande[dateFin]" id="demande_date_fin"
-                                    class="form-control datepicker ">
-
-                            </select>
-                        </div>
-
-                        <div class="col-md-4 mt-4 statut-ARELANCER">
-                            <label class="labels" for="demande_att_a">Statut</label>
-                            <select name="demande[attrA]" id="demande_att_a"
-                                    class="form-control ">
-                                {% for user in users %}
-                                    <option value="{{ user.id }}" >{{ user.firstname~" "~user.lastname }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                `;
-                $('.row-body').append(div)
-
-            }
-        })
         $('.statut-td').dblclick(function () {
             const id = $(this).attr('id');
             $('#modal-changer-statut-demande').remove();

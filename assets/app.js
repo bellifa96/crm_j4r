@@ -24,12 +24,15 @@ import './bootstrap';
 import * as $ from "jquery";
 import * as bootstrap from "bootstrap";
 
+
 // datatable
 import 'datatables.net';
 import 'datatables.net-bs5'
 import './datatable_custom';
 
+
 global.$ = global.jQuery = $;
+
 
 
 import 'multiple-select/src/multiple-select';
@@ -228,8 +231,9 @@ $(function () {
         changeYear: true,
     });
 
-
     $('.tel-code').select2();
+
+
 
 
     $('.multi-select').multipleSelect();
@@ -249,6 +253,8 @@ $(function () {
             [50, 100, 500, -1],
             [50, 100, 500, 'All']
         ],
+        dom: '<"top"f>rt<"bottom"filp><"clear">',
+
 
 
     });

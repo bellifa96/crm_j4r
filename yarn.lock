@@ -3711,12 +3711,19 @@
     "merge-stream" "^2.0.0"
     "supports-color" "^8.0.0"
 
+"jquery-timepicker@^1.3.3":
+  "integrity" "sha512-yNIFmG80xyW6W4UNYUFBSQFfnjlz07MSIZRk3GNEnDbqLS0hikTu4l/FKtOMEF9HvP9fQvI27BMMnhiCu6wDsQ=="
+  "resolved" "https://registry.npmjs.org/jquery-timepicker/-/jquery-timepicker-1.3.3.tgz"
+  "version" "1.3.3"
+  dependencies:
+    "jquery" ">= 1.4.3"
+
 "jquery-ui-bundle@^1.12.1-migrate":
   "integrity" "sha512-ihyHzL6NYkCg1SNIRFrQAkgEeAJmet2G6rrecCRwq6RcWNApV6w2NSjqfuJUUoiKywkvlU+pqHJ5NAAEuTet4w=="
   "resolved" "https://registry.npmjs.org/jquery-ui-bundle/-/jquery-ui-bundle-1.12.1-migrate.tgz"
   "version" "1.12.1-migrate"
 
-"jquery@^3.6.0", "jquery@>=1.7", "jquery@>=1.8", "jquery@1.9.1 - 3":
+"jquery@^3.6.0", "jquery@>= 1.4.3", "jquery@>=1.7", "jquery@>=1.8", "jquery@1.9.1 - 3":
   "integrity" "sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw=="
   "resolved" "https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz"
   "version" "3.6.0"

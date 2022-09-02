@@ -340,3 +340,12 @@ body .page-head ul li {
     border-left-color: rgb(16, 156, 241);
     box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
 }
+
+
+.select2-container--open {
+    z-index: 999999999 !important;
+}
+
+.select2 {
+    width: 100% !important;
+}
