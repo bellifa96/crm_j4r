@@ -198,7 +198,6 @@ class DevisController extends AbstractController
 
     }
 
-
     #[Route('/{id}', name: 'app_affaire_devis_delete', methods: ['POST'])]
     public function delete(Request $request, Devis $devi, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
     {

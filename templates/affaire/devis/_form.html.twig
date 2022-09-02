@@ -435,13 +435,13 @@
         {% endfor %}
 
 
-        {% for row in form.lots %}
+        {% for lot in form.lots %}
 
         <div class="css-ccobzb lot">
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(row.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(row.titre,{'attr':{'class':'chakra-input'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(lot.code,{'attr':{'class':'chakra-input', 'definition':'lot'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(lot.titre,{'attr':{'class':'chakra-input', 'definition':'lot'}}) }}</div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
@@ -457,7 +457,7 @@
             </div>
         </div>
 
-        {% for sousLot in row.sousLots %}
+        {% for sousLot in lot.sousLots %}
         <div class="css-ccobzb sous-lot">
 
             <div class="css-1r30cbj col-md-12">
@@ -480,7 +480,7 @@
         </div>
     </div>{% endfor %}
 
-    {#  {% for sousLot in row.sousLots %}
+    {#  {% for sousLot in lot.sousLots %}
     <div class="css-ccobzb sous-lot">
 
         <div class="css-1r30cbj col-md-12">
@@ -619,6 +619,15 @@
                 $('.organisation').remove();
             }
         })
+    })
+
+    $(document).on('change', 'input', function () {
+        let definition = $(this).attr('definition');
+        console.log(definition);
+        const val = $(this).val();
+        console.log(val);
+
+
     })
 
 
