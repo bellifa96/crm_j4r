@@ -204,42 +204,51 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 mb-3">
-                                <div class="card h-100">
-                                    <div class="card-header text-center fw-bold">
-                                        Signature
-                                    </div>
-                                    <div class="card-body">
-                                        {% if user.signature is not empty %}
-                                            <iframe id="inlineFrameExample" style="width: 100%;"
-
-                                                    src="{{ asset('uploads/signature/'~user.signature) }}"
-                                            ></iframe>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 mb-3">
-                                <div class="card h-100">
-                                    <div class="card-header text-center fw-bold">
-                                        Signature Document
-                                    </div>
-                                    <div class="card-body">
-                                        {% if user.signatureM is not empty %}
-                                            <img id="inlineFrameExample" style="width: 100%;"
-
-                                                 src="{{ asset('uploads/signatureM/'~user.signatureM) }}"
-                                            >
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     {% endif %}
 
 
                 </div>
+            </div>
+
+            <div class="row">
+
+                {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles or app.user == user %}
+                    <div class="col-sm-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header text-center fw-bold">
+                                Signature
+                            </div>
+                            <div class="card-body">
+                                {% if user.signature is not empty %}
+                                    <iframe id="inlineFrameExample" style="width: 100%;"
+
+                                            src="{{ asset('uploads/signature/'~user.signature) }}"
+                                    ></iframe>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header text-center fw-bold">
+                                Signature Document
+                            </div>
+                            <div class="card-body">
+                                {% if user.signatureM is not empty %}
+                                    <img id="inlineFrameExample" style="width: 100%;"
+
+                                         src="{{ asset('uploads/signatureM/'~user.signatureM) }}"
+                                    >
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                {% endif %}
+
+
             </div>
 
         </div>
