@@ -198,15 +198,37 @@ class DevisController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_affaire_devis_delete', methods: ['POST'])]
-    public function delete(Request $request, Devis $devi, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    /*#[Route('/lot/edit/{id}', name: 'app_affaire_lot_edit', methods: ['POST'])]
+    public function editLot(Request $request, Lot $lot, LotRepository $lotRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $devi->getId(), $request->request->get('_token'))) {
-            foreach ($devi->getOuvrages() as $ouvrage) {
-                $ouvrage->setDevis(null);
+
+        $data = $request->request->all();
+        $data = $data['lot'];
+
+        $lot->setCode($data['code']);
+        $lot->setTitre($data['titre']);
+        try {
+            $lotRepository->add($lot);
+            return new Response(json_encode(['code' => 200]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+    }*/
+
+    #[Route('/{id}', name: 'app_affaire_devis_delete', methods: ['POST'])]
+    public function delete(Request $request, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $devis->getId(), $request->request->get('_token'))) {
+            foreach ($devis->getOuvrages() as $ouvrage) {
+                $ouvrage->setDevis($devis);
                 $ouvrageRepository->add($ouvrage);
             }
-            $devisRepository->remove($devi);
+            $devisRepository->remove($devis);
         }
 
         return $this->redirectToRoute('app_affaire_devis_index', [], Response::HTTP_SEE_OTHER);

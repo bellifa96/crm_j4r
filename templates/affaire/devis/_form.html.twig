@@ -621,14 +621,30 @@
         })
     })
 
-    $(document).on('change', 'input', function () {
+    /*$(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');
         console.log(definition);
         const val = $(this).val();
         console.log(val);
 
+        if (definition == "lot") {
+            const lot = {
+                code: $('input[name="devis[lots][0][code]"]').val(),
+                titre: $('input[name="devis[lots][0][titre]"]').val()
+            };
+            console.log(lot);
+            let path = "{{ path('app_affaire_lot_edit', {'id':33}) }}";
 
-    })
+            $.post(path, {lot}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    console.log(data, lot);
+                }
+            })
+        }
+
+
+    })*/
 
 
 </script>
