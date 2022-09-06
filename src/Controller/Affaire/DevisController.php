@@ -192,13 +192,13 @@ class DevisController extends AbstractController
             } catch (SyntaxError $e) {
                 dd($e);
             }
-            $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+            $response->setContent(json_encode(['code' => 200, 'message' => $html, 'lot'=>$lot->getId()]));
         }
         return $response;
 
     }
 
-    /*#[Route('/lot/edit/{id}', name: 'app_affaire_lot_edit', methods: ['POST'])]
+    #[Route('/edit/lot/{id}', name: 'app_affaire_lot_edit', methods: ['POST'])]
     public function editLot(Request $request, Lot $lot, LotRepository $lotRepository): Response
     {
 
@@ -209,7 +209,7 @@ class DevisController extends AbstractController
         $lot->setTitre($data['titre']);
         try {
             $lotRepository->add($lot);
-            return new Response(json_encode(['code' => 200]));
+            return new Response(json_encode(['code' => 200, 'lot'=>$lot->getId()]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (ORMException $e) {
@@ -218,7 +218,7 @@ class DevisController extends AbstractController
 
 
         return new Response(json_encode(['code' => 404]));
-    }*/
+    }
 
     #[Route('/{id}', name: 'app_affaire_devis_delete', methods: ['POST'])]
     public function delete(Request $request, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response

@@ -238,6 +238,7 @@ class BibliothequeDePrixController extends AbstractController
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setUnite($data['unite']);
         $ouvrage->setNote($data['note']);
+        key_exists('quantite', $data) ? $ouvrage->setQuantiteDOuvrage($data['quantiteDOuvrage']) : $ouvrage->setQuantiteDOuvrage(null);
         try {
             $ouvrageRepository->add($ouvrage);
             return new Response(json_encode(['code' => 200]));

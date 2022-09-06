@@ -617,11 +617,12 @@
                 $("#lot").modal('show');
                 $('.svg').remove();
                 $('.organisation').remove();
+                const lotId = data.lot;
             }
         })
     })
 
-    /*$(document).on('change', 'input', function () {
+    $(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');
         console.log(definition);
         const val = $(this).val();
@@ -644,7 +645,7 @@
         }
 
 
-    })*/
+    })
 
 
 </script>
