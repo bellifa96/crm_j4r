@@ -440,8 +440,8 @@
         <div class="css-ccobzb lot">
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(lot.code,{'attr':{'class':'chakra-input', 'definition':'lot'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(lot.titre,{'attr':{'class':'chakra-input', 'definition':'lot'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(lot.code,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
+                <div class="tab-el-left">{{ form_widget(lot.titre,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
                 <div class="tab-el-right"></div>
@@ -627,6 +627,8 @@
         console.log(definition);
         const val = $(this).val();
         console.log(val);
+        let lotId = $(this).attr('elid');
+        console.log(lotId);
 
         if (definition == "lot") {
             const lot = {
