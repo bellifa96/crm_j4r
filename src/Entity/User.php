@@ -147,7 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephoneFixe;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $linkdin;
+    private $linkedin;
 
     #[ORM\Column(type: 'array', nullable: true)]
     private $vue = [];
@@ -863,14 +863,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLinkdin(): ?string
+    public function getLinkedin(): ?string
     {
-        return $this->linkdin;
+        return $this->linkedin;
     }
 
-    public function setLinkdin(?string $linkdin): self
+    public function setLinkedin(?string $linkedin): self
     {
-        $this->linkdin = $linkdin;
+        $this->linkedin = $linkedin;
 
         return $this;
     }
