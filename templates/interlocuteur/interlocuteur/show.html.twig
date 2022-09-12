@@ -113,7 +113,17 @@
                     </div>
                     <div class="col-md-6">
                         {% for role in interlocuteur.roles %}
-                            <span class="data-element bg-blue "><b>{{ role }}</b></span>
+                            {% if role == "ROLE_CLIENT" %}
+                                <span class="data-element bg-blue "><b>Client</b></span>
+                            {% elseif role == "ROLE_FOURNISSEUR" %}
+                                <span class="data-element bg-blue "><b>Fournisseur</b></span>
+                            {% elseif role == "ROLE_SOUS_TRAITANT" %}
+                                <span class="data-element bg-blue "><b>Sous traitant</b></span>
+                            {% elseif role == "ROLE_TRANSPORTEUR" %}
+                                <span class="data-element bg-blue "><b>Transporteur</b></span>
+                            {% elseif role == "ROLE_PARTENAIRE" %}
+                                <span class="data-element bg-blue "><b>Partenaire</b></span>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
