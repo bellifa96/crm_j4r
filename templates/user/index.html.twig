@@ -3,6 +3,18 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
+    <style>
+        .bg-blue {
+            font-size: 13px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: calc(1em + 0.375rem + 2px) !important;
+            padding: 0 0.25rem !important;
+            background: rgba(14, 67, 119, 0.1);
+            border-radius: 5px !important;
+            white-space: nowrap;
+        }
+    </style>
 
 
     <div class=" col-md-12" style="padding: 30px;">
@@ -68,7 +80,21 @@
                                             <span class="label label-danger">Non connecté</span>
                                         {% endif %}
                                     </td>
-                                    <td> {{ user.roles|join('|') }}</td>
+                                    <td>
+                                        {% for role in user.roles %}
+                                            {% if role == "ROLE_SUPER_ADMIN" %}
+                                                <span class="data-element bg-blue "><b>Super Admin</b></span>
+                                            {% elseif role == "ROLE_ADMIN" %}
+                                                <span class="data-element bg-blue "><b>Admin</b></span>
+                                            {% elseif role == "ROLE_MANAGER" %}
+                                                <span class="data-element bg-blue "><b>Manager</b></span>
+                                            {% elseif role == "ROLE_COMMERCIAL" %}
+                                                <span class="data-element bg-blue "><b>Commercial</b></span>
+                                            {% elseif role == "ROLE_USER" %}
+                                                <span class="data-element bg-blue "><b>Utilisateur</b></span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
                                     {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles %}
 
                                         <td>
