@@ -132,13 +132,13 @@
 
                         {% for tache in demande.evenements %}
 
-                            {% if tache.code == demande.statutCommercial.id and tache.statut == "En cours" %}
+                            {% if demande.statutCommercial is not empty and  tache.code == demande.statutCommercial.id and tache.statut == "En cours" %}
 
                                 {% set statut1Tache = tache %}
 
                             {% endif %}
 
-                            {% if tache.code == demande.statutCommercial2.id and tache.statut == "En cours" %}
+                            {% if demande.statutCommercial2 is not empty and tache.code == demande.statutCommercial2.id and tache.statut == "En cours" %}
 
                                 {% set statut2Tache = tache %}
 
