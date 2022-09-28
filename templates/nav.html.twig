@@ -67,19 +67,19 @@
             <li class="sidebar-title">
                 GED
                 <ul>
-                    <li class="sidebar-item   {{ app.request.get('_route') == 'app_ged_fichier_index' ? 'active' }}">
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_ged_fichier_index' ? 'active' }}">
                         <a href="{{ path('app_ged_fichier_index') }}" class="sidebar-link">
                             <i class="bi bi-folder2-open"></i>
                             <span>Fichiers</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_ged_type_fichier_index' ? 'active' }} ">
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_ged_type_fichier_index' ? 'active' }} ">
                         <a href="{{ path('app_ged_type_fichier_index') }}" class="sidebar-link">
                             <i class="bi bi-folder2-open"></i>
                             <span>Type de documents</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_ged_fichier_deleted' ? 'active' }} ">
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_ged_fichier_deleted' ? 'active' }} ">
                         <a href="{{ path('app_ged_fichier_deleted') }}" class="sidebar-link">
                             <i class="bi bi-trash"></i>
                             <span>Corbeille</span>
@@ -87,7 +87,6 @@
                     </li>
                 </ul>
             </li>
-
 
 
             <li class="sidebar-title">

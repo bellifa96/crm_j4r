@@ -147,7 +147,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephoneFixe;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $linkedin;
+        private $linkedin;
 
     #[ORM\Column(type: 'array', nullable: true)]
     private $vue = [];
