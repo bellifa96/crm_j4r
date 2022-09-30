@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "dompdf/dompdf": "^2.0",
         "gedmo/doctrine-extensions": "^3.6",
         "lexik/jwt-authentication-bundle": "^2.15",
         "myclabs/deep-copy": "^1.11",
