@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\Affaire\DevisRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -50,6 +51,9 @@ class Devis
 
     #[ORM\OneToMany(mappedBy: 'devis', targetEntity: Ouvrage::class)]
     private $ouvrages;
+
+    #[ORM\Column(type:'array', nullable: true)]
+    private $elements = [];
 
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
@@ -203,6 +207,18 @@ class Devis
                 $ouvrage->setDevis(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getElements(): ?array
+    {
+        return $this->elements;
+    }
+
+    public function setElements(?array $elements): self
+    {
+        $this->elements = $elements;
 
         return $this;
     }

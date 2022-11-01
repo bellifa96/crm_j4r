@@ -381,7 +381,10 @@
     </div>
 
     <div id="main-devis">
-        {% for ouvrage in devis.ouvrages %}
+
+        {{ html|raw('html') }}
+        {% for ouvrage in devis %}
+
 
             <div class="elements" id="element-{{ ouvrage.id }}">
 
@@ -435,8 +438,8 @@
         {% endfor %}
 
 
+
         {% for lot in form.lots %}
-        //{{ dump(devis.lots.snapshot) }}
         <div class="css-ccobzb lot">
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
@@ -504,8 +507,6 @@
     </div>
     #}
 
-
-
     {% endfor %}
 </div>
 
@@ -525,7 +526,7 @@
     </div>
 {% endif %}
 
-{{ form_end(form) }}
+        {{ form_end(form) }}
 
 
 <div class="col-md-10 m-auto mt-2">

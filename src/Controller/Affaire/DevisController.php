@@ -26,6 +26,14 @@ use Twig\Error\SyntaxError;
 #[Route('/affaire/devis')]
 class DevisController extends AbstractController
 {
+
+    private $environment;
+
+    public function __construct(Environment $environment)
+    {
+        $this->environment = $environment;
+    }
+
     #[Route('/', name: 'app_affaire_devis_index', methods: ['GET'])]
     public function index(DevisRepository $devisRepository): Response
     {
@@ -61,16 +69,45 @@ class DevisController extends AbstractController
         ]);
     }
 
+    public function recursiveElements($elements)
+    {
+        $path = "affaire/devis/ouvrage.html.twig";
+        $html = "";
+
+        foreach ($elements as $key => $element) {
+
+            if ($key === "ouvrages") {
+                try {
+                    $html .= $this->environment->render($path, ["ouvrages" => $element]);
+                } catch (LoaderError $e) {
+                    dd($e);
+                } catch (RuntimeError $e) {
+                    dd($e);
+                } catch (SyntaxError $e) {
+                    dd($e);
+                }
+            }
+            elseif (is_array($element)) {
+                $html .= $this->recursiveElements($element);
+            } else {
+
+            }
+        }
+        return $html;
+
+
+    }
+
     #[Route('/{id}/edit', name: 'app_affaire_devis_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Devis $devis, DevisRepository $devisRepository): Response
     {
 
 
-        foreach ($devis->getOuvrages() as $ouvrage) {
-            dump($ouvrage);
-        }
+        dump($devis->getElements());
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
+
+       // dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $devisRepository->add($devis);
@@ -81,6 +118,7 @@ class DevisController extends AbstractController
             'devis' => $devis,
             'form' => $form,
             'demande' => $devis->getDemande(),
+            'html' => $this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []),
             'title' => "Création d'un devis - " . $devis->getTitre() . " " . $devis->getId(),
             'nav' => []
         ]);
@@ -98,6 +136,9 @@ class DevisController extends AbstractController
         $sum = 0;
 
         $ouvrages = [];
+
+        $elements = $devis->getElements();
+
         foreach ($data as $val) {
             $ouvrage = $ouvrageRepository->find($val);
 
@@ -112,10 +153,9 @@ class DevisController extends AbstractController
             }
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
-            $devis->addOuvrage($clone);
-            $ouvrage->setDevis($devis);
             $ouvrageRepository->add($clone);
             $ouvrages[] = $clone;
+            $elements[]["ouvrages"][$clone->getId()] = $clone;
         }
         //  return new Response(json_encode($data));
 
@@ -131,6 +171,7 @@ class DevisController extends AbstractController
         }
 
         try {
+            $devis->setElements($elements);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
@@ -138,7 +179,6 @@ class DevisController extends AbstractController
         } catch (ORMException $e) {
             dd($e);
         }
-
 
         return new Response(json_encode(['code' => 404]));
     }
@@ -177,14 +217,14 @@ class DevisController extends AbstractController
 
 
         $lot = new Lot();
-        $devis->addLot($lot);
-        $lot->setDevis($devis);
+
+    //    $devis->setElements($devis->getElements());
 
         if (!empty($path)) {
 
             try {
                 $lotRepository->add($lot);
-                $html = $environment->render($path,["lot"=>$lot]);
+                $html = $environment->render($path, ["lot" => $lot]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -192,7 +232,7 @@ class DevisController extends AbstractController
             } catch (SyntaxError $e) {
                 dd($e);
             }
-            $response->setContent(json_encode(['code' => 200, 'message' => $html, 'lot'=>$lot->getId()]));
+            $response->setContent(json_encode(['code' => 200, 'message' => $html, 'lot' => $lot->getId()]));
         }
         return $response;
 
@@ -209,7 +249,7 @@ class DevisController extends AbstractController
         $lot->setTitre($data['titre']);
         try {
             $lotRepository->add($lot);
-            return new Response(json_encode(['code' => 200, 'lot'=>$lot->getId()]));
+            return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (ORMException $e) {
