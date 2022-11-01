@@ -28,10 +28,11 @@ class DevisController extends AbstractController
 {
 
     private $environment;
-
-    public function __construct(Environment $environment)
+    private $em;
+    public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface)
     {
         $this->environment = $environment;
+        $this->em = $entityManagerInterface;
     }
 
     #[Route('/', name: 'app_affaire_devis_index', methods: ['GET'])]
@@ -71,27 +72,29 @@ class DevisController extends AbstractController
 
     public function recursiveElements($elements)
     {
-        $path = "affaire/devis/ouvrage.html.twig";
         $html = "";
 
         foreach ($elements as $key => $element) {
-
-            if ($key === "ouvrages") {
-                try {
-                    $html .= $this->environment->render($path, ["ouvrages" => $element]);
-                } catch (LoaderError $e) {
-                    dd($e);
-                } catch (RuntimeError $e) {
-                    dd($e);
-                } catch (SyntaxError $e) {
-                    dd($e);
-                }
+            $path = "affaire/devis/".$element['type'].".html.twig";
+            if($element['type'] == 'ouvrage'){
+                $entity = $this->em->getRepository(Ouvrage::class)->find($element['id']);
+            }elseif($element['type'] == 'lot'){
+                $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
-            elseif (is_array($element)) {
-                $html .= $this->recursiveElements($element);
-            } else {
 
+            try {
+                $html .= $this->environment->render($path, ["ouvrages" => $entity,'hasChild'=>!empty($element['data'])]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
             }
+            if (!empty($element['data'])) {
+                $html .= $this->recursiveElements($element['data']);
+                $html .= "</div>";
+            } 
         }
         return $html;
 
@@ -107,7 +110,7 @@ class DevisController extends AbstractController
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 
-       // dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
+      // dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $devisRepository->add($devis);
@@ -124,8 +127,22 @@ class DevisController extends AbstractController
         ]);
     }
 
+
+
+    public function setParent($elements,$el,$parent){
+          
+        foreach($elements as &$element){
+            if($element['id']==$parent['id'] && $element['type']== $parent['type']){
+                $element['data'] = $el;
+            }elseif(empty($element['data'])){
+                $this->setParent($element['data'],$el,$parent);
+            }
+        }
+        return $elements;
+    }
+
     #[Route('/ouvrage/import/{id}', name: 'app_affaire_ouvrage_import', methods: ['POST'])]
-    public function importOuvrage(Request $request, Environment $environment, EntityManagerInterface $entityManager, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function importOuvrage(Request $request, Environment $environment, EntityManagerInterface $entityManager, OuvrageRepository $ouvrageRepository, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
 
         $path = "affaire/devis/ouvrage.html.twig";
@@ -137,11 +154,24 @@ class DevisController extends AbstractController
 
         $ouvrages = [];
 
-        $elements = $devis->getElements();
+        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
+
 
         foreach ($data as $val) {
-            $ouvrage = $ouvrageRepository->find($val);
 
+            $el= ['id'=>$val['id'], 'type' => 'ouvrage', 'data'=>[]];
+
+            $parent = [];
+            if(!empty($val['parent']) and !empty($val['parentType']) ){
+                $parent['id'] = $val['parent'] ;
+                $parent['type'] = $val['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else{
+                $elements[] = $el;
+            }
+
+
+            $ouvrage = $ouvrageRepository->find($val['id']);
             $clone = $ouvrage;
 
             $clone->setStatut('Copie');
@@ -155,10 +185,8 @@ class DevisController extends AbstractController
             $ouvrageRepository->add($clone);
             $ouvrageRepository->add($clone);
             $ouvrages[] = $clone;
-            $elements[]["ouvrages"][$clone->getId()] = $clone;
+      //      $elements[]["ouvrages"][$clone->getId()] = $clone;
         }
-        //  return new Response(json_encode($data));
-
 
         try {
             $html = $environment->render($path, ["ouvrages" => $ouvrages]);

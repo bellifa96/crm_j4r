@@ -32,9 +32,6 @@ class Lot
     #[ORM\OneToMany(mappedBy: 'lot', targetEntity: SousLot::class)]
     private $sousLots;
 
-    #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'lots')]
-    private $devis;
-
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
 
@@ -98,18 +95,6 @@ class Lot
                 $sousLot->setLot(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDevis(): ?Devis
-    {
-        return $this->devis;
-    }
-
-    public function setDevis(?Devis $devis): self
-    {
-        $this->devis = $devis;
 
         return $this;
     }

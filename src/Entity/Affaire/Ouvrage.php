@@ -78,9 +78,6 @@ class Ouvrage
 
     private $quantite = [];
 
-    #[ORM\ManyToOne(targetEntity: Devis::class, inversedBy: 'ouvrages')]
-    private $devis;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
@@ -285,18 +282,6 @@ class Ouvrage
     public function setQuantite(?array $quantite): self
     {
         $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    public function getDevis(): ?Devis
-    {
-        return $this->devis;
-    }
-
-    public function setDevis(?Devis $devis): self
-    {
-        $this->devis = $devis;
 
         return $this;
     }

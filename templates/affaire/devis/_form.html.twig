@@ -383,7 +383,8 @@
     <div id="main-devis">
 
         {{ html|raw('html') }}
-        {% for ouvrage in devis %}
+
+       {# {% for ouvrage in devis %}
 
 
             <div class="elements" id="element-{{ ouvrage.id }}">
@@ -482,9 +483,10 @@
                 </div>
             </div>
         </div>
-    </div>{% endfor %}
+    </div>
+    {% endfor %
 
-    {#  {% for sousLot in lot.sousLots %}
+     {% for sousLot in lot.sousLots %}
     <div class="css-ccobzb sous-lot">
 
         <div class="css-1r30cbj col-md-12">
@@ -505,9 +507,10 @@
             </div>
         </div>
     </div>
-    #}
+
 
     {% endfor %}
+    }#}
 </div>
 
 {% if devis.ouvrages is not empty or devis.lots is not empty %}
@@ -541,7 +544,12 @@
         $('.check-ouvrage').each(function (index) {
             if ($(this).is(':checked')) {
                 console.log($(this).val());
-                data[index] = ($(this).val())
+                data[index] = { 
+                    parent:$(this).attr('parent') ? $(this).attr('parent') : null ,
+                    parentType:$(this).attr('parenttype') ? $(this).attr('parenttype') : null ,
+                    id:$(this).val(),
+                    order:null,
+                } 
             }
         })
 
