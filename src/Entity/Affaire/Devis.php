@@ -157,4 +157,19 @@ class Devis
         return $this;
     }
 
+    public function inElements($el,$elements=null){
+          
+        if(empty($elements)){
+            $elements = $this->elements;
+        }
+        foreach($elements as $element){
+            if($element['id']==$el['id'] && $element['type']== $el['type']){
+                return true;
+            }elseif(empty($element['data'])){
+                $this->inElements($el,$element['data']);
+            }
+        }
+        return false;
+    }
+
 }

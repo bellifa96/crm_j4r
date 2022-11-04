@@ -83,7 +83,7 @@ class DevisController extends AbstractController
             }
 
             try {
-                $html .= $this->environment->render($path, ["ouvrages" => $entity,'hasChild'=>!empty($element['data'])]);
+                $html .= $this->environment->render($path, ["ouvrage" => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -110,7 +110,7 @@ class DevisController extends AbstractController
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 
-      // dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
+//       dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $devisRepository->add($devis);

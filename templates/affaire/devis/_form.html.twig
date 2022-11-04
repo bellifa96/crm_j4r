@@ -310,7 +310,7 @@
 
 
 <div class="row justify-content-center main-devis">
-    {% if devis.ouvrages is empty and devis.lots is empty %}
+    {% if devis.elements is empty %}
     <svg viewBox="0 0 200 200" focusable="false" class="svg">
         <circle cx="100" cy="100" r="100" fill="white"></circle>
         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -513,8 +513,7 @@
     }#}
 </div>
 
-{% if devis.ouvrages is not empty or devis.lots is not empty %}
-    <div class="row css-gg4vpm">
+    <div class="row css-gg4vpm"  style='display:{{ devis.elements is empty ? "none" :""}}'>
         <div>
             <button type="button" class="css-15nl7at" id="add-lot">
                 + Créer un lot
@@ -527,7 +526,6 @@
             </button>
         </div>
     </div>
-{% endif %}
 
         {{ form_end(form) }}
 
@@ -570,6 +568,7 @@
                     }, "1000");
                     $('.svg').remove();
                     $('.organisation').remove();
+                    $('.css-gg4vpm').show();
 
 
                 } else {
