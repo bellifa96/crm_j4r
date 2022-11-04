@@ -1,4 +1,3 @@
-{% for ouvrage in ouvrages %}
 
     <div class="elements" id="element-{{ ouvrage.id }}">
 
@@ -6,8 +5,8 @@
             <div class="css-1r30cbj">
                 <div class="tab-el-left"></div>
                 <div class="tab-el-left">
-                    <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
-                           name="devis[ouvrages][{{ loop.index }}][denomination]" required="required" maxlength="255"
+                    <input type="text" id="devis_ouvrages_{{ key }}_denomination"
+                           name="devis[ouvrages][{{key}}][denomination]" required="required" maxlength="255"
                            class="chakra-input" value="{{ ouvrage.denomination }}">
                 </div>
                 <div class="tab-el-left">
@@ -28,5 +27,3 @@
             </div>
         </div>
     </div>
-
-{% endfor %}

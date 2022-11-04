@@ -36,12 +36,7 @@ class DevisType extends AbstractType
                     return $user->getFirstname() . " " . $user->getLastname();
                 }
             ])
-            ->add('lots', CollectionType::class, [
-                'entry_type' => LotType::class,
-                'entry_options' => [
-                    'attr' => ['class' => ''],
-                ],
-            ])
+
 ;
     }
 

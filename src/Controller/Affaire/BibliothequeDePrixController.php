@@ -131,12 +131,16 @@ class BibliothequeDePrixController extends AbstractController
 
         $ouvrages = $ouvrageRepository->findAll();
 
-        foreach ($ouvrages as $key => $ouvrage) {
-            if ($devis->getOuvrages()->contains($ouvrage)) {
-                unset($ouvrages[$key]);
+        if(!empty($devis->getElements()))
+        {
+            foreach ($ouvrages as $key => $ouvrage) {
+                if (!$devis->inElements(['id'=>$ouvrage->getId(),'type'=>'ouvrage']))
+                {
+                    unset($ouvrages[$key]);
+                }
             }
-        }
 
+        }
         if (!empty($path)) {
             try {
                 $html = $environment->render($path, ["ouvrages" => $ouvrages]);
@@ -404,7 +408,7 @@ class BibliothequeDePrixController extends AbstractController
 
     }
 
-        #[Route('/composant/dupliquer/{id}', name: 'app_affaire_composant_dupliquer', methods: ['GET', 'POST'])]
+    #[Route('/composant/dupliquer/{id}', name: 'app_affaire_composant_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerComposant(Request $request, Composant $composant, ComposantRepository $composantRepository, EntityManagerInterface $entityManager, TypeComposantRepository $typeComposantRepository): Response
     {
 

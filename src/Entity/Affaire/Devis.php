@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\Affaire\DevisRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -45,11 +46,8 @@ class Devis
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'devis')]
     private $referent;
 
-    #[ORM\OneToMany(mappedBy: 'devis', targetEntity: Lot::class)]
-    private $lots;
-
-    #[ORM\OneToMany(mappedBy: 'devis', targetEntity: Ouvrage::class)]
-    private $ouvrages;
+    #[ORM\Column(type:'array', nullable: true)]
+    private $elements = [];
 
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
@@ -147,64 +145,31 @@ class Devis
         return $this;
     }
 
-    /**
-     * @return Collection<int, Lot>
-     */
-    public function getLots(): Collection
+    public function getElements(): ?array
     {
-        return $this->lots;
+        return $this->elements;
     }
 
-    public function addLot(Lot $lot): self
+    public function setElements(?array $elements): self
     {
-        if (!$this->lots->contains($lot)) {
-            $this->lots[] = $lot;
-            $lot->setDevis($this);
-        }
+        $this->elements = $elements;
 
         return $this;
     }
 
-    public function removeLot(Lot $lot): self
-    {
-        if ($this->lots->removeElement($lot)) {
-            // set the owning side to null (unless already changed)
-            if ($lot->getDevis() === $this) {
-                $lot->setDevis(null);
+    public function inElements($el,$elements=null){
+          
+        if(empty($elements)){
+            $elements = $this->elements;
+        }
+        foreach($elements as $element){
+            if($element['id']==$el['id'] && $element['type']== $el['type']){
+                return true;
+            }elseif(empty($element['data'])){
+                $this->inElements($el,$element['data']);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Ouvrage>
-     */
-    public function getOuvrages(): Collection
-    {
-        return $this->ouvrages;
-    }
-
-    public function addOuvrage(Ouvrage $ouvrage): self
-    {
-        if (!$this->ouvrages->contains($ouvrage)) {
-            $this->ouvrages[] = $ouvrage;
-            $ouvrage->setDevis($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOuvrage(Ouvrage $ouvrage): self
-    {
-        if ($this->ouvrages->removeElement($ouvrage)) {
-            // set the owning side to null (unless already changed)
-            if ($ouvrage->getDevis() === $this) {
-                $ouvrage->setDevis(null);
-            }
-        }
-
-        return $this;
+        return false;
     }
 
 }
