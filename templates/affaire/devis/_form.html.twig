@@ -384,7 +384,7 @@
 
         {{ html|raw('html') }}
 
-       {# {% for ouvrage in devis %}
+        {# {% for ouvrage in devis %}
 
 
             <div class="elements" id="element-{{ ouvrage.id }}">
@@ -510,24 +510,25 @@
 
 
     {% endfor %}
-    }#}
+    } #}
+    </div>
 </div>
 
-    <div class="row css-gg4vpm"  style='display:{{ devis.elements is empty ? "none" :""}}'>
-        <div>
-            <button type="button" class="css-15nl7at" id="add-lot">
-                + Créer un lot
-            </button>
-            <button type="button" class="css-15nl7at import-ouvrage">
-                + Importer un ouvrage
-            </button>
-            <button type="button" class="css-15nl7at" id="add-ouvrage">
-                + Créer un ouvrage
-            </button>
-        </div>
+<div class="row css-gg4vpm" style='display:{{ devis.elements is empty ? "none" :"" }}'>
+    <div>
+        <button type="button" class="css-15nl7at" id="add-lot">
+            + Créer un lot
+        </button>
+        <button type="button" class="css-15nl7at import-ouvrage">
+            + Importer un ouvrage
+        </button>
+        <button type="button" class="css-15nl7at" id="add-ouvrage">
+            + Créer un ouvrage
+        </button>
     </div>
+</div>
 
-        {{ form_end(form) }}
+{{ form_end(form) }}
 
 
 <div class="col-md-10 m-auto mt-2">
@@ -542,12 +543,12 @@
         $('.check-ouvrage').each(function (index) {
             if ($(this).is(':checked')) {
                 console.log($(this).val());
-                data[index] = { 
-                    parent:$(this).attr('parent') ? $(this).attr('parent') : null ,
-                    parentType:$(this).attr('parenttype') ? $(this).attr('parenttype') : null ,
-                    id:$(this).val(),
-                    order:null,
-                } 
+                data[index] = {
+                    parent: $(this).attr('parent') ? $(this).attr('parent') : null,
+                    parentType: $(this).attr('parenttype') ? $(this).attr('parenttype') : null,
+                    id: $(this).val(),
+                    order: null,
+                }
             }
         })
 
