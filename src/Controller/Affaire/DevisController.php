@@ -152,6 +152,7 @@ class DevisController extends AbstractController
         $sum = 0;
 
         $ouvrages = [];
+        $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
@@ -183,19 +184,18 @@ class DevisController extends AbstractController
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
             $ouvrageRepository->add($clone);
-            $ouvrages[] = $clone;
-      //      $elements[]["ouvrages"][$clone->getId()] = $clone;
+            try {
+                $html .= $environment->render($path, ["ouvrage" => $clone]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }            
         }
 
-        try {
-            $html = $environment->render($path, ["ouvrages" => $ouvrages]);
-        } catch (LoaderError $e) {
-            dd($e);
-        } catch (RuntimeError $e) {
-            dd($e);
-        } catch (SyntaxError $e) {
-            dd($e);
-        }
+
 
         try {
             $devis->setElements($elements);
