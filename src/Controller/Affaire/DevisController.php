@@ -239,6 +239,9 @@ class DevisController extends AbstractController
     public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis): Response
     {
         $response = new Response();
+        
+
+       // dd($request);
 
         $path = "affaire/devis/lot.html.twig";
 
