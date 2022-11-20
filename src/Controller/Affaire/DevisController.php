@@ -184,6 +184,7 @@ class DevisController extends AbstractController
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
             $ouvrageRepository->add($clone);
+
             try {
                 $html .= $environment->render($path, ["ouvrage" => $clone]);
             } catch (LoaderError $e) {
