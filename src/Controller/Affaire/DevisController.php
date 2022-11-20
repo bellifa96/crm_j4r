@@ -81,7 +81,6 @@ class DevisController extends AbstractController
             }elseif($element['type'] == 'lot'){
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
-
             try {
                 $html .= $this->environment->render($path, ["ouvrage" => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
             } catch (LoaderError $e) {

@@ -19,7 +19,6 @@
 /public/build/
 npm-debug.log
 yarn-error.log
-/.idea/
 ###< symfony/webpack-encore-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
@@ -35,3 +34,9 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> IDE ###
+/.vs/
+/.idea/
+###< IDE ###
+
