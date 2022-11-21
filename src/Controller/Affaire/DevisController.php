@@ -81,7 +81,6 @@ class DevisController extends AbstractController
             }elseif($element['type'] == 'lot'){
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
-
             try {
                 $html .= $this->environment->render($path, ["ouvrage" => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
             } catch (LoaderError $e) {
@@ -153,6 +152,7 @@ class DevisController extends AbstractController
         $sum = 0;
 
         $ouvrages = [];
+        $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
@@ -184,19 +184,19 @@ class DevisController extends AbstractController
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
             $ouvrageRepository->add($clone);
-            $ouvrages[] = $clone;
-      //      $elements[]["ouvrages"][$clone->getId()] = $clone;
+
+            try {
+                $html .= $environment->render($path, ["ouvrage" => $clone]);
+            } catch (LoaderError $e) {
+                dd($e);
+            } catch (RuntimeError $e) {
+                dd($e);
+            } catch (SyntaxError $e) {
+                dd($e);
+            }            
         }
 
-        try {
-            $html = $environment->render($path, ["ouvrages" => $ouvrages]);
-        } catch (LoaderError $e) {
-            dd($e);
-        } catch (RuntimeError $e) {
-            dd($e);
-        } catch (SyntaxError $e) {
-            dd($e);
-        }
+
 
         try {
             $devis->setElements($elements);
@@ -240,6 +240,9 @@ class DevisController extends AbstractController
     public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis): Response
     {
         $response = new Response();
+        
+
+       // dd($request);
 
         $path = "affaire/devis/lot.html.twig";
 

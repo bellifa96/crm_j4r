@@ -1,4 +1,9 @@
 <style>
+
+    .selected {
+        border: 1px solid #006DAA !important;
+        border-left-width: 5px !important;
+    }
     .labels {
         font-size: 11px;
         color: #0d4377;
@@ -536,6 +541,23 @@
 
 </div>
 <script>
+
+    var selectedElement = null;
+    $('body').on('click', '.elements', function(){
+            selectedElement = $(this);
+    })
+
+    $('body').click(function(event){
+        $('.selected').each(function(){
+             $(this).removeClass('selected');
+        });
+        const selector = '.elements .'+ (event.target.classList[0] ?event.target.classList[0] : "unselect") ;
+        if(document.querySelector(selector)){
+         selectedElement.addClass('selected');
+        }
+    });
+
+
     function submitImportOuvrageEvent(event) {
         event.preventDefault();
 
