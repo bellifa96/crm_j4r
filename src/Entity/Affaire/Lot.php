@@ -35,6 +35,9 @@ class Lot
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
 
+    #[ORM\Column(type:'array', nullable: true)]
+    private $elements = [];
+
     public function __construct()
     {
         $this->sousLots = new ArrayCollection();

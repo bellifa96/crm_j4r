@@ -237,25 +237,35 @@ class DevisController extends AbstractController
     }
 
     #[Route('/lot/{id}', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
-    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis): Response
+    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
-        $response = new Response();
-        
-
-       // dd($request);
-
         $path = "affaire/devis/lot.html.twig";
 
+        $data = $request->request->all();
 
         $lot = new Lot();
+        $lots = [];
+        $html = "";
 
-    //    $devis->setElements($devis->getElements());
+        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
-        if (!empty($path)) {
+
+        foreach ($data as $val) {
+
+            $el= ['id'=>$val['id'], 'type' => 'lot', 'data'=>[]];
+
+            $parent = [];
+            if(!empty($val['parent']) and !empty($val['parentType']) ){
+                $parent['id'] = $val['parent'] ;
+                $parent['type'] = $val['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else{
+                $elements[] = $el;
+            }
 
             try {
                 $lotRepository->add($lot);
-                $html = $environment->render($path, ["lot" => $lot]);
+                $html .= $environment->render($path, ["lot" => $lot]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -263,9 +273,21 @@ class DevisController extends AbstractController
             } catch (SyntaxError $e) {
                 dd($e);
             }
-            $response->setContent(json_encode(['code' => 200, 'message' => $html, 'lot' => $lot->getId()]));
         }
-        return $response;
+
+
+
+        try {
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode(['code' => 404]));
 
     }
 
