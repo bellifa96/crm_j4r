@@ -519,7 +519,7 @@
     </div>
 </div>
 
-<div class="row css-gg4vpm" style='display:{{ devis.elements is empty ? " " :"" }}'>
+<div class="row css-gg4vpm buttons" style='display:{{ devis.elements is empty ? "none;" :"" }}'>
     <div>
         <button type="button" class="css-15nl7at" id="add-lot">
             + Créer un lot
@@ -649,6 +649,8 @@
                 $("#lot").modal('show');
                 $('.svg').remove();
                 $('.organisation').remove();
+                console.log("oui")
+                $('.buttons').style.removeProperty('display');
                 const lotId = data.lot;
             }
         })
