@@ -93,6 +93,12 @@ $.trumbowyg.svgAbsoluteUsePath = true;
 $(function () {
 
 
+    $( "#main-devis" ).sortable({
+        revert: true
+    });
+
+    $( ".elements" ).disableSelection();
+
     $('.editor').trumbowyg({
         btns: [
             ['viewHTML'],
