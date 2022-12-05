@@ -165,7 +165,7 @@ class Devis
         foreach($elements as $element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
                 return true;
-            }elseif(empty($element['data'])){
+            }elseif(!empty($element['data'])){
                 $this->inElements($el,$element['data']);
             }
         }
