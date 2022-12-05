@@ -645,12 +645,12 @@
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
         $.post(path, function (data) {
             if (code = 200) {
-                $('#main-devis').append(JSON.parse(data).message);
+                $('#main-devis').append(JSON.parse(data).html);
                 $("#lot").modal('show');
                 $('.svg').remove();
                 $('.organisation').remove();
                 console.log("oui")
-                $('.buttons').style.removeProperty('display');
+                //$('.buttons').style.removeProperty('display');
                 const lotId = data.lot;
             }
         })

@@ -241,49 +241,40 @@ class DevisController extends AbstractController
     {
         $path = "affaire/devis/lot.html.twig";
 
-        $data = $request->request->all();
+      //  $data = $request->request->all();
 
-        $lot = new Lot();
-        $lots = [];
+        $lot = new Lot();        
         $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
+   //     dump($data,$devis);
+   //     die;
+        //foreach ($elements as $val) {
 
-        foreach ($data as $val) {
+       // }
 
-            $el= ['id'=>$val['id'], 'type' => 'lot', 'data'=>[]];
-
-            $parent = [];
+           /* $parent = [];
             if(!empty($val['parent']) and !empty($val['parentType']) ){
                 $parent['id'] = $val['parent'] ;
                 $parent['type'] = $val['parentType'] ;
                 $elements = $this->setParent($elements,$el,$parent);
             }else{
                 $elements[] = $el;
-            }
-
-            try {
-                $lotRepository->add($lot);
-                $html .= $environment->render($path, ["lot" => $lot]);
-            } catch (LoaderError $e) {
-                dd($e);
-            } catch (RuntimeError $e) {
-                dd($e);
-            } catch (SyntaxError $e) {
-                dd($e);
-            }
-        }
-
+            }*/
 
 
         try {
+            $lotRepository->save($lot);
+            $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
+            $elements[] = $el;
             $devis->setElements($elements);
+            $html .= $environment->render($path, ["lot" => $lot]);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
