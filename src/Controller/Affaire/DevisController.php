@@ -82,7 +82,7 @@ class DevisController extends AbstractController
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
             try {
-                $html .= $this->environment->render($path, ["ouvrage" => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
+                $html .= $this->environment->render($path, [$element['type'] => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -105,7 +105,7 @@ class DevisController extends AbstractController
     {
 
 
-        dump($devis->getElements());
+      //  dump($devis->getElements());
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 

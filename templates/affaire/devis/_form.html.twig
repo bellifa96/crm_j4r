@@ -543,17 +543,23 @@
 <script>
 
     var selectedElement = null;
+    let selectedElementId = null;
     $('body').on('click', '.elements', function(){
             selectedElement = $(this);
+            selectedElementId = $(this).attr('id').replaceAll('element-','')
     })
 
     $('body').click(function(event){
         $('.selected').each(function(){
              $(this).removeClass('selected');
+             selectedElemen = null;
+             selectedElementId = null;
         });
-        const selector = '.elements .'+ (event.target.classList[0] ?event.target.classList[0] : "unselect") ;
+        const selector = '.elements .'+ (event.target.classList[0] ? event.target.classList[0] : "unselect") ;
         if(document.querySelector(selector)){
-         selectedElement.addClass('selected');
+            selectedElement.addClass('selected');
+            selectedElement = $(this);
+            selectedElementId = $(this).attr('id').replaceAll('element-','')
         }
     });
 
