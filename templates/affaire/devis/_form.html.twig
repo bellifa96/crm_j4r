@@ -552,7 +552,7 @@
     $('body').click(function(event){
         $('.selected').each(function(){
              $(this).removeClass('selected');
-             selectedElemen = null;
+             selectedElement = null;
              selectedElementId = null;
         });
         const selector = '.elements .'+ (event.target.classList[0] ? event.target.classList[0] : "unselect") ;
