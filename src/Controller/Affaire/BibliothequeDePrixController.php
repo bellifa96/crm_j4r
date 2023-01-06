@@ -134,7 +134,7 @@ class BibliothequeDePrixController extends AbstractController
         if(!empty($devis->getElements()))
         {
             foreach ($ouvrages as $key => $ouvrage) {
-                if (!$devis->inElements(['id'=>$ouvrage->getId(),'type'=>'ouvrage']))
+                if ($devis->inElements(['id'=>$ouvrage->getId(),'type'=>'ouvrage']))
                 {
                     unset($ouvrages[$key]);
                 }
