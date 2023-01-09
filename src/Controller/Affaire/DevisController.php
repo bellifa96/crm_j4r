@@ -73,7 +73,7 @@ class DevisController extends AbstractController
     public function recursiveElements($elements)
     {
         $html = "";
-
+//        dd($elements);
         foreach ($elements as $key => $element) {
             $path = "affaire/devis/".$element['type'].".html.twig";
             if($element['type'] == 'ouvrage'){
@@ -104,7 +104,7 @@ class DevisController extends AbstractController
     public function edit(Request $request, Devis $devis, DevisRepository $devisRepository): Response
     {
 
-
+//    dd($devis);
       //  dump($devis->getElements());
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
@@ -132,7 +132,7 @@ class DevisController extends AbstractController
 
         foreach($elements as &$element){
             if($element['id']==$parent['id'] && $element['type']== $parent['type']){
-                $element['data'] = $el;
+                $element['data'][] = $el;
             }elseif(empty($element['data'])){
                 $this->setParent($element['data'],$el,$parent);
             }
@@ -248,14 +248,15 @@ class DevisController extends AbstractController
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
-       //dump($data,$devis);
+        //dump($data,$devis);
+        //dump($data);
         //die;
-        foreach ($elements as $val) {
+        //foreach ($elements as $val) {
 
-        }
+        //}
 
             /*$parent = [];
-            if(!empty($val['parent']) and !empty($val['parentType']) ){
+            if(!empty($val['parentId']) and !empty($val['parentType']) ){
                 $parent['id'] = $val['parentId'] ;
                 $parent['type'] = $val['parentType'] ;
                 $elements = $this->setParent($elements,$el,$parent);
@@ -267,7 +268,13 @@ class DevisController extends AbstractController
         try {
             $lotRepository->save($lot);
             $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
-            $elements[] = $el;
+            if(!empty($data['parentId']) and !empty($data['parentType']) ){
+                $parent['id'] = $data['parentId'] ;
+                $parent['type'] = $data['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else {
+                $elements[] = $el;
+            }
             $devis->setElements($elements);
             $html .= $environment->render($path, ["lot" => $lot]);
             $devisRepository->add($devis);

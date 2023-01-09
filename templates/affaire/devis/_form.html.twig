@@ -261,6 +261,11 @@
         justify-content: space-between;
     }
 
+    .children {
+        left: 10px;
+        position: relative;
+    }
+
 </style>
 
 <div class="page-block col-md-10 m-auto mt-4">
@@ -490,31 +495,6 @@
             </div>
         </div>
     </div>
-    {% endfor %
-
-     {% for sousLot in lot.sousLots %}
-    <div class="css-ccobzb sous-lot">
-
-        <div class="css-1r30cbj col-md-12">
-            <div class="tab-el-left"></div>
-            <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right"></div>
-            <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-plus-circle"></i></a>
-                </div>
-                <div class="col-md-auto">
-                    <a href="#"><i class="bi bi-three-dots"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     {% endfor %}
     } #}
     </div>
