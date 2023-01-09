@@ -63,29 +63,29 @@ class DemandeType extends AbstractType
             ->add('typeEchafaudage', ChoiceType::class, [
                 'choices' => [
                     'Façade' => 'Façade',
-                    'Pavillon individuelle' => 'Façade',
+                    /*'Pavillon individuelle' => 'Façade',
                     'Lotissement maison' => 'Façade',
                     "Intermédiaire à l'avancement" => 'Façade',
-                    'Bâtiment' => 'Façade',
+                    'Bâtiment' => 'Façade',*/
 
                     'Parapluie' => 'Parapluie',
 
-                    'Protection couvreur' => 'Protection couvreur',
+                    /*'Protection couvreur' => 'Protection couvreur',
 
                     'Echafaudage roulant' => 'Echafaudage roulant',
 
                     "Sapine d'accès" => "Sapine d'accès",
-                    "Sapine d'accès escalier" => "Sapine d'accès",
+                    "Sapine d'accès escalier" => "Sapine d'accès",*/
 
                     'Plateforme' => 'Plateforme',
 
-                    'Particulier' => 'Particulier',
+                    'Particulier' => 'Particulier'/*,
 
                     'Recette à matériaux' => 'Recette à matériaux',
 
                     'Edifice spécifique' => 'Façade Spécifique',
                     'Mur écran' => 'Façade Spécifique',
-                    'Autres' => 'Façade Spécifique'
+                    'Autres' => 'Façade Spécifique'*/
 
                 ],
                 'required'=>false,
