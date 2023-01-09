@@ -93,7 +93,7 @@ class DevisController extends AbstractController
             if (!empty($element['data'])) {
                 $html .= $this->recursiveElements($element['data']);
                 $html .= "</div>";
-            } 
+            }
         }
         return $html;
 
@@ -129,7 +129,7 @@ class DevisController extends AbstractController
 
 
     public function setParent($elements,$el,$parent){
-          
+
         foreach($elements as &$element){
             if($element['id']==$parent['id'] && $element['type']== $parent['type']){
                 $element['data'] = $el;
@@ -193,7 +193,7 @@ class DevisController extends AbstractController
                 dd($e);
             } catch (SyntaxError $e) {
                 dd($e);
-            }            
+            }
         }
 
 
@@ -241,22 +241,22 @@ class DevisController extends AbstractController
     {
         $path = "affaire/devis/lot.html.twig";
 
-      //  $data = $request->request->all();
+        $data = $request->request->all();
 
-        $lot = new Lot();        
+        $lot = new Lot();
         $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
-   //     dump($data,$devis);
-   //     die;
-        //foreach ($elements as $val) {
+       //dump($data,$devis);
+        //die;
+        foreach ($elements as $val) {
 
-       // }
+        }
 
-           /* $parent = [];
+            /*$parent = [];
             if(!empty($val['parent']) and !empty($val['parentType']) ){
-                $parent['id'] = $val['parent'] ;
+                $parent['id'] = $val['parentId'] ;
                 $parent['type'] = $val['parentType'] ;
                 $elements = $this->setParent($elements,$el,$parent);
             }else{

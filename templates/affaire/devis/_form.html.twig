@@ -4,6 +4,7 @@
         border: 1px solid #006DAA !important;
         border-left-width: 5px !important;
     }
+
     .labels {
         font-size: 11px;
         color: #0d4377;
@@ -544,22 +545,26 @@
 
     var selectedElement = null;
     let selectedElementId = null;
-    $('body').on('click', '.elements', function(){
-            selectedElement = $(this);
-            selectedElementId = $(this).attr('id').replaceAll('element-','')
+    let selectedElementType = null;
+    $('body').on('click', '.elements', function () {
+        selectedElement = $(this);
+        selectedElementId = $(this).attr('id').replaceAll('element-', '');
+        selectedElementType = $(this).attr('type')
     })
 
-    $('body').click(function(event){
-        $('.selected').each(function(){
-             $(this).removeClass('selected');
-             selectedElement = null;
-             selectedElementId = null;
+    $('body').click(function (event) {
+        $('.selected').each(function () {
+            $(this).removeClass('selected');
+            selectedElement = null;
+            selectedElementId = null;
+            selectedElementType = null;
         });
-        const selector = '.elements .'+ (event.target.classList[0] ? event.target.classList[0] : "unselect") ;
-        if(document.querySelector(selector)){
+        const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
+        if (document.querySelector(selector)) {
             selectedElement.addClass('selected');
             selectedElement = $(this);
-            selectedElementId = $(this).attr('id').replaceAll('element-','')
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementType = $(this).attr('type')
         }
     });
 
@@ -648,8 +653,12 @@
     })
 
     $('#add-lot').click(function () {
+        //console.log(selectedElementType);
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
-        $.post(path, function (data) {
+        $.post(path, {
+            parentId: selectedElementId,
+            parentType: selectedElementType
+        }, function (data) {
             if (code = 200) {
                 $('#main-devis').append(JSON.parse(data).html);
                 $("#lot").modal('show');
@@ -660,13 +669,14 @@
                 const lotId = data.lot;
             }
         })
+
     })
 
     $(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');
         console.log(definition);
         const val = $(this).val();
-        console.log(val); all
+        console.log(val);
         let lotId = $(this).attr('elid');
         console.log(lotId);
 
