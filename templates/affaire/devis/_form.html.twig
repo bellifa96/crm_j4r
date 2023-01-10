@@ -697,7 +697,7 @@
         }, function (data) {
             if (code = 200) {
                 if (parentId != null && parentType == "lot"){
-                    $('#element-' + parentId).append("<div class='children'>"+JSON.parse(data).html+"</div>");
+                    $("<div class='children'>"+JSON.parse(data).html+"</div>").insertAfter($('#element-' + parentId));
                     //console.log(parentId);
                 }else {
                     $('#main-devis').append(JSON.parse(data).html);
