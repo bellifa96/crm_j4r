@@ -278,7 +278,7 @@
         display: none;
     }
 
-    #context-menu .item {
+    #context-menu .item-menu {
         padding: 5px 6px;
         font-size: 15px;
         color: #eee;
@@ -286,7 +286,7 @@
         border-radius: inherit;
     }
 
-    #context-menu .item:hover {
+    #context-menu .item-menu:hover {
         background: #343434;
     }
 
@@ -528,7 +528,7 @@
     </div>
 </div>
 
-<div class="row css-gg4vpm buttons" style='display:{{ devis.elements is empty ? "none;" :"" }}'>
+<div class="row css-gg4vpm buttons">
     <div>
         <button type="button" class="css-15nl7at" id="add-lot">
             + Créer un lot
@@ -545,10 +545,10 @@
 {{ form_end(form) }}
 
 <div id="context-menu">
-    <div class="item"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
-    <div class="item"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
-    <div class="item"><i class="bi bi-stickies"></i>Dupliquer</div>
-    <div class="item"><i class="bi bi-trash-fill"></i>Supprimer</div>
+    <div class="item-menu"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+    <div class="item-menu"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+    <div class="item-menu"><i class="bi bi-stickies"></i>Dupliquer</div>
+    <div class="item-menu"><i class="bi bi-trash-fill"></i>Supprimer</div>
 </div>
 
 <div class="col-md-10 m-auto mt-2">
@@ -688,19 +688,24 @@
     })
 
     $('#add-lot').click(function () {
-        //console.log(selectedElementType);
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
         $.post(path, {
             parentId: selectedElementId,
             parentType: selectedElementType
         }, function (data) {
             if (code = 200) {
-                $('#main-devis').append(JSON.parse(data).html);
+                if (parentId != null && parentType == "lot"){
+                    $('#element-' + parentId).append("<div class='children'>"+JSON.parse(data).html+"</div>");
+                    //console.log(parentId);
+                }else {
+                    $('#main-devis').append(JSON.parse(data).html);
+                }
                 $("#lot").modal('show');
                 $('.svg').remove();
                 $('.organisation').remove();
-                console.log("oui")
-                //$('.buttons').style.removeProperty('display');
+                console.log(data)
                 const lotId = data.lot;
             }
         })
