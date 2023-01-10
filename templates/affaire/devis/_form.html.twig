@@ -60,6 +60,8 @@
         border-right-color: rgb(188, 204, 220);
         border-left-color: rgb(188, 204, 220);
         background-color: rgba(217, 226, 236, 0.5);
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .tab-el-left {
@@ -262,8 +264,33 @@
     }
 
     .children {
-        left: 10px;
+        left: 30px;
         position: relative;
+    }
+
+    #context-menu {
+        position: absolute;
+        z-index: 10000;
+        width: 150px;
+        background: #1b1a1a;
+        border-radius: 5px;
+        display: none;
+    }
+
+    #context-menu .item {
+        padding: 5px 6px;
+        font-size: 15px;
+        color: #eee;
+        cursor: pointer;
+        border-radius: inherit;
+    }
+
+    #context-menu .item:hover {
+        background: #343434;
+    }
+
+    #context-menu.visible {
+        display: block;
     }
 
 </style>
@@ -516,6 +543,12 @@
 
 {{ form_end(form) }}
 
+<div id="context-menu">
+    <div class="item"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+    <div class="item"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+    <div class="item"><i class="bi bi-stickies"></i>Dupliquer</div>
+    <div class="item"><i class="bi bi-trash-fill"></i>Supprimer</div>
+</div>
 
 <div class="col-md-10 m-auto mt-2">
     <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
@@ -526,11 +559,32 @@
     var selectedElement = null;
     let selectedElementId = null;
     let selectedElementType = null;
+
+    const contextMenu = document.getElementById('context-menu');
+    const scope = document.querySelector('#main-devis');
+
+    scope.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+
+        const { clientX: mouseX, clientY: mouseY } = event;
+
+        contextMenu.style.top = `${mouseY}px`;
+        contextMenu.style.left = `${mouseX}px`;
+
+        contextMenu.classList.add('visible');
+    });
+
+    scope.addEventListener('click', (e) => {
+        if (e.target.offsetParent != contextMenu) {
+            contextMenu.classList.remove('visible');
+        }
+    })
+
     $('body').on('click', '.elements', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type')
-    })
+    });
 
     $('body').click(function (event) {
         $('.selected').each(function () {
@@ -678,6 +732,7 @@
 
 
     })
+
 
 
 </script>
