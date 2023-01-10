@@ -269,16 +269,16 @@
         position: relative;
     }
 
-    #context-menu {
+    .context-menu {
         position: absolute;
         z-index: 10000;
         width: 150px;
         background: #1b1a1a;
         border-radius: 5px;
-        display: none;
+        right: 0;
     }
 
-    #context-menu .item-menu {
+    .context-menu .item-menu {
         padding: 5px 6px;
         font-size: 15px;
         color: #eee;
@@ -286,13 +286,13 @@
         border-radius: inherit;
     }
 
-    #context-menu .item-menu:hover {
+    .context-menu .item-menu:hover {
         background: #343434;
     }
 
-    #context-menu.visible {
-        display: block;
-    }
+    /*.options {
+        z-index: 10000;
+    }*/
 
 </style>
 
@@ -544,13 +544,6 @@
 
 {{ form_end(form) }}
 
-<div id="context-menu">
-    <div class="item-menu"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
-    <div class="item-menu"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
-    <div class="item-menu"><i class="bi bi-stickies"></i>Dupliquer</div>
-    <div class="item-menu"><i class="bi bi-trash-fill"></i>Supprimer</div>
-</div>
-
 <div class="col-md-10 m-auto mt-2">
     <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
 
@@ -561,30 +554,74 @@
     let selectedElementId = null;
     let selectedElementType = null;
 
-    const contextMenu = document.getElementById('context-menu');
+    /*const contextMenu = document.getElementById('context-menu');
     const scope = document.querySelector('#main-devis');
+    const normalizePosition = (mouseX, mouseY) => {
+        const {
+            left: scopeOffsetX,
+            top: scopeOffsetY,
+        } = scope.getBoundingClientRect()
+
+        const scopeX = mouseX - scopeOffsetX;
+        const scopeY = mouseY - scopeOffsetY;
+
+        const outOfBoundsOnX = scopeX + contextMenu.clientWidth > scope.clientWidth;
+
+        const outOfBoundsOnY = scopeY + contextMenu.clientHeight > scope.clientHeight;
+
+        let normalizedX = mouseX;
+        let normalizedY = mouseY;
+
+        if (outOfBoundsOnX) {
+            normalizedX = scopeOffsetX + scope.clientWidth - contextMenu.clientWidth;
+        }
+
+        if (outOfBoundsOnY) {
+            normalizedY = scopeOffsetY + scope.clientHeight - contextMenu.clientHeight;
+        }
+
+        return {normalizedX, normalizedY};
+    }
 
     scope.addEventListener('contextmenu', (event) => {
         event.preventDefault();
 
-        const { clientX: mouseX, clientY: mouseY } = event;
+        const {offsetX: mouseX, offsetY: mouseY} = event;
 
-        contextMenu.style.top = `${mouseY}px`;
-        contextMenu.style.left = `${mouseX}px`;
+        const {normalizedX, normalizedY} = normalizePosition(mouseX, mouseY);
 
-        contextMenu.classList.add('visible');
+        contextMenu.style.top = `${normalizedY}px`;
+        contextMenu.style.left = `${normalizedX}px`;
+
+        contextMenu.classList.remove('visible');
+
+        setTimeout(() => {
+            contextMenu.classList.add('visible')
+        });
     });
 
     scope.addEventListener('click', (e) => {
         if (e.target.offsetParent != contextMenu) {
             contextMenu.classList.remove('visible');
         }
+    })*/
+
+    $(document).on('mouseover', '#menu-lot', function () {
+        ;
+        $('#menu-lot').parent().append(div);
     })
 
     $('body').on('click', '.elements', function () {
+        let div = `<div class="context-menu">
+                    <div class="item-menu"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+                    <div class="item-menu"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+                    <div class="item-menu"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                </div>`;
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
-        selectedElementType = $(this).attr('type')
+        selectedElementType = $(this).attr('type');
+        selectedElement.append(div);
     });
 
     $('body').click(function (event) {
@@ -593,13 +630,14 @@
             selectedElement = null;
             selectedElementId = null;
             selectedElementType = null;
+            $('.context-menu').remove();
         });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector)) {
             selectedElement.addClass('selected');
             selectedElement = $(this);
             selectedElementId = $(this).attr('id').replaceAll('element-', '');
-            selectedElementType = $(this).attr('type')
+            selectedElementType = $(this).attr('type');
         }
     });
 
@@ -696,10 +734,10 @@
             parentType: selectedElementType
         }, function (data) {
             if (code = 200) {
-                if (parentId != null && parentType == "lot"){
-                    $("<div class='children'>"+JSON.parse(data).html+"</div>").insertAfter($('#element-' + parentId));
+                if (parentId != null && parentType == "lot") {
+                    $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
                     //console.log(parentId);
-                }else {
+                } else {
                     $('#main-devis').append(JSON.parse(data).html);
                 }
                 $("#lot").modal('show');
@@ -738,7 +776,6 @@
 
 
     })
-
 
 
 </script>
