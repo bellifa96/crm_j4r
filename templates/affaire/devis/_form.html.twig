@@ -696,6 +696,15 @@
             selectedElementType = null;
             $('.context-menu').remove();
         });
+        const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
+        if (document.querySelector(selector)) {
+            selectedElement = $(this);
+            console.log(document.querySelector(selector));
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementType = $(this).attr('type');
+            selectedElement.addClass('selected');
+
+        }
     });
 
 
