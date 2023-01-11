@@ -705,7 +705,7 @@
 
         });
         const selector = '.elements'
-        console.log(hasSomeParentTheClass($(this),'elements'))
+        console.log(hasSomeParentTheClass($(this),'elements'),element.className.split(' '),$(this))
         if (hasSomeParentTheClass($(this),'elements')) {
             console.log($(this))
             selectedElement = $(this);
