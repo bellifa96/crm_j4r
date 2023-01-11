@@ -2,6 +2,7 @@
 
 namespace App\Repository\Affaire;
 
+use App\Entity\Affaire\Lot;
 use App\Entity\Affaire\Ouvrage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -21,6 +22,18 @@ class OuvrageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ouvrage::class);
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(Ouvrage $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
     /**

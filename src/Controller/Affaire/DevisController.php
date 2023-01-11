@@ -160,7 +160,16 @@ class DevisController extends AbstractController
 
         foreach ($data as $val) {
 
-            
+            $el= ['id'=>$val['id'], 'type' => 'ouvrage', 'data'=>[]];
+
+            $parent = [];
+            if(!empty($val['parent']) and !empty($val['parentType']) ){
+                $parent['id'] = $val['parent'] ;
+                $parent['type'] = $val['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else{
+                $elements[] = $el;
+            }
 
 
             $ouvrage = $ouvrageRepository->find($val['id']);
@@ -191,16 +200,6 @@ class DevisController extends AbstractController
 
 
         try {
-            $el= ['id'=>$clone['id'], 'type' => 'ouvrage', 'data'=>[]];
-
-            $parent = [];
-            if(!empty($clone['parent']) and !empty($clone['parentType']) ){
-                $parent['id'] = $clone['parent'] ;
-                $parent['type'] = $clone['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else{
-                $elements[] = $el;
-            }
             $devis->setElements($elements);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
@@ -237,6 +236,61 @@ class DevisController extends AbstractController
         }
         return $response;
     }
+
+    /*#[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_new', methods: ['GET', 'POST'])]
+    public function newOuvrage(Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
+    {
+        $path = "affaire/devis/ouvrage.html.twig";
+
+        $data = $request->request->all();
+
+       // dd($data);
+
+        $ouvrage = new Ouvrage();
+        $html = "";
+
+        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
+
+        //dump($data,$devis);
+        //dump($data);
+        //die;
+        //foreach ($elements as $val) {
+
+        //}
+
+        /*$parent = [];
+        if(!empty($val['parentId']) and !empty($val['parentType']) ){
+            $parent['id'] = $val['parentId'] ;
+            $parent['type'] = $val['parentType'] ;
+            $elements = $this->setParent($elements,$el,$parent);
+        }else{
+            $elements[] = $el;
+        }
+
+
+        try {
+            $ouvrageRepository->save($ouvrage);
+            $el= ['id'=>$ouvrage->getId(), 'type' => 'ouvrage', 'data'=>[]];
+            if(!empty($data['parentId']) and !empty($data['parentType']) ){
+                $parent['id'] = $data['parentId'] ;
+                $parent['type'] = $data['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else {
+                $elements[] = $el;
+            }
+            $devis->setElements($elements);
+            $html .= $environment->render($path, ["ouvrage" => $ouvrage]);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode(['code' => 404]));
+
+    }*/
 
     #[Route('/lot/{id}', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
     public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
@@ -317,8 +371,9 @@ class DevisController extends AbstractController
     public function deleteLot(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository): Response
     {
         $lot = $request->request->all();
-        dd($request);
-        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
+
+        dd($request->devis);
+
 
         try {
             if(!empty($lot['id']) and !empty($lot['type']) ){

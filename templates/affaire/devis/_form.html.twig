@@ -651,6 +651,30 @@
 
     })
 
+    $("body").on('click', '#import-ouvrage',function () {
+        $('#modal-import-ouvrage').remove();
+
+        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
+        })
+    })
+
     $('body').on('click', '.elements', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
@@ -731,30 +755,6 @@
         })
     }
 
-    $("body").on('click', '#import-ouvrage',function () {
-        $('#modal-import-ouvrage').remove();
-
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
-            const data = JSON.parse(response);
-            $('body').append(data.html);
-            $("#modal-import-ouvrage").modal("show");
-            $('.datatable').DataTable({
-                "oLanguage": {
-                    sSearch: "",
-                    searchPlaceholder: "Chercher"
-
-                },
-                language: {
-                    searchPlaceholder: "Chercher"
-                },
-                order: [[0, 'desc']],
-                pageLength: 25,
-
-
-            });
-        })
-    })
-
     $(".import-ouvrage").click(function () {
         $('#modal-import-ouvrage').remove();
 
@@ -781,22 +781,10 @@
 
     $('#add-ouvrage').click(function () {
         $('#modal-ouvrage').remove();
-        var parentId = selectedElementId;
-        var parentType = selectedElementType;
         let path = "{{ path('app_affaire_modal_ouvrage') }}";
-        $.post(path, {
-            parentId: selectedElementId,
-            parentType: selectedElementType
-        }, function (data) {
-            if (parentId != null && parentType == "lot") {
-                $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
-                //console.log(parentId);
-            } else {
-                $('#main-devis').append(JSON.parse(data).html);
-            }
+        $.post(path, function (data) {
+            $('body').append(JSON.parse(data).message);
             $("#modal-ouvrage").modal('show');
-            $('.svg').remove();
-            $('.organisation').remove();
 
         })
     })
