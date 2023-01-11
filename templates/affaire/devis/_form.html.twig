@@ -633,6 +633,24 @@
 
     })
 
+    $('body').on('click', '#delete-lot', function () {
+        console.log('oui')
+        var id = selectedElementId;
+        let path = "{{ path('app_affaire_devis_lot_delete', {'id':devis.id}) }}";
+        console.log(selectedElementId);
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType
+        }, function (data) {
+            if (code = 200) {
+                if (id != null) {
+                    $('#element-' + id).remove();
+                }
+            }
+        })
+
+    })
+
     $('body').on('click', '.elements', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
