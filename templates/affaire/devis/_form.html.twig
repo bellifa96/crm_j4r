@@ -699,12 +699,12 @@
         }
 
         });
-        const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
+        const selector = '.elements '
         if (document.querySelector(selector)) {
-            selectedElement.addClass('selected');
             selectedElement = $(this);
             selectedElementId = $(this).attr('id').replaceAll('element-', '');
             selectedElementType = $(this).attr('type');
+            selectedElement.addClass('selected');
         }
     });
 
