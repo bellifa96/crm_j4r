@@ -178,9 +178,9 @@ class Devis
         if(empty($elements)){
             $elements = $this->elements;
         }
-        foreach($elements as &$element){
+        foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
-                unset($element);
+                unset($elements[$key]);
                 dd($elements);
             }elseif(!empty($element['data'])){
                 $this->inElements($el,$element['data']);
