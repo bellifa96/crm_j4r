@@ -367,18 +367,14 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
-    #[Route('/delete/lot/{id}', name:'app_affaire_devis_lot_delete', methods: ['POST', 'GET'])]
+    #[Route('/delete/element/{id}', name:'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
     public function deleteLot(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository): Response
     {
         $lot = $request->request->all();
-
-        dd($request->devis);
-
-
         try {
             if(!empty($lot['id']) and !empty($lot['type']) ){
-                $devis->deleteInElements($lot);
-                dd($devis);
+               $elements = $devis->deleteInElements($lot);
+               $devis->setElements($elements);
             }
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200]));

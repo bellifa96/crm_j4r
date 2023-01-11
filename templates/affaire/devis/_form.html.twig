@@ -636,7 +636,7 @@
     $('body').on('click', '#delete-lot', function () {
         console.log('oui')
         var id = selectedElementId;
-        let path = "{{ path('app_affaire_devis_lot_delete', {'id':devis.id}) }}";
+        let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
         console.log(path);
         $.post(path, {
             id: selectedElementId,

@@ -173,7 +173,7 @@ class Devis
         return false;
     }
 
-    public function deleteInElements($el, $elements=null):void
+    public function deleteInElements($el, $elements=null)
     {
         if(empty($elements)){
             $elements = $this->elements;
@@ -181,12 +181,11 @@ class Devis
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
                 unset($elements[$key]);
-                dd($elements);
             }elseif(!empty($element['data'])){
-                $this->inElements($el,$element['data']);
+                $elements[$key]['data'] = $this->deleteInElements($el,$element['data']);
             }
         }
-        $this->elements = $elements;
+        return $elements;
     }
 
 }
