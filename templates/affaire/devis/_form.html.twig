@@ -697,11 +697,11 @@
             $('.context-menu').remove();
         });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
-        const that = this;
         if (document.querySelector(selector)) {
-            selectedElement = $(that);
-            selectedElementId = $(that).attr('id').replaceAll('element-', '');
-            selectedElementType = $(that).attr('type');
+            selectedElement = $(this);
+            console.log($(this).attr('id'));
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementType = $(this).attr('type');
             selectedElement.addClass('selected');
 
         }
