@@ -70,7 +70,7 @@ class DevisController extends AbstractController
         ]);
     }
 
-    public function recursiveElements($elements)
+    public function recursiveElements($elements):string
     {
         $html = "";
 //        dd($elements);
