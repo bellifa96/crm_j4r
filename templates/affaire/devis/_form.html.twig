@@ -690,11 +690,14 @@
 
     $('body').click(function (event) {
         $('.selected').each(function () {
-            $(this).removeClass('selected');
-            selectedElement = null;
-            selectedElementId = null;
-            selectedElementType = null;
-            $('.context-menu').remove();
+            if(!$(this).hasClass('bi-three-dots') && $(this).attr('id') && $(this).attr('id').replaceAll('menu-lot-','') != selectedElementId){
+                $(this).removeClass('selected');
+                selectedElement = null;
+                selectedElementId = null;
+                selectedElementType = null;
+                $('.context-menu').remove();
+        }
+
         });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector)) {
