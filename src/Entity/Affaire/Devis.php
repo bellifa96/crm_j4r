@@ -157,7 +157,8 @@ class Devis
         return $this;
     }
 
-    public function inElements($el,$elements=null){
+    public function inElements($el,$elements=null):bool
+    {
           
         if(empty($elements)){
             $elements = $this->elements;
@@ -170,6 +171,20 @@ class Devis
             }
         }
         return false;
+    }
+
+    public function deleteInElements($el, &$elements=null)
+    {
+        if(empty($elements)){
+            $elements = $this->elements;
+        }
+        foreach($elements as $element){
+            if($element['id']==$el['id'] && $element['type']== $el['type']){
+                unset($element);
+            }elseif(!empty($element['data'])){
+                $this->inElements($el,$element['data']);
+            }
+        }
     }
 
 }
