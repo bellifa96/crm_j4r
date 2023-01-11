@@ -689,6 +689,7 @@
     });
 
     $('body').click(function (event) {
+        const tmp = $(this);
         $('.selected').each(function () {
             $(this).removeClass('selected');
             selectedElement = null;
@@ -698,9 +699,9 @@
         });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector)) {
-            selectedElement = event.target;
-            selectedElementId = event.target.attr('id').replaceAll('element-', '');
-            selectedElementType = event.target.attr('type');
+            selectedElement = tmp;
+            selectedElementId = tmp.attr('id').replaceAll('element-', '');
+            selectedElementType = tmp.attr('type');
             selectedElement.addClass('selected');
 
         }
