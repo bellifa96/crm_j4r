@@ -688,6 +688,11 @@
         selectedElement.append(div);
     });
 
+    function hasSomeParentTheClass(element, classname) {
+        if (element.className.split(' ').indexOf(classname)>=0) return true;
+        return element.parentNode && hasSomeParentTheClass(element.parentNode, classname);
+    }
+
     $('body').click(function (event) {
         $('.selected').each(function () {
             if(!$(this).hasClass('bi-three-dots') && $(this).attr('id') && $(this).attr('id').replaceAll('menu-lot-','') != selectedElementId){
@@ -700,7 +705,7 @@
 
         });
         const selector = '.elements'
-        if (document.querySelector(selector)) {
+        if (hasSomeParentTheClass($(this),'elements')) {
             selectedElement = $(this);
             selectedElementId = $(this).attr('id').replaceAll('element-', '');
             selectedElementType = $(this).attr('type');
