@@ -160,16 +160,7 @@ class DevisController extends AbstractController
 
         foreach ($data as $val) {
 
-            $el= ['id'=>$val['id'], 'type' => 'ouvrage', 'data'=>[]];
-
-            $parent = [];
-            if(!empty($val['parent']) and !empty($val['parentType']) ){
-                $parent['id'] = $val['parent'] ;
-                $parent['type'] = $val['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else{
-                $elements[] = $el;
-            }
+            
 
 
             $ouvrage = $ouvrageRepository->find($val['id']);
@@ -200,6 +191,16 @@ class DevisController extends AbstractController
 
 
         try {
+            $el= ['id'=>$clone['id'], 'type' => 'ouvrage', 'data'=>[]];
+
+            $parent = [];
+            if(!empty($clone['parent']) and !empty($clone['parentType']) ){
+                $parent['id'] = $clone['parent'] ;
+                $parent['type'] = $clone['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else{
+                $elements[] = $el;
+            }
             $devis->setElements($elements);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
@@ -312,16 +313,16 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
-    #[Route('/delete/lot/{id}', name:'app_affaire_devis_lot_delete', methods: ['POST'])]
-    public function deleteLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    #[Route('/delete/lot/{id}', name:'app_affaire_devis_lot_delete', methods: ['POST', 'GET'])]
+    public function deleteLot(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository): Response
     {
         $lot = $request->request->all();
-
+        dd($request);
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
         try {
             if(!empty($lot['id']) and !empty($lot['type']) ){
-                $devis = $devis->deleteInElements($lot);
+                $devis->deleteInElements($lot);
                 dd($devis);
             }
             $devisRepository->add($devis);

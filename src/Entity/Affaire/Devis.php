@@ -180,8 +180,8 @@ class Devis
         }
         foreach($elements as &$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
-
                 unset($element);
+                dd($elements);
             }elseif(!empty($element['data'])){
                 $this->inElements($el,$element['data']);
             }

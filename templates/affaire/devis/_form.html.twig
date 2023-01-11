@@ -637,7 +637,7 @@
         console.log('oui')
         var id = selectedElementId;
         let path = "{{ path('app_affaire_devis_lot_delete', {'id':devis.id}) }}";
-        console.log(selectedElementId);
+        console.log(path);
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
@@ -731,6 +731,30 @@
         })
     }
 
+    $("body").on('click', '#import-ouvrage',function () {
+        $('#modal-import-ouvrage').remove();
+
+        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
+        })
+    })
+
     $(".import-ouvrage").click(function () {
         $('#modal-import-ouvrage').remove();
 
@@ -757,10 +781,22 @@
 
     $('#add-ouvrage').click(function () {
         $('#modal-ouvrage').remove();
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
         let path = "{{ path('app_affaire_modal_ouvrage') }}";
-        $.post(path, function (data) {
-            $('body').append(JSON.parse(data).message);
+        $.post(path, {
+            parentId: selectedElementId,
+            parentType: selectedElementType
+        }, function (data) {
+            if (parentId != null && parentType == "lot") {
+                $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                //console.log(parentId);
+            } else {
+                $('#main-devis').append(JSON.parse(data).html);
+            }
             $("#modal-ouvrage").modal('show');
+            $('.svg').remove();
+            $('.organisation').remove();
 
         })
     })
