@@ -698,12 +698,10 @@
         });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector)) {
-            selectedElement = document.querySelector(selector);
-            console.log(selectedElement);
-            selectedElementId =selectedElement.attr('id').replaceAll('element-', '');
-            selectedElementType = selectedElement.attr('type');
             selectedElement.addClass('selected');
-
+            selectedElement = $(this);
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementType = $(this).attr('type');
         }
     });
 
