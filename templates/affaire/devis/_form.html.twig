@@ -689,9 +689,11 @@
     });
 
     function hasSomeParentTheClass(element, classname) {
+        
         if (element.className && element.className.split(' ').indexOf(classname)>=0){
             return true;
         }else if(element.parentNode){
+            console.log('ici');
             hasSomeParentTheClass(element.parentNode, classname)
         }else{
             return false
