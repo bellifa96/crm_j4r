@@ -607,16 +607,16 @@
     })*/
 
 
-    $('.add-lot').on('click', function () {
+    $('body').on('click', '#add-lots', function () {
         console.log('poui');
     })
 
     $('body').on('click', '.elements', function () {
         let div = `<div class="context-menu">
-                    <div class="item-menu"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
-                    <div class="item-menu add-lot"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
-                    <div class="item-menu"><i class="bi bi-stickies"></i>Dupliquer</div>
-                    <div class="item-menu"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                    <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+                    <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+                    <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
