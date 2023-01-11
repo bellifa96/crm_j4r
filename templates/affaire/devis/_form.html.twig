@@ -608,7 +608,25 @@
 
 
     $('body').on('click', '#add-lots', function () {
-        console.log('poui');
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
+        let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
+        console.log(selectedElementId);
+        $.post(path, {
+            parentId: selectedElementId,
+            parentType: selectedElementType
+        }, function (data) {
+            if (code = 200) {
+                if (parentId != null && parentType == "lot") {
+                    $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                    //console.log(parentId);
+                }
+                $("#lot").modal('show');
+                console.log(data)
+                const lotId = data.lot;
+            }
+        })
+
     })
 
     $('body').on('click', '.elements', function () {
