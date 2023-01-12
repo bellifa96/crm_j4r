@@ -688,7 +688,8 @@
             type: selectedElementType
         }, function (data) {
             if (code = 200) {
-
+                $('#main-devis').append(JSON.parse(data).html);
+                $("#lot").modal('show');
             }
         })
 

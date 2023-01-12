@@ -363,7 +363,11 @@ class DevisController extends AbstractController
                 $dupliquer = $element;
             }
         }
-        //dd($dupliquer);
+        //dd([$dupliquer]);
+
+        foreach ($dupliquer as $element){
+
+        }
 
         $html = $this->recursiveElements([$dupliquer]);
 
@@ -373,7 +377,7 @@ class DevisController extends AbstractController
         //dump($data);
         //die;
         try {
-            $lotRepository->save($lot);
+            /*$lotRepository->save($lot);
             $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
             if(!empty($data['parentId']) and !empty($data['parentType']) ){
                 $parent['id'] = $data['parentId'] ;
@@ -381,10 +385,10 @@ class DevisController extends AbstractController
                 $elements = $this->setParent($elements,$el,$parent);
             }else {
                 $elements[] = $el;
-            }
-            $devis->setElements($elements);
-            $html .= $environment->render($path, ["lot" => $lot]);
-            $devisRepository->add($devis);
+            }*/
+            //$devis->setElements($elements);
+            //$html .= $environment->render($path, ["lot" => $lot]);
+            //$devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
             dd($e);
