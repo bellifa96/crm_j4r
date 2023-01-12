@@ -712,7 +712,7 @@
 
         });
         const selector = '.elements'
-        console.log((event.target as Element));
+        //console.log((event.target as Element ));
         if (hasSomeParentTheClass($(this),'elements')) {
             console.log($(this))
             selectedElement = $(this);
@@ -721,6 +721,23 @@
             selectedElement.addClass('selected');
         }
     });
+
+    /*$('body').click(function (event) {
+        $('.selected').each(function () {
+            $(this).removeClass('selected');
+            selectedElement = null;
+            selectedElementId = null;
+            selectedElementType = null;
+            $('.context-menu').remove();
+        });
+        const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
+        if (document.querySelector(selector)) {
+            selectedElement.addClass('selected');
+            selectedElement = $(this);
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementType = $(this).attr('type');
+        }
+    });*/
 
 
     function submitImportOuvrageEvent(event) {
@@ -807,6 +824,7 @@
     })
 
     $('#add-lot').click(function () {
+        console.log('oui');
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
