@@ -345,6 +345,25 @@ class DevisController extends AbstractController
 
     }
 
+    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository){
+        $dupliquer = null;
+
+        if ($type == 'lot'){
+            $lot = $lotRepository->find($id);
+            $dupliquer = new Lot();
+            $dupliquer->setTitre($lot->getTitre());
+            if (!empty($data)){
+                $data = $data->dupliquerElement($data['id'],$data['type'], $data['data']);
+            }
+            $element= ['id'=>$dupliquer->getId(), 'type' => $type, 'data'=>$data];
+
+        }
+
+        return $element;
+
+
+    }
+
     #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerLot (Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
@@ -360,7 +379,7 @@ class DevisController extends AbstractController
 
         foreach ($elements as $element){
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']){
-                $dupliquer = $element;
+                $dupliquer = $dupliquer->dupliquerElement($element['id'],$element['type'], $element['data']);
             }
         }
         //dd([$dupliquer]);
