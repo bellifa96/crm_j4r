@@ -29,6 +29,7 @@ class DevisController extends AbstractController
 
     private $environment;
     private $em;
+
     public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface)
     {
         $this->environment = $environment;
@@ -70,19 +71,19 @@ class DevisController extends AbstractController
         ]);
     }
 
-    public function recursiveElements($elements):string
+    public function recursiveElements($elements): string
     {
         $html = "";
 //        dd($elements);
         foreach ($elements as $key => $element) {
-            $path = "affaire/devis/".$element['type'].".html.twig";
-            if($element['type'] == 'ouvrage'){
+            $path = "affaire/devis/" . $element['type'] . ".html.twig";
+            if ($element['type'] == 'ouvrage') {
                 $entity = $this->em->getRepository(Ouvrage::class)->find($element['id']);
-            }elseif($element['type'] == 'lot'){
+            } elseif ($element['type'] == 'lot') {
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
             try {
-                $html .= $this->environment->render($path, [$element['type'] => $entity,'hasChild'=>!empty($element['data']),'key'=>$key]);
+                $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key]);
                 if (!empty($element['data'])) {
                     $html .= "<div class='children'>";
                     $html .= $this->recursiveElements($element['data']);
@@ -106,7 +107,7 @@ class DevisController extends AbstractController
     {
 
 //    dd($devis);
-      //  dump($devis->getElements());
+        //  dump($devis->getElements());
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 
@@ -128,14 +129,14 @@ class DevisController extends AbstractController
     }
 
 
+    public function setParent($elements, $el, $parent)
+    {
 
-    public function setParent($elements,$el,$parent){
-
-        foreach($elements as &$element){
-            if($element['id']==$parent['id'] && $element['type']== $parent['type']){
+        foreach ($elements as &$element) {
+            if ($element['id'] == $parent['id'] && $element['type'] == $parent['type']) {
                 $element['data'][] = $el;
-            }elseif(empty($element['data'])){
-                $this->setParent($element['data'],$el,$parent);
+            } elseif (empty($element['data'])) {
+                $this->setParent($element['data'], $el, $parent);
             }
         }
         return $elements;
@@ -160,14 +161,14 @@ class DevisController extends AbstractController
 
         foreach ($data as $val) {
 
-            $el= ['id'=>$val['id'], 'type' => 'ouvrage', 'data'=>[]];
+            $el = ['id' => $val['id'], 'type' => 'ouvrage', 'data' => []];
 
             $parent = [];
-            if(!empty($val['parent']) and !empty($val['parentType']) ){
-                $parent['id'] = $val['parent'] ;
-                $parent['type'] = $val['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else{
+            if (!empty($val['parent']) and !empty($val['parentType'])) {
+                $parent['id'] = $val['parent'];
+                $parent['type'] = $val['parentType'];
+                $elements = $this->setParent($elements, $el, $parent);
+            } else {
                 $elements[] = $el;
             }
 
@@ -196,7 +197,6 @@ class DevisController extends AbstractController
                 dd($e);
             }
         }
-
 
 
         try {
@@ -311,24 +311,24 @@ class DevisController extends AbstractController
 
         //}
 
-            /*$parent = [];
-            if(!empty($val['parentId']) and !empty($val['parentType']) ){
-                $parent['id'] = $val['parentId'] ;
-                $parent['type'] = $val['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else{
-                $elements[] = $el;
-            }*/
+        /*$parent = [];
+        if(!empty($val['parentId']) and !empty($val['parentType']) ){
+            $parent['id'] = $val['parentId'] ;
+            $parent['type'] = $val['parentType'] ;
+            $elements = $this->setParent($elements,$el,$parent);
+        }else{
+            $elements[] = $el;
+        }*/
 
 
         try {
             $lotRepository->save($lot);
-            $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
-            if(!empty($data['parentId']) and !empty($data['parentType']) ){
-                $parent['id'] = $data['parentId'] ;
-                $parent['type'] = $data['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else {
+            $el = ['id' => $lot->getId(), 'type' => 'lot', 'data' => []];
+            if (!empty($data['parentId']) and !empty($data['parentType'])) {
+                $parent['id'] = $data['parentId'];
+                $parent['type'] = $data['parentType'];
+                $elements = $this->setParent($elements, $el, $parent);
+            } else {
                 $elements[] = $el;
             }
             $devis->setElements($elements);
@@ -345,27 +345,31 @@ class DevisController extends AbstractController
 
     }
 
-    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository){
+    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository)
+    {
         $dupliquer = null;
 
-        if ($type == 'lot'){
+        if ($type == 'lot') {
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
             $dupliquer->setTitre($lot->getTitre());
-            if (!empty($data)){
-                $data = $data->dupliquerElement($data['id'],$data['type'], $data['data']);
+            $lotRepository->save($dupliquer);
+            if (!empty($data)) {
+                foreach ($data as $element) {
+                    $newElement = $data->dupliquerElement($element['id'], $element['type'], $element['data']);
+                }
             }
-            $element= ['id'=>$dupliquer->getId(), 'type' => $type, 'data'=>$data];
+            $el = ['id' => $dupliquer->getId(), 'type' => $type, 'data' => $data];
 
         }
 
-        return $element;
+        return $el;
 
 
     }
 
     #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
-    public function dupliquerLot (Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function dupliquerLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
         $path = "affaire/devis/lot.html.twig";
 
@@ -375,22 +379,21 @@ class DevisController extends AbstractController
         //$dupliquer->setTitre($lot->getTitre());
 
         $elements = $devis->getElements();
-        $dupliquer = "";
 
-        foreach ($elements as $element){
-            if ($element['id'] == $data['id'] && $element['type'] == $data['type']){
-                $dupliquer = $dupliquer->dupliquerElement($element['id'],$element['type'], $element['data']);
+        foreach ($elements as $element) {
+            if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
+                $dupliquer = $data->dupliquerElement($element['id'], $element['type'], $element['data']);
             }
         }
-        //dd([$dupliquer]);
+        dd([$dupliquer]);
 
-        foreach ($dupliquer as $element){
+        foreach ($dupliquer as $element) {
 
         }
 
         $html = $this->recursiveElements([$dupliquer]);
 
-        dd($html);
+        //dd($html);
 
         //dump($data,$devis);
         //dump($data);
@@ -440,14 +443,14 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
-    #[Route('/delete/element/{id}', name:'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
+    #[Route('/delete/element/{id}', name: 'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
     public function deleteLot(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository): Response
     {
         $lot = $request->request->all();
         try {
-            if(!empty($lot['id']) and !empty($lot['type']) ){
-               $elements = $devis->deleteInElements($lot);
-               $devis->setElements($elements);
+            if (!empty($lot['id']) and !empty($lot['type'])) {
+                $elements = $devis->deleteInElements($lot);
+                $devis->setElements($elements);
             }
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200]));
