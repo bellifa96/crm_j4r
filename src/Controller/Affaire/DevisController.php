@@ -346,14 +346,53 @@ class DevisController extends AbstractController
     }
 
     #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
-    public function dupliquerLotRequest ($request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function dupliquerLot (Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
         $path = "affaire/devis/lot.html.twig";
 
         $data = $request->request->all();
-        dd($data);
 
-        return new Response();
+        //$lot = $lotRepository->find($data['id']);
+        //$dupliquer->setTitre($lot->getTitre());
+
+        $elements = $devis->getElements();
+        $dupliquer = "";
+
+        foreach ($elements as $element){
+            if ($element['id'] == $data['id'] && $element['type'] == $data['type']){
+                $dupliquer = $element;
+            }
+        }
+        //dd($dupliquer);
+
+        $html = $this->recursiveElements([$dupliquer]);
+
+        dd($html);
+
+        //dump($data,$devis);
+        //dump($data);
+        //die;
+        try {
+            $lotRepository->save($lot);
+            $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
+            if(!empty($data['parentId']) and !empty($data['parentType']) ){
+                $parent['id'] = $data['parentId'] ;
+                $parent['type'] = $data['parentType'] ;
+                $elements = $this->setParent($elements,$el,$parent);
+            }else {
+                $elements[] = $el;
+            }
+            $devis->setElements($elements);
+            $html .= $environment->render($path, ["lot" => $lot]);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode(['code' => 404]));
     }
 
     #[Route('/edit/lot/{id}', name: 'app_affaire_lot_edit', methods: ['POST'])]
