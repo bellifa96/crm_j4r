@@ -387,7 +387,7 @@
 <div class="organisation">
     <div class="organisation2">
         <div class="organisation3">
-            <button type="button" class="lot-button" id="add-lot">Créer un lot</button>
+            <button type="button" class="lot-button add-lot">Créer un lot</button>
             <hr aria-orientation="horizontal" class="ligne">
             <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
             <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
@@ -534,7 +534,7 @@
 
 <div class="row css-gg4vpm buttons">
     <div>
-        <button type="button" class="css-15nl7at" id="add-lot">
+        <button type="button" class="css-15nl7at add-lot">
             + Créer un lot
         </button>
         <button type="button" class="css-15nl7at import-ouvrage">
@@ -611,7 +611,7 @@
     })*/
 
 
-    $('body').on('click', '#add-lots', function () {
+    $('body').on('click', '#add-lots, .add-lot', function () {
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
@@ -624,8 +624,12 @@
                 if (parentId != null && parentType == "lot") {
                     $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
                     //console.log(parentId);
+                } else {
+                    $('#main-devis').append(JSON.parse(data).html);
                 }
                 $("#lot").modal('show');
+                $('.svg').remove();
+                $('.organisation').remove();
                 console.log(data)
                 const lotId = data.lot;
             }
@@ -674,6 +678,22 @@
             });
         })
     })
+    
+    $('body').on('click', '#dupliquer-lot', function () {
+        console.log('oui')
+        let path = "{{ path('app_affaire_lot_dupliquer', {'id':devis.id}) }}";
+        var id = selectedElementId;
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType
+        }, function (data) {
+            if (code = 200) {
+
+            }
+        })
+
+
+    })
 
     $('body').on('click', '.elements', function () {
         let div = `<div class="context-menu">
@@ -700,7 +720,7 @@
         }
     }
 
-    $('body').click(function (event) {
+    /*$('body').click(function (event) {
         $('.selected').each(function () {
             if(!$(this).hasClass('bi-three-dots') && $(this).attr('id') && $(this).attr('id').replaceAll('menu-lot-','') != selectedElementId){
                 $(this).removeClass('selected');
@@ -720,9 +740,9 @@
             selectedElementType = $(this).attr('type');
             selectedElement.addClass('selected');
         }
-    });
+    });*/
 
-    /*$('body').click(function (event) {
+    $('body').click(function (event) {
         $('.selected').each(function () {
             $(this).removeClass('selected');
             selectedElement = null;
@@ -737,7 +757,7 @@
             selectedElementId = $(this).attr('id').replaceAll('element-', '');
             selectedElementType = $(this).attr('type');
         }
-    });*/
+    });
 
 
     function submitImportOuvrageEvent(event) {
@@ -823,7 +843,7 @@
         })
     })
 
-    $('#add-lot').click(function () {
+    /*$('.add-lot').click(function () {
         console.log('oui');
         var parentId = selectedElementId;
         var parentType = selectedElementType;
@@ -847,7 +867,7 @@
             }
         })
 
-    })
+    })*/
 
     $(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');

@@ -345,6 +345,17 @@ class DevisController extends AbstractController
 
     }
 
+    #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
+    public function dupliquerLotRequest ($request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    {
+        $path = "affaire/devis/lot.html.twig";
+
+        $data = $request->request->all();
+        dd($data);
+
+        return new Response();
+    }
+
     #[Route('/edit/lot/{id}', name: 'app_affaire_lot_edit', methods: ['POST'])]
     public function editLot(Request $request, Lot $lot, LotRepository $lotRepository): Response
     {
