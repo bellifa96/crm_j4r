@@ -55,6 +55,7 @@
         border-right-color: rgb(217, 226, 236);
         background-color: #fff1db;
         border-left: 2px solid rgb(249, 112, 62);
+        margin-top: 5px;
     }
 
     .css-ccobzb {
@@ -274,6 +275,7 @@
 
     .children .elements .css-ccobzb {
         margin: inherit;
+        background-color: #fff;
     }
 
     .context-menu {
@@ -743,7 +745,8 @@
         }
     });*/
 
-    $('body').click(function (event) {
+    $('body').on('click', function (event) {
+    if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') )
         $('.selected').each(function () {
             $(this).removeClass('selected');
             selectedElement = null;
@@ -763,14 +766,16 @@
 
     function submitImportOuvrageEvent(event) {
         event.preventDefault();
-
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
+        console.log(parentId, parentType);
         let data = {};
         $('.check-ouvrage').each(function (index) {
             if ($(this).is(':checked')) {
                 console.log($(this).val());
                 data[index] = {
-                    parent: $(this).attr('parent') ? $(this).attr('parent') : null,
-                    parentType: $(this).attr('parenttype') ? $(this).attr('parenttype') : null,
+                    parentId: selectedElementId,
+                    parentType: selectedElementType,
                     id: $(this).val(),
                     order: null,
                 }
@@ -786,12 +791,17 @@
                 $("#modal-import-ouvrage").modal("show");
                 if (data.code === 200) {
                     $('#ouvrage-import-success').show();
-                    $("#main-devis").append(data.html);
                     setTimeout(() => {
                         $('#modal-import-ouvrage').modal('hide');
                         $('#modal-import-ouvrage').remove();
 
                     }, "1000");
+                    if (parentId != null && parentType == "lot") {
+                        $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                        //console.log(parentId);
+                    } else {
+                        $('#main-devis').append(JSON.parse(data).html);
+                    }
                     $('.svg').remove();
                     $('.organisation').remove();
                     $('.css-gg4vpm').show();

@@ -161,18 +161,6 @@ class DevisController extends AbstractController
 
         foreach ($data as $val) {
 
-            $el = ['id' => $val['id'], 'type' => 'ouvrage', 'data' => []];
-
-            $parent = [];
-            if (!empty($val['parent']) and !empty($val['parentType'])) {
-                $parent['id'] = $val['parent'];
-                $parent['type'] = $val['parentType'];
-                $elements = $this->setParent($elements, $el, $parent);
-            } else {
-                $elements[] = $el;
-            }
-
-
             $ouvrage = $ouvrageRepository->find($val['id']);
             $clone = $ouvrage;
 
@@ -185,9 +173,20 @@ class DevisController extends AbstractController
             }
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
-            $ouvrageRepository->add($clone);
+
+            $el = ['id' => $clone->getId(), 'type' => 'ouvrage', 'data' => []];
+
+            $parent = [];
+            if (!empty($val['parentId']) and !empty($val['parentType'])) {
+                $parent['id'] = $data['parentId'];
+                $parent['type'] = $data['parentType'];
+                $elements = $this->setParent($elements, $el, $parent);
+            } else {
+                $elements[] = $el;
+            }
 
             try {
+                $devis->setElements($elements);
                 $html .= $environment->render($path, ["ouvrage" => $clone]);
             } catch (LoaderError $e) {
                 dd($e);
