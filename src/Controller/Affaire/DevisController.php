@@ -345,34 +345,28 @@ class DevisController extends AbstractController
 
     }
 
-    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository): array
+    public function cloneElement($id, $type, LotRepository $lotRepository,OuvrageRepository $ouvrageRepository): array
     {
-        //dd($id, $type, $data);
+        
         if ($type == 'lot') {
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
             $dupliquer->setTitre($lot->getTitre());
             $dupliquer->setCode($lot->getCode());
-
             $lotRepository->save($dupliquer);
-            if (!empty($data)) {
-                foreach ($data as $element) {
-                    //dd($element['data']);
-                    $data[] = $this->dupliquerElement($element['id'], $element['type'], $element['data'], $lotRepository);
-                    //dd($data);
-
-                }
-            }
-
-            return ['id' => $dupliquer->getId(), 'type' => $type, 'data' => $data];
-
-
+            return ['id' => $dupliquer->getId(), 'type' => $type,"data"=>[]];
+        }elseif($type == "ouvrage"){
+            $tmp = $ouvrageRepository->find($id);
+            $dupliquer = new Ouvrage();
+            $ouvrageRepository->save($ouvrage);
+            return ['id' => $dupliquer->getId(), 'type' => $type,"data"=>[]];
         }
         return false;
     }
 
+
     #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
-    public function dupliquerLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function dupliquerLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository,OuvrageRepository $ouvrageRepository): Response
     {
         $path = "affaire/devis/lot.html.twig";
 
@@ -386,17 +380,17 @@ class DevisController extends AbstractController
 
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
-                //dd($element['data']);
-                $dupliquer = $this->dupliquerElement($data['id'], $data['type'], $element['data'], $lotRepository);
+                $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository,$ouvrageRepository);
+                if(!empty($element['data'])){
+                    foreach($element['data'] as $el){
+                        $dupliquer['data'][]= $this->cloneElement($el['id'], $el['type'], $lotRepository,$ouvrageRepository);
+                    }
+                }
             }
         }
-        dd($dupliquer);
-
-        foreach ($dupliquer as $element) {
-
-        }
-
         $html = $this->recursiveElements([$dupliquer]);
+
+        $elements[]=$dupliquer;
 
         //dd($html);
 
@@ -404,18 +398,9 @@ class DevisController extends AbstractController
         //dump($data);
         //die;
         try {
-            /*$lotRepository->save($lot);
-            $el= ['id'=>$lot->getId(), 'type' => 'lot', 'data'=>[]];
-            if(!empty($data['parentId']) and !empty($data['parentType']) ){
-                $parent['id'] = $data['parentId'] ;
-                $parent['type'] = $data['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else {
-                $elements[] = $el;
-            }*/
-            //$devis->setElements($elements);
-            //$html .= $environment->render($path, ["lot" => $lot]);
-            //$devisRepository->add($devis);
+         
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
             dd($e);
