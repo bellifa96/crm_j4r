@@ -345,7 +345,7 @@ class DevisController extends AbstractController
 
     }
 
-    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository)
+    public function dupliquerElement($id, $type, LotRepository $lotRepository)
     {
         $dupliquer = null;
 
@@ -353,17 +353,10 @@ class DevisController extends AbstractController
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
             $dupliquer->setTitre($lot->getTitre());
-            $lotRepository->save($dupliquer);
-            if (!empty($data)) {
-                foreach ($data as $element) {
-                    $newElement = $data->dupliquerElement($element['id'], $element['type'], $element['data']);
-                }
-            }
-            $el = ['id' => $dupliquer->getId(), 'type' => $type, 'data' => $data];
 
         }
 
-        return $el;
+        return ['id' => $dupliquer->getId(), 'type' => $type];
 
 
     }
