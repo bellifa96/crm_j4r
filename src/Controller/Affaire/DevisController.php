@@ -358,7 +358,7 @@ class DevisController extends AbstractController
         }elseif($type == "ouvrage"){
             $tmp = $ouvrageRepository->find($id);
             $dupliquer = new Ouvrage();
-            $ouvrageRepository->save($ouvrage);
+            $ouvrageRepository->save($dupliquer);
             return ['id' => $dupliquer->getId(), 'type' => $type,"data"=>[]];
         }
         return false;
