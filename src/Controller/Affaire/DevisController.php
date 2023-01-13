@@ -354,11 +354,17 @@ class DevisController extends AbstractController
             $dupliquer->setTitre($lot->getTitre());
             $dupliquer->setCode($lot->getCode());
             $lotRepository->save($dupliquer);
+
             return ['id' => $dupliquer->getId(), 'type' => $type,"data"=>[]];
         }elseif($type == "ouvrage"){
-            $tmp = $ouvrageRepository->find($id);
+            $ouvrage = $ouvrageRepository->find($id);
             $dupliquer = new Ouvrage();
+            $dupliquer->setDenomination($ouvrage->getDenomination());
+            $dupliquer->setCode($ouvrage->getCode());
+            $dupliquer->setUnite($ouvrage->getUnite());
+            $dupliquer->setDebourseHTCalcule($ouvrage->getDebourseHTCalcule());
             $ouvrageRepository->save($dupliquer);
+
             return ['id' => $dupliquer->getId(), 'type' => $type,"data"=>[]];
         }
         return false;
