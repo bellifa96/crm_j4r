@@ -345,9 +345,9 @@ class DevisController extends AbstractController
 
     }
 
-    public function dupliquerElement($id, $type, LotRepository $lotRepository):array
+    public function dupliquerElement($id, $type, $data, LotRepository $lotRepository): array
     {
-
+        //dd($id, $type, $data);
         if ($type == 'lot') {
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
@@ -355,8 +355,17 @@ class DevisController extends AbstractController
             $dupliquer->setCode($lot->getCode());
 
             $lotRepository->save($dupliquer);
+            if (!empty($data)) {
+                foreach ($data as $element) {
+                    //dd($element['data']);
+                    $data[] = $this->dupliquerElement($element['id'], $element['type'], $element['data'], $lotRepository);
+                    //dd($data);
 
-            return ['id' => $dupliquer->getId(), 'type' => $type];
+                }
+            }
+
+            return ['id' => $dupliquer->getId(), 'type' => $type, 'data' => $data];
+
 
         }
         return false;
@@ -368,6 +377,7 @@ class DevisController extends AbstractController
         $path = "affaire/devis/lot.html.twig";
 
         $data = $request->request->all();
+        //dd($data['data']);
 
         //$lot = $lotRepository->find($data['id']);
         //$dupliquer->setTitre($lot->getTitre());
@@ -376,10 +386,11 @@ class DevisController extends AbstractController
 
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
-                $dupliquer = $this->dupliquerElement($data['id'], $data['type'], $lotRepository);
+                //dd($element['data']);
+                $dupliquer = $this->dupliquerElement($data['id'], $data['type'], $element['data'], $lotRepository);
             }
         }
-        dd([$dupliquer]);
+        dd($dupliquer);
 
         foreach ($dupliquer as $element) {
 
