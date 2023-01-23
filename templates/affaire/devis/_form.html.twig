@@ -808,7 +808,7 @@
                         $("<div class='children'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
                     } else {
-                        $('#main-devis').append(JSON.parse(data).html);
+                        $('#main-devis').append(data.html);
                     }
                     $('.svg').remove();
                     $('.organisation').remove();
