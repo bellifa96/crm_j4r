@@ -753,7 +753,8 @@
     });*/
 
     $('body').on('click', function (event) {
-    if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') )
+        console.log(event.target, selectedElementId);
+    if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage'))
         $('.selected').each(function () {
             $(this).removeClass('selected');
             selectedElement = null;
@@ -772,9 +773,9 @@
 
 
     function submitImportOuvrageEvent(event) {
-        event.preventDefault();
         var parentId = selectedElementId;
         var parentType = selectedElementType;
+        event.preventDefault();
         console.log(parentId, parentType);
         let data = {};
         $('.check-ouvrage').each(function (index) {

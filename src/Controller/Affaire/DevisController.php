@@ -149,6 +149,7 @@ class DevisController extends AbstractController
         $path = "affaire/devis/ouvrage.html.twig";
 
         $data = $request->request->all();
+        dd($data);
 
 
         $sum = 0;
@@ -297,6 +298,7 @@ class DevisController extends AbstractController
         $path = "affaire/devis/lot.html.twig";
 
         $data = $request->request->all();
+        dd($data);
 
         $lot = new Lot();
         $html = "";
