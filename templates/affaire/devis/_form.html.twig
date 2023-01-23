@@ -776,7 +776,7 @@
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         event.preventDefault();
-        console.log(parentId, parentType);
+        //console.log(parentId, parentType);
         let data = {};
         $('.check-ouvrage').each(function (index) {
             if ($(this).is(':checked')) {
@@ -805,7 +805,7 @@
 
                     }, "1000");
                     if (parentId != null && parentType == "lot") {
-                        $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                        $("<div class='children'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
                     } else {
                         $('#main-devis').append(JSON.parse(data).html);
