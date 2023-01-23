@@ -299,6 +299,10 @@
         background: #343434;
     }
 
+    .menu-lot:hover {
+        cursor: pointer;
+    }
+
 
 </style>
 
@@ -698,17 +702,20 @@
 
     })
 
-    $('body').on('click', '.elements', function () {
+    $('body').on('click', '.menu-lot', function(){
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
                     <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
                     <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
+        $(this).parent().parent().parent().parent().parent().parent().append(div);
+    })
+
+    $('body').on('click', '.elements, .menu-lot', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type');
-        selectedElement.append(div);
     });
 
     function hasSomeParentTheClass(element, classname) {
