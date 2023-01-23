@@ -149,7 +149,7 @@ class DevisController extends AbstractController
         $path = "affaire/devis/ouvrage.html.twig";
 
         $data = $request->request->all();
-        dd($data);
+        //dd($data);
 
 
         $sum = 0;
@@ -179,8 +179,8 @@ class DevisController extends AbstractController
 
             $parent = [];
             if (!empty($val['parentId']) and !empty($val['parentType'])) {
-                $parent['id'] = $data['parentId'];
-                $parent['type'] = $data['parentType'];
+                $parent['id'] = $val['parentId'];
+                $parent['type'] = $val['parentType'];
                 $elements = $this->setParent($elements, $el, $parent);
             } else {
                 $elements[] = $el;
