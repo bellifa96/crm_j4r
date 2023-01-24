@@ -197,7 +197,7 @@ class Devis
         return $elements;
     }
 
-    public function deleteElement ($elements, $lotRepository, $ouvrageRepository):void
+    private function deleteElement ($elements, $lotRepository, $ouvrageRepository):void
     {
         foreach($elements as $element){
             if (!empty($element['data'])){
