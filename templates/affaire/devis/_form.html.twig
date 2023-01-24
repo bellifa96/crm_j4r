@@ -278,7 +278,7 @@
         background-color: #fff;
     }
 
-    .children .elements .css-1ip68u7  {
+    .children .elements .css-1ip68u7 {
         margin: inherit;
     }
 
@@ -672,7 +672,7 @@
 
     })
 
-    $("body").on('click', '#import-ouvrage',function () {
+    $("body").on('click', '#import-ouvrage', function () {
         $('#modal-import-ouvrage').remove();
 
         $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
@@ -695,7 +695,7 @@
             });
         })
     })
-    
+
     $('body').on('click', '#dupliquer-lot', function () {
         console.log('oui')
         let path = "{{ path('app_affaire_lot_dupliquer', {'id':devis.id}) }}";
@@ -713,7 +713,7 @@
 
     })
 
-    $('body').on('click', '.menu-lot', function(){
+    $('body').on('click', '.menu-lot', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
                     <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
@@ -723,7 +723,7 @@
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
-    $('body').on('click', '.menu-ouvrage', function(){
+    $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
@@ -738,12 +738,12 @@
 
     function hasSomeParentTheClass(element, classname) {
         console.log(element)
-        if (element.className && element.className.split(' ').indexOf(classname)>=0){
+        if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
             return true;
-        }else if(element.parentNode){
+        } else if (element.parentNode) {
             console.log('ici');
             hasSomeParentTheClass(element.parentNode, classname)
-        }else{
+        } else {
             return false
         }
     }
@@ -772,14 +772,14 @@
 
     $('body').on('click', function (event) {
         console.log(event.target, selectedElementId);
-    if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage'))
-        $('.selected').each(function () {
-            $(this).removeClass('selected');
-            selectedElement = null;
-            selectedElementId = null;
-            selectedElementType = null;
-            $('.context-menu').remove();
-        });
+        if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage'))
+            $('.selected').each(function () {
+                $(this).removeClass('selected');
+                selectedElement = null;
+                selectedElementId = null;
+                selectedElementType = null;
+                $('.context-menu').remove();
+            });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector)) {
             selectedElement.addClass('selected');
@@ -879,6 +879,17 @@
 
         })
     })
+
+    function sumHT() {
+        let id = selectedElementId;
+        let sum = parseFloat($('#devis_ouvrages_' + id + '_quantite').val()) * parseFloat($('#devis_ouvrages_' + id + '_debourseHT').val());
+        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? $('#devis_ouvrages_' + id + '_debourseHT').val() : sum);
+    }
+
+    $('body').on("change", "input[name='devis[ouvrages][" + selectedElementId + "][quantite]']", function () {
+        console.log('oui');
+        sumHT();
+    });
 
     /*$('.add-lot').click(function () {
         console.log('oui');
