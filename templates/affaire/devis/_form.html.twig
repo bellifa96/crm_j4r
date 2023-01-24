@@ -881,16 +881,30 @@
         })
     })
 
-    function sumHT() {
-        let id = selectedElementId;
-        let sum = parseFloat($('#devis_ouvrages_' + id + '_quantite').val()) * parseFloat($('#devis_ouvrages_' + id + '_debourseHT').val());
-        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? $('#devis_ouvrages_' + id + '_debourseHT').val() : sum);
+    function sumHT(quantite, prixUnite, id) {
+        let sum = parseFloat(quantite) * parseFloat(prixUnite);
+        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? 0 : sum);
     }
 
-    $('body').on("change", "input[name='devis[ouvrages][" + selectedElementId + "][quantite]']", function () {
-        console.log('oui');
-        sumHT();
-    });
+    $('body').on("change", 'input', function () {
+        let type = $(this).attr('element');
+        console.log(type);
+        let id = $(this).attr('ouvrage');
+        console.log(id);
+        let quantite = $('input[name="devis[ouvrages][' + id + '][quantite]"]').val();
+        console.log(quantite);
+        let prixUnite = $('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val();
+        console.log(prixUnite)
+        let sum = sumHT(quantite, prixUnite, id);
+
+        const ouvrage = {
+            code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
+            denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
+            unite: $('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
+            duht: prixUnite,
+            dtht: sum
+        }
+    })
 
     /*$('.add-lot').click(function () {
         console.log('oui');
@@ -918,7 +932,7 @@
 
     })*/
 
-    $(document).on('change', 'input', function () {
+    /*$(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');
         console.log(definition);
         const val = $(this).val();
@@ -943,7 +957,7 @@
         }
 
 
-    })
+    })*/
 
 
 </script>
