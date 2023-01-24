@@ -441,12 +441,12 @@ class DevisController extends AbstractController
     }
 
     #[Route('/delete/element/{id}', name: 'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
-    public function deleteLot(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository): Response
+    public function deleteElement(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): Response
     {
         $lot = $request->request->all();
         try {
             if (!empty($lot['id']) and !empty($lot['type'])) {
-                $elements = $devis->deleteInElements($lot);
+                $elements = $devis->deleteInElements($lot, $lotRepository, $ouvrageRepository);
                 $devis->setElements($elements);
             }
             $devisRepository->add($devis);

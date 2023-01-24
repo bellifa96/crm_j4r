@@ -173,16 +173,23 @@ class Devis
         return false;
     }
 
-    public function deleteInElements($el, $elements=null)
+    public function deleteInElements($el, $lotRepository, $ouvrageRepository, $elements=null)
     {
         if(empty($elements)){
             $elements = $this->elements;
         }
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
+                if ($element['type']== 'lot'){
+                    $lot = $lotRepository->find($element['id']);
+                    $lotRepository->remove($lot);
+                }elseif ($element['type']== 'ouvrage'){
+                    $ouvrage = $ouvrageRepository->find($element['id']);
+                    $ouvrageRepository->remove($ouvrage);
+                }
                 unset($elements[$key]);
             }elseif(!empty($element['data'])){
-                $elements[$key]['data'] = $this->deleteInElements($el,$element['data']);
+                $elements[$key]['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
             }
         }
         return $elements;

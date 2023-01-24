@@ -307,6 +307,10 @@
         cursor: pointer;
     }
 
+    .menu-ouvrage:hover {
+        cursor: pointer;
+    }
+
 
 </style>
 
@@ -647,7 +651,7 @@
 
     })
 
-    $('body').on('click', '#delete-lot', function () {
+    $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
         console.log('oui')
         var id = selectedElementId;
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
@@ -658,6 +662,9 @@
         }, function (data) {
             if (code = 200) {
                 if (id != null) {
+                    if ($('#element-' + id).next().hasClass('children')) {
+                        $('#element-' + id).next().remove();
+                    }
                     $('#element-' + id).remove();
                 }
             }
@@ -716,7 +723,14 @@
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
-    $('body').on('click', '.elements, .menu-lot', function () {
+    $('body').on('click', '.menu-ouvrage', function(){
+        let div = `<div class="context-menu">
+                    <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                </div>`;
+        $(this).parent().parent().parent().parent().parent().parent().append(div);
+    })
+
+    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type');
