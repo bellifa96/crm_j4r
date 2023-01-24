@@ -696,9 +696,9 @@
         })
     })
 
-    $('body').on('click', '#dupliquer-lot', function () {
+    $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
         console.log('oui')
-        let path = "{{ path('app_affaire_lot_dupliquer', {'id':devis.id}) }}";
+        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
         var id = selectedElementId;
         $.post(path, {
             id: selectedElementId,
@@ -725,6 +725,7 @@
 
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
+                    <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
         $(this).parent().parent().parent().parent().parent().parent().append(div);

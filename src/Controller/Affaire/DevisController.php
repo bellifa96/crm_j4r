@@ -363,6 +363,7 @@ class DevisController extends AbstractController
             $dupliquer->setDenomination($ouvrage->getDenomination());
             $dupliquer->setCode($ouvrage->getCode());
             $dupliquer->setUnite($ouvrage->getUnite());
+            $dupliquer->setPrixUnitaireDebourse($ouvrage->getPrixUnitaireDebourse());
             $dupliquer->setDebourseHTCalcule($ouvrage->getDebourseHTCalcule());
             $ouvrageRepository->save($dupliquer);
 
@@ -372,11 +373,9 @@ class DevisController extends AbstractController
     }
 
 
-    #[Route('/dupliquer/lot/{id}', name: 'app_affaire_lot_dupliquer', methods: ['GET', 'POST'])]
-    public function dupliquerLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository,OuvrageRepository $ouvrageRepository): Response
+    #[Route('/dupliquer/element/{id}', name: 'app_affaire_element_dupliquer', methods: ['GET', 'POST'])]
+    public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository,OuvrageRepository $ouvrageRepository): Response
     {
-        $path = "affaire/devis/lot.html.twig";
-
         $data = $request->request->all();
         //dd($data['data']);
 
@@ -388,10 +387,15 @@ class DevisController extends AbstractController
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
                 $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository,$ouvrageRepository);
-                if(!empty($element['data'])){
-                    foreach($element['data'] as $el){
-                        $dupliquer['data'][]= $this->cloneElement($el['id'], $el['type'], $lotRepository,$ouvrageRepository);
+                if ($data['type'] == 'lot') {
+                    $path = "affaire/devis/lot.html.twig";
+                    if(!empty($element['data'])){
+                        foreach($element['data'] as $el){
+                            $dupliquer['data'][]= $this->cloneElement($el['id'], $el['type'], $lotRepository,$ouvrageRepository);
+                        }
                     }
+                }elseif($data['type'] == 'ouvrage') {
+                    $path = "affaire/devis/ouvrage.html.twig";
                 }
             }
         }
