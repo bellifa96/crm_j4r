@@ -132,11 +132,11 @@ class DevisController extends AbstractController
     public function setParent($elements, $el, $parent)
     {
         foreach ($elements as &$element) {
-            //dd($parent,$element);
+            //dd($parent,$element['data']);
             if ($element['id'] == $parent['id'] && $element['type'] == $parent['type']) {
                 $element['data'][] = $el;
             } elseif (!empty($element['data'])) {
-                $this->setParent($element['data'], $el, $parent);
+                $element['data'] = $this->setParent($element['data'], $el, $parent);
             }
         }
         return $elements;
