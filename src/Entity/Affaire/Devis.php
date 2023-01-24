@@ -180,6 +180,10 @@ class Devis
         }
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
+                if(!empty($element['data'])){
+                    //dd($element, $element['data']);
+                    $element['data'] = $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
+                }
                 if ($element['type']== 'lot'){
                     $lot = $lotRepository->find($element['id']);
                     $lotRepository->remove($lot);
@@ -188,11 +192,25 @@ class Devis
                     $ouvrageRepository->remove($ouvrage);
                 }
                 unset($elements[$key]);
-            }elseif(!empty($element['data'])){
-                $elements[$key]['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
             }
         }
         return $elements;
+    }
+
+    public function deleteElement ($elements, $lotRepository, $ouvrageRepository):void
+    {
+        foreach($elements as $element){
+            if (!empty($element['data'])){
+                $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
+            }
+            if ($element['type']== 'lot'){
+                $lot = $lotRepository->find($element['id']);
+                $lotRepository->remove($lot);
+            }elseif ($element['type']== 'ouvrage'){
+                $ouvrage = $ouvrageRepository->find($element['id']);
+                $ouvrageRepository->remove($ouvrage);
+            }
+        }
     }
 
 }
