@@ -894,7 +894,7 @@
         console.log(id);
         let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
         console.log(quantite);
-        let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val());
+        let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val().replace(',','.'));
         console.log(prixUnite)
         let sum = sumHT(quantite, prixUnite, id);
 
