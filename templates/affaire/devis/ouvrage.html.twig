@@ -31,7 +31,7 @@
                        value="{{ ouvrage.prixUnitaireDebourse }}">
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT"  disabled="disabled"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseTotalHT]" required="required" maxlength="255"
                        class="chakra-input" placeholder="Déboursé Total HT" value="{{ ouvrage.debourseHTCalcule }}">
             </div>
