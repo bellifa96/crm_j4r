@@ -636,7 +636,7 @@
         }, function (data) {
             if (code = 200) {
                 if (parentId != null && parentType == "lot") {
-                    $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                    $("<div class='children' parent='lot-"+parentId+"'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
                     //console.log(parentId);
                 } else {
                     $('#main-devis').append(JSON.parse(data).html);
@@ -824,7 +824,7 @@
 
                     }, "1000");
                     if (parentId != null && parentType == "lot") {
-                        $("<div class='children'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
+                        $("<div class='children' parent='lot-"+parentId+"'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
                     } else {
                         $('#main-devis').append(data.html);

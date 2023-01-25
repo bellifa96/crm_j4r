@@ -85,7 +85,7 @@ class DevisController extends AbstractController
             try {
                 $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key]);
                 if (!empty($element['data'])) {
-                    $html .= "<div class='children'>";
+                    $html .= "<div class='children' parent='lot-".$element['id']."'>";
                     $html .= $this->recursiveElements($element['data']);
                     $html .= "</div>";
                 }
