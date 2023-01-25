@@ -924,32 +924,6 @@
 
     }
 
-    /*$('.add-lot').click(function () {
-        console.log('oui');
-        var parentId = selectedElementId;
-        var parentType = selectedElementType;
-        let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
-        $.post(path, {
-            parentId: selectedElementId,
-            parentType: selectedElementType
-        }, function (data) {
-            if (code = 200) {
-                if (parentId != null && parentType == "lot") {
-                    $("<div class='children'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
-                    //console.log(parentId);
-                } else {
-                    $('#main-devis').append(JSON.parse(data).html);
-                }
-                $("#lot").modal('show');
-                $('.svg').remove();
-                $('.organisation').remove();
-                console.log(data)
-                const lotId = data.lot;
-            }
-        })
-
-    })*/
-
     /*$(document).on('change', 'input', function () {
         let definition = $(this).attr('definition');
         console.log(definition);
