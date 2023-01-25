@@ -882,8 +882,9 @@
     })
 
     function sumHT(quantite, prixUnite, id) {
-        let sum = parseFloat(quantite) * parseFloat(prixUnite);
+        let sum = quantite * prixUnite;
         $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? 0 : sum);
+        return sum;
     }
 
     $('body').on("change", 'input', function () {
@@ -891,9 +892,9 @@
         console.log(type);
         let id = $(this).attr('ouvrage');
         console.log(id);
-        let quantite = $('input[name="devis[ouvrages][' + id + '][quantite]"]').val();
+        let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
         console.log(quantite);
-        let prixUnite = $('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val();
+        let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val());
         console.log(prixUnite)
         let sum = sumHT(quantite, prixUnite, id);
 
@@ -901,9 +902,21 @@
             code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
             denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
             unite: $('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
+            quantiteDOuvrage: quantite,
             duht: prixUnite,
-            dtht: sum
+            dtht: sum,
+            note: null
         }
+        console.log(ouvrage);
+
+        let path = '/affaire/bibliothequeDePrix/ouvrage/edit/'+id;
+
+        $.post(path, {ouvrage}, function (response){
+            let data = JSON.parse(response);
+            if (data.code === 200) {
+                console.log(data,ouvrage);
+            }
+        })
     })
 
     /*$('.add-lot').click(function () {
