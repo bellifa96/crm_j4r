@@ -4,18 +4,18 @@
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_code" input="code"
-                       name="devis[ouvrages][{{ ouvrage.id }}][code]" required="required" maxlength="255"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_code" input="code" element="ouvrage"
+                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][code]" required="required" maxlength="255"
                        class="chakra-input" placeholder="Code" value="{{ ouvrage.code }}">
             </div>
             <div class="tab-el-left">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                       name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                       element="ouvrage" ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
                        class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}">
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite"
-                       name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required" maxlength="255"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrage"
+                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required" maxlength="255"
                        class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">
             </div>
             <div class="tab-el-right">
@@ -27,13 +27,16 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseHT" input="debourseUnitaire"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseHT]" required="required" maxlength="255"
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers" placeholder="Déboursé HT"
+                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers"
+                       placeholder="Déboursé HT"
                        value="{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT"  disabled="disabled" input="debourseCalcule"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
+                       input="debourseCalcule"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseTotalHT]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Déboursé Total HT" value="{{ ouvrage.debourseHTCalcule|number_format(2,'.',' ') }}">
+                       class="chakra-input" placeholder="Déboursé Total HT"
+                       value="{{ ouvrage.debourseHTCalcule|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
                 <div class="col-md-auto">
