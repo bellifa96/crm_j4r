@@ -636,7 +636,7 @@
         }, function (data) {
             if (code = 200) {
                 if (parentId != null && parentType == "lot") {
-                    $("<div class='children' parent='lot-"+parentId+"'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
+                    $("<div class='children' parent='lot-" + parentId + "'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
                     //console.log(parentId);
                 } else {
                     $('#main-devis').append(JSON.parse(data).html);
@@ -824,7 +824,7 @@
 
                     }, "1000");
                     if (parentId != null && parentType == "lot") {
-                        $("<div class='children' parent='lot-"+parentId+"'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
+                        $("<div class='children' parent='lot-" + parentId + "'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
                     } else {
                         $('#main-devis').append(data.html);
@@ -890,55 +890,46 @@
     $('body').on("change", 'input', function () {
         let type = $(this).attr('element');
         console.log(type);
-        let id = $(this).attr('ouvrage');
-        console.log(id);
-        let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
-        console.log(quantite);
-        let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val().replace(',','.'));
-        console.log(prixUnite)
-        let sum = sumHT(quantite, prixUnite, id);
+        if (type === 'ouvrage') {
+            let id = $(this).attr('ouvrage');
+            console.log(id);
+            let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
+            console.log(quantite);
+            let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val().replace(',', '.'));
+            console.log(prixUnite)
+            let sum = sumHT(quantite, prixUnite, id);
 
-        const ouvrage = {
-            code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
-            denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
-            unite: $('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
-            quantiteDOuvrage: quantite,
-            duht: prixUnite,
-            dtht: sum,
-            note: null
-        }
-        console.log(ouvrage);
-
-        let path = '/affaire/bibliothequeDePrix/ouvrage/edit/'+id;
-
-        $.post(path, {ouvrage}, function (response){
-            let data = JSON.parse(response);
-            if (data.code === 200) {
-                console.log(data,ouvrage);
-                //if (ouvrage est un enfant){calculLotHT}
+            const ouvrage = {
+                code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
+                denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
+                unite: $('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
+                quantiteDOuvrage: quantite,
+                duht: prixUnite,
+                dtht: sum,
+                note: null
             }
-        })
-    })
-    
-    function calculLotHT() {
+            console.log(ouvrage);
 
-    }
+            let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
 
-    /*$(document).on('change', 'input', function () {
-        let definition = $(this).attr('definition');
-        console.log(definition);
-        const val = $(this).val();
-        console.log(val);
-        let lotId = $(this).attr('elid');
-        console.log(lotId);
+            $.post(path, {ouvrage}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    console.log(data, ouvrage);
+                    //if (ouvrage est un enfant){calculLotHT}
+                }
+            })
+        }
 
-        if (definition == "lot") {
+        if (type == "lot") {
+            let id = $(this).attr('lot');
+            console.log(id);
             const lot = {
-                code: $('input[name="devis[lots][0][code]"]').val(),
-                titre: $('input[name="devis[lots][0][titre]"]').val()
+                code: $('input[name="devis[lots][' + id + '][code]"]').val(),
+                titre: $('input[name="devis[lots][' + id + '][titre]"]').val(),
             };
             console.log(lot);
-            let path = "{{ path('app_affaire_lot_edit', {'id':33}) }}";
+            let path = '/affaire/devis/edit/lot/' + id;
 
             $.post(path, {lot}, function (response) {
                 let data = JSON.parse(response);
@@ -947,9 +938,11 @@
                 }
             })
         }
+    })
 
+    function calculLotHT() {
 
-    })*/
+    }
 
 
 </script>

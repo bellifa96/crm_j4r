@@ -3,6 +3,7 @@
 namespace App\Repository\Affaire;
 
 use App\Entity\Affaire\Lot;
+use App\Entity\Affaire\Ouvrage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -28,6 +29,18 @@ class LotRepository extends ServiceEntityRepository
      * @throws OptimisticLockException
      */
     public function save(Lot $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Lot $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
