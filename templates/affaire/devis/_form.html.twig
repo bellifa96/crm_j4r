@@ -311,6 +311,10 @@
         cursor: pointer;
     }
 
+    .composant:hover {
+        cursor: pointer;
+    }
+
 
 </style>
 
@@ -731,7 +735,24 @@
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
-    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage', function () {
+    $('body').on('click', '.composant', function () {
+        let id = $(this).attr('ouvrage');
+        console.log(id);
+        let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
+        let div = ``;
+
+        $.post(path, function(response) {
+            let data = JSON.parse(response);
+            if (code = 200){
+                console.log(data['composants']);
+                if ((data['composants']).length === 0){
+                    console.log('yes')
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type');
@@ -943,6 +964,7 @@
     $('.numbers').keyup(function () {
         this.value = this.value.replace(/[^0-9\.\,]/g,'');
     });
+
 
     function calculLotHT() {
 

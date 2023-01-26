@@ -122,6 +122,37 @@ class BibliothequeDePrixController extends AbstractController
         return $response;
     }
 
+    #[Route('/ouvrage/composant/liste/{id}', name: 'app_affaire_ouvrage_liste_composant', methods: ['GET', 'POST'])]
+    public function listeComposant(Ouvrage $ouvrage, Request $request, Environment $environment, ComposantRepository $composantRepository, OuvrageRepository $ouvrageRepository): Response
+    {
+        $response = new Response();
+        //dd($ouvrage->getComposants());
+        $composants = [];
+        //dd($composants);
+
+        foreach ($ouvrage->getComposants() as $composant) {
+            //dd($composant);
+            $composants[] = [
+                'code' => $composant->getCode(),
+                'intitule' => $composant->getIntitule(),
+                'unite' => $composant->getUnite()
+            ];
+        }
+
+
+        try {
+            return $response->setContent(json_encode(['code' => 200, 'composants' => $composants]));
+        } catch (LoaderError $e) {
+            dd($e);
+        } catch (RuntimeError $e) {
+            dd($e);
+        } catch (SyntaxError $e) {
+            dd($e);
+        }
+
+
+    }
+
     #[Route('/modal/ouvrage/liste/{id}', name: 'app_affaire_modal_ouvrage_liste', methods: ['GET', 'POST'])]
     public function modalOuvrageListe(Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, Devis $devis): Response
     {
@@ -131,11 +162,9 @@ class BibliothequeDePrixController extends AbstractController
 
         $ouvrages = $ouvrageRepository->findAll();
 
-        if(!empty($devis->getElements()))
-        {
+        if (!empty($devis->getElements())) {
             foreach ($ouvrages as $key => $ouvrage) {
-                if ($devis->inElements(['id'=>$ouvrage->getId(),'type'=>'ouvrage']))
-                {
+                if ($devis->inElements(['id' => $ouvrage->getId(), 'type' => 'ouvrage'])) {
                     unset($ouvrages[$key]);
                 }
             }
