@@ -422,7 +422,6 @@
         let id = $(this).attr('ouvrage');
         console.log(id);
         let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
-        let div = ``;
 
         $.post(path, function(data) {
             if (code = 200){
