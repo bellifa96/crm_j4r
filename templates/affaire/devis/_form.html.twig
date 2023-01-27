@@ -426,6 +426,7 @@
 
         $.post(path, function(data) {
             if (code = 200){
+                $("#modal-liste-composant").remove();
                 $('body').append(JSON.parse(data).message);
                 $("#modal-liste-composant").modal('show');
                 }
