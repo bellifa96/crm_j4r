@@ -451,24 +451,23 @@ class DevisController extends AbstractController
 
 
         //dd($elements);
-
         foreach ($elements as $element) {
             if ($element['type'] == 'lot') {
-                $prixHT = 0;
-                $prixHT += $this->getPrix($element['data'],$ouvrageRepository, $lotRepository);
+                $lotPrixHT = $this->getPrix($element['data'], $ouvrageRepository, $lotRepository);
 
                 $lot = $lotRepository->find($element['id']);
-                $lot->setPrixHT($prixHT);
-
-            }elseif ($element['type'] == 'ouvrage') {
+                $lot->setPrixHT($lotPrixHT);
+                $prixHT += $lotPrixHT;
+            } elseif ($element['type'] == 'ouvrage') {
                 $ouvrage = $ouvrageRepository->find($element['id']);
                 $prixHT += $ouvrage->getDebourseHTCalcule();
-
             }
         }
-         return $prixHT;
-
+        return $prixHT;
     }
+
+
+
 
     #[Route('/delete/element/{id}', name: 'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
     public function deleteElement(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): Response
