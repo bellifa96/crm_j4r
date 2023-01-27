@@ -35,8 +35,9 @@ class Lot
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
 
-    #[ORM\Column(type:'array', nullable: true)]
-    private $elements = [];
+    #[ORM\Column(nullable: true)]
+    private ?float $prixHT = null;
+
 
     public function __construct()
     {
@@ -113,6 +114,20 @@ class Lot
 
         return $this;
     }
+
+    public function getPrixHT(): ?float
+    {
+        return $this->prixHT;
+    }
+
+    public function setPrixHT(?float $prixHT): self
+    {
+        $this->prixHT = $prixHT;
+
+        return $this;
+    }
+
+
 
 
 
