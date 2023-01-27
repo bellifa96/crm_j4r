@@ -1,0 +1,56 @@
+<!-- Modal -->
+<div class="modal fade composant-liste" id="modal-liste-composant" tabindex="-1"
+     aria-labelledby="modal-import-composant-label" aria-hidden="true"
+     style="color: #486178;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
+        <div class="modal-body">
+            <div class="row">
+
+                <table class="table datatable" id="table-composant" style="background: white;">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Type</th>
+                        <th>Code</th>
+                        <th>Intitulé</th>
+                        <th>Unité</th>
+                        <th>Déboursé Unitaire HT</th>
+                        <th>Marge</th>
+                        <th>Prix de vente</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for composant in composants %}
+                        <tr class="pointer">
+                            <td></td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">
+                                <span class="badge badge-pill"
+                                      style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</span>
+                            </td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.code }}</td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.intitule }}</td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.unite }}</td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}
+                                €
+                            </td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.marge|number_format(2,'.',' ') }}
+                                %
+                            </td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.prixDeVente|number_format(2,'.',' ') }}
+                                €
+                            </td>
+                        </tr>
+
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Aucun composant dans cet ouvrage</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

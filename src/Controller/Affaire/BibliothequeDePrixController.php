@@ -126,22 +126,16 @@ class BibliothequeDePrixController extends AbstractController
     public function listeComposant(Ouvrage $ouvrage, Request $request, Environment $environment, ComposantRepository $composantRepository, OuvrageRepository $ouvrageRepository): Response
     {
         $response = new Response();
+        $path = "affaire/bibliothequeDePrix/modal_liste_composant_ouvrage.html.twig";
+
         //dd($ouvrage->getComposants());
-        $composants = [];
+        $composants = $ouvrage->getComposants();
         //dd($composants);
 
-        foreach ($ouvrage->getComposants() as $composant) {
-            //dd($composant);
-            $composants[] = [
-                'code' => $composant->getCode(),
-                'intitule' => $composant->getIntitule(),
-                'unite' => $composant->getUnite()
-            ];
-        }
 
-
+        if (!empty($path)) {
         try {
-            return $response->setContent(json_encode(['code' => 200, 'composants' => $composants]));
+            $html = $environment->render($path, ["composants" => $composants]);
         } catch (LoaderError $e) {
             dd($e);
         } catch (RuntimeError $e) {
@@ -149,8 +143,9 @@ class BibliothequeDePrixController extends AbstractController
         } catch (SyntaxError $e) {
             dd($e);
         }
-
-
+        $response->setContent(json_encode(['code' => 200, 'message' => $html]));
+    }
+        return $response;
     }
 
     #[Route('/modal/ouvrage/liste/{id}', name: 'app_affaire_modal_ouvrage_liste', methods: ['GET', 'POST'])]

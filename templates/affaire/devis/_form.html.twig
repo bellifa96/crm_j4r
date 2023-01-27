@@ -424,14 +424,12 @@
         let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
         let div = ``;
 
-        $.post(path, function(response) {
-            let data = JSON.parse(response);
+        $.post(path, function(data) {
             if (code = 200){
-                console.log(data['composants']);
-                if ((data['composants']).length === 0){
-                    console.log('yes')
+                $('body').append(JSON.parse(data).message);
+                $("#modal-liste-composant").modal('show');
                 }
-            }
+
         })
     })
 
