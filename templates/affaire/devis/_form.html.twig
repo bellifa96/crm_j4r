@@ -1,6 +1,6 @@
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('devis') }}
-    {% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('devis') }}
+{% endblock %}
 <div class="page-block col-md-10 m-auto mt-4">
 
     {{ form_start(form) }}
@@ -85,16 +85,16 @@
         </defs>
     </svg>
 </div>
-<div class="organisation">
-    <div class="organisation2">
-        <div class="organisation3">
-            <button type="button" class="lot-button add-lot">Créer un lot</button>
-            <hr aria-orientation="horizontal" class="ligne">
-            <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
-            <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
+    <div class="organisation">
+        <div class="organisation2">
+            <div class="organisation3">
+                <button type="button" class="lot-button add-lot">Créer un lot</button>
+                <hr aria-orientation="horizontal" class="ligne">
+                <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
+                <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
+            </div>
         </div>
     </div>
-</div>
 {% endif %}
 
 
@@ -422,15 +422,18 @@
         let id = $(this).attr('ouvrage');
         console.log(id);
         let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
-
-        $.post(path, function(data) {
-            if (code = 200){
-                $("#modal-liste-composant").remove();
-                $('body').append(JSON.parse(data).message);
-                $("#modal-liste-composant").modal('show');
+        if ($("#modal-liste-composant").attr('ouvrage') != id) {
+            $.post(path, function (data) {
+                if (code = 200) {
+                    $("#modal-liste-composant").remove();
+                    $('body').append(JSON.parse(data).message);
+                    $("#modal-liste-composant").modal('show');
                 }
 
-        })
+            })
+        }else if ($("#modal-liste-composant").attr('ouvrage') == id){
+            $("#modal-liste-composant").modal('show');
+        }
     })
 
     $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant', function () {
@@ -643,7 +646,7 @@
     })
 
     $('.numbers').keyup(function () {
-        this.value = this.value.replace(/[^0-9\.\,]/g,'');
+        this.value = this.value.replace(/[^0-9\.\,]/g, '');
     });
 
 

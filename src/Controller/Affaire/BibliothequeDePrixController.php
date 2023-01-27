@@ -135,7 +135,7 @@ class BibliothequeDePrixController extends AbstractController
 
         if (!empty($path)) {
         try {
-            $html = $environment->render($path, ["composants" => $composants]);
+            $html = $environment->render($path, ["composants" => $composants, 'ouvrage' => $ouvrage]);
         } catch (LoaderError $e) {
             dd($e);
         } catch (RuntimeError $e) {
