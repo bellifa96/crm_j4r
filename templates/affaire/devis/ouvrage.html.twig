@@ -21,13 +21,19 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers" placeholder="Quantité"
+                       {% if hasParent is not null %}
+                         parent-quantite={{ hasParent}}
+                       {% endif %}
+                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrag" placeholder="Quantité"
                        value="{{ ouvrage.quantiteDOuvrage }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseHT" input="debourseUnitaire"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseHT]" required="required" maxlength="255"
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers"
+                       {% if hasParent is not null %}
+                         parent-dht={{ hasParent}}
+                       {% endif %}
+                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Déboursé HT"
                        value="{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}">
             </div>

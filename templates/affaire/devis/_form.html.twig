@@ -316,7 +316,6 @@
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
-        console.log(selectedElementId);
         $.post(path, {
             parentId: selectedElementId,
             parentType: selectedElementType
@@ -331,7 +330,6 @@
                 $("#lot").modal('show');
                 $('.svg').remove();
                 $('.organisation').remove();
-                console.log(data)
                 const lotId = data.lot;
             }
         })
@@ -339,10 +337,8 @@
     })
 
     $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
-        console.log('oui')
         var id = selectedElementId;
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
-        console.log(path);
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
@@ -384,7 +380,6 @@
     })
 
     $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
-        console.log('oui')
         let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
         var id = selectedElementId;
         $.post(path, {
@@ -420,7 +415,6 @@
 
     $('body').on('click', '.composant', function () {
         let id = $(this).attr('ouvrage');
-        console.log(id);
         let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
         if ($("#modal-liste-composant").attr('ouvrage') != id) {
             $.post(path, function (data) {
@@ -443,11 +437,9 @@
     });
 
     function hasSomeParentTheClass(element, classname) {
-        console.log(element)
         if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
             return true;
         } else if (element.parentNode) {
-            console.log('ici');
             hasSomeParentTheClass(element.parentNode, classname)
         } else {
             return false
@@ -477,7 +469,6 @@
     });*/
 
     $('body').on('click', function (event) {
-        console.log(event.target, selectedElementId);
         if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage'))
             $('.selected').each(function () {
                 $(this).removeClass('selected');
@@ -487,10 +478,10 @@
                 $('.context-menu').remove();
             });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
-        if (document.querySelector(selector)) {
+        if (document.querySelector(selector) && selectedElement) {
             selectedElement.addClass('selected');
             selectedElement = $(this);
-            selectedElementId = $(this).attr('id').replaceAll('element-', '');
+            selectedElementId = $(this).attr('id') ? $(this).attr('id').replaceAll('element-', ''): null;
             selectedElementType = $(this).attr('type');
         }
     });
@@ -513,8 +504,6 @@
                 }
             }
         })
-
-        console.log(data)
 
         $.post("{{ path('app_affaire_ouvrage_import',{'id':devis.id}) }}", data, function (response) {
             let data = JSON.parse(response);
@@ -586,23 +575,39 @@
         })
     })
 
-    function sumHT(quantite, prixUnite, id) {
+    function sumHT(quantite, prixUnite, id, parent=null) {
         let sum = quantite * prixUnite;
+        let sumParent = 0;
         $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? 0 : sum);
+        console.log(parent)
+        if(parent){
+            $("[parent-dht='"+parent+"']").each(function(){
+                let quantite2 = parseInt($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_quantite').val());
+                let prixUnite2 = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseHT').val().replace(',', '.'));
+                sumParent += quantite2 * prixUnite2;
+            })
+            $("#devis_lots_"+parent+"_debourse").val(sumParent)
+            
+        }
+
         return sum;
     }
 
+
+
+    $('body').on("change",'.dtht-ouvrage',function () { 
+            console.log('ici')
+
+    })
+
     $('body').on("change", 'input', function () {
         let type = $(this).attr('element');
-        console.log(type);
         if (type === 'ouvrage') {
             let id = $(this).attr('ouvrage');
-            console.log(id);
             let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
-            console.log(quantite);
             let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val().replace(',', '.'));
-            console.log(prixUnite)
-            let sum = sumHT(quantite, prixUnite, id);
+            console.log($(this).attr('parent'))
+            let sum = sumHT(quantite, prixUnite, id, $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite'));
 
             const ouvrage = {
                 code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
@@ -613,14 +618,14 @@
                 dtht: sum,
                 note: null
             }
-            console.log(ouvrage);
+          //  console.log(ouvrage);
 
             let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
 
             $.post(path, {ouvrage}, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-                    console.log(data, ouvrage);
+            //        console.log(data, ouvrage);
                     //if (ouvrage est un enfant){calculLotHT}
                 }
             })
@@ -628,18 +633,18 @@
 
         if (type == "lot") {
             let id = $(this).attr('lot');
-            console.log(id);
+    //        console.log(id);
             const lot = {
                 code: $('input[name="devis[lots][' + id + '][code]"]').val(),
                 titre: $('input[name="devis[lots][' + id + '][titre]"]').val(),
             };
-            console.log(lot);
+       //     console.log(lot);
             let path = '/affaire/devis/edit/lot/' + id;
 
             $.post(path, {lot}, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-                    console.log(data, lot);
+         //           console.log(data, lot);
                 }
             })
         }

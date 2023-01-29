@@ -16,7 +16,11 @@
             <div class="tab-el-right"></div>
             <div class="tab-el-right"></div>
             <div class="tab-el-right">
-                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}debourse" disabled="disabled"
+
+                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourse" disabled="disabled"
+                        {% if hasParent is not null %}
+                         parent-dtht={{ hasParent}}
+                        {% endif %}
                        placeholder="Déboursé Total HT" name="devis[lots][{{ lot.id }}][debourse]" value="{{ lot.prixHT|number_format(2,'.',' ') }}"/>
             </div>
             <div class="tab-el-right row justify-content-center options">
