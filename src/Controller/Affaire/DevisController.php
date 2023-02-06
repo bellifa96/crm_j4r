@@ -334,7 +334,7 @@ class DevisController extends AbstractController
                 $elements[] = $el;
             }
             $devis->setElements($elements);
-            $html .= $environment->render($path, ["lot" => $lot]);
+            $html .= $environment->render($path, ["lot" => $lot, 'hasParent'=> $data['parentId']]);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
