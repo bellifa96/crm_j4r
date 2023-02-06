@@ -316,6 +316,7 @@
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
+        console.log(selectedElementId);
         $.post(path, {
             parentId: selectedElementId,
             parentType: selectedElementType
@@ -430,7 +431,7 @@
         }
     })
 
-    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant', function () {
+    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant, .add-lot', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type');
@@ -481,7 +482,7 @@
         if (document.querySelector(selector) && selectedElement) {
             selectedElement.addClass('selected');
             selectedElement = $(this);
-            selectedElementId = $(this).attr('id') ? $(this).attr('id').replaceAll('element-', ''): null;
+            selectedElementId = $(this).attr('id').replaceAll('element-', '');
             selectedElementType = $(this).attr('type');
         }
     });
