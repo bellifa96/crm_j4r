@@ -189,7 +189,7 @@ class DevisController extends AbstractController
             try {
                 $this->getPrix($elements, $ouvrageRepository, $lotRepository);
                 $devis->setElements($elements);
-                $html .= $environment->render($path, ["ouvrage" => $clone]);
+                $html .= $environment->render($path, ["ouvrage" => $clone, 'hasParent' => $val['parentId']]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
