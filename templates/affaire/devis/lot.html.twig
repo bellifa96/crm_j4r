@@ -20,7 +20,7 @@
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourse"
                        disabled="disabled" placeholder="Déboursé Total HT"
                         {% if hasParent is not null %}
-                       parent-dtht={{ hasParent }}
+                            parent-dtht="{{ hasParent }}"
                         {% endif %}
                        name="devis[lots][{{ lot.id }}][debourse]" value="{{ lot.prixHT|number_format(2,'.',' ') }}"/>
             </div>
