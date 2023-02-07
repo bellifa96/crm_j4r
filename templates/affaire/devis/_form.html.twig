@@ -470,7 +470,7 @@
     });*/
 
     $('body').on('click', function (event) {
-        if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage'))
+        if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') && !$(event.target).hasClass('paginate_button'))
             $('.selected').each(function () {
                 $(this).removeClass('selected');
                 selectedElement = null;
@@ -521,6 +521,16 @@
                     if (parentId != null && parentType == "lot") {
                         $("<div class='children' parent='lot-" + parentId + "'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
+                        let sumParent = 0;
+                        if(parentId){
+                            $("[parent-dht='"+parentId+"']").each(function(){
+                                let debourse = parseInt($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
+                                sumParent += debourse;
+                            })
+                            $("#devis_lots_"+parentId+"_debourse").val(sumParent)
+
+                        }
+
                     } else {
                         $('#main-devis').append(data.html);
                     }
@@ -627,7 +637,6 @@
                 let data = JSON.parse(response);
                 if (data.code === 200) {
             //        console.log(data, ouvrage);
-                    //if (ouvrage est un enfant){calculLotHT}
                 }
             })
         }

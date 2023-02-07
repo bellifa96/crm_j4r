@@ -71,7 +71,7 @@ class DevisController extends AbstractController
         ]);
     }
 
-    public function recursiveElements($elements,$parent=null): string
+    public function recursiveElements($elements, $parent = null): string
     {
         $html = "";
 //        dd($elements);
@@ -83,7 +83,7 @@ class DevisController extends AbstractController
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             }
             try {
-                $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key,'hasParent'=> $parent]);
+                $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent]);
                 if (!empty($element['data'])) {
                     $html .= "<div class='children' parent='lot-" . $element['id'] . "'>";
                     $html .= $this->recursiveElements($element['data'], $element['id']);
@@ -334,7 +334,7 @@ class DevisController extends AbstractController
                 $elements[] = $el;
             }
             $devis->setElements($elements);
-            $html .= $environment->render($path, ["lot" => $lot, 'hasParent'=> $data['parentId']]);
+            $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId']]);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
@@ -445,7 +445,7 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
-    public function getPrix($elements, $ouvrageRepository, $lotRepository):float
+    public function getPrix($elements, $ouvrageRepository, $lotRepository): float
     {
         $prixHT = 0;
 
@@ -465,8 +465,6 @@ class DevisController extends AbstractController
         }
         return $prixHT;
     }
-
-
 
 
     #[Route('/delete/element/{id}', name: 'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
