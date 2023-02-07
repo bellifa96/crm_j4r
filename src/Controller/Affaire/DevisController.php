@@ -432,6 +432,7 @@ class DevisController extends AbstractController
 
         $lot->setCode($data['code']);
         $lot->setTitre($data['titre']);
+        key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
         try {
             $lotRepository->add($lot);
             return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));
