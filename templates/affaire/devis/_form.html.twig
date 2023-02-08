@@ -632,10 +632,10 @@
             })
 
             let parentId = $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite');
-            do {
+            while (parentId){
                 let sumParent = 0;
                 console.log(parentId);
-                if (parentId) {
+
                     $("[parent-dht='" + parentId + "']").each(function () {
                         let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
                         sumParent += debourseOuvrage;
@@ -665,11 +665,9 @@
                     })
 
                     console.log(parentId);
-                }else {
-                    parentId = null;
                 }
-            } while (parentId);
-        }
+            }
+
 
 
         if (type == "lot") {
