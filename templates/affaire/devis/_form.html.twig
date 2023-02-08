@@ -521,14 +521,23 @@
                     if (parentId != null && parentType == "lot") {
                         $("<div class='children' parent='lot-" + parentId + "'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
-                        let sumParent = 0;
-                        if (parentId) {
-                            $("[parent-dht='" + parentId + "']").each(function () {
-                                let debourse = parseInt($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
-                                sumParent += debourse;
-                            })
-                            $("#devis_lots_" + parentId + "_debourse").val(sumParent)
+                        while (parentId){
+                            let sumParent = 0;
+                            console.log(parentId);
 
+                            $("[parent-dht='" + parentId + "']").each(function () {
+                                let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
+                                sumParent += debourseOuvrage;
+                                console.log(sumParent);
+                            });
+                            $("[parent-dtht='" + parentId + "']").each(function () {
+                                let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
+                                sumParent += debourseLot;
+                                console.log(sumParent);
+                            });
+                            $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
+
+                            parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
                         }
 
                     } else {
