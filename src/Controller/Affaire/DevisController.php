@@ -472,6 +472,7 @@ class DevisController extends AbstractController
     public function deleteElement(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): Response
     {
         $element = $request->request->all();
+        //dd($element);
         try {
             if (!empty($element['id']) and !empty($element['type'])) {
                 $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository);

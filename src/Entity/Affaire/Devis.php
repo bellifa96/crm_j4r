@@ -159,7 +159,7 @@ class Devis
 
     public function inElements($el,$elements=null):bool
     {
-          
+
         if(empty($elements)){
             $elements = $this->elements;
         }
@@ -178,20 +178,24 @@ class Devis
         if(empty($elements)){
             $elements = $this->elements;
         }
+        //dd($elements, $el);
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
+                //dd($elements, $element, $el);
                 if(!empty($element['data'])){
-                    //dd($element, $element['data']);
-                    $element['data'] = $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
+                    $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
                 }
                 if ($element['type']== 'lot'){
                     $lot = $lotRepository->find($element['id']);
+                    //dd($lot);
                     $lotRepository->remove($lot);
                 }elseif ($element['type']== 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
                     $ouvrageRepository->remove($ouvrage);
                 }
                 unset($elements[$key]);
+            }else if(!empty($element['data'])){
+                $element['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
             }
         }
         return $elements;

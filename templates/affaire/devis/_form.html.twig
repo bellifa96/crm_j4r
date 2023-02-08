@@ -339,6 +339,7 @@
 
     $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
         var id = selectedElementId;
+        console.log(id);
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
         $.post(path, {
             id: selectedElementId,
