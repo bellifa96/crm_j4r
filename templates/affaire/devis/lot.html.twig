@@ -1,4 +1,6 @@
-<div class="elements" id="element-{{ lot.id }}" type="lot">
+<div class="elements" id="element-{{ lot.id }}" type="lot" {% if hasParent is not null %}
+    parent="{{ hasParent }}"
+        {% endif %}>
     <div class="css-ccobzb lot">
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>

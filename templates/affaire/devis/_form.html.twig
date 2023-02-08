@@ -631,35 +631,44 @@
                 }
             })
 
-            let sumParent = 0;
             let parentId = $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite');
-            console.log(parentId);
-            if (parentId) {
-                $("[parent-dht='" + parentId + "']").each(function () {
-                    let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
-                    sumParent += debourseOuvrage;
-                    console.log(sumParent);
-                });
-                $("[parent-dtht='" + parentId + "']").each(function () {
-                    let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
-                    sumParent += debourseLot;
-                    console.log(sumParent);
-                });
-                $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
-            }
-            const lot = {
-                code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
-                titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
-                prix: sumParent
-            };
-            let path2 = '/affaire/devis/edit/lot/' + parentId;
+            do {
+                let sumParent = 0;
+                console.log(parentId);
+                if (parentId) {
+                    $("[parent-dht='" + parentId + "']").each(function () {
+                        let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
+                        sumParent += debourseOuvrage;
+                        console.log(sumParent);
+                    });
+                    $("[parent-dtht='" + parentId + "']").each(function () {
+                        let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
+                        sumParent += debourseLot;
+                        console.log(sumParent);
+                    });
+                    $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
 
-            $.post(path2, {lot}, function (response) {
-                let data = JSON.parse(response);
-                if (data.code === 200) {
-                    //           console.log(data, lot);
+                    const lot = {
+                        code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
+                        titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
+                        prix: sumParent
+                    };
+                    let path2 = '/affaire/devis/edit/lot/' + parentId;
+
+                    parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
+
+                    $.post(path2, {lot}, function (response) {
+                        let data = JSON.parse(response);
+                        if (data.code === 200) {
+                            //           console.log(data, lot);
+                        }
+                    })
+
+                    console.log(parentId);
+                }else {
+                    parentId = null;
                 }
-            })
+            } while (parentId);
         }
 
 
