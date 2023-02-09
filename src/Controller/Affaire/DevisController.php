@@ -355,6 +355,7 @@ class DevisController extends AbstractController
             $dupliquer = new Lot();
             $dupliquer->setTitre($lot->getTitre());
             $dupliquer->setCode($lot->getCode());
+            $dupliquer->setPrixHT($lot->getPrixHT());
             $lotRepository->save($dupliquer);
 
             return ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];

@@ -339,7 +339,9 @@
 
     $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
         var id = selectedElementId;
-        let parentId = $('#element-' + id).parent().attr('parent').replace('lot-', '');
+
+        let parentId = $('#element-' + id).parent().attr('parent') ? $('#element-' + id).parent().attr('parent').replace('lot-', '') : null;
+
 
         console.log(id);
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
@@ -356,7 +358,7 @@
 
                     console.log(parentId);
 
-                    while (parentId){
+                    while (parentId) {
                         let sumParent = 0;
                         console.log(parentId);
 
@@ -551,7 +553,7 @@
                     if (parentId != null && parentType == "lot") {
                         $("<div class='children' parent='lot-" + parentId + "'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
                         //console.log(parentId);
-                        while (parentId){
+                        while (parentId) {
                             let sumParent = 0;
 
                             $("[parent-dht='" + parentId + "']").each(function () {
@@ -674,42 +676,41 @@
             })
 
             let parentId = $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite');
-            while (parentId){
+            while (parentId) {
                 let sumParent = 0;
                 console.log(parentId);
 
-                    $("[parent-dht='" + parentId + "']").each(function () {
-                        let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
-                        sumParent += debourseOuvrage;
-                        console.log(sumParent);
-                    });
-                    $("[parent-dtht='" + parentId + "']").each(function () {
-                        let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
-                        sumParent += debourseLot;
-                        console.log(sumParent);
-                    });
-                    $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
+                $("[parent-dht='" + parentId + "']").each(function () {
+                    let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
+                    sumParent += debourseOuvrage;
+                    console.log(sumParent);
+                });
+                $("[parent-dtht='" + parentId + "']").each(function () {
+                    let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
+                    sumParent += debourseLot;
+                    console.log(sumParent);
+                });
+                $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
 
-                    const lot = {
-                        code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
-                        titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
-                        prix: sumParent
-                    };
-                    let path2 = '/affaire/devis/edit/lot/' + parentId;
+                const lot = {
+                    code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
+                    titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
+                    prix: sumParent
+                };
+                let path2 = '/affaire/devis/edit/lot/' + parentId;
 
-                    parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
+                parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
 
-                    $.post(path2, {lot}, function (response) {
-                        let data = JSON.parse(response);
-                        if (data.code === 200) {
-                            //           console.log(data, lot);
-                        }
-                    })
+                $.post(path2, {lot}, function (response) {
+                    let data = JSON.parse(response);
+                    if (data.code === 200) {
+                        //           console.log(data, lot);
+                    }
+                })
 
-                    console.log(parentId);
-                }
+                console.log(parentId);
             }
-
+        }
 
 
         if (type == "lot") {
