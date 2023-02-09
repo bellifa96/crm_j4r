@@ -478,6 +478,7 @@ class DevisController extends AbstractController
                 $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository);
                 $devis->setElements($elements);
             }
+            $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {

@@ -339,7 +339,7 @@
 
     $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
         var id = selectedElementId;
-        console.log(id);
+        let parentId = $('#element-' + id).parent().attr('parent').replace('lot-', '');
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
         $.post(path, {
             id: selectedElementId,
@@ -351,6 +351,30 @@
                         $('#element-' + id).next().remove();
                     }
                     $('#element-' + id).remove();
+
+                    while (parentId){
+                        let sumParent = 0;
+
+                        $("[parent-dht='" + parentId + "']").each(function () {
+                            let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
+                            if (!isNaN(debourseOuvrage)) {
+                                sumParent += debourseOuvrage;
+                                console.log(sumParent);
+                            }
+                        });
+                        $("[parent-dtht='" + parentId + "']").each(function () {
+                            let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
+                            if (!isNaN(debourseLot)) {
+                                sumParent += debourseLot;
+                                console.log(sumParent);
+                            }
+                        });
+                        $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
+
+                        parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
+                        console.log(parentId);
+                    }
+
                 }
             }
         })
@@ -599,7 +623,7 @@
     function sumHT(quantite, prixUnite, id, parent = null) {
         let sum = quantite * prixUnite;
         let sumParent = 0;
-        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(isNaN(sum) ? 0 : sum);
+        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(sum);
         console.log(parent)
         if (parent) {
             $("[parent-dht='" + parent + "']").each(function () {
