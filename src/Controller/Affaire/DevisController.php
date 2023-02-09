@@ -377,22 +377,22 @@ class DevisController extends AbstractController
     public function findElement($elements, $data, $lotRepository, $ouvrageRepository){
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
-                $duplicate = $this->cloneElement($data['id'], $data['type'], $lotRepository, $ouvrageRepository);
+                $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository, $ouvrageRepository);
                 if ($data['type'] == 'lot') {
                     $path = "affaire/devis/lot.html.twig";
                     if (!empty($element['data'])) {
                         foreach ($element['data'] as $el) {
-                            $duplicate['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository);
+                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository);
                         }
                     }
                 } elseif ($data['type'] == 'ouvrage') {
                     $path = "affaire/devis/ouvrage.html.twig";
                 }
-                return $duplicate;
+                return $dupliquer;
             } else if (!empty($element['data'])) {
-                $duplicate = $this->findElement($element['data'], $data, $lotRepository, $ouvrageRepository);
-                if ($duplicate) {
-                    return $duplicate;
+                $dupliquer = $this->findElement($element['data'], $data, $lotRepository, $ouvrageRepository);
+                if ($dupliquer) {
+                    return $dupliquer;
                 }
             }
         }
