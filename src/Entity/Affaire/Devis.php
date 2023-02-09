@@ -181,13 +181,12 @@ class Devis
         //dd($elements, $el);
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
-                //dd($elements, $element, $el);
+                //dd( $element, $el);
                 if(!empty($element['data'])){
-                    $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
+                    $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
                 }
                 if ($element['type']== 'lot'){
                     $lot = $lotRepository->find($element['id']);
-                    //dd($lot);
                     $lotRepository->remove($lot);
                 }elseif ($element['type']== 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
@@ -195,26 +194,10 @@ class Devis
                 }
                 unset($elements[$key]);
             }else if(!empty($element['data'])){
-                $element['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
+                $elements[$key]['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
             }
         }
         return $elements;
-    }
-
-    private function deleteElement ($elements, $lotRepository, $ouvrageRepository):void
-    {
-        foreach($elements as $element){
-            if (!empty($element['data'])){
-                $this->deleteElement($element['data'], $lotRepository, $ouvrageRepository);
-            }
-            if ($element['type']== 'lot'){
-                $lot = $lotRepository->find($element['id']);
-                $lotRepository->remove($lot);
-            }elseif ($element['type']== 'ouvrage'){
-                $ouvrage = $ouvrageRepository->find($element['id']);
-                $ouvrageRepository->remove($ouvrage);
-            }
-        }
     }
 
 }
