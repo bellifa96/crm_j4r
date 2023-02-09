@@ -340,6 +340,8 @@
     $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
         var id = selectedElementId;
         let parentId = $('#element-' + id).parent().attr('parent').replace('lot-', '');
+
+        console.log(id);
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
         $.post(path, {
             id: selectedElementId,
@@ -352,8 +354,11 @@
                     }
                     $('#element-' + id).remove();
 
+                    console.log(parentId);
+
                     while (parentId){
                         let sumParent = 0;
+                        console.log(parentId);
 
                         $("[parent-dht='" + parentId + "']").each(function () {
                             let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
@@ -548,17 +553,20 @@
                         //console.log(parentId);
                         while (parentId){
                             let sumParent = 0;
-                            console.log(parentId);
 
                             $("[parent-dht='" + parentId + "']").each(function () {
-                                let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val().replace(',', '.'));
-                                sumParent += debourseOuvrage;
-                                console.log(sumParent);
+                                let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
+                                if (!isNaN(debourseOuvrage)) {
+                                    sumParent += debourseOuvrage;
+                                    console.log(sumParent);
+                                }
                             });
                             $("[parent-dtht='" + parentId + "']").each(function () {
-                                let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val().replace(',', '.'));
-                                sumParent += debourseLot;
-                                console.log(sumParent);
+                                let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
+                                if (!isNaN(debourseLot)) {
+                                    sumParent += debourseLot;
+                                    console.log(sumParent);
+                                }
                             });
                             $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
 
