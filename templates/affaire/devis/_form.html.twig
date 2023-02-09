@@ -415,6 +415,7 @@
     $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
         let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
         var id = selectedElementId;
+        console.log(selectedElementId, selectedElementType);
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
