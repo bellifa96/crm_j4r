@@ -408,31 +408,6 @@ class BibliothequeDePrixController extends AbstractController
 
     }
 
-    #[Route('/composant/quantite/{id}', name: 'app_affaire_composant_quantite', methods: ['GET', 'POST'])]
-    public function quantiteComposant(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
-    {
-
-
-        $data = $request->request->all()['composant'];
-
-        $quantite = $ouvrage->getQuantite();
-        $quantite[$data['id']] = $data['quantite'];
-
-        $ouvrage->setQuantite($quantite);
-
-        try {
-            $ouvrageRepository->add($ouvrage);
-            return new Response(json_encode(['code' => 200]));
-        } catch (OptimisticLockException $e) {
-            dd($e);
-        } catch (ORMException $e) {
-            dd($e);
-        }
-
-        return new Response(json_encode(['code' => 404]));
-
-    }
-
     #[Route('/composant/dupliquer/{id}', name: 'app_affaire_composant_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerComposant(Request $request, Composant $composant, ComposantRepository $composantRepository, EntityManagerInterface $entityManager, TypeComposantRepository $typeComposantRepository): Response
     {

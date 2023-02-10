@@ -42,9 +42,9 @@ class Ouvrage
 
     #[ORM\Column(type: 'integer',nullable: true)]
     #[Gedmo\Versioned]
-    private $quantiteDOuvrage;
+    private $quantite;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float', nullable: true)]
     #[Gedmo\Versioned]
     private $debourseHTCalcule;
 
@@ -72,11 +72,6 @@ class Ouvrage
 
     #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
     private $composants;
-
-    #[ORM\Column(type: 'array', nullable: true)]
-    #[Gedmo\Versioned]
-
-    private $quantite = [];
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
@@ -151,14 +146,14 @@ class Ouvrage
         return $this;
     }
 
-    public function getQuantiteDOuvrage(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->quantiteDOuvrage;
+        return $this->quantite;
     }
 
-    public function setQuantiteDOuvrage(?int $quantiteDOuvrage): self
+    public function setQuantite(?int $quantite): self
     {
-        $this->quantiteDOuvrage = $quantiteDOuvrage;
+        $this->quantite = $quantite;
 
         return $this;
     }
@@ -273,19 +268,6 @@ class Ouvrage
 
         return $this;
     }
-
-    public function getQuantite(): ?array
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(?array $quantite): self
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
-
     public function getStatut(): ?string
     {
         return $this->statut;

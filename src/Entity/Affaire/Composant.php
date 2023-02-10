@@ -50,6 +50,10 @@ class Composant
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
+    #[ORM\Column(type: 'integer',nullable: false)]
+    #[Gedmo\Versioned]
+    private $quantite;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -212,6 +216,18 @@ class Composant
     public function setStatut(?string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }
