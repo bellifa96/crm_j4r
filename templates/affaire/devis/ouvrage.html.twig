@@ -25,11 +25,11 @@
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
                         {% if hasParent is not null %}
-                            parent-quantite="{{ hasParent }}"
+                            parent-quantite="{{ hasParent }}" disabled
                         {% endif %}
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrag"
+                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Quantité"
-                       value="{{ ouvrage.quantiteDOuvrage }}">
+                       value="{{ ouvrage.quantite }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseHT" input="debourseUnitaire"
