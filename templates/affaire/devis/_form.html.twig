@@ -440,6 +440,7 @@
 
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
+                    <div class="item-menu" id="modifier-ouvrage" ><i class="bi bi-pencil-square"></i>Modifier</div>
                     <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
@@ -463,7 +464,14 @@
         }
     })
 
-    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant, .add-lot', function () {
+    $('body').on('click', '#modifier-ouvrage', function(){
+        let id = selectedElementId;
+        console.log(id);
+        let path = '/affaire/bibliothequeDePrix/ouvrage/' + id;
+        window.location.href = path;
+    })
+
+    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant, .add-lot, .modifier-ouvrage', function () {
         selectedElement = $(this);
         selectedElementId = $(this).attr('id').replaceAll('element-', '');
         selectedElementType = $(this).attr('type');
