@@ -16,15 +16,15 @@
             </div>
             <div class="tab-el-right"></div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ lot.id }}_quantite" input="quantite"
-                       name="devis[lot][{{ lot.id }}][quantite]" required="required"
-                       maxlength="255" element="ouvrage" lot="{{ lot.id }}" class="chakra-input numbers"
+                <input type="text" id="devis_lots_{{ lot.id }}_quantite" input="quantite"
+                       name="devis[lots][{{ lot.id }}][quantite]" required="required"
+                       maxlength="255" element="lot" lot="{{ lot.id }}" class="chakra-input numbers"
                         {% if hasParent is not null %}
                             parent-quantite="{{ hasParent }}"
                         {% else %}
                             disabled
                         {% endif %}
-                       placeholder="Quantité">
+                       placeholder="Quantité" value="{{ lot.quantite }}">
             </div>
             <div class="tab-el-right"></div>
             <div class="tab-el-right">

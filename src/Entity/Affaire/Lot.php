@@ -38,6 +38,9 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $prixHT = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $quantite = null;
+
 
     public function __construct()
     {
@@ -123,6 +126,18 @@ class Lot
     public function setPrixHT(?float $prixHT): self
     {
         $this->prixHT = $prixHT;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }

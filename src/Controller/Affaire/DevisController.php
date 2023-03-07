@@ -238,61 +238,6 @@ class DevisController extends AbstractController
         return $response;
     }
 
-    /*#[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_new', methods: ['GET', 'POST'])]
-    public function newOuvrage(Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, Devis $devis, DevisRepository $devisRepository): Response
-    {
-        $path = "affaire/devis/ouvrage.html.twig";
-
-        $data = $request->request->all();
-
-       // dd($data);
-
-        $ouvrage = new Ouvrage();
-        $html = "";
-
-        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
-
-        //dump($data,$devis);
-        //dump($data);
-        //die;
-        //foreach ($elements as $val) {
-
-        //}
-
-        /*$parent = [];
-        if(!empty($val['parentId']) and !empty($val['parentType']) ){
-            $parent['id'] = $val['parentId'] ;
-            $parent['type'] = $val['parentType'] ;
-            $elements = $this->setParent($elements,$el,$parent);
-        }else{
-            $elements[] = $el;
-        }
-
-
-        try {
-            $ouvrageRepository->save($ouvrage);
-            $el= ['id'=>$ouvrage->getId(), 'type' => 'ouvrage', 'data'=>[]];
-            if(!empty($data['parentId']) and !empty($data['parentType']) ){
-                $parent['id'] = $data['parentId'] ;
-                $parent['type'] = $data['parentType'] ;
-                $elements = $this->setParent($elements,$el,$parent);
-            }else {
-                $elements[] = $el;
-            }
-            $devis->setElements($elements);
-            $html .= $environment->render($path, ["ouvrage" => $ouvrage]);
-            $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200, "html" => $html]));
-        } catch (OptimisticLockException $e) {
-            dd($e);
-        } catch (\Exception $e) {
-            dd($e);
-        }
-
-        return new Response(json_encode(['code' => 404]));
-
-    }*/
-
     #[Route('/lot/{id}', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
     public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
     {
@@ -445,6 +390,7 @@ class DevisController extends AbstractController
 
         $lot->setCode($data['code']);
         $lot->setTitre($data['titre']);
+        key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : $lot->setQuantite(null);
         key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
         try {
             $lotRepository->add($lot);
