@@ -49,6 +49,9 @@ class Devis
     #[ORM\Column(type:'array', nullable: true)]
     private $elements = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?float $montantHT = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -198,6 +201,18 @@ class Devis
             }
         }
         return $elements;
+    }
+
+    public function getMontantHT(): ?float
+    {
+        return $this->montantHT;
+    }
+
+    public function setMontantHT(?float $montantHT): self
+    {
+        $this->montantHT = $montantHT;
+
+        return $this;
     }
 
 }

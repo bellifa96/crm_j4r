@@ -67,7 +67,7 @@ class DevisController extends AbstractController
         return $this->render('affaire/devis/show.html.twig', [
             'devi' => $devis,
             'title' => 'Devis N° ' . $devis->getId(),
-            'nav' => []
+            'nav' => [['app_affaire_devis_edit', 'Modifier le devis', $devis->getId()]]
         ]);
     }
 

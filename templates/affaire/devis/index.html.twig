@@ -5,20 +5,30 @@
 {% block body %}
     <h1>Devis index</h1>
 
-    <table class="table datatable">
+    <table class="table datatable text-center">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
+        <tr class="tr-head text-center">
+            <th>N°Devis</th>
+            <th>Nom Devis</th>
+            <th>Date du devis</th>
+            <th>Montant HT</th>
+            <th>Statut</th>
+            <th>Par</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-        {% for devi in devis %}
+        {% for unDevis in devis %}
             <tr>
-                <td>{{ devi.id }}</td>
+                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.id }}</a></td>
+                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.titre }}</a></td>
+                <td>{{ unDevis.dateDuDevis }}</td>
+                <td>{{ (unDevis.montantHT is not null) ? unDevis.montantHT : "-" }}</td>
+                <td>{{ unDevis.statut }}</td>
+                <td>{{ (unDevis.referent is not null ) ? unDevis.referent.lastname~" "~unDevis.referent.firstname : "-" }}</td>
                 <td>
-                    <a href="{{ path('app_affaire_devis_show', {'id': devi.id}) }}">show</a>
-                    <a href="{{ path('app_affaire_devis_edit', {'id': devi.id}) }}">edit</a>
+                    <a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_devis_edit', {'id': unDevis.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
