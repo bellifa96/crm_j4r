@@ -52,6 +52,9 @@ class Devis
     #[ORM\Column(nullable: true)]
     private ?float $montantHT = null;
 
+    #[ORM\ManyToOne(inversedBy: 'devisCreateur')]
+    private ?User $createur = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -211,6 +214,18 @@ class Devis
     public function setMontantHT(?float $montantHT): self
     {
         $this->montantHT = $montantHT;
+
+        return $this;
+    }
+
+    public function getCreateur(): ?User
+    {
+        return $this->createur;
+    }
+
+    public function setCreateur(?User $createur): self
+    {
+        $this->createur = $createur;
 
         return $this;
     }

@@ -152,6 +152,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'array', nullable: true)]
     private $vue = [];
 
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Devis::class)]
+    private Collection $devisCreateur;
+
 
     public function __construct()
     {
@@ -172,6 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->DemandesReleves = new ArrayCollection();
         $this->demandesFairesDevis = new ArrayCollection();
         $this->ouvrages = new ArrayCollection();
+        $this->devisCreateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -883,6 +887,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVue(?array $vue): self
     {
         $this->vue = $vue;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Devis>
+     */
+    public function getDevisCreateur(): Collection
+    {
+        return $this->devisCreateur;
+    }
+
+    public function addDevisCreateur(Devis $devisCreateur): self
+    {
+        if (!$this->devisCreateur->contains($devisCreateur)) {
+            $this->devisCreateur->add($devisCreateur);
+            $devisCreateur->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevisCreateur(Devis $devisCreateur): self
+    {
+        if ($this->devisCreateur->removeElement($devisCreateur)) {
+            // set the owning side to null (unless already changed)
+            if ($devisCreateur->getCreateur() === $this) {
+                $devisCreateur->setCreateur(null);
+            }
+        }
 
         return $this;
     }

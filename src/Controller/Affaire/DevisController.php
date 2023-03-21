@@ -56,18 +56,23 @@ class DevisController extends AbstractController
         $devis = new Devis();
         $devis->setTitre($nom);
         $devis->setDemande($demande);
+        $devis->setCreateur($this->getUser());
         $devisRepository->add($devis);
         return $this->redirectToRoute('app_affaire_devis_edit', ['id' => $devis->getId()], Response::HTTP_SEE_OTHER);
 
     }
 
     #[Route('/{id}', name: 'app_affaire_devis_show', methods: ['GET'])]
-    public function show(Devis $devis): Response
+    public function show(Devis $devis, Request $request): Response
     {
+        $data = $request->query->all();
+        $referer = $request->headers->get('referer');
+
         return $this->render('affaire/devis/show.html.twig', [
             'devi' => $devis,
             'title' => 'Devis N° ' . $devis->getId(),
-            'nav' => [['app_affaire_devis_edit', 'Modifier le devis', $devis->getId()]]
+            'referer' => $referer,
+            'nav' => []
         ]);
     }
 

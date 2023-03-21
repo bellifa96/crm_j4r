@@ -3,20 +3,236 @@
 {% block title %}Devis{% endblock %}
 
 {% block body %}
-    <h1>Devis</h1>
+    <style>
+        .css-1bxjlke {
+            display: flex;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);;
+            color: #627D98;
+            overflow: auto;
+            flex-direction: column;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            background-color: #fff;
+            border-color: grey;
+        }
+    </style>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-recap-tab" data-bs-toggle="tab" data-bs-target="#nav-recap"
+                    type="button" role="tab" aria-controls="nav-recap" aria-selected="true">
+                Récapitulatif
+            </button>
+            <button class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" data-bs-target="#nav-detail"
+                    type="button" role="tab" aria-controls="nav-detail" aria-selected="false">
+                Détails
+            </button>
+        </div>
+    </nav>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ devi.id }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row justify-content-between">
+        <div class="col-md-auto">
+            <a href="{{ referer }}">
+                <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi"
+                     aria-hidden="true">
+                    <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+                Retour
+            </a>
+        </div>
+    </div>
 
-    <a href="{{ path('app_affaire_devis_index') }}">back to list</a>
+    <div class="tab-content" id="nav-tabContent">
 
-    <a href="{{ path('app_affaire_devis_edit', {'id': devi.id}) }}">edit</a>
+        <div class="tab-pane fade  show active" id="nav-recap" role="tabpanel" aria-labelledby="nav-recap-tab">
+
+            <div class="row mt-3">
+                <div class="col-md-8 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Informations
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_id">N° devis</label>
+                                    <input type="text" id="devis_id" name="devis[id]"
+                                           class="col-md-12 chakra-input " value="{{ devi.id }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_montantHT">Montant HT</label>
+                                    <input type="text" id="devis_montantHT" name="devis[montantHT]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devi.montantHT is not null) ? devi.montantHT : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_date">Date du devis</label>
+                                    <input type="text" id="devis_date" name="devis[date]"
+                                           class="col-md-12 chakra-input " value="{{ devi.dateDuDevis }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_validite">Durée de validité du devis</label>
+                                    <input type="text" id="devis_validite" name="devis[validite]"
+                                           class="col-md-12 chakra-input "
+                                           value="-"
+                                           disabled/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_debutTravaux">Date du début des travaux</label>
+                                    <input type="text" id="devis_debutTravaux" name="devis[debutTravaux]"
+                                           class="col-md-12 chakra-input " value="-"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_dureeTravaux">Durée estimée</label>
+                                    <input type="text" id="devis_dureeTravaux" name="devis[dureeTravaux]"
+                                           class="col-md-12 chakra-input "
+                                           value="-"
+                                           disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            État du devis
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label class="labels" for="devis_statut">Durée estimée</label>
+                                <input type="text" id="devis_statut" name="devis[statut]"
+                                       class="col-md-12 chakra-input "
+                                       value="{{ devi.statut }}"
+                                       disabled/>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-end mt-2">
+                                <a href="{{ path('app_affaire_devis_edit', {'id': devi.id}) }}"
+                                   class="btn btn-info btn-sm">Modifier le devis</a>
+                            </div>
+
+                            <div class="col-md-12 text-end mt-3">
+                                <a href="" class="btn btn-outline-info btn-sm">Finaliser le devis</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            Commentaire (privé)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class="col-md-12">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            Version du devis
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
+            <div class="row mt-3">
+                <div class="col-md-6 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Destinataire
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_nom">Dénomination</label>
+                                    <input type="text" id="devis_client_nom" name="devis[client][nom]"
+                                           class="col-md-12 chakra-input " value="{{ (devi.demande.client.personne is not null) ? devi.demande.client.personne.nom~" "~devi.demande.client.personne.prenom : devi.demande.client.societe.nom }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_code">Code client</label>
+                                    <input type="text" id="devis_client_code" name="devis[client][code]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devi.demande.client.societe is not null) ? devi.demande.client.societe.nom : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_adresse">Adresse</label>
+                                    <input type="text" id="devis_client_adresse" name="devis[client][adresse]"
+                                           class="col-md-12 chakra-input " value="{{ (devi.demande.client.personne is not null) ? devi.demande.client.personne.adresse1~" "~devi.demande.client.personne.ville : devi.demande.client.societe.adresse1~" "~devi.demande.client.societe.ville }}"
+                                           disabled/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_email">Email</label>
+                                    <input type="text" id="devis_client_email" name="devis[client][email]"
+                                           class="col-md-12 chakra-input " value="{{ (devi.demande.client.personne is not null) ? devi.demande.client.personne.email : devi.demande.client.societe.email }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_telephone">Téléphone</label>
+                                    <input type="text" id="devis_client_telephone" name="devis[client][telephone]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ devi.demande.client.phone is not empty ? "+"~devi.demande.client.phone['code']~" "~devi.demande.client.phone['number'] : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            Chantier associé
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class="col-md-6 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Référent
+                            </div>
+                            <div class="row">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     {{ include('affaire/devis/_delete_form.html.twig') }}
 {% endblock %}
