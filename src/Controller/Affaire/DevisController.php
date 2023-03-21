@@ -69,7 +69,7 @@ class DevisController extends AbstractController
         $referer = $request->headers->get('referer');
 
         return $this->render('affaire/devis/show.html.twig', [
-            'devi' => $devis,
+            'devis' => $devis,
             'title' => 'Devis N° ' . $devis->getId(),
             'referer' => $referer,
             'nav' => []
