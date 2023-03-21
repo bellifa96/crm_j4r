@@ -26,7 +26,7 @@ class DevisType extends AbstractType
                 ]
             ])
             ->add('description')
-            ->add('referent', EntityType::class, [
+            /*->add('referent', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $entityRepository) {
                     return $entityRepository->createQueryBuilder('u')
@@ -35,7 +35,7 @@ class DevisType extends AbstractType
                 'choice_label' => function ($user) {
                     return $user->getFirstname() . " " . $user->getLastname();
                 }
-            ])
+            ])*/
 
 ;
     }
