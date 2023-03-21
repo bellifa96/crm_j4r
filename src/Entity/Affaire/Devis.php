@@ -43,9 +43,6 @@ class Devis
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'devis')]
-    private $referent;
-
     #[ORM\Column(type:'array', nullable: true)]
     private $elements = [];
 
@@ -55,11 +52,15 @@ class Devis
     #[ORM\ManyToOne(inversedBy: 'devisCreateur')]
     private ?User $createur = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'devis')]
+    private Collection $referent;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
         $this->statut = "Brouillon";
         $this->ouvrages = new ArrayCollection();
+        $this->referent = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -139,18 +140,6 @@ class Devis
         return $this;
     }
 
-    public function getReferent(): ?User
-    {
-        return $this->referent;
-    }
-
-    public function setReferent(?User $referent): self
-    {
-        $this->referent = $referent;
-
-        return $this;
-    }
-
     public function getElements(): ?array
     {
         return $this->elements;
@@ -226,6 +215,30 @@ class Devis
     public function setCreateur(?User $createur): self
     {
         $this->createur = $createur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getReferent(): Collection
+    {
+        return $this->referent;
+    }
+
+    public function addReferent(User $referent): self
+    {
+        if (!$this->referent->contains($referent)) {
+            $this->referent->add($referent);
+        }
+
+        return $this;
+    }
+
+    public function removeReferent(User $referent): self
+    {
+        $this->referent->removeElement($referent);
 
         return $this;
     }

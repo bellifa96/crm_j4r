@@ -95,9 +95,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Evenement::class)]
     private $evenements;
 
-    #[ORM\OneToMany(mappedBy: 'referent', targetEntity: Devis::class)]
-    private $devis;
-
     #[ORM\ManyToMany(targetEntity: Evenement::class, mappedBy: 'attribueA')]
     private $EvenementsAttribues;
 
@@ -154,6 +151,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Devis::class)]
     private Collection $devisCreateur;
+
+    #[ORM\ManyToMany(targetEntity: Devis::class, mappedBy: 'referent')]
+    private Collection $devis;
 
 
     public function __construct()
