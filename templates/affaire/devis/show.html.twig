@@ -184,7 +184,7 @@
                                 <div class="col-md-6">
                                     <label class="labels" for="devis_client_adresse">Adresse</label>
                                     <input type="text" id="devis_client_adresse" name="devis[client][adresse]"
-                                           class="col-md-12 chakra-input " value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.adresse1~" "~devis.demande.client.personne.ville : devis.demande.client.societe.adresse1~" "~devis.demande.client.societe.ville }}"
+                                           class="col-md-12 chakra-input " value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.adresse1~", "~devis.demande.client.personne.codePostal~" "~devis.demande.client.personne.ville : devis.demande.client.societe.adresse1~", "~devis.demande.client.societe.codePostal~" "~devis.demande.client.societe.ville }}"
                                            disabled/>
                                 </div>
                             </div>
