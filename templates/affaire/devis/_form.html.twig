@@ -1,6 +1,19 @@
 {% block stylesheets %}
     {{ encore_entry_link_tags('devis') }}
 {% endblock %}
+
+<div class="row justify-content-between">
+    <div class="col-md-auto">
+        <a href=" {{ path('app_affaire_devis_show', {'id': devis.id}) }} ">
+            <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi"
+                 aria-hidden="true">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+            </svg>
+            Retour
+        </a>
+    </div>
+</div>
+
 <div class="page-block col-md-10 m-auto mt-4">
 
     {{ form_start(form) }}
@@ -23,6 +36,26 @@
                 </div>
                 <div class="col-md-9">
                     {{ form_widget(form.description,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels" for="devis_referent">Referent(s)</label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-control tel-code" name="devis[referent][]"
+                            id="devis_referent" multiple>
+                        {% for user in devis.referent %}
+                            <option value="{{ user.id }}" selected> {{ user.lastname~" "~user.firstname }}</option>
+                        {% endfor %}
+                        {% for user in users %}
+                            <option value="{{ user.id }}" > {{ user.lastname~" "~user.firstname }}</option>
+                        {% endfor %}
+
+                    </select>
                 </div>
             </div>
         </div>
@@ -237,12 +270,14 @@
     </div>
 </div>
 
-{{ form_end(form) }}
-
 <div class="mt-5">
     <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
 </div>
 <script>
+
+{{ form_end(form) }}
+
+
 
     let selectedElement = null;
     let selectedElementId = null;

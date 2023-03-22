@@ -7,10 +7,12 @@ use App\Entity\Affaire\Lot;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\SousLot;
 use App\Entity\Demande;
+use App\Entity\User;
 use App\Form\Affaire\DevisType;
 use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\LotRepository;
 use App\Repository\Affaire\OuvrageRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -63,14 +65,17 @@ class DevisController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_affaire_devis_show', methods: ['GET'])]
-    public function show(Devis $devis, Request $request): Response
+    public function show(Devis $devis, Request $request, UserRepository $userRepository): Response
     {
         $data = $request->query->all();
         $referer = $request->headers->get('referer');
 
+        $users = $userRepository->findAll();
+
         return $this->render('affaire/devis/show.html.twig', [
             'devis' => $devis,
             'title' => 'Devis N° ' . $devis->getId(),
+            'users' => $users,
             'referer' => $referer,
             'nav' => []
         ]);
@@ -108,13 +113,15 @@ class DevisController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_affaire_devis_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Devis $devis, DevisRepository $devisRepository): Response
+    public function edit(Request $request, Devis $devis, DevisRepository $devisRepository, UserRepository $userRepository): Response
     {
 
 //    dd($devis);
         //  dump($devis->getElements());
         $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
+
+        $users = $userRepository->findAll();
 
 //       dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
 
@@ -126,6 +133,7 @@ class DevisController extends AbstractController
         return $this->renderForm('affaire/devis/new.html.twig', [
             'devis' => $devis,
             'form' => $form,
+            'users' => $users,
             'demande' => $devis->getDemande(),
             'html' => $this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []),
             'title' => "Création d'un devis - " . $devis->getTitre() . " " . $devis->getId(),
