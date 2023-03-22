@@ -169,9 +169,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="labels" for="devis_client_nom">Dénomination</label>
-                                    <input type="text" id="devis_client_nom" name="devis[client][nom]"
-                                           class="col-md-12 chakra-input " value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.nom~" "~devis.demande.client.personne.prenom : devis.demande.client.societe.nom }}"
-                                           disabled/>
+                                    <div class="col-md-12 chakra-input">
+                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':devis.demande.client.id}) }}">
+                                            <b>{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.nom~" "~devis.demande.client.personne.prenom : devis.demande.client.societe.nom }}</b>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="labels" for="devis_client_code">Code client</label>
@@ -185,7 +187,8 @@
                                 <div class="col-md-6">
                                     <label class="labels" for="devis_client_adresse">Adresse</label>
                                     <input type="text" id="devis_client_adresse" name="devis[client][adresse]"
-                                           class="col-md-12 chakra-input " value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.adresse1~", "~devis.demande.client.personne.codePostal~" "~devis.demande.client.personne.ville : devis.demande.client.societe.adresse1~", "~devis.demande.client.societe.codePostal~" "~devis.demande.client.societe.ville }}"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.adresse1~", "~devis.demande.client.personne.codePostal~" "~devis.demande.client.personne.ville : devis.demande.client.societe.adresse1~", "~devis.demande.client.societe.codePostal~" "~devis.demande.client.societe.ville }}"
                                            disabled/>
                                 </div>
                             </div>
@@ -194,7 +197,8 @@
                                 <div class="col-md-6">
                                     <label class="labels" for="devis_client_email">Email</label>
                                     <input type="text" id="devis_client_email" name="devis[client][email]"
-                                           class="col-md-12 chakra-input " value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.email : devis.demande.client.societe.email }}"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.email : devis.demande.client.societe.email }}"
                                            disabled/>
                                 </div>
                                 <div class="col-md-6">
