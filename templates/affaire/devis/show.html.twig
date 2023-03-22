@@ -334,7 +334,7 @@
                                     {% for unReferent in devis.referent %}
                                         <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
                                             <a href="{{ path('app_user_show',{'id':unReferent.id}) }}">
-                                                <b>{{ unReferent.nom~" "~unReferent.prenom }}</b>
+                                                <b>{{ unReferent.lastname~" "~unReferent.firstname }}</b>
                                             </a>
                                         </div>
                                     {% endfor %}
@@ -370,56 +370,58 @@
     {{ include('affaire/devis/_delete_form.html.twig') }}
 
     <script>
-        $('.add-referent').on('click',function () {
+        $('.add-referent').on('click', function () {
             $("#referentModal").remove();
             let modal = `
-         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true">
+         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true" onsubmit=submitReferent()>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un référent</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <p>
-                        Veuillez sélectionner un ou plusieurs référents à ajouter à ce devis.
-                    </p>
-                    <div class="col-md-12 mb-3">
-                        <div class="row">
-                            <table class="table datatable" id="table-ouvrage" style="background: white;">
-                            <thead>
-                            <tr class="tr-head">
-                                <th></th>
-                                <th>Utilisateur</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for referent in users %}
-                                {% if referent not in devis.referent %}
-                                    <tr class="text-center">
-                                        <td><input type="checkbox" name="utilisateur{{ referent.id }}" value="{{ referent.id }}"
-                                                   class="check-ouvrage"/>
-                                        </td>
-                                        <td onclick="document.location = ' {{ path('app_user_show',{'id':referent.id}) }}';">{{ referent.lastname~" "~referent.firstname }}</td>
-                                    </tr>
-                                {% endif %}
-                            {% else %}
-                                    <tr>
-                                        <td colspan="5" class="text-center">Aucun utilisateur disponible</td>
-                                    </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        </div>
+                <form onsubmit="return submitReferent(event)" name="modal-import-referent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un référent</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit"  class="btn btn-primary submit-referent">Enregistrer</button>
-                </div>
+                    <div class="modal-body">
+                        <p>
+                            Veuillez sélectionner un ou plusieurs référents à ajouter à ce devis.
+                        </p>
+                        <div class="col-md-12 mb-3">
+                            <div class="row">
+                                <table class="table datatable" id="table-ouvrage" style="background: white;">
+                                <thead>
+                                <tr class="tr-head">
+                                    <th></th>
+                                    <th>Utilisateur</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for referent in users %}
+                                    {% if referent not in devis.referent %}
+                                        <tr class="text-center">
+                                            <td><input type="checkbox" name="utilisateur{{ referent.id }}" value="{{ referent.id }}"
+                                                       class="check-referent"/>
+                                            </td>
+                                            <td onclick="document.location = ' {{ path('app_user_show',{'id':referent.id}) }}';">{{ referent.lastname~" "~referent.firstname }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">Aucun utilisateur disponible</td>
+                                        </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit"  class="btn btn-primary submit-referent">Enregistrer</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -428,5 +430,23 @@
             $('body').append(modal);
             $('#referentModal').modal('show');
         })
+
+        function submitReferent(event) {
+            event.preventDefault();
+            let data = {};
+            $('.check-referent:checked').each(function (index) {
+                console.log($(this).val());
+                data[index] = {
+                    id: $(this).val(),
+                }
+            })
+
+            $.post("{{ path('app_affaire_referent_import',{'id':devis.id}) }}", data, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    console.log(data);
+                }
+            })
+        }
     </script>
 {% endblock %}

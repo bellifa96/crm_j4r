@@ -144,6 +144,34 @@ class DevisController extends AbstractController
         ]);
     }
 
+    #[Route('/user/import/{id}', name: 'app_affaire_referent_import', methods: ['GET', 'POST'])]
+    public function importReferent(Request $request, Devis $devis, DevisRepository $devisRepository, UserRepository $userRepository): Response
+    {
+
+        $data = $request->request->all();
+        //dd($data);
+        $referents = [];
+
+
+        foreach ($data as $val) {
+
+            $user = $userRepository->find($val['id']);
+            $referents[] = $user;
+            $devis->addReferent($user);
+            }
+
+        try {
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "referents" => $referents]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode(['code' => 404]));
+    }
+
 
     public function setParent($elements, $el, $parent)
     {
