@@ -17,6 +17,59 @@
             background-color: #fff;
             border-color: grey;
         }
+
+        .css-1l4w6pd {
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        .css-doans4 {
+            border: inherit;
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;;
+            transition-duration: 200ms;
+            height: 2.5rem;
+            min-width: 2.5rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            background: none;
+            width: min-content;
+            opacity: 1;
+            color: #109CF1;
+            font-family: Lato, sans-serif;
+            font-size: 1rem;
+        }
+
+        .css-1jx0oto {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+
+        .chcl:hover {
+            color: #0d4377;
+        }
+
+
     </style>
 
     <div class="row justify-content-between">
@@ -229,7 +282,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels" for="devis_clientContact_telephone">Téléphone</label>
-                                        <input type="text" id="devis_clientContact_telephone" name="devis[clientContact][telephone]"
+                                        <input type="text" id="devis_clientContact_telephone"
+                                               name="devis[clientContact][telephone]"
                                                class="col-md-12 chakra-input "
                                                value="{{ devis.demande.contactPrincipalClient.telephoneMobile is not empty ? devis.demande.contactPrincipalClient.telephoneMobile : "-" }}"
                                                disabled/>
@@ -239,18 +293,19 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="labels" for="devis_clientContact_mail">Email</label>
-                                        <input type="text" id="devis_clientContact_mail" name="devis[clientContact][mail]"
+                                        <input type="text" id="devis_clientContact_mail"
+                                               name="devis[clientContact][mail]"
                                                class="col-md-12 chakra-input "
                                                value="{{ devis.demande.contactPrincipalClient.email is not empty ? devis.demande.contactPrincipalClient.email : "-" }}"
                                                disabled/>
                                     </div>
                                 </div>
 
-                             {% else %}
+                            {% else %}
 
-                                 <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
-                                     Pas de contact principal
-                                 </div>
+                                <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                    Pas de contact principal
+                                </div>
 
                             {% endif %}
                         </div>
@@ -271,9 +326,38 @@
                     <div class="page-block bg-white">
                         <div>
                             <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
-                                Référent
+                                Référent(s)
                             </div>
                             <div class="row">
+                                {% if devis.referent is not empty %}
+
+                                    {% for unReferent in devis.referent %}
+                                        <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                            <a href="{{ path('app_user_show',{'id':unReferent.id}) }}">
+                                                <b>{{ unReferent.nom~" "~unReferent.prenom }}</b>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                        Pas de référent
+                                    </div>
+
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="css-1l4w6pd">
+                                    <button type="button" class="chakra-button css-doans4 chcl add-referent"
+                                            aria-disabled="false">
+                                        <svg viewBox="0 0 23 22" focusable="false" class="chakra-icon css-1jx0oto">
+                                            <path fill="currentColor"
+                                                  d="M11.5449 19.8C6.69392 19.8 2.74492 15.851 2.74492 11C2.74492 6.149 6.69392 2.2 11.5449 2.2C16.3959 2.2 20.3449 6.149 20.3449 11C20.3449 15.851 16.3959 19.8 11.5449 19.8ZM11.5449 0C10.1004 0 8.66999 0.284523 7.3354 0.837325C6.00082 1.39013 4.78819 2.20038 3.76675 3.22183C1.70385 5.28473 0.544922 8.08262 0.544922 11C0.544922 13.9174 1.70385 16.7153 3.76675 18.7782C4.78819 19.7996 6.00082 20.6099 7.3354 21.1627C8.66999 21.7155 10.1004 22 11.5449 22C14.4623 22 17.2602 20.8411 19.3231 18.7782C21.386 16.7153 22.5449 13.9174 22.5449 11C22.5449 9.55546 22.2604 8.12506 21.7076 6.79048C21.1548 5.4559 20.3445 4.24327 19.3231 3.22183C18.3017 2.20038 17.089 1.39013 15.7544 0.837325C14.4199 0.284523 12.9895 0 11.5449 0ZM12.6449 5.5H10.4449V9.9H6.04492V12.1H10.4449V16.5H12.6449V12.1H17.0449V9.9H12.6449V5.5Z"></path>
+                                        </svg>
+                                        Associer un référent de devis
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -284,4 +368,65 @@
     </div>
 
     {{ include('affaire/devis/_delete_form.html.twig') }}
+
+    <script>
+        $('.add-referent').on('click',function () {
+            $("#referentModal").remove();
+            let modal = `
+         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un référent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Veuillez sélectionner un ou plusieurs référents à ajouter à ce devis.
+                    </p>
+                    <div class="col-md-12 mb-3">
+                        <div class="row">
+                            <table class="table datatable" id="table-ouvrage" style="background: white;">
+                            <thead>
+                            <tr class="tr-head">
+                                <th></th>
+                                <th>Utilisateur</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for referent in users %}
+                                {% if referent not in devis.referent %}
+                                    <tr class="text-center">
+                                        <td><input type="checkbox" name="utilisateur{{ referent.id }}" value="{{ referent.id }}"
+                                                   class="check-ouvrage"/>
+                                        </td>
+                                        <td onclick="document.location = ' {{ path('app_user_show',{'id':referent.id}) }}';">{{ referent.lastname~" "~referent.firstname }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Aucun utilisateur disponible</td>
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit"  class="btn btn-primary submit-referent">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        `;
+            $('body').append(modal);
+            $('#referentModal').modal('show');
+        })
+    </script>
 {% endblock %}
