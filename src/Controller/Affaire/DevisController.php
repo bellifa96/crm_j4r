@@ -123,6 +123,8 @@ class DevisController extends AbstractController
 
         $users = $userRepository->findAll();
 
+        $referer = $request->headers->get('referer');
+
 //       dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -134,6 +136,7 @@ class DevisController extends AbstractController
             'devis' => $devis,
             'form' => $form,
             'users' => $users,
+            'referer' => $referer,
             'demande' => $devis->getDemande(),
             'html' => $this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []),
             'title' => "Création d'un devis - " . $devis->getTitre() . " " . $devis->getId(),
