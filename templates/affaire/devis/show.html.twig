@@ -209,6 +209,50 @@
                                            disabled/>
                                 </div>
                             </div>
+
+                            <hr aria-orientation="horizontal" class="ligne">
+
+                            {% if devis.demande.contactPrincipalClient is not empty %}
+
+                                <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                    Contact Principal
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_contact_nom">Nom et prénom</label>
+                                        <div class="col-md-12 chakra-input">
+                                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':devis.demande.contactPrincipalClient.id}) }}">
+                                                <b>{{ devis.demande.contactPrincipalClient.nom~" "~devis.demande.contactPrincipalClient.prenom }}</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_clientContact_telephone">Téléphone</label>
+                                        <input type="text" id="devis_clientContact_telephone" name="devis[clientContact][telephone]"
+                                               class="col-md-12 chakra-input "
+                                               value="{{ devis.demande.contactPrincipalClient.telephoneMobile is not empty ? devis.demande.contactPrincipalClient.telephoneMobile : "-" }}"
+                                               disabled/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_clientContact_mail">Email</label>
+                                        <input type="text" id="devis_clientContact_mail" name="devis[clientContact][mail]"
+                                               class="col-md-12 chakra-input "
+                                               value="{{ devis.demande.contactPrincipalClient.email is not empty ? devis.demande.contactPrincipalClient.email : "-" }}"
+                                               disabled/>
+                                    </div>
+                                </div>
+
+                             {% else %}
+
+                                 <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                     Pas de contact principal
+                                 </div>
+
+                            {% endif %}
                         </div>
                     </div>
                 </div>
