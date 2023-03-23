@@ -156,7 +156,8 @@ class DevisController extends AbstractController
         foreach ($data as $val) {
 
             $user = $userRepository->find($val['id']);
-            $referents[] = $user;
+            $us = ['id' => $user->getId(), 'nom' => $user->getLastname(), 'prenom' => $user->getFirstname()];
+            $referents[] = $us;
             $devis->addReferent($user);
             }
 

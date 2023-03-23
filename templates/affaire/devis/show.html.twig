@@ -328,7 +328,7 @@
                             <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
                                 Référent(s)
                             </div>
-                            <div class="row">
+                            <div class="row" id="referents">
                                 {% if devis.referent is not empty %}
 
                                     {% for unReferent in devis.referent %}
@@ -341,7 +341,8 @@
 
                                 {% else %}
 
-                                    <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                    <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;"
+                                         id="noReferent">
                                         Pas de référent
                                     </div>
 
@@ -371,9 +372,8 @@
 
     <script>
         $('.add-referent').on('click', function () {
-            $("#referentModal").remove();
             let modal = `
-         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true" onsubmit=submitReferent()>
+         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true" onsubmit=submitReferent(event)>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form onsubmit="return submitReferent(event)" name="modal-import-referent">
@@ -419,7 +419,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit"  class="btn btn-primary submit-referent">Enregistrer</button>
+                        <button type="submit"  class="btn btn-primary submit-referent">Ajouter</button>
+
+                        <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
+                        <span class="sr-only">.</span>
+                    </div>
+                        <div class="alert alert-success" role="alert" style="display: none;" id="referent-import-success">
+                        Les référents sélectionnés ont été importés avec succès
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="display: none;" id="referent-import-danger">
+                        Erreur lors de l'importation des référents, veuillez recharger la page
+                    </div>
                     </div>
                 </form>
             </div>
@@ -435,7 +445,7 @@
             event.preventDefault();
             let data = {};
             $('.check-referent:checked').each(function (index) {
-                console.log($(this).val());
+                //console.log($(this).val());
                 data[index] = {
                     id: $(this).val(),
                 }
@@ -444,8 +454,25 @@
             $.post("{{ path('app_affaire_referent_import',{'id':devis.id}) }}", data, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-                    console.log(data);
+                    //console.log(data.referents);
+                    $('#referent-import-success').show();
+                    setTimeout(() => {
+                        $('#referentModal').modal('hide');
+                        $('#referentModal').remove();
+
+                    }, "1000");
+                    if($("#noReferent").length){$("#noReferent").remove();}
+                    for (const referent of data['referents']) {
+                        console.log(referent['id'],referent['nom'], referent['prenom']);
+                        let div = `<div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                            <a href="/user/show/${referent['id']}">
+                                <b>${referent['nom']} ${referent['prenom']}</b>
+                            </a>
+                        </div>`;
+                        $('#referents').append(div);
+                    }
                 }
+
             })
         }
     </script>
