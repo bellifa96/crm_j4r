@@ -97,7 +97,7 @@
                                 <span class="chakra-avatar css-iiwwb3">
                                     <div role="img" aria-label="{{ unReferent.lastname~" "~unReferent.firstname }}"
                                          class="chakra-avatar__initials css-1pd2iu3">
-                                        {{ unReferent.lastname|first|upper~unReferent.firstname|first|upper }}
+                                        <a href="{{ path('app_user_show', {'id': unReferent.id}) }}">{{ unReferent.lastname|first|upper~unReferent.firstname|first|upper }}</a>
                                     </div>
                                 </span>
                             </div>
