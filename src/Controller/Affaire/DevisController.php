@@ -173,6 +173,28 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
+    #[Route('/user/delete/{id}', name: 'app_affaire_referent_delete', methods: ['GET', 'POST'])]
+    public function deleteReferent(Request $request, Devis $devis, DevisRepository $devisRepository, UserRepository $userRepository): Response
+    {
+
+        $data = $request->request->all();
+        //dd($data);
+
+        $user = $userRepository->find($data['id']);
+
+        try {
+            $devis->removeReferent($user);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, 'idReferent' => $user->getId()]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+        return new Response(json_encode(['code' => 404]));
+    }
+
 
     public function setParent($elements, $el, $parent)
     {
