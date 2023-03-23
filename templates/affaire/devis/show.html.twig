@@ -373,10 +373,10 @@
     <script>
         $('.add-referent').on('click', function () {
             let modal = `
-         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true" onsubmit=submitReferent(event)>
+         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form onsubmit="return submitReferent(event)" name="modal-import-referent">
+                <form onsubmit=submitReferent(event) name="modal-import-referent">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Ajouter un référent</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -465,9 +465,9 @@
                     for (const referent of data['referents']) {
                         console.log(referent['id'],referent['nom'], referent['prenom']);
                         let div = `<div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
-                            <a href="/user/show/${referent['id']}">
+                            <a href="#" class="referent-link" data-id="${referent['id']}">
                                 <b>${referent['nom']} ${referent['prenom']}</b>
-                            </a>
+                              </a>
                         </div>`;
                         $('#referents').append(div);
                     }
@@ -475,5 +475,12 @@
 
             })
         }
+
+        $(document).on('click', '.referent-link', function(e) {
+            e.preventDefault();
+            const referentId = $(this).data('id');
+            const url = "{{ path('app_user_show', {'id': 'referentId'}) }}".replace('referentId', referentId);
+            window.location.href = url;
+        });
     </script>
 {% endblock %}
