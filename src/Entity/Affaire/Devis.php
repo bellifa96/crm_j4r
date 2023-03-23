@@ -55,6 +55,9 @@ class Devis
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'devis')]
     private Collection $referent;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaire = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -239,6 +242,18 @@ class Devis
     public function removeReferent(User $referent): self
     {
         $this->referent->removeElement($referent);
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }
