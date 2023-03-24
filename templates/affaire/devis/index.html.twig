@@ -70,6 +70,7 @@
         <tr class="tr-head text-center">
             <th>N°Devis</th>
             <th>Nom Devis</th>
+            <th>Client</th>
             <th>Date du devis</th>
             <th>Date de relance</th>
             <th>Montant HT</th>
@@ -84,6 +85,11 @@
             <tr>
                 <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.id }}</a></td>
                 <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.titre }}</a></td>
+                <td>
+                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':unDevis.demande.client.id}) }}">
+                        <b>{{ (unDevis.demande.client.personne is not null) ? unDevis.demande.client.personne.nom~" "~unDevis.demande.client.personne.prenom : unDevis.demande.client.societe.nom }}</b>
+                    </a>
+                </td>
                 <td>{{ unDevis.dateDuDevis }}</td>
                 <td>{{ (unDevis.dateRelance is not null) ? unDevis.dateRelance : "-" }}</td>
                 <td>{{ (unDevis.montantHT is not null) ? unDevis.montantHT : "-" }}</td>
