@@ -2,7 +2,9 @@
 
 namespace App\Controller\Conversation;
 
+use App\Entity\Affaire\Devis;
 use App\Entity\Conversation\ConversationApresNegociationDemande;
+use App\Entity\Conversation\ConversationChantier;
 use App\Entity\Conversation\ConversationClient;
 use App\Entity\Conversation\ConversationMetreDemande;
 use App\Entity\Conversation\Message;
@@ -49,6 +51,44 @@ class MessageController extends AbstractController
                 }
                 $message->setMessage($request->request->get('message'));
                 $message->setConversationClient($demande->getConversationClient());
+            }else{
+                return new Response(json_encode(['code' => 403, 'message' => 'commentaire vide']));
+            }
+            $entityManager->persist($message);
+            $entityManager->flush();
+            return new Response(json_encode(
+                [
+                    'code' => 200,
+                    'message' => [
+                        'createur' => $this->getUser()->getFirstname() . " " . $this->getUser()->getlastname(),
+                        'message' => $request->request->get('message'),
+                        'date' => $message->getCreatedAt()->format('d/m/Y H:i:s'),
+                    ]
+                ]
+            ));
+
+
+        }
+        return new Response(json_encode(['code' => 403, 'message' => 'commentaire vide']));
+    }
+
+    #[Route('/devis/conversation/message/{id}/{type}', name: 'app_conversation_message_chantier')]
+    public function newMessageDevisChantier(Devis $devis, $type, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if (!empty($request->request->get('message'))) {
+
+            $message = new Message();
+            $message->setCreateur($this->getUser());
+
+            if ($type == 'chantier') {
+
+                if (empty($devis->getConversationChantier())) {
+                    $conversation = new ConversationChantier();
+                    $conversation->setDevis($devis);
+                    $entityManager->persist($conversation);
+                }
+                $message->setMessage($request->request->get('message'));
+                $message->setConversationChantier($devis->getConversationChantier());
             }else{
                 return new Response(json_encode(['code' => 403, 'message' => 'commentaire vide']));
             }

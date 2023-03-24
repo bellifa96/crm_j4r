@@ -35,6 +35,9 @@ class Message
     #[ORM\ManyToOne(targetEntity: ConversationClient::class, inversedBy: 'messages')]
     private $conversationClient;
 
+    #[ORM\ManyToOne(targetEntity: ConversationChantier::class, inversedBy: 'messages')]
+    private $conversationChantier;
+
 
     public function getId(): ?int
     {
@@ -97,6 +100,18 @@ class Message
     public function setConversationClient(?ConversationClient $conversationClient): self
     {
         $this->conversationClient = $conversationClient;
+
+        return $this;
+    }
+
+    public function getConversationChantier(): ?ConversationChantier
+    {
+        return $this->conversationChantier;
+    }
+
+    public function setConversationChantier(?ConversationChantier $conversationChantier): self
+    {
+        $this->conversationChantier = $conversationChantier;
 
         return $this;
     }

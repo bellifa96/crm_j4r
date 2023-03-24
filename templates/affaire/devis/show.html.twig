@@ -75,6 +75,174 @@
 
         }
 
+        .chats::-webkit-scrollbar {
+            width: 0.125rem;
+        }
+
+        .chats::-webkit-scrollbar-thumb {
+            background: #cfd8dc;
+        }
+
+        .chats::-webkit-scrollbar-thumb:hover {
+            background: #b0bec5;
+        }
+
+        /* INPUT TEXT PLACEHOLDER CUSTOMIZE */
+        ::-webkit-input-placeholder {
+            color: #b0bec5;
+        }
+
+        ::-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        :-ms-input-placeholder {
+            color: #b0bec5;
+        }
+
+        :-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        #viewport {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #viewport > .chatbox {
+            position: relative;
+            display: table;
+            float: left;
+            margin: 1rem;
+            height: 40rem;
+            background-color: white;
+            box-shadow: 0 0.25rem 2rem rgba(38, 50, 56, 0.1);
+            overflow: hidden;
+        }
+
+        #viewport > .chatbox > .chats {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: table-cell;
+            vertical-align: bottom;
+            padding: 1rem;
+            margin-bottom: 2.875rem;
+            overflow: auto;
+        }
+
+        .chats > ul {
+            padding: 0;
+        }
+
+        .chats > ul > li {
+            position: relative;
+            list-style: none;
+            display: block;
+            margin: 1.5rem 0;
+            transition: 0.5s all;
+        }
+
+        .chats > ul > li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .msg {
+            max-width: 85%;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            line-height: 1rem;
+            min-height: 2rem;
+            font-size: 0.875rem;
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            text-transform: capitalize;
+        }
+
+        .msg.him {
+            float: left;
+            background-color: #e91e63;
+            color: #fff;
+            border-bottom-left-radius: 0.125rem;
+        }
+
+        .msg.you {
+            float: right;
+            background-color: #eceff1;
+            color: #607d8b;
+            border-bottom-right-radius: 0.125rem;
+        }
+
+        .msg > span {
+            font-weight: 500;
+            position: absolute;
+        }
+
+        .msg > span.partner {
+            color: #b0bec5;
+            top: 0;
+            font-size: 0.675rem;
+            margin-top: -1rem;
+        }
+
+        .msg > span.time {
+            color: #cfd8dc;
+            font-size: 0.8rem;
+            bottom: -0.35rem;
+            display: none;
+        }
+
+        .msg:hover span.time {
+            display: block;
+        }
+
+        .msg.him > span {
+            left: 0;
+        }
+
+        .msg.you > span {
+            right: 0;
+        }
+
+        .sendBox {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+        }
+
+        .sendBox input {
+            font-family: "Lato", sans-serif;
+            font-size: 0.875rem;
+            display: block;
+            width: 100%;
+            border: none;
+            padding: 0.75rem 0.75rem;
+            line-height: 1.25rem;
+            border-top: 0.125rem solid #eceff1;
+            transition: 0.5s ease-in-out;
+        }
+
+        .chatin:hover,
+        .chatin:focus,
+        .chatin:active {
+            outline: none !important;
+            border-top: 0.125rem solid #e91e63;
+        }
+
+        .chats-title {
+            border-bottom: 1px solid #e91e63;
+            text-align: center;
+        }
+
 
     </style>
 
@@ -205,18 +373,84 @@
                         <div class="row">
                             <div class="commentaire" style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
                                 Commentaire (privé)
-                                <button id="{{ devis.id }}"
-                                        class="modify-com border-0 btn-transition btn btn-outline-info">
-                                    <i class="bi bi-pencil-square"></i></button>
                             </div>
                         </div>
                         <div class="row espace-commentaire">
-                            <div id="commentaire" class="col-md-12 bg-leasy">
-                                {% if devis.commentaire is not empty %}
-                                    {{ devis.commentaire|raw('html') }}
-                                {% else %}
-                                    Pas de commentaire
-                                {% endif %}
+                            <div id="viewport" class="row">
+
+                                <div class="chatbox col-md-5" id="chantier">
+
+                                    <div class="chats">
+                                        <div class="chats-title border-bottom-1">
+                                            <h6>Commentaires Chantier</h6>
+                                        </div>
+                                        <ul id="chantier-ul">
+                                            {% if devis.conversationChantier %}
+                                                {% for message in  devis.conversationChantier.messages %}
+                                                    <li>
+                                                        <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                            {{ message.message }}
+                                                            <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    <div class="sendBox row">
+                                        <div class="col-md-11">
+                                            <input type="text" placeholder="écrire un commentaire chantier" name="message_chantier"
+                                                   class="chatin">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="button message-submit" style="background: transparent; border: none;"
+                                                    id="btn-chantier">
+                                                <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chatbox col-md-5" id="client">
+                                    <div class="chats">
+                                        <div class="chats-title border-bottom-1">
+                                            <h6>Commentaires client</h6>
+                                        </div>
+                                        <ul id="client-ul">
+                                            {% if devis.demande.conversationClient %}
+
+                                                {% for message in  devis.demande.conversationClient.messages %}
+
+                                                    <li>
+                                                        <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                            {{ message.message }}
+                                                            <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    <div class="sendBox row">
+                                        <div class="col-md-11">
+                                            <input type="text" placeholder="écrire un commentaire client" name="message_client"
+                                                   class="chatin">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="button message-submit" style="background: transparent; border: none;"
+                                                    id="btn-client">
+                                                <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -556,28 +790,44 @@
             }
         })
 
-        $('.modify-com').on('click', function () {
-            $('#commentaire').hide();
-            let buttonEnregistrer = `<button class="btn btn-primary mx-1 enregistrer" type="submit">Enregistrer</button>`;
-            let buttonAnnuler = `<button type="button" class="btn btn-secondary annuler">Annuler</button>`;
-            let form = `
-                <textarea id="devis_commentaire" name="devis[commentaire]" rows="5" cols="50"></textarea>`;
-            $('.modify-com').hide();
-            $('.commentaire').append(buttonEnregistrer);
-            $('.commentaire').append(buttonAnnuler);
-            $('.espace-commentaire').append(form);
+        $('.message-submit').click(function () {
 
-        })
+            let id = $(this).attr('id');
+            let message = "";
+            let ul = "";
+            let url;
+            if (id === "btn-chantier") {
+                url = "/devis/conversation/message/{{ devis.id }}/chantier";
+                message = $("input[name='message_chantier']").val();
+                $("input[name='message_chantier']").val("")
+                ul = 'chantier-ul';
+            } else if (id === "btn-client") {
+                url = "/conversation/message/{{ devis.demande.id }}/client";
+                message = $("input[name='message_client']").val();
+                $("input[name='message_client']").val("")
+                ul = 'client-ul';
+            } else {
+                console.log('id')
+                return 0;
+            }
 
-        $('body').on('click', '.annuler', function (){
-            console.log('oui');
-            $('.annuler').remove();
-            $('.enregistrer').remove();
-            $('#devis_commentaire').remove();
-            $('.modify-com').show();
-            $('#commentaire').show();
-        })
 
+            $.post(url, {message: message}, function (data) {
+                data = JSON.parse(data);
+                if (data.code === 200) {
+                    let li = ` <li>
+                                        <div class="msg you">
+                                        <span class="partner">
+                                            ${data.message.createur}
+                                        </span>
+                                                 ${data.message.message}
+                                        <span class="time">${data.message.date}</span>
+                             </li>`
+                    $('#' + ul).append(li)
+                }
+            })
+
+        });
 
     </script>
 {% endblock %}

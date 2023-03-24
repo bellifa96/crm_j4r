@@ -5,6 +5,7 @@ namespace App\Entity\Affaire;
 use App\Entity\Demande;
 use App\Entity\TimesTrait;
 use App\Entity\User;
+use App\Entity\Conversation\ConversationChantier;
 use App\Repository\Affaire\DevisRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -60,6 +61,15 @@ class Devis
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $dateRelance = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaireClients = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaireChantier = null;
+
+    #[ORM\OneToOne(mappedBy: 'devis', targetEntity: ConversationChantier::class, cascade: ['persist', 'remove'])]
+    private $conversationChantier;
 
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
@@ -269,6 +279,52 @@ class Devis
     public function setDateRelance(?string $dateRelance): self
     {
         $this->dateRelance = $dateRelance;
+
+        return $this;
+    }
+
+    public function getCommentaireClients(): ?string
+    {
+        return $this->commentaireClients;
+    }
+
+    public function setCommentaireClients(?string $commentaireClients): self
+    {
+        $this->commentaireClients = $commentaireClients;
+
+        return $this;
+    }
+
+    public function getCommentaireChantier(): ?string
+    {
+        return $this->commentaireChantier;
+    }
+
+    public function setCommentaireChantier(?string $commentaireChantier): self
+    {
+        $this->commentaireChantier = $commentaireChantier;
+
+        return $this;
+    }
+
+    public function getConversationChantier(): ?ConversationChantier
+    {
+        return $this->conversationChantier;
+    }
+
+    public function setConversationChantier(?ConversationChantier $conversationChantier): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($conversationChantier === null && $this->conversationChantier !== null) {
+            $this->conversationChantier->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($conversationChantier !== null && $conversationChantier->getDemande() !== $this) {
+            $conversationChantier->setDemande($this);
+        }
+
+        $this->conversationChantier = $conversationChantier;
 
         return $this;
     }
