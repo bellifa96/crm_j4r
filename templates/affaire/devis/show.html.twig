@@ -137,10 +137,10 @@
                                            disabled/>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="labels" for="devis_validite">Durée de validité du devis</label>
-                                    <input type="text" id="devis_validite" name="devis[validite]"
+                                    <label class="labels" for="devis_relance">Date de relance</label>
+                                    <input type="text" id="devis_relance" name="devis[relance]"
                                            class="col-md-12 chakra-input "
-                                           value="-"
+                                           value="{{ (devis.dateRelance is not null) ? devis.dateRelance : "-" }}"
                                            disabled/>
                                 </div>
                             </div>
@@ -171,7 +171,7 @@
                         <div class="row">
                             <div class="col-md-6">
 
-                                <label class="labels" for="devis_statut">Durée estimée</label>
+                                <label class="labels" for="devis_statut">Statut</label>
                                 <input type="text" id="devis_statut" name="devis[statut]"
                                        class="col-md-12 chakra-input "
                                        value="{{ devis.statut }}"

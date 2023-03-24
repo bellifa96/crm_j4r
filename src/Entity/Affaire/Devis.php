@@ -58,6 +58,9 @@ class Devis
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dateRelance = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -254,6 +257,18 @@ class Devis
     public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getDateRelance(): ?string
+    {
+        return $this->dateRelance;
+    }
+
+    public function setDateRelance(?string $dateRelance): self
+    {
+        $this->dateRelance = $dateRelance;
 
         return $this;
     }
