@@ -9,6 +9,7 @@ use App\Entity\Affaire\SousLot;
 use App\Entity\Demande;
 use App\Entity\User;
 use App\Form\Affaire\DevisType;
+use App\Form\DemandeType;
 use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\LotRepository;
 use App\Repository\Affaire\OuvrageRepository;
@@ -70,12 +71,16 @@ class DevisController extends AbstractController
         $data = $request->query->all();
         $referer = $request->headers->get('referer');
 
+        /*$form = $this->createForm(DevisType::class, $devis);
+        $form->handleRequest($request);*/
+
         $users = $userRepository->findAll();
 
         return $this->render('affaire/devis/show.html.twig', [
             'devis' => $devis,
             'title' => 'Devis N° ' . $devis->getId(),
             'users' => $users,
+            //'form' => $form->createView(),
             'referer' => $referer,
             'nav' => []
         ]);

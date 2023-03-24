@@ -69,6 +69,12 @@
             color: #0d4377;
         }
 
+        .bg-leasy {
+            background: #e2e8ed;
+            border-radius: 5px;
+
+        }
+
 
     </style>
 
@@ -192,8 +198,22 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="page-block bg-white">
-                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
-                            Commentaire (privé)
+                        <div class="row">
+                            <div class="commentaire" style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Commentaire (privé)
+                                <button id="{{ devis.id }}"
+                                        class="modify-com border-0 btn-transition btn btn-outline-info">
+                                    <i class="bi bi-pencil-square"></i></button>
+                            </div>
+                        </div>
+                        <div class="row espace-commentaire">
+                            <div id="commentaire" class="col-md-12 bg-leasy">
+                                {% if devis.commentaire is not empty %}
+                                    {{ devis.commentaire|raw('html') }}
+                                {% else %}
+                                    Pas de commentaire
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -501,11 +521,35 @@
             if (true) {
                 $.post("{{ path('app_affaire_referent_delete',{'id':devis.id}) }}", referent, function (response) {
                     let data = JSON.parse(response);
-                    if (data.code == 200){
+                    if (data.code == 200) {
                         $('#referent-' + data['idReferent']).remove();
                     }
                 })
             }
         })
+
+        $('.modify-com').on('click', function () {
+            $('#commentaire').hide();
+            let buttonEnregistrer = `<button class="btn btn-primary mx-1 enregistrer" type="submit">Enregistrer</button>`;
+            let buttonAnnuler = `<button type="button" class="btn btn-secondary annuler">Annuler</button>`;
+            let form = `
+                <textarea id="devis_commentaire" name="devis[commentaire]" rows="5" cols="50"></textarea>`;
+            $('.modify-com').hide();
+            $('.commentaire').append(buttonEnregistrer);
+            $('.commentaire').append(buttonAnnuler);
+            $('.espace-commentaire').append(form);
+
+        })
+
+        $('body').on('click', '.annuler', function (){
+            console.log('oui');
+            $('.annuler').remove();
+            $('.enregistrer').remove();
+            $('#devis_commentaire').remove();
+            $('.modify-com').show();
+            $('#commentaire').show();
+        })
+
+
     </script>
 {% endblock %}

@@ -18,6 +18,7 @@ class DevisType extends AbstractType
     {
         $builder
             ->add('titre')
+            //->add('commentaire')
             ->add('statut', ChoiceType::class, [
                 'choices' => [
                     'En cours' => 'En cours',
