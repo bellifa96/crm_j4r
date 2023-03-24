@@ -71,6 +71,7 @@
             <th>N°Devis</th>
             <th>Nom Devis</th>
             <th>Date du devis</th>
+            <th>Date de relance</th>
             <th>Montant HT</th>
             <th>Statut</th>
             <th>Par</th>
@@ -84,6 +85,7 @@
                 <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.id }}</a></td>
                 <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.titre }}</a></td>
                 <td>{{ unDevis.dateDuDevis }}</td>
+                <td>{{ (unDevis.dateRelance is not null) ? unDevis.dateRelance : "-" }}</td>
                 <td>{{ (unDevis.montantHT is not null) ? unDevis.montantHT : "-" }}</td>
                 <td>{{ unDevis.statut }}</td>
                 <td>{{ (unDevis.createur is not null ) ? unDevis.createur.lastname~" "~unDevis.createur.firstname : "-" }}</td>
