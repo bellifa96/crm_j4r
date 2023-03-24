@@ -164,7 +164,7 @@ class DevisController extends AbstractController
             $us = ['id' => $user->getId(), 'nom' => $user->getLastname(), 'prenom' => $user->getFirstname()];
             $referents[] = $us;
             $devis->addReferent($user);
-            }
+        }
 
         try {
             $devisRepository->add($devis);
@@ -391,7 +391,8 @@ class DevisController extends AbstractController
         return false;
     }
 
-    public function findElement($elements, $data, $lotRepository, $ouvrageRepository){
+    public function findElement($elements, $data, $lotRepository, $ouvrageRepository)
+    {
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
                 $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository, $ouvrageRepository);
@@ -416,7 +417,6 @@ class DevisController extends AbstractController
     }
 
 
-
     #[Route('/dupliquer/element/{id}', name: 'app_affaire_element_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
     {
@@ -432,7 +432,16 @@ class DevisController extends AbstractController
 
         $html = $this->recursiveElements([$dupliquer]);
 
-        $elements[] = $dupliquer;
+        if (!empty($data['idParent'])) {
+            $parent = [];
+            $parent['id'] = $data['idParent'];
+            $parent['type'] = 'lot';
+            $elements[] = $this->setParent($elements, $dupliquer, $parent);
+        }else {
+            $elements[] = $dupliquer;
+        }
+
+
 
         //dd($html);
 
@@ -443,7 +452,7 @@ class DevisController extends AbstractController
 
             $devis->setElements($elements);
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200, "html" => $html]));
+            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $data['idParent']]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {

@@ -60,9 +60,6 @@ class Devis
     private ?string $dateRelance = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $commentaireClients = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaireChantier = null;
 
     #[ORM\OneToOne(mappedBy: 'devis', targetEntity: ConversationChantier::class, cascade: ['persist', 'remove'])]
@@ -264,18 +261,6 @@ class Devis
     public function setDateRelance(?string $dateRelance): self
     {
         $this->dateRelance = $dateRelance;
-
-        return $this;
-    }
-
-    public function getCommentaireClients(): ?string
-    {
-        return $this->commentaireClients;
-    }
-
-    public function setCommentaireClients(?string $commentaireClients): self
-    {
-        $this->commentaireClients = $commentaireClients;
 
         return $this;
     }

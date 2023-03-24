@@ -52,7 +52,7 @@
                             <option value="{{ user.id }}" selected> {{ user.lastname~" "~user.firstname }}</option>
                         {% endfor %}
                         {% for user in users %}
-                            <option value="{{ user.id }}" > {{ user.lastname~" "~user.firstname }}</option>
+                            <option value="{{ user.id }}"> {{ user.lastname~" "~user.firstname }}</option>
                         {% endfor %}
 
                     </select>
@@ -278,7 +278,6 @@
 <script>
 
 
-
     let selectedElement = null;
     let selectedElementId = null;
     let selectedElementType = null;
@@ -438,13 +437,20 @@
 
     $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
         let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
+        let idParent = $(this).parent().parent().attr('parent');
         var id = selectedElementId;
         $.post(path, {
             id: selectedElementId,
-            type: selectedElementType
+            type: selectedElementType,
+            idParent: idParent
         }, function (data) {
             if (code = 200) {
-                $('#main-devis').append(JSON.parse(data).html);
+                console.log(data.idParent);
+                if (data.idParent != null) {
+                    $(JSON.parse(data).html).insertAfter('#element'+data.idParent);
+                } else {
+                    $('#main-devis').append(JSON.parse(data).html);
+                }
                 $("#lot").modal('show');
             }
         })
@@ -488,7 +494,7 @@
         }
     })
 
-    $('body').on('click', '#modifier-ouvrage', function(){
+    $('body').on('click', '#modifier-ouvrage', function () {
         let id = selectedElementId;
         console.log(id);
         let path = '/affaire/bibliothequeDePrix/ouvrage/' + id;
@@ -785,7 +791,7 @@
                 code: $('input[name="devis[lots][' + id + '][code]"]').val(),
                 titre: $('input[name="devis[lots][' + id + '][titre]"]').val(),
                 quantite: $('input[name="devis[lots][' + id + '][quantite]"]').val(),
-                prix: $('input[name="devis[lots][' + id +'][debourse]"]').val(),
+                prix: $('input[name="devis[lots][' + id + '][debourse]"]').val(),
             };
 
             let path = '/affaire/devis/edit/lot/' + id;
