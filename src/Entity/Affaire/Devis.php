@@ -65,6 +65,12 @@ class Devis
     #[ORM\OneToOne(mappedBy: 'devis', targetEntity: ConversationChantier::class, cascade: ['persist', 'remove'])]
     private $conversationChantier;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $margeTotale = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $prixDeVenteHT = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -295,6 +301,30 @@ class Devis
         }
 
         $this->conversationChantier = $conversationChantier;
+
+        return $this;
+    }
+
+    public function getMargeTotale(): ?float
+    {
+        return $this->margeTotale;
+    }
+
+    public function setMargeTotale(?float $margeTotale): self
+    {
+        $this->margeTotale = $margeTotale;
+
+        return $this;
+    }
+
+    public function getPrixDeVenteHT(): ?float
+    {
+        return $this->prixDeVenteHT;
+    }
+
+    public function setPrixDeVenteHT(?float $prixDeVenteHT): self
+    {
+        $this->prixDeVenteHT = $prixDeVenteHT;
 
         return $this;
     }

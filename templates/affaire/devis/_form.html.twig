@@ -2,6 +2,26 @@
     {{ encore_entry_link_tags('devis') }}
 {% endblock %}
 
+<style>
+
+    #encadre-marge {
+        cursor: pointer;
+    }
+
+    #menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 40%;
+        z-index: 1;
+        background: whitesmoke;
+        border: 1px solid black;
+        color: #0e4377;
+    }
+</style>
+
 <div class="row justify-content-between">
     <div class="col-md-auto">
         <a href=" {{ referer }} ">
@@ -14,65 +34,172 @@
     </div>
 </div>
 
-<div class="page-block col-md-10 m-auto mt-4">
+<div class="row mt-4">
+    <div class="page-block col-md-7 m-auto">
 
-    {{ form_start(form) }}
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    {{ form_label(form.titre,'attr', {'label_attr':{'class':'labels'}}) }}
-                </div>
-                <div class="col-md-9">
-                    {{ form_widget(form.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        {{ form_label(form.titre,'attr', {'label_attr':{'class':'labels'}}) }}
+                    </div>
+                    <div class="col-md-9">
+                        {{ form_widget(form.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row mt-2">
-                <div class="col-md-3 text-end labels">
-                    {{ form_label(form.description,'',{'label_attr':{'class':'labels'}}) }}
-                </div>
-                <div class="col-md-9">
-                    {{ form_widget(form.description,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end labels">
+                        {{ form_label(form.description,'',{'label_attr':{'class':'labels'}}) }}
+                    </div>
+                    <div class="col-md-9">
+                        {{ form_widget(form.description,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row mt-2">
-                <div class="col-md-3 text-end">
-                    <label class="labels" for="devis_referent">Referent(s)</label>
-                </div>
-                <div class="col-md-9">
-                    <select class="form-control tel-code" name="devis[referent][]"
-                            id="devis_referent" multiple>
-                        {% for user in devis.referent %}
-                            <option value="{{ user.id }}" selected> {{ user.lastname~" "~user.firstname }}</option>
-                        {% endfor %}
-                        {% for user in users %}
-                            <option value="{{ user.id }}"> {{ user.lastname~" "~user.firstname }}</option>
-                        {% endfor %}
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end">
+                        <label class="labels" for="devis_referent">Referent(s)</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control tel-code" name="devis[referent][]"
+                                id="devis_referent" multiple>
+                            {% for user in devis.referent %}
+                                <option value="{{ user.id }}" selected> {{ user.lastname~" "~user.firstname }}</option>
+                            {% endfor %}
+                            {% for user in users %}
+                                <option value="{{ user.id }}"> {{ user.lastname~" "~user.firstname }}</option>
+                            {% endfor %}
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row mt-2">
-                <div class="col-md-3 text-end labels">
-                    {{ form_label(form.statut,'',{'label_attr':{'class':'labels'}}) }}
-                </div>
-                <div class="col-md-9">
-                    {{ form_widget(form.statut,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+            <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-3 text-end labels">
+                        {{ form_label(form.statut,'',{'label_attr':{'class':'labels'}}) }}
+                    </div>
+                    <div class="col-md-9">
+                        {{ form_widget(form.statut,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                    </div>
                 </div>
             </div>
+
         </div>
 
     </div>
+    <div class="col-md-4 page-block m-auto" id="encadre-marge" onclick="afficherMenu()">
+        <div class="row align-items-center">
 
+            <div class="col-md-3">
+                <label for="devis_debourseTotalHT">Déboursé total HT</label>
+                <input type="text" id="devis_debourseTotalHT" class="form-control"
+                       value='{{ devis.montantHT }}'
+                       name="devis[debourseTotalHT]" disabled>
+            </div>
+            <div style="font-size: 1.5rem" class="col-md-1">
+                X
+            </div>
+            <div class="col-md-3">
+
+                <label for="devis_margeTotale">Marge totale</label>
+                <input type="text" id="devis_margeTotale" class="form-control"
+                       value='{{ devis.margeTotale }}'
+                       name="devis[margeTotale]" disabled>
+            </div>
+            <div style="font-size: 1.5rem" class="col-md-1">
+                =
+            </div>
+            <div class="col-md-4">
+
+                <label for="devis_prixDeVenteHT">Prix de vente HT</label>
+                <input type="text" id="devis_prixDeVenteHT" class="form-control"
+                       value='{{ devis.prixDeVenteHT }}'
+                       name="devis[prixDeVenteHT]" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="menu">
+    <h3 class="ms-2">Feuille de vente du devis</h3>
+    <hr>
+    <div class="mt-3 ms-2">
+        <p>La feuille de vente permet d'analyser le chiffrage du devis et d'ajuster certains montants. Les ajustements
+            réalisés dans la feuille de vente vont impacter les montants de chaque ouvrage ou lot du devis.</p>
+        <div class="col-md-11 page-block mt-2">
+            <h4>Marge du devis</h4>
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+                    <label for="devis_fraisGeneraux">Frais généraux</label>
+                    <input type="text" id="devis_fraisGeneraux" class="form-control"
+                           value='{{ devis.montantHT }}'
+                           name="devis[fraisGeneraux]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    X
+                </div>
+                <div class="col-md-3">
+
+                    <label for="devis_margeBeneficiaire">Marge bénéficiaire</label>
+                    <input type="text" id="devis_margeBeneficiaire" class="form-control"
+                           value='{{ devis.margeTotale }}'
+                           name="devis[margeBeneficiaire]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    =
+                </div>
+                <div class="col-md-4">
+
+                    <label for="devis_margeTotale">Marge totale</label>
+                    <input type="text" id="devis_margeTotale" class="form-control"
+                           value='{{ devis.prixDeVenteHT }}'
+                           name="devis[margeTotale]" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-11 page-block mt-2">
+            <h4>Prix de vente du devis</h4>
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+                    <label for="devis_debourseTotalHT">Déboursé total HT</label>
+                    <input type="text" id="devis_debourseTotalHT" class="form-control"
+                           value='{{ devis.montantHT }}'
+                           name="devis[debourseTotalHT]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    X
+                </div>
+                <div class="col-md-3">
+
+                    <label for="devis_margeTotale">Marge totale</label>
+                    <input type="text" id="devis_margeTotale" class="form-control"
+                           value='{{ devis.margeTotale }}'
+                           name="devis[margeTotale]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    =
+                </div>
+                <div class="col-md-4">
+
+                    <label for="devis_prixDeVenteHT">Prix de vente HT</label>
+                    <input type="text" id="devis_prixDeVenteHT" class="form-control"
+                           value='{{ devis.prixDeVenteHT }}'
+                           name="devis[prixDeVenteHT]" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -447,7 +574,7 @@
             if (code = 200) {
                 console.log(data.idParent);
                 if (data.idParent != null) {
-                    $(JSON.parse(data).html).insertAfter('#element'+data.idParent);
+                    $(JSON.parse(data).html).insertAfter('#element' + data.idParent);
                 } else {
                     $('#main-devis').append(JSON.parse(data).html);
                 }
@@ -849,9 +976,9 @@
         this.value = this.value.replace(/[^0-9\.\,]/g, '');
     });
 
-
-    function calculLotHT() {
-
+    function afficherMenu() {
+        $('#menu').css('display', 'block');
+        console.log('oui');
     }
 
 
