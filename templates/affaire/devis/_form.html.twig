@@ -978,8 +978,19 @@
 
     function afficherMenu() {
         $('#menu').css('display', 'block');
-        console.log('oui');
     }
+
+    $(document).on('click', function(e) {
+        if(!$(e.target).closest('#menu').length) {
+            $('#menu').css('display', 'none');
+        }
+    });
+
+    $('#encadre-marge').on('click', function(e) {
+        e.stopPropagation();
+        afficherMenu();
+    });
+
 
 
 </script>
