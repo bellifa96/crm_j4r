@@ -48,7 +48,7 @@ class Devis
     private $elements = [];
 
     #[ORM\Column(nullable: true)]
-    private ?float $montantHT = null;
+    private ?float $debourseHT = null;
 
     #[ORM\ManyToOne(inversedBy: 'devisCreateur')]
     private ?User $createur = null;
@@ -211,14 +211,14 @@ class Devis
         return $elements;
     }
 
-    public function getMontantHT(): ?float
+    public function getDebourseHT(): ?float
     {
-        return $this->montantHT;
+        return $this->debourseHT;
     }
 
-    public function setMontantHT(?float $montantHT): self
+    public function setDebourseHT(?float $debourseHT): self
     {
-        $this->montantHT = $montantHT;
+        $this->debourseHT = $debourseHT;
 
         return $this;
     }
