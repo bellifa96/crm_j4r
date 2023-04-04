@@ -71,6 +71,9 @@ class Devis
     #[ORM\Column(nullable: true)]
     private ?float $prixDeVenteHT = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $fraisGeneraux = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->lots = new ArrayCollection();
@@ -325,6 +328,18 @@ class Devis
     public function setPrixDeVenteHT(?float $prixDeVenteHT): self
     {
         $this->prixDeVenteHT = $prixDeVenteHT;
+
+        return $this;
+    }
+
+    public function getFraisGeneraux(): ?float
+    {
+        return $this->fraisGeneraux;
+    }
+
+    public function setFraisGeneraux(?float $fraisGeneraux): self
+    {
+        $this->fraisGeneraux = $fraisGeneraux;
 
         return $this;
     }
