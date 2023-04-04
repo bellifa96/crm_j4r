@@ -60,6 +60,8 @@ class DevisController extends AbstractController
         $devis->setTitre($nom);
         $devis->setDemande($demande);
         $devis->setCreateur($this->getUser());
+        $devis->setFraisGeneraux(1);
+        $devis->setMargeBeneficiaire(1);
         $devisRepository->add($devis);
         return $this->redirectToRoute('app_affaire_devis_edit', ['id' => $devis->getId()], Response::HTTP_SEE_OTHER);
 

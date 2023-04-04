@@ -26,15 +26,30 @@
                         {% endif %}
                        placeholder="Quantité" value="{{ lot.quantite }}">
             </div>
-            <div class="tab-el-right"></div>
             <div class="tab-el-right">
-
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourse"
                        disabled="disabled" placeholder="Déboursé Total HT" lot="{{ lot.id }}"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        name="devis[lots][{{ lot.id }}][debourse]" value="{{ lot.prixHT|number_format(2,'.',' ') }}"/>
+            </div>
+            <div class="tab-el-right">
+                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_marge"
+                       disabled="disabled" placeholder="Marge" lot="{{ lot.id }}"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       name="devis[lots][{{ lot.id }}][marge]" value="{{ lot.marge|number_format(2,'.',' ') }}"/>
+            </div>
+            <div class="tab-el-right">
+                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourseTotal"
+                       disabled="disabled" placeholder="Déboursé Total HT" lot="{{ lot.id }}"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       name="devis[lots][{{ lot.id }}][debourseTotal]"
+                       value="{{ (lot.prixHT * lot.marge)|number_format(2,'.',' ') }}"/>
             </div>
             <div class="tab-el-right row justify-content-center options">
                 <div class="col-md-auto">
