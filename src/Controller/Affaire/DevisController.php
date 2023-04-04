@@ -321,6 +321,7 @@ class DevisController extends AbstractController
         //dd($data);
 
         $lot = new Lot();
+        $lot->setMarge(1);
         $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
@@ -375,6 +376,8 @@ class DevisController extends AbstractController
             $dupliquer->setTitre($lot->getTitre());
             $dupliquer->setCode($lot->getCode());
             $dupliquer->setPrixHT($lot->getPrixHT());
+            $dupliquer->setQuantite($lot->getQuantite());
+            $dupliquer->setMarge($lot->getMarge());
             $lotRepository->save($dupliquer);
 
             return ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
@@ -385,6 +388,8 @@ class DevisController extends AbstractController
             $dupliquer->setCode($ouvrage->getCode());
             $dupliquer->setUnite($ouvrage->getUnite());
             $dupliquer->setPrixUnitaireDebourse(($ouvrage->getPrixUnitaireDebourse()) ? $ouvrage->getPrixUnitaireDebourse() : 0);
+            $dupliquer->setMarge($ouvrage->getMarge());
+            $dupliquer->setQuantite($ouvrage->getQuantite());
             $dupliquer->setDebourseHTCalcule($ouvrage->getDebourseHTCalcule());
             $ouvrageRepository->save($dupliquer);
 
