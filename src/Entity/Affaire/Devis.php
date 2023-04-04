@@ -66,7 +66,7 @@ class Devis
     private $conversationChantier;
 
     #[ORM\Column(nullable: true)]
-    private ?float $margeTotale = null;
+    private ?float $margeBeneficiaire = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $prixDeVenteHT = null;
@@ -308,14 +308,14 @@ class Devis
         return $this;
     }
 
-    public function getMargeTotale(): ?float
+    public function getMargeBeneficiaire(): ?float
     {
-        return $this->margeTotale;
+        return $this->margeBeneficiaire;
     }
 
-    public function setMargeTotale(?float $margeTotale): self
+    public function setMargeBeneficiaire(?float $margeBeneficiaire): self
     {
-        $this->margeTotale = $margeTotale;
+        $this->margeBeneficiaire = $margeBeneficiaire;
 
         return $this;
     }
