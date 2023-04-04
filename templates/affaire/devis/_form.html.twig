@@ -8,7 +8,7 @@
         cursor: pointer;
     }
 
-    #menu {
+    #menu-marge {
         display: none;
         position: fixed;
         top: 0;
@@ -977,12 +977,12 @@
     });
 
     function afficherMenu() {
-        $('#menu').css('display', 'block');
+        $('#menu-marge').css('display', 'block');
     }
 
     $(document).on('click', function(e) {
-        if(!$(e.target).closest('#menu').length) {
-            $('#menu').css('display', 'none');
+        if(!$(e.target).closest('#menu-marge').length) {
+            $('#menu-marge').css('display', 'none');
         }
     });
 
