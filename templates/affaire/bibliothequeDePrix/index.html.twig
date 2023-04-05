@@ -431,6 +431,7 @@
                 duht: $('#composant_DUHT').val(),
                 marge: $('#composant_marge').val(),
                 note: $('#composant_note').val(),
+                quantite: $('#composant_quantite').val(),
             }
 
             $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {

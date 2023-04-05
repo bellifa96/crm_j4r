@@ -57,6 +57,7 @@ class Composant
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
+        $this->quantite = 1;
     }
 
     public function getId(): ?int

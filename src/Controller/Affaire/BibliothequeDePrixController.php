@@ -237,7 +237,7 @@ class BibliothequeDePrixController extends AbstractController
 
         $ouvrage = new Ouvrage();
         $ouvrage->setCode($data['code']);
-        $ouvrage->setPrixUnitaireDebourse($data['duht']);
+        $ouvrage->setPrixUnitaireDebourse(floatval($data['duht']));
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setUnite($data['unite']);
         $ouvrage->setMarge(1);
@@ -326,6 +326,7 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setUnite($data['unite']);
         $composant->setMarge(floatval($data['marge']));
         $composant->setPrixDeVente($composant->getMarge() * $composant->getDebourseUnitaireHT());
+        $composant->setQuantite($data['quantite']);
         $composant->setCreateur($this->getUser());
 
         if (key_exists('ouvrage', $data)) {
