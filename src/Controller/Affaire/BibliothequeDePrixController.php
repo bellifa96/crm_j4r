@@ -237,7 +237,7 @@ class BibliothequeDePrixController extends AbstractController
 
         $ouvrage = new Ouvrage();
         $ouvrage->setCode($data['code']);
-        $ouvrage->setPrixDeVenteHT($data['duht']);
+        $ouvrage->setPrixUnitaireDebourse($data['duht']);
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setUnite($data['unite']);
         $ouvrage->setMarge(1);
