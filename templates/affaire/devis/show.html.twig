@@ -243,6 +243,43 @@
             text-align: center;
         }
 
+        .nav-tabs-demande .nav-link-demande {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            color: #0E4377;
+            width: 100%;
+            border-right: 1px solid #0E4377;
+        }
+
+
+        .nav-tabs-demande .nav-link-demande.active {
+            background-color: #fff;
+            border-color: #0e4377 #0e4377 #0e4377;
+            color: #495057;
+        }
+
+        body .nav-tabs-demande li button {
+            display: block;
+            padding: 5px 30px;
+        }
+
+        body .nav-tabs-demande li .active {
+            background-color: #0E4377 !important;
+            color: white !important;
+        }
+
+        .nav-item-demande .nav-link-demande:hover {
+            background: #0E4377;
+            color: white !important;
+            border-color: #0E4377;
+            font-weight: 700;
+        }
+
+        .nav-tabs-demande {
+            border: 1px solid #0E4377;
+            border-bottom: 5px solid #0E4377;
+        }
+
 
     </style>
 
@@ -371,7 +408,8 @@
                 <div class="col-md-12">
                     <div class="page-block bg-white">
                         <div class="row">
-                            <div class="commentaire" style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            <div class="commentaire"
+                                 style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
                                 Commentaire (privé)
                             </div>
                         </div>
@@ -402,11 +440,13 @@
                                     </div>
                                     <div class="sendBox row">
                                         <div class="col-md-11">
-                                            <input type="text" placeholder="écrire un commentaire chantier" name="message_chantier"
+                                            <input type="text" placeholder="écrire un commentaire chantier"
+                                                   name="message_chantier"
                                                    class="chatin">
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="button message-submit" style="background: transparent; border: none;"
+                                            <button class="button message-submit"
+                                                    style="background: transparent; border: none;"
                                                     id="btn-chantier">
                                                 <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
                                             </button>
@@ -439,11 +479,13 @@
                                     </div>
                                     <div class="sendBox row">
                                         <div class="col-md-11">
-                                            <input type="text" placeholder="écrire un commentaire client" name="message_client"
+                                            <input type="text" placeholder="écrire un commentaire client"
+                                                   name="message_client"
                                                    class="chatin">
                                         </div>
                                         <div class="col-md-1">
-                                            <button class="button message-submit" style="background: transparent; border: none;"
+                                            <button class="button message-submit"
+                                                    style="background: transparent; border: none;"
                                                     id="btn-client">
                                                 <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
                                             </button>
@@ -633,28 +675,358 @@
         </div>
 
         <div class="tab-pane fade" id="nav-demande" role="tabpanel" aria-labelledby="nav-demande-tab">
-            <div class="row mt-3">
-                <div class="col-md-6 ">
-                    <div class="page-block bg-white">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="page-block bg-white">
-                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
-                            Chantier associé
+
+            <div class="col-md-12 page-block mt-4">
+
+
+                <ul class="nav nav-tabs nav-demande nav-tabs-demande mb-4" id="myTab" role="tablist">
+                    <li class="col nav-item-demande" role="presentation">
+                        <button class="nav-link nav-link-demande {{ devis.demande.menu is empty ? 'active' : '' }}{{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}"
+                                id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                                type="button"
+                                role="tab" aria-controls="details" aria-selected="true">
+                            Détail demande
+                        </button>
+                    </li>
+                    <li class="col nav-item nav-item-demande" role="presentation">
+                        <button class="nav-link nav-link-demande {{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'commentaires-tab' ? 'active' : '' }}"
+                                id="commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                                type="button"
+                                role="tab" aria-controls="Commentaires" aria-selected="false">
+                            Commentaires
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content mt-4" id="myTabContent">
+
+
+                    <!-- Détails -->
+                    <div class="tab-pane fade show active"
+                         id="details" role="tabpanel" aria-labelledby="details-tab">
+                        <div class="page-block col-md-12 m-auto mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mt-1">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Type de prestation</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.typeDePrestation }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Documents souhaités </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.documentsSouhaites|join('-') }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Fonds de plan </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.fondsDePlan }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Travaux prevus </label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.travauxPrevus|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Classe d'échafaudage </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.ClasseDEchaffaudage }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Type de materiel</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.TypeDeMateriel }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Dimensions globales</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.dimensionsGlobales|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Ammarages</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.ammarages|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Largeur de travail</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.LargeurDeTravail }}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Consoles</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.consoles }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Distance à la façade</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.distanceALaFacade }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Hauteur des planchers</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.hauteurDesPlanchers %}
+                                                <div> {{ key~" : "~value }} </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Équipements</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.equipements %}
+                                                <div>
+                                                    {% if value == "Passage piéton" %}
+                                                        {{ value~" : "~demande.largeurPassagePieton }}
+                                                    {% elseif value == "Protection couvreur" %}
+                                                        {{ value~" : "~demande.protectionCouvreur }}
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Accés</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.acces }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Bâche et filet </label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.bacheEtFilet %}
+                                                <div>
+                                                    {{ key~" : "~value }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.bache %}
+                                                <div>
+                                                    {{ value }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="page-block col-md-12 m-auto mt-4">
+                            <div class="row mt-2">
+                                <div class="col-md-auto text-end">
+                                    Commentaire
+                                </div>
+                                <div class="col-md-10 bg-leasy">
+                                    {{ devis.demande.commentaire|raw('html') }}
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
+
+                    <!-- Commentaires -->
+                    <div class="tab-pane fade {{ devis.demande.menu is not empty and  app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'commentaires-tab' ? 'show active' : '' }}"
+                         id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+
+                        <div id="viewport" class="row">
+
+                            <div class="chatbox col-md-3" id="metre">
+
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires métré</h6>
+                                    </div>
+                                    <ul id="metre-ul">
+                                        {% if devis.demande.conversationMetreDemande %}
+                                            {% for message in  devis.demande.conversationMetreDemande.messages %}
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire métré"
+                                               name="message_metre"
+                                               class="chatin">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-metre">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chatbox col-md-3" id="client">
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires client</h6>
+                                    </div>
+                                    <ul id="client-ul">
+                                        {% if devis.demande.conversationClient %}
+
+                                            {% for message in  devis.demande.conversationClient.messages %}
+
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire client"
+                                               name="message_client"
+                                               class="chatin">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-client">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chatbox col-md-3" id="apres-negociatio">
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires après négociation</h6>
+                                    </div>
+                                    <ul id="negociation-ul">
+                                        {% if devis.demande.conversationApresNegociationDemande %}
+                                            {% for message in  devis.demande.conversationApresNegociationDemande.messages %}
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                                <span class="partner">
+                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
+                                                </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire aprés négociation"
+                                               class="chatin"
+                                               name="message_negociation">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-negociation">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
-            <div class="row mt-3 mb-3">
-                <div class="col-md-6 ">
-                    <div class="page-block bg-white">
-                    </div>
-                </div>
-            </div>
+
         </div>
+
+    </div>
 
     </div>
 
