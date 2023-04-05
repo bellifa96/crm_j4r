@@ -676,9 +676,174 @@
 
         <div class="tab-pane fade" id="nav-demande" role="tabpanel" aria-labelledby="nav-demande-tab">
 
+            <div class="page-block col-md-10 m-auto mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Client</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {% if devis.demande.client is not empty %}
+                                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id' :devis.demande.client.id}) }}">
+                                        <b>{{ devis.demande.client.societe ? devis.demande.client.societe.raisonSociale : devis.demande.client.personne.nom~" " ~devis.demande.client.personne.prenom }}</b>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels required">Contact Principal Client</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+
+                                {% if devis.demande.contactPrincipalClient is not empty %}
+                                    <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalClient.id}) }}">
+                                        <b>{{ devis.demande.contactPrincipalClient.nom~" " ~devis.demande.contactPrincipalClient.prenom }}</b>
+                                    </a>
+                                {% else %}
+                                    NC
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if devis.demande.maitreDOuvrage is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Maitre D'ouvrage</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    <b>{{ devis.demande.maitreDOuvrage.societe ? devis.demande.maitreDOuvrage.societe.raisonSociale : devis.demande.maitreDOuvrage.personne.nom }}</b>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels required">Contact Principal maitre d'ouvrage</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {% if devis.demande.contactPrincipalMaitreDOuvrage is not empty %}
+                                        <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalMaitreDOuvrage.id}) }}">
+                                            <b>{{ devis.demande.contactPrincipalMaitreDOuvrage.nom~" " ~devis.demande.contactPrincipalMaitreDOuvrage.prenom }}</b>
+                                        </a>
+                                    {% else %}
+                                        NC
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        {% if devis.demande.intermediaire is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Intermediaire</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    <b>  {{ devis.demande.intermediaire.societe ? devis.demande.intermediaire.societe.raisonSociale : devis.demande.intermediaire.personne.nom }}</b>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels required">Contact Principal intermédiaire</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {% if devis.demande.contactPrincipalIntermediaire is not empty %}
+                                        <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalIntermediaire.id}) }}">
+                                            <b>  {{ devis.demande.contactPrincipalIntermediaire.nom~" " ~devis.demande.contactPrincipalIntermediaire.prenom }}</b>
+                                        </a>
+                                    {% else %}
+                                        NC
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if devis.demande.contactsSecondaires is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Contacts Secondaires</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for contact in devis.demande.contactsSecondaires %}
+                                        <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">
+                                            <b>{{ contact.nom~" "~contact.prenom }}</b>
+                                        </a>
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels required">Nom du chantier</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.nomChantier }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Adresse</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.adresse1 }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Complément d'adresse</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.adresse2 }}
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Code postal</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.codePostal }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Ville</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.ville }}
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Pays</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.pays }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <div class="col-md-12 page-block mt-4">
-
-
+                
                 <ul class="nav nav-tabs nav-demande nav-tabs-demande mb-4" id="myTab" role="tablist">
                     <li class="col nav-item-demande" role="presentation">
                         <button class="nav-link nav-link-demande {{ devis.demande.menu is empty ? 'active' : '' }}{{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}"
@@ -831,9 +996,9 @@
                                             {% for key,value in devis.demande.equipements %}
                                                 <div>
                                                     {% if value == "Passage piéton" %}
-                                                        {{ value~" : "~demande.largeurPassagePieton }}
+                                                        {{ value~" : " ~devis.demande.largeurPassagePieton }}
                                                     {% elseif value == "Protection couvreur" %}
-                                                        {{ value~" : "~demande.protectionCouvreur }}
+                                                        {{ value~" : " ~devis.demande.protectionCouvreur }}
                                                     {% else %}
                                                         {{ value }}
                                                     {% endif %}
