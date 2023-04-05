@@ -309,6 +309,61 @@
             text-align: center;
         }
 
+        .css-1baulvz {
+            display: inline-block;
+        }
+
+        .css-1rs5v3u {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: end;
+            justify-content: flex-end;
+            flex-direction: row-reverse;
+            --chakra-space-x-reverse: 1;
+            --chakra-divide-x-reverse: 1;
+        }
+
+        .css-iiwwb3 {
+            display: inline-flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+            position: relative;
+            flex-shrink: 0;
+            color: #334E68;
+            --avatar-border-color: #fff;
+            vertical-align: top;
+            background-color: #c4d9ed;
+            width: 2rem;
+            height: 2rem;
+            font-size: calc(0.8rem);
+            margin-inline-end: 0px;
+            border-radius: 9999px;
+            border-width: 2px;
+            border-color: #fff;
+        }
+
+        .css-1pd2iu3 {
+            font-size: calc(0.8rem);
+            line-height: 2rem;
+        }
+
+        .tlt {
+            position: absolute;
+            z-index: 1;
+            border: 1px solid #ccc;
+            padding: 5px;
+            display: none;
+            transform: translateX(-50%); /* centre la bulle horizontalement */
+            background-color: #c4d9ed;
+            color: #334E68;
+        }
+
 
     </style>
 
@@ -571,9 +626,9 @@
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
-                <button class="nav-link" id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
-                        role="tab" aria-controls="affaires" aria-selected="false">
-                    Affaires
+                <button class="nav-link {{ demande.menu is not empty and app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'devis-tab' ? 'active' : '' }}" id="devis-tab" data-bs-toggle="tab" data-bs-target="#devis" type="button"
+                        role="tab" aria-controls="devis" aria-selected="false">
+                    Devis
                 </button>
             </li>
             <li class="col nav-item" role="presentation">
@@ -900,9 +955,59 @@
             </div>
 
 
-            <!-- Affaires -->
-            <div class="tab-pane fade" id="affaires" role="tabpanel" aria-labelledby="affaires-tab">
+            <!-- Devis -->
+            <div class="tab-pane fade {{ demande.menu is not empty and  app.user.id in demande.menu|keys and demande.menu[app.user.id] ==  'devis-tab' ? 'show active' : '' }}" id="devis" role="tabpanel" aria-labelledby="devis-tab">
+                <div class="col-md-12" style="text-overflow:ellipsis;overflow:auto;white-space:nowrap;">
+                    <table class="table datatable text-center">
+                        <thead>
+                        <tr class="tr-head">
+                            <th>N°Devis</th>
+                            <th>Nom du devis</th>
+                            <th>Créé par</th>
+                            <th>Date du devis</th>
+                            <th>Référents</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for unDevis in demande.devis %}
 
+                            <tr>
+                                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.id }}</a></td>
+                                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.titre }}</a></td>
+                                <td>{{ (unDevis.createur is not null ) ? unDevis.createur.lastname~" "~unDevis.createur.firstname : "-" }}</td>
+                                <td>{{ unDevis.dateDuDevis }}</td>
+                                <td>
+                                    {% for unReferent in unDevis.referent %}
+                                        <div id="avatar-{{ unDevis.id }}-{{ unReferent.id }}" class="css-1baulvz"
+                                             onmouseover="showTooltip('{{ unReferent.id }}', '{{ unDevis.id }}')"
+                                             onmouseout="hideTooltip('{{ unReferent.id }}', '{{ unDevis.id }}')">
+
+                                            <div role="group" class="chakra-avatar__group css-1rs5v3u">
+                                <span class="chakra-avatar css-iiwwb3">
+                                    <div role="img" aria-label="{{ unReferent.lastname~" "~unReferent.firstname }}"
+                                         class="chakra-avatar__initials css-1pd2iu3">
+                                        <a href="{{ path('app_user_show', {'id': unReferent.id}) }}">{{ unReferent.lastname|first|upper~unReferent.firstname|first|upper }}</a>
+                                    </div>
+                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div id="tooltip-{{ unDevis.id }}-{{ unReferent.id }}" class="tlt">
+                                            {{ unReferent.lastname~" "~unReferent.firstname }}
+                                        </div>
+
+                                    {% else %}
+                                        -
+                                    {% endfor %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
 
             <!-- Commentaires -->
@@ -1472,7 +1577,7 @@
 
         });
 
-        $("#details-tab, #taches-tab, #commentaires-tab, #affaires-tab, #ged-tab").click(function () {
+        $("#details-tab, #taches-tab, #commentaires-tab, #devis-tab, #ged-tab").click(function () {
 
             let id = $(this).attr('id');
             $.get("/demande/menu/demande/" + id + "/{{ demande.id }}", function (data) {
@@ -1480,6 +1585,20 @@
             })
 
         });
+
+        function showTooltip(referentId, devisId) {
+            var parentElement = document.getElementById("avatar-" + devisId + "-" + referentId);
+            var tooltipElement = document.getElementById("tooltip-" + devisId + "-" + referentId);
+            var parentRect = parentElement.getBoundingClientRect();
+            tooltipElement.style.display = "block";
+            tooltipElement.style.top = (parentRect.top - tooltipElement.offsetHeight - 5) + "px";
+            tooltipElement.style.left = ((parentRect.left + parentRect.right) / 2 ) + "px";
+        }
+
+        function hideTooltip(referentId, devisId) {
+            var tooltip = document.getElementById('tooltip-' + devisId + '-' + referentId);
+            tooltip.style.display = 'none';
+        }
 
 
     </script>
