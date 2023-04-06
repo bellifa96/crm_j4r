@@ -1518,6 +1518,8 @@
 
                     $("#add-evenement").modal('hide');
                     $('#add-evenement').remove()
+
+                    $('#DataTables_Table_0 > tbody:last').append(data.html);
                 } else {
 
                     $('#modal_button').show();

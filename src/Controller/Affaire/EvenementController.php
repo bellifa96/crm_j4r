@@ -82,12 +82,14 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/new/evenement', name: 'app_affaire_evenement_new_evenement', methods: ['POST'])]
-    public function newEvenement(Request $request, EvenementRepository $evenementRepository, UserRepository $userRepository, DemandeRepository $demandeRepository): Response
+    public function newEvenement(Request $request, EvenementRepository $evenementRepository, UserRepository $userRepository, DemandeRepository $demandeRepository, Environment $environment): Response
     {
 
         $data = $request->request->all()['evenement'];
         $response = new Response();
 
+        $path = "affaire/evenement/modal_demande.html.twig";
+        $html = "";
         //dd($request);
 
         if (!empty($data['titre']) and !empty($data['description']) and !empty($data['dateDeDebut'])
@@ -123,10 +125,11 @@ class EvenementController extends AbstractController
             $evenement->setPriorite(htmlspecialchars($data['priorite'], ENT_QUOTES, 'UTF-8'));
             $evenement->setTypeDEvenement(htmlspecialchars($data['typeDEvenement'], ENT_QUOTES, 'UTF-8'));
 
-            //dd($evenement);
+            //dd($evenement->getId());
             try {
                 $evenementRepository->add($evenement);
-                $response->setContent(json_encode(['code' => 200, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
+                $html .= $environment->render($path, ["evenement" => $evenement]);
+                $response->setContent(json_encode(['code' => 200, 'html' => $html, 'message' => ['id' => $evenement->getId(), 'titre' => $evenement->getTitre()]]));
                 $objet = $this->getUser()->getFirstname() . " attribue Tache (" . $evenement->getPriorite() . ") - " . $evenement->getDemande()->getNomChantier() . " - échéance :" . $evenement->getDateDeFin()->format('d/m/Y H:i');
                 $this->emailService->send($users, $evenement, 'emails/nouvelle_tache.html.twig', $objet);
 
