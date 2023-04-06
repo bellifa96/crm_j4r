@@ -16,20 +16,20 @@ class Composant
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $intitule;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $unite;
 
     #[ORM\Column(type: 'float')]
     private $debourseUnitaireHT;
 
     #[ORM\ManyToOne(targetEntity: TypeComposant::class, inversedBy: 'composants')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $typeComposant;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -58,6 +58,7 @@ class Composant
     {
         $this->ouvrages = new ArrayCollection();
         $this->quantite = 1;
+        $this->debourseUnitaireHT = 0;
     }
 
     public function getId(): ?int
@@ -70,7 +71,7 @@ class Composant
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
@@ -82,7 +83,7 @@ class Composant
         return $this->intitule;
     }
 
-    public function setIntitule(string $intitule): self
+    public function setIntitule(?string $intitule): self
     {
         $this->intitule = $intitule;
 
@@ -94,7 +95,7 @@ class Composant
         return $this->unite;
     }
 
-    public function setUnite(string $unite): self
+    public function setUnite(?string $unite): self
     {
         $this->unite = $unite;
 
@@ -106,7 +107,7 @@ class Composant
         return $this->debourseUnitaireHT;
     }
 
-    public function setDebourseUnitaireHT(float $debourseUnitaireHT): self
+    public function setDebourseUnitaireHT(?float $debourseUnitaireHT): self
     {
         $this->debourseUnitaireHT = $debourseUnitaireHT;
 

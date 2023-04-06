@@ -240,8 +240,8 @@
             <div class="organisation3">
                 <button type="button" class="lot-button add-lot">Créer un lot</button>
                 <hr aria-orientation="horizontal" class="ligne">
-                <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
-                <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
+               {# <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
+                <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button> #}
             </div>
         </div>
     </div>
@@ -279,108 +279,7 @@
 
         {{ html|raw('html') }}
 
-        {# {% for ouvrage in devis %}
-
-
-            <div class="elements" id="element-{{ ouvrage.id }}">
-
-                <div class="{{ ouvrage.unite is empty or ouvrage.quantiteDOuvrage is empty or ouvrage.prixUnitaireDebourse is empty ? "css-1ip68u7" : "css-ccobzb" }}">
-                    <div class="css-1r30cbj">
-                        <div class="tab-el-left"></div>
-                        <div class="tab-el-left"></div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
-                                   name="devis[ouvrages][{{ loop.index }}][denomination]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.denomination }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_unite"
-                                   name="devis[ouvrages][{{ loop.index }}][unite]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.unite }}">
-
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_quantite"
-                                   name="devis[ouvrages][{{ loop.index }}][quantite]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.quantiteDOuvrage }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_prixUnitaire"
-                                   name="devis[ouvrages][{{ loop.index }}][prixUnitaire]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.prixUnitaireDebourse }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}debourseht"
-                                   name="devis[ouvrages][{{ loop.index }}][debourseht]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.debourseHTCalcule }}">
-                        </div>
-                        <div class="tab-el-left row justify-content-center">
-                            <div class="col-md-auto">
-                                <a href="#"><i class="bi bi-plus-circle"></i></a>
-                            </div>
-                            <div class="col-md-auto">
-                                <a href="#"><i class="bi bi-three-dots"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        {% endfor %}
-
-
-
-        {% for lot in form.lots %}
-        <div class="css-ccobzb lot">
-            <div class="css-1r30cbj">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(lot.code,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(lot.titre,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {% for sousLot in lot.sousLots %}
-        <div class="css-ccobzb sous-lot">
-
-            <div class="css-1r30cbj col-md-12">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-    } #}
+        
     </div>
 </div>
 
@@ -389,12 +288,13 @@
         <button type="button" class="css-15nl7at add-lot">
             + Créer un lot
         </button>
-        <button type="button" class="css-15nl7at import-ouvrage">
+       {# <button type="button" class="css-15nl7at import-ouvrage">
             + Importer un ouvrage
         </button>
         <button type="button" class="css-15nl7at" id="add-ouvrage">
             + Créer un ouvrage
         </button>
+        #}
     </div>
 </div>
 
@@ -410,58 +310,43 @@
     let selectedElementId = null;
     let selectedElementType = null;
 
-    /*const contextMenu = document.getElementById('context-menu');
-    const scope = document.querySelector('#main-devis');
-    const normalizePosition = (mouseX, mouseY) => {
-        const {
-            left: scopeOffsetX,
-            top: scopeOffsetY,
-        } = scope.getBoundingClientRect()
+    $('body').on('click', '.add-element-button', function () {
+        console.log($(this).attr('id'));
 
-        const scopeX = mouseX - scopeOffsetX;
-        const scopeY = mouseY - scopeOffsetY;
+        if($(this).attr('type') ==='lot'){
+             newOuvrage($(this).attr('id').replaceAll('bi-plus-circle-',''));
+        }else if($(this).attr('type') ==='ouvrage'){
+                newComposant($(this).attr('id').replaceAll('bi-plus-circle-',''));
 
-        const outOfBoundsOnX = scopeX + contextMenu.clientWidth > scope.clientWidth;
-
-        const outOfBoundsOnY = scopeY + contextMenu.clientHeight > scope.clientHeight;
-
-        let normalizedX = mouseX;
-        let normalizedY = mouseY;
-
-        if (outOfBoundsOnX) {
-            normalizedX = scopeOffsetX + scope.clientWidth - contextMenu.clientWidth;
+        }else if($(this).attr('type') ==='composant'){
         }
 
-        if (outOfBoundsOnY) {
-            normalizedY = scopeOffsetY + scope.clientHeight - contextMenu.clientHeight;
-        }
+    });
+    
 
-        return {normalizedX, normalizedY};
+    function newOuvrage(id){
+            $.post('/affaire/devis/ouvrage/new/'+'{{devis.id}}'+'/'+id, function (response) {
+                const data = JSON.parse(response);
+               console.log(data,$('#element' + data.idParent))
+                if (data.idParent != null) {
+                    $("<div class='children' parent='lot-" + data.idParent + "'>" + data.html + "</div>").insertAfter($('#element-' + data.idParent));
+                } else {
+                    $('#main-devis').append(data.html);
+                }
+            })
     }
 
-    scope.addEventListener('contextmenu', (event) => {
-        event.preventDefault();
-
-        const {offsetX: mouseX, offsetY: mouseY} = event;
-
-        const {normalizedX, normalizedY} = normalizePosition(mouseX, mouseY);
-
-        contextMenu.style.top = `${normalizedY}px`;
-        contextMenu.style.left = `${normalizedX}px`;
-
-        contextMenu.classList.remove('visible');
-
-        setTimeout(() => {
-            contextMenu.classList.add('visible')
-        });
-    });
-
-    scope.addEventListener('click', (e) => {
-        if (e.target.offsetParent != contextMenu) {
-            contextMenu.classList.remove('visible');
-        }
-    })*/
-
+    function newComposant(id){
+           $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id, function (response) {
+                const data = JSON.parse(response);
+               console.log(data,$('#element' + data.idParent))
+                if (data.idParent != null) {
+                    $("<div class='children' parent='ouvrage-" + data.idParent + "'>" + data.html + "</div>").insertAfter($('#element-' + data.idParent));
+                } else {
+                    $('#main-devis').append(data.html);
+                }
+            })
+    }
 
     $('body').on('click', '#add-lots, .add-lot', function () {
         var parentId = selectedElementId;
@@ -589,6 +474,11 @@
     $('body').on('click', '.menu-lot', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+                    <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+                    <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                </div>`;
+        div =  `<div class="context-menu">
                     <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
                     <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>

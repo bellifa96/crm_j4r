@@ -1,6 +1,6 @@
 <div class="elements" id="element-{{ ouvrage.id }}" type="ouvrage">
 
-    <div class="css-1ip68u7 ">
+    <div class="css-1ip68u7">
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
@@ -62,8 +62,8 @@
                        value="{{ ouvrage.debourseHTCalcule|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <span><i ouvrage="{{ ouvrage.id }}" class="bi bi-plus-circle composant"></i></span>
+                <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ouvrage.id}}" type="ouvrage"  style="cursor:pointer;">
+                    <span><i ouvrage="{{ ouvrage.id }}" class="bi bi-plus-circle"></i></span>
                 </div>
                 <div class="col-md-auto">
                     <span><i id="menu-ouvrage-{{ ouvrage.id }}" class="bi bi-three-dots menu-ouvrage"></i></span>

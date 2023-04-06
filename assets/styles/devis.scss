@@ -56,6 +56,16 @@ span i {
     margin-top: 5px;
 }
 
+.css-1ip68u77 {
+    display: flex;
+    border-bottom: 1px solid rgb(217, 226, 236);
+    border-top-color: rgb(217, 226, 236);
+    border-right-color: rgb(217, 226, 236);
+    background-color: #65ff6375;
+    border-left: 2px solid rgb(249, 112, 62);
+    margin-top: 5px;
+}
+
 .css-ccobzb {
     display: flex;
     border-bottom: 1px solid rgb(188, 204, 220);
@@ -277,6 +287,9 @@ span i {
 }
 
 .children .elements .css-1ip68u7 {
+    margin: inherit;
+}
+.children .elements .css-1ip68u77 {
     margin: inherit;
 }
 

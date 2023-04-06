@@ -2,29 +2,31 @@
 
 namespace App\Controller\Affaire;
 
-use App\Entity\Affaire\Devis;
+use App\Entity\User;
+use Twig\Environment;
+use App\Entity\Demande;
+use App\Form\DemandeType;
 use App\Entity\Affaire\Lot;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
+use Twig\Error\RuntimeError;
+use App\Entity\Affaire\Devis;
+use Doctrine\ORM\ORMException;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\SousLot;
-use App\Entity\Demande;
-use App\Entity\User;
 use App\Form\Affaire\DevisType;
-use App\Form\DemandeType;
-use App\Repository\Affaire\DevisRepository;
-use App\Repository\Affaire\LotRepository;
-use App\Repository\Affaire\OuvrageRepository;
+use App\Entity\Affaire\Composant;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Affaire\LotRepository;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\Affaire\DevisRepository;
+use App\Repository\Affaire\OuvrageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\Affaire\ComposantRepository;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/affaire/devis')]
 class DevisController extends AbstractController
@@ -98,11 +100,17 @@ class DevisController extends AbstractController
                 $entity = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             } elseif ($element['type'] == 'lot') {
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
+            }elseif($element['type'] == 'composant'){
+                $entity = $this->em->getRepository(Composant::class)->find($element['id']);
             }
             try {
                 $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent]);
-                if (!empty($element['data'])) {
+                if (!empty($element['data']) && $element['type'] == 'lot') {
                     $html .= "<div class='children' parent='lot-" . $element['id'] . "'>";
+                    $html .= $this->recursiveElements($element['data'], $element['id']);
+                    $html .= "</div>";
+                }elseif(!empty($element['data']) && $element['type'] == 'ouvrage'){
+                    $html .= "<div class='children' parent='ouvrage-" . $element['id'] . "'>";
                     $html .= $this->recursiveElements($element['data'], $element['id']);
                     $html .= "</div>";
                 }
@@ -423,6 +431,88 @@ class DevisController extends AbstractController
         }
     }
 
+
+    #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
+    public function newOuvrage(Devis $devis,$parentId = null,Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    {
+
+
+        
+        $ouvrage = new Ouvrage();
+        $ouvrage->setMarge(1);
+        $ouvrage->setCreateur($this->getUser());
+        $elements = $devis->getElements();
+
+        try {
+            $ouvrageRepository->add($ouvrage);
+            $element = [
+                'id'=>$ouvrage->getId(),
+                'type'=>'ouvrage',
+                'data'=> []
+            ];
+            $html = $this->recursiveElements([$element]);
+
+            if (!empty($parentId)) {
+                $parent = [];
+                $parent['id'] = $parentId;
+                $parent['type'] = 'lot';
+                $elements = $this->setParent($elements, $element, $parent);
+            }else {
+                $elements[] = $element;
+            }
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $parentId]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+    }
+
+    #[Route('/composant/new/{id}/{parentId}', name: 'app_affaire_devis_composant_new', methods: ['GET', 'POST'])]
+    public function newComposant(Devis $devis,$parentId = null,Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
+    {
+
+
+        
+        $composant = new Composant();
+        $composant->setMarge(1);
+        $composant->setCreateur($this->getUser());
+        $elements = $devis->getElements();
+
+        try {
+            $composantRepository->add($composant);
+            $element = [
+                'id'=>$composant->getId(),
+                'type'=>'composant',
+                'data'=> []
+            ];
+            $html = $this->recursiveElements([$element]);
+
+            if (!empty($parentId)) {
+                $parent = [];
+                $parent['id'] = $parentId;
+                $parent['type'] = 'ouvrage';
+                $elements = $this->setParent($elements, $element, $parent);
+            }else {
+                $elements[] = $element;
+            }
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $parentId]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (ORMException $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+    }
 
     #[Route('/dupliquer/element/{id}', name: 'app_affaire_element_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response

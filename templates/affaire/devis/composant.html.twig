@@ -1,0 +1,74 @@
+<div class="elements" id="element-{{ composant.id }}" type="composant">
+
+    <div class="css-1ip68u77">
+        <div class="css-1r30cbj">
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left">
+                <input type="text" id="devis_composants_{{ composant.id }}_code" input="code" element="composant"
+                       composant="{{ composant.id }}" name="devis[composants][{{ composant.id }}][code]" required="required"
+                       maxlength="255"
+                       class="chakra-input" placeholder="Code" value="{{ composant.code }}">
+            </div>
+            <div class="tab-el-left">
+                <input type="text" id="devis_composants_{{ composant.id }}_intitule" input="intitule"
+                       element="composant" composant="{{ composant.id }}"
+                       name="devis[composants][{{ composant.id }}][intitule]" required="required" maxlength="255"
+                       class="chakra-input" placeholder="Dénomination" value="{{ composant.intitule }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_unite" input="unite" element="composant"
+                       composant="{{ composant.id }}" name="devis[composants][{{ composant.id }}][unite]" required="required"
+                       maxlength="255"
+                       class="chakra-input" placeholder="Unité" value="{{ composant.unite }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_quantite" input="quantite"
+                       name="devis[composants][{{ composant.id }}][quantite]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-quantite="{{ hasParent }}" disabled
+                        {% endif %}
+                       element="composant" composant="{{ composant.id }}" class="chakra-input numbers dtht-composant"
+                       placeholder="Quantité"
+                       value="{{ composant.quantite }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_debourseHT" input="debourseUnitaire"
+                       name="devis[composants][{{ composant.id }}][debourseHT]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-dht="{{ hasParent }}"
+                        {% endif %}
+                       element="composant" composant="{{ composant.id }}" class="chakra-input numbers dtht-composant"
+                       placeholder="Déboursé HT"
+                       value="{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_marge"
+                       input="marge"
+                       name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       class="chakra-input" placeholder="Déboursé Total HT"
+                       value="{{ composant.marge|number_format(2,'.',' ') }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
+                       input="debourseCalcule"
+                       name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       class="chakra-input" placeholder="Déboursé Total HT"
+                       value="{{ composant.prixDeVente|number_format(2,'.',' ') }}">
+            </div>
+            <div class="tab-el-right row justify-content-center">
+                <div class="col-md-auto" id="bi-plus-circle-{{composant.id}}" type="composant">
+                    <span><i composant="{{ composant.id }}" class="bi bi-plus-circle"></i></span>
+                </div>
+                <div class="col-md-auto">
+                    <span><i id="menu-composant-{{ composant.id }}" class="bi bi-three-dots menu-composant"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

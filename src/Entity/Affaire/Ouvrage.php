@@ -22,7 +22,7 @@ class Ouvrage
     private $id;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $denomination;
 
     #[ORM\ManyToOne(targetEntity: SousLot::class, inversedBy: 'ouvrages')]
@@ -32,7 +32,7 @@ class Ouvrage
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeDOuvrage;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     #[Gedmo\Versioned]
     private $code;
 
@@ -91,7 +91,7 @@ class Ouvrage
         return $this->denomination;
     }
 
-    public function setDenomination(string $denomination): self
+    public function setDenomination(?string $denomination): self
     {
         $this->denomination = $denomination;
 
@@ -127,7 +127,7 @@ class Ouvrage
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 

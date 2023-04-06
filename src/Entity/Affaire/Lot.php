@@ -44,6 +44,9 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $marge = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $unite = null;
+
 
     public function __construct()
     {
@@ -153,6 +156,18 @@ class Lot
     public function setMarge(?float $marge): self
     {
         $this->marge = $marge;
+
+        return $this;
+    }
+
+    public function getUnite(): ?string
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?string $unite): self
+    {
+        $this->unite = $unite;
 
         return $this;
     }
