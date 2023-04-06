@@ -37,8 +37,8 @@ class BibliothequeDePrixController extends AbstractController
 
         $ouvrages = $ouvrageRepository->findAll();
         return $this->render('affaire/bibliothequeDePrix/index.html.twig', [
-            'ouvrages' => $ouvrageRepository->findByStatus(null),
-            'composants' => $composantRepository->findByStatus(null),
+            'ouvrages' => $ouvrageRepository->findByStatut(null),
+            'composants' => $composantRepository->findByStatut(null),
             'title' => 'Bibliotheque de prix',
             'nav' => []
         ]);
