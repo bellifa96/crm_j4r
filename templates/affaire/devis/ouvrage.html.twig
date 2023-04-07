@@ -85,6 +85,9 @@
                 <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ouvrage.id}}" type="ouvrage"  style="cursor:pointer;">
                     <span><i ouvrage="{{ ouvrage.id }}" class="bi bi-plus-circle"></i></span>
                 </div>
+                <div class="spinner-border text-primary col-md-auto" style="display:none" role="status" id="spinner-{{ouvrage.id}}">
+                    <span class="sr-only">Loading...</span>
+                </div>
                 <div class="col-md-auto">
                     <span><i id="menu-ouvrage-{{ ouvrage.id }}" class="bi bi-three-dots menu-ouvrage"></i></span>
                 </div>

@@ -312,13 +312,23 @@
 
     $('body').on('click', '.add-element-button', function () {
         let id = $(this).attr('id').replaceAll('bi-plus-circle-','');
+        $(this).hide();
+        $('#spinner-'+id).show();
         if($(this).attr('type') ==='lot'){
              newOuvrage(id);
         }else if($(this).attr('type') ==='ouvrage'){
             let origine = $('#devis_ouvrages_'+id+'_denomination').prop("tagName").toLowerCase() === "input" ? $('#devis_ouvrages_'+id+'_denomination').attr('origine') : $('#devis_ouvrages_'+id+'_denomination').val();
-            newComposant(id,origine);
+            if(origine !== null){
+              newComposant(id,origine);
+            }else{
+                $(this).show();
+                $('#spinner-'+id).hide();
+            }
+
         }else if($(this).attr('type') ==='composant'){
         }
+
+
 
     });
     
@@ -344,6 +354,9 @@
                 } else {
                     $('#main-devis').append(data.html);
                 }
+                $("#bi-plus-circle-"+id).show();
+                $('#spinner-'+id).hide();
+
             })
     }
 
@@ -714,10 +727,10 @@
             $.post(path, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-                    $('#devis_ouvrages_'+id+'_unite').val(data.unite);
-                    $('#devis_ouvrages_'+id+'_quantite').val(data.quantite);
-                    $('#devis_ouvrages_'+id+'_marge').val(data.marge);
-                    $('#devis_ouvrages_'+id+'_code').val(data.code);
+                    $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
+                    $('#devis_ouvrages_'+id+'_quantite').val(data.data.quantite);
+                    $('#devis_ouvrages_'+id+'_marge').val(data.data.marge);
+                    $('#devis_ouvrages_'+id+'_code').val(data.data.code);
 
                     $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
                 }

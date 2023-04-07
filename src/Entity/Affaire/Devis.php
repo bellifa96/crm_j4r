@@ -195,9 +195,11 @@ class Devis
         //dd($elements, $el);
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
-                //dd( $element, $el);
+             //   dd( $element, $el);
                 if(!empty($element['data'])){
-                    $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $composantRepository, $element['data']);
+                    foreach($element['data'] as $elEnfant){
+                        $this->deleteInElements($elEnfant, $lotRepository, $ouvrageRepository, $composantRepository, $element['data']);
+                    }
                 }
                 if ($element['type']== 'lot'){
                     $lot = $lotRepository->find($element['id']);
@@ -205,7 +207,8 @@ class Devis
                 }elseif ($element['type']== 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
                     $ouvrageRepository->remove($ouvrage);
-                }elseif($element['type']== 'composant'){
+                }elseif($element['type'] == 'composant'){
+                  //  dd($element);
                     $composant = $composantRepository->find($element['id']);
                     $composantRepository->remove($composant);
                 }
