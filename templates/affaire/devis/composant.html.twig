@@ -10,10 +10,18 @@
                        class="chakra-input" placeholder="Code" value="{{ composant.code }}">
             </div>
             <div class="tab-el-left">
-                <input type="text" id="devis_composants_{{ composant.id }}_intitule" input="intitule"
+                <select  id="devis_composants_{{ composant.id }}_intitule" input="intitule"
                        element="composant" composant="{{ composant.id }}"
-                       name="devis[composants][{{ composant.id }}][intitule]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Dénomination" value="{{ composant.intitule }}">
+                       name="devis[composants][{{ composant.id }}][intitule]" required="required" 
+                       class="chakra-input" placeholder="Dénomination" >
+                        <option disabled selected> Veuillez selectionner un ouvrage </option>
+
+                       {% for option in options %}
+
+                         <option value="{{option.id}}"> {{ option.intitule }} </option>
+
+                       {% endfor %}
+                </select>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_unite" input="unite" element="composant"

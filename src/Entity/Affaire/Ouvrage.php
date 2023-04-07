@@ -76,11 +76,26 @@ class Ouvrage
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $origine = null;
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
     }
 
+    public function toArray(){
+        return [
+           "id"=> $this->id,
+           "denomination"=> $this->denomination,
+           "typeDOuvrage"=> $this->typeDOuvrage,
+           "code"=> $this->code,
+           "marge"=> $this->marge,
+           "unite"=> $this->unite,
+           "origine"=> $this->origine,
+           "note"=> $this->note,
+        ];
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -276,6 +291,18 @@ class Ouvrage
     public function setStatut(?string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getOrigine(): ?string
+    {
+        return $this->origine;
+    }
+
+    public function setOrigine(?string $origine): self
+    {
+        $this->origine = $origine;
 
         return $this;
     }

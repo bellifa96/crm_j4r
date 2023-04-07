@@ -311,13 +311,12 @@
     let selectedElementType = null;
 
     $('body').on('click', '.add-element-button', function () {
-        console.log($(this).attr('id'));
-
+        let id = $(this).attr('id').replaceAll('bi-plus-circle-','');
         if($(this).attr('type') ==='lot'){
-             newOuvrage($(this).attr('id').replaceAll('bi-plus-circle-',''));
+             newOuvrage(id);
         }else if($(this).attr('type') ==='ouvrage'){
-                newComposant($(this).attr('id').replaceAll('bi-plus-circle-',''));
-
+            let origine = $('#devis_ouvrages_'+id+'_denomination').prop("tagName").toLowerCase() === "input" ? $('#devis_ouvrages_'+id+'_denomination').attr('origine') : $('#devis_ouvrages_'+id+'_denomination').val();
+            newComposant(id,origine);
         }else if($(this).attr('type') ==='composant'){
         }
 
@@ -336,8 +335,8 @@
             })
     }
 
-    function newComposant(id){
-           $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id, function (response) {
+    function newComposant(id,origine){
+           $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id+'/'+origine, function (response) {
                 const data = JSON.parse(response);
                console.log(data,$('#element' + data.idParent))
                 if (data.idParent != null) {
@@ -388,6 +387,7 @@
             if (code = 200) {
                 if (id != null) {
                     if ($('#element-' + id).next().hasClass('children')) {
+        
                         $('#element-' + id).next().remove();
                     }
                     $('#element-' + id).remove();
@@ -703,6 +703,26 @@
 
         return sum;
     }
+
+    $('body').on("change", '.select-ouvrage', function () {
+        
+            let id = $(this).attr('ouvrage');
+            let origine = $(this).val();
+
+            let path = '/affaire/devis/ouvrage/origine/add/' + id+'/'+origine;
+
+            $.post(path, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    $('#devis_ouvrages_'+id+'_unite').val(data.unite);
+                    $('#devis_ouvrages_'+id+'_quantite').val(data.quantite);
+                    $('#devis_ouvrages_'+id+'_marge').val(data.marge);
+                    $('#devis_ouvrages_'+id+'_code').val(data.code);
+
+                    $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
+                }
+            })
+    })
 
     $('body').on("change", 'input', function () {
         let type = $(this).attr('element');

@@ -30,13 +30,23 @@ class ComposantRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Composant $entity, bool $flush = false): void
+    public function remove(Composant $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findComposantsByOuvrageId(int $id)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->innerJoin('c.ouvrages', 'o')
+            ->where('o.id = :id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

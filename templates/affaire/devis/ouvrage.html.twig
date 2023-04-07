@@ -10,10 +10,30 @@
                        class="chakra-input" placeholder="Code" value="{{ ouvrage.code }}">
             </div>
             <div class="tab-el-left">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}"
-                       name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}">
+
+               {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
+                        <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
+                            element="ouvrage" ouvrage="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
+                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                            class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled />
+                       {% else %}
+                        <select id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
+                            element="ouvrage" ouvrage="{{ ouvrage.id }}"
+                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                            class="chakra-input select-ouvrage" placeholder="Dénomination" >
+
+                            <option disabled selected> Veuillez selectionner un ouvrage </option>
+
+                            {% for option in options %}
+
+                                <option value="{{option.id}}"> {{ option.denomination }} </option>
+
+                            {% endfor %}
+
+                        </select>
+        
+               {% endif %}
+
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrage"
