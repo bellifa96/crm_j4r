@@ -342,6 +342,8 @@
                 } else {
                     $('#main-devis').append(data.html);
                 }
+                $("#bi-plus-circle-"+id).show();
+                $('#spinner-'+id).hide();
             })
     }
 
@@ -492,7 +494,6 @@
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
         div =  `<div class="context-menu">
-                    <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
                     <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
@@ -501,10 +502,10 @@
 
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
-                    <div class="item-menu" id="modifier-ouvrage" ><i class="bi bi-pencil-square"></i>Modifier</div>
                     <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
+
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
@@ -727,7 +728,7 @@
             $.post(path, function (response) {
                 let data = JSON.parse(response);
                 if (data.code === 200) {
-                    $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
+               //     $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
                     $('#devis_ouvrages_'+id+'_quantite').val(data.data.quantite);
                     $('#devis_ouvrages_'+id+'_marge').val(data.data.marge);
                     $('#devis_ouvrages_'+id+'_code').val(data.data.code);

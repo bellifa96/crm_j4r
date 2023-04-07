@@ -36,17 +36,14 @@
 
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrage"
+{#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrage"
                        ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
                        maxlength="255"
-                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">
+                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
-                        {% if hasParent is not null %}
-                            parent-quantite="{{ hasParent }}" disabled
-                        {% endif %}
                        element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Quantité"
                        value="{{ ouvrage.quantite }}">

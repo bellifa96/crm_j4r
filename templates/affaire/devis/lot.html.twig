@@ -17,17 +17,12 @@
                        input="titre" value="{{ lot.titre }}"/>
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_lots_{{ lot.id }}_unite" input="unite"
+{#                <input type="text" id="devis_lots_{{ lot.id }}_unite" input="unite"
                         name="devis[lots][{{ lot.id }}][unite]" required="required"
                         maxlength="255" element="lot" lot="{{ lot.id }}" class="chakra-input numbers"
-        {#                        {% if hasParent is not null %}
-                            parent-quantite="{{ hasParent }}"
-                        {% else %}
-                            disabled
-                        {% endif %}
-                        #}
+
                         placeholder="Unité" value="{{ lot.unite }}"
-                />
+                />#}
             
             </div>
             <div class="tab-el-right">
@@ -70,6 +65,9 @@
             <div class="tab-el-right row justify-content-center options">
                 <div class="col-md-auto add-element-button" id="bi-plus-circle-{{lot.id}}" type="lot" style="cursor:pointer;">
                     <span><i class="bi bi-plus-circle"></i></span>
+                </div>
+                <div class="spinner-border text-primary col-md-auto" style="display:none" role="status" id="spinner-{{lot.id}}">
+                    <span class="sr-only">Loading...</span>
                 </div>
                 <div class="col-md-auto">
                     <span><i id="menu-lot-{{ lot.id }}" class="bi bi-three-dots menu-lot"></i></span>

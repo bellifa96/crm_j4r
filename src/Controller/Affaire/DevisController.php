@@ -448,6 +448,7 @@ class DevisController extends AbstractController
         $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
         $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
         $ouvrage->setMarge($origine->getMarge());
+        $ouvrage->setQuantite($origine->getQuantite());
 
 
         try{

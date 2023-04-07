@@ -82,6 +82,7 @@ class Ouvrage
     public function __construct()
     {
         $this->composants = new ArrayCollection();
+        $this->quantite = 1;
     }
 
     public function toArray(){
@@ -94,6 +95,7 @@ class Ouvrage
            "unite"=> $this->unite,
            "origine"=> $this->origine,
            "note"=> $this->note,
+           "quantite"=> $this->quantite,
         ];
     }
     public function getId(): ?int

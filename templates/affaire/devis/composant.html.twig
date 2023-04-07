@@ -14,7 +14,7 @@
                        element="composant" composant="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][intitule]" required="required" 
                        class="chakra-input" placeholder="Dénomination" >
-                        <option disabled selected> Veuillez selectionner un ouvrage </option>
+                        <option disabled selected> Veuillez selectionner un composant </option>
 
                        {% for option in options %}
 
@@ -58,12 +58,7 @@
                        value="{{ composant.prixDeVente|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto" id="bi-plus-circle-{{composant.id}}" type="composant">
-                    <span><i composant="{{ composant.id }}" class="bi bi-plus-circle"></i></span>
-                </div>
-                <div class="col-md-auto">
-                    <span><i id="menu-composant-{{ composant.id }}" class="bi bi-three-dots menu-composant"></i></span>
-                </div>
+
             </div>
         </div>
     </div>
