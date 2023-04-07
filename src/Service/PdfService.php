@@ -6,16 +6,16 @@ use Mpdf\Mpdf;
 
 class PdfService
 {
-    private $pdf;
+    private $mpdf;
 
-    public function __construct(Mpdf $pdf)
+    public function __construct()
     {
-        $this->pdf = $pdf;
+        $this->mpdf = new Mpdf();
     }
 
-    public function generatePdf(string $template, $name, $output = 'D'): string
+    public function generatePdf(string $template, $name, $output = 'I'): string
     {
-        $this->pdf->WriteHTML($template);
-        return $this->pdf->Output($name . '.pdf', $output);
+        $this->mpdf->WriteHTML($template);
+        return $this->mpdf->Output($name . '.pdf', $output);
     }
 }
