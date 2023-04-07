@@ -14,6 +14,7 @@ use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\LotRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\UserRepository;
+use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -33,10 +34,13 @@ class DevisController extends AbstractController
     private $environment;
     private $em;
 
-    public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface)
+    private $pdfService;
+
+    public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface, PdfService $pdfService)
     {
         $this->environment = $environment;
         $this->em = $entityManagerInterface;
+        $this->pdf = $pdfService;
     }
 
     #[Route('/', name: 'app_affaire_devis_index', methods: ['GET'])]
