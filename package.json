@@ -63,6 +63,7 @@
         "pdfmake": "^0.2.5",
         "sass-math": "^1.0.0",
         "select2": "^4.1.0-rc.0",
+        "sortablejs": "^1.15.0",
         "trumbowyg": "^2.25.1"
     }
 }

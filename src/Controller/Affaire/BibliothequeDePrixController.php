@@ -247,7 +247,7 @@ class BibliothequeDePrixController extends AbstractController
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
@@ -263,7 +263,7 @@ class BibliothequeDePrixController extends AbstractController
         $data = $data['ouvrage'];
 
         $ouvrage->setCode($data['code']);
-        key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : $ouvrage->setDebourseHTCalcule(null);
+        key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : $ouvrage->setDebourseHTCalcule(0.00);
         $ouvrage->setPrixUnitaireDebourse($data['duht']);
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setUnite($data['unite']);
@@ -274,7 +274,7 @@ class BibliothequeDePrixController extends AbstractController
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
@@ -301,7 +301,7 @@ class BibliothequeDePrixController extends AbstractController
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
@@ -344,7 +344,7 @@ class BibliothequeDePrixController extends AbstractController
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
@@ -376,7 +376,7 @@ class BibliothequeDePrixController extends AbstractController
             return new Response(json_encode(['code' => 200]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 

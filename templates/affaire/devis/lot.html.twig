@@ -1,3 +1,4 @@
+
 <div class="elements" id="element-{{ lot.id }}" type="lot"
    {% if hasParent is not null %}
         parent="{{ hasParent }}"
@@ -7,19 +8,19 @@
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
-                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_code" element="lot"
+                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_code" element="lots"
                        lot="{{ lot.id }}" placeholder="N°" name="devis[lots][{{ lot.id }}][code]"
                        input="code" value="{{ lot.code }}"/>
             </div>
             <div class="tab-el-left">
-                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_titre" element="lot"
+                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_titre" element="lots"
                        lot="{{ lot.id }}" placeholder="Dénomination" name="devis[lots][{{ lot.id }}][titre]"
                        input="titre" value="{{ lot.titre }}"/>
             </div>
             <div class="tab-el-right">
 {#                <input type="text" id="devis_lots_{{ lot.id }}_unite" input="unite"
                         name="devis[lots][{{ lot.id }}][unite]" required="required"
-                        maxlength="255" element="lot" lot="{{ lot.id }}" class="chakra-input numbers"
+                        maxlength="255" element="lots" lot="{{ lot.id }}" class="chakra-input numbers"
 
                         placeholder="Unité" value="{{ lot.unite }}"
                 />#}
@@ -28,7 +29,7 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_lots_{{ lot.id }}_quantite" input="quantite"
                        name="devis[lots][{{ lot.id }}][quantite]" required="required"
-                       maxlength="255" element="lot" lot="{{ lot.id }}" class="chakra-input numbers"
+                       maxlength="255" element="lots" lot="{{ lot.id }}" class="chakra-input numbers calcul"
 {#                        {% if hasParent is not null %}
                             parent-quantite="{{ hasParent }}"
                         {% else %}
@@ -38,29 +39,39 @@
                        placeholder="Quantité" value="{{ lot.quantite }}"/>
             </div>
             <div class="tab-el-right">
-                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourse"
+                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourseUnitaireHT"
+                        placeholder="Déboursé unitaire HT" lot="{{ lot.id }}" element="lots"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       name="devis[lots][{{ lot.id }}][debourseUnitaireHT]" value="{{ lot.prixHT|number_format(2,'.',' ') }}"/>
+            </div>
+            <div class="tab-el-right">
+                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_debourseTotalHT"
                        disabled="disabled" placeholder="Déboursé Total HT" lot="{{ lot.id }}"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
-                       name="devis[lots][{{ lot.id }}][debourse]" value="{{ lot.prixHT|number_format(2,'.',' ') }}"/>
+                       name="devis[lots][{{ lot.id }}][debourseTotalHT]"
+                       value="{{ (lot.prixHT * lot.quantite)|number_format(2,'.',' ') }}"
+                />
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_marge"
-                       disabled="disabled" placeholder="Marge" lot="{{ lot.id }}"
+                        placeholder="Marge" lot="{{ lot.id }}"  element="lots"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        name="devis[lots][{{ lot.id }}][marge]" value="{{ lot.marge|number_format(2,'.',' ') }}"/>
             </div>
             <div class="tab-el-right">
-                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourseTotal"
-                       disabled="disabled" placeholder="Déboursé Total HT" lot="{{ lot.id }}"
+                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_prix_de_vente"
+                       disabled="disabled" placeholder="Prix de vente" lot="{{ lot.id }}"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
-                       name="devis[lots][{{ lot.id }}][debourseTotal]"
-                       value="{{ (lot.prixHT * lot.marge)|number_format(2,'.',' ') }}"/>
+                       name="devis[lots][{{ lot.id }}][prixDeVente]"
+                       value="{{ (lot.prixHT * lot.quantite * lot.marge)|number_format(2,'.',' ') }}"/>
             </div>
             <div class="tab-el-right row justify-content-center options">
                 <div class="col-md-auto add-element-button" id="bi-plus-circle-{{lot.id}}" type="lot" style="cursor:pointer;">
