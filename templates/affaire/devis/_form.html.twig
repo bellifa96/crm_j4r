@@ -306,12 +306,13 @@
             })
     }
 
-    function newComposant(id,){
+    function newComposant(id,origine){
            $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id+'/'+origine, function (response) {
                 const data = JSON.parse(response);
                console.log(data,$('#element' + data.idParent))
                 if (data.idParent != null) {
-                    $(data.html).append($('#element-' + data.idParent));
+                    $("#ouvrage-ul-"+data.idParent).append(data.html)
+                   // $(data.html).append($('#element-' + data.idParent));
                 } else {
                     $('#main-devis').append(data.html);
                 }
