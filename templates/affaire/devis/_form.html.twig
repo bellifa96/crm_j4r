@@ -214,12 +214,12 @@
             <div class="tab-el-left"></div>
             <div class="tab-el-left">N°</div>
             <div class="tab-el-left">Dénomination</div>
-            <div class="tab-el-left">Unité</div>
             <div class="tab-el-left">Quantité</div>
+            <div class="tab-el-left">Unité</div>
             <div class="tab-el-left">Déboursé U HT</div>
             <div class="tab-el-left">Déboursé Total HT</div>
             <div class="tab-el-left">Marge</div>
-            <div class="tab-el-left">Prix de vente HT</div>
+            <div class="tab-el-left">Prix de vente Total HT</div>
             <div class="tab-el-left"></div>
             {#
             <div class="tab-el">Marge</div>
@@ -708,7 +708,7 @@
         $("#devis_"+type+"_"+id+"_prix_de_vente").attr('value',prixDeVenteHt)
         return prixDeVenteHt ;
     }
-    $('body').on("change", 'input', function () {
+    $('body').on("change", 'input, select', function () {
         let type = $(this).attr('element');
         console.log(type);
         if (type === 'ouvrages') {
@@ -723,8 +723,8 @@
             const ouvrage = {
                 code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
                 denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
-                unite: "",//$('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
-                quantiteDOuvrage: quantite,
+                unite: $('select[name="devis[ouvrages][' + id + '][unite]"]').val(),
+                quantite: isNaN(quantite) ? 0 : quantite,
                 duht: prixUnite,
                 dtht: debourseTotalHT,
                 note: null,
@@ -825,9 +825,11 @@
             const lot = {
                 code: $('input[name="devis[lots][' + id + '][code]"]').val(),
                 titre: $('input[name="devis[lots][' + id + '][titre]"]').val(),
-                quantite: quantite,
+                quantite: isNaN(quantite) ? 0 : quantite,
                 prix: prixUnite,
-                marge:marge
+                marge:marge,
+                unite: $('select[name="devis[lots][' + id + '][unite]"]').val(),
+
             };
 
 

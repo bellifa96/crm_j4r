@@ -2,6 +2,7 @@
 
 namespace App\Entity\Affaire;
 
+use App\Entity\Unite;
 use App\Entity\User;
 use App\Repository\Affaire\ComposantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,9 +22,6 @@ class Composant
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $intitule;
-
-    #[ORM\Column(type: 'string', length: 255,nullable: true)]
-    private $unite;
 
     #[ORM\Column(type: 'float')]
     private $debourseUnitaireHT;
@@ -53,6 +51,9 @@ class Composant
     #[ORM\Column(type: 'integer',nullable: false)]
     #[Gedmo\Versioned]
     private $quantite;
+
+    #[ORM\ManyToOne]
+    private ?Unite $unite = null;
 
     public function __construct()
     {
@@ -86,18 +87,6 @@ class Composant
     public function setIntitule(?string $intitule): self
     {
         $this->intitule = $intitule;
-
-        return $this;
-    }
-
-    public function getUnite(): ?string
-    {
-        return $this->unite;
-    }
-
-    public function setUnite(?string $unite): self
-    {
-        $this->unite = $unite;
 
         return $this;
     }
@@ -200,12 +189,12 @@ class Composant
 
     public function getPrixDeVente(): ?float
     {
-        return $this->prixDeVente;
+        return $this->quantite * $this->debourseUnitaireHT * $this->marge;
     }
 
     public function setPrixDeVente(?float $prixDeVente): self
     {
-        $this->prixDeVente = $prixDeVente;
+        $this->prixDeVente = $this->quantite * $this->debourseUnitaireHT * $this->marge;
 
         return $this;
     }
@@ -230,6 +219,18 @@ class Composant
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getUnite(): ?Unite
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?Unite $unite): self
+    {
+        $this->unite = $unite;
 
         return $this;
     }

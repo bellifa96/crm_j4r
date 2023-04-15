@@ -4,6 +4,7 @@ namespace App\Entity\Affaire;
 
 use App\Entity\TimesTrait;
 use App\Entity\User;
+use App\Entity\Unite;
 use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -59,10 +60,6 @@ class Ouvrage
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
     private $lot;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Gedmo\Versioned]
-    private $unite;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
     private $createur;
 
@@ -78,6 +75,9 @@ class Ouvrage
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $origine = null;
+
+    #[ORM\ManyToOne]
+    private ?Unite $unite = null;
 
     public function __construct()
     {
@@ -220,12 +220,12 @@ class Ouvrage
 
     public function getPrixDeVenteHT(): ?float
     {
-        return $this->prixDeVenteHT;
+        return $this->quantite * $this->debourseHTCalcule * $this->marge;
     }
 
     public function setPrixDeVenteHT(?float $prixDeVenteHT): self
     {
-        $this->prixDeVenteHT = $prixDeVenteHT;
+        $this->prixDeVenteHT = $this->quantite * $this->debourseHTCalcule * $this->marge;
 
         return $this;
     }
@@ -242,17 +242,6 @@ class Ouvrage
         return $this;
     }
 
-    public function getUnite(): ?string
-    {
-        return $this->unite;
-    }
-
-    public function setUnite(?string $unite): self
-    {
-        $this->unite = $unite;
-
-        return $this;
-    }
 
     public function getCreateur(): ?User
     {
@@ -324,6 +313,18 @@ class Ouvrage
     public function setOrigine(?string $origine): self
     {
         $this->origine = $origine;
+
+        return $this;
+    }
+
+    public function getUnite(): ?Unite
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?Unite $unite): self
+    {
+        $this->unite = $unite;
 
         return $this;
     }

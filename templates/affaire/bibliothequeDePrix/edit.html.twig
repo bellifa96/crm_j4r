@@ -199,13 +199,13 @@
                     <form onsubmit="return submitOuvrageEvenement(event)" name="demande">
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="labels" for="ouvrage_code">Code</label>
                                 <input type="text" id="ouvrage_code" name="ouvrage[code]"
                                        class="col-md-12 chakra-input ouvrage-edit" value="{{ ouvrage.code }}"
                                        required/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="labels" for="ouvrage_denomination">Dénomination</label>
                                 <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]"
                                        value="{{ ouvrage.denomination }}"
@@ -216,6 +216,11 @@
                                 <input type="text" id="ouvrage_unite" name="ouvrage[unite]" value="{{ ouvrage.unite }}"
                                        class="col-md-12 chakra-input ouvrage-edit"
                                        required/>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="labels" for="ouvrage_quantite">Quantité</label>
+                                <input type="number" id="ouvrage_quantite" name="ouvrage[quantite]"
+                                        class="col-md-12 chakra-input ouvrage-edit" required value="{{ ouvrage.quantite }}"/>
                             </div>
                             <div class="col-md-3">
                                 <label class="labels" for="ouvrage_DUHT">Déboursé unitaire HT</label>
@@ -365,6 +370,7 @@
                 unite: $('#ouvrage_unite').val(),
                 duht: $('#ouvrage_DUHT').val(),
                 note:$('#ouvrage_note').val(),
+                quantite:$('#ouvrage_quantite').val(),
             }
 
             $.post("{{ path('app_affaire_ouvrage_edit',{'id':ouvrage.id}) }}", {ouvrage}, function (response) {

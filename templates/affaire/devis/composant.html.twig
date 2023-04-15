@@ -29,15 +29,11 @@
                          <option value="{{option.id}}"> {{ option.intitule }} </option>
 
                        {% endfor %}
+                        <option value="Autre"> Autre </option>
+
                 </select>
 
                 {% endif %}
-            </div>
-            <div class="tab-el-right">
-                <input type="text" id="devis_composants_{{ composant.id }}_unite" input="unite" element="composant"
-                       composant="{{ composant.id }}" name="devis[composants][{{ composant.id }}][unite]" required="required"
-                       maxlength="255"
-                       class="chakra-input" placeholder="Unité" value="{{ composant.unite }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_quantite" input="quantite"
@@ -45,6 +41,20 @@
                        element="composant" composant="{{ composant.id }}" class="chakra-input numbers dtht-composant"
                        placeholder="Quantité"
                        value="{{ composant.quantite }}">
+            </div>
+            <div class="tab-el-right">
+               <select id="devis_composants_{{ composant.id }}_unite" name="devis[composants][{{ composant.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="composant"  composant="{{ composant.id }}">
+                        {% set isSelected = false %}
+                        {% for unite in unites %}
+                            <option value="{{unite.id}}"
+                                {% if unite == composant.unite %}
+                                        selected
+                                        {% set isSelected = true %}
+                                {% endif %}
+                            > {{ unite.label}}</option>
+                        {% endfor %}
+                        <option disabled {{ composant.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                </select>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseUnitaireHT" input="debourseUnitaireHT"

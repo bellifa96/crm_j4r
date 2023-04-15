@@ -28,6 +28,8 @@ use App\Repository\Affaire\ComposantRepository;
 use Exception;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Unite;
+
 
 #[Route('/affaire/devis')]
 class DevisController extends AbstractController
@@ -35,11 +37,14 @@ class DevisController extends AbstractController
 
     private $environment;
     private $em;
+    private $unites;
 
     public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface)
     {
         $this->environment = $environment;
         $this->em = $entityManagerInterface;
+        $this->unites = $entityManagerInterface->getRepository(Unite::class)->findAll();
+
     }
 
     #[Route('/', name: 'app_affaire_devis_index', methods: ['GET'])]
@@ -110,7 +115,7 @@ class DevisController extends AbstractController
                // dd($options,$origine,$parent);
             }
             try {
-                $htmlTMP= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent, 'options'=>$options]);
+                $htmlTMP= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent, 'options'=>$options,'unites'=>$this->unites]);
         
                 if (!empty($element['data'])){
                     $htmlTMP = "<li>".$htmlTMP."<ul class='children' id='".$element['type']."-ul-" . $element['id'] . "'>";
@@ -283,7 +288,7 @@ class DevisController extends AbstractController
             try {
                 $this->getPrix($elements, $ouvrageRepository, $lotRepository);
                 $devis->setElements($elements);
-                $html .= $environment->render($path, ["ouvrage" => $clone, 'hasParent' => $val['parentId']]);
+                $html .= $environment->render($path, ["ouvrage" => $clone, 'hasParent' => $val['parentId'],'unites'=>$this->unites]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -319,7 +324,7 @@ class DevisController extends AbstractController
         if (!empty($path)) {
 
             try {
-                $html = $environment->render($path, ['demande' => $demande]);
+                $html = $environment->render($path, ['demande' => $demande,'unites'=>$this->unites]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -374,7 +379,7 @@ class DevisController extends AbstractController
                 $elements[] = $el;
             }
             $devis->setElements($elements);
-            $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId']]);
+            $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId'],'unites'=>$this->unites]);
             $html = "<li>".$html."<ul class='children' id='lot-ul-" . $lot->getId(). "'></ul></li>";
 
             $devisRepository->add($devis);
@@ -649,6 +654,7 @@ class DevisController extends AbstractController
         key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : $lot->setQuantite(null);
         key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
         key_exists('marge', $data) ? $lot->setMarge($data['marge']) : $lot->setMarge(null);
+        key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : $lot->setUnite(null);
         try {
             $lotRepository->add($lot);
             return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));

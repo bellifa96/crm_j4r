@@ -36,17 +36,31 @@
 
             </div>
             <div class="tab-el-right">
-{#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrages"
-                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
-                       maxlength="255"
-                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
-            </div>
-            <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
                        element="ouvrages" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Quantité"
                        value="{{ ouvrage.quantite }}"> 
+            </div>
+            <div class="tab-el-right">
+{#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrages"
+                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
+                       maxlength="255"
+                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
+
+                    <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="ouvrages"  ouvrage="{{ ouvrage.id }}">
+                                {% set isSelected = false %}
+                                {% for unite in unites %}
+                                    <option value="{{unite.id}}"
+                                        {% if unite == ouvrage.unite %}
+                                                selected
+                                                {% set isSelected = true %}
+                                        {% endif %}
+                                    > {{ unite.label}}</option>
+                                {% endfor %}
+                                <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+
+                    </select>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseUnitaireHT" input="debourseUnitaireHT"

@@ -18,15 +18,6 @@
                        input="titre" value="{{ lot.titre }}"/>
             </div>
             <div class="tab-el-right">
-{#                <input type="text" id="devis_lots_{{ lot.id }}_unite" input="unite"
-                        name="devis[lots][{{ lot.id }}][unite]" required="required"
-                        maxlength="255" element="lots" lot="{{ lot.id }}" class="chakra-input numbers"
-
-                        placeholder="Unité" value="{{ lot.unite }}"
-                />#}
-            
-            </div>
-            <div class="tab-el-right">
                 <input type="text" id="devis_lots_{{ lot.id }}_quantite" input="quantite"
                        name="devis[lots][{{ lot.id }}][quantite]" required="required"
                        maxlength="255" element="lots" lot="{{ lot.id }}" class="chakra-input numbers calcul"
@@ -37,6 +28,22 @@
                         {% endif %}
                         #}
                        placeholder="Quantité" value="{{ lot.quantite }}"/>
+            </div>
+            <div class="tab-el-right">
+                <select id="devis_lots_{{ lot.id }}_unite" name="devis[lots][{{ lot.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="lots"  lot="{{ lot.id }}">
+                        {% set isSelected = false %}
+                    
+                        {% for unite in unites %}
+                            <option value="{{unite.id}}"
+                                {% if unite == lot.unite %}
+                                        selected
+                                        {% set isSelected = true %}
+                                {% endif %}
+                            > {{ unite.label}}</option>
+                        {% endfor %}
+                        <option disabled {{ lot.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                </select>
+            
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourseUnitaireHT"

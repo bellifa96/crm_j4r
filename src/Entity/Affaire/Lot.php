@@ -3,6 +3,7 @@
 namespace App\Entity\Affaire;
 
 use App\Entity\TimesTrait;
+use App\Entity\Unite;
 use App\Entity\User;
 use App\Repository\Affaire\LotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,8 +45,8 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $marge = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $unite = null;
+    #[ORM\ManyToOne]
+    private ?Unite $unite = null;
 
 
     public function __construct()
@@ -160,12 +161,12 @@ class Lot
         return $this;
     }
 
-    public function getUnite(): ?string
+    public function getUnite(): ?Unite
     {
         return $this->unite;
     }
 
-    public function setUnite(?string $unite): self
+    public function setUnite(?Unite $unite): self
     {
         $this->unite = $unite;
 

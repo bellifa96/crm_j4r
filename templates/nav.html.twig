@@ -301,6 +301,13 @@
                             <span>Services</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_unite_index' ? 'active' }}">
+                        <a href="{{ path('app_unite_index') }}" class="sidebar-link">
+                            <i class="bi bi-stack"></i>
+                            <span>Unité</span>
+                        </a>
+                    </li>
+                    
 
 
 

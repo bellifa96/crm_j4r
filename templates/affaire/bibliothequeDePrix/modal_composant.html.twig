@@ -35,9 +35,13 @@
                                    class="col-md-12 chakra-input" required/>
                         </div>
                         <div class="col-md-1">
-                            <label class="labels" for="composant_unite">Unité</label>
-                            <input type="text" id="composant_unite" name="composant[unite]" class="col-md-12 chakra-input"
-                                   required/>
+
+                            <select id="composant_unite" name="composant[unite]" class="col-md-12 chakra-input" required>
+                                   <option disabled {{ ouvrage.unite is empty ? selected : ""}}>Selectionner une unité</option>
+                                   {% for unite in unite %}
+                                    <option value="{{unite.id}}" {{ unite.id == ouvrage.unite ? "selected" : "" }}> {{ unite.label}}</option>
+                                    {% endfor %}
+                            </select>
                         </div>
                         <div class="col-md-1">
                             <label class="labels" for="composant_quantite">Quantité</label>

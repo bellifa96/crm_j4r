@@ -392,6 +392,7 @@
                 denomination: $('#ouvrage_denomination').val(),
                 unite: $('#ouvrage_unite').val(),
                 duht: $('#ouvrage_DUHT').val(),
+                quantite:$("#ouvrage_quantite").val(),
             }
 
             $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
