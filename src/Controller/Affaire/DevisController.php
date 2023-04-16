@@ -269,7 +269,7 @@ class DevisController extends AbstractController
             foreach ($ouvrage->getComposants() as $composant) {
                 $entityManager->detach($clone);
                 $clone->addComposant($composant);
-                $composant->addOuvrage($clone);
+                $composant->setOuvrage($clone);
             }
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
@@ -400,7 +400,7 @@ class DevisController extends AbstractController
         if ($type == 'lot') {
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
-            $dupliquer->setTitre($lot->getTitre());
+            $dupliquer->setDenomination($lot->getDenomination());
             $dupliquer->setCode($lot->getCode());
             $dupliquer->setPrixHT($lot->getPrixHT());
             $dupliquer->setQuantite($lot->getQuantite());
@@ -462,7 +462,6 @@ class DevisController extends AbstractController
         $ouvrage->setNote($origine->getNote());
         $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
         $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
-        $ouvrage->setMarge($origine->getMarge());
         $ouvrage->setQuantite($origine->getQuantite());
 
         $elements = $devis->getElements();
@@ -478,8 +477,8 @@ class DevisController extends AbstractController
             $clone->setStatut('Copie');
             $entityManager->detach($clone);
             $entityManager->getRepository(Composant::class)->add($clone);
-            $clone->getOuvrages()->clear();
-            $clone->addOuvrage($ouvrage);
+            $clone->setOuvrage($ouvrage);
+            $ouvrage->addComposant($clone);
             $entityManager->getRepository(Composant::class)->add($clone);
 
             $element = [
@@ -492,14 +491,19 @@ class DevisController extends AbstractController
             $html .= $this->recursiveElements([$element],$ouvrage->getId());
 
         }
+        $entityManager->getRepository(Ouvrage::class)->add($ouvrage);
+
+        $ouvrage->setPrixDeVenteHT($ouvrage->getSommeDebourseTotalComposants());
+        $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
 
         $devis->setElements($elements);
 
         try{
               $ouvrageRepository->save($ouvrage);
             //  $entityManager->getRepository(Devis::class)->add($devis);
+              $data = ['ouvrage'=>$ouvrage->__toArray()];
 
-              return new Response(json_encode(['code' => 200,'data'=> $ouvrage->toArray(),'html'=>$html]));
+              return new Response(json_encode(['code' => 200,'data'=> $data,'html'=>$html]));
 
         }catch(\Exception $e){
             dd($e);
@@ -650,7 +654,7 @@ class DevisController extends AbstractController
         $data = $data['lot'];
 
         $lot->setCode($data['code']);
-        $lot->setTitre($data['titre']);
+        $lot->setDenomination($data['denomination']);
         key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : $lot->setQuantite(null);
         key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
         key_exists('marge', $data) ? $lot->setMarge($data['marge']) : $lot->setMarge(null);
@@ -716,7 +720,7 @@ class DevisController extends AbstractController
     public function delete(Request $request, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $devis->getId(), $request->request->get('_token'))) {
-          /*  foreach ($devis->getOuvrages() as $ouvrage) {
+          /*  foreach ($devis->getOuvrage() as $ouvrage) {
                 $ouvrage->setDevis($devis);
                 $ouvrageRepository->add($ouvrage);
             }*/

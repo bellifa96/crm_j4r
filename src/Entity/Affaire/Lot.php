@@ -24,14 +24,11 @@ class Lot
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $titre;
+    private $denomination;
 
     #[Gedmo\Versioned]
     #[ORM\ManyToOne(targetEntity: User::class)]
     private $createur;
-
-    #[ORM\OneToMany(mappedBy: 'lot', targetEntity: SousLot::class)]
-    private $sousLots;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $code;
@@ -48,25 +45,23 @@ class Lot
     #[ORM\ManyToOne]
     private ?Unite $unite = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $debourseUnitaireHT = null;
 
-    public function __construct()
-    {
-        $this->sousLots = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getDenomination(): ?string
     {
-        return $this->titre;
+        return $this->denomination;
     }
 
-    public function setTitre(?string $titre): self
+    public function setDenomination(?string $denomination): self
     {
-        $this->titre = $titre;
+        $this->denomination = $denomination;
 
         return $this;
     }
@@ -79,36 +74,6 @@ class Lot
     public function setCreateur(?User $createur): self
     {
         $this->createur = $createur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, SousLot>
-     */
-    public function getSousLots(): Collection
-    {
-        return $this->sousLots;
-    }
-
-    public function addSousLot(SousLot $sousLot): self
-    {
-        if (!$this->sousLots->contains($sousLot)) {
-            $this->sousLots[] = $sousLot;
-            $sousLot->setLot($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSousLot(SousLot $sousLot): self
-    {
-        if ($this->sousLots->removeElement($sousLot)) {
-            // set the owning side to null (unless already changed)
-            if ($sousLot->getLot() === $this) {
-                $sousLot->setLot(null);
-            }
-        }
 
         return $this;
     }
@@ -169,6 +134,18 @@ class Lot
     public function setUnite(?Unite $unite): self
     {
         $this->unite = $unite;
+
+        return $this;
+    }
+
+    public function getDebourseUnitaireHT(): ?float
+    {
+        return $this->debourseUnitaireHT;
+    }
+
+    public function setDebourseUnitaireHT(?float $debourseUnitaireHT): self
+    {
+        $this->debourseUnitaireHT = $debourseUnitaireHT;
 
         return $this;
     }

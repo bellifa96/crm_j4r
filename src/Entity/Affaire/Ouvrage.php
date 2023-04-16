@@ -26,10 +26,6 @@ class Ouvrage
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $denomination;
 
-    #[ORM\ManyToOne(targetEntity: SousLot::class, inversedBy: 'ouvrages')]
-    #[ORM\JoinColumn(nullable: true)]
-    private $sousLot;
-
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeDOuvrage;
 
@@ -67,9 +63,6 @@ class Ouvrage
     #[Gedmo\Versioned]
     private $note;
 
-    #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
-    private $composants;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
@@ -79,13 +72,16 @@ class Ouvrage
     #[ORM\ManyToOne]
     private ?Unite $unite = null;
 
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Composant::class, cascade:['remove'])]
+    private Collection $composants;
+
     public function __construct()
     {
-        $this->composants = new ArrayCollection();
         $this->quantite = 1;
+        $this->composants = new ArrayCollection();
     }
 
-    public function toArray(){
+    public function __toArray(){
         return [
            "id"=> $this->id,
            "denomination"=> $this->denomination,
@@ -97,7 +93,8 @@ class Ouvrage
            "note"=> $this->note,
            "quantite"=> $this->quantite,
            "margeMoyenneComposants"=> $this->getMargeMoyenneComposants(),
-           'sommeComposants' => $this->getSommeUHTComposants()
+           'sommeDebourseTotalComposant' => $this->getSommeDebourseTotalComposants(),
+           'sommePrixDeVenteHTComposants' => $this->getSommePrixDeVenteHTComposants()
         ];
     }
     public function getId(): ?int
@@ -113,18 +110,6 @@ class Ouvrage
     public function setDenomination(?string $denomination): self
     {
         $this->denomination = $denomination;
-
-        return $this;
-    }
-
-    public function getSousLot(): ?SousLot
-    {
-        return $this->sousLot;
-    }
-
-    public function setSousLot(?SousLot $sousLot): self
-    {
-        $this->sousLot = $sousLot;
 
         return $this;
     }
@@ -159,17 +144,25 @@ class Ouvrage
     }
 
     // return la somme des prix unitaire HT des composants de l'ouvrage
-    public function getSommeUHTComposants(){
+    public function getSommeDebourseTotalComposants(){
         $sum = 0;
         foreach($this->composants as $composant){
-             $sum += $composant->getDebourseUnitaireHT();
+             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT();
+        }
+        return $sum;
+    }
+
+    public function getSommePrixDeVenteHTComposants(){
+        $sum = 0;
+        foreach($this->composants as $composant){
+             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $composant->getMarge();
         }
         return $sum;
     }
 
     public function getMargeMoyenneComposants(){
         $sum = 0;
-        foreach($this->composants as $composant){
+       foreach($this->composants as $composant){
              $sum += $composant->getMarge();
         }
         return $sum / count($this->composants) ;
@@ -220,12 +213,12 @@ class Ouvrage
 
     public function getPrixDeVenteHT(): ?float
     {
-        return $this->quantite * $this->debourseHTCalcule * $this->marge;
+        return $this->prixDeVenteHT;
     }
 
     public function setPrixDeVenteHT(?float $prixDeVenteHT): self
     {
-        $this->prixDeVenteHT = $this->quantite * $this->debourseHTCalcule * $this->marge;
+        $this->prixDeVenteHT = $prixDeVenteHT;
 
         return $this;
     }
@@ -267,32 +260,6 @@ class Ouvrage
         return $this;
     }
 
-    /**
-     * @return Collection<int, Composant>
-     */
-    public function getComposants(): Collection
-    {
-        return $this->composants;
-    }
-
-    public function addComposant(Composant $composant): self
-    {
-        if (!$this->composants->contains($composant)) {
-            $this->composants[] = $composant;
-            $composant->addOuvrage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComposant(Composant $composant): self
-    {
-        if ($this->composants->removeElement($composant)) {
-            $composant->removeOuvrage($this);
-        }
-
-        return $this;
-    }
     public function getStatut(): ?string
     {
         return $this->statut;
@@ -325,6 +292,36 @@ class Ouvrage
     public function setUnite(?Unite $unite): self
     {
         $this->unite = $unite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Composant>
+     */
+    public function getComposants(): Collection
+    {
+        return $this->composants;
+    }
+
+    public function addComposant(Composant $composant): self
+    {
+        if (!$this->composants->contains($composant)) {
+            $this->composants->add($composant);
+            $composant->setOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComposant(Composant $composant): self
+    {
+        if ($this->composants->removeElement($composant)) {
+            // set the owning side to null (unless already changed)
+            if ($composant->getOuvrage() === $this) {
+                $composant->setOuvrage(null);
+            }
+        }
 
         return $this;
     }

@@ -237,16 +237,16 @@
         if ($("#transport_prix_type").val() === "Spécial") {
 
             let div = `
-                         <div class="col-md-6" id="prix-intitule">
-                            <label class="labels">Intitulé</label>
+                         <div class="col-md-6" id="prix-denomination">
+                            <label class="labels">Dénomination</label>
 
-                            <input type="text"  id="transport_prix_intitule" name="transport[prix][intitule]" value="{{ "intitule" in transport.prix|keys ? transport.prix['intitule'] :'' }}"
+                            <input type="text"  id="transport_prix_denomination" name="transport[prix][denomination]" value="{{ "denomination" in transport.prix|keys ? transport.prix['denomination'] :'' }}"
                                    class="form-control"/>
                         </div>
             `;
             $(div).insertAfter("#prix");
-        } else if ($("#transport_prix_type").val() != "Spécial" && $('#prix-intitule').length > 0) {
-            $('#prix-intitule').remove()
+        } else if ($("#transport_prix_type").val() != "Spécial" && $('#prix-denomination').length > 0) {
+            $('#prix-denomination').remove()
         }
     }
 

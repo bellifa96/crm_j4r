@@ -47,7 +47,7 @@ class Unite
 
         return $this;
     }
-    public function toString(){
+    public function __toString(){
         return $this->label;
     }
 }

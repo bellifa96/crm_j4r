@@ -76,9 +76,7 @@ class Devis
 
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
-        $this->lots = new ArrayCollection();
         $this->statut = "Brouillon";
-        $this->ouvrages = new ArrayCollection();
         $this->referent = new ArrayCollection();
     }
     public function getId(): ?int

@@ -9,18 +9,18 @@
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
                 <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_code" element="lots"
-                       lot="{{ lot.id }}" placeholder="N°" name="devis[lots][{{ lot.id }}][code]"
+                       lots="{{ lot.id }}" placeholder="N°" name="devis[lots][{{ lot.id }}][code]"
                        input="code" value="{{ lot.code }}"/>
             </div>
             <div class="tab-el-left">
-                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_titre" element="lots"
-                       lot="{{ lot.id }}" placeholder="Dénomination" name="devis[lots][{{ lot.id }}][titre]"
-                       input="titre" value="{{ lot.titre }}"/>
+                <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_denomination" element="lots"
+                       lots="{{ lot.id }}" placeholder="Dénomination" name="devis[lots][{{ lot.id }}][denomination]"
+                       input="denomination" value="{{ lot.denomination }}"/>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_lots_{{ lot.id }}_quantite" input="quantite"
                        name="devis[lots][{{ lot.id }}][quantite]" required="required"
-                       maxlength="255" element="lots" lot="{{ lot.id }}" class="chakra-input numbers calcul"
+                       maxlength="255" element="lots" lots="{{ lot.id }}" class="chakra-input numbers calcul"
 {#                        {% if hasParent is not null %}
                             parent-quantite="{{ hasParent }}"
                         {% else %}
@@ -30,7 +30,7 @@
                        placeholder="Quantité" value="{{ lot.quantite }}"/>
             </div>
             <div class="tab-el-right">
-                <select id="devis_lots_{{ lot.id }}_unite" name="devis[lots][{{ lot.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="lots"  lot="{{ lot.id }}">
+                <select id="devis_lots_{{ lot.id }}_unite" name="devis[lots][{{ lot.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="lots"  lots="{{ lot.id }}">
                         {% set isSelected = false %}
                     
                         {% for unite in unites %}
@@ -47,7 +47,7 @@
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_debourseUnitaireHT"
-                        placeholder="Déboursé unitaire HT" lot="{{ lot.id }}" element="lots"
+                        placeholder="Déboursé unitaire HT" lots="{{ lot.id }}" element="lots"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
@@ -55,7 +55,7 @@
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_debourseTotalHT"
-                       disabled="disabled" placeholder="Déboursé Total HT" lot="{{ lot.id }}"
+                       disabled="disabled" placeholder="Déboursé Total HT" lots="{{ lot.id }}"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
@@ -65,7 +65,7 @@
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_marge"
-                        placeholder="Marge" lot="{{ lot.id }}"  element="lots"
+                        placeholder="Marge" lots="{{ lot.id }}"  element="lots"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
@@ -73,7 +73,7 @@
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input" type="text" id="devis_lots_{{ lot.id }}_prix_de_vente"
-                       disabled="disabled" placeholder="Prix de vente" lot="{{ lot.id }}"
+                       disabled="disabled" placeholder="Prix de vente" lots="{{ lot.id }}"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}

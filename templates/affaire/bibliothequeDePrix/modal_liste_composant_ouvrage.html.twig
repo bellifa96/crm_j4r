@@ -12,7 +12,7 @@
                             <th></th>
                             <th>Type</th>
                             <th>Code</th>
-                            <th>Intitulé</th>
+                            <th>Dénomination</th>
                             <th>Unité</th>
                             <th>Déboursé Unitaire HT</th>
                             <th>Marge</th>
@@ -29,7 +29,7 @@
                                       style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</span>
                             </td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.code }}</td>
-                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.intitule }}</td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.denomination }}</td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.unite }}</td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}
                                 €
@@ -37,7 +37,7 @@
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.marge|number_format(2,'.',' ') }}
                                 %
                             </td>
-                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.prixDeVente|number_format(2,'.',' ') }}
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.prixDeVenteHT|number_format(2,'.',' ') }}
                                 €
                             </td>
                         </tr>

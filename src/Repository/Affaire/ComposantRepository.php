@@ -42,7 +42,7 @@ class ComposantRepository extends ServiceEntityRepository
     public function findComposantsByOuvrageId(int $id)
     {
         $qb = $this->createQueryBuilder('c');
-        $qb->innerJoin('c.ouvrages', 'o')
+        $qb->innerJoin('c.ouvrage', 'o')
             ->where('o.id = :id')
             ->setParameter('id', $id);
 

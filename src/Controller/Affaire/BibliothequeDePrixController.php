@@ -45,10 +45,19 @@ class BibliothequeDePrixController extends AbstractController
     public function index(OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
 
-        $ouvrages = $ouvrageRepository->findAll();
+        $ouvrages = $ouvrageRepository->findByStatut(null);
+        $composants = $composantRepository->findByStatut(null);
+
+        foreach($composants as $composant){
+            if(empty($composant->getDenomination())){
+                $composant->setDenomination($composant->getTypeComposant()->getTitre());
+                $composantRepository->add($composant);
+            }
+        }
+
         return $this->render('affaire/bibliothequeDePrix/index.html.twig', [
-            'ouvrages' => $ouvrageRepository->findByStatut(null),
-            'composants' => $composantRepository->findByStatut(null),
+            'ouvrages' => $ouvrages,
+            'composants' => $composants,
             'title' => 'Bibliotheque de prix',
             'nav' => []
         ]);
@@ -275,17 +284,22 @@ class BibliothequeDePrixController extends AbstractController
         $data = $data['ouvrage'];
 
         $ouvrage->setCode($data['code']);
-        key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : $ouvrage->setDebourseHTCalcule(0.00);
-        $ouvrage->setPrixUnitaireDebourse($data['duht']);
+        key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : "";
+        key_exists('duht', $data) ? $ouvrage->setPrixUnitaireDebourse($data['duht']) : "";
+        key_exists('marge', $data) ? $ouvrage->setMarge($data['marge']) : "";
+
+
         $ouvrage->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
+        $data = ['ouvrage'=>$ouvrage->__toArray()];
+
         //key_exists('note', $data) ? $ouvrage->setNote($data['note']) : $ouvrage->setNote(null);
         //key_exists('quantiteDOuvrage', $data) ? $ouvrage->setQuantite($data['quantiteDOuvrage']) : $ouvrage->setQuantite(null);
         try {
             $ouvrageRepository->add($ouvrage);
-            return new Response(json_encode(['code' => 200]));
+            return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {
@@ -297,7 +311,7 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/composant/edit/{id}', name: 'app_affaire_composant_edit', methods: ['POST'])]
-    public function editComposant(Request $request, Composant $composant, ComposantRepository $composantRepository): Response
+    public function editComposant(Request $request, Composant $composant, ComposantRepository $composantRepository,OuvrageRepository $ouvrageRepository): Response
     {
 
         $data = $request->request->all();
@@ -305,15 +319,23 @@ class BibliothequeDePrixController extends AbstractController
 
         $composant->setCode($data['code']);
         $composant->setDebourseUnitaireHT($data['duht']);
-        $composant->setIntitule($data['intitule']);
+        $composant->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
+        $composant->setQuantite($data['quantite']);
         $composant->setUnite($unite);
         $composant->setMarge(floatval($data['marge']));
-        $composant->setPrixDeVente($composant->getMarge() * $composant->getDebourseUnitaireHT());
-        $composant->setNote($data['note']);
+        $composant->setPrixDeVenteHT($composant->getMarge() * $composant->getDebourseUnitaireHT() * $composant->getQuantite());
+        $composant->setNote(empty($data['note']) ? $composant->getNote(): $data['note']);
+        $data = [];
         try {
             $composantRepository->add($composant);
-            return new Response(json_encode(['code' => 200]));
+            if(!empty($composant->getOuvrage())){
+                $composant->getOuvrage()->setPrixDeVenteHT($composant->getOuvrage()->getSommePrixDeVenteHTComposants());
+                $composant->getOuvrage()->setMarge($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants());
+                $ouvrageRepository->add($composant->getOuvrage());
+                $data = ['ouvrage'=>$composant->getOuvrage()->__toArray()];
+            }
+            return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {
@@ -337,20 +359,20 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setTypeComposant($type);
         $composant->setCode($data['code']);
         $composant->setDebourseUnitaireHT($data['duht']);
-        $composant->setIntitule($data['intitule']);
+        $composant->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
         $composant->setUnite($unite);
         $composant->setMarge(floatval($data['marge']));
-        $composant->setPrixDeVente($composant->getMarge() * $composant->getDebourseUnitaireHT());
+        $composant->setPrixDeVenteHT($composant->getMarge() * $composant->getDebourseUnitaireHT());
         $composant->setQuantite($data['quantite']);
         $composant->setCreateur($this->getUser());
 
         if (key_exists('ouvrage', $data)) {
             $sum = 0;
             $ouvrage = $ouvrageRepository->find($data['ouvrage']);
-            $composant->addOuvrage($ouvrage);
+            $composant->setOuvrage($ouvrage);
             foreach ($ouvrage->getComposants() as $val) {
-                $sum += $val->getPrixDeVente();
+                $sum += $val->getPrixDeVenteHT();
             }
             $ouvrage->setPrixUnitaireDebourse($sum);
             $ouvrageRepository->add($ouvrage);
@@ -380,7 +402,7 @@ class BibliothequeDePrixController extends AbstractController
         foreach ($data as $val) {
             $composant = $composantRepository->find($val);
             $ouvrage->addComposant($composant);
-            $sum += $composant->getPrixDeVente();
+            $sum += $composant->getPrixDeVenteHT();
         }
         $ouvrage->setPrixUnitaireDebourse($sum);
 
@@ -408,7 +430,8 @@ class BibliothequeDePrixController extends AbstractController
         return $this->render('affaire/bibliothequeDePrix/edit.html.twig', [
             'ouvrage' => $ouvrage,
             'title' => 'Ouvrage : ' . $ouvrage->getDenomination(),
-            'nav' => []
+            'nav' => [],
+            'unites'=>$this->unites,
         ]);
 
     }
@@ -420,7 +443,8 @@ class BibliothequeDePrixController extends AbstractController
         return $this->render('affaire/bibliothequeDePrix/edit_composant.html.twig', [
             'composant' => $composant,
             'types' => $typeComposantRepository->findAll(),
-            'title' => 'Composant : ' . $composant->getIntitule(),
+            'title' => 'Composant : ' . $composant->getDenomination(),
+            'unites'=>$this->unites,
             'nav' => []
         ]);
 
@@ -440,11 +464,11 @@ class BibliothequeDePrixController extends AbstractController
         $clone->setTypeComposant($type);
         $clone->setCode($data['code']);
         $clone->setDebourseUnitaireHT($data['DUHT']);
-        $clone->setIntitule($data['intitule']);
+        $clone->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
         $clone->setUnite($unite);
         $clone->setMarge(floatval($data['marge']));
-        $clone->setPrixDeVente($clone->getMarge() * $clone->getDebourseUnitaireHT());
+        $clone->setPrixDeVenteHT($clone->getMarge() * $clone->getDebourseUnitaireHT() * $clone->getQuantite());
         $clone->setCreateur($this->getUser());
 
         $entityManager->detach($clone);
@@ -487,7 +511,7 @@ class BibliothequeDePrixController extends AbstractController
         foreach ($ouvrage->getComposants() as $composant) {
             $entityManager->detach($clone);
             $clone->addComposant($composant);
-            $composant->addOuvrage($ouvrage);
+            $composant->setOuvrage($ouvrage);
 
         }
 
