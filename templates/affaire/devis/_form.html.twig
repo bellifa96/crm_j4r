@@ -344,10 +344,16 @@
     })
 
     $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
+
+        if(selectedElementId == null){
+            return;
+        }
         var id = selectedElementId;
 
         let parentId = null;
 
+        
+        const element = $(this);
 
         if(selectedElement.parent().parent() && selectedElement.parent().parent().attr('id')){
                 parentId = selectedElement.parent().parent().attr('id').replace('ouvrage-ul-','').replace('lot-ul-','');
@@ -357,17 +363,25 @@
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
-        }, function (data) {
-            if (code = 200) {
+        }, function (response) {
+            response = JSON.parse(response);
+            if (response.code == 200) {
                 if (id != null) {
                     if ($('#element-' + id).next().hasClass('children')) {
         
                         $('#element-' + id).next().remove();
                     }
                     $('#element-' + id).remove();
+                    console.log($(this));
+
+                    if(element.hasClass('delete-composant')){
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
+                    }
 
 
-                    while (parentId) {
+                    /*while (parentId) {
                         let sumParent = 0;
 
                         $("[parent-dht='" + parentId + "']").each(function () {
@@ -385,7 +399,7 @@
                         $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
 
                         parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
-                    }
+                    }*/
 
                 }
             }

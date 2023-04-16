@@ -92,7 +92,6 @@ class Ouvrage
            "origine"=> $this->origine,
            "note"=> $this->note,
            "quantite"=> $this->quantite,
-           "margeMoyenneComposants"=> $this->getMargeMoyenneComposants(),
            'sommeDebourseTotalComposant' => $this->getSommeDebourseTotalComposants(),
            'sommePrixDeVenteHTComposants' => $this->getSommePrixDeVenteHTComposants()
         ];
@@ -160,13 +159,6 @@ class Ouvrage
         return $sum;
     }
 
-    public function getMargeMoyenneComposants(){
-        $sum = 0;
-       foreach($this->composants as $composant){
-             $sum += $composant->getMarge();
-        }
-        return $sum / count($this->composants) ;
-    }
 
     public function setPrixUnitaireDebourse(float $prixUnitaireDebourse): self
     {

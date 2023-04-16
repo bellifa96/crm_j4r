@@ -701,12 +701,23 @@ class DevisController extends AbstractController
         //dd($element);
         try {
             if (!empty($element['id']) and !empty($element['type'])) {
+                if($element['type'] == 'composant'){
+                    $ouvrage = $composantRepository->find($element['id'])->getOuvrage();
+                }
                 $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository, $composantRepository);
                 $devis->setElements($elements);
+
+            }
+
+            $data = [];
+            if($element['type'] == 'composant'){
+                 $data = [
+                    'ouvrage'=>$ouvrage->__toArray(),
+                 ];
             }
          //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200]));
+            return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {

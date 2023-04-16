@@ -1,5 +1,5 @@
 <li>
-<div class="elements" id="element-{{ composant.id }}" type="composants">
+<div class="elements" id="element-{{ composant.id }}" type="composant">
 
     <div class="css-1ip68u77">
         <div class="css-1r30cbj">
@@ -74,7 +74,7 @@
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_marge"
-                       input="marge"
+                       input="marge" element="composants" composants="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
                        class="chakra-input" placeholder="Marge"
                        value="{{ composant.marge|number_format(2,'.',' ') }}">

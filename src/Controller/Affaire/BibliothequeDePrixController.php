@@ -98,7 +98,7 @@ class BibliothequeDePrixController extends AbstractController
         if (!empty($path)) {
 
             try {
-                $html = $environment->render($path, ["types" => $typeComposantRepository->findAll(),'unites'=>$this->unites]);
+                $html = $environment->render($path, ["types" => $typeComposantRepository->findByStatut(null),'unites'=>$this->unites]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -118,7 +118,7 @@ class BibliothequeDePrixController extends AbstractController
 
         $path = "affaire/bibliothequeDePrix/modal_composant_list.html.twig";
 
-        $composants = $composantRepository->findAll();
+        $composants = $composantRepository->findByStatut(null);
 
         foreach ($composants as $key => $composant) {
             if ($ouvrage->getComposants()->contains($composant)) {
