@@ -6,7 +6,7 @@ use Mpdf\Mpdf;
 
 class PdfService
 {
-    private $mpdf;
+    private Mpdf $mpdf;
 
     public function __construct()
     {
