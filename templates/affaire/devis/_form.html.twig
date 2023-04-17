@@ -21,7 +21,38 @@
         border: 1px solid black;
         color: #0e4377;
     }
+
+    #loader-devis-page {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #loader-devis-page .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
 </style>
+
+
+<div id="loader-devis-page" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+            <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 
 <div class="row justify-content-between">
     <div class="col-md-auto">
@@ -345,6 +376,14 @@
 
     $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
 
+        const element = $(this);
+        console.log(element)
+
+        if(element.hasClass('delete-composant') && selectedElementId == null || (element.hasClass('delete-composant') && selectedElementId !=element.attr('id').replace('delete-composant-','') ) ){
+            selectedElementId = element.attr('id').replace('delete-composant-','');
+            selectedElementType = "composant";
+        }
+
         if(selectedElementId == null){
             return;
         }
@@ -353,19 +392,23 @@
         let parentId = null;
 
         
-        const element = $(this);
 
-        if(selectedElement.parent().parent() && selectedElement.parent().parent().attr('id')){
-                parentId = selectedElement.parent().parent().attr('id').replace('ouvrage-ul-','').replace('lot-ul-','');
-        }
+ 
+
+        /*if(selectedElement.parent().parent() && selectedElement.parent().parent().attr('id')){
+               parentId = selectedElement.parent().parent().attr('id').replace('ouvrage-ul-','').replace('lot-ul-','');
+        }*/
 
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
+        $("#loader-devis-page").modal("show");
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
         }, function (response) {
             response = JSON.parse(response);
             if (response.code == 200) {
+                selectedElementId = null;
+                selectedElementType = null;
                 if (id != null) {
                     if ($('#element-' + id).next().hasClass('children')) {
         
@@ -379,6 +422,9 @@
                         $('#devis_ouvrages_'+response.data.ouvrage.id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
                         $('#devis_ouvrages_'+response.data.ouvrage.id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
                     }
+
+                    $("#loader-devis-page").modal("hide");
+
 
 
                     /*while (parentId) {

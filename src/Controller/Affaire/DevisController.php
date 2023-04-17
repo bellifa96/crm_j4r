@@ -100,7 +100,7 @@ class DevisController extends AbstractController
     {
         $html = "";
         $options = [];
-//        dd($elements);
+      //dd($elements);
         
         foreach ($elements as $key => $element) {
             $path = "affaire/devis/" . $element['type'] . ".html.twig";
@@ -714,6 +714,8 @@ class DevisController extends AbstractController
                  $data = [
                     'ouvrage'=>$ouvrage->__toArray(),
                  ];
+                 $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
+                 $ouvrageRepository->add($ouvrage);
             }
          //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
