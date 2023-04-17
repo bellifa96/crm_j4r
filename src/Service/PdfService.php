@@ -15,7 +15,12 @@ class PdfService
 
     public function generatePdf(string $template, $name, $output = 'I'): string
     {
-        $this->mpdf->WriteHTML($template);
+        $this->generateTemplate($template);
         return $this->mpdf->Output($name . '.pdf', $output);
+    }
+
+    public function generateTemplate(string $template): void
+    {
+        $this->mpdf->WriteHTML($template);
     }
 }
