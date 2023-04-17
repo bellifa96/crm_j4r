@@ -571,7 +571,7 @@ class DevisController extends AbstractController
         $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots]);
         $bodyTemplate3 = $this->environment->render('pdf/devis3.html.twig', ['devis' => $devis]);
 
-        $name = "devis";
+        $name = $devis->getTitre();
 
         $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate1);
         $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate2);
