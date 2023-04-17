@@ -2,31 +2,36 @@
 
 namespace App\Controller\Affaire;
 
-use App\Entity\Affaire\Devis;
+use App\Entity\User;
+use Twig\Environment;
+use App\Entity\Demande;
+use App\Form\DemandeType;
 use App\Entity\Affaire\Lot;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
+use Twig\Error\RuntimeError;
+use App\Entity\Affaire\Devis;
+use Doctrine\ORM\ORMException;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\SousLot;
-use App\Entity\Demande;
-use App\Entity\User;
 use App\Form\Affaire\DevisType;
-use App\Form\DemandeType;
-use App\Repository\Affaire\DevisRepository;
-use App\Repository\Affaire\LotRepository;
-use App\Repository\Affaire\OuvrageRepository;
+use App\Entity\Affaire\Composant;
 use App\Repository\UserRepository;
 use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Affaire\LotRepository;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\Affaire\DevisRepository;
+use App\Repository\Affaire\OuvrageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use App\Repository\Affaire\ComposantRepository;
+use Exception;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Unite;
+
 
 #[Route('/affaire/devis')]
 class DevisController extends AbstractController
@@ -34,6 +39,7 @@ class DevisController extends AbstractController
 
     private $environment;
     private $em;
+    private $unites;
 
     private $pdfService;
 
@@ -42,6 +48,8 @@ class DevisController extends AbstractController
         $this->environment = $environment;
         $this->em = $entityManagerInterface;
         $this->pdfService = $pdfService;
+        $this->unites = $entityManagerInterface->getRepository(Unite::class)->findAll();
+
     }
 
     #[Route('/', name: 'app_affaire_devis_index', methods: ['GET'])]
@@ -96,20 +104,40 @@ class DevisController extends AbstractController
     public function recursiveElements($elements, $parent = null): string
     {
         $html = "";
-//        dd($elements);
+        $options = [];
+      //dd($elements);
+        
         foreach ($elements as $key => $element) {
             $path = "affaire/devis/" . $element['type'] . ".html.twig";
             if ($element['type'] == 'ouvrage') {
                 $entity = $this->em->getRepository(Ouvrage::class)->find($element['id']);
+                $options = $this->em->getRepository(Ouvrage::class)->findByStatut(null);
             } elseif ($element['type'] == 'lot') {
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
+            }elseif($element['type'] == 'composant'){
+                $entity = $this->em->getRepository(Composant::class)->find($element['id']);
+                $options = $this->em->getRepository(Composant::class)->findComposantsByOuvrageId($element['origine']);
+               // dd($options,$origine,$parent);
             }
             try {
-                $html .= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent]);
-                if (!empty($element['data'])) {
-                    $html .= "<div class='children' parent='lot-" . $element['id'] . "'>";
-                    $html .= $this->recursiveElements($element['data'], $element['id']);
-                    $html .= "</div>";
+                $htmlTMP= $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent, 'options'=>$options,'unites'=>$this->unites]);
+        
+                if (!empty($element['data'])){
+                    $htmlTMP = "<li>".$htmlTMP."<ul class='children' id='".$element['type']."-ul-" . $element['id'] . "'>";
+                    if($element['type'] == 'lot') {
+                        $htmlTMP .= $this->recursiveElements($element['data'], $element['id']);
+                        $htmlTMP .= "</ul>";
+                    }elseif($element['type'] == 'ouvrage'){
+                        $htmlTMP .= $this->recursiveElements($element['data'], $element['id']);
+                        $htmlTMP .= "</ul>";
+                    }
+                    $htmlTMP .= "</li>"; 
+                    $html .= $htmlTMP;
+                }elseif($element['type'] != 'composant'){
+                    $htmlTMP = "<li>".$htmlTMP."<ul class='children' id='".$element['type']."-ul-" . $element['id'] . "'></ul></li>";
+                    $html .= $htmlTMP;
+                }else{
+                    $html .= $htmlTMP;
                 }
             } catch (LoaderError $e) {
                 dd($e);
@@ -136,9 +164,6 @@ class DevisController extends AbstractController
         $users = $userRepository->findAll();
 
         $referer = $request->headers->get('referer');
-
-//       dd($this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []));
-
         if ($form->isSubmitted() && $form->isValid()) {
             $devisRepository->add($devis);
             return $this->redirectToRoute('app_affaire_devis_index', [], Response::HTTP_SEE_OTHER);
@@ -178,7 +203,7 @@ class DevisController extends AbstractController
             return new Response(json_encode(['code' => 200, "referents" => $referents]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (Exception $e) {
             dd($e);
         }
 
@@ -200,7 +225,7 @@ class DevisController extends AbstractController
             return new Response(json_encode(['code' => 200, 'idReferent' => $user->getId()]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (Exception $e) {
             dd($e);
         }
 
@@ -249,7 +274,7 @@ class DevisController extends AbstractController
             foreach ($ouvrage->getComposants() as $composant) {
                 $entityManager->detach($clone);
                 $clone->addComposant($composant);
-                $composant->addOuvrage($clone);
+                $composant->setOuvrage($clone);
             }
             $entityManager->detach($clone);
             $ouvrageRepository->add($clone);
@@ -268,7 +293,7 @@ class DevisController extends AbstractController
             try {
                 $this->getPrix($elements, $ouvrageRepository, $lotRepository);
                 $devis->setElements($elements);
-                $html .= $environment->render($path, ["ouvrage" => $clone, 'hasParent' => $val['parentId']]);
+                $html .= $environment->render($path, ["ouvrage" => $clone, 'hasParent' => $val['parentId'],'unites'=>$this->unites]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -285,7 +310,7 @@ class DevisController extends AbstractController
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (Exception $e) {
             dd($e);
         }
 
@@ -304,7 +329,7 @@ class DevisController extends AbstractController
         if (!empty($path)) {
 
             try {
-                $html = $environment->render($path, ['demande' => $demande]);
+                $html = $environment->render($path, ['demande' => $demande,'unites'=>$this->unites]);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {
@@ -359,7 +384,9 @@ class DevisController extends AbstractController
                 $elements[] = $el;
             }
             $devis->setElements($elements);
-            $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId']]);
+            $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId'],'unites'=>$this->unites]);
+            $html = "<li>".$html."<ul class='children' id='lot-ul-" . $lot->getId(). "'></ul></li>";
+
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
@@ -378,7 +405,7 @@ class DevisController extends AbstractController
         if ($type == 'lot') {
             $lot = $lotRepository->find($id);
             $dupliquer = new Lot();
-            $dupliquer->setTitre($lot->getTitre());
+            $dupliquer->setDenomination($lot->getDenomination());
             $dupliquer->setCode($lot->getCode());
             $dupliquer->setPrixHT($lot->getPrixHT());
             $dupliquer->setQuantite($lot->getQuantite());
@@ -428,6 +455,156 @@ class DevisController extends AbstractController
         }
     }
 
+
+    #[Route('/ouvrage/origine/add/{devis}/{id}/{origine}', name: 'app_affaire_devis_ouvrage_add_origine', methods: ['GET', 'POST'])]
+    public function addOrigineToOuvrage(Devis $devis,Ouvrage $ouvrage,Ouvrage $origine,OuvrageRepository $ouvrageRepository, EntityManagerInterface $entityManager): Response
+    {
+        $ouvrage->setOrigine($origine->getId());
+        $ouvrage->setDenomination($origine->getDenomination());
+        $ouvrage->setCode($origine->getCode());
+        $ouvrage->setUnite($origine->getUnite());
+        $ouvrage->setCreateur($this->getUser());
+        $ouvrage->setNote($origine->getNote());
+        $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
+        $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
+        $ouvrage->setQuantite($origine->getQuantite());
+
+        $elements = $devis->getElements();
+        $parent = [
+            'id'=> $ouvrage->getId(),
+            'type'=> 'ouvrage',
+            'data'=> [],
+        ];
+        $html ="";
+        foreach($origine->getComposants() as $composant){
+            $clone = $composant;
+            $clone->setCreateur($this->getUser());
+            $clone->setStatut('Copie');
+            $entityManager->detach($clone);
+            $entityManager->getRepository(Composant::class)->add($clone);
+            $clone->setOuvrage($ouvrage);
+            $ouvrage->addComposant($clone);
+            $entityManager->getRepository(Composant::class)->add($clone);
+
+            $element = [
+                'id'=> $clone->getId(),
+                'type'=> 'composant',
+                'data'=> [],
+                'origine'=>$ouvrage->getId(),
+            ];
+            $elements = $this->setParent($elements, $element, $parent);
+            $html .= $this->recursiveElements([$element],$ouvrage->getId());
+
+        }
+        $entityManager->getRepository(Ouvrage::class)->add($ouvrage);
+
+        $ouvrage->setPrixDeVenteHT($ouvrage->getSommeDebourseTotalComposants());
+        $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
+
+        $devis->setElements($elements);
+
+        try{
+              $ouvrageRepository->save($ouvrage);
+            //  $entityManager->getRepository(Devis::class)->add($devis);
+              $data = ['ouvrage'=>$ouvrage->__toArray()];
+
+              return new Response(json_encode(['code' => 200,'data'=> $data,'html'=>$html]));
+
+        }catch(\Exception $e){
+            dd($e);
+        }
+        
+    }
+
+    #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
+    public function newOuvrage(Devis $devis,$parentId = null,Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    {
+
+
+        
+        $ouvrage = new Ouvrage();
+        $ouvrage->setMarge(1);
+        $ouvrage->setCreateur($this->getUser());
+        $ouvrage->setStatut('Copie');
+        $elements = $devis->getElements();
+
+        try {
+            $ouvrageRepository->add($ouvrage);
+            $element = [
+                'id'=>$ouvrage->getId(),
+                'type'=>'ouvrage',
+                'data'=> [],
+            ];
+            $html = $this->recursiveElements([$element],$parentId);
+
+            if (!empty($parentId)) {
+                $parent = [];
+                $parent['id'] = $parentId;
+                $parent['type'] = 'lot';
+                $elements = $this->setParent($elements, $element, $parent);
+            }else {
+                $elements[] = $element;
+            }
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $parentId, 'id'=>$ouvrage->getId()]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+    }
+
+    #[Route('/composant/new/{id}/{parentId}/{origine}', name: 'app_affaire_devis_composant_new', methods: ['GET', 'POST'])]
+    public function newComposant(Devis $devis, $parentId, $origine, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
+    {
+
+
+        // on crée un nouveau composant avec le statut copie
+        $composant = new Composant();
+        $composant->setMarge(1);
+        $composant->setCreateur($this->getUser());
+        $composant->setStatut('Copie');
+
+        // on recupere tout les elements du devis pour pouvoir les modifier et y ajouter des nouveaux elements
+        $elements = $devis->getElements();
+
+        try {
+            // on sauvergade notre noveau element pour pouvoir recuperer l'id
+            $composantRepository->add($composant);
+
+            // on crée le tableau de notre nouveau element pour pouvoir l'ajouter au tablement elements de devis et créer son html
+            $element = [
+                'id'=>$composant->getId(),
+                'type'=>'composant',
+                'origine'=>$origine,
+                'data'=> []
+            ];
+            $html = $this->recursiveElements([$element],$parentId);
+
+            if (!empty($parentId)) {
+                $parent = [];
+                $parent['id'] = $parentId;
+                $parent['type'] = 'ouvrage';
+                $elements = $this->setParent($elements, $element, $parent);
+            }else {
+                $elements[] = $element;
+            }
+            $devis->setElements($elements);
+            $devisRepository->add($devis);
+            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $parentId]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+    }
 
     #[Route('/dupliquer/element/{id}', name: 'app_affaire_element_dupliquer', methods: ['GET', 'POST'])]
     public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
@@ -482,15 +659,17 @@ class DevisController extends AbstractController
         $data = $data['lot'];
 
         $lot->setCode($data['code']);
-        $lot->setTitre($data['titre']);
+        $lot->setDenomination($data['denomination']);
         key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : $lot->setQuantite(null);
         key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
+        key_exists('marge', $data) ? $lot->setMarge($data['marge']) : $lot->setMarge(null);
+        key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : $lot->setUnite(null);
         try {
             $lotRepository->add($lot);
             return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));
         } catch (OptimisticLockException $e) {
             dd($e);
-        } catch (ORMException $e) {
+        } catch (Exception $e) {
             dd($e);
         }
 
@@ -521,18 +700,37 @@ class DevisController extends AbstractController
 
 
     #[Route('/delete/element/{id}', name: 'app_affaire_devis_element_delete', methods: ['POST', 'GET'])]
-    public function deleteElement(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): Response
+    public function deleteElement(Devis $devis, Request $request, Environment $environment, DevisRepository $devisRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
         $element = $request->request->all();
         //dd($element);
         try {
             if (!empty($element['id']) and !empty($element['type'])) {
-                $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository);
+                if($element['type'] == 'composant'){
+                    $ouvrage = $composantRepository->find($element['id'])->getOuvrage();
+                }
+                $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository, $composantRepository);
                 $devis->setElements($elements);
+
             }
-            $this->getPrix($elements, $ouvrageRepository, $lotRepository);
+
+            $data = [];
+            if($element['type'] == 'composant'){
+
+                 $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
+                 if($ouvrage->getSommeDebourseTotalComposants() == 0){
+                    $ouvrage->setMarge(1);
+                 }else{
+                    $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
+                 }
+                 $ouvrageRepository->add($ouvrage);
+                 $data = [
+                    'ouvrage'=>$ouvrage->__toArray(),
+                 ];
+            }
+         //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200]));
+            return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {
@@ -546,10 +744,10 @@ class DevisController extends AbstractController
     public function delete(Request $request, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $devis->getId(), $request->request->get('_token'))) {
-            foreach ($devis->getOuvrages() as $ouvrage) {
+          /*  foreach ($devis->getOuvrage() as $ouvrage) {
                 $ouvrage->setDevis($devis);
                 $ouvrageRepository->add($ouvrage);
-            }
+            }*/
             $devisRepository->remove($devis);
         }
 

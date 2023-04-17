@@ -4,6 +4,7 @@ namespace App\Entity\Affaire;
 
 use App\Entity\TimesTrait;
 use App\Entity\User;
+use App\Entity\Unite;
 use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,17 +23,13 @@ class Ouvrage
     private $id;
 
     #[Gedmo\Versioned]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $denomination;
-
-    #[ORM\ManyToOne(targetEntity: SousLot::class, inversedBy: 'ouvrages')]
-    #[ORM\JoinColumn(nullable: true)]
-    private $sousLot;
 
     #[ORM\Column(type: 'string', length: 255,nullable: true)]
     private $typeDOuvrage;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255,nullable: true)]
     #[Gedmo\Versioned]
     private $code;
 
@@ -59,10 +56,6 @@ class Ouvrage
     #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
     private $lot;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Gedmo\Versioned]
-    private $unite;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
     private $createur;
 
@@ -70,17 +63,39 @@ class Ouvrage
     #[Gedmo\Versioned]
     private $note;
 
-    #[ORM\ManyToMany(targetEntity: Composant::class, mappedBy: 'ouvrages')]
-    private $composants;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $origine = null;
+
+    #[ORM\ManyToOne]
+    private ?Unite $unite = null;
+
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Composant::class, cascade:['remove'])]
+    private Collection $composants;
+
     public function __construct()
     {
+        $this->quantite = 1;
         $this->composants = new ArrayCollection();
     }
 
+    public function __toArray(){
+        return [
+           "id"=> $this->id,
+           "denomination"=> $this->denomination,
+           "typeDOuvrage"=> $this->typeDOuvrage,
+           "code"=> $this->code,
+           "marge"=> $this->marge,
+           "unite"=> $this->unite,
+           "origine"=> $this->origine,
+           "note"=> $this->note,
+           "quantite"=> $this->quantite,
+           'sommeDebourseTotalComposant' => $this->getSommeDebourseTotalComposants(),
+           'sommePrixDeVenteHTComposants' => $this->getSommePrixDeVenteHTComposants()
+        ];
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -91,21 +106,9 @@ class Ouvrage
         return $this->denomination;
     }
 
-    public function setDenomination(string $denomination): self
+    public function setDenomination(?string $denomination): self
     {
         $this->denomination = $denomination;
-
-        return $this;
-    }
-
-    public function getSousLot(): ?SousLot
-    {
-        return $this->sousLot;
-    }
-
-    public function setSousLot(?SousLot $sousLot): self
-    {
-        $this->sousLot = $sousLot;
 
         return $this;
     }
@@ -127,7 +130,7 @@ class Ouvrage
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
@@ -137,6 +140,23 @@ class Ouvrage
     public function getPrixUnitaireDebourse(): ?float
     {
         return $this->prixUnitaireDebourse;
+    }
+
+    // return la somme des prix unitaire HT des composants de l'ouvrage
+    public function getSommeDebourseTotalComposants(){
+        $sum = 0;
+        foreach($this->composants as $composant){
+             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT();
+        }
+        return $sum;
+    }
+
+    public function getSommePrixDeVenteHTComposants(){
+        $sum = 0;
+        foreach($this->composants as $composant){
+             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $composant->getMarge();
+        }
+        return $sum;
     }
 
     public function setPrixUnitaireDebourse(float $prixUnitaireDebourse): self
@@ -206,17 +226,6 @@ class Ouvrage
         return $this;
     }
 
-    public function getUnite(): ?string
-    {
-        return $this->unite;
-    }
-
-    public function setUnite(?string $unite): self
-    {
-        $this->unite = $unite;
-
-        return $this;
-    }
 
     public function getCreateur(): ?User
     {
@@ -242,6 +251,42 @@ class Ouvrage
         return $this;
     }
 
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getOrigine(): ?string
+    {
+        return $this->origine;
+    }
+
+    public function setOrigine(?string $origine): self
+    {
+        $this->origine = $origine;
+
+        return $this;
+    }
+
+    public function getUnite(): ?Unite
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?Unite $unite): self
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Composant>
      */
@@ -253,8 +298,8 @@ class Ouvrage
     public function addComposant(Composant $composant): self
     {
         if (!$this->composants->contains($composant)) {
-            $this->composants[] = $composant;
-            $composant->addOuvrage($this);
+            $this->composants->add($composant);
+            $composant->setOuvrage($this);
         }
 
         return $this;
@@ -263,19 +308,11 @@ class Ouvrage
     public function removeComposant(Composant $composant): self
     {
         if ($this->composants->removeElement($composant)) {
-            $composant->removeOuvrage($this);
+            // set the owning side to null (unless already changed)
+            if ($composant->getOuvrage() === $this) {
+                $composant->setOuvrage(null);
+            }
         }
-
-        return $this;
-    }
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(?string $statut): self
-    {
-        $this->statut = $statut;
 
         return $this;
     }

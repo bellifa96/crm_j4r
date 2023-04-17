@@ -76,9 +76,7 @@ class Devis
 
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
-        $this->lots = new ArrayCollection();
         $this->statut = "Brouillon";
-        $this->ouvrages = new ArrayCollection();
         $this->referent = new ArrayCollection();
     }
     public function getId(): ?int
@@ -187,7 +185,7 @@ class Devis
         return false;
     }
 
-    public function deleteInElements($el, $lotRepository, $ouvrageRepository, $elements=null)
+    public function deleteInElements($el, $lotRepository, $ouvrageRepository, $composantRepository, $elements=null)
     {
         if(empty($elements)){
             $elements = $this->elements;
@@ -195,9 +193,11 @@ class Devis
         //dd($elements, $el);
         foreach($elements as $key=>$element){
             if($element['id']==$el['id'] && $element['type']== $el['type']){
-                //dd( $element, $el);
+             //   dd( $element, $el);
                 if(!empty($element['data'])){
-                    $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
+                    foreach($element['data'] as $elEnfant){
+                        $this->deleteInElements($elEnfant, $lotRepository, $ouvrageRepository, $composantRepository, $element['data']);
+                    }
                 }
                 if ($element['type']== 'lot'){
                     $lot = $lotRepository->find($element['id']);
@@ -205,10 +205,14 @@ class Devis
                 }elseif ($element['type']== 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
                     $ouvrageRepository->remove($ouvrage);
+                }elseif($element['type'] == 'composant'){
+                  //  dd($element);
+                    $composant = $composantRepository->find($element['id']);
+                    $composantRepository->remove($composant);
                 }
                 unset($elements[$key]);
             }else if(!empty($element['data'])){
-                $elements[$key]['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $element['data']);
+                $elements[$key]['data'] = $this->deleteInElements($el, $lotRepository, $ouvrageRepository, $composantRepository, $element['data']);
             }
         }
         return $elements;

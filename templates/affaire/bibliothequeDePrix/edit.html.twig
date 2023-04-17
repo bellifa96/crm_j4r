@@ -199,13 +199,13 @@
                     <form onsubmit="return submitOuvrageEvenement(event)" name="demande">
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="labels" for="ouvrage_code">Code</label>
                                 <input type="text" id="ouvrage_code" name="ouvrage[code]"
                                        class="col-md-12 chakra-input ouvrage-edit" value="{{ ouvrage.code }}"
                                        required/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="labels" for="ouvrage_denomination">Dénomination</label>
                                 <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]"
                                        value="{{ ouvrage.denomination }}"
@@ -213,9 +213,23 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="labels" for="ouvrage_unite">Unité</label>
-                                <input type="text" id="ouvrage_unite" name="ouvrage[unite]" value="{{ ouvrage.unite }}"
-                                       class="col-md-12 chakra-input ouvrage-edit"
-                                       required/>
+                                <select id="ouvrage_unite" name="ouvrage[unite]" class="col-md-12 chakra-input ouvrage-edit">
+                                    {% set isSelected = false %}
+                                    {% for unite in unites %}
+                                        <option value="{{unite.id}}"
+                                            {% if unite == ouvrage.unite %}
+                                                    selected
+                                                    {% set isSelected = true %}
+                                            {% endif %}
+                                        > {{ unite.label}}</option>
+                                    {% endfor %}
+                                    <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="labels" for="ouvrage_quantite">Quantité</label>
+                                <input type="number" id="ouvrage_quantite" name="ouvrage[quantite]"
+                                        class="col-md-12 chakra-input ouvrage-edit" required value="{{ ouvrage.quantite }}"/>
                             </div>
                             <div class="col-md-3">
                                 <label class="labels" for="ouvrage_DUHT">Déboursé unitaire HT</label>
@@ -257,7 +271,7 @@
                         <tr>
                             <th>Type</th>
                             <th>Code</th>
-                            <th>Intitulé</th>
+                            <th>Dénomination</th>
                             <th>Unité</th>
                             <th>Déboursé unitaire HT</th>
                             <th>Quantité</th>
@@ -273,13 +287,13 @@
                             <tr class="pointer">
                                 <td><span class="badge badge-pill"  style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">{{ composant.typeComposant.titre }}</span></td>
                                 <td>{{ composant.code }}</td>
-                                <td>{{ composant.intitule }}</td>
+                                <td>{{ composant.denomination }}</td>
                                 <td>{{ composant.unite }}</td>
                                 <td id="debourseUHT-{{ composant.id }}">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
                                 <td>{{ composant.quantite }}</td>
                                 <td id="debourseht-{{ composant.id }}">{{ (composant.quantite * composant.debourseUnitaireHT)|number_format(2,'.',' ')}} €</td>
                                 <td>{{ composant.marge|number_format(2,'.',' ') }}  %</td>
-                                <td>{{ composant.prixDeVente|number_format(2,'.',' ') }} €</td>
+                                <td>{{ composant.prixDeVenteHT|number_format(2,'.',' ') }} €</td>
 
                                 <td>
                                     <button id="svg-button">
@@ -365,6 +379,7 @@
                 unite: $('#ouvrage_unite').val(),
                 duht: $('#ouvrage_DUHT').val(),
                 note:$('#ouvrage_note').val(),
+                quantite:$('#ouvrage_quantite').val(),
             }
 
             $.post("{{ path('app_affaire_ouvrage_edit',{'id':ouvrage.id}) }}", {ouvrage}, function (response) {
@@ -435,7 +450,7 @@
             const composant = {
                 type: $('#composant_type').val(),
                 code: $('#composant_code').val(),
-                intitule: $('#composant_intitule').val(),
+                denomination: $('#composant_denomination').val(),
                 unite: $('#composant_unite').val(),
                 duht: $('#composant_DUHT').val(),
                 quantite: $('#composant_quantite').val(),

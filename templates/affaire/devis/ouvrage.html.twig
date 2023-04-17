@@ -1,69 +1,114 @@
 <div class="elements" id="element-{{ ouvrage.id }}" type="ouvrage">
 
-    <div class="css-1ip68u7 ">
+    <div class="css-1ip68u7">
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_code" input="code" element="ouvrage"
-                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][code]" required="required"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_code" input="code" element="ouvrages"
+                       ouvrages="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][code]" required="required"
                        maxlength="255"
                        class="chakra-input" placeholder="Code" value="{{ ouvrage.code }}">
             </div>
             <div class="tab-el-left">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}"
-                       name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}">
-            </div>
-            <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrage"
-                       ouvrage="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
-                       maxlength="255"
-                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">
+
+               {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
+                        <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
+                            element="ouvrages" ouvrages="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
+                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                            class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled />
+                       {% else %}
+                        <select id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
+                            element="ouvrages" ouvrages="{{ ouvrage.id }}"
+                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                            class="chakra-input select-ouvrage" placeholder="Dénomination" >
+
+                            <option disabled selected> Veuillez selectionner un ouvrage </option>
+
+                            {% for option in options %}
+
+                                <option value="{{option.id}}"> {{ option.denomination }} </option>
+
+                            {% endfor %}
+
+                        </select>
+        
+               {% endif %}
+
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
-                        {% if hasParent is not null %}
-                            parent-quantite="{{ hasParent }}" disabled
-                        {% endif %}
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
+                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Quantité"
-                       value="{{ ouvrage.quantite }}">
+                       value="{{ ouvrage.quantite }}"> 
             </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseHT" input="debourseUnitaire"
-                       name="devis[ouvrages][{{ ouvrage.id }}][debourseHT]" required="required" maxlength="255"
+{#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrages"
+                       ouvrages="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
+                       maxlength="255"
+                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
+
+                    <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="ouvrages"  ouvrages="{{ ouvrage.id }}">
+                                {% set isSelected = false %}
+                                {% for unite in unites %}
+                                    <option value="{{unite.id}}"
+                                        {% if unite == ouvrage.unite %}
+                                                selected
+                                                {% set isSelected = true %}
+                                        {% endif %}
+                                    > {{ unite.label}}</option>
+                                {% endfor %}
+                                <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+
+                    </select>
+            </div>
+            <div class="tab-el-right">
+                {#<input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
+                       name="devis[ouvrages][{{ ouvrage.id }}][debourseUnitaireHT]" required="required" maxlength="255"
                         {% if hasParent is not null %}
                             parent-dht="{{ hasParent }}"
                         {% endif %}
-                       element="ouvrage" ouvrage="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
-                       placeholder="Déboursé HT"
+                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
+                       placeholder="Déboursé unitaire HT"
                        value="{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}">
-            </div>
+                       #}
+           </div>
             <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_marge"
-                       input="marge"
-                       name="devis[ouvrages][{{ ouvrage.id }}][marge]" required="required" maxlength="255"
-                        {% if hasParent is not null %}
-                            parent-dtht="{{ hasParent }}"
-                        {% endif %}
-                       class="chakra-input" placeholder="Déboursé Total HT"
-                       value="{{ ouvrage.marge|number_format(2,'.',' ') }}">
-            </div>
-            <div class="tab-el-right">
-                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
-                       input="debourseCalcule"
+                    <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
+                       input="debourseTotalHT"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseTotalHT]" required="required" maxlength="255"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        class="chakra-input" placeholder="Déboursé Total HT"
-                       value="{{ ouvrage.debourseHTCalcule|number_format(2,'.',' ') }}">
+                       value="{{  (ouvrage.getSommeDebourseTotalComposants)|number_format(2,'.',' ') }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_marge"
+                       input="marge" element="ouvrages" ouvrages="{{ ouvrage.id }}"
+                       name="devis[ouvrages][{{ ouvrage.id }}][marge]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       class="chakra-input" placeholder="Marge"
+                       value="{{ ouvrage.marge|number_format(2,'.',' ') }}">
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_prix_de_vente" disabled="disabled"
+                       input="prixDeVente"
+                       name="devis[ouvrages][{{ ouvrage.id }}][prixDeVente]" required="required" maxlength="255"
+                        {% if hasParent is not null %}
+                            parent-dtht="{{ hasParent }}"
+                        {% endif %}
+                       class="chakra-input" placeholder="Prix de vente HT"
+                       value="{{ (ouvrage.prixDeVenteHT)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto">
-                    <span><i ouvrage="{{ ouvrage.id }}" class="bi bi-plus-circle composant"></i></span>
+                <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ouvrage.id}}" type="ouvrage"  style="cursor:pointer;">
+                    <span><i ouvrages="{{ ouvrage.id }}" class="bi bi-plus-circle"></i></span>
+                </div>
+                <div class="spinner-border text-primary col-md-auto" style="display:none" role="status" id="spinner-{{ouvrage.id}}">
+                    <span class="sr-only">Loading...</span>
                 </div>
                 <div class="col-md-auto">
                     <span><i id="menu-ouvrage-{{ ouvrage.id }}" class="bi bi-three-dots menu-ouvrage"></i></span>

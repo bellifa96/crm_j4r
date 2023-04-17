@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}composant:{{ composant.intitule }}{% endblock %}
+{% block title %}composant:{{ composant.denomination }}{% endblock %}
 
 {% block body %}
 
@@ -179,17 +179,26 @@
                                    required/>
                         </div>
                         <div class="col-md-2">
-                            <label class="labels" for="composant_intitule">Intitulé</label>
-                            <input type="text" id="composant_intitule" name="composant[intitule]"
-                                   value="{{ composant.intitule }}"
+                            <label class="labels" for="composant_denomination">Dénomination</label>
+                            <input type="text" id="composant_denomination" name="composant[denomination]"
+                                   value="{{ composant.denomination }}"
                                    class="col-md-12 chakra-input composant-edit" required/>
                         </div>
                         <div class="col-md-1">
                             <label class="labels" for="composant_unite">Unité</label>
-                            <input type="text" id="composant_unite" name="composant[unite]"
-                                   value="{{ composant.unite }}"
-                                   class="col-md-12 chakra-input composant-edit"
-                                   required/>
+                            {% set isSelected = false %}
+                            <select id="composant_unite" name="composant[unite]" class="col-md-12 chakra-input composant-edit" required>
+                                {% set isSelected = false %}
+                                {% for unite in unites %}
+                                    <option value="{{unite.id}}"
+                                        {% if unite == composant.unite %}
+                                                selected
+                                                {% set isSelected = true %}
+                                        {% endif %}
+                                    > {{ unite.label}}</option>
+                                {% endfor %}
+                                <option disabled {{ composant.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <label class="labels" for="composant_DUHT">Déboursé unitaire HT</label>
@@ -201,16 +210,16 @@
                         <div class="col-md-2">
                             <label class="labels" for="composant_marge">Marge</label>
                             <input type="number" step="0.001" id="composant_marge" name="composant[marge]"
-                                   class="col-md-12 chakra-input composant-edit" onchange="prixDeVente()"
+                                   class="col-md-12 chakra-input composant-edit" onchange="prixDeVenteHT()"
                                    value="{{ composant.marge }}"
                                    required/>
                         </div>
 
                         <div class="col-md-2">
                             <label class="labels" for="composant_prix_de_vente">Prix de vente</label>
-                            <input type="number" step="0.001" id="composant_prix_de_vente" name="composant[prixDeVente]"
+                            <input type="number" step="0.001" id="composant_prix_de_vente" name="composant[prixDeVenteHT]"
                                    class="col-md-12 chakra-input composant-edit"
-                                   value="{{ composant.prixDeVente }}"
+                                   value="{{ composant.prixDeVenteHT }}"
                                    required/>
                         </div>
                     </div>
@@ -289,7 +298,7 @@
             const composant = {
                 type: $('#composant_type').val(),
                 code: $('#composant_code').val(),
-                intitule: $('#composant_intitule').val(),
+                denomination: $('#composant_denomination').val(),
                 unite: $('#composant_unite').val(),
                 duht: $('#composant_DUHT').val(),
                 marge: $('#composant_marge').val(),

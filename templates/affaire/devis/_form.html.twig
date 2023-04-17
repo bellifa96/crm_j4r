@@ -2,6 +2,7 @@
     {{ encore_entry_link_tags('devis') }}
 {% endblock %}
 
+
 <style>
 
     #encadre-marge {
@@ -20,7 +21,38 @@
         border: 1px solid black;
         color: #0e4377;
     }
+
+    #loader-devis-page {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #loader-devis-page .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
 </style>
+
+
+<div id="loader-devis-page" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+            <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 
 <div class="row justify-content-between">
     <div class="col-md-auto">
@@ -91,8 +123,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        {{ form_end(form) }}
 
     </div>
     <div class="col-md-4 page-block m-auto" id="encadre-marge" onclick="afficherMenu()">
@@ -125,6 +157,7 @@
                        name="devis[prixDeVenteHT]" disabled>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -159,8 +192,8 @@
                 </div>
                 <div class="col-md-4">
 
-                    <label for="devis_margeTotale">Marge totale</label>
-                    <input type="text" id="devis_margeTotale" class="form-control"
+                    <label for="devis_margeTotalee">Marge totale</label>
+                    <input type="text" id="devis_margeTotalee" class="form-control"
                            value='{{ devis.fraisGeneraux * devis.margeBeneficiaire }}'
                            name="devis[margeTotale]" disabled>
                 </div>
@@ -172,8 +205,8 @@
             <div class="row align-items-center">
 
                 <div class="col-md-3">
-                    <label for="devis_debourseTotalHT">Déboursé total HT</label>
-                    <input type="text" id="devis_debourseTotalHT" class="form-control"
+                    <label for="devis_debourseTotalHTT">Déboursé total HT</label>
+                    <input type="text" id="devis_debourseTotalHTT" class="form-control"
                            value='{{ devis.debourseHT }}'
                            name="devis[debourseTotalHT]" disabled>
                 </div>
@@ -203,50 +236,6 @@
 </div>
 
 
-<div class="row justify-content-center main-devis">
-    {% if devis.elements is empty %}
-    <svg viewBox="0 0 200 200" focusable="false" class="svg">
-        <circle cx="100" cy="100" r="100" fill="white"></circle>
-        <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M71.5698 35.1369C69.1936 36.0059 65.8383 35.8552 62.3071 34.6683C60.0434 37.6269 57.346 39.6281 54.89 40.2364C54.021 37.8601 54.1717 34.5049 55.3586 30.9737C52.4 28.7099 50.3988 26.0126 49.7905 23.5566C52.1668 22.6875 55.522 22.8382 59.0532 24.0251C61.317 21.0665 64.0143 19.0654 66.4703 18.457C67.3393 20.8333 67.1886 24.1886 66.0017 27.7197C68.9603 29.9835 70.9615 32.6809 71.5698 35.1369ZM33.3381 135.979C31.873 136.933 29.5902 137.353 27.0278 137.103C25.9633 139.447 24.458 141.214 22.8987 142.006C21.9441 140.541 21.524 138.258 21.7742 135.695C19.43 134.631 17.6631 133.126 16.8716 131.566C18.3367 130.612 20.6195 130.192 23.1819 130.442C24.2464 128.098 25.7516 126.331 27.3109 125.539C28.2656 127.004 28.6857 129.287 28.4354 131.85C30.7797 132.914 32.5466 134.419 33.3381 135.979ZM122.192 171.591C124.105 174.183 126.408 175.955 128.522 176.518C129.31 174.476 129.23 171.572 128.257 168.501C130.849 166.588 132.621 164.286 133.184 162.171C131.142 161.384 128.238 161.463 125.167 162.436C123.254 159.844 120.952 158.073 118.837 157.51C118.05 159.551 118.129 162.455 119.102 165.526C116.51 167.439 114.739 169.742 114.176 171.856C116.217 172.644 119.121 172.564 122.192 171.591ZM189.722 79.3415C187.475 78.7432 185.029 76.8613 182.997 74.1067C179.733 75.1405 176.648 75.2252 174.479 74.3886C175.077 72.1419 176.959 69.6957 179.714 67.6632C178.68 64.3998 178.595 61.3147 179.432 59.1453C181.678 59.7436 184.125 61.6255 186.157 64.3801C189.42 63.3463 192.506 63.2616 194.675 64.0982C194.077 66.3449 192.195 68.7911 189.44 70.8236C190.474 74.087 190.559 77.1721 189.722 79.3415Z"
-              fill="#83CDFA"></path>
-        <g clip-path="url(#clip0)">
-            <path d="M143.746 114.068H140.645V100L116.416 96.0938L120.322 131.289C123.776 131.289 126.577 134.089 126.577 137.543V140.645H140.645V126.577H143.746C147.2 126.577 150 123.776 150 120.322C150 116.868 147.2 114.068 143.746 114.068Z"
-                  fill="#27BE6C"></path>
-            <path d="M120.322 100L96.0936 96.0938L86.2988 119.298L99.9998 140.645H114.068V137.543C114.068 134.089 116.868 131.289 120.322 131.289V100Z"
-                  fill="#BBF3D5"></path>
-            <path d="M96.8988 114.068H100V100L75.7715 84.7852L79.6777 150C83.1318 150 85.932 147.2 85.932 143.746V140.645H100V126.577H96.8988C93.4447 126.577 90.6445 123.776 90.6445 120.322C90.6445 116.868 93.4447 114.068 96.8988 114.068Z"
-                  fill="#F33725"></path>
-            <path d="M79.6772 84.7852L59.355 100V114.068H62.4562C65.9103 114.068 68.7105 116.868 68.7105 120.322C68.7105 123.776 65.9103 126.577 62.4562 126.577H59.355V140.645H73.423V143.746C73.423 147.2 76.2231 150 79.6772 150V90.6445V84.7852Z"
-                  fill="#FA8E84"></path>
-            <path d="M137.543 73.4234H140.645V59.3555H126.577V56.2543C126.577 52.8002 123.776 50 120.322 50L116.416 79.6777L120.322 109.355C123.776 109.355 126.577 106.555 126.577 103.101V100H140.645V85.932H137.543C134.089 85.932 131.289 83.1318 131.289 79.6777C131.289 76.2236 134.089 73.4234 137.543 73.4234Z"
-                  fill="#FFB946"></path>
-            <path d="M120.322 50C116.868 50 114.068 52.8002 114.068 56.2543V59.3555H100L96.0938 79.6777L100 100H114.068V103.101C114.068 106.555 116.868 109.355 120.322 109.355V50Z"
-                  fill="#FFDCAF"></path>
-            <path d="M103.101 73.4234H100V59.3555H85.932V62.4566C85.932 65.9107 83.1318 68.7109 79.6777 68.7109L75.7715 79.6777L79.6777 90.6445C83.1318 90.6445 85.932 93.4447 85.932 96.8988V100H100V85.932H103.101C106.555 85.932 109.355 83.1318 109.355 79.6777C109.355 76.2236 106.555 73.4234 103.101 73.4234Z"
-                  fill="#0D8CD9"></path>
-            <path d="M73.4234 62.4566V59.3555H59.3555V73.4234H56.2543C52.8002 73.4234 50 76.2236 50 79.6777C50 83.1318 52.8002 85.932 56.2543 85.932H59.3555V100H73.4234V96.8988C73.4234 93.4447 76.2236 90.6445 79.6777 90.6445V68.7109C76.2236 68.7109 73.4234 65.9109 73.4234 62.4566Z"
-                  fill="#B0E2FF"></path>
-        </g>
-        <defs>
-            <clipPath id="clip0">
-                <rect width="100" height="100" fill="white" transform="translate(50 50)"></rect>
-            </clipPath>
-        </defs>
-    </svg>
-</div>
-    <div class="organisation">
-        <div class="organisation2">
-            <div class="organisation3">
-                <button type="button" class="lot-button add-lot">Créer un lot</button>
-                <hr aria-orientation="horizontal" class="ligne">
-                <button type="button" class="lot-button import-ouvrage">Importer des ouvrages</button>
-                <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
-            </div>
-        </div>
-    </div>
-{% endif %}
-
 
 <div class="mt-4 col-md-11 m-auto">
     <div class=" css-1fnl9bt">
@@ -256,11 +245,12 @@
             <div class="tab-el-left"></div>
             <div class="tab-el-left">N°</div>
             <div class="tab-el-left">Dénomination</div>
-            <div class="tab-el-left">Unité</div>
             <div class="tab-el-left">Quantité</div>
-            <div class="tab-el-left">Déboursé HT</div>
-            <div class="tab-el-left">Marge</div>
+            <div class="tab-el-left">Unité</div>
+            <div class="tab-el-left">Déboursé U HT</div>
             <div class="tab-el-left">Déboursé Total HT</div>
+            <div class="tab-el-left">Marge</div>
+            <div class="tab-el-left">Prix de vente Total HT</div>
             <div class="tab-el-left"></div>
             {#
             <div class="tab-el">Marge</div>
@@ -276,111 +266,10 @@
     </div>
 
     <div id="main-devis">
-
+      <ul id="sortable-elements">
         {{ html|raw('html') }}
-
-        {# {% for ouvrage in devis %}
-
-
-            <div class="elements" id="element-{{ ouvrage.id }}">
-
-                <div class="{{ ouvrage.unite is empty or ouvrage.quantiteDOuvrage is empty or ouvrage.prixUnitaireDebourse is empty ? "css-1ip68u7" : "css-ccobzb" }}">
-                    <div class="css-1r30cbj">
-                        <div class="tab-el-left"></div>
-                        <div class="tab-el-left"></div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_denomination"
-                                   name="devis[ouvrages][{{ loop.index }}][denomination]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.denomination }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_unite"
-                                   name="devis[ouvrages][{{ loop.index }}][unite]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.unite }}">
-
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_quantite"
-                                   name="devis[ouvrages][{{ loop.index }}][quantite]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.quantiteDOuvrage }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}_prixUnitaire"
-                                   name="devis[ouvrages][{{ loop.index }}][prixUnitaire]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.prixUnitaireDebourse }}">
-                        </div>
-                        <div class="tab-el-left">
-                            <input type="text" id="devis_ouvrages_{{ loop.index }}debourseht"
-                                   name="devis[ouvrages][{{ loop.index }}][debourseht]" required="required"
-                                   maxlength="255"
-                                   class="chakra-input" value="{{ ouvrage.debourseHTCalcule }}">
-                        </div>
-                        <div class="tab-el-left row justify-content-center">
-                            <div class="col-md-auto">
-                                <a href="#"><i class="bi bi-plus-circle"></i></a>
-                            </div>
-                            <div class="col-md-auto">
-                                <a href="#"><i class="bi bi-three-dots"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        {% endfor %}
-
-
-
-        {% for lot in form.lots %}
-        <div class="css-ccobzb lot">
-            <div class="css-1r30cbj">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(lot.code,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(lot.titre,{'attr':{'class':'chakra-input', 'elid':'lot.id', 'definition':'lot'}}) }}</div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {% for sousLot in lot.sousLots %}
-        <div class="css-ccobzb sous-lot">
-
-            <div class="css-1r30cbj col-md-12">
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left">{{ form_widget(sousLot.code,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left">{{ form_widget(sousLot.titre,{'attr':{'class':'chakra-input'}}) }}</div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left"></div>
-                <div class="tab-el-left row justify-content-center">
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-plus-circle"></i></a>
-                    </div>
-                    <div class="col-md-auto">
-                        <a href="#"><i class="bi bi-three-dots"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-    } #}
+      </ul>
+        
     </div>
 </div>
 
@@ -389,12 +278,13 @@
         <button type="button" class="css-15nl7at add-lot">
             + Créer un lot
         </button>
-        <button type="button" class="css-15nl7at import-ouvrage">
+       {# <button type="button" class="css-15nl7at import-ouvrage">
             + Importer un ouvrage
         </button>
         <button type="button" class="css-15nl7at" id="add-ouvrage">
             + Créer un ouvrage
         </button>
+        #}
     </div>
 </div>
 
@@ -402,7 +292,7 @@
     <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
 </div>
 
-{{ form_end(form) }}
+
 <script>
 
 
@@ -410,74 +300,70 @@
     let selectedElementId = null;
     let selectedElementType = null;
 
-    /*const contextMenu = document.getElementById('context-menu');
-    const scope = document.querySelector('#main-devis');
-    const normalizePosition = (mouseX, mouseY) => {
-        const {
-            left: scopeOffsetX,
-            top: scopeOffsetY,
-        } = scope.getBoundingClientRect()
+    $('body').on('click', '.add-element-button', function () {
+        let id = $(this).attr('id').replaceAll('bi-plus-circle-','');
+        $(this).hide();
+        $('#spinner-'+id).show();
+        if($(this).attr('type') ==='lot'){
+             newOuvrage(id);
+        }else if($(this).attr('type') ==='ouvrage'){
+            let origine = $('#devis_ouvrages_'+id+'_denomination').prop("tagName").toLowerCase() === "input" ? $('#devis_ouvrages_'+id+'_denomination').attr('origine') : $('#devis_ouvrages_'+id+'_denomination').val();
+            if(origine !== null){
+              newComposant(id,origine);
+            }else{
+                $(this).show();
+                $('#spinner-'+id).hide();
+            }
 
-        const scopeX = mouseX - scopeOffsetX;
-        const scopeY = mouseY - scopeOffsetY;
-
-        const outOfBoundsOnX = scopeX + contextMenu.clientWidth > scope.clientWidth;
-
-        const outOfBoundsOnY = scopeY + contextMenu.clientHeight > scope.clientHeight;
-
-        let normalizedX = mouseX;
-        let normalizedY = mouseY;
-
-        if (outOfBoundsOnX) {
-            normalizedX = scopeOffsetX + scope.clientWidth - contextMenu.clientWidth;
+        }else if($(this).attr('type') ==='composant'){
         }
 
-        if (outOfBoundsOnY) {
-            normalizedY = scopeOffsetY + scope.clientHeight - contextMenu.clientHeight;
-        }
 
-        return {normalizedX, normalizedY};
+
+    });
+    
+
+    function newOuvrage(id){
+            $.post('/affaire/devis/ouvrage/new/'+'{{devis.id}}'+'/'+id, function (response) {
+                const data = JSON.parse(response);
+                if (data.idParent != null) {
+                    $('#lot-ul-'+id).append(data.html);
+                } else {
+                    $('#main-devis').append(data.html);
+                }
+                $("#bi-plus-circle-"+id).show();
+                $('#spinner-'+id).hide();
+            })
     }
 
-    scope.addEventListener('contextmenu', (event) => {
-        event.preventDefault();
+    function newComposant(id,origine){
+           $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id+'/'+origine, function (response) {
+                const data = JSON.parse(response);
+                if (data.idParent != null) {
+                    $("#ouvrage-ul-"+data.idParent).append(data.html)
+                   // $(data.html).append($('#element-' + data.idParent));
+                } else {
+                    $('#main-devis').append(data.html);
+                }
+                $("#bi-plus-circle-"+id).show();
+                $('#spinner-'+id).hide();
 
-        const {offsetX: mouseX, offsetY: mouseY} = event;
-
-        const {normalizedX, normalizedY} = normalizePosition(mouseX, mouseY);
-
-        contextMenu.style.top = `${normalizedY}px`;
-        contextMenu.style.left = `${normalizedX}px`;
-
-        contextMenu.classList.remove('visible');
-
-        setTimeout(() => {
-            contextMenu.classList.add('visible')
-        });
-    });
-
-    scope.addEventListener('click', (e) => {
-        if (e.target.offsetParent != contextMenu) {
-            contextMenu.classList.remove('visible');
-        }
-    })*/
-
+            })
+    }
 
     $('body').on('click', '#add-lots, .add-lot', function () {
         var parentId = selectedElementId;
         var parentType = selectedElementType;
         let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
-        console.log(selectedElementId);
         $.post(path, {
             parentId: selectedElementId,
             parentType: selectedElementType
         }, function (data) {
             if (code = 200) {
                 if (parentId != null && parentType == "lot") {
-                    $("<div class='children' parent='lot-" + parentId + "'>" + JSON.parse(data).html + "</div>").insertAfter($('#element-' + parentId));
-                    //console.log(parentId);
+                    $("#lot-ul"+ parentId).append(JSON.parse(data).html);
                 } else {
-                    $('#main-devis').append(JSON.parse(data).html);
+                    $('#sortable-elements').append(JSON.parse(data).html);
                 }
                 $("#lot").modal('show');
                 $('.svg').remove();
@@ -488,50 +374,78 @@
 
     })
 
-    $('body').on('click', '#delete-lot, #delete-ouvrage', function () {
+    $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
+
+        const element = $(this);
+        console.log(element)
+
+        if(element.hasClass('delete-composant') && selectedElementId == null || (element.hasClass('delete-composant') && selectedElementId !=element.attr('id').replace('delete-composant-','') ) ){
+            selectedElementId = element.attr('id').replace('delete-composant-','');
+            selectedElementType = "composant";
+        }
+
+        if(selectedElementId == null){
+            return;
+        }
         var id = selectedElementId;
 
-        let parentId = $('#element-' + id).parent().attr('parent') ? $('#element-' + id).parent().attr('parent').replace('lot-', '') : null;
+        let parentId = null;
 
+        
 
-        console.log(id);
+ 
+
+        /*if(selectedElement.parent().parent() && selectedElement.parent().parent().attr('id')){
+               parentId = selectedElement.parent().parent().attr('id').replace('ouvrage-ul-','').replace('lot-ul-','');
+        }*/
+
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
+        $("#loader-devis-page").modal("show");
         $.post(path, {
             id: selectedElementId,
             type: selectedElementType
-        }, function (data) {
-            if (code = 200) {
+        }, function (response) {
+            response = JSON.parse(response);
+            if (response.code == 200) {
+                selectedElementId = null;
+                selectedElementType = null;
                 if (id != null) {
                     if ($('#element-' + id).next().hasClass('children')) {
+        
                         $('#element-' + id).next().remove();
                     }
                     $('#element-' + id).remove();
+                    console.log($(this));
 
-                    console.log(parentId);
+                    if(element.hasClass('delete-composant')){
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
+                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
+                    }
 
-                    while (parentId) {
+                    $("#loader-devis-page").modal("hide");
+
+
+
+                    /*while (parentId) {
                         let sumParent = 0;
-                        console.log(parentId);
 
                         $("[parent-dht='" + parentId + "']").each(function () {
                             let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
                             if (!isNaN(debourseOuvrage)) {
                                 sumParent += debourseOuvrage;
-                                console.log(sumParent);
                             }
                         });
                         $("[parent-dtht='" + parentId + "']").each(function () {
                             let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
                             if (!isNaN(debourseLot)) {
                                 sumParent += debourseLot;
-                                console.log(sumParent);
                             }
                         });
                         $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
 
                         parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
-                        console.log(parentId);
-                    }
+                    }*/
 
                 }
             }
@@ -573,7 +487,6 @@
             idParent: idParent
         }, function (data) {
             if (code = 200) {
-                console.log(data.idParent);
                 if (data.idParent != null) {
                     $(JSON.parse(data).html).insertAfter('#element' + data.idParent);
                 } else {
@@ -593,15 +506,19 @@
                     <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
+        div =  `<div class="context-menu">
+                    <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                </div>`;
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
-                    <div class="item-menu" id="modifier-ouvrage" ><i class="bi bi-pencil-square"></i>Modifier</div>
                     <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
+
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
@@ -624,15 +541,15 @@
 
     $('body').on('click', '#modifier-ouvrage', function () {
         let id = selectedElementId;
-        console.log(id);
         let path = '/affaire/bibliothequeDePrix/ouvrage/' + id;
         window.location.href = path;
     })
 
-    $('body').on('click', '.elements, .menu-lot, .menu-ouvrage, .composant, .add-lot, .modifier-ouvrage', function () {
-        selectedElement = $(this);
-        selectedElementId = $(this).attr('id').replaceAll('element-', '');
-        selectedElementType = $(this).attr('type');
+    $('body').on('click', '#sortable-elements li', function () {
+        let firstDiv = $(this).find('div:first');
+        selectedElement = firstDiv;
+        selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+        selectedElementType = firstDiv.attr('type');
     });
 
     function hasSomeParentTheClass(element, classname) {
@@ -645,30 +562,9 @@
         }
     }
 
-    /*$('body').click(function (event) {
-        $('.selected').each(function () {
-            if(!$(this).hasClass('bi-three-dots') && $(this).attr('id') && $(this).attr('id').replaceAll('menu-lot-','') != selectedElementId){
-                $(this).removeClass('selected');
-                selectedElement = null;
-                selectedElementId = null;
-                selectedElementType = null;
-                $('.context-menu').remove();
-        }
-
-        });
-        const selector = '.elements'
-        //console.log((event.target as Element ));
-        if (hasSomeParentTheClass($(this),'elements')) {
-            console.log($(this))
-            selectedElement = $(this);
-            selectedElementId = $(this).attr('id').replaceAll('element-', '');
-            selectedElementType = $(this).attr('type');
-            selectedElement.addClass('selected');
-        }
-    });*/
 
     $('body').on('click', function (event) {
-        if (!$(event.target).hasClass('import-ouvrage') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') && !$(event.target).hasClass('paginate_button'))
+        if (!$(event.target).hasClass('import-ouvrage') && !$(event.target).hasClass('delete-composant') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') && !$(event.target).hasClass('paginate_button'))
             $('.selected').each(function () {
                 $(this).removeClass('selected');
                 selectedElement = null;
@@ -678,10 +574,23 @@
             });
         const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
         if (document.querySelector(selector) && selectedElement) {
-            selectedElement.addClass('selected');
-            selectedElement = $(this);
-            selectedElementId = $(this).attr('id').replaceAll('element-', '');
-            selectedElementType = $(this).attr('type');
+
+            if ($(event.target).is('li') && selectedElement) {
+                let firstDiv = $(this).find('div:first');
+                firstDiv.addClass('selected');
+                selectedElement = $(this);
+                selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+                selectedElementType = firstDiv.attr('type');
+            } else {
+                const closestLi = $(event.target).closest('li');
+                if (closestLi.length && selectedElement) {
+                    let firstDiv = closestLi.find('div:first');
+                    firstDiv.addClass('selected');
+                    selectedElement = firstDiv;
+                    selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+                    selectedElementType = firstDiv.attr('type');
+                }
+            }
         }
     });
 
@@ -694,7 +603,6 @@
         let data = {};
         $('.check-ouvrage').each(function (index) {
             if ($(this).is(':checked')) {
-                console.log($(this).val());
                 data[index] = {
                     parentId: selectedElementId,
                     parentType: selectedElementType,
@@ -726,14 +634,12 @@
                                 let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
                                 if (!isNaN(debourseOuvrage)) {
                                     sumParent += debourseOuvrage;
-                                    console.log(sumParent);
                                 }
                             });
                             $("[parent-dtht='" + parentId + "']").each(function () {
                                 let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
                                 if (!isNaN(debourseLot)) {
                                     sumParent += debourseLot;
-                                    console.log(sumParent);
                                 }
                             });
                             $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
@@ -800,38 +706,88 @@
         let sum = quantite * prixUnite;
         let sumParent = 0;
         $('#devis_ouvrages_' + id + '_debourseTotalHT').val(sum);
-        console.log(parent)
         if (parent) {
             $("[parent-dht='" + parent + "']").each(function () {
                 let quantite2 = parseInt($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_quantite').val());
-                let prixUnite2 = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseHT').val().replace(',', '.'));
+                let prixUnite2 = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseUnitaireHT').val().replace(',', '.'));
                 sumParent += quantite2 * prixUnite2;
             })
-            $("#devis_lots_" + parent + "_debourse").val(sumParent)
+            $("#devis_lots_" + parent + "_debourseUnitaireHT").val(sumParent)
 
         }
 
         return sum;
     }
 
-    $('body').on("change", 'input', function () {
+    $('body').on("change", '.select-ouvrage', function () {
+        
+            let id = $(this).attr('ouvrages');
+            let origine = $(this).val();
+
+            let path = '/affaire/devis/ouvrage/origine/add/'+ "{{devis.id }}" +"/"+ id+'/'+origine;
+
+            $.post(path, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+               //     $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
+                    console.log(response)
+                    $('#ouvrage-ul-'+id).append(response.html)
+                    $('#devis_ouvrages_'+id+'_quantite').val(response.data.ouvrage.quantite);
+                    $('#devis_ouvrages_'+id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
+                    $('#devis_ouvrages_'+id+'_code').val(response.data.ouvrage.code);
+                    $('#devis_ouvrages_'+id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
+                    $('#devis_ouvrages_'+id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
+                    //console.log($("ul").find("[parent='ouvrage-" + id + "']"))
+                   // $("ul").find("[parent='ouvrage-" + id + "']").append(response.data.html); 
+                    $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
+                }
+            })
+    })
+
+    function calculDebourseTotalHT(quantite,prixUnitaireHT,id,type){
+        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(2);
+        $("#devis_"+type+"_"+id+"_debourseTotalHT").attr('value',debourseTotalHT)
+        return debourseTotalHT;
+    }
+    function calculPrixDeVente(quantite,prixUnitaireHT, marge, id,type){
+        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(2);
+        $("#devis_"+type+"_"+id+"_prix_de_vente").attr('value',prixDeVenteHt)
+        return prixDeVenteHt ;
+    }
+    
+    $('body').on("change", 'input, select', function () {
+        if($(this).hasClass('select-ouvrage')){
+            return;
+        }
         let type = $(this).attr('element');
-        if (type === 'ouvrage') {
-            let id = $(this).attr('ouvrage');
-            let quantite = parseInt($('input[name="devis[ouvrages][' + id + '][quantite]"]').val());
-            let prixUnite = parseFloat($('input[name="devis[ouvrages][' + id + '][debourseHT]"]').val().replace(',', '.'));
-            let sum = sumHT(quantite, prixUnite, id, $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite'));
+        let id = $(this).attr(type);
+        console.log(type,'input[name="devis['+type+'][' + id + '][marge]"]')
+
+        let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
+        let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
+        let code =  $('input[name="devis['+type+'][' + id + '][code]"]').val();
+        let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
+        let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
+        let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
+        if (type === 'ouvrages') {
+
+
+            
+
+            //let sum = sumHT(quantite, prixUnite, id, $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite'));
 
             const ouvrage = {
-                code: $('input[name="devis[ouvrages][' + id + '][code]"]').val(),
-                denomination: $('input[name="devis[ouvrages][' + id + '][denomination]"]').val(),
-                unite: $('input[name="devis[ouvrages][' + id + '][unite]"]').val(),
-                quantiteDOuvrage: quantite,
-                duht: prixUnite,
-                dtht: sum,
-                note: null
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+             //   duht: prixUnite,
+              //  dtht: debourseTotalHT,
+                note: null,
+                marge:marge,
             }
-            //  console.log(ouvrage);
+
+            console.log(ouvrage);
 
             let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
 
@@ -842,7 +798,7 @@
             })
 
             let parentId = $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite');
-            while (parentId) {
+            /*while (parentId) {
                 let sumParent = 0;
                 console.log(parentId);
 
@@ -853,24 +809,24 @@
                     //console.log(sumParent);
                 });
                 $("[parent-dtht='" + parentId + "']").each(function () {
-                    let debourseLot = $('#devis_lots_' + $(this).attr('lot') + '_debourse').val();
+                    let debourseLot = $('#devis_lots_' + $(this).attr('lot') + '_debourseUnitaireHT').val();
                     debourseLot = isNaN(debourseLot) ? 0 : parseFloat(debourseLot);
                     sumParent += debourseLot;
                     //console.log(sumParent);
                 });
 
                 console.log(parentId);
-                $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
+                $("#devis_lots_" + parentId + "_debourseUnitaireHT").val(sumParent.toFixed(2));
 
                 const lot = {
                     code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
-                    titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
+                    denomination: $('input[name="devis[lots][' + parentId + '][denomination]"]').val(),
                     quantite: parseInt($('input[name="devis[lots][' + parentId + '][quantite]"]').val()),
                     prix: sumParent
                 };
                 let path2 = '/affaire/devis/edit/lot/' + parentId;
 
-                parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
+                parentId = $("#devis_lots_" + parentId + "_debourseUnitaireHT").attr('parent-dtht');
                 console.log(lot);
 
                 $.post(path2, {lot}, function (response) {
@@ -880,18 +836,43 @@
                     }
                 })
 
-            }
+            }*/
         }
 
+        if(type == "composants"){
+            const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
+            const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
 
-        if (type == "lot") {
+            const composant = {                
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+                duht: prixUnite,
+                dtht: debourseTotalHT,
+                marge:marge,
+                note:null,
+            }
+            let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
+
+            $.post(path, {composant}, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    $('#devis_ouvrages_'+response.data.ouvrage.id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
+                    $('#devis_ouvrages_'+response.data.ouvrage.id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
+                    $('#devis_ouvrages_'+response.data.ouvrage.id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
+                }
+            })
+        }
+
+        if (type == "lots") {
             let id = $(this).attr('lot');
-
-            $("[parent-quantite='" + id + "']").each(function () {
+       
+            /*$("[parent-quantite='" + id + "']").each(function () {
                 let idOuvrage = $(this).attr('ouvrage');
                 let quantite = parseInt($('input[name="devis[lots][' + id + '][quantite]"]').val());
                 $('input[name="devis[ouvrages][' + idOuvrage + '][quantite]"]').val(quantite);
-                let prixUnite = parseFloat($('input[name="devis[ouvrages][' + idOuvrage + '][debourseHT]"]').val().replace(',', '.'));
+                let prixUnite = parseFloat($('input[name="devis[ouvrages][' + idOuvrage + '][debourseUnitaireHT]"]').val().replace(',', '.'));
                 let sum = sumHT(quantite, prixUnite, idOuvrage, $(this).attr('parent-dht') ? $(this).attr('parent-dht') : $(this).attr('parent-quantite'));
 
                 const ouvrage = {
@@ -912,15 +893,20 @@
                     if (data.code === 200) {
                     }
                 })
-            });
+            });*/
+
 
 
             const lot = {
-                code: $('input[name="devis[lots][' + id + '][code]"]').val(),
-                titre: $('input[name="devis[lots][' + id + '][titre]"]').val(),
-                quantite: $('input[name="devis[lots][' + id + '][quantite]"]').val(),
-                prix: $('input[name="devis[lots][' + id + '][debourse]"]').val(),
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+                prix: prixUnite,
+                marge:marge,
+
             };
+
 
             let path = '/affaire/devis/edit/lot/' + id;
 
@@ -935,32 +921,30 @@
             while (parentId) {
                 let sumQuantiteParent = 0;
                 let sumPrixParent = 0;
-                console.log(parentId);
 
                 $("[parent-quantite='" + parentId + "']").each(function () {
                     let quantite = ($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_quantite').val()) ? $('#devis_ouvrages_' + $(this).attr('ouvrage') + '_quantite').val() : $('#devis_lots_' + $(this).attr('lot') + '_quantite').val();
                     quantite = isNaN(quantite) ? 0 : parseInt(quantite);
                     sumQuantiteParent += quantite;
                     //console.log(sumParent);
-                    let prix = ($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val()) ? $('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val() : $('#devis_lots_' + $(this).attr('lot') + '_debourse').val();
+                    let prix = ($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val()) ? $('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val() : $('#devis_lots_' + $(this).attr('lot') + '_debourseUnitaireHT').val();
                     prix = isNaN(prix) ? 0 : parseFloat(prix);
                     sumPrixParent += prix;
                 });
 
                 //console.log(parentId);
                 $("#devis_lots_" + parentId + "_quantite").val(sumQuantiteParent);
-                $("#devis_lots_" + parentId + "_debourse").val(sumPrixParent.toFixed(2));
+                $("#devis_lots_" + parentId + "_debourseUnitaireHT").val(sumPrixParent.toFixed(2));
 
                 const lot = {
                     code: $('input[name="devis[lots][' + parentId + '][code]"]').val(),
-                    titre: $('input[name="devis[lots][' + parentId + '][titre]"]').val(),
+                    denomination: $('input[name="devis[lots][' + parentId + '][denomination]"]').val(),
                     quantite: sumQuantiteParent,
                     prix: sumPrixParent,
                 };
                 let path2 = '/affaire/devis/edit/lot/' + parentId;
 
-                parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
-                console.log(lot);
+                parentId = $("#devis_lots_" + parentId + "_debourseUnitaireHT").attr('parent-dtht');
 
                 $.post(path2, {lot}, function (response) {
                     let data = JSON.parse(response);

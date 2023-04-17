@@ -263,7 +263,7 @@
                     <tr>
                         <th>Type</th>
                         <th>Code</th>
-                        <th>Intitulé</th>
+                        <th>Dénomination</th>
                         <th>Unité</th>
                         <th>Déboursé Unitaire HT</th>
                         <th>Marge</th>
@@ -280,7 +280,7 @@
                                       style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">{{ composant.typeComposant.titre }}</span>
                             </td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.code }}</td>
-                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.intitule }}</td>
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.denomination }}</td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.unite }}</td>
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}
                                 €
@@ -288,7 +288,7 @@
                             <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.marge|number_format(2,'.',' ') }}
                                 %
                             </td>
-                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.prixDeVente|number_format(2,'.',' ') }}
+                            <td onclick="document.location =' {{ path('app_affaire_composant_show',{'id':composant.id}) }}';">{{ composant.prixDeVenteHT|number_format(2,'.',' ') }}
                                 €
                             </td>
                             <td>
@@ -392,6 +392,7 @@
                 denomination: $('#ouvrage_denomination').val(),
                 unite: $('#ouvrage_unite').val(),
                 duht: $('#ouvrage_DUHT').val(),
+                quantite:$("#ouvrage_quantite").val(),
             }
 
             $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
@@ -426,11 +427,12 @@
             const composant = {
                 type: $('#composant_type').val(),
                 code: $('#composant_code').val(),
-                intitule: $('#composant_intitule').val(),
+                denomination: $('#composant_denomination').val(),
                 unite: $('#composant_unite').val(),
                 duht: $('#composant_DUHT').val(),
                 marge: $('#composant_marge').val(),
                 note: $('#composant_note').val(),
+                quantite: $('#composant_quantite').val(),
             }
 
             $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {

@@ -30,14 +30,18 @@
                                    required/>
                         </div>
                         <div class="col-md-2">
-                            <label class="labels" for="composant_intitule">Dénomination</label>
-                            <input type="text" id="composant_intitule" name="composant[intitule]"
+                            <label class="labels" for="composant_denomination">Dénomination</label>
+                            <input type="text" id="composant_denomination" name="composant[denomination]"
                                    class="col-md-12 chakra-input" required/>
                         </div>
                         <div class="col-md-1">
-                            <label class="labels" for="composant_unite">Unité</label>
-                            <input type="text" id="composant_unite" name="composant[unite]" class="col-md-12 chakra-input"
-                                   required/>
+
+                            <select id="composant_unite" name="composant[unite]" class="col-md-12 chakra-input" required>
+                                   <option disabled {{ ouvrage.unite is empty ? selected : ""}}>Selectionner une unité</option>
+                                   {% for unite in unite %}
+                                    <option value="{{unite.id}}" {{ unite.id == ouvrage.unite ? "selected" : "" }}> {{ unite.label}}</option>
+                                    {% endfor %}
+                            </select>
                         </div>
                         <div class="col-md-1">
                             <label class="labels" for="composant_quantite">Quantité</label>
@@ -46,18 +50,18 @@
                         </div>
                         <div class="col-md-2">
                             <label class="labels" for="composant_DUHT">Déboursé unitaire HT</label>
-                            <input type="number" step="0.001" id="composant_DUHT" name="composant[DUHT]" class="col-md-12 chakra-input" onchange="prixDeVente()"
+                            <input type="number" step="0.001" id="composant_DUHT" name="composant[DUHT]" class="col-md-12 chakra-input" onchange="prixDeVenteHT()"
                                    required/>
                         </div>
                         <div class="col-md-2">
                             <label class="labels" for="composant_marge">Marge</label>
-                            <input type="number" step="0.001" id="composant_marge" name="composant[marge]" class="col-md-12 chakra-input" onchange="prixDeVente()"
+                            <input type="number" step="0.001" id="composant_marge" name="composant[marge]" class="col-md-12 chakra-input" onchange="prixDeVenteHT()"
                                    required/>
                         </div>
 
                         <div class="col-md-2">
                             <label class="labels" for="composant_prix_de_vente">Prix de vente</label>
-                            <input type="number" step="0.001" id="composant_prix_de_vente" name="composant[prixDeVente]" class="col-md-12 chakra-input"
+                            <input type="number" step="0.001" id="composant_prix_de_vente" name="composant[prixDeVenteHT]" class="col-md-12 chakra-input"
                                    required/>
                         </div>
                     </div>

@@ -93,8 +93,10 @@ $.trumbowyg.svgAbsoluteUsePath = true;
 $(function () {
 
 
-    $( "#main-devis" ).sortable({
-        revert: true
+
+    $('#sortable-elements').sortable({
+        items: 'li',
+        toleranceElement: '> div'
     });
 
     $( ".elements" ).disableSelection();
