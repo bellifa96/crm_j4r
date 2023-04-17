@@ -73,7 +73,7 @@
                     <td style="text-align: center; width: 11%">
                         {% for lot in lots %}
                             {% if lot.id is same as(element['id']) %}
-                                {{ lot.titre }}
+                                {{ lot.denomination }}
                             {% endif %}
                         {% endfor%}
                     </td>
