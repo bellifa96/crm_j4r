@@ -68,9 +68,18 @@
                 </tr>
             </thead>
             <tbody>
+            {% for element in devis.elements %}
                 <tr>
-                    <td style="text-align: center; width: 11%">ECHAFAUDAGE</td>
-                    <td style="text-align: center; width: 7%">PLATEFORME</td>
+                    <td style="text-align: center; width: 11%">
+                        {% for lot in lots %}
+                            {% if lot.id is same as(element['id']) %}
+                                {{ lot.titre }}
+                            {% endif %}
+                        {% endfor%}
+                    </td>
+                    <td style="text-align: center; width: 7%">
+                        <!-- Nom du sous lot -->
+                    </td>
                     <td style="text-align: center">45</td>
                     <td style="text-align: right">3423,42€</td>
                     <td style="text-align: right">4841,20€</td>
@@ -83,6 +92,7 @@
                     <td style="text-align: right">76,08€</td>
                     <td style="text-align: center"></td>
                 </tr>
+            {% endfor %}
                 <tr>
                     <td class="secondRow" style="text-align: center" colspan="3">Total H.T.</td>
                     <td class="secondRow" style="text-align: right">3423,42€</td>
