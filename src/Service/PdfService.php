@@ -6,17 +6,28 @@ use Mpdf\Mpdf;
 
 class PdfService
 {
-    private $mpdf;
+    private Mpdf $mpdf;
 
     public function __construct()
     {
         $this->mpdf = new Mpdf();
     }
 
-    public function generatePdf(string $template, $name, $output = 'I'): string
+    public function generatePdf($name, $output = 'I'): string
     {
-        $this->mpdf->WriteHTML($template);
-        // renvoyer le pdf au client
         return $this->mpdf->Output($name . '.pdf', $output);
     }
+
+    public function generateTemplate(string $headerTemplate, string $footerTemplate, string $bodyTemplate): void
+    {
+        // Ajouter une nouvelle page
+        $this->mpdf->AddPage();
+
+        // Combinez les templates du header, du footer et du corps de message
+        $html = $headerTemplate . $bodyTemplate . $footerTemplate;
+
+        // Écrivez le HTML combiné dans mPDF
+        $this->mpdf->WriteHTML($html);
+    }
+
 }

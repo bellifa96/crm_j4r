@@ -1,0 +1,33 @@
+<html style="margin: 0; padding: 0;background: grey; font-family: 'DejaVu Sans'">
+<style>
+    footer {
+        position: absolute;
+        bottom: 50px;
+        left: 30px;
+        right: 30px;
+    }
+
+    body {
+        position: relative;
+    }
+</style>
+    <body style="margin: 30px auto;width: 210mm;min-height: 297mm;background: white;padding: 0 30px;box-sizing: border-box;font-size: 10px; line-height: 15px">
+    <header>
+        {% include 'pdf/devis_header.html.twig' %}
+    </header>
+    <main>
+        <div style="height: 450px; border: 1px solid black; margin: 10px 0 30px 0">
+            <div style="text-align: center; border-bottom: 1px solid black; background-color: #C5C5C5"><strong>Conditions d'utilisation de l'échafaudage</strong></div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; margin: auto">
+            <div style="border: 1px solid black; padding: 3px; text-align: center; width: 48%; height: 100px">
+                <strong><u>Bon pour accord client</u></strong> (Date, cachet, signature):
+            </div>
+        </div>
+    </main>
+    <footer>
+        {% include 'pdf/devis_footer.html.twig' %}
+    </footer>
+    </body>
+</html>
+

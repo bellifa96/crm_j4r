@@ -1,0 +1,222 @@
+<html style="margin: 0; padding: 0;background: grey; font-family: 'DejaVu Sans'">
+    <style>
+        th {
+            background-color: #C5C5C5;
+        }
+
+        .secondRow {
+            background-color: #C5C5C5;
+        }
+
+        .rentingTime {
+            background-color: #989898;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 3px;
+        }
+
+        .emptyCell {
+            border: none;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 50px;
+            left: 30px;
+            right: 30px;
+        }
+
+        .firstCell {
+            height: 25px;
+        }
+
+        body {
+            margin: 30px auto;
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            padding: 0 30px;
+            box-sizing: border-box;
+            font-size: 10px;
+            line-height: 15px;
+            position: relative;
+        }
+    </style>
+    <body>
+    <header>
+        {% include 'pdf/devis_header.html.twig' %}
+    </header>
+
+    <main>
+        <table style="font-size: 6px; margin-top: 10px; border-collapse: collapse; border-spacing: 0 10px;" id="table1">
+            <thead style="margin-bottom: 5px">
+                <tr>
+                    <th style="width: 18%" colspan="2">Désignation des Ouvrages</th>
+                    <th style="width: 6%">Durée location en jours</th>
+                    <th style="width: 8%">Location</th>
+                    <th style="width: 7%">Montage</th>
+                    <th style="width: 7%">Démontage</th>
+                    <th style="width: 7%">Transport Manutention</th>
+                    <th style="width: 8%">Prix de vente unitaire HT</th>
+                    <th style="width: 2%">QTE</th>
+                    <th style="width: 8%">Prix de vente total HT</th>
+                    <th style="width: 7%">Sur location mensuelle</th>
+                    <th style="width: 7%">Sur location journalière</th>
+                    <th style="width: 15%">Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for element in devis.elements %}
+                <tr>
+                    <td style="text-align: center; width: 11%">
+                        {% for lot in lots %}
+                            {% if lot.id is same as(element['id']) %}
+                                {{ lot.titre }}
+                            {% endif %}
+                        {% endfor%}
+                    </td>
+                    <td style="text-align: center; width: 7%">
+                        <!-- Nom du sous lot -->
+                    </td>
+                    <td style="text-align: center">45</td>
+                    <td style="text-align: right">3423,42€</td>
+                    <td style="text-align: right">4841,20€</td>
+                    <td style="text-align: right">4841,20€</td>
+                    <td style="text-align: right">2964,00€</td>
+                    <td style="text-align: right">16069,82€</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">16069,82€</td>
+                    <td style="text-align: right">2282,28€</td>
+                    <td style="text-align: right">76,08€</td>
+                    <td style="text-align: center"></td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td class="secondRow" style="text-align: center" colspan="3">Total H.T.</td>
+                    <td class="secondRow" style="text-align: right">3423,42€</td>
+                    <td class="secondRow" style="text-align: right">4841,20€</td>
+                    <td class="secondRow" style="text-align: right">4841,20€</td>
+                    <td class="secondRow" style="text-align: right">2964,00€</td>
+                    <td class="secondRow" style="text-align: right">16069,82€</td>
+                    <td class="emptyCell"></td>
+                    <td class="secondRow" style="text-align: right">16069,82€</td>
+                </tr>
+                <tr>
+                    <td class="emptyCell" colspan="6"></td>
+                    <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
+                        Montant Total € H.T. <br>
+                        Prorata 0,00%
+                    </td>
+                    <td style="text-align: right; font-weight: bold; line-height: 10px">
+                        16069,82€ <br>
+                        - €
+                    </td>
+                </tr>
+                <tr>
+                    <td class="emptyCell" colspan="6"></td>
+                    <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
+                        Montant Total € H.T. + prorata <br>
+                        T.V.A. 20,00% <br>
+                        Montant Total € T.T.C.
+                    </td>
+                    <td style="text-align: right; font-weight: bold; line-height: 10px">
+                        16069,82€ <br>
+                        3213,96€ <br>
+                        19283,78€
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 10px; font-size: 6px;"><strong>OPTIONS:</strong></div>
+        <table style="font-size: 6px; border-collapse: collapse">
+            <thead>
+                <tr>
+                    <th style="width: 18%" colspan="2">Désignation des ouvrages</th>
+                    <th style="width: 6%">Durée location en jours</th>
+                    <th style="width: 8%">Location</th>
+                    <th style="width: 7%">Montage</th>
+                    <th style="width: 7%">Démontage</th>
+                    <th style="width: 7%">Transport Manutention</th>
+                    <th style="width: 8%">Prix de vente unitaire HT</th>
+                    <th style="width: 2%">QTE</th>
+                    <th style="width: 8%">Prix de vente total HT</th>
+                    <th style="width: 7%">Sur location mensuelle</th>
+                    <th style="width: 7%">Sur location journalière</th>
+                    <th style="width: 15%">Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="firstCell" style="text-align: center; width: 11%">Filets pare gravats standard</td>
+                    <td style="text-align: center; width: 7%">0 m²</td>
+                    <td class="rentingTime" style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+                </tr>
+                <tr>
+                    <td class="firstCell" style="text-align: center">Filets de gravats anti-poussière 70%</td>
+                    <td style="text-align: center">0 m²</td>
+                    <td class="rentingTime" style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+                </tr>
+                <tr>
+                    <td class="firstCell" style="text-align: center">Filets de protections couvreur</td>
+                    <td style="text-align: center">0 ml</td>
+                    <td class="rentingTime" style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+                </tr>
+                <tr>
+                    <td class="firstCell" style="text-align: center">Pare-gravois<br></td>
+                    <td style="text-align: center">0 ml</td>
+                    <td style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: right">- €</td>
+                    <td style="text-align: center">0</td>
+                    <td style="text-align: right">- €</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="border: 2px solid black; padding: 3px; text-align: center; width: 275px; height: 100px; margin: 10px 0 0 0">
+            <strong><u>Bon pour accord client</u></strong> (Date, cachet, signature):
+        </div>
+    </main>
+    <footer>
+        {% include 'pdf/devis_footer.html.twig' %}
+    </footer>
+    </body>
+</html>
+

@@ -755,13 +755,27 @@ class DevisController extends AbstractController
     }
 
     #[Route('/pdf/{id}', name: 'app_affaire_devis_pdf', methods: ['POST', 'GET'])]
-    public function createPdf(Request $request, Devis $devis): Response
+    public function createPdf(Request $request, Devis $devis, LotRepository $lotRepository): Response
     {
-        $path = "pdf/devis.html";
-        $template = $this->environment->render($path, ['devis' => $devis]);
+        $listeLots = [];
+        foreach ($devis->getElements() as $lotDevis){
+            $lot = $lotRepository->find($lotDevis['id']);
+            $listeLots[] = $lot;
+        }
+
+        $headerTemplate = $this->environment->render('pdf/devis_header.html.twig', ['devis' => $devis]);
+        $footerTemplate = $this->environment->render('pdf/devis_footer.html.twig', ['devis' => $devis]);
+        $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis]);
+        $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots]);
+        $bodyTemplate3 = $this->environment->render('pdf/devis3.html.twig', ['devis' => $devis]);
+
         $name = $devis->getTitre();
 
-        $pdf = $this->pdfService->generatePdf($template, $name);
+        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate1);
+        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate2);
+        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate3);
+
+        $pdf = $this->pdfService->generatePdf($name);
 
         $response = new Response($pdf);
         $disposition = $response->headers->makeDisposition(
@@ -772,4 +786,5 @@ class DevisController extends AbstractController
 
         return $response;
     }
+
 }
