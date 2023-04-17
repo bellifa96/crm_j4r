@@ -159,7 +159,6 @@ class Ouvrage
         return $sum;
     }
 
-
     public function setPrixUnitaireDebourse(float $prixUnitaireDebourse): self
     {
         $this->prixUnitaireDebourse = $prixUnitaireDebourse;

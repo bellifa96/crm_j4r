@@ -711,11 +711,13 @@ class DevisController extends AbstractController
 
             $data = [];
             if($element['type'] == 'composant'){
+
+                 $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
+                 $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
+                 $ouvrageRepository->add($ouvrage);
                  $data = [
                     'ouvrage'=>$ouvrage->__toArray(),
                  ];
-                 $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
-                 $ouvrageRepository->add($ouvrage);
             }
          //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
