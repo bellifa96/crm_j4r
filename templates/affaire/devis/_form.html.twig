@@ -761,7 +761,7 @@
         }
         let type = $(this).attr('element');
         let id = $(this).attr(type);
-        console.log(type,'input[name="devis['+type+'][' + id + '][marge]"]')
+        console.log(type,id,$(this))
 
         let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
         let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
@@ -866,7 +866,7 @@
         }
 
         if (type == "lots") {
-            let id = $(this).attr('lot');
+         //   let id = $(this).attr('lot');
        
             /*$("[parent-quantite='" + id + "']").each(function () {
                 let idOuvrage = $(this).attr('ouvrage');
