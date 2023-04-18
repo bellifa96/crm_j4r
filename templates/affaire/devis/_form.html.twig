@@ -792,6 +792,7 @@
                 response = JSON.parse(response);
                 if (response.code === 200) {
                     updateData(response.data);
+                     $("#loader-devis-page").modal("hide");
                 }
             })
 
@@ -817,6 +818,7 @@
                 response = JSON.parse(response);
                 if (response.code === 200) {
                     updateData(response.data);
+                     $("#loader-devis-page").modal("hide");
                 }
             })
         }
@@ -837,10 +839,12 @@
                 let data = JSON.parse(response);
                 if (data.code === 200) {
                     updateData(response.data);
+                     $("#loader-devis-page").modal("hide");
                     //           console.log(data, lot);
                 }
             })
-        }$("#loader-devis-page").modal("hide");
+        }
+       
     })
 
     $('.numbers').keyup(function () {
