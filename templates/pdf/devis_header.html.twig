@@ -3,12 +3,12 @@
         <div style="text-align: right; font-size: 20px">
             <strong>Devis n°{{ devis.id }}</strong>
         </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
-            <div>
-                <img style="height: 100px;" src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo">
+        <div style="overflow: hidden;">
+            <div style="float: left; width: 25%;">
+                <img src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo" style="width: 100%;">
             </div>
-            <div style="border: 1px black solid; padding: 3px; width: 45%; display: flex; flex-direction: row; justify-content: flex-end;">
-                <div style="text-align: right; margin-right: 10px;">
+            <div style="display: table; float: right; width: 70%;">
+                <div style="display: table-cell; vertical-align: middle; text-align: right; border: 1px solid black; padding: 5px;">
                     <span><strong><u>Adressé à:</u></strong></span>
                     <br>
                     <span><strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong></span>
@@ -19,22 +19,20 @@
                     <br>
                     <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.codePostal~' '~devis.demande.client.societe.ville : devis.demande.client.personne.codePostal~' '~devis.demande.client.personne.ville }}</span>
                 </div>
-                <div style="display: flex;flex-direction: row;">
-                    <div style="width: 10%;text-align: right;">
-                        Date de devis:
+                <div style="display: table-cell; vertical-align: middle; padding-left: 10px;">
+                    <div style="display: inline-block;">
+                        <div>Date de devis:</div>
+                        <div>{{ devis.dateDuDevis }}</div>
                     </div>
-                    <div style="width: 10%;text-align: right;">
-                        {{ devis.dateDuDevis }}
-                    </div>
-                    <div style="width: 10%;text-align: right;">
-                        Devis n°:
-                    </div>
-                    <div style="width: 10%;text-align: right;">
-                        {{ devis.id }}
+                    <div style="display: inline-block; margin-left: 20px;">
+                        <div>Devis n°:</div>
+                        <div>{{ devis.id }}</div>
                     </div>
                 </div>
             </div>
         </div>
+
+    </div>
         <div style="display: flex;flex-direction: row;">
             <div style="width: 70%">
             <span>
