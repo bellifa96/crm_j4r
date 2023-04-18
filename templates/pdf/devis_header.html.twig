@@ -19,14 +19,22 @@
                     <br>
                     <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.codePostal~' '~devis.demande.client.societe.ville : devis.demande.client.personne.codePostal~' '~devis.demande.client.personne.ville }}</span>
                 </div>
-                <div style="display: table-cell; vertical-align: middle;">
-                    <div style="display: inline-block;">
-                        <div>Date de devis:</div>
-                        <div>{{ devis.dateDuDevis }}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="text-align: right; margin-right: 10px;">
+                        <div style="width: 100%;">
+                            Date de devis:
+                        </div>
+                        <div style="width: 100%;">
+                            Devis n°:
+                        </div>
                     </div>
-                    <div style="display: inline-block;">
-                        <div>Devis n°:</div>
-                        <div>{{ devis.id }}</div>
+                    <div style="text-align: left;">
+                        <div style="width: 100%;">
+                            {{ devis.dateDuDevis }}
+                        </div>
+                        <div style="width: 100%;">
+                            {{ devis.id }}
+                        </div>
                     </div>
                 </div>
             </div>
