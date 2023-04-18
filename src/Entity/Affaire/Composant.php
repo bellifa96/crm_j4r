@@ -61,6 +61,21 @@ class Composant
         $this->debourseUnitaireHT = 0;
     }
 
+    public function __toArray(){
+        return [
+           "id"=> $this->id,
+           "denomination"=> $this->denomination,
+           "code"=> $this->code,
+           "marge"=> $this->marge,
+           "unite"=> $this->unite,
+           "note"=> $this->note,
+           "quantite"=> $this->quantite,
+           'debourseUnitaireHT' => $this->debourseUnitaireHT,
+           'debourseTotalHT'=> $this->debourseUnitaireHT *  $this->quantite,
+           'prixDeVenteHT' => $this->prixDeVenteHT,
+           'type'=>'composants',
+        ];
+    }
     public function getId(): ?int
     {
         return $this->id;

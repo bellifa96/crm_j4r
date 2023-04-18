@@ -34,7 +34,7 @@ class Lot
     private $code;
 
     #[ORM\Column(nullable: true)]
-    private ?float $prixHT = null;
+    private ?float $prixDeVenteHT = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $quantite = null;
@@ -48,11 +48,84 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $debourseUnitaireHT = null;
 
+    #[ORM\OneToMany(mappedBy: 'lot', targetEntity: Ouvrage::class, cascade: ['remove'])]
+    private Collection $ouvrages;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'sousLots')]
+    private ?self $lot = null;
+
+    #[ORM\OneToMany(mappedBy: 'lot', targetEntity: self::class, cascade: ['remove'])]
+    private Collection $sousLots;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $debourseTotalLot = null;
+
+    public function __construct()
+    {
+        $this->ouvrages = new ArrayCollection();
+        $this->sousLots = new ArrayCollection();
+    }
+
+    public function __toArray(){
+        return [
+            'id'=> $this->id,
+            'quantite'=> $this->quantite,
+            'marge'=> $this->marge,
+            'code'=> $this->code,
+            'denomination'=> $this->denomination,
+            'unite'=> $this->unite,
+            'prixDeVenteHT'=> $this->prixDeVenteHT,
+            'type'=>'lots',
+            'debourseTotalHT'=> $this->debourseTotalLot,
+            'souslot'=>$this->getSommeDebourseTotalSousLots(),
+        ];
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    public function getSommePrixDeVenteHTOuvrages(){
+        $sum = 0;
+        foreach($this->ouvrages as $ouvrage){
+             $sum += $ouvrage->getPrixDeVenteHT();
+        }
+        return $sum;
+    }
+
+    public function getSommeDebourseTotalOuvrages(){
+        $sum = 0;
+        foreach($this->ouvrages as $ouvrage){
+             $sum += $ouvrage->getSommeDebourseTotalComposants();
+        }
+        return $sum;
+    }
+
+    public function getSommePrixDeVenteHTSousLots(){
+        $sum = 0;
+        foreach($this->sousLots as $lot){
+             $sum += $lot->prixDeVenteHT;
+        }
+        return $sum;
+    }
+
+    public function getSommeDebourseTotalSousLots(){
+        $sum = 0;
+
+        foreach($this->sousLots as $lot){
+            if(empty($lot->debourseTotalLot) && (!empty($lot->getOuvrages()) || !empty($lot->getSousLots()))){
+                $lot->SetDebourseTotalLot($lot->getSommeDebourseTotalSousLots()+ $lot->getSommeDebourseTotalOuvrages());
+            }
+             $sum += $lot->debourseTotalLot;
+
+        }
+        return $sum;
+    }
+
+    
+
+
 
     public function getDenomination(): ?string
     {
@@ -90,14 +163,14 @@ class Lot
         return $this;
     }
 
-    public function getPrixHT(): ?float
+    public function getPrixDeVenteHT(): ?float
     {
-        return $this->prixHT;
+        return $this->prixDeVenteHT;
     }
 
-    public function setPrixHT(?float $prixHT): self
+    public function setPrixDeVenteHT(?float $prixDeVenteHT): self
     {
-        $this->prixHT = $prixHT;
+        $this->prixDeVenteHT = $prixDeVenteHT;
 
         return $this;
     }
@@ -146,6 +219,90 @@ class Lot
     public function setDebourseUnitaireHT(?float $debourseUnitaireHT): self
     {
         $this->debourseUnitaireHT = $debourseUnitaireHT;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ouvrage>
+     */
+    public function getOuvrages(): Collection
+    {
+        return $this->ouvrages;
+    }
+
+    public function addOuvrage(Ouvrage $ouvrage): self
+    {
+        if (!$this->ouvrages->contains($ouvrage)) {
+            $this->ouvrages->add($ouvrage);
+            $ouvrage->setLot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOuvrage(Ouvrage $ouvrage): self
+    {
+        if ($this->ouvrages->removeElement($ouvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($ouvrage->getLot() === $this) {
+                $ouvrage->setLot(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLot(): ?self
+    {
+        return $this->lot;
+    }
+
+    public function setLot(?self $lot): self
+    {
+        $this->lot = $lot;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSousLots(): Collection
+    {
+        return $this->sousLots;
+    }
+
+    public function addSousLot(self $sousLot): self
+    {
+        if (!$this->sousLots->contains($sousLot)) {
+            $this->sousLots->add($sousLot);
+            $sousLot->setLot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSousLot(self $sousLot): self
+    {
+        if ($this->sousLots->removeElement($sousLot)) {
+            // set the owning side to null (unless already changed)
+            if ($sousLot->getLot() === $this) {
+                $sousLot->setLot(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDebourseTotalLot(): ?float
+    {
+        return $this->debourseTotalLot;
+    }
+
+    public function setDebourseTotalLot(?float $debourseTotalLot): self
+    {
+        $this->debourseTotalLot = $debourseTotalLot;
 
         return $this;
     }

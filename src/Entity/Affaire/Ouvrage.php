@@ -53,9 +53,6 @@ class Ouvrage
     #[Gedmo\Versioned]
     private $prixDeVenteHT;
 
-    #[ORM\ManyToOne(targetEntity: Lot::class, inversedBy: 'ouvrages')]
-    private $lot;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ouvrages')]
     private $createur;
 
@@ -75,6 +72,9 @@ class Ouvrage
     #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Composant::class, cascade:['remove'])]
     private Collection $composants;
 
+    #[ORM\ManyToOne(inversedBy: 'ouvrages')]
+    private ?Lot $lot = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -92,8 +92,10 @@ class Ouvrage
            "origine"=> $this->origine,
            "note"=> $this->note,
            "quantite"=> $this->quantite,
-           'sommeDebourseTotalComposant' => $this->getSommeDebourseTotalComposants(),
-           'sommePrixDeVenteHTComposants' => $this->getSommePrixDeVenteHTComposants()
+           'debourseTotalHT' => $this->getSommeDebourseTotalComposants(),
+           'prixDeVenteHT' => $this->prixDeVenteHT,
+           'type'=>'ouvrages',
+
         ];
     }
     public function getId(): ?int
@@ -214,19 +216,6 @@ class Ouvrage
         return $this;
     }
 
-    public function getLot(): ?Lot
-    {
-        return $this->lot;
-    }
-
-    public function setLot(?Lot $lot): self
-    {
-        $this->lot = $lot;
-
-        return $this;
-    }
-
-
     public function getCreateur(): ?User
     {
         return $this->createur;
@@ -313,6 +302,18 @@ class Ouvrage
                 $composant->setOuvrage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLot(): ?Lot
+    {
+        return $this->lot;
+    }
+
+    public function setLot(?Lot $lot): self
+    {
+        $this->lot = $lot;
 
         return $this;
     }

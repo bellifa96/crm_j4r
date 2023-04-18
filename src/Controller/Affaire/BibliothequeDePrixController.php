@@ -2,32 +2,24 @@
 
 namespace App\Controller\Affaire;
 
-use App\Entity\Affaire\Composant;
-use App\Entity\Affaire\Devis;
-use App\Entity\Affaire\Lot;
-use App\Entity\Affaire\Ouvrage;
-use App\Entity\Affaire\SousLot;
-use App\Entity\Demande;
-use App\Form\Affaire\DevisType;
-use App\Form\Affaire\TypeComposantType;
-use App\Repository\Affaire\ComposantRepository;
-use App\Repository\Affaire\DevisRepository;
-use App\Repository\Affaire\OuvrageRepository;
-use App\Repository\Affaire\SousLotRepository;
-use App\Repository\Affaire\TypeComposantRepository;
-use App\Repository\UniteRepository;
-use DeepCopy\DeepCopy;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Twig\Error\RuntimeError;
+use App\Entity\Affaire\Devis;
+use App\Service\CalculService;
+use App\Entity\Affaire\Ouvrage;
+use App\Entity\Affaire\Composant;
+use App\Repository\UniteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use App\Repository\Affaire\OuvrageRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Repository\Affaire\ComposantRepository;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Affaire\TypeComposantRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/affaire/bibliothequeDePrix')]
 class BibliothequeDePrixController extends AbstractController
@@ -35,10 +27,14 @@ class BibliothequeDePrixController extends AbstractController
 
     private $unites;
     private $uniteRepository;
+    private $calculService;
+
                     
-    public function __construct(UniteRepository $uniteRepository){
+    public function __construct(UniteRepository $uniteRepository,CalculService $calculService){
         $this->uniteRepository = $uniteRepository;
         $this->unites = $uniteRepository->findAll();
+        $this->calculService = $calculService;
+
     }
 
     #[Route('/', name: 'app_affaire_bibliotheque_de_prix', methods: ['GET'])]
@@ -280,6 +276,8 @@ class BibliothequeDePrixController extends AbstractController
     public function edit(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
     {
 
+        $this->calculService->recursiveCalcul(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+
         $data = $request->request->all();
         $data = $data['ouvrage'];
 
@@ -314,6 +312,8 @@ class BibliothequeDePrixController extends AbstractController
     public function editComposant(Request $request, Composant $composant, ComposantRepository $composantRepository,OuvrageRepository $ouvrageRepository): Response
     {
 
+        
+
         $data = $request->request->all();
         $data = $data['composant'];
 
@@ -330,11 +330,13 @@ class BibliothequeDePrixController extends AbstractController
         try {
             $composantRepository->add($composant);
             if(!empty($composant->getOuvrage())){
-                $composant->getOuvrage()->setPrixDeVenteHT($composant->getOuvrage()->getSommePrixDeVenteHTComposants());
-                $composant->getOuvrage()->setMarge($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants());
-                $ouvrageRepository->add($composant->getOuvrage());
-                $data = ['ouvrage'=>$composant->getOuvrage()->__toArray()];
+              //  $composant->getOuvrage()->setPrixDeVenteHT($composant->getOuvrage()->getSommePrixDeVenteHTComposants());
+               // $composant->getOuvrage()->setMarge($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants());
+               // $ouvrageRepository->add($composant->getOuvrage());
+               // $data = ['ouvrage'=>$composant->getOuvrage()->__toArray()];
             }
+            $data =  $this->calculService->recursiveCalculTop(['id'=>$composant->getId(),'type'=>'composant']);
+            $data[] = $composant->__toArray();
             return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);

@@ -2,22 +2,21 @@
 
 namespace App\Controller\Affaire;
 
-use App\Entity\User;
+use Exception;
+use App\Entity\Unite;
 use Twig\Environment;
 use App\Entity\Demande;
-use App\Form\DemandeType;
 use App\Entity\Affaire\Lot;
+use App\Service\PdfService;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
 use Twig\Error\RuntimeError;
 use App\Entity\Affaire\Devis;
-use Doctrine\ORM\ORMException;
+use App\Service\CalculService;
 use App\Entity\Affaire\Ouvrage;
-use App\Entity\Affaire\SousLot;
 use App\Form\Affaire\DevisType;
 use App\Entity\Affaire\Composant;
 use App\Repository\UserRepository;
-use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Affaire\LotRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -25,12 +24,10 @@ use App\Repository\Affaire\DevisRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Repository\Affaire\ComposantRepository;
-use Exception;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Unite;
 
 
 #[Route('/affaire/devis')]
@@ -42,13 +39,15 @@ class DevisController extends AbstractController
     private $unites;
 
     private $pdfService;
+    private $calculService;
 
-    public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface, PdfService $pdfService)
+    public function __construct(Environment $environment, EntityManagerInterface $entityManagerInterface, PdfService $pdfService,CalculService $calculService)
     {
         $this->environment = $environment;
         $this->em = $entityManagerInterface;
         $this->pdfService = $pdfService;
         $this->unites = $entityManagerInterface->getRepository(Unite::class)->findAll();
+        $this->calculService = $calculService;
 
     }
 
@@ -100,6 +99,9 @@ class DevisController extends AbstractController
             'nav' => []
         ]);
     }
+
+
+
 
     public function recursiveElements($elements, $parent = null): string
     {
@@ -356,23 +358,6 @@ class DevisController extends AbstractController
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
 
-        //dump($data,$devis);
-        //dump($data);
-        //die;
-        //foreach ($elements as $val) {
-
-        //}
-
-        /*$parent = [];
-        if(!empty($val['parentId']) and !empty($val['parentType']) ){
-            $parent['id'] = $val['parentId'] ;
-            $parent['type'] = $val['parentType'] ;
-            $elements = $this->setParent($elements,$el,$parent);
-        }else{
-            $elements[] = $el;
-        }*/
-
-
         try {
             $lotRepository->save($lot);
             $el = ['id' => $lot->getId(), 'type' => 'lot', 'data' => []];
@@ -380,6 +365,10 @@ class DevisController extends AbstractController
                 $parent['id'] = $data['parentId'];
                 $parent['type'] = $data['parentType'];
                 $elements = $this->setParent($elements, $el, $parent);
+                $lotParent = $lotRepository->find($data['parentId']);
+                $lotParent->addSousLot($lot);
+                $lotRepository->add($lotParent);
+
             } else {
                 $elements[] = $el;
             }
@@ -515,6 +504,7 @@ class DevisController extends AbstractController
         }
         
     }
+    
 
     #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
     public function newOuvrage(Devis $devis,$parentId = null,Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
@@ -542,6 +532,9 @@ class DevisController extends AbstractController
                 $parent['id'] = $parentId;
                 $parent['type'] = 'lot';
                 $elements = $this->setParent($elements, $element, $parent);
+                $lot = $lotRepository->find($parentId);
+                $lot->addOuvrage($ouvrage);
+                $lotRepository->add($lot);
             }else {
                 $elements[] = $element;
             }
@@ -559,7 +552,7 @@ class DevisController extends AbstractController
     }
 
     #[Route('/composant/new/{id}/{parentId}/{origine}', name: 'app_affaire_devis_composant_new', methods: ['GET', 'POST'])]
-    public function newComposant(Devis $devis, $parentId, $origine, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
+    public function newComposant(Devis $devis, $parentId, $origine, Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
     {
 
 
@@ -590,6 +583,10 @@ class DevisController extends AbstractController
                 $parent['id'] = $parentId;
                 $parent['type'] = 'ouvrage';
                 $elements = $this->setParent($elements, $element, $parent);
+                $ouvrage = $ouvrageRepository->find($parentId);
+                $ouvrage->addComposant($composant);
+                $ouvrageRepository->add($ouvrage);
+
             }else {
                 $elements[] = $element;
             }
@@ -655,15 +652,17 @@ class DevisController extends AbstractController
     public function editLot(Request $request, Lot $lot, LotRepository $lotRepository): Response
     {
 
+
+
         $data = $request->request->all();
         $data = $data['lot'];
 
         $lot->setCode($data['code']);
         $lot->setDenomination($data['denomination']);
-        key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : $lot->setQuantite(null);
-        key_exists('prix', $data) ? $lot->setPrixHT($data['prix']) : $lot->setPrixHT(null);
-        key_exists('marge', $data) ? $lot->setMarge($data['marge']) : $lot->setMarge(null);
-        key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : $lot->setUnite(null);
+        key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : "";
+        key_exists('prix', $data) ? $lot->setPrixDeVenteHT($data['prix']) : "";
+        key_exists('marge', $data) ? $lot->setMarge($data['marge']) : "";
+        key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : "";
         try {
             $lotRepository->add($lot);
             return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));
