@@ -753,6 +753,8 @@
                 $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
         })
+        $("#loader-devis-page").modal("hide");
+
 
     }
     
@@ -762,7 +764,6 @@
         }
         let type = $(this).attr('element');
         let id = $(this).attr(type);
-        console.log(type,id,$(this))
 
         let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
         let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
@@ -792,7 +793,6 @@
                 response = JSON.parse(response);
                 if (response.code === 200) {
                     updateData(response.data);
-                     $("#loader-devis-page").modal("hide");
                 }
             })
 
@@ -818,7 +818,6 @@
                 response = JSON.parse(response);
                 if (response.code === 200) {
                     updateData(response.data);
-                     $("#loader-devis-page").modal("hide");
                 }
             })
         }
@@ -839,13 +838,11 @@
                 let data = JSON.parse(response);
                 if (data.code === 200) {
                     updateData(response.data);
-                     $("#loader-devis-page").modal("hide");
                     //           console.log(data, lot);
                 }
             })
         }
-                             $("#loader-devis-page").modal("hide");
-
+        
        
     })
 

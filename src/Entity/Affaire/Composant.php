@@ -55,6 +55,12 @@ class Composant
     #[ORM\ManyToOne(inversedBy: 'composants')]
     private ?Ouvrage $ouvrage = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $quantite2 = null;
+
+    #[ORM\ManyToOne]
+    private ?Unite $unite2 = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -224,6 +230,30 @@ class Composant
     public function setOuvrage(?Ouvrage $ouvrage): self
     {
         $this->ouvrage = $ouvrage;
+
+        return $this;
+    }
+
+    public function getQuantite2(): ?int
+    {
+        return $this->quantite2;
+    }
+
+    public function setQuantite2(?int $quantite2): self
+    {
+        $this->quantite2 = $quantite2;
+
+        return $this;
+    }
+
+    public function getUnite2(): ?Unite
+    {
+        return $this->unite2;
+    }
+
+    public function setUnite2(?Unite $unite2): self
+    {
+        $this->unite2 = $unite2;
 
         return $this;
     }
