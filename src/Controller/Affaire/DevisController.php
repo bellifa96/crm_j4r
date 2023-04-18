@@ -455,7 +455,6 @@ class DevisController extends AbstractController
         $ouvrage->setCreateur($this->getUser());
         $ouvrage->setNote($origine->getNote());
         $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
-        $ouvrage->setTypeDOuvrage($origine->getTypeDOuvrage());
         $ouvrage->setQuantite($origine->getQuantite());
 
         $elements = $devis->getElements();
@@ -487,15 +486,16 @@ class DevisController extends AbstractController
         }
         $entityManager->getRepository(Ouvrage::class)->add($ouvrage);
 
-        $ouvrage->setPrixDeVenteHT($ouvrage->getSommeDebourseTotalComposants());
+        $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
         $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
 
         $devis->setElements($elements);
 
         try{
-              $ouvrageRepository->save($ouvrage);
             //  $entityManager->getRepository(Devis::class)->add($devis);
               $data =  $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+              $ouvrageRepository->save($ouvrage);
+
               $data[] = $ouvrage->__toArray();
               return new Response(json_encode(['code' => 200,'data'=> $data,'html'=>$html]));
 
