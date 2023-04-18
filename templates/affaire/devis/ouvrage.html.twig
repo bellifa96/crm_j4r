@@ -38,7 +38,7 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
-                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
+                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage text-center"
                        placeholder="Quantité"
                        value="{{ ouvrage.quantite }}"> 
             </div>
@@ -48,7 +48,7 @@
                        maxlength="255"
                        class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
 
-                    <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="ouvrages"  ouvrages="{{ ouvrage.id }}">
+                    <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]" class="text-center col-md-12 chakra-input" required  input="unite" element="ouvrages"  ouvrages="{{ ouvrage.id }}">
                                 {% set isSelected = false %}
                                 {% for unite in unites %}
                                     <option value="{{unite.id}}"
@@ -90,7 +90,7 @@
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
-                       class="chakra-input" placeholder="Marge"
+                       class="chakra-input text-center" placeholder="Marge"
                        value="{{ ouvrage.marge|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right">

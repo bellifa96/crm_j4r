@@ -20,7 +20,7 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_lots_{{ lot.id }}_quantite" input="quantite"
                        name="devis[lots][{{ lot.id }}][quantite]" required="required"
-                       maxlength="255" element="lots" lots="{{ lot.id }}" class="chakra-input numbers calcul"
+                       maxlength="255" element="lots" lots="{{ lot.id }}" class="chakra-input numbers calcul text-center"
 {#                        {% if hasParent is not null %}
                             parent-quantite="{{ hasParent }}"
                         {% else %}
@@ -30,7 +30,7 @@
                        placeholder="Quantité" value="{{ lot.quantite }}"/>
             </div>
             <div class="tab-el-right">
-                <select id="devis_lots_{{ lot.id }}_unite" name="devis[lots][{{ lot.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="lots"  lots="{{ lot.id }}">
+                <select id="devis_lots_{{ lot.id }}_unite" name="devis[lots][{{ lot.id }}][unite]" class="text-center col-md-12 chakra-input" required  input="unite" element="lots"  lots="{{ lot.id }}">
                         {% set isSelected = false %}
                     
                         {% for unite in unites %}
@@ -64,7 +64,7 @@
                 />
             </div>
             <div class="tab-el-right">
-                <input class="chakra-input dtht-lot" type="text" id="devis_lots_{{ lot.id }}_marge"
+                <input class="chakra-input dtht-lot text-center" type="text" id="devis_lots_{{ lot.id }}_marge"
                         placeholder="Marge" lots="{{ lot.id }}"  element="lots"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"

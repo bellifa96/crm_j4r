@@ -16,16 +16,16 @@
                 <input style="width:{{ composant.typeComposant.titre == "Location" ? '40% !important' : '100%'}}" type="text"  id="devis_composants_{{ composant.id }}_denomination" input="denomination"
                        element="composants" composants="{{ composant.id }}" disabled value="{{composant.denomination}}"
                        name="devis[composants][{{ composant.id }}][denomination]" required="required" 
-                       class="chakra-input" placeholder="Dénomination" />
+                       class="chakra-input text-center" placeholder="Dénomination" />
 
                 {% if composant.typeComposant.titre == "Location" %}
                     <input style="width:30% !important" type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
                         name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
-                        element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant"
+                        element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
                         placeholder="Quantité2"
                         value="{{ composant.quantite2 }}">
 
-                    <select style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                    <select style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}
                                 <option value="{{unite.id}}"
@@ -59,12 +59,12 @@
             <div class="tab-el-right">
                 <input  type="text" id="devis_composants_{{ composant.id }}_quantite" input="quantite"
                        name="devis[composants][{{ composant.id }}][quantite]" required="required" maxlength="255"
-                       element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant"
+                       element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
                        placeholder="Quantité"
                        value="{{ composant.quantite }}">
             </div>
             <div class="tab-el-right">
-               <select  id="devis_composants_{{ composant.id }}_unite" name="devis[composants][{{ composant.id }}][unite]" class="col-md-12 chakra-input" required  input="unite" element="composants"  composants="{{ composant.id }}">
+               <select  id="devis_composants_{{ composant.id }}_unite" name="devis[composants][{{ composant.id }}][unite]" class="text-center col-md-12 chakra-input" required  input="unite" element="composants"  composants="{{ composant.id }}">
                         {% set isSelected = false %}
                         {% for unite in unites %}
                             <option value="{{unite.id}}"
@@ -97,7 +97,7 @@
                 <input type="text" id="devis_composants_{{ composant.id }}_marge"
                        input="marge" element="composants" composants="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Marge"
+                       class="chakra-input text-center" placeholder="Marge"
                        value="{{ composant.marge|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right">
