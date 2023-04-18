@@ -16,7 +16,7 @@
                 <input style="width:{{ composant.typeComposant.titre == "Location" ? '40% !important' : '100%'}}" type="text"  id="devis_composants_{{ composant.id }}_denomination" input="denomination"
                        element="composants" composants="{{ composant.id }}" disabled value="{{composant.denomination}}"
                        name="devis[composants][{{ composant.id }}][denomination]" required="required" 
-                       class="chakra-input text-center" placeholder="Dénomination" />
+                       class="chakra-input " placeholder="Dénomination" />
 
                 {% if composant.typeComposant.titre == "Location" %}
                     <input style="width:30% !important" type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
