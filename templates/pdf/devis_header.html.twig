@@ -1,69 +1,76 @@
 {% block header %}
-<div style="display: flex; flex-direction: column; gap: 20px; margin: 0 auto 0 auto; padding-top: 50px">
-    <div style="text-align: right; font-size: 20px">
-        <strong>Devis</strong>
-    </div>
-    <div style="display: flex; flex-direction: row; justify-content: space-between">
-        <div>
-            <img style="height: 100px;" src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo">
+    <div style="display: flex; flex-direction: column; gap: 20px; margin: 0 auto 0 auto; padding-top: 2vh">
+        <div style="text-align: right; font-size: 20px">
+            <strong>Devis n°{{ devis.id }}</strong>
         </div>
-        <div style="border: 1px black solid; padding: 3px; width: 45%">
-            <span><strong><u>Adressé à:</u></strong></span>
-            <br>
-            <span><strong>BRIAND</strong></span>
-            <br>
-            <span>A l'attention de Mr Fabien BOERI</span>
-            <br>
-            <span>351 imp. des Armoiries</span>
-            <br>
-            <span>94350 VILLIERS SUR MARNE</span>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+            <div>
+                <img style="height: 100px;" src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo">
+            </div>
+            <div style="border: 1px black solid; padding: 3px; width: 45%; display: flex; flex-direction: row; justify-content: flex-end;">
+                <div style="text-align: right; margin-right: 10px;">
+                    <span><strong><u>Adressé à:</u></strong></span>
+                    <br>
+                    <span><strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong></span>
+                    <br>
+                    <span>-</span>
+                    <br>
+                    <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.adresse1 : devis.demande.client.personne.adresse1 }}</span>
+                    <br>
+                    <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.codePostal~' '~devis.demande.client.societe.ville : devis.demande.client.personne.codePostal~' '~devis.demande.client.personne.ville }}</span>
+                </div>
+                <div style="display: flex;flex-direction: row;">
+                    <div style="width: 10%;text-align: right;">
+                        Date de devis:
+                    </div>
+                    <div style="width: 10%;text-align: right;">
+                        {{ devis.dateDuDevis }}
+                    </div>
+                    <div style="width: 10%;text-align: right;">
+                        Devis n°:
+                    </div>
+                    <div style="width: 10%;text-align: right;">
+                        {{ devis.id }}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div style="display: flex;flex-direction: row;">
-        <div style="width: 70%">
+        <div style="display: flex;flex-direction: row;">
+            <div style="width: 70%">
             <span>
                 <strong><u>Contact:</u> Julien Rodrigues</strong>
             </span>
-            <br>
-            <span>
+                <br>
+                <span>
                 Tel: 06.76.36.49.08 - Email: j.rodrigues@j4r.fr
             </span>
+            </div>
         </div>
-        <div style="width: 10%;text-align: right;">
-            22/03/2022
-        </div>
-        <div style="width: 10%;text-align: right;">
-            Devis n°:
-        </div>
-        <div style="width: 10%;text-align: right;">
-            2203/208
-        </div>
-    </div>
-    <div>
+        <div>
         <span>
             <strong><u>Designation des travaux:</u></strong>
         </span>
-        <br>
-        <span>
-            Mise en place d'une plateforme autostable pour les dépose du faux-plafonds
+            <br>
+            <span>
+            -
         </span>
-    </div>
-    <div>
+        </div>
+        <div>
         <span>
             <strong><u>Chantier:</u></strong>
         </span>
-        <br>
-        <span>
-            BRIAND - Mairie - Joinville Le Pont
+            <br>
+            <span>
+            {{ devis.titre }}
         </span>
-        <br>
-        <span>
-            23 Rue de Paris
+            <br>
+            <span>
+            -
         </span>
-        <br>
-        <span>
-            94340 JOINVILLE LE PONT
+            <br>
+            <span>
+            -
         </span>
+        </div>
     </div>
-</div>
 {% endblock %}
