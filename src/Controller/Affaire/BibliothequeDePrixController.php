@@ -276,7 +276,6 @@ class BibliothequeDePrixController extends AbstractController
     public function edit(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
     {
 
-        $this->calculService->recursiveCalcul(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
 
         $data = $request->request->all();
         $data = $data['ouvrage'];
@@ -291,7 +290,8 @@ class BibliothequeDePrixController extends AbstractController
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
-        $data = ['ouvrage'=>$ouvrage->__toArray()];
+        $data = $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+        $data[]=$ouvrage->__toArray();
 
         //key_exists('note', $data) ? $ouvrage->setNote($data['note']) : $ouvrage->setNote(null);
         //key_exists('quantiteDOuvrage', $data) ? $ouvrage->setQuantite($data['quantiteDOuvrage']) : $ouvrage->setQuantite(null);

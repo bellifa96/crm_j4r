@@ -660,12 +660,17 @@ class DevisController extends AbstractController
         $lot->setCode($data['code']);
         $lot->setDenomination($data['denomination']);
         key_exists('quantite', $data) ? $lot->setQuantite($data['quantite']) : "";
-        key_exists('prix', $data) ? $lot->setPrixDeVenteHT($data['prix']) : "";
+        key_exists('prix', $data)  && is_numeric($data['prix'])? $lot->setPrixDeVenteHT($data['prix']) : "";
         key_exists('marge', $data) ? $lot->setMarge($data['marge']) : "";
         key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : "";
         try {
+
+
+            $data =  $this->calculService->recursiveCalculTop(['id'=>$lot->getId(),'type'=>'lots']);
+            $data[] = $lot->__toArray();
+
             $lotRepository->add($lot);
-            return new Response(json_encode(['code' => 200, 'lot' => $lot->getId()]));
+            return new Response(json_encode(['code' => 200, 'data' => $data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (Exception $e) {
