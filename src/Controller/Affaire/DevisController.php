@@ -495,8 +495,8 @@ class DevisController extends AbstractController
         try{
               $ouvrageRepository->save($ouvrage);
             //  $entityManager->getRepository(Devis::class)->add($devis);
-              $data = ['ouvrage'=>$ouvrage->__toArray()];
-
+              $data =  $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+              $data[] = $ouvrage->__toArray();
               return new Response(json_encode(['code' => 200,'data'=> $data,'html'=>$html]));
 
         }catch(\Exception $e){
@@ -734,6 +734,10 @@ class DevisController extends AbstractController
             }
          //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
             $devisRepository->add($devis);
+
+            
+           // $data =  $this->calculService->recursiveCalculTop(['id'=>$element['id'],'type'=>$element['type']]);
+            //$data[] = $lot->__toArray();
             return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);

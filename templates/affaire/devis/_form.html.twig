@@ -732,13 +732,7 @@
                //     $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
                     console.log(response)
                     $('#ouvrage-ul-'+id).append(response.html)
-                    $('#devis_ouvrages_'+id+'_quantite').val(response.data.ouvrage.quantite);
-                    $('#devis_ouvrages_'+id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
-                    $('#devis_ouvrages_'+id+'_code').val(response.data.ouvrage.code);
-                    $('#devis_ouvrages_'+id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
-                    $('#devis_ouvrages_'+id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.sommePrixDeVenteHTComposants).toFixed(2));
-                    //console.log($("ul").find("[parent='ouvrage-" + id + "']"))
-                   // $("ul").find("[parent='ouvrage-" + id + "']").append(response.data.html); 
+                    updateData(response.data)
                     $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
                 }
             })
