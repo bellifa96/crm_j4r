@@ -718,6 +718,7 @@ class DevisController extends AbstractController
                     $composant->setPrixDeVenteHT(0);
                     $composant->setQuantite(0);
                     $composant->setDebourseUnitaireHT(0);
+                    $composantRepository->add($composant);
                 }
                 elseif($element['type'] == 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
@@ -734,8 +735,8 @@ class DevisController extends AbstractController
                     $lot->getOuvrages()->clear();
                     $lot->getSousLots()->clear();
                 }
-                $data =$this->calculService->recursiveCalculTop(['id'=>$element['id'],'type'=>$element['type']]);
 
+                $data =$this->calculService->recursiveCalculTop(['id'=>$element['id'],'type'=>$element['type']]);
                 $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository, $composantRepository);
                 $devis->setElements($elements);
                 $devisRepository->add($devis);
