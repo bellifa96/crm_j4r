@@ -722,14 +722,14 @@ class DevisController extends AbstractController
                 elseif($element['type'] == 'ouvrage'){
                     $ouvrage = $ouvrageRepository->find($element['id']);
                     $ouvrage->setMarge(0);
-                    $ouvrage->setPrixDeVenteHT(0).
+                    $ouvrage->setPrixDeVenteHT(0);
                     $ouvrage->setQuantite(0);
                     $ouvrage->getComposants()->clear();
 
                 }elseif($element['type'] == 'lot'){
                     $lot = $lotRepository->find($element['id']);
                     $lot->setMarge(0);
-                    $lot->setPrixDeVenteHT(0).
+                    $lot->setPrixDeVenteHT(0);
                     $lot->setQuantite(0);
                     $lot->getOuvrages()->clear();
                     $lot->getSousLots()->clear();
