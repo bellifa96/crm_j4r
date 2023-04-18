@@ -417,11 +417,7 @@
                     $('#element-' + id).remove();
                     console.log($(this));
 
-                    if(element.hasClass('delete-composant')){
-                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_marge').val(parseFloat(response.data.ouvrage.marge).toFixed(2));
-                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_debourseTotalHT').attr('value',parseFloat(response.data.ouvrage.sommeDebourseTotalComposant).toFixed(2));
-                        $('#devis_ouvrages_'+response.data.ouvrage.id+'_prix_de_vente').attr('value',parseFloat(response.data.ouvrage.prixDeVenteHT).toFixed(2));
-                    }
+                   updateData(response.data);
 
                     $("#loader-devis-page").modal("hide");
 
@@ -750,11 +746,12 @@
     }
 
     function updateData(data){
+
         data.forEach(function(element) {
-            $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
-            $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
-            $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
-            $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
+                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
         })
 
     }

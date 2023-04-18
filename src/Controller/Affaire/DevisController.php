@@ -709,35 +709,38 @@ class DevisController extends AbstractController
         $element = $request->request->all();
         //dd($element);
         try {
-            if (!empty($element['id']) and !empty($element['type'])) {
+            $data = [];
+            if ( !empty($element['id']) and !empty($element['type']) ) {
+ 
                 if($element['type'] == 'composant'){
-                    $ouvrage = $composantRepository->find($element['id'])->getOuvrage();
+                    $composant = $composantRepository->find($element['id']);
+                    $composant->setMarge(0);
+                    $composant->setPrixDeVenteHT(0);
+                    $composant->setQuantite(0);
+                    $composant->setDebourseUnitaireHT(0);
                 }
+                elseif($element['type'] == 'ouvrage'){
+                    $ouvrage = $ouvrageRepository->find($element['id']);
+                    $ouvrage->setMarge(0);
+                    $ouvrage->setPrixDeVenteHT(0).
+                    $ouvrage->setQuantite(0);
+                    $ouvrage->getComposants()->clear();
+
+                }elseif($element['type'] == 'lot'){
+                    $lot = $lotRepository->find($element['id']);
+                    $lot->setMarge(0);
+                    $lot->setPrixDeVenteHT(0).
+                    $lot->setQuantite(0);
+                    $lot->getOuvrages()->clear();
+                    $lot->getSousLots()->clear();
+                }
+                $data =$this->calculService->recursiveCalculTop(['id'=>$element['id'],'type'=>$element['type']]);
+
                 $elements = $devis->deleteInElements($element, $lotRepository, $ouvrageRepository, $composantRepository);
                 $devis->setElements($elements);
-
+                $devisRepository->add($devis);
             }
 
-            $data = [];
-            if($element['type'] == 'composant'){
-
-                 $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
-                 if($ouvrage->getSommeDebourseTotalComposants() == 0){
-                    $ouvrage->setMarge(1);
-                 }else{
-                    $ouvrage->setMarge($ouvrage->getSommePrixDeVenteHTComposants() /  $ouvrage->getSommeDebourseTotalComposants());
-                 }
-                 $ouvrageRepository->add($ouvrage);
-                 $data = [
-                    'ouvrage'=>$ouvrage->__toArray(),
-                 ];
-            }
-         //   $this->getPrix($elements, $ouvrageRepository, $lotRepository);
-            $devisRepository->add($devis);
-
-            
-           // $data =  $this->calculService->recursiveCalculTop(['id'=>$element['id'],'type'=>$element['type']]);
-            //$data[] = $lot->__toArray();
             return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);
