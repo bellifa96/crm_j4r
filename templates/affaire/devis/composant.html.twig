@@ -80,7 +80,7 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
                        name="devis[composants][{{ composant.id }}][debourseUnitaireHT]" required="required" maxlength="255"
-                       element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant"
+                       element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-end"
                        placeholder="Déboursé U HT"
                        value="{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}">
             </div>
@@ -88,7 +88,7 @@
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
                     input="debourseTotalHT"
                     name="devis[composant][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
-                    class="chakra-input" placeholder="Déboursé Total HT"
+                    class="chakra-input text-end" placeholder="Déboursé Total HT"
                     value="{{  (composant.debourseUnitaireHT * composant.quantite)|number_format(2,'.',' ') }}"
                 >
 
@@ -104,7 +104,7 @@
                 <input type="text" id="devis_composants_{{ composant.id }}_prix_de_vente" disabled="disabled"
                        input="prixDeVente"
                        name="devis[composants][{{ composant.id }}][prixDeVente]" required="required" maxlength="255"
-                       class="chakra-input" placeholder="Prix de vente"
+                       class="chakra-input  text-end" placeholder="Prix de vente"
                        value="{{ (composant.debourseUnitaireHT * composant.quantite * composant.marge)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">

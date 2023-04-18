@@ -80,7 +80,7 @@
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
-                       class="chakra-input" placeholder="Déboursé Total HT"
+                       class="chakra-input  text-end" placeholder="Déboursé Total HT"
                        value="{{  (ouvrage.getSommeDebourseTotalComposants)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right">
@@ -100,7 +100,7 @@
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
-                       class="chakra-input" placeholder="Prix de vente HT"
+                       class="chakra-input text-end" placeholder="Prix de vente HT"
                        value="{{ (ouvrage.prixDeVenteHT)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
