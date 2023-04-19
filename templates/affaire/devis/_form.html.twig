@@ -575,7 +575,7 @@
         let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
         let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
         let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
-        $("#loader-devis-page").modal("show");
+        //$("#loader-devis-page").modal("show");
 
         if (type === 'ouvrages') {
             const ouvrage = {
