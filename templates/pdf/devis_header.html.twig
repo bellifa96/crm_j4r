@@ -13,7 +13,7 @@
                     <br>
                     <span><strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong></span>
                     <br>
-                    <span> {{devis.demande.client.societe is not empty ? (devis.demande.client.contactPrincipaleClient is not null ? : "A l'attention de "~devis.demande.contactPrincipalClient.prenom~' '~devis.demande.contactPrincipalClient.nom : "&nbsp;") : "&nbsp;" }} </span>
+                    <span> {{ devis.demande.client.societe is not empty ? (devis.demande.client.contactPrincipaleClient is not null ? "A l'attention de " ~ devis.demande.client.contactPrincipaleClient.prenom ~ ' ' ~ devis.demande.client.contactPrincipaleClient.nom : "&nbsp;") : "&nbsp;" }}</span>
                     <br>
                     <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.adresse1 : devis.demande.client.personne.adresse1 }}</span>
                     <br>
