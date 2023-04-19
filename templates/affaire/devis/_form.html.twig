@@ -252,13 +252,6 @@
             <div class="tab-el-left">Marge</div>
             <div class="tab-el-left text-end">Prix de vente Total HT</div>
             <div class="tab-el-left"></div>
-            {#
-            <div class="tab-el">Marge</div>
-
-     <div class="tab-el">Prix unitaire HT</div>
-     <div class="tab-el">TVA</div>
-     <div class="tab-el">Prix de vente HT</div>
-            #}
 
 
         </div>
@@ -296,17 +289,27 @@
 <script>
 
 
+    // on sauvegarde l'element selectioné (lot/ouvrage/composant) 
     let selectedElement = null;
     let selectedElementId = null;
     let selectedElementType = null;
 
+
+    // on ecoute sur le bouton add-element-button (c'est le + dans le html) qui nous permet d'ajouter un lot  ou un ouvrage
     $('body').on('click', '.add-element-button', function () {
+        // on recupere l'id du parent 
         let id = $(this).attr('id').replaceAll('bi-plus-circle-','');
+        // on cache le bouton + afin d'eviter d'avoir 2 evenement
         $(this).hide();
+        // on affiche le loader
         $('#spinner-'+id).show();
+
+        // si on clique sur + dans un lot alors on ajoute un ouvrage
         if($(this).attr('type') ==='lot'){
              newOuvrage(id);
-        }else if($(this).attr('type') ==='ouvrage'){
+        }
+        // et si on clique sur + dans un ouvrage alors on ajoute un composant
+        else if($(this).attr('type') ==='ouvrage'){
             let origine = $('#devis_ouvrages_'+id+'_denomination').prop("tagName").toLowerCase() === "input" ? $('#devis_ouvrages_'+id+'_denomination').attr('origine') : $('#devis_ouvrages_'+id+'_denomination').val();
             if(origine !== null){
               newComposant(id,origine);
@@ -315,14 +318,14 @@
                 $('#spinner-'+id).hide();
             }
 
-        }else if($(this).attr('type') ==='composant'){
         }
 
 
 
     });
     
-
+    // la fonction nous permet d'ajouter un nouveau ouvrage dans un lot
+    // id = l'id du lot (donc du parent)
     function newOuvrage(id){
             $.post('/affaire/devis/ouvrage/new/'+'{{devis.id}}'+'/'+id, function (response) {
                 const data = JSON.parse(response);
@@ -336,6 +339,9 @@
             })
     }
 
+    // la fonction nous permet d'ajouter un nouveau composant dans un ouvrage
+    // l'id est celui du parent
+    // origine represente l'id de l'ouvrage d'origine à partir du quel on a crée l'ouvrage actuel 
     function newComposant(id,origine){
            $.post('/affaire/devis/composant/new/'+'{{devis.id}}'+'/'+id+'/'+origine, function (response) {
                 const data = JSON.parse(response);
@@ -351,6 +357,7 @@
             })
     }
 
+    //  on ecoute sur les 2 autres boutons d'ajout de lot 
     $('body').on('click', '#add-lots, .add-lot', function () {
         var parentId = selectedElementId;
         var parentType = selectedElementType;
@@ -374,30 +381,25 @@
 
     })
 
+
+    // on ecoute sur les boutons de suppression d'element (ouvrage/composant/lot)
     $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
 
         const element = $(this);
-        console.log(element)
 
+        // si on clique sur le bouton delete d'un composant et qu'on a pas de selected element alors on initialise les valeurs de :
+        //selectedElementId && selectedElementType
         if(element.hasClass('delete-composant') && selectedElementId == null || (element.hasClass('delete-composant') && selectedElementId !=element.attr('id').replace('delete-composant-','') ) ){
             selectedElementId = element.attr('id').replace('delete-composant-','');
             selectedElementType = "composant";
         }
 
+        // si on a pas d'element selectionné alors on ne fait rien
         if(selectedElementId == null){
             return;
         }
+
         var id = selectedElementId;
-
-        let parentId = null;
-
-        
-
- 
-
-        /*if(selectedElement.parent().parent() && selectedElement.parent().parent().attr('id')){
-               parentId = selectedElement.parent().parent().attr('id').replace('ouvrage-ul-','').replace('lot-ul-','');
-        }*/
 
         let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
         $("#loader-devis-page").modal("show");
@@ -407,94 +409,27 @@
         }, function (response) {
             response = JSON.parse(response);
             if (response.code == 200) {
+                // si on a success alors on vide les variables qui sauve l'element selectionné 
                 selectedElementId = null;
                 selectedElementType = null;
                 if (id != null) {
+                    // si l'element a des enfants alors on supprime la div qui contient ses enfants 
                     if ($('#element-' + id).next().hasClass('children')) {
-        
                         $('#element-' + id).next().remove();
                     }
+                    // on supprime la div de l'element
                     $('#element-' + id).remove();
-                    console.log($(this));
-
-                   updateData(response.data);
-
+                    // on met ajout les chiffres de tous les elements impactés 
+                    updateData(response.data)
+                    // et on cache le loader
                     $("#loader-devis-page").modal("hide");
-
-
-
-                    /*while (parentId) {
-                        let sumParent = 0;
-
-                        $("[parent-dht='" + parentId + "']").each(function () {
-                            let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
-                            if (!isNaN(debourseOuvrage)) {
-                                sumParent += debourseOuvrage;
-                            }
-                        });
-                        $("[parent-dtht='" + parentId + "']").each(function () {
-                            let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
-                            if (!isNaN(debourseLot)) {
-                                sumParent += debourseLot;
-                            }
-                        });
-                        $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
-
-                        parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
-                    }*/
-
                 }
             }
         })
 
     })
 
-    $("body").on('click', '#import-ouvrage', function () {
-        $('#modal-import-ouvrage').remove();
-
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
-            const data = JSON.parse(response);
-            $('body').append(data.html);
-            $("#modal-import-ouvrage").modal("show");
-            $('.datatable').DataTable({
-                "oLanguage": {
-                    sSearch: "",
-                    searchPlaceholder: "Chercher"
-
-                },
-                language: {
-                    searchPlaceholder: "Chercher"
-                },
-                order: [[0, 'desc']],
-                pageLength: 25,
-
-
-            });
-        })
-    })
-
-    $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
-        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
-        let idParent = $(this).parent().parent().attr('parent');
-        var id = selectedElementId;
-        $.post(path, {
-            id: selectedElementId,
-            type: selectedElementType,
-            idParent: idParent
-        }, function (data) {
-            if (code = 200) {
-                if (data.idParent != null) {
-                    $(JSON.parse(data).html).insertAfter('#element' + data.idParent);
-                } else {
-                    $('#main-devis').append(JSON.parse(data).html);
-                }
-                $("#lot").modal('show');
-            }
-        })
-
-
-    })
-
+    // contextMenu lot
     $('body').on('click', '.menu-lot', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
@@ -509,6 +444,7 @@
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
+    // contextMenu ouvrage
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
@@ -518,29 +454,10 @@
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
-    $('body').on('click', '.composant', function () {
-        let id = $(this).attr('ouvrage');
-        let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
-        if ($("#modal-liste-composant").attr('ouvrage') != id) {
-            $.post(path, function (data) {
-                if (code = 200) {
-                    $("#modal-liste-composant").remove();
-                    $('body').append(JSON.parse(data).message);
-                    $("#modal-liste-composant").modal('show');
-                }
 
-            })
-        } else if ($("#modal-liste-composant").attr('ouvrage') == id) {
-            $("#modal-liste-composant").modal('show');
-        }
-    })
 
-    $('body').on('click', '#modifier-ouvrage', function () {
-        let id = selectedElementId;
-        let path = '/affaire/bibliothequeDePrix/ouvrage/' + id;
-        window.location.href = path;
-    })
 
+    // on ecoute sur la listes des elements afin de selectionner l'element cliqué
     $('body').on('click', '#sortable-elements li', function () {
         let firstDiv = $(this).find('div:first');
         selectedElement = firstDiv;
@@ -548,16 +465,10 @@
         selectedElementType = firstDiv.attr('type');
     });
 
-    function hasSomeParentTheClass(element, classname) {
-        if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
-            return true;
-        } else if (element.parentNode) {
-            hasSomeParentTheClass(element.parentNode, classname)
-        } else {
-            return false
-        }
-    }
-
+    // on ecoute sur le body si on clique sur l'un des elements on va pouvoir selectionner l'element cliqué et sinon on met à null les variables suivante :
+    //               selectedElement = null;
+    //            selectedElementId = null;
+    //            selectedElementType = null;
 
     $('body').on('click', function (event) {
         if (!$(event.target).hasClass('import-ouvrage') && !$(event.target).hasClass('delete-composant') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') && !$(event.target).hasClass('paginate_button'))
@@ -591,6 +502,216 @@
     });
 
 
+ 
+
+     // ajout d'un ouvrage
+    $('#add-ouvrage').click(function () {
+        $('#modal-ouvrage').remove();
+        let path = "{{ path('app_affaire_modal_ouvrage') }}";
+        $.post(path, function (data) {
+            $('body').append(JSON.parse(data).message);
+            $("#modal-ouvrage").modal('show');
+
+        })
+    })
+
+    // un ecouteur qui detecte le choix d'ouvrage sur le quel on se base afin de le copier
+    $('body').on("change", '.select-ouvrage', function () {
+        
+            let id = $(this).attr('ouvrages');
+            let origine = $(this).val();
+
+            let path = '/affaire/devis/ouvrage/origine/add/'+ "{{devis.id }}" +"/"+ id+'/'+origine;
+
+            $.post(path, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    $('#ouvrage-ul-'+id).append(response.html)
+                    updateData(response.data)
+                    $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
+                }
+            })
+    })
+
+    function calculDebourseTotalHT(quantite,prixUnitaireHT,id,type){
+        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(2);
+        $("#devis_"+type+"_"+id+"_debourseTotalHT").attr('value',debourseTotalHT)
+        return debourseTotalHT;
+    }
+    function calculPrixDeVente(quantite,prixUnitaireHT, marge, id,type){
+        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(2);
+        $("#devis_"+type+"_"+id+"_prix_de_vente").attr('value',prixDeVenteHt)
+        return prixDeVenteHt ;
+    }
+
+    // la fonction permet de mettre à jour les valeurs de calculs qui ont été changé par une action (modification/suppression/ajout etc)
+    
+    function updateData(data){
+
+        data.forEach(function(element) {
+                    console.log(element)
+
+                $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
+                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
+        })
+        $("#loader-devis-page").modal("hide");
+
+
+    }
+    
+    // lorsqu'on detecte un changement daans un champ on le sauvegarde et on recalcule les valeurs 
+    $('body').on("change", 'input, select', function () {
+        if($(this).hasClass('select-ouvrage')){
+            return;
+        }
+        let type = $(this).attr('element');
+        let id = $(this).attr(type);
+
+        let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
+        let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
+        let code =  $('input[name="devis['+type+'][' + id + '][code]"]').val();
+        let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
+        let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
+        let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
+        $("#loader-devis-page").modal("show");
+
+        if (type === 'ouvrages') {
+            const ouvrage = {
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+                note: null,
+                marge:marge,
+            }
+            let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
+            $.post(path, {ouvrage}, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    updateData(response.data);
+                }
+            })
+
+        }
+
+        if(type == "composants"){
+            const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
+            const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
+            const composant = {                
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+                duht: prixUnite,
+                dtht: debourseTotalHT,
+                marge:marge,
+                note:null,
+            }
+            let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
+
+            $.post(path, {composant}, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    updateData(response.data);
+                }
+            })
+        }
+        if (type == "lots") {
+            const lot = {
+                code: code,
+                denomination: denomination,
+                unite: unite,
+                quantite: isNaN(quantite) ? 0 : quantite,
+                prix: prixUnite,
+                marge:marge,
+
+            };
+            let path = '/affaire/devis/edit/lot/' + id;
+            $.post(path, {lot}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    updateData(response.data);
+                }
+            })
+        }
+        
+       
+    })
+
+    $('.numbers').keyup(function () {
+        this.value = this.value.replace(/[^0-9\.\,]/g, '');
+    });
+
+    function afficherMenu() {
+        $('#menu-marge').css('display', 'block');
+    }
+
+    $(document).on('click', function(e) {
+        if(!$(e.target).closest('#menu-marge').length) {
+            $('#menu-marge').css('display', 'none');
+        }
+    });
+
+    $('#encadre-marge').on('click', function(e) {
+        e.stopPropagation();
+        afficherMenu();
+    });
+
+
+    // non utilisé
+    $(".import-ouvrage").click(function () {
+        $('#modal-import-ouvrage').remove();
+
+        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
+        })
+    })
+
+
+    // fonction qui permet d'importer des ouvrages (non utilisé pour l'instant)
+    $("body").on('click', '#import-ouvrage', function () {
+        $('#modal-import-ouvrage').remove();
+
+        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
+        })
+    })
+
+  // non utilisé
     function submitImportOuvrageEvent(event) {
         var parentId = selectedElementId;
         var parentType = selectedElementType;
@@ -664,208 +785,58 @@
         })
     }
 
-    $(".import-ouvrage").click(function () {
-        $('#modal-import-ouvrage').remove();
-
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
-            const data = JSON.parse(response);
-            $('body').append(data.html);
-            $("#modal-import-ouvrage").modal("show");
-            $('.datatable').DataTable({
-                "oLanguage": {
-                    sSearch: "",
-                    searchPlaceholder: "Chercher"
-
-                },
-                language: {
-                    searchPlaceholder: "Chercher"
-                },
-                order: [[0, 'desc']],
-                pageLength: 25,
-
-
-            });
-        })
-    })
-
-    $('#add-ouvrage').click(function () {
-        $('#modal-ouvrage').remove();
-        let path = "{{ path('app_affaire_modal_ouvrage') }}";
-        $.post(path, function (data) {
-            $('body').append(JSON.parse(data).message);
-            $("#modal-ouvrage").modal('show');
-
-        })
-    })
-
-    function sumHT(quantite, prixUnite, id, parent = null) {
-        let sum = quantite * prixUnite;
-        let sumParent = 0;
-        $('#devis_ouvrages_' + id + '_debourseTotalHT').val(sum);
-        if (parent) {
-            $("[parent-dht='" + parent + "']").each(function () {
-                let quantite2 = parseInt($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_quantite').val());
-                let prixUnite2 = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseUnitaireHT').val().replace(',', '.'));
-                sumParent += quantite2 * prixUnite2;
-            })
-            $("#devis_lots_" + parent + "_debourseUnitaireHT").val(sumParent)
-
-        }
-
-        return sum;
-    }
-
-    $('body').on("change", '.select-ouvrage', function () {
-        
-            let id = $(this).attr('ouvrages');
-            let origine = $(this).val();
-
-            let path = '/affaire/devis/ouvrage/origine/add/'+ "{{devis.id }}" +"/"+ id+'/'+origine;
-
-            $.post(path, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-               //     $('#devis_ouvrages_'+id+'_unite').val(data.data.unite);
-                    console.log(response)
-                    $('#ouvrage-ul-'+id).append(response.html)
-                    updateData(response.data)
-                    $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
+         // fonction qui affiche la popup contenant les composants d'un ouvrage (non utilisé)
+    $('body').on('click', '.composant', function () {
+        let id = $(this).attr('ouvrage');
+        let path = '/affaire/bibliothequeDePrix/ouvrage/composant/liste/' + id;
+        if ($("#modal-liste-composant").attr('ouvrage') != id) {
+            $.post(path, function (data) {
+                if (code = 200) {
+                    $("#modal-liste-composant").remove();
+                    $('body').append(JSON.parse(data).message);
+                    $("#modal-liste-composant").modal('show');
                 }
+
             })
+        } else if ($("#modal-liste-composant").attr('ouvrage') == id) {
+            $("#modal-liste-composant").modal('show');
+        }
     })
 
-    function calculDebourseTotalHT(quantite,prixUnitaireHT,id,type){
-        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(2);
-        $("#devis_"+type+"_"+id+"_debourseTotalHT").attr('value',debourseTotalHT)
-        return debourseTotalHT;
-    }
-    function calculPrixDeVente(quantite,prixUnitaireHT, marge, id,type){
-        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(2);
-        $("#devis_"+type+"_"+id+"_prix_de_vente").attr('value',prixDeVenteHt)
-        return prixDeVenteHt ;
-    }
+        // fonction qui permet de dupliquer des ouvrages ou des lots (non utilisé pour l'instant)
 
-    function updateData(data){
-
-        data.forEach(function(element) {
-                $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
-                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
-                $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
-                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
-        })
-        $("#loader-devis-page").modal("hide");
-
-
-    }
-    
-    $('body').on("change", 'input, select', function () {
-        if($(this).hasClass('select-ouvrage')){
-            return;
-        }
-        let type = $(this).attr('element');
-        let id = $(this).attr(type);
-
-        let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
-        let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
-        let code =  $('input[name="devis['+type+'][' + id + '][code]"]').val();
-        let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
-        let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
-        let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
-        $("#loader-devis-page").modal("show");
-
-        if (type === 'ouvrages') {
-            const ouvrage = {
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-             //   duht: prixUnite,
-              //  dtht: debourseTotalHT,
-                note: null,
-                marge:marge,
+    $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
+        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
+        let idParent = $(this).parent().parent().attr('parent');
+        var id = selectedElementId;
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType,
+            idParent: idParent
+        }, function (data) {
+            if (code = 200) {
+                if (data.idParent != null) {
+                    $(JSON.parse(data).html).insertAfter('#element' + data.idParent);
+                } else {
+                    $('#main-devis').append(JSON.parse(data).html);
+                }
+                $("#lot").modal('show');
             }
+        })
 
-            console.log(ouvrage);
 
-            let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
-
-            $.post(path, {ouvrage}, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-                    updateData(response.data);
-                }
-            })
-
-        }
-
-        if(type == "composants"){
-            const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
-            const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
-
-            const composant = {                
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-                duht: prixUnite,
-                dtht: debourseTotalHT,
-                marge:marge,
-                note:null,
-            }
-            let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
-
-            $.post(path, {composant}, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-                    updateData(response.data);
-                }
-            })
-        }
-
-        if (type == "lots") {
-            const lot = {
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-                prix: prixUnite,
-                marge:marge,
-
-            };
-            let path = '/affaire/devis/edit/lot/' + id;
-
-            $.post(path, {lot}, function (response) {
-                let data = JSON.parse(response);
-                if (data.code === 200) {
-                    updateData(response.data);
-                    //           console.log(data, lot);
-                }
-            })
-        }
-        
-       
     })
 
-    $('.numbers').keyup(function () {
-        this.value = this.value.replace(/[^0-9\.\,]/g, '');
-    });
-
-    function afficherMenu() {
-        $('#menu-marge').css('display', 'block');
-    }
-
-    $(document).on('click', function(e) {
-        if(!$(e.target).closest('#menu-marge').length) {
-            $('#menu-marge').css('display', 'none');
+        // non utilisé 
+    function hasSomeParentTheClass(element, classname) {
+        if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
+            return true;
+        } else if (element.parentNode) {
+            hasSomeParentTheClass(element.parentNode, classname)
+        } else {
+            return false
         }
-    });
-
-    $('#encadre-marge').on('click', function(e) {
-        e.stopPropagation();
-        afficherMenu();
-    });
-
-
+    }
 
 </script>
 

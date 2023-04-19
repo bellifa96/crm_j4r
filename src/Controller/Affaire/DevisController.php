@@ -665,8 +665,9 @@ class DevisController extends AbstractController
         key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : "";
         try {
 
-
-            $data =  $this->calculService->recursiveCalculTop(['id'=>$lot->getId(),'type'=>'lots']);
+            $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$lot->getId(),'type'=>'lots']);
+            $dataTop= $this->calculService->recursiveCalculTop(['id'=>$lot->getId(),'type'=>'lots']);
+            $data = array_merge($dataBottom,$dataTop);
             $data[] = $lot->__toArray();
 
             $lotRepository->add($lot);

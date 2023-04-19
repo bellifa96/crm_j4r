@@ -284,13 +284,16 @@ class BibliothequeDePrixController extends AbstractController
         key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : "";
         key_exists('duht', $data) ? $ouvrage->setPrixUnitaireDebourse($data['duht']) : "";
         key_exists('marge', $data) ? $ouvrage->setMarge($data['marge']) : "";
+        key_exists('denomination', $data) ? $ouvrage->setDenomination($data['denomination']) : "";
 
 
-        $ouvrage->setDenomination($data['denomination']);
+
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
-        $data = $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+        $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+        $dataTop= $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+        $data = array_merge($dataBottom,$dataTop);
         $data[]=$ouvrage->__toArray();
 
         //key_exists('note', $data) ? $ouvrage->setNote($data['note']) : $ouvrage->setNote(null);
