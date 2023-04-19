@@ -39,6 +39,7 @@ class CalculService
 
             $tp = $this->recursiveCalculTop($topParentTmp,$data);
         } elseif ($element['type'] == 'ouvrage') {
+
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             if(!empty($ouvrage->getLot())){
                 $ouvrage->getLot()->setPrixDeVenteHT($ouvrage->getLot()->getSommePrixDeVenteHTOuvrages()  + $ouvrage->getLot()->getSommePrixDeVenteHTSousLots());
@@ -65,11 +66,10 @@ class CalculService
             }
         }elseif($element['type'] == 'lot'){
             $lot = $this->em->getRepository(Lot::class)->find($element['id']);
+
             if(!empty($lot->getLot())){
                 $lot->getLot()->setPrixDeVenteHT($lot->getLot()->getSommePrixDeVenteHTOuvrages() + $lot->getLot()->getSommePrixDeVenteHTSousLots());
                 $lot->getLot()->setDebourseTotalLot($lot->getLot()->getSommeDebourseTotalOuvrages() + $lot->getLot()->getSommeDebourseTotalSousLots());
-
-
 
                 if($lot->getLot()->getDebourseTotalLot() > 0){
                     $lot->getLot()->setMarge(
@@ -84,7 +84,7 @@ class CalculService
                     'id'=>$lot->getLot()->getId(),
                     'type'=>'lot'
                 ];
-                $tp = $this->recursiveCalculTop($topParentTmp);
+                $tp = $this->recursiveCalculTop($topParentTmp,$data);
             }elseif(!empty($lot->getDevis())){
                 $lot->getDevis()->setPrixDeVenteHT($lot->getDevis()->getSommePrixDeVenteHTOuvrages()  + $lot->getDevis()->getSommePrixDeVenteHTLots());
                 $lot->getDevis()->setDebourseTotalHT($lot->getDevis()->getSommeDebourseTotalOuvrages() + $lot->getDevis()->getSommeDebourseTotalLots());
@@ -96,19 +96,26 @@ class CalculService
                 }else{
                     $lot->getDevis()->setMarge(1);
                 }
+
                 $this->em->getRepository(Devis::class)->add($lot->getDevis());
                 $data[]=$lot->getDevis()->__toArray(); 
+                $topParentTmp = [
+                    'id'=>$lot->getDevis()->getId(),
+                    'type'=>'devis'
+                ];
+                $tp = $this->recursiveCalculTop($topParentTmp,$data);
             }         
         }
         return $data;
     }
 
 
-    public function recursiveCalculBottom($element,&$data=[]){
+    public function recursiveCalculBottom($element,&$dataa=[]){
         if ($element['type'] == 'ouvrage') {
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             $debourseTotalDeOuvrage = $ouvrage->getSommeDebourseTotalComposants();
             $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
+            $sum = 0;
             foreach($ouvrage->getComposants() as $composant){
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
                 $deboureTotalComposant = $composant->getQuantite() * $composant->getDebourseUnitaireHT();
@@ -120,11 +127,12 @@ class CalculService
                     $nouvelleMargeComposant = 1;
                 }
                 $composant->setMarge($nouvelleMargeComposant);
-                $composant->setPrixDeVenteHT($composant->getQuantite() * $composant->getDebourseUnitaireHT() * $composant->getMarge());
+                $composant->setPrixDeVenteHT($composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant);
+                $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant;
                 $this->em->getRepository(Composant::class)->add($composant);
-                $data[]=$composant->__toArray();
+                $dataa[]=$composant->__toArray();
             }
-            $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
+            $ouvrage->setPrixDeVenteHT($sum);
             $this->em->getRepository(Ouvrage::class)->add($ouvrage);
 
 
@@ -148,8 +156,8 @@ class CalculService
                     'type'=>'ouvrage'
                 ];
                 $this->em->getRepository(Ouvrage::class)->add($ouvrage);
-                $data[]=$ouvrage->__toArray();
-                $tp = $this->recursiveCalculBottom($child,$data);
+                $dataa[]=$ouvrage->__toArray();
+                $tp = $this->recursiveCalculBottom($child,$dataa);
             }
 
             foreach($lot->getSousLots() as $sLot){
@@ -167,8 +175,8 @@ class CalculService
                         'type'=>'lot'
                     ];
                     $this->em->getRepository(Lot::class)->add($sLot);
-                    $data[]=$sLot->__toArray();
-                    $tp = $this->recursiveCalculBottom($child,$data);
+                    $dataa[]=$sLot->__toArray();
+                    $tp = $this->recursiveCalculBottom($child,$dataa);
                 
             } 
             $lot->setPrixDeVenteHT($lot->getSommePrixDeVenteHTOuvrages() + $lot->getSommePrixDeVenteHTSousLots());
@@ -212,15 +220,15 @@ class CalculService
                         'type'=>'lot'
                     ];
                     $this->em->getRepository(Lot::class)->add($Lot);
-                    $data[]=$Lot->__toArray();
-                    $tp = $this->recursiveCalculBottom($child,$data);
+                    $dataa[]=$Lot->__toArray();
+                    $tp = $this->recursiveCalculBottom($child,$dataa);
                 
             } 
             $devis->setPrixDeVenteHT($devis->getSommePrixDeVenteHTOuvrages() + $devis->getSommePrixDeVenteHTLots());
             $devis->setDebourseTotalHT($devis->getSommeDebourseTotalOuvrages() + $devis->getSommeDebourseTotalLots());
             $this->em->getRepository(Devis::class)->add($devis);
         }
-        return $data;
+        return $dataa;
     }
 
 

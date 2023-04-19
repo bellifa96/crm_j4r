@@ -396,11 +396,11 @@ class DevisController extends AbstractController
 
             } else {
                 $elements[] = $el;
+                $devis->addLot($lot);
             }
             $devis->setElements($elements);
             $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId'],'unites'=>$this->unites]);
             $html = "<li>".$html."<ul class='children' id='lot-ul-" . $lot->getId(). "'></ul></li>";
-            $devis->addLot($lot);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
