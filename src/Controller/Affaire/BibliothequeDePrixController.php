@@ -291,15 +291,16 @@ class BibliothequeDePrixController extends AbstractController
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
-        $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
-        $dataTop= $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
-        $data = array_merge($dataBottom,$dataTop);
-        $data[]=$ouvrage->__toArray();
+
 
         //key_exists('note', $data) ? $ouvrage->setNote($data['note']) : $ouvrage->setNote(null);
         //key_exists('quantiteDOuvrage', $data) ? $ouvrage->setQuantite($data['quantiteDOuvrage']) : $ouvrage->setQuantite(null);
         try {
             $ouvrageRepository->add($ouvrage);
+            $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+            $dataTop= $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
+            $data = array_merge($dataBottom,$dataTop);
+            $data[]=$ouvrage->__toArray();
             return new Response(json_encode(['code' => 200,'data'=>$data]));
         } catch (OptimisticLockException $e) {
             dd($e);

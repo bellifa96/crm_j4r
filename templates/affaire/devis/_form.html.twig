@@ -553,6 +553,8 @@
 
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(2));
+
                 $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
         })
@@ -630,8 +632,8 @@
             };
             let path = '/affaire/devis/edit/lot/' + id;
             $.post(path, {lot}, function (response) {
-                let data = JSON.parse(response);
-                if (data.code === 200) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
                     updateData(response.data);
                 }
             })
