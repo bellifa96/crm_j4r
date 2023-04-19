@@ -1,23 +1,24 @@
 {% block footer %}
-<div style="display: flex; flex-direction: row; vertical-align: middle; font-weight: bold; font-size: 7px; margin-top: 40px; justify-content: space-between; line-height: normal">
-    <div style="flex-grow: 1;">
-        <img style="height: 37px" src="{{ asset('uploads/logo/logos_devis.png') }}" alt="logos">
+    <div style="display: flex; align-items: center; font-weight: bold; font-size: 7px; line-height: normal">
+        <div style="float: left; width: 30%">
+            <img style="height: 37px" src="{{ asset('uploads/logo/logos_devis.png') }}" alt="logos">
+        </div>
+        <div style="text-align: center; width: 40%">
+            <span>
+                J4R - 49 rue Ampère - 77400 LAGNY SUR MARNE
+            </span>
+            <br>
+            <span>
+                Tél : 01 60 07 22 01 - contact@j4r.fr
+            </span>
+            <br>
+            <span>
+                SAS au capital de 70000 € - Siret 500 759 345 00043 - RCS Meaux FR 53 500 759 345
+            </span>
+        </div>
+        <div style="float: right; text-align: right; width: 30%">
+            Page /3
+        </div>
     </div>
-    <div style="flex-grow: 1; text-align: center; align-self: center;">
-        <span>
-            J4R - 49 rue Ampère - 77400 LAGNY SUR MARNE
-        </span>
-        <br>
-        <span>
-            Tél : 01 60 07 22 01 - contact@j4r.fr
-        </span>
-        <br>
-        <span>
-            SAS au capital de 70000 € - Siret 500 759 345 00043 - RCS Meaux FR 53 500 759 345
-        </span>
-    </div>
-    <div style="flex-grow: 1; text-align: right; padding-top: 22px">
-        Page /3
-    </div>
-</div>
+
 {% endblock %}
