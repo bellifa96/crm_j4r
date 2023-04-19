@@ -94,9 +94,10 @@ class CalculService
     public function recursiveCalculBottom($element,&$data=[]){
         if ($element['type'] == 'ouvrage') {
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
+            $debourseTotalDeOuvrage = $ouvrage->getSommeDebourseTotalComposants();
+            $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
+
             foreach($ouvrage->getComposants() as $composant){
-                $debourseTotalDeOuvrage = $ouvrage->getSommeDebourseTotalComposants();
-                $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
                 $deboureTotalComposant = $composant->getQuantite() * $composant->getDebourseUnitaireHT();
                 $margeOuvrage = $ouvrage->getMarge();
