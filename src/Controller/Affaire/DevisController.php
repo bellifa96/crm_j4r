@@ -771,16 +771,18 @@ class DevisController extends AbstractController
     #[Route('/pdf/{id}', name: 'app_affaire_devis_pdf', methods: ['POST', 'GET'])]
     public function createPdf(Request $request, Devis $devis, LotRepository $lotRepository): Response
     {
+        $prixDevis = 0;
         $listeLots = [];
         foreach ($devis->getElements() as $lotDevis){
             $lot = $lotRepository->find($lotDevis['id']);
             $listeLots[] = $lot;
+            $prixDevis += $lot->getPrixDeVenteHT();
         }
 
         $headerTemplate = $this->environment->render('pdf/devis_header.html.twig', ['devis' => $devis]);
         $footerTemplate = $this->environment->render('pdf/devis_footer.html.twig', ['devis' => $devis]);
-        $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis]);
-        $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots]);
+        $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis, 'prixDevis' => $prixDevis]);
+        $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots, 'prixDevis' => $prixDevis]);
         $bodyTemplate3 = $this->environment->render('pdf/devis3.html.twig', ['devis' => $devis]);
 
         $name = $devis->getTitre();
