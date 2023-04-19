@@ -118,9 +118,9 @@ class CalculService
         }elseif($element['type'] == 'lot'){
             $lot = $this->em->getRepository(Lot::class)->find($element['id']);
 
+            $debourseTotalDeLot = $lot->getSommeDebourseTotalSousLots()+ $lot->getSommeDebourseTotalOuvrages();
+            $prixDeVenteHTLot = $lot->getPrixDeVenteHT();
             foreach($lot->getOuvrages() as $ouvrage){
-                $debourseTotalDeLot = $lot->getSommeDebourseTotalSousLots()+ $lot->getSommeDebourseTotalOuvrages();
-                $prixDeVenteHTLot = $lot->getPrixDeVenteHT();
                 $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
                 $deboureTotalOuvrage = $ouvrage->getSommeDebourseTotalComposants();
                 $margeLot = $lot->getMarge();
@@ -140,8 +140,6 @@ class CalculService
             }
 
             foreach($lot->getSousLots() as $sLot){
-                    $debourseTotalDeLot = $lot->getSommeDebourseTotalSousLots()+ $lot->getSommeDebourseTotalOuvrages();
-                    $prixDeVenteHTLot = $lot->getPrixDeVenteHT();
                     $prixDeVenteHTSousLot = $sLot->getPrixDeVenteHT();
                     $deboureTotalSousLot =  $sLot->getSommeDebourseTotalSousLots()+ $sLot->getSommeDebourseTotalOuvrages();
                     $margeLot = $lot->getMarge();
