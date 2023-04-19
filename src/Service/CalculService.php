@@ -92,7 +92,7 @@ class CalculService
 
 
     public function recursiveCalculBottom($element,&$data=[]){
-         if ($element['type'] == 'ouvrage') {
+        if ($element['type'] == 'ouvrage') {
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             foreach($ouvrage->getComposants() as $composant){
                 $debourseTotalDeOuvrage = $ouvrage->getSommeDebourseTotalComposants();
@@ -101,7 +101,11 @@ class CalculService
                 $deboureTotalComposant = $composant->getQuantite() * $composant->getDebourseUnitaireHT();
                 $margeOuvrage = $ouvrage->getMarge();
                 
-                $nouvelleMargeComposant = $debourseTotalDeOuvrage * $margeOuvrage * $prixDeVenteHTComposant / $prixDeVenteHTOuvrage / $deboureTotalComposant;
+                try {
+                    $nouvelleMargeComposant = $debourseTotalDeOuvrage * $margeOuvrage * $prixDeVenteHTComposant / $prixDeVenteHTOuvrage / $deboureTotalComposant;
+                } catch (\DivisionByZeroError $e) {
+                    $nouvelleMargeComposant = 1;
+                }
                 $composant->setMarge($nouvelleMargeComposant);
                 $composant->setPrixDeVenteHT($composant->getQuantite() * $composant->getDebourseUnitaireHT() * $composant->getMarge());
                 $this->em->getRepository(Composant::class)->add($composant);
@@ -120,8 +124,11 @@ class CalculService
                 $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
                 $deboureTotalOuvrage = $ouvrage->getSommeDebourseTotalComposants();
                 $margeLot = $lot->getMarge();
-                
-                $nouvelleMargeOuvrage = $debourseTotalDeLot * $margeLot * $deboureTotalOuvrage / $prixDeVenteHTLot / $debourseTotalDeLot;
+                try {
+                    $nouvelleMargeOuvrage = $debourseTotalDeLot * $margeLot * $prixDeVenteHTOuvrage / $prixDeVenteHTLot / $deboureTotalOuvrage;
+                } catch (\DivisionByZeroError $e) {
+                    $nouvelleMargeOuvrage = 1;
+                }
                 $ouvrage->setMarge($nouvelleMargeOuvrage);
                 $child = [
                     'id'=>$ouvrage->getId(),
@@ -131,27 +138,32 @@ class CalculService
                 $data[]=$ouvrage->__toArray();
                 $tp = $this->recursiveCalculBottom($child,$data);
             }
-            if(!empty($lot->getLot())){
-                $lot->getLot()->setPrixDeVenteHT($lot->getLot()->getSommePrixDeVenteHTOuvrages() + $lot->getLot()->getSommePrixDeVenteHTSousLots());
-                $lot->getLot()->setMarge(
-                    $lot->getLot()->getPrixDeVenteHT() /
-                    ($lot->getLot()->getSommeDebourseTotalOuvrages() + $lot->getLot()->getSommeDebourseTotalSousLots()) );
-                $lot->getLot()->setDebourseTotalLot($lot->getLot()->getSommeDebourseTotalOuvrages() + $lot->getLot()->getSommeDebourseTotalSousLots());
 
-                $this->em->getRepository(Lot::class)->add($lot->getLot());
-                $data[]=$lot->getLot()->__toArray();
-                $topParentTmp = [
-                    'id'=>$lot->getLot()->getId(),
-                    'type'=>'lot'
-                ];
-                $tp = $this->recursiveCalculBottom($topParentTmp);
+            foreach($lot->getSousLots() as $sLot){
+                    $debourseTotalDeLot = $lot->getSommeDebourseTotalSousLots()+ $lot->getSommeDebourseTotalOuvrages();
+                    $prixDeVenteHTLot = $ouvrage->getPrixDeVenteHT();
+                    $prixDeVenteHTSousLot = $sLot->getPrixDeVenteHT();
+                    $deboureTotalSousLot =  $sLot->getSommeDebourseTotalSousLots()+ $sLot->getSommeDebourseTotalOuvrages();
+                    $margeLot = $lot->getMarge();
+                    try {
+                        $nouvelleMargeSousLot = $debourseTotalDeLot * $margeLot * $prixDeVenteHTSousLot / $prixDeVenteHTLot / $deboureTotalSousLot;
+                    } catch (\DivisionByZeroError $e) {
+                        $nouvelleMargeSousLot = 1;
+                    }
+                    $sLot->setMarge($nouvelleMargeOuvrage);
+                    $child = [
+                        'id'=>$sLot->getId(),
+                        'type'=>'lot'
+                    ];
+                    $this->em->getRepository(Lot::class)->add($sLot);
+                    $data[]=$sLot->__toArray();
+                    $tp = $this->recursiveCalculBottom($child,$data);
+                
             } 
             $lot->setPrixDeVenteHT($lot->getSommePrixDeVenteHTOuvrages() + $lot->getSommePrixDeVenteHTSousLots());
             $lot->setDebourseTotalLot($lot->getSommeDebourseTotalOuvrages() + $lot->getSommeDebourseTotalSousLots());
             $this->em->getRepository(Lot::class)->add($lot);
-
-
-    }
+        }
     
         return $data;
     }
