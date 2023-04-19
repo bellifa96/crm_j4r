@@ -183,6 +183,31 @@ class DevisController extends AbstractController
         ]);
     }
 
+    #[Route('/calcul/edit/{id}', name: 'app_affaire_devis_calcul_edit', methods: ['GET', 'POST'])]
+    public function editCalcul(Request $request, Devis $devis, DevisRepository $devisRepository): Response
+    {
+
+        $data = $request->request->all();
+        $data = $data['devis'];
+        $devis->setMarge($data['marge']);
+        try {
+
+            $devisRepository->add($devis);
+            $data = $this->calculService->recursiveCalculBottom(['id'=>$devis->getId(),'type'=>'devis']);
+            $data[] = $devis->__toArray();
+
+            return new Response(json_encode(['code' => 200, 'data' => $data]));
+        } catch (OptimisticLockException $e) {
+            dd($e);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+
+        return new Response(json_encode(['code' => 404]));
+
+    }
+
     #[Route('/user/import/{id}', name: 'app_affaire_referent_import', methods: ['GET', 'POST'])]
     public function importReferent(Request $request, Devis $devis, DevisRepository $devisRepository, UserRepository $userRepository): Response
     {
@@ -375,7 +400,7 @@ class DevisController extends AbstractController
             $devis->setElements($elements);
             $html .= $environment->render($path, ["lot" => $lot, 'hasParent' => $data['parentId'],'unites'=>$this->unites]);
             $html = "<li>".$html."<ul class='children' id='lot-ul-" . $lot->getId(). "'></ul></li>";
-
+            $devis->addLot($lot);
             $devisRepository->add($devis);
             return new Response(json_encode(['code' => 200, "html" => $html]));
         } catch (OptimisticLockException $e) {
@@ -396,7 +421,7 @@ class DevisController extends AbstractController
             $dupliquer = new Lot();
             $dupliquer->setDenomination($lot->getDenomination());
             $dupliquer->setCode($lot->getCode());
-            $dupliquer->setPrixHT($lot->getPrixHT());
+            $dupliquer->setPrixDeVenteHT($lot->getPrixDeVenteHT());
             $dupliquer->setQuantite($lot->getQuantite());
             $dupliquer->setMarge($lot->getMarge());
             $lotRepository->save($dupliquer);
@@ -537,6 +562,7 @@ class DevisController extends AbstractController
                 $lotRepository->add($lot);
             }else {
                 $elements[] = $element;
+                $devis->addOuvrage($ouvrage);
             }
             $devis->setElements($elements);
             $devisRepository->add($devis);

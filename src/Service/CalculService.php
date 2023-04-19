@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Affaire\Lot;
+use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Composant;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,6 @@ class CalculService
             $tp = $this->recursiveCalculTop($topParentTmp,$data);
         } elseif ($element['type'] == 'ouvrage') {
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
-
             if(!empty($ouvrage->getLot())){
                 $ouvrage->getLot()->setPrixDeVenteHT($ouvrage->getLot()->getSommePrixDeVenteHTOuvrages()  + $ouvrage->getLot()->getSommePrixDeVenteHTSousLots());
                 $ouvrage->getLot()->setDebourseTotalLot($ouvrage->getLot()->getSommeDebourseTotalOuvrages() + $ouvrage->getLot()->getSommeDebourseTotalSousLots());
@@ -85,7 +85,20 @@ class CalculService
                     'type'=>'lot'
                 ];
                 $tp = $this->recursiveCalculTop($topParentTmp);
-            }            
+            }elseif(!empty($lot->getDevis())){
+                $lot->getDevis()->setPrixDeVenteHT($lot->getDevis()->getSommePrixDeVenteHTOuvrages()  + $lot->getDevis()->getSommePrixDeVenteHTLots());
+                $lot->getDevis()->setDebourseTotalHT($lot->getDevis()->getSommeDebourseTotalOuvrages() + $lot->getDevis()->getSommeDebourseTotalLots());
+
+                if($lot->getDevis()->getDebourseTotalHT() > 0){
+                    $lot->getDevis()->setMarge(
+                        $lot->getDevis()->getPrixDeVenteHT()  /
+                        $lot->getDevis()->getDebourseTotalHT() );
+                }else{
+                    $lot->getDevis()->setMarge(1);
+                }
+                $this->em->getRepository(Devis::class)->add($lot->getDevis());
+                $data[]=$lot->getDevis()->__toArray(); 
+            }         
         }
         return $data;
     }
@@ -96,7 +109,6 @@ class CalculService
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             $debourseTotalDeOuvrage = $ouvrage->getSommeDebourseTotalComposants();
             $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
-
             foreach($ouvrage->getComposants() as $composant){
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
                 $deboureTotalComposant = $composant->getQuantite() * $composant->getDebourseUnitaireHT();
@@ -162,8 +174,52 @@ class CalculService
             $lot->setPrixDeVenteHT($lot->getSommePrixDeVenteHTOuvrages() + $lot->getSommePrixDeVenteHTSousLots());
             $lot->setDebourseTotalLot($lot->getSommeDebourseTotalOuvrages() + $lot->getSommeDebourseTotalSousLots());
             $this->em->getRepository(Lot::class)->add($lot);
+        }elseif($element['type'] == 'devis'){
+            $devis = $this->em->getRepository(Devis::class)->find($element['id']);
+            $debourseTotalDeDevis = $devis->getSommeDebourseTotalLots() + $devis->getSommeDebourseTotalOuvrages();
+            $prixDeVenteHTDevis = $devis->getPrixDeVenteHT();
+            /*foreach($devis->getOuvrages() as $ouvrage){
+                $prixDeVenteHTOuvrage = $ouvrage->getPrixDeVenteHT();
+                $deboureTotalOuvrage = $ouvrage->getSommeDebourseTotalComposants();
+                $margeLot = $devis->getMarge();
+                try {
+                    $nouvelleMargeOuvrage = $debourseTotalDeLot * $margeLot * $prixDeVenteHTOuvrage / $prixDeVenteHTLot / $deboureTotalOuvrage;
+                } catch (\DivisionByZeroError $e) {
+                    $nouvelleMargeOuvrage = 1;
+                }
+                $ouvrage->setMarge($nouvelleMargeOuvrage);
+                $child = [
+                    'id'=>$ouvrage->getId(),
+                    'type'=>'ouvrage'
+                ];
+                $this->em->getRepository(Ouvrage::class)->add($ouvrage);
+                $data[]=$ouvrage->__toArray();
+                $tp = $this->recursiveCalculBottom($child,$data);
+            }*/
+
+            foreach($devis->getLots() as $Lot){
+                    $prixDeVenteHTLot = $Lot->getPrixDeVenteHT();
+                    $deboureTotalLot =  $Lot->getSommeDebourseTotalSousLots()+ $Lot->getSommeDebourseTotalOuvrages();
+                    $margeDevis = $devis->getMarge();
+                    try {
+                        $nouvelleMargelot = $debourseTotalDeDevis * $margeDevis * $prixDeVenteHTLot / $prixDeVenteHTDevis / $deboureTotalLot;
+                    } catch (\DivisionByZeroError $e) {
+                        $nouvelleMargelot = 1;
+                    }
+                    $Lot->setMarge($nouvelleMargelot);
+                    $child = [
+                        'id'=>$Lot->getId(),
+                        'type'=>'lot'
+                    ];
+                    $this->em->getRepository(Lot::class)->add($Lot);
+                    $data[]=$Lot->__toArray();
+                    $tp = $this->recursiveCalculBottom($child,$data);
+                
+            } 
+            $devis->setPrixDeVenteHT($devis->getSommePrixDeVenteHTOuvrages() + $devis->getSommePrixDeVenteHTLots());
+            $devis->setDebourseTotalHT($devis->getSommeDebourseTotalOuvrages() + $devis->getSommeDebourseTotalLots());
+            $this->em->getRepository(Devis::class)->add($devis);
         }
-    
         return $data;
     }
 

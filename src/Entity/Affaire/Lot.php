@@ -60,6 +60,9 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $debourseTotalLot = null;
 
+    #[ORM\ManyToOne(inversedBy: 'lots')]
+    private ?Devis $devis = null;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -303,6 +306,18 @@ class Lot
     public function setDebourseTotalLot(?float $debourseTotalLot): self
     {
         $this->debourseTotalLot = $debourseTotalLot;
+
+        return $this;
+    }
+
+    public function getDevis(): ?Devis
+    {
+        return $this->devis;
+    }
+
+    public function setDevis(?Devis $devis): self
+    {
+        $this->devis = $devis;
 
         return $this;
     }

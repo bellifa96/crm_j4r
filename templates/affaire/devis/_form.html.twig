@@ -127,38 +127,54 @@
         {{ form_end(form) }}
 
     </div>
-    <div class="col-md-4 page-block m-auto" id="encadre-marge" onclick="afficherMenu()">
+    <div class="col-md-4 page-block m-auto" >
         <div class="row align-items-center">
 
             <div class="col-md-3">
                 <label for="devis_debourseTotalHT">Déboursé total HT</label>
                 <input type="text" id="devis_debourseTotalHT" class="form-control"
-                       value='{{ devis.debourseHT }}'
+                       value='{{ devis.debourseTotalHT }}'
                        name="devis[debourseTotalHT]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
-                X
+                
             </div>
             <div class="col-md-3">
 
-                <label for="devis_margeTotale">Marge totale</label>
-                <input type="text" id="devis_margeTotale" class="form-control"
-                       value='{{ devis.fraisGeneraux * devis.margeBeneficiaire }}'
-                       name="devis[margeTotale]" disabled>
+                <label for="devis_marge">Marge totale</label>
+                <input type="text" id="devis_marge" class="form-control"
+                       value='{{ devis.prixDeVenteHT - devis.debourseTotalHT }}'
+                       name="devis[margeTotal]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
-                =
+                
             </div>
             <div class="col-md-4">
-
                 <label for="devis_prixDeVenteHT">Prix de vente HT</label>
-                <input type="text" id="devis_prixDeVenteHT" class="form-control"
-                       value='{{ devis.prixDeVenteHT }}'
+                <input type="text" id="devis__prix_de_vente" class="form-control"
+                       value='{{ devis.prixDeVenteHT }}' 
                        name="devis[prixDeVenteHT]" disabled>
             </div>
-        </div>
+            <div class="col-md-3">
 
+            </div>
+            <div style="font-size: 1.5rem" class="col-md-1">
+                
+            </div>
+            <div class="col-md-3">
+
+                <label for="devis_marge">Marge %</label>
+                <input type="text" id="devis_marge" class="form-control"
+                       value='{{ devis.marge }}' element="devis"
+                       name="devis[marge]" >
+            </div>
+            <div style="font-size: 1.5rem" class="col-md-1">
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
     </div>
+
 </div>
 
 <div id="menu-marge">
@@ -205,9 +221,9 @@
             <div class="row align-items-center">
 
                 <div class="col-md-3">
-                    <label for="devis_debourseTotalHTT">Déboursé total HT</label>
-                    <input type="text" id="devis_debourseTotalHTT" class="form-control"
-                           value='{{ devis.debourseHT }}'
+                    <label for="devis_debourseTotalHTT2">Déboursé total HT</label>
+                    <input type="text" id="devis_debourseTotalHTT2" class="form-control"
+                           value='{{ devis.debourseTotalHT }}'
                            name="devis[debourseTotalHT]" disabled>
                 </div>
                 <div style="font-size: 1.5rem" class="col-md-1">
@@ -225,8 +241,8 @@
                 </div>
                 <div class="col-md-4">
 
-                    <label for="devis_prixDeVenteHT">Prix de vente HT</label>
-                    <input type="text" id="devis_prixDeVenteHT" class="form-control"
+                    <label for="devis_prixDeVenteHT2">Prix de vente HT</label>
+                    <input type="text" id="devis_prixDeVenteHT2" class="form-control"
                            value='{{ devis.prixDeVenteHT }}'
                            name="devis[prixDeVenteHT]" disabled>
                 </div>
@@ -549,11 +565,22 @@
     function updateData(data){
 
         data.forEach(function(element) {
+            if(element.type === "devis"){
+                $('input[name="devis[marge]"]').attr("value",element.marge.toFixed(2));
+                $('input[name="devis[marge]"]').val(element.marge.toFixed(2));
+                $('input[name="devis[prixDeVenteHT]"]').attr("value",element.prixDeVenteHT.toFixed(2));
+                $('input[name="devis[debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
+                $('input[name="devis[margeTotal]"]').attr("value",element.prixDeVenteHT.toFixed(2) - element.debourseTotalHT.toFixed(2));
+
+                
+            }else{
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
+            }
+
         })
         $("#loader-devis-page").modal("hide");
 
@@ -565,78 +592,93 @@
         if($(this).hasClass('select-ouvrage')){
             return;
         }
+
         let type = $(this).attr('element');
-        let id = $(this).attr(type);
+        if(type === 'devis'){
+            let marge = parseFloat($('input[name="devis[marge]"]').val().replace(',', '.'));
+                const devis = {
+                    marge: marge,
+                }
+                let path = "{{path('app_affaire_devis_calcul_edit',{id:devis.id})}}";
+                $.post(path, {devis}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        updateData(response.data);
+                    }
+                })
+        }else{
 
-        let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
-        let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
-        let code =  $('input[name="devis['+type+'][' + id + '][code]"]').val();
-        let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
-        let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
-        let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
-        //$("#loader-devis-page").modal("show");
+            let id = $(this).attr(type);
 
-        if (type === 'ouvrages') {
-            const ouvrage = {
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-                note: null,
-                marge:marge,
+            let quantite = parseInt($('input[name="devis['+type+'][' + id + '][quantite]"]').val());
+            let marge = parseFloat($('input[name="devis['+type+'][' + id + '][marge]"]').val().replace(',', '.'));
+            let code =  $('input[name="devis['+type+'][' + id + '][code]"]').val();
+            let denomination = $('input[name="devis['+type+'][' + id + '][denomination]"]').val();
+            let unite = $('select[name="devis['+type+'][' + id + '][unite]"]').val();
+            let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
+            //$("#loader-devis-page").modal("show");
+
+            if (type === 'ouvrages') {
+                const ouvrage = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    note: null,
+                    marge:marge,
+                }
+                let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
+                $.post(path, {ouvrage}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        updateData(response.data);
+                    }
+                })
+
             }
-            let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
-            $.post(path, {ouvrage}, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-                    updateData(response.data);
+
+            if(type == "composants"){
+                const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
+                const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
+                const composant = {                
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    duht: prixUnite,
+                    dtht: debourseTotalHT,
+                    marge:marge,
+                    note:null,
                 }
-            })
+                let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
 
-        }
-
-        if(type == "composants"){
-            const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
-            const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
-            const composant = {                
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-                duht: prixUnite,
-                dtht: debourseTotalHT,
-                marge:marge,
-                note:null,
+                $.post(path, {composant}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        updateData(response.data);
+                    }
+                })
             }
-            let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
+            if (type == "lots") {
+                const lot = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    prix: prixUnite,
+                    marge:marge,
 
-            $.post(path, {composant}, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-                    updateData(response.data);
-                }
-            })
-        }
-        if (type == "lots") {
-            const lot = {
-                code: code,
-                denomination: denomination,
-                unite: unite,
-                quantite: isNaN(quantite) ? 0 : quantite,
-                prix: prixUnite,
-                marge:marge,
-
-            };
-            let path = '/affaire/devis/edit/lot/' + id;
-            $.post(path, {lot}, function (response) {
-                response = JSON.parse(response);
-                if (response.code === 200) {
-                    updateData(response.data);
-                }
-            })
-        }
+                };
+                let path = '/affaire/devis/edit/lot/' + id;
+                $.post(path, {lot}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        updateData(response.data);
+                    }
+                })
+            }
         
-       
+        }
     })
 
     $('.numbers').keyup(function () {

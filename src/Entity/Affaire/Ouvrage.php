@@ -75,6 +75,9 @@ class Ouvrage
     #[ORM\ManyToOne(inversedBy: 'ouvrages')]
     private ?Lot $lot = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ouvrages')]
+    private ?Devis $devis = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -314,6 +317,18 @@ class Ouvrage
     public function setLot(?Lot $lot): self
     {
         $this->lot = $lot;
+
+        return $this;
+    }
+
+    public function getDevis(): ?Devis
+    {
+        return $this->devis;
+    }
+
+    public function setDevis(?Devis $devis): self
+    {
+        $this->devis = $devis;
 
         return $this;
     }
