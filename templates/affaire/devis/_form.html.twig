@@ -549,12 +549,9 @@
     function updateData(data){
 
         data.forEach(function(element) {
-                    console.log(element)
-
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(2));
-
                 $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
                 $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
         })

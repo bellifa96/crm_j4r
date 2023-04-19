@@ -666,9 +666,9 @@ class DevisController extends AbstractController
         try {
 
             $lotRepository->add($lot);
-            
-            $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$lot->getId(),'type'=>'lots']);
-            $dataTop= $this->calculService->recursiveCalculTop(['id'=>$lot->getId(),'type'=>'lots']);
+
+            $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$lot->getId(),'type'=>'lot']);
+            $dataTop= $this->calculService->recursiveCalculTop(['id'=>$lot->getId(),'type'=>'lot']);
             $data = array_merge($dataBottom,$dataTop);
             $data[] = $lot->__toArray();
 

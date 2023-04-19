@@ -92,7 +92,6 @@ class CalculService
 
 
     public function recursiveCalculBottom($element,&$data=[]){
-        $bottomParent = false;
          if ($element['type'] == 'ouvrage') {
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             foreach($ouvrage->getComposants() as $composant){
