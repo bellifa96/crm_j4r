@@ -53,14 +53,29 @@
     <table style="font-size: 6px; margin-top: 10px; border-collapse: collapse; border-spacing: 0 10px;" id="table1">
         <thead style="margin-bottom: 5px">
         <tr>
-            <th style="width: 18%" colspan="2">
-                Désignation des Ouvrages
+            <th style="width: 18%" colspan="3">
+                <table style="padding: 0; margin: 0; width: 100%">
+                    <tr style="padding: 0; margin: 0; width: 100%;">
+                        <th style="margin: 0; padding: 0; border: inherit" colspan="3">Désignation des ouvrages</th>
+                    </tr>
+                    <tr style="padding: 0; margin: 0 ;width: 100%">
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Lot
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Sous lot
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Ouvrage
+                        </td>
+                    </tr>
+                </table>
             </th>
             <th style="width: 6%">Durée location en jours</th>
             <th style="width: 8%">Location</th>
             <th style="width: 7%">Montage</th>
             <th style="width: 7%">Démontage</th>
-            <th style="width: 7%">Transport Manutention</th>
+            <th style="width: 7%">Transport</th>
             <th style="width: 8%">Prix de vente unitaire HT</th>
             <th style="width: 2%">QTE</th>
             <th style="width: 8%">Prix de vente total HT</th>
@@ -70,29 +85,34 @@
         </tr>
         </thead>
         <tbody>
-        {% for element in devis.elements %}
-            {% for lot in lots %}
-                {% if lot.id is same as(element['id']) %}
-                    <tr>
-                        <td style="text-align: center; width: 11%">
-                            {{ lot.denomination }}
-                        </td>
-                        <td style="text-align: center; width: 7%">
-                            <!-- Nom du sous lot -->
-                        </td>
-                        <td style="text-align: center"> -</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> {{ lot.debourseUnitaireHT is not null ? lot.debourseUnitaireHT : '0'}} €</td>
-                        <td style="text-align: center"> {{ lot.quantite }}</td>
-                        <td style="text-align: right"> {{ lot.prixDeVenteHT is not null ? lot.prixDeVenteHT : '0'}} €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: center"></td>
-                    </tr>
-                {% endif %}
+        {% for element in elements %}
+            <tr>
+            <td style="text-align: center; width: 5%">
+                {{ element.lot.denomination }}
+            </td>
+            {% for element in element.data %}
+                <td style="text-align: center; width: 5%">
+
+                </td>
+                <td style="text-align: center; width: 8%">
+                    {{ element.denomination }}
+                </td>
+                <td style="text-align: center"> -</td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: right"> {{ element.prixUnitaireDebourse is not null ? element.prixUnitaireDebourse : '0' }}
+                    €
+                </td>
+                <td style="text-align: center"> {{ element.quantite }}</td>
+                <td style="text-align: right"> {{ element.prixDeVenteHT is not null ? element.prixDeVenteHT : '0' }}
+                    €
+                </td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: right"> - €</td>
+                <td style="text-align: center"></td>
+                </tr>
             {% endfor %}
         {% endfor %}
         <tr>
