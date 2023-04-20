@@ -34,9 +34,11 @@
             <td style="width: 15%">
                 <table>
                     <tr>
-                        <table>
+                        <td><table>
                             <tr>
-
+                                <td style="border: inherit">
+                                    <div style="margin-bottom: 2px"><strong><u>Chargé d'affaire :</u></strong></div>
+                                </td>
                             </tr>
                             <tr>
 
@@ -44,20 +46,31 @@
                             <tr>
 
                             </tr>
-                        </table>
+                        </table></td>
                     </tr>
                     <tr>
-                        <table>
+                        <td><table>
                             <tr>
-
+                                <td style="border: inherit">
+                                    <div style="margin-bottom: 2px"><strong><u>Deviseur
+                                                : </u></strong> {{ devis.createur.firstname~' '~devis.createur.lastname }}
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-
+                                <td style="border: inherit">
+                                    <div style="margin-bottom: 2px">Portable
+                                        : {{ devis.createur.telephone is not null ? devis.createur.telephone : '' }}</div>
+                                </td>
                             </tr>
                             <tr>
-
+                                <td style="border: inherit">
+                                    <div style="margin-bottom: 2px">Email
+                                        : {{ devis.createur.email is not null ? devis.createur.email : '' }}</div>
+                                </td>
                             </tr>
                         </table>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -119,7 +132,9 @@
                 <div style="text-align: left; padding: 5px;">
                     <div style="margin-bottom: 2px"><strong><u>Adressé à:</u></strong></div>
                     <br>
-                    <div style="margin-bottom: 2px"><strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong></div>
+                    <div style="margin-bottom: 2px">
+                        <strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong>
+                    </div>
                     <br>
                     <div style="margin-bottom: 2px"> {{ devis.demande.client.societe is not empty ? (devis.demande.contactPrincipalClient is not null ? "A l'attention de " ~ devis.demande.contactPrincipalClient.prenom ~ ' ' ~ devis.demande.contactPrincipalClient.nom : "&nbsp;") : "&nbsp;" }}</div>
                     <br>
