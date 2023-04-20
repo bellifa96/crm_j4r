@@ -86,27 +86,28 @@
         </thead>
         <tbody>
         {% for element in elements %}
+            {% for ouvrage in element.data %}
             <tr>
             <td style="text-align: center; width: 5%">
                 {{ element.lot.denomination }}
             </td>
-            {% for element in element.data %}
+
                 <td style="text-align: center; width: 5%">
 
                 </td>
                 <td style="text-align: center; width: 8%">
-                    {{ element.denomination }}
+                    {{ ouvrage.denomination }}
                 </td>
                 <td style="text-align: center"> -</td>
                 <td style="text-align: right"> - €</td>
                 <td style="text-align: right"> - €</td>
                 <td style="text-align: right"> - €</td>
                 <td style="text-align: right"> - €</td>
-                <td style="text-align: right"> {{ element.prixUnitaireDebourse is not null ? element.prixUnitaireDebourse : '0' }}
+                <td style="text-align: right"> {{ ouvrage.prixUnitaireDebourse is not null ? ouvrage.prixUnitaireDebourse : '0' }}
                     €
                 </td>
-                <td style="text-align: center"> {{ element.quantite }}</td>
-                <td style="text-align: right"> {{ element.prixDeVenteHT is not null ? element.prixDeVenteHT : '0' }}
+                <td style="text-align: center"> {{ ouvrage.quantite }}</td>
+                <td style="text-align: right"> {{ ouvrage.prixDeVenteHT is not null ? ouvrage.prixDeVenteHT : '0' }}
                     €
                 </td>
                 <td style="text-align: right"> - €</td>
