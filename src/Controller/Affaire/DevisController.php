@@ -805,17 +805,15 @@ class DevisController extends AbstractController
             $prixDevis += $lot->getPrixDeVenteHT();
         }
 
-        $headerTemplate = $this->environment->render('pdf/devis_header.html.twig', ['devis' => $devis]);
-        $footerTemplate = $this->environment->render('pdf/devis_footer.html.twig', ['devis' => $devis]);
-        $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis, 'prixDevis' => $prixDevis]);
-        $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots, 'prixDevis' => $prixDevis]);
-        $bodyTemplate3 = $this->environment->render('pdf/devis3.html.twig', ['devis' => $devis]);
+        $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis, 'prixDevis' => $prixDevis, 'page' => 1]);
+        $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'lots' => $listeLots, 'prixDevis' => $prixDevis, 'page' => 2]);
+        $bodyTemplate3 = $this->environment->render('pdf/devis3.html.twig', ['devis' => $devis, 'page' => 3]);
 
         $name = $devis->getTitre();
 
-        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate1);
-        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate2);
-        $this->pdfService->generateTemplate($headerTemplate, $footerTemplate, $bodyTemplate3);
+        $this->pdfService->generateTemplate($bodyTemplate1);
+        $this->pdfService->generateTemplate($bodyTemplate2);
+        $this->pdfService->generateTemplate($bodyTemplate3);
 
         $pdf = $this->pdfService->generatePdf($name);
 

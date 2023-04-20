@@ -18,16 +18,13 @@ class PdfService
         return $this->mpdf->Output($name . '.pdf', $output);
     }
 
-    public function generateTemplate(string $headerTemplate, string $footerTemplate, string $bodyTemplate): void
+    public function generateTemplate(string $template): void
     {
         // Ajouter une nouvelle page
         $this->mpdf->AddPage();
 
-        // Combinez les templates du header, du footer et du corps de message
-        $html = $headerTemplate . $bodyTemplate . $footerTemplate;
-
         // Écrivez le HTML combiné dans mPDF
-        $this->mpdf->WriteHTML($html);
+        $this->mpdf->WriteHTML($template);
     }
 
 }
