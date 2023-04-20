@@ -40,12 +40,18 @@
                                     <div style="margin-bottom: 2px"><strong><u>Chargé d'affaire :</u></strong></div>
                                 </td>
                             </tr>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Portable
+                                            : </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Email
+                                            : </div>
+                                    </td>
+                                </tr>
                         </table></td>
                     </tr>
                     <tr>
@@ -101,30 +107,49 @@
             <td style="width: 15%">
                 <table>
                     <tr>
-                        <table>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                        </table>
+                        <td><table>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px"><strong><u>Contact client :</u></strong></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Portable
+                                            : {{ devis.demande.contactPrincipalClient.telephone is not null ? devis.demande.contactPrincipalClient.telephone : '' }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Email
+                                            : {{ devis.demande.contactPrincipalClient.email is not null ? devis.demande.contactPrincipalClient.email : '' }}</div>
+                                    </td>
+                                </tr>
+                            </table></td>
                     </tr>
                     <tr>
-                        <table>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                        </table>
+                        <td><table>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px"><strong><u>Autre contact
+                                                    : </u></strong>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Portable
+                                            : </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: inherit">
+                                        <div style="margin-bottom: 2px">Email
+                                            : </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>
