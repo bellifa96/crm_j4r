@@ -812,7 +812,7 @@ class DevisController extends AbstractController
         $name = $devis->getTitre();
 
         $this->pdfService->generateTemplate($bodyTemplate1);
-        $this->pdfService->generateTemplate($bodyTemplate2);
+        $this->pdfService->generateTemplatePaysage($bodyTemplate2);
         $this->pdfService->generateTemplate($bodyTemplate3);
 
         $pdf = $this->pdfService->generatePdf($name);

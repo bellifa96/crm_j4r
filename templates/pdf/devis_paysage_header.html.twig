@@ -1,0 +1,84 @@
+{% block header %}
+    <style>
+        footer {
+            position: absolute;
+            bottom: 10px;
+        }
+        body {
+            position: relative;
+        }
+    </style>
+    <div style="display: flex; flex-direction: column; gap: 20px; margin: 0 auto 0 auto;">
+        <div style="text-align: right; font-size: 20px">
+            <strong>Devis n°{{ devis.id }}</strong>
+        </div>
+        <div style="overflow: hidden; margin-top: 1rem;">
+            <div style="float: left; width: 25%;">
+                <img src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo" style="width: 100%;">
+            </div>
+            <div style="display: table; float: right; width: 50%;">
+                <div style="display: table-cell; vertical-align: middle; text-align: left; border: 1px solid black; padding: 5px;">
+                    <span><strong><u>Adressé à:</u></strong></span>
+                    <br>
+                    <span><strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong></span>
+                    <br>
+                    <span> {{ devis.demande.client.societe is not empty ? (devis.demande.contactPrincipalClient is not null ? "A l'attention de " ~ devis.demande.contactPrincipalClient.prenom ~ ' ' ~ devis.demande.contactPrincipalClient.nom : "&nbsp;") : "&nbsp;" }}</span>
+                    <br>
+                    <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.adresse1 : devis.demande.client.personne.adresse1 }}</span>
+                    <br>
+                    <span>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.codePostal~' '~devis.demande.client.societe.ville : devis.demande.client.personne.codePostal~' '~devis.demande.client.personne.ville }}</span>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <div style="width: 50%; float: left">
+                        <span>Date de devis :</span>
+                        <span style="font-weight: bold;"> {{ devis.dateDuDevis }}</span>
+                    </div>
+                    <div style="width: 50%; float: right">
+                        <span>Devis n° :</span>
+                        <span style="font-weight: bold;"> {{ devis.id }}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+        <div style="display: flex;flex-direction: row;">
+            <div style="width: 70%">
+            <span>
+                <strong><u>Contact:</u> Julien Rodrigues</strong>
+            </span>
+                <br>
+                <span>
+                Tel: 06.76.36.49.08 - Email: j.rodrigues@j4r.fr
+            </span>
+            </div>
+        </div>
+        <div>
+        <span>
+            <strong><u>Designation des travaux:</u></strong>
+        </span>
+            <br>
+            <span>
+            {{ devis.description is not null ? devis.description : "&nbsp;"}}
+        </span>
+        </div>
+        <div>
+        <span>
+            <strong><u>Chantier:</u></strong>
+        </span>
+            <br>
+            <span>
+            {{ devis.titre }}
+        </span>
+            <br>
+            <span>
+            {{ devis.demande.adresse1 }}
+        </span>
+            <br>
+            <span>
+            {{ devis.demande.codePostal~' '~devis.demande.ville }}
+        </span>
+        </div>
+    </div>
+{% endblock %}

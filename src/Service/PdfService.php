@@ -27,4 +27,13 @@ class PdfService
         $this->mpdf->WriteHTML($template);
     }
 
+    public function generateTemplatePaysage(string $template): void
+    {
+        // Ajouter une nouvelle page
+        $this->mpdf->AddPage('L');
+
+        // Écrivez le HTML combiné dans mPDF
+        $this->mpdf->WriteHTML($template);
+    }
+
 }
