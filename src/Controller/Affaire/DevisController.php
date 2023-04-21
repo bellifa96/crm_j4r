@@ -799,7 +799,7 @@ class DevisController extends AbstractController
 
         foreach ($elementsDevis as $lotDevis) {
             $lot = $lotRepository->find($lotDevis['id']);
-            $tableauLot = ['lot' => $lot, 'data' => []];
+            $tableauLot = ['lot' => $lot, 'type' => 'lot' ,'data' => []];
 
             $prixDevis += $lot->getPrixDeVenteHT();
 
