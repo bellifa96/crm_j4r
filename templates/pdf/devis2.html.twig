@@ -91,7 +91,7 @@
         {% for element in elements %}
             {% for enfant in element.data %}
                 {% if enfant.type == 'lot' %}
-                    {% for ouvrage in enfant.data %}
+                    {% for sousEnfant in enfant.data %}
                         <tr>
                             <td style="text-align: center; width: 5%">
                                 {{ element.lot.denomination }}
@@ -101,10 +101,10 @@
                                 {{ enfant.lot.denomination }}
                             </td>
                             <td style="text-align: center; width: 8%">
-                                {{ ouvrage.denomination }}
+                                {{ sousEnfant.ouvrage.denomination }}
                             </td>
-                            <td style="text-align: center"> {{ ouvrage.unite is not null ? ouvrage.unite.label : '-' }}</td>
-                            <td style="text-align: center"> {{ ouvrage.quantite is not null ? ouvrage.quantite : '-' }} </td>
+                            <td style="text-align: center"> {{ sousEnfant.ouvrage.unite is not null ? sousEnfant.ouvrage.unite.label : '-' }}</td>
+                            <td style="text-align: center"> {{ sousEnfant.ouvrage.quantite is not null ? sousEnfant.ouvrage.quantite : '-' }} </td>
                             <td style="text-align: center"> - </td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
@@ -115,7 +115,7 @@
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> {{ ouvrage.prixDeVenteHT is not null ? ouvrage.prixDeVenteHT : '0' }}
+                            <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? sousEnfant.ouvrage.prixDeVenteHT : '0' }}
                                 €
                             </td>
                             <td style="text-align: right"> - €</td>
