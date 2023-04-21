@@ -821,6 +821,7 @@ class DevisController extends AbstractController
 
             $elements[] = $tableauLot;
         }
+        dd($elements);
 
         $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis, 'prixDevis' => $prixDevis, 'page' => 1]);
         $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'elements' => $elements, 'prixDevis' => $prixDevis, 'page' => 2]);
