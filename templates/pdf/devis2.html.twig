@@ -135,8 +135,8 @@
                         <td style="text-align: center; width: 8%">
                             {{ enfant.ouvrage.denomination }}
                         </td>
-                        <td style="text-align: center"> {{ ouvrage.unite is not null ? ouvrage.unite.label : '-' }} </td>
-                        <td style="text-align: center"> {{ ouvrage.quantite is not null ? ouvrage.quantite : '-' }} </td>
+                        <td style="text-align: center"> {{ enfant.ouvrage.unite is not null ? enfant.ouvrage.unite.label : '-' }} </td>
+                        <td style="text-align: center"> {{ enfant.ouvrage.quantite is not null ? enfant.ouvrage.quantite : '-' }} </td>
                         <td style="text-align: center"> -</td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
@@ -147,7 +147,7 @@
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> {{ ouvrage.prixDeVenteHT is not null ? ouvrage.prixDeVenteHT : '0' }}
+                        <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? enfant.ouvrage.prixDeVenteHT : '0' }}
                             €
                         </td>
                         <td style="text-align: right"> - €</td>
