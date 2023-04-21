@@ -115,7 +115,7 @@
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? sousEnfant.ouvrage.prixDeVenteHT : '0' }}
+                            <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? (sousEnfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
                                 €
                             </td>
                             <td style="text-align: right"> - €</td>
@@ -147,7 +147,7 @@
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? enfant.ouvrage.prixDeVenteHT : '0' }}
+                        <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? (enfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
                             €
                         </td>
                         <td style="text-align: right"> - €</td>
