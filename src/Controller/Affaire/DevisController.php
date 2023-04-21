@@ -814,7 +814,8 @@ class DevisController extends AbstractController
 
                     foreach ($sousElementDevis['data'] as $ouvrageDevis){
                         $ouvrage = $ouvrageRepository->find($ouvrageDevis['id']);
-                        $tableauLot['data']['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
+                        $tableauLot['data'][count($tableauLot['data'])-1]['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
+
                     }
                 }
             }
