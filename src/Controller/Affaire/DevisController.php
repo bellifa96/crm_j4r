@@ -807,14 +807,14 @@ class DevisController extends AbstractController
                 if ($sousElementDevis['type'] == 'ouvrage') {
 
                     $ouvrage = $ouvrageRepository->find($sousElementDevis['id']);
-                    $tableauLot['data'][] = $ouvrage;
+                    $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
                 }elseif ($sousElementDevis['type'] == 'lot'){
                     $sousLot = $lotRepository->find($sousElementDevis['id']);
-                    $tableauLot['data'][] = ['lot' => $sousLot, 'data' => []];
+                    $tableauLot['data'][] = ['lot' => $sousLot, 'type' => 'lot', 'data' => []];
 
                     foreach ($sousElementDevis['data'] as $ouvrageDevis){
                         $ouvrage = $ouvrageRepository->find($ouvrageDevis['id']);
-                        $tableauLot['data']['data'][] = $ouvrage;
+                        $tableauLot['data']['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
                     }
                 }
             }
