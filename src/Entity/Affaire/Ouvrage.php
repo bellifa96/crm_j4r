@@ -78,6 +78,12 @@ class Ouvrage
     #[ORM\ManyToOne(inversedBy: 'ouvrages')]
     private ?Devis $devis = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ouvrages')]
+    private ?TypeOuvrage $typeOuvrage = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ouvrages')]
+    private ?CategorieOuvrage $categorie = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -329,6 +335,30 @@ class Ouvrage
     public function setDevis(?Devis $devis): self
     {
         $this->devis = $devis;
+
+        return $this;
+    }
+
+    public function getTypeOuvrage(): ?TypeOuvrage
+    {
+        return $this->typeOuvrage;
+    }
+
+    public function setTypeOuvrage(?TypeOuvrage $typeOuvrage): self
+    {
+        $this->typeOuvrage = $typeOuvrage;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?CategorieOuvrage
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?CategorieOuvrage $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

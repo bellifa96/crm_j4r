@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des ouvrages{% endblock %}
+
+{% block body %}
+
+    <table class="table datatable">
+        <thead>
+            <tr class="tr-head">
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Couleur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_ouvrage in type_ouvrages %}
+            <tr>
+                <td>{{ type_ouvrage.id }}</td>
+                <td><div  class="badge" style="background:{{ type_ouvrage.couleur  }};line-height: 1em;font-size: 1em;color:{{ type_ouvrage.couleurText is not empty ? type_ouvrage.couleurText : "white"   }}; ">{{ type_ouvrage.titre }}</div></td>
+                <td>{{ type_ouvrage.couleur }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_type_ouvrage_edit', {'id': type_ouvrage.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun ouvrage trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

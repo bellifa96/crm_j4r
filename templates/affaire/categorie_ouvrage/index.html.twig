@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CategorieOuvrage index{% endblock %}
+
+{% block body %}
+    <h1>CategorieOuvrage index</h1>
+    <table class="table datatable">
+        <thead>
+            <tr class="tr-head">
+                <th>Id</th>
+                <th>Titre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie_ouvrage in categorie_ouvrages %}
+            <tr>
+                <td>{{ categorie_ouvrage.id }}</td>
+                <td>{{ categorie_ouvrage.titre }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_categorie_ouvrage_show', {'id': categorie_ouvrage.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_categorie_ouvrage_edit', {'id': categorie_ouvrage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
