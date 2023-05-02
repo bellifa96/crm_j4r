@@ -60,16 +60,6 @@ class OuvrageRepository extends ServiceEntityRepository
         }
     }
 
-    public function findComposantsByOuvrageId($ouvrageId)
-    {
-        $qb = $this->createQueryBuilder('o');
-        $qb->leftJoin('o.composants', 'c')
-            ->andWhere('c.id = :ouvrageId')
-            ->setParameter('ouvrageId', $ouvrageId);
-
-        return $qb->getQuery()->getResult();
-    }
-
     // /**
     //  * @return Ouvrage[] Returns an array of Ouvrage objects
     //  */
