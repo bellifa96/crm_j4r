@@ -61,6 +61,18 @@ class Composant
     #[ORM\ManyToOne]
     private ?Unite $unite2 = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $margeCalculee = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poidKg = null;
+
+    #[ORM\ManyToOne(inversedBy: 'composants')]
+    private ?Categorie $categorie = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -254,6 +266,54 @@ class Composant
     public function setUnite2(?Unite $unite2): self
     {
         $this->unite2 = $unite2;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getMargeCalculee(): ?string
+    {
+        return $this->margeCalculee;
+    }
+
+    public function setMargeCalculee(?string $margeCalculee): self
+    {
+        $this->margeCalculee = $margeCalculee;
+
+        return $this;
+    }
+
+    public function getPoidKg(): ?string
+    {
+        return $this->poidKg;
+    }
+
+    public function setPoidKg(?string $poidKg): self
+    {
+        $this->poidKg = $poidKg;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
