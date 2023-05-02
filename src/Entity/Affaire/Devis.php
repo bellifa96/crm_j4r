@@ -83,6 +83,9 @@ class Devis
     #[ORM\Column(nullable: true)]
     private ?float $marge = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $tva = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->statut = "Brouillon";
@@ -476,6 +479,18 @@ class Devis
     public function setMarge(?float $marge): self
     {
         $this->marge = $marge;
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return $this->tva;
+    }
+
+    public function setTva(?float $tva): self
+    {
+        $this->tva = $tva;
 
         return $this;
     }
