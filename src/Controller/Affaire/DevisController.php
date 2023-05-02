@@ -789,7 +789,7 @@ class DevisController extends AbstractController
     }
 
     #[Route('/pdf/{id}', name: 'app_affaire_devis_pdf', methods: ['POST', 'GET'])]
-    public function createPdf(Request $request, Devis $devis, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): Response
+    public function createPdf(Request $request, Devis $devis, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
         $prixDevis = 0;
 
@@ -807,14 +807,14 @@ class DevisController extends AbstractController
                 if ($sousElementDevis['type'] == 'ouvrage') {
 
                     $ouvrage = $ouvrageRepository->find($sousElementDevis['id']);
-                    $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
+                    $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $ouvrageRepository->findComposantsByOuvrageId($ouvrage->getId())];
                 }elseif ($sousElementDevis['type'] == 'lot'){
                     $sousLot = $lotRepository->find($sousElementDevis['id']);
                     $tableauLot['data'][] = ['lot' => $sousLot, 'type' => 'lot', 'data' => []];
 
                     foreach ($sousElementDevis['data'] as $ouvrageDevis){
                         $ouvrage = $ouvrageRepository->find($ouvrageDevis['id']);
-                        $tableauLot['data'][count($tableauLot['data'])-1]['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => []];
+                        $tableauLot['data'][count($tableauLot['data'])-1]['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $ouvrageRepository->findComposantsByOuvrageId($ouvrage->getId())];
 
                     }
                 }
@@ -822,6 +822,8 @@ class DevisController extends AbstractController
 
             $elements[] = $tableauLot;
         }
+
+        dd($elements);
 
         $bodyTemplate1 = $this->environment->render('pdf/devis1.html.twig', ['devis' => $devis, 'prixDevis' => $prixDevis, 'page' => 1]);
         $bodyTemplate2 = $this->environment->render('pdf/devis2.html.twig', ['devis' => $devis, 'elements' => $elements, 'prixDevis' => $prixDevis, 'page' => 2]);
