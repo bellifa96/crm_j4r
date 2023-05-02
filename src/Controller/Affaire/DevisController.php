@@ -807,7 +807,7 @@ class DevisController extends AbstractController
                 if ($sousElementDevis['type'] == 'ouvrage') {
 
                     $ouvrage = $ouvrageRepository->find($sousElementDevis['id']);
-                    $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $ouvrageRepository->findComposantsByOuvrageId($ouvrage->getId())];
+                    $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $composantRepository->findComposantsByOuvrageId($ouvrage->getId())];
                 }elseif ($sousElementDevis['type'] == 'lot'){
                     $sousLot = $lotRepository->find($sousElementDevis['id']);
                     $tableauLot['data'][] = ['lot' => $sousLot, 'type' => 'lot', 'data' => []];
