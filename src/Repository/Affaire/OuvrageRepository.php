@@ -64,7 +64,7 @@ class OuvrageRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('o');
         $qb->leftJoin('o.composants', 'c')
-            ->andWhere('o.id = :ouvrageId')
+            ->andWhere('c.id = :ouvrageId')
             ->setParameter('ouvrageId', $ouvrageId);
 
         return $qb->getQuery()->getResult();
