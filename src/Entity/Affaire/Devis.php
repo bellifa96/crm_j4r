@@ -86,6 +86,9 @@ class Devis
     #[ORM\Column(nullable: true)]
     private ?float $tva = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $observation = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->statut = "Brouillon";
@@ -492,6 +495,18 @@ class Devis
     public function setTva(?float $tva): self
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function getObservation(): ?string
+    {
+        return $this->observation;
+    }
+
+    public function setObservation(?string $observation): self
+    {
+        $this->observation = $observation;
 
         return $this;
     }
