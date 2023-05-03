@@ -16,11 +16,11 @@ class TableDePrix
     #[ORM\Column(nullable: true)]
     private ?float $prix = null;
 
-    #[ORM\OneToOne(inversedBy: 'tableDePrix', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'tableDePrix')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeComposant $composant = null;
 
-    #[ORM\OneToOne(inversedBy: 'tableDePrix', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'tableDePrix')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeOuvrage $typeOuvrage = null;
 
@@ -46,7 +46,7 @@ class TableDePrix
         return $this->composant;
     }
 
-    public function setComposant(TypeComposant $composant): self
+    public function setComposant(?TypeComposant $composant): self
     {
         $this->composant = $composant;
 
@@ -58,7 +58,7 @@ class TableDePrix
         return $this->typeOuvrage;
     }
 
-    public function setTypeOuvrage(TypeOuvrage $typeOuvrage): self
+    public function setTypeOuvrage(?TypeOuvrage $typeOuvrage): self
     {
         $this->typeOuvrage = $typeOuvrage;
 

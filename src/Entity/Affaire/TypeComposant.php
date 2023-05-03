@@ -33,12 +33,13 @@ class TypeComposant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cadence = null;
 
-    #[ORM\OneToOne(mappedBy: 'composant', cascade: ['persist', 'remove'])]
-    private ?TableDePrix $tableDePrix = null;
+    #[ORM\OneToMany(mappedBy: 'composant', targetEntity: TableDePrix::class, orphanRemoval: true)]
+    private Collection $tableDePrix;
 
     public function __construct()
     {
         $this->composants = new ArrayCollection();
+        $this->tableDePrix = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,19 +137,32 @@ class TypeComposant
         return $this;
     }
 
-    public function getTableDePrix(): ?TableDePrix
+    /**
+     * @return Collection<int, TableDePrix>
+     */
+    public function getTableDePrix(): Collection
     {
         return $this->tableDePrix;
     }
 
-    public function setTableDePrix(TableDePrix $tableDePrix): self
+    public function addTableDePrix(TableDePrix $tableDePrix): self
     {
-        // set the owning side of the relation if necessary
-        if ($tableDePrix->getComposant() !== $this) {
+        if (!$this->tableDePrix->contains($tableDePrix)) {
+            $this->tableDePrix->add($tableDePrix);
             $tableDePrix->setComposant($this);
         }
 
-        $this->tableDePrix = $tableDePrix;
+        return $this;
+    }
+
+    public function removeTableDePrix(TableDePrix $tableDePrix): self
+    {
+        if ($this->tableDePrix->removeElement($tableDePrix)) {
+            // set the owning side to null (unless already changed)
+            if ($tableDePrix->getComposant() === $this) {
+                $tableDePrix->setComposant(null);
+            }
+        }
 
         return $this;
     }

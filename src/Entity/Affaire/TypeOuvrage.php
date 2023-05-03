@@ -28,12 +28,13 @@ class TypeOuvrage
     #[ORM\OneToMany(mappedBy: 'TypeOuvrage', targetEntity: Ouvrage::class)]
     private Collection $ouvrages;
 
-    #[ORM\OneToOne(mappedBy: 'typeOuvrage', cascade: ['persist', 'remove'])]
-    private ?TableDePrix $tableDePrix = null;
+    #[ORM\OneToMany(mappedBy: 'typeOuvrage', targetEntity: TableDePrix::class, orphanRemoval: true)]
+    private Collection $tableDePrix;
 
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
+        $this->tableDePrix = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,19 +108,32 @@ class TypeOuvrage
         return $this;
     }
 
-    public function getTableDePrix(): ?TableDePrix
+    /**
+     * @return Collection<int, TableDePrix>
+     */
+    public function getTableDePrix(): Collection
     {
         return $this->tableDePrix;
     }
 
-    public function setTableDePrix(TableDePrix $tableDePrix): self
+    public function addTableDePrix(TableDePrix $tableDePrix): self
     {
-        // set the owning side of the relation if necessary
-        if ($tableDePrix->getTypeOuvrage() !== $this) {
+        if (!$this->tableDePrix->contains($tableDePrix)) {
+            $this->tableDePrix->add($tableDePrix);
             $tableDePrix->setTypeOuvrage($this);
         }
 
-        $this->tableDePrix = $tableDePrix;
+        return $this;
+    }
+
+    public function removeTableDePrix(TableDePrix $tableDePrix): self
+    {
+        if ($this->tableDePrix->removeElement($tableDePrix)) {
+            // set the owning side to null (unless already changed)
+            if ($tableDePrix->getTypeOuvrage() === $this) {
+                $tableDePrix->setTypeOuvrage(null);
+            }
+        }
 
         return $this;
     }
