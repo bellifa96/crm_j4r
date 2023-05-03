@@ -2,8 +2,11 @@
 
 namespace App\Controller\Affaire;
 
+use App\Entity\Affaire\TableDePrix;
 use App\Entity\Affaire\TypeOuvrage;
 use App\Form\Affaire\TypeOuvrageType;
+use App\Repository\Affaire\TableDePrixRepository;
+use App\Repository\Affaire\TypeComposantRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +27,7 @@ class TypeOuvrageController extends AbstractController
     }
 
     #[Route('/new', name: 'app_affaire_type_ouvrage_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TypeOuvrageRepository $typeOuvrageRepository): Response
+    public function new(Request $request, TypeOuvrageRepository $typeOuvrageRepository, TypeComposantRepository $typeComposantRepository, TableDePrixRepository $tableDePrixRepository): Response
     {
         $typeOuvrage = new TypeOuvrage();
         $form = $this->createForm(TypeOuvrageType::class, $typeOuvrage);
@@ -32,6 +35,14 @@ class TypeOuvrageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $typeOuvrageRepository->save($typeOuvrage, true);
+
+            //Ajoute des prix pour chaque nouveau type d'ouvrage créé
+            foreach ($typeComposantRepository->findAll() as $typeComposant){
+                $tableDePrix = new TableDePrix();
+                $tableDePrix->setComposant($typeComposant->getId());
+                $tableDePrix->setTypeOuvrage($typeOuvrage->getId());
+                $tableDePrixRepository->add($tableDePrix);
+            }
 
             return $this->redirectToRoute('app_affaire_type_ouvrage_index', [], Response::HTTP_SEE_OTHER);
         }

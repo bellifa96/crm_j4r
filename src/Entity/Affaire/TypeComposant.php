@@ -27,6 +27,15 @@ class TypeComposant
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $couleurText;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $unite = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cadence = null;
+
+    #[ORM\OneToOne(mappedBy: 'composant', cascade: ['persist', 'remove'])]
+    private ?TableDePrix $tableDePrix = null;
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
@@ -99,6 +108,47 @@ class TypeComposant
     public function setCouleurText(?string $couleurText): self
     {
         $this->couleurText = $couleurText;
+
+        return $this;
+    }
+
+    public function getUnite(): ?string
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?string $unite): self
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
+    public function getCadence(): ?string
+    {
+        return $this->cadence;
+    }
+
+    public function setCadence(?string $cadence): self
+    {
+        $this->cadence = $cadence;
+
+        return $this;
+    }
+
+    public function getTableDePrix(): ?TableDePrix
+    {
+        return $this->tableDePrix;
+    }
+
+    public function setTableDePrix(TableDePrix $tableDePrix): self
+    {
+        // set the owning side of the relation if necessary
+        if ($tableDePrix->getComposant() !== $this) {
+            $tableDePrix->setComposant($this);
+        }
+
+        $this->tableDePrix = $tableDePrix;
 
         return $this;
     }

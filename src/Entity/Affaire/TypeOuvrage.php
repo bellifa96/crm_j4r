@@ -28,6 +28,9 @@ class TypeOuvrage
     #[ORM\OneToMany(mappedBy: 'TypeOuvrage', targetEntity: Ouvrage::class)]
     private Collection $ouvrages;
 
+    #[ORM\OneToOne(mappedBy: 'typeOuvrage', cascade: ['persist', 'remove'])]
+    private ?TableDePrix $tableDePrix = null;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -100,6 +103,23 @@ class TypeOuvrage
                 $ouvrage->setTypeOuvrage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTableDePrix(): ?TableDePrix
+    {
+        return $this->tableDePrix;
+    }
+
+    public function setTableDePrix(TableDePrix $tableDePrix): self
+    {
+        // set the owning side of the relation if necessary
+        if ($tableDePrix->getTypeOuvrage() !== $this) {
+            $tableDePrix->setTypeOuvrage($this);
+        }
+
+        $this->tableDePrix = $tableDePrix;
 
         return $this;
     }
