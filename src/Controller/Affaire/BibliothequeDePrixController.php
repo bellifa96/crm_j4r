@@ -2,6 +2,7 @@
 
 namespace App\Controller\Affaire;
 
+use App\Repository\Affaire\TableDePrixRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -39,7 +40,7 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/', name: 'app_affaire_bibliotheque_de_prix', methods: ['GET'])]
-    public function index(OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository, TypeComposantRepository $typeComposantRepository, TypeOuvrageRepository $typeOuvrageRepository): Response
+    public function index(OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository, TypeComposantRepository $typeComposantRepository, TypeOuvrageRepository $typeOuvrageRepository, TableDePrixRepository $tableDePrixRepository): Response
     {
 
         $ouvrages = $ouvrageRepository->findByStatut(null);
@@ -57,6 +58,7 @@ class BibliothequeDePrixController extends AbstractController
             'composants' => $composants,
             'typeComposants' => $typeComposantRepository->findAll(),
             'typeOuvrages' => $typeOuvrageRepository->findAll(),
+            'tableDePrix' => $tableDePrixRepository->findAll(),
             'title' => 'Bibliotheque de prix',
             'nav' => []
         ]);

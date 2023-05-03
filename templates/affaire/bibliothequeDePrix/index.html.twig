@@ -379,14 +379,19 @@
                         {% for typeComposant in typeComposants %}
                             <tr>
                                 <td>{{ typeComposant.titre }}</td>
-                                <td></td>
+                                <td>{{ typeComposant.unite }}</td>
                                 {% for typeOuvrage in typeOuvrages %}
-                                    <td></td>
+                                    {% for unite in typeComposant.tableDePrix %}
+                                        {% if unite.typeOuvrage is same as typeOuvrage %}
+                                            <td>{{ unite.prix }}</td>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
-                                <td></td>
+                                <td>{{ typeComposant.cadence }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
+
                     </table>
 
                 </div>
