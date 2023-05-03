@@ -4,7 +4,7 @@
      style="color: #486178;">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content">
-            <form onsubmit="return submitImportOuvrageEvent(event)" name="modal-import-ouvrage">
+            <form onsubmit="return " name="modal-import-ouvrage">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-import-ouvrage-label">Ajout d'un ouvrage au sous-lot ou au
@@ -13,51 +13,46 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Veuillez sélectionner un ou plusieurs ouvrages à associer au lot ou au sous-lot. Le déboursé de
-                        l'ouvrage sera modifié lors de cet ajout dans la bibliothèque de prix. Les devis existants ne
-                        seront pas impactés.
+                        Veuillez renseigner tous les champs afin de pouvoir créer votre ouvrage.
                     </p>
-                    <div class="row">
+                    <div class="row my-5 justify-content-between">
 
-                        <table class="table datatable" id="table-ouvrage" style="background: white;">
-                            <thead>
-                            <tr class="tr-head">
-                                <th></th>
-                                <th>Dénomination</th>
-                                <th>Code</th>
-                                <th>Unité</th>
-                                <th>Déboursé Unitaire HT</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                       <div class="col-md-6">
+                           <input type="text" input="denomination" required="required"
+                                  maxlength="30" class="chakra-input" placeholder="Dénomination">
+                       </div>
 
-                            {% for ouvrage in ouvrages %}
-                                <tr class="text-center">
-                                    <td><input type="checkbox" name="ouvrage_{{ ouvrage.id }}" value="{{ ouvrage.id }}"
-                                               class="check-ouvrage"/>
-                                    </td>
-                                    <td onclick="document.location = ' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.denomination }}</td>
-                                    <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.code }}</td>
-                                    <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.unite }}</td>
-                                    <td onclick="document.location =' {{ path('app_affaire_ouvrage_show',{'id':ouvrage.id}) }}';">{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}
-                                        €
-                                    </td>
-                                </tr>
+                        <div class="col-md-2">
+                            <input type="text" maxlength="255" class="chakra-input"
+                                   placeholder="Valeur de référence" disabled>
+                        </div>
 
-                            {% else %}
-                                <tr>
-                                    <td colspan="5" class="text-center">Aucun ouvrage trouvé</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-md-3">
+                            <select class="chakra-input" name="" id="" placeholder="Type d'ouvrage">
+                                <option disabled selected> Veuillez selectionner un type d'ouvrage </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="chakra-input" name="" id="" placeholder="Catégorie d'ouvrage">
+                                <option disabled selected> Veuillez selectionner une catégorie d'ouvrage </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="chakra-input" name="" id="" placeholder="Niveau">
+                                <option disabled selected> Veuillez selectionner un niveau </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="chakra-input" name="" id="" placeholder="Type d'échafaudage">
+                                <option disabled selected> Veuillez selectionner un type d'échafaudage </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="ouvrage-button" id="add-ouvrage">Créer un ouvrage</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
-                    <button type="submit" class="btn btn-primary import-ouvrage" onclick="return $(this).hide()">Importer</button>
+                    <button type="submit" class="btn btn-primary import-ouvrage" onclick="return $(this).hide()">Ajouter</button>
 
                     <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
                         <span class="sr-only">.</span>

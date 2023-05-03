@@ -11,59 +11,56 @@
             </div>
             <div class="tab-el-left">
 
-               {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
+                {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
+                    <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
+                           element="ouvrages" ouvrages="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
+                           name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
+                           class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled/>
+                {% else %}
+                    <div class="import-ouvrage">
                         <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                            element="ouvrages" ouvrages="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
-                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
-                            class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled />
-                       {% else %}
-                        <select id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                            element="ouvrages" ouvrages="{{ ouvrage.id }}"
-                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
-                            class="chakra-input select-ouvrage" placeholder="Dénomination" >
+                               element="ouvrages" ouvrages="{{ ouvrage.id }}" maxlength="255"
+                               name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required"
+                               class="chakra-input" placeholder="Veuillez sélectionner un ouvrage"
+                               style="cursor: pointer;" disabled/>
+                    </div>
 
-                            <option disabled selected> Veuillez selectionner un ouvrage </option>
-
-                            {% for option in options %}
-
-                                <option value="{{option.id}}"> {{ option.denomination }} </option>
-
-                            {% endfor %}
-
-                        </select>
-        
-               {% endif %}
+                {% endif %}
 
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_quantite" input="quantite"
                        name="devis[ouvrages][{{ ouvrage.id }}][quantite]" required="required" maxlength="255"
-                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage text-center"
+                       element="ouvrages" ouvrages="{{ ouvrage.id }}"
+                       class="chakra-input numbers dtht-ouvrage text-center"
                        placeholder="Quantité"
-                       value="{{ ouvrage.quantite }}"> 
+                       value="{{ ouvrage.quantite }}">
             </div>
             <div class="tab-el-right">
-{#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrages"
+                {#           <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_unite" input="unite" element="ouvrages"
                        ouvrages="{{ ouvrage.id }}" name="devis[ouvrages][{{ ouvrage.id }}][unite]" required="required"
                        maxlength="255"
-                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}">#}
+                       class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}"> #}
 
-                    <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]" class="text-center col-md-12 chakra-input" required  input="unite" element="ouvrages"  ouvrages="{{ ouvrage.id }}">
-                                {% set isSelected = false %}
-                                {% for unite in unites %}
-                                    <option value="{{unite.id}}"
-                                        {% if unite == ouvrage.unite %}
-                                                selected
-                                                {% set isSelected = true %}
-                                        {% endif %}
-                                    > {{ unite.label}}</option>
-                                {% endfor %}
-                                <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]"
+                        class="text-center col-md-12 chakra-input" required input="unite" element="ouvrages"
+                        ouvrages="{{ ouvrage.id }}">
+                    {% set isSelected = false %}
+                    {% for unite in unites %}
+                        <option value="{{ unite.id }}"
+                                {% if unite == ouvrage.unite %}
+                                    selected
+                                    {% set isSelected = true %}
+                                {% endif %}
+                        > {{ unite.label }}</option>
+                    {% endfor %}
+                    <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : "" }}>Unité
+                    </option>
 
-                    </select>
+                </select>
             </div>
             <div class="tab-el-right">
-                {#<input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
+                {# <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseUnitaireHT]" required="required" maxlength="255"
                         {% if hasParent is not null %}
                             parent-dht="{{ hasParent }}"
@@ -71,17 +68,17 @@
                        element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
                        placeholder="Déboursé unitaire HT"
                        value="{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}">
-                       #}
-           </div>
+                #}
+            </div>
             <div class="tab-el-right">
-                    <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
+                <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
                        input="debourseTotalHT"
                        name="devis[ouvrages][{{ ouvrage.id }}][debourseTotalHT]" required="required" maxlength="255"
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        class="chakra-input  text-end" placeholder="Déboursé Total HT"
-                       value="{{  (ouvrage.getSommeDebourseTotalComposants)|number_format(2,'.',' ') }}">
+                       value="{{ (ouvrage.getSommeDebourseTotalComposants)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_marge"
@@ -104,10 +101,12 @@
                        value="{{ (ouvrage.prixDeVenteHT)|number_format(2,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ouvrage.id}}" type="ouvrage"  style="cursor:pointer;">
+                <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ ouvrage.id }}" type="ouvrage"
+                     style="cursor:pointer;">
                     <span><i ouvrages="{{ ouvrage.id }}" class="bi bi-plus-circle"></i></span>
                 </div>
-                <div class="spinner-border text-primary col-md-auto" style="display:none" role="status" id="spinner-{{ouvrage.id}}">
+                <div class="spinner-border text-primary col-md-auto" style="display:none" role="status"
+                     id="spinner-{{ ouvrage.id }}">
                     <span class="sr-only">Loading...</span>
                 </div>
                 <div class="col-md-auto">

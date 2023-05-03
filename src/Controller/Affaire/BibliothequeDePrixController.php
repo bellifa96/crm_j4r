@@ -170,19 +170,9 @@ class BibliothequeDePrixController extends AbstractController
 
         $path = "affaire/bibliothequeDePrix/modal_ouvrage_list.html.twig";
 
-        $ouvrages = $ouvrageRepository->findAll();
-
-        if (!empty($devis->getElements())) {
-            foreach ($ouvrages as $key => $ouvrage) {
-                if ($devis->inElements(['id' => $ouvrage->getId(), 'type' => 'ouvrage'])) {
-                    unset($ouvrages[$key]);
-                }
-            }
-
-        }
         if (!empty($path)) {
             try {
-                $html = $environment->render($path, ["ouvrages" => $ouvrages]);
+                $html = $environment->render($path);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {

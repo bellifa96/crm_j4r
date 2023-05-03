@@ -39,6 +39,7 @@
     transform: translate(-50%, -50%);
     }
 
+
 </style>
 
 
@@ -137,7 +138,7 @@
                        name="devis[debourseTotalHT]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
-                
+
             </div>
             <div class="col-md-3">
 
@@ -147,19 +148,19 @@
                        name="devis[margeTotal]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
-                
+
             </div>
             <div class="col-md-4">
                 <label for="devis_prixDeVenteHT">Prix de vente HT</label>
                 <input type="text" id="devis__prix_de_vente" class="form-control"
-                       value='{{ devis.prixDeVenteHT }}' 
+                       value='{{ devis.prixDeVenteHT }}'
                        name="devis[prixDeVenteHT]" disabled>
             </div>
             <div class="col-md-3">
 
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
-                
+
             </div>
             <div class="col-md-3">
 
@@ -278,7 +279,7 @@
       <ul id="sortable-elements">
         {{ html|raw('html') }}
       </ul>
-        
+
     </div>
 </div>
 
@@ -339,7 +340,7 @@
 
 
     });
-    
+
     // la fonction nous permet d'ajouter un nouveau ouvrage dans un lot
     // id = l'id du lot (donc du parent)
     function newOuvrage(id){
@@ -518,7 +519,7 @@
     });
 
 
- 
+
 
      // ajout d'un ouvrage
     $('#add-ouvrage').click(function () {
@@ -533,7 +534,7 @@
 
     // un ecouteur qui detecte le choix d'ouvrage sur le quel on se base afin de le copier
     $('body').on("change", '.select-ouvrage', function () {
-        
+
             let id = $(this).attr('ouvrages');
             let origine = $(this).val();
 
@@ -561,7 +562,7 @@
     }
 
     // la fonction permet de mettre à jour les valeurs de calculs qui ont été changé par une action (modification/suppression/ajout etc)
-    
+
     function updateData(data){
 
         data.forEach(function(element) {
@@ -572,7 +573,7 @@
                 $('input[name="devis[debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
                 $('input[name="devis[margeTotal]"]').attr("value",element.prixDeVenteHT.toFixed(2) - element.debourseTotalHT.toFixed(2));
 
-                
+
             }else{
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
@@ -586,7 +587,7 @@
 
 
     }
-    
+
     // lorsqu'on detecte un changement daans un champ on le sauvegarde et on recalcule les valeurs 
     $('body').on("change", 'input, select', function () {
         if($(this).hasClass('select-ouvrage')){
@@ -640,7 +641,7 @@
             if(type == "composants"){
                 const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
                 const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
-                const composant = {                
+                const composant = {
                     code: code,
                     denomination: denomination,
                     unite: unite,
@@ -677,7 +678,7 @@
                     }
                 })
             }
-        
+
         }
     })
 
@@ -702,27 +703,16 @@
 
 
     // non utilisé
-    $(".import-ouvrage").click(function () {
+
+    $('body').on('click', '.import-ouvrage', function () {
         $('#modal-import-ouvrage').remove();
+
+        console.log('oui');
 
         $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
-            $('.datatable').DataTable({
-                "oLanguage": {
-                    sSearch: "",
-                    searchPlaceholder: "Chercher"
-
-                },
-                language: {
-                    searchPlaceholder: "Chercher"
-                },
-                order: [[0, 'desc']],
-                pageLength: 25,
-
-
-            });
         })
     })
 
@@ -868,7 +858,7 @@
 
     })
 
-        // non utilisé 
+        // non utilisé
     function hasSomeParentTheClass(element, classname) {
         if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
             return true;
