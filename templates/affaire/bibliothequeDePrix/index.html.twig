@@ -153,6 +153,10 @@
                     type="button" role="tab" aria-controls="nav-composants" aria-selected="false">
                 Composants
             </button>
+            <button class="nav-link" id="nav-composantsv2-tab" data-bs-toggle="tab" data-bs-target="#nav-composantsv2"
+                    type="button" role="tab" aria-controls="nav-composantsv2" aria-selected="false">
+                Composants v2
+            </button>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -330,6 +334,42 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        {# nouvelle version des composants et des types d'ouvrage #}
+        <div class="tab-pane fade" id="nav-composantsv2" role="tabpanel" aria-labelledby="nav-composantsv2-tab">
+
+            <div class="pt-5">
+                <div class="container">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th colspan="10">Base</th>
+                        </tr>
+                        <tr>
+                            <th>Composants</th>
+                            <th>Unités</th>
+                            {% for typeOuvrage in typeOuvrages %}
+                                <th>{{ typeOuvrage.titre }}</th>
+                            {% endfor %}
+                            <th>Cadence (TPS)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for typeComposant in typeComposants %}
+                            <tr>
+                                <td>{{ typeComposant.titre }}</td>
+                                <td></td>
+                                {% for typeOuvrage in typeOuvrages %}
+                                    <td></td>
+                                {% endfor %}
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
             </div>
         </div>
 
