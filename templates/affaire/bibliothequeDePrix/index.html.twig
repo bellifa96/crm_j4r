@@ -428,135 +428,142 @@
             <div class="pt-5">
                 <div class="container">
                     {% for typeOuvrage in typeOuvrages %}
-                        <button type="button" class="btn btn-primary">{{ typeOuvrage.titre }}</button>
+                        <button type="button" class="btn btn-primary type-ouvrage"
+                                data-id="{{ typeOuvrage.id }}">{{ typeOuvrage.titre }}</button>
                     {% endfor %}
 
-                    <div class="row mt-5">
-                        <div class="col-md-6">
-                            <!-- Tableau de gauche -->
-                             <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Catégorie Ouvrage</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    {% for typeOuvrage in typeOuvrages %}
+                        <div class="row mt-5 type-ouvrage-details" id="type-ouvrage-{{ typeOuvrage.id }}"
+                             style="display:none;">
+                            <div class="row mt-5">
+                                <div class="col-md-6">
+                                    <!-- Tableau de gauche -->
+                                    <table class="table table-bordered">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Catégorie Ouvrage</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Largeur maille principale</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Largeur maille principale</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Longueur maille principale</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Longueur maille principale</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Complexité</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Complexité</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Phasage</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Phasage</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Période</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Période</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Tableau de droite -->
+                                    <table class="table table-bordered">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Niveau</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Console intérieure</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Garde-corps intérieure</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered mt-3">
+                                        <thead class="table-primary">
+                                        <tr>
+                                            <th class="titre">Accessibilité</th>
+                                            <th class="valeur">kg</th>
+                                            <th class="valeur">TPS</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <!-- Tableau de droite -->
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Niveau</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
 
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Console intérieure</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Garde-corps intérieure</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-
-                            <table class="table table-bordered mt-3">
-                                <thead>
-                                <tr>
-                                    <th class="titre">Accessibilité</th>
-                                    <th class="valeur">kg</th>
-                                    <th class="valeur">TPS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -688,7 +695,7 @@
 
 
         }
-
+        //Script partie composant
         //fonction qui permet de mettre des inputs dans le tableau des prix
         $('#edit-table-de-prix').click(function () {
             $('.edit').each(function () {
@@ -696,6 +703,35 @@
                 $(this).html('<input type="text" value="' + $(this).text() + '">');
             })
         })
+
+        $(document).ready(function() {
+            $('.type-ouvrage').click(function() {
+                // Récupérer l'ID du type d'ouvrage sélectionné
+                var typeOuvrageId = $(this).data('id');
+
+                // Masquer tous les détails du type d'ouvrage
+                $('.type-ouvrage-details').hide();
+
+                // Afficher les détails correspondants au type d'ouvrage sélectionné
+                $('#type-ouvrage-' + typeOuvrageId).show();
+            });
+        });
+
+
+        //Script partie ouvrage
+        //Permet d'obtenir les tableaux avec les valeurs correspondantes
+        $(document).ready(function() {
+            $('.type-ouvrage').click(function() {
+                // Récupérer l'ID du type d'ouvrage sélectionné
+                var typeOuvrageId = $(this).data('id');
+
+                // Masquer tous les détails du type d'ouvrage
+                $('.type-ouvrage-details').hide();
+
+                // Afficher les détails correspondants au type d'ouvrage sélectionné
+                $('#type-ouvrage-' + typeOuvrageId).show();
+            });
+        });
     </script>
 
 
