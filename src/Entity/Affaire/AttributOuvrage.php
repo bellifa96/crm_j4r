@@ -34,6 +34,9 @@ class AttributOuvrage
     #[ORM\Column]
     private ?bool $isTable = null;
 
+    #[ORM\ManyToOne(inversedBy: 'attributOuvrages')]
+    private ?TypeOuvrage $typeOuvrage = null;
+
     public function __construct()
     {
         $this->attributOuvrageTrs = new ArrayCollection();
@@ -131,6 +134,18 @@ class AttributOuvrage
     public function setIsTable(bool $isTable): self
     {
         $this->isTable = $isTable;
+
+        return $this;
+    }
+
+    public function getTypeOuvrage(): ?TypeOuvrage
+    {
+        return $this->typeOuvrage;
+    }
+
+    public function setTypeOuvrage(?TypeOuvrage $typeOuvrage): self
+    {
+        $this->typeOuvrage = $typeOuvrage;
 
         return $this;
     }

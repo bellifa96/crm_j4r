@@ -6,7 +6,6 @@ use App\Entity\affaire\Ouvrage;
 use App\Repository\Affaire\TypeOuvrageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeOuvrageRepository::class)]
@@ -32,41 +31,14 @@ class TypeOuvrage
     #[ORM\OneToMany(mappedBy: 'typeOuvrage', targetEntity: TableDePrix::class, orphanRemoval: true)]
     private Collection $tableDePrix;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $categorieOuvrage = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $largeurMaillePrincipale = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $longueurMaillePrincipale = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $complexite = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $phasage = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $periode = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $consoleInterieure = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $gardeCorpsInterieur = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $niveau = [];
-
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private array $accessibilite = [];
+    #[ORM\OneToMany(mappedBy: 'typeOuvrage', targetEntity: AttributOuvrage::class)]
+    private Collection $attributOuvrages;
 
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
         $this->tableDePrix = new ArrayCollection();
-        $this->categorieOuvrage = [];
+        $this->attributOuvrages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,122 +142,32 @@ class TypeOuvrage
         return $this;
     }
 
-    public function getCategorieOuvrage(): array
+    /**
+     * @return Collection<int, AttributOuvrage>
+     */
+    public function getAttributOuvrages(): Collection
     {
-        return $this->categorieOuvrage;
+        return $this->attributOuvrages;
     }
 
-    public function setCategorieOuvrage(?array $categorieOuvrage): self
+    public function addAttributOuvrage(AttributOuvrage $attributOuvrage): self
     {
-        $this->categorieOuvrage = $categorieOuvrage;
+        if (!$this->attributOuvrages->contains($attributOuvrage)) {
+            $this->attributOuvrages->add($attributOuvrage);
+            $attributOuvrage->setTypeOuvrage($this);
+        }
 
         return $this;
     }
 
-    public function getLargeurMaillePrincipale(): array
+    public function removeAttributOuvrage(AttributOuvrage $attributOuvrage): self
     {
-        return $this->largeurMaillePrincipale;
-    }
-
-    public function setLargeurMaillePrincipale(?array $largeurMaillePrincipale): self
-    {
-        $this->largeurMaillePrincipale = $largeurMaillePrincipale;
-
-        return $this;
-    }
-
-    public function getLongueurMaillePrincipale(): array
-    {
-        return $this->longueurMaillePrincipale;
-    }
-
-    public function setLongueurMaillePrincipale(?array $longueurMaillePrincipale): self
-    {
-        $this->longueurMaillePrincipale = $longueurMaillePrincipale;
-
-        return $this;
-    }
-
-    public function getComplexite(): array
-    {
-        return $this->complexite;
-    }
-
-    public function setComplexite(?array $complexite): self
-    {
-        $this->complexite = $complexite;
-
-        return $this;
-    }
-
-    public function getPhasage(): array
-    {
-        return $this->phasage;
-    }
-
-    public function setPhasage(?array $phasage): self
-    {
-        $this->phasage = $phasage;
-
-        return $this;
-    }
-
-    public function getPeriode(): array
-    {
-        return $this->periode;
-    }
-
-    public function setPeriode(?array $periode): self
-    {
-        $this->periode = $periode;
-
-        return $this;
-    }
-
-    public function getConsoleInterieure(): array
-    {
-        return $this->consoleInterieure;
-    }
-
-    public function setConsoleInterieure(?array $consoleInterieure): self
-    {
-        $this->consoleInterieure = $consoleInterieure;
-
-        return $this;
-    }
-
-    public function getGardeCorpsInterieur(): array
-    {
-        return $this->gardeCorpsInterieur;
-    }
-
-    public function setGardeCorpsInterieur(?array $gardeCorpsInterieur): self
-    {
-        $this->gardeCorpsInterieur = $gardeCorpsInterieur;
-
-        return $this;
-    }
-
-    public function getNiveau(): array
-    {
-        return $this->niveau;
-    }
-
-    public function setNiveau(?array $niveau): self
-    {
-        $this->niveau = $niveau;
-
-        return $this;
-    }
-
-    public function getAccessibilite(): array
-    {
-        return $this->accessibilite;
-    }
-
-    public function setAccessibilite(?array $accessibilite): self
-    {
-        $this->accessibilite = $accessibilite;
+        if ($this->attributOuvrages->removeElement($attributOuvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($attributOuvrage->getTypeOuvrage() === $this) {
+                $attributOuvrage->setTypeOuvrage(null);
+            }
+        }
 
         return $this;
     }
