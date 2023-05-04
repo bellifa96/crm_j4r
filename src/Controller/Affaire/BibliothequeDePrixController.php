@@ -2,6 +2,8 @@
 
 namespace App\Controller\Affaire;
 
+use App\Entity\Affaire\AttributOuvrage;
+use App\Repository\Affaire\AttributOuvrageRepository;
 use App\Repository\Affaire\TableDePrixRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
 use Twig\Environment;

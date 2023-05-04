@@ -39,6 +39,16 @@ class AttributOuvrageRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAttributByOuvrageId(int $id)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->innerJoin('a.ouvrage', 'o')
+            ->where('o.id = :id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return AttributOuvrage[] Returns an array of AttributOuvrage objects
 //     */
