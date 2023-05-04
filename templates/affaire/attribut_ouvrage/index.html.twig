@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttributOuvrage index{% endblock %}
+
+{% block body %}
+    <h1>AttributOuvrage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>PoidsKG</th>
+                <th>Tps</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attribut_ouvrage in attribut_ouvrages %}
+            <tr>
+                <td>{{ attribut_ouvrage.id }}</td>
+                <td>{{ attribut_ouvrage.titre }}</td>
+                <td>{{ attribut_ouvrage.poidsKG }}</td>
+                <td>{{ attribut_ouvrage.tps }}</td>
+                <td>{{ attribut_ouvrage.type }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_attribut_ouvrage_show', {'id': attribut_ouvrage.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_attribut_ouvrage_edit', {'id': attribut_ouvrage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_attribut_ouvrage_new') }}">Create new</a>
+{% endblock %}

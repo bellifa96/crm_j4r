@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttributOuvrage{% endblock %}
+
+{% block body %}
+    <h1>AttributOuvrage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ attribut_ouvrage.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ attribut_ouvrage.titre }}</td>
+            </tr>
+            <tr>
+                <th>PoidsKG</th>
+                <td>{{ attribut_ouvrage.poidsKG }}</td>
+            </tr>
+            <tr>
+                <th>Tps</th>
+                <td>{{ attribut_ouvrage.tps }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ attribut_ouvrage.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_attribut_ouvrage_index') }}">back to list</a>
+
+    <a href="{{ path('app_affaire_attribut_ouvrage_edit', {'id': attribut_ouvrage.id}) }}">edit</a>
+
+    {{ include('affaire/attribut_ouvrage/_delete_form.html.twig') }}
+{% endblock %}
