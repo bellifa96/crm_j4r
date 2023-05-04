@@ -379,15 +379,15 @@
                         {% for typeComposant in typeComposants %}
                             <tr>
                                 <td>{{ typeComposant.titre }}</td>
-                                <td>{{ typeComposant.unite }}</td>
+                                <td class="edit" id="unite-composant{{ typeComposant.id }}">{{ typeComposant.unite }}</td>
                                 {% for typeOuvrage in typeOuvrages %}
                                     {% for unite in typeComposant.tableDePrix %}
                                         {% if unite.typeOuvrage is same as typeOuvrage %}
-                                            <td>{{ unite.prix }}</td>
+                                            <td class="edit" id="prix-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}">{{ unite.prix }}</td>
                                         {% endif %}
                                     {% endfor %}
                                 {% endfor %}
-                                <td>{{ typeComposant.cadence }}</td>
+                                <td class="edit" id="cadence-composant{{ typeComposant.id }}">{{ typeComposant.cadence }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
