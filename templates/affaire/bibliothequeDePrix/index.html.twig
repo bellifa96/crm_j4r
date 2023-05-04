@@ -361,6 +361,12 @@
 
             <div class="pt-5">
                 <div class="container">
+                    <div class="row justify-content-around pb-5">
+                        <div class="col-md-8 row justify-content-end">
+                            <button type="button" class="col-md-12 add-button-devis" id="edit-table-de-prix">Modifier
+                            </button>
+                        </div>
+                    </div>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -537,6 +543,12 @@
 
 
         }
+
+        $('#edit-table-de-prix').click(function(){
+            $('.edit').each(function (){
+                $(this).html('<input type="text" value="' + $(this).text() + '">');
+            })
+        })
     </script>
 
 
