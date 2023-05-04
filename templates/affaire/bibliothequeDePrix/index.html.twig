@@ -432,7 +432,7 @@
 
                     {# affiche un bouton pour chaque type d'ouvrage pour afficher les valeurs dépendantes #}
                     {% for typeOuvrage in typeOuvrages %}
-                        <button type="button" class="btn btn-primary type-ouvrage"
+                        <button type="button" class="btn btn-primary type-ouvrage {% if loop.first %}active{% endif %}"
                                 data-id="{{ typeOuvrage.id }}">{{ typeOuvrage.titre }}</button>
                     {% endfor %}
 
@@ -447,7 +447,7 @@
 
                     {# initialise une div contenant les tableaux pour chaque type douvrage et les masque avec display:none #}
                     {% for typeOuvrage in typeOuvrages %}
-                        <div class="row mt-5 type-ouvrage-details" id="type-ouvrage-{{ typeOuvrage.id }}" style="display:none;">
+                        <div class="row mt-5 type-ouvrage-details {% if loop.first %}show{% endif %}" id="type-ouvrage-{{ typeOuvrage.id }}">
                             <div class="row mt-5">
                                 {# pour un type d'ouvrage construit tous les tableaux qui font référence#}
                                 {% for table in typeOuvrage.attributOuvrages %}
@@ -650,18 +650,19 @@
 
         //Script partie ouvrage
         //Permet d'obtenir les tableaux avec les valeurs correspondantes
-        $(document).ready(function () {
-            $('.type-ouvrage').click(function () {
-                // Récupérer l'ID du type d'ouvrage sélectionné
-                var typeOuvrageId = $(this).data('id');
+        $('.type-ouvrage').on('click', function() {
+            // Masquer tous les détails de type d'ouvrage
+            $('.type-ouvrage-details').hide();
+            // Désélectionner tous les boutons
+            $('.type-ouvrage').removeClass('active');
 
-                // Masquer tous les détails du type d'ouvrage
-                $('.type-ouvrage-details').hide();
-
-                // Afficher les détails correspondants au type d'ouvrage sélectionné
-                $('#type-ouvrage-' + typeOuvrageId).show();
-            });
+            // Afficher les détails correspondant au bouton cliqué
+            var id = $(this).data('id');
+            $('#type-ouvrage-' + id).show();
+            // Sélectionner le bouton cliqué
+            $(this).addClass('active');
         });
+
 
         //fonction qui permet de mettre des inputs dans les tableaux des prix
         $('#edit-prix-ouvrage').click(function () {
