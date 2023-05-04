@@ -419,8 +419,18 @@
 
             <div class="pt-5">
                 <div class="container">
+                    {% for typeOuvrage in typeOuvrages %}
+                        <button type="button" class="btn btn-primary">{{ typeOuvrage.titre }}</button>
+                    {% endfor %}
 
-
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <!-- Tableau de gauche -->
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Tableau de droite -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
