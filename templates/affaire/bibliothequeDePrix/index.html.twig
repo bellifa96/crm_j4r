@@ -386,17 +386,17 @@
                         {% for typeComposant in typeComposants %}
                             <tr>
                                 <td>{{ typeComposant.titre }}</td>
-                                <td class="edit" id="unite-composant{{ typeComposant.id }}">{{ typeComposant.unite }}</td>
+                                <td class="edit" id="unite-composant{{ typeComposant.id }}" composant="{{ typeComposant.id }}">{{ typeComposant.unite }}</td>
                                 {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
                                 {% for typeOuvrage in typeOuvrages %}
                                     {# permet d'affiche le prix correspondant aux deux #}
                                     {% for unite in typeComposant.tableDePrix %}
                                         {% if unite.typeOuvrage is same as typeOuvrage %}
-                                            <td class="edit" id="prix-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}">{{ unite.prix }}</td>
+                                            <td class="edit" id="prix-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}" composant="{{ typeComposant.id }}" ouvrage="{{ typeOuvrage.id }}">{{ unite.prix }}</td>
                                         {% endif %}
                                     {% endfor %}
                                 {% endfor %}
-                                <td class="edit" id="cadence-composant{{ typeComposant.id }}">{{ typeComposant.cadence }}</td>
+                                <td class="edit" id="cadence-composant{{ typeComposant.id }}" composant="{{ typeComposant.id }}">{{ typeComposant.cadence }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -550,6 +550,7 @@
         //fonction qui permet de mettre des inputs dans le tableau des prix
         $('#edit-table-de-prix').click(function(){
             $('.edit').each(function (){
+                console.log($(this).attr('composant'), $(this).attr('ouvrage'));
                 $(this).html('<input type="text" value="' + $(this).text() + '">');
             })
         })
