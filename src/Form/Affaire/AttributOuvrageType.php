@@ -15,7 +15,7 @@ class AttributOuvrageType extends AbstractType
             ->add('titre')
             ->add('poidsKG')
             ->add('tps')
-            ->add('type')
+            ->add('typeOuvrage')
             ->add('attributOuvrage')
         ;
     }
