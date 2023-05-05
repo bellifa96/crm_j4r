@@ -18,6 +18,8 @@ class AttributOuvrageController extends AbstractController
     {
         return $this->render('affaire/attribut_ouvrage/index.html.twig', [
             'attribut_ouvrages' => $attributOuvrageRepository->findByIsTable(true),
+            'title'=> 'attribut ouvrage',
+            'nav'=> []
         ]);
     }
 
@@ -37,6 +39,8 @@ class AttributOuvrageController extends AbstractController
         return $this->renderForm('affaire/attribut_ouvrage/new.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
             'form' => $form,
+            'title'=> 'attribut ouvrage',
+            'nav'=> []
         ]);
     }
 
@@ -45,6 +49,8 @@ class AttributOuvrageController extends AbstractController
     {
         return $this->render('affaire/attribut_ouvrage/show.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
+            'title'=> 'attribut ouvrage',
+            'nav'=> []
         ]);
     }
 
@@ -63,6 +69,8 @@ class AttributOuvrageController extends AbstractController
         return $this->renderForm('affaire/attribut_ouvrage/edit.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
             'form' => $form,
+            'title'=> 'attribut ouvrage',
+            'nav'=> []
         ]);
     }
 
