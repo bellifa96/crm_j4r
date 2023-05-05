@@ -17,7 +17,7 @@ class AttributOuvrageController extends AbstractController
     public function index(AttributOuvrageRepository $attributOuvrageRepository): Response
     {
         return $this->render('affaire/attribut_ouvrage/index.html.twig', [
-            'attribut_ouvrages' => $attributOuvrageRepository->findByIstable(true),
+            'attribut_ouvrages' => $attributOuvrageRepository->findByIsTable(true),
         ]);
     }
 
