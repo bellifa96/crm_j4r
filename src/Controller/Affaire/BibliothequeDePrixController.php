@@ -2,10 +2,6 @@
 
 namespace App\Controller\Affaire;
 
-use App\Entity\Affaire\AttributOuvrage;
-use App\Repository\Affaire\AttributOuvrageRepository;
-use App\Repository\Affaire\TableDePrixRepository;
-use App\Repository\Affaire\TypeOuvrageRepository;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
@@ -14,7 +10,10 @@ use App\Entity\Affaire\Devis;
 use App\Service\CalculService;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Composant;
+use App\Entity\Affaire\TypeOuvrage;
 use App\Repository\UniteRepository;
+use App\Entity\Affaire\AttributOuvrage;
+use App\Entity\Affaire\CategorieOuvrage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use App\Repository\Affaire\OuvrageRepository;
@@ -22,7 +21,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Affaire\ComposantRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Affaire\TableDePrixRepository;
+use App\Repository\Affaire\TypeOuvrageRepository;
 use App\Repository\Affaire\TypeComposantRepository;
+use App\Repository\Affaire\AttributOuvrageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/affaire/bibliothequeDePrix')]
@@ -170,16 +172,23 @@ class BibliothequeDePrixController extends AbstractController
         return $response;
     }
 
-    #[Route('/modal/ouvrage/liste/{id}', name: 'app_affaire_modal_ouvrage_liste', methods: ['GET', 'POST'])]
-    public function modalOuvrageListe(Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, Devis $devis): Response
+    #[Route('/modal/ouvrage/liste/{id}/{ouvrage}', name: 'app_affaire_modal_ouvrage_liste', methods: ['GET', 'POST'])]
+    public function modalOuvrageListe(Request $request, Environment $environment,EntityManagerInterface $entityManager, Devis $devis,Ouvrage $ouvrage): Response
     {
         $response = new Response();
 
         $path = "affaire/bibliothequeDePrix/modal_ouvrage_list.html.twig";
+        $params = [
+            'typeOuvrages'=>$entityManager->getRepository(TypeOuvrage::class)->findAll(),
+            'categorieOuvrages'=>$entityManager->getRepository(CategorieOuvrage::class)->findAll(),
+            'attributOuvrages'=>$entityManager->getRepository(AttributOuvrage::class)->findAll(),
+            'ouvrage'=>$ouvrage
+        
+        ];
 
         if (!empty($path)) {
             try {
-                $html = $environment->render($path);
+                $html = $environment->render($path,$params);
             } catch (LoaderError $e) {
                 dd($e);
             } catch (RuntimeError $e) {

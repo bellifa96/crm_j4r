@@ -84,6 +84,9 @@ class Ouvrage
     #[ORM\ManyToOne(inversedBy: 'ouvrages')]
     private ?CategorieOuvrage $categorie = null;
 
+    #[ORM\OneToOne(mappedBy: 'ouvrage', cascade: ['persist', 'remove'])]
+    private ?OuvrageFiltre $ouvrageFiltre = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -359,6 +362,28 @@ class Ouvrage
     public function setCategorie(?CategorieOuvrage $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getOuvrageFiltre(): ?OuvrageFiltre
+    {
+        return $this->ouvrageFiltre;
+    }
+
+    public function setOuvrageFiltre(?OuvrageFiltre $ouvrageFiltre): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($ouvrageFiltre === null && $this->ouvrageFiltre !== null) {
+            $this->ouvrageFiltre->setOuvrage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($ouvrageFiltre !== null && $ouvrageFiltre->getOuvrage() !== $this) {
+            $ouvrageFiltre->setOuvrage($this);
+        }
+
+        $this->ouvrageFiltre = $ouvrageFiltre;
 
         return $this;
     }

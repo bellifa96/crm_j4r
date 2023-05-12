@@ -30,22 +30,38 @@
                     </div>
                     <div class="row my-5">
                         <div class="col-md-3">
-                            <select class="chakra-input" name="" id="" placeholder="Type d'ouvrage">
-                                <option disabled selected> Veuillez selectionner un type d'ouvrage </option>
+                            <select class="chakra-input" name="" id="to-{{ouvrage.id}}" placeholder="Type d'ouvrage">
+                               {% for to in typeOuvrages %}
+                                    {% if ouvrage.typeOuvrage == to %}
+                                        <option value="{{ to.id }}" selected> {{ to }} </option>
+                                    {% else %}
+                                        <option  value="{{ to.id }}"> {{ to }} </option>
+                                    {% endif %}
+                               {% else %}
+                                   <option disabled selected> Veuillez selectionner un type d'ouvrage </option>
+                               {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="chakra-input" name="" id="" placeholder="Catégorie d'ouvrage">
-                                <option disabled selected> Veuillez selectionner une catégorie d'ouvrage </option>
+                            <select class="chakra-input" name="" id="co-{{ouvrage.id}}" placeholder="Catégorie d'ouvrage">
+                                {% for co in categorieOuvrages %}
+                                    {% if ouvrage.categorie == co %}
+                                        <option value="{{ co.id }}" selected> {{ co }} </option>
+                                    {% else %}
+                                        <option  value="{{ co.id }}"> {{ co }} </option>
+                                    {% endif %}
+                               {% else %}
+                                    <option disabled selected> Veuillez selectionner une catégorie d'ouvrage </option>
+                               {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="chakra-input" name="" id="" placeholder="Niveau">
+                            <select class="chakra-input" name="" id="no-{{ouvrage.id}}" placeholder="Niveau">
                                 <option disabled selected> Veuillez selectionner un niveau </option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="chakra-input" name="" id="" placeholder="Type d'échafaudage">
+                            <select class="chakra-input" name="" id="teo-{{ouvrage.id}}" placeholder="Type d'échafaudage">
                                 <option disabled selected> Veuillez selectionner un type d'échafaudage </option>
                             </select>
                         </div>

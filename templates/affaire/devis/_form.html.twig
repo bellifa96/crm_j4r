@@ -707,9 +707,8 @@
     $('body').on('click', '.import-ouvrage', function () {
         $('#modal-import-ouvrage').remove();
 
-        console.log('oui');
-
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+        let id = $(this).attr('id').replace('import-ouvrage-','');
+        $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{devis.id}}+'/'+id, function (response) {
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
@@ -718,10 +717,11 @@
 
 
     // fonction qui permet d'importer des ouvrages (non utilisé pour l'instant)
-    $("body").on('click', '#import-ouvrage', function () {
+   /* $("body").on('click', '#import-ouvrage', function () {
         $('#modal-import-ouvrage').remove();
+        let id = $(this).attr('id').replace('import-ouvrage-','');
 
-        $.post('{{ path("app_affaire_modal_ouvrage_liste", {"id":devis.id}) }}', function (response) {
+        $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{devis.id}}+'/'+id', function (response) {
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
@@ -740,7 +740,7 @@
 
             });
         })
-    })
+    })*/
 
   // non utilisé
     function submitImportOuvrageEvent(event) {

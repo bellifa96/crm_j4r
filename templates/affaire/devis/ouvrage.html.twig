@@ -17,7 +17,7 @@
                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
                            class="chakra-input" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled/>
                 {% else %}
-                    <div class="import-ouvrage">
+                    <div class="import-ouvrage" id="import-ouvrage-{{ouvrage.id}}">
                         <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
                                element="ouvrages" ouvrages="{{ ouvrage.id }}" maxlength="255"
                                name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required"
