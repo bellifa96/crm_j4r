@@ -37,6 +37,9 @@ class AttributOuvrage
     #[ORM\ManyToOne(inversedBy: 'attributOuvrages')]
     private ?TypeOuvrage $typeOuvrage = null;
 
+    #[ORM\Column]
+    private ?int $ordre = null;
+
     public function __construct()
     {
         $this->attributOuvrageTrs = new ArrayCollection();
@@ -153,5 +156,17 @@ class AttributOuvrage
     public function __toString()
     {
         return $this->titre;
+    }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
     }
 }
