@@ -35,14 +35,7 @@
                     <form id="regForm">
                         <div class="all-steps" id="all-steps">
                             <span class="step"></span>
-
-                            {% for to in typeOuvrages %}
-                                {% for tab in to.attributOuvrages %} 
-                                    {% if tab.attributOuvrageTrs is not empty %} 
-                                        <span class="step tab-after to-{{to.id}}"></span>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
+                            <span class="step"></span>
                         </div>
 
                             <div class="tab">
@@ -57,7 +50,7 @@
                                                 <option  value="{{ to.id }}"> {{ to }} </option>
                                             {% endif %}
                                     {% endfor %}
-                                     <option disabled {{ selected == false ? 'selected="true"' : ''}} value=""> Veuillez selectionner un type d'ouvrage </option>
+                                     <option disabled {{ selected == false ? 'selected="true"' : ''}} value=""> type d'ouvrage </option>
                                     </select>
                                 </div>
                             </div>
@@ -66,12 +59,12 @@
                                     {% for to in typeOuvrages %}
                                         {% for tab in to.attributOuvrages %}  
                                             {% if tab.attributOuvrageTrs is not empty %} 
-                                                        <div class="col-md-6 tab-after to-{{to.id}}">
+                                                        <div class="col-md-3 tab-after to-{{to.id}}">
                                                                 <select class="chakra-input" name=""  >
                                                                     {% for attribut in tab.attributOuvrageTrs %}
                                                                                 <option value="{{ attribut.id }}" > {{ attribut.titre }} </option>
                                                                     {% endfor %}
-                                                                    <option disabled selected value=""> Veuillez selectionner un type {{ tab.titre }} </option>
+                                                                    <option disabled selected value="">  {{ tab.titre }} </option>
                                                                 </select>
                                                         </div>          
                                             {% endif %}
