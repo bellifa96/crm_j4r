@@ -964,8 +964,9 @@ button:hover {
         y = x[currentTab].getElementsByTagName("select");
         for (i = 0; i < y.length; i++) {
             console.log(y[i].value)
-            if (y[i].value == "") {
+            if (y[i].value == "" || $('#denomination').val() == "") {
                 y[i].className += " invalid";
+                $('#denomination').addClass("invalid");
                 valid = false;
             }
         }

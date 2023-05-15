@@ -20,7 +20,7 @@
 
                         <div class="col-md-6">
                             <input type="text" input="denomination" required="required"
-                                    maxlength="30" class="chakra-input" placeholder="Dénomination">
+                                    maxlength="30" class="chakra-input" placeholder="Dénomination" id="denomination">
                         </div>
 
                         <div class="col-md-2">
@@ -60,7 +60,7 @@
                                         {% for tab in to.attributOuvrages %}  
                                             {% if tab.attributOuvrageTrs is not empty %} 
                                                         <div class="col-md-2 tab-after to-{{to.id}}">
-                                                                <select class="chakra-input" name=""  >
+                                                                <select class="chakra-input text-center" name=""  >
                                                                     {% for attribut in tab.attributOuvrageTrs %}
                                                                                 <option value="{{ attribut.id }}" > {{ attribut.titre }} </option>
                                                                     {% endfor %}
