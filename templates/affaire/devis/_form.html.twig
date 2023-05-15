@@ -969,6 +969,15 @@ button:hover {
                 valid = false;
             }
         }
+        if(valid && currentTab == "0"){
+            const id = $('#type_ouvrage').val();
+            console.log(id)
+            $('.tab-after').each(function(){
+                if(!$(this).hasClass('to-'+id)){
+                    $(this).remove();
+                }
+            });
+        }
         if (valid) { document.getElementsByClassName("step")[currentTab].className += " finish"; }
         return valid;
     }
