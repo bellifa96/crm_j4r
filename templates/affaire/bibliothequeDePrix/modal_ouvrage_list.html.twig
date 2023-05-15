@@ -27,6 +27,10 @@
                             <input type="text" maxlength="255" class="chakra-input"
                                     placeholder="Valeur de référence" disabled>
                         </div>
+                        <div class="col-md-2">
+                            <input type="text" maxlength="255" class="chakra-input"
+                                    placeholder="temps de référence" disabled>
+                        </div>
                     </div>
                     <form id="regForm">
                         <div class="all-steps" id="all-steps">
@@ -57,23 +61,25 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="tab"  length="{{typeOuvrages|length}}">
+                                <div class="row">
+                                    {% for to in typeOuvrages %}
+                                        {% for tab in to.attributOuvrages %}  
+                                            {% if tab.attributOuvrageTrs is not empty %} 
+                                                        <div class="col-md-6 tab-after to-{{to.id}}">
+                                                                <select class="chakra-input" name=""  >
+                                                                    {% for attribut in tab.attributOuvrageTrs %}
+                                                                                <option value="{{ attribut.id }}" > {{ attribut.titre }} </option>
+                                                                    {% endfor %}
+                                                                    <option disabled selected value=""> Veuillez selectionner un type {{ tab.titre }} </option>
+                                                                </select>
+                                                        </div>          
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
 
-                            {% for to in typeOuvrages %}
-                                {% for tab in to.attributOuvrages %}  
-                                    {% if tab.attributOuvrageTrs is not empty %} 
-                                        <div class="tab tab-after to-{{to.id}}" to="{{to.id}}" length="{{typeOuvrages|length}}">
-                                                <div class="col-md-3">
-                                                        <select class="chakra-input" name=""  >
-                                                            {% for attribut in tab.attributOuvrageTrs %}
-                                                                        <option value="{{ attribut.id }}" > {{ attribut.titre~" | "~attribut.poidsKG~" | "~attribut.tps }} </option>
-                                                            {% endfor %}
-                                                            <option disabled selected value=""> Veuillez selectionner un type {{ tab.titre }} </option>
-                                                        </select>
-                                                </div>          
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
                             <div style="overflow:auto;" id="nextprevious">
                                                 <div style="float:right;"> <button type="button" id="prevBtn" onclick="nextPrev(-1)">Retour</button> <button type="button" id="nextBtn" onclick="nextPrev(1)">Suivant</button> </div>
                             </div>
