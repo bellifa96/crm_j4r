@@ -32,6 +32,7 @@ class TypeOuvrage
     private Collection $tableDePrix;
 
     #[ORM\OneToMany(mappedBy: 'typeOuvrage', targetEntity: AttributOuvrage::class)]
+    #[ORM\OrderBy(["ordre"=>"ASC"])]
     private Collection $attributOuvrages;
 
     public function __construct()
