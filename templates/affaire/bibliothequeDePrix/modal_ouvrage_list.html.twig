@@ -59,7 +59,7 @@
                                     {% for to in typeOuvrages %}
                                         {% for tab in to.attributOuvrages %}  
                                             {% if tab.attributOuvrageTrs is not empty %} 
-                                                        <div class="col-md-3 tab-after to-{{to.id}}">
+                                                        <div class="col-md-2 tab-after to-{{to.id}}">
                                                                 <select class="chakra-input" name=""  >
                                                                     {% for attribut in tab.attributOuvrageTrs %}
                                                                                 <option value="{{ attribut.id }}" > {{ attribut.titre }} </option>
