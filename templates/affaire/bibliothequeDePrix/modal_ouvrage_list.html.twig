@@ -4,7 +4,7 @@
      style="color: #486178;">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;">
         <div class="modal-content">
-            <form onsubmit="return " name="modal-import-ouvrage">
+            <form onsubmit="validateForm()" name="modal-import-ouvrage" id="form-{{ouvrage.id}}" methods="POST">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-import-ouvrage-label">Ajout d'un ouvrage au sous-lot ou au
@@ -38,7 +38,7 @@
                     <div step="1">
                         <div class="col-md-3">
                             {% set selected = false %}
-                            <select class="chakra-input ouvrage-attribut select-ouvrage" name="" id="type_ouvrage">
+                            <select class="chakra-input ouvrage-attribut select-ouvrage" name="devis[ouvrages][{{ouvrage.id}}][typeOuvrage]" id="type_ouvrage" required="required">
                             {% for to in typeOuvrages %}
                                     {% if ouvrage.typeOuvrage == to %}
                                         <option value="{{ to.id }}" selected> {{ to }} </option>
@@ -47,7 +47,7 @@
                                         <option  value="{{ to.id }}"> {{ to }} </option>
                                     {% endif %}
                             {% endfor %}
-                                <option disabled {{ selected == false ? 'selected="true"' : ''}} value=""> type d'ouvrage </option>
+                                <option  {{ selected == false ? 'selected="true"' : ''}} value=""> type d'ouvrage </option>
                             </select>
                         </div>
                     </div>
@@ -56,11 +56,12 @@
                                 {% for tab in to.attributOuvrages %}  
                                     {% if tab.attributOuvrageTrs is not empty %} 
                                                 <div class="col-md-2 tab-after to-{{to.id}} d-none  ouvrage-attribut-step-2">
-                                                        <select class="chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{to.id}}"  >
+                                                        <select class="chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{to.id}}"  required="required">
                                                             {% for attribut in tab.attributOuvrageTrs %}
-                                                                        <option value="{{ attribut.id }}" poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}" tps="{{ attribut.tps is not empty ?  attribut.tps : 0}}"> {{ attribut.titre }} </option>
+                                                                        <option value="{{ attribut.id }}" name="devis[ouvrages][{{ouvrage.id}}][step2][]"
+                                                                             poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}" tps="{{ attribut.tps is not empty ?  attribut.tps : 0}}"> {{ attribut.titre }} </option>
                                                             {% endfor %}
-                                                            <option disabled selected value="">  {{ tab.titre }} </option>
+                                                            <option  selected value="">  {{ tab.titre }} </option>
                                                         </select>
                                                 </div>          
                                     {% endif %}
@@ -70,7 +71,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary import-ouvrage" onclick="return $(this).hide()">Ajouter</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
 
                     <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
                         <span class="sr-only">.</span>

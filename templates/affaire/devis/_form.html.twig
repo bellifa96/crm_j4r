@@ -729,18 +729,25 @@
         const step = $(this).parent().parent().attr('step');
         console.log("step : "+step);
         if( step === "1"){
+
             $(".ouvrage-attribut-step-2").addClass("d-none");
             $(".step-2").removeClass('d-none');
             currentOuvrageTypeId = $(this).val();
             $('.to-'+currentOuvrageTypeId).removeClass('d-none');
+            $('.ouvrage-attribut-step-2 select').attr('required',false);
+            $('.attribut-select-step2-'+currentOuvrageTypeId).attr('required',true);
+            $("#devis_ouvrages_"+currentOuvrageId+"_poidsDeReference").val(0);
+            $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(0);
+            $('.attribut-select-step2-'+currentOuvrageTypeId).each(function(index){
+                $(this).val("")
+            })
+
+
 
         }else if(step === "2"){
             let poids = 0;
             let temps = 0;
-
             $('.attribut-select-step2-'+currentOuvrageTypeId).each(function(index){
-                console.log("index : "+index)
-                console.log($(this).val() != "", parseFloat($('option:selected',this).attr('poids')), parseFloat($('option:selected',this).attr('tps')) )
                 if(!isNaN(parseFloat($('option:selected',this).attr('poids'))) && !isNaN(parseFloat($('option:selected',this).attr('tps'))) ){
                     console.log(poids,temps)
                     poids += parseFloat($('option:selected',this).attr('poids'));
@@ -749,33 +756,26 @@
             })
             $("#devis_ouvrages_"+currentOuvrageId+"_poidsDeReference").val(poids);
             $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(temps);
-            console.log(poids,temps)
             
         }
     });
     function validateForm() {
-        var x, y, i, valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("select");
-        for (i = 0; i < y.length; i++) {
-            console.log(y[i].value)
-            if (y[i].value == "" || $('#denomination').val() == "") {
-                y[i].className += " invalid";
-                $('#denomination').addClass("invalid");
-                valid = false;
-            }
-        }
-        if(valid && currentTab == "0"){
-            const id = $('#type_ouvrage').val();
-            console.log(id)
-            $('.tab-after').each(function(){
-                if(!$(this).hasClass('to-'+id)){
-                    $(this).remove();
-                }
-            });
-        }
-        if (valid) { document.getElementsByClassName("step")[currentTab].className += " finish"; }
-        return valid;
+          event.preventDefault();
+          let isValide = true;
+          $('#form-'+currentOuvrageId+' select').each(function(){
+             if(!$(this).parent().hasClass('d-none') && $(this).val() == ""){
+                $(this).addClass('invalid');
+                isValide = false;
+             }else{
+                $(this).removeClass('invalid');
+             }
+          })
+          if(isValide){
+            const form = $('#form-'+currentOuvrageId)[0];
+            const data = new FormData(form);
+            console.log(data.values);
+          }
+          
     }
 
 
