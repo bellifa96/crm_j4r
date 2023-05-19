@@ -87,6 +87,12 @@ class Ouvrage
     #[ORM\OneToOne(mappedBy: 'ouvrage', cascade: ['persist', 'remove'])]
     private ?OuvrageFiltre $ouvrageFiltre = null;
 
+    #[ORM\Column]
+    private ?float $poidsDeReference = null;
+
+    #[ORM\Column]
+    private ?float $tpsDeReference = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -384,6 +390,30 @@ class Ouvrage
         }
 
         $this->ouvrageFiltre = $ouvrageFiltre;
+
+        return $this;
+    }
+
+    public function getPoidsDeReference(): ?float
+    {
+        return $this->poidsDeReference;
+    }
+
+    public function setPoidsDeReference(float $poidsDeReference): self
+    {
+        $this->poidsDeReference = $poidsDeReference;
+
+        return $this;
+    }
+
+    public function getTpsDeReference(): ?float
+    {
+        return $this->tpsDeReference;
+    }
+
+    public function setTpsDeReference(float $tpsDeReference): self
+    {
+        $this->tpsDeReference = $tpsDeReference;
 
         return $this;
     }

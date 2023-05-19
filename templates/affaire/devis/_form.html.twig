@@ -5,66 +5,11 @@
 
 <style>
 
-#regForm {
-    background-color: #ffffff;
-    margin: 0px auto;
-    font-family: Raleway;
-    padding: 40px;
-    border-radius: 10px
-}
 
+    select.invalid {
+        background-color: #ffdddd;
+    }
 
-
-select.invalid {
-    background-color: #ffdddd
-}
-
-.tab {
-    display: none
-}
-
-button {
-    background-color: #4CAF50;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 17px;
-    font-family: Raleway;
-    cursor: pointer
-}
-
-button:hover {
-    opacity: 0.8
-}
-
-#prevBtn {
-    background-color: #bbbbbb
-}
-
-.step {
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbbbbb;
-    border: none;
-    border-radius: 50%;
-    display: inline-block;
-    opacity: 0.5
-}
-
-.step.active {
-    opacity: 1
-}
-
-.step.finish {
-    background-color: #4CAF50
-}
-
-.all-steps {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px
-}
 
     #encadre-marge {
         cursor: pointer;
@@ -594,7 +539,7 @@ button:hover {
     })
 
     // un ecouteur qui detecte le choix d'ouvrage sur le quel on se base afin de le copier
-    $('body').on("change", '.select-ouvrage', function () {
+    /*$('body').on("change", '.select-ouvrage', function () {
 
             let id = $(this).attr('ouvrages');
             let origine = $(this).val();
@@ -609,7 +554,7 @@ button:hover {
                     $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
                 }
             })
-    })
+    })*/
 
     function calculDebourseTotalHT(quantite,prixUnitaireHT,id,type){
         const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(2);
@@ -762,21 +707,77 @@ button:hover {
         afficherMenu();
     });
 
+    var currentOuvrageId=null;
+    var currentOuvrageTypeId=null;
 
     // fonction qui permet d'appeler la pop up qui sert à importer un ouvrage
-
     $('body').on('click', '.import-ouvrage', function () {
         $('#modal-import-ouvrage').remove();
 
         let id = $(this).attr('id').replace('import-ouvrage-','');
+        currentOuvrageId = id;
         $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{devis.id}}+'/'+id, function (response) {
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
-            showTab(currentTab);
 
         })
     })
+
+
+    $('body').on('change', '.ouvrage-attribut',function(){
+        const step = $(this).parent().parent().attr('step');
+        console.log("step : "+step);
+        if( step === "1"){
+            $(".ouvrage-attribut-step-2").addClass("d-none");
+            $(".step-2").removeClass('d-none');
+            currentOuvrageTypeId = $(this).val();
+            $('.to-'+currentOuvrageTypeId).removeClass('d-none');
+
+        }else if(step === "2"){
+            let poids = 0;
+            let temps = 0;
+
+            $('.attribut-select-step2-'+currentOuvrageTypeId).each(function(index){
+                console.log("index : "+index)
+                console.log($(this).val() != "", parseFloat($('option:selected',this).attr('poids')), parseFloat($('option:selected',this).attr('tps')) )
+                if(!isNaN(parseFloat($('option:selected',this).attr('poids'))) && !isNaN(parseFloat($('option:selected',this).attr('tps'))) ){
+                    console.log(poids,temps)
+                    poids += parseFloat($('option:selected',this).attr('poids'));
+                    temps += parseFloat($('option:selected',this).attr('tps'));
+                }
+            })
+            $("#devis_ouvrages_"+currentOuvrageId+"_poidsDeReference").val(poids);
+            $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(temps);
+            console.log(poids,temps)
+            
+        }
+    });
+    function validateForm() {
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        y = x[currentTab].getElementsByTagName("select");
+        for (i = 0; i < y.length; i++) {
+            console.log(y[i].value)
+            if (y[i].value == "" || $('#denomination').val() == "") {
+                y[i].className += " invalid";
+                $('#denomination').addClass("invalid");
+                valid = false;
+            }
+        }
+        if(valid && currentTab == "0"){
+            const id = $('#type_ouvrage').val();
+            console.log(id)
+            $('.tab-after').each(function(){
+                if(!$(this).hasClass('to-'+id)){
+                    $(this).remove();
+                }
+            });
+        }
+        if (valid) { document.getElementsByClassName("step")[currentTab].className += " finish"; }
+        return valid;
+    }
+
 
 
     // fonction qui permet d'importer des ouvrages (non utilisé pour l'instant)
@@ -921,73 +922,8 @@ button:hover {
 
     })
 
-    var currentTab = 0;
 
 
-    function showTab(n) {
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
-        if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-        } else {
-            document.getElementById("prevBtn").style.display = "inline";
-        }
-        if (n == (x.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Terminer";
-        } else {
-            document.getElementById("nextBtn").innerHTML = "Suivant";
-        }
-        fixStepIndicator(n)
-    }
-
-    function nextPrev(n) {
-        var x = document.getElementsByClassName("tab");
-        if (n == 1 && !validateForm()) return false;
-        x[currentTab].style.display = "none";
-        currentTab = currentTab + n;
-        if (currentTab >= x.length) {
-            // document.getElementById("regForm").submit();
-            // return false;
-            //alert("sdf");
-            document.getElementById("nextprevious").style.display = "none";
-            document.getElementById("all-steps").style.display = "none";
-            document.getElementById("register").style.display = "none";
-            document.getElementById("text-message").style.display = "block";
-
-        }
-        showTab(currentTab);
-    }
-
-    function validateForm() {
-        var x, y, i, valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("select");
-        for (i = 0; i < y.length; i++) {
-            console.log(y[i].value)
-            if (y[i].value == "" || $('#denomination').val() == "") {
-                y[i].className += " invalid";
-                $('#denomination').addClass("invalid");
-                valid = false;
-            }
-        }
-        if(valid && currentTab == "0"){
-            const id = $('#type_ouvrage').val();
-            console.log(id)
-            $('.tab-after').each(function(){
-                if(!$(this).hasClass('to-'+id)){
-                    $(this).remove();
-                }
-            });
-        }
-        if (valid) { document.getElementsByClassName("step")[currentTab].className += " finish"; }
-        return valid;
-    }
-
-    function fixStepIndicator(n) {
-        var i, x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) { x[i].className = x[i].className.replace(" active", ""); }
-        x[n].className += " active";
-    }
 
         // non utilisé
     function hasSomeParentTheClass(element, classname) {
