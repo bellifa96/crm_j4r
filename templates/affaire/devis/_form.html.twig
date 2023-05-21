@@ -739,6 +739,10 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    if(data.code == 200){
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
+                    }
                 // Traiter la réponse du serveur
                 console.log(data);
                 })
