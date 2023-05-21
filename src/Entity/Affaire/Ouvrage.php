@@ -8,6 +8,7 @@ use App\Entity\Unite;
 use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -84,14 +85,14 @@ class Ouvrage
     #[ORM\ManyToOne(inversedBy: 'ouvrages')]
     private ?CategorieOuvrage $categorie = null;
 
-    #[ORM\OneToOne(mappedBy: 'ouvrage', cascade: ['persist', 'remove'])]
-    private ?OuvrageFiltre $ouvrageFiltre = null;
-
     #[ORM\Column]
     private ?float $poidsDeReference = null;
 
     #[ORM\Column]
     private ?float $tpsDeReference = null;
+
+    #[ORM\Column(type: 'array')]
+    private $attributs = [];
 
     public function __construct()
     {
@@ -372,28 +373,6 @@ class Ouvrage
         return $this;
     }
 
-    public function getOuvrageFiltre(): ?OuvrageFiltre
-    {
-        return $this->ouvrageFiltre;
-    }
-
-    public function setOuvrageFiltre(?OuvrageFiltre $ouvrageFiltre): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($ouvrageFiltre === null && $this->ouvrageFiltre !== null) {
-            $this->ouvrageFiltre->setOuvrage(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($ouvrageFiltre !== null && $ouvrageFiltre->getOuvrage() !== $this) {
-            $ouvrageFiltre->setOuvrage($this);
-        }
-
-        $this->ouvrageFiltre = $ouvrageFiltre;
-
-        return $this;
-    }
-
     public function getPoidsDeReference(): ?float
     {
         return $this->poidsDeReference;
@@ -414,6 +393,18 @@ class Ouvrage
     public function setTpsDeReference(float $tpsDeReference): self
     {
         $this->tpsDeReference = $tpsDeReference;
+
+        return $this;
+    }
+
+    public function getAttributs(): array
+    {
+        return $this->attributs ? $this->attributs : [];
+    }
+
+    public function setAttributs(array $attributs): self
+    {
+        $this->attributs = $attributs;
 
         return $this;
     }

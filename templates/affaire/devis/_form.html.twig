@@ -720,6 +720,12 @@
             const data = JSON.parse(response);
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
+             $('#form-'+currentOuvrageId+' select').each(function(){
+                console.log($(this).val())
+                if($(this).parent().hasClass('d-none') && $(this).val() != ""){
+                    $(this).parent().removeClass('d-none');
+                }
+            })
 
         })
     })
@@ -771,10 +777,38 @@
              }
           })
           if(isValide){
-            const form = $('#form-'+currentOuvrageId)[0];
-            const data = new FormData(form);
+                      
+            $('#form-'+currentOuvrageId+' select').each(function(){
+                if($(this).parent().hasClass('d-none')){
+                    $(this).remove();
+                }
+            })
+            // Récupérer l'élément de formulaire
+            const form = document.getElementById('form-'+currentOuvrageId);
+
+            // Créer un objet FormData à partir du formulaire
+            const formData = new FormData(form);
+
+
+
+            // Effectuer la requête AJAX en utilisant fetch ou XMLHttpRequest
+            fetch('/affaire/attribut/ouvrage/set/'+currentOuvrageId, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                // Traiter la réponse du serveur
+                console.log(data);
+                })
+                .catch(error => {
+                // Gérer les erreurs de la requête
+                console.error(error);
+                });
             console.log(data.values);
           }
+
+
           
     }
 

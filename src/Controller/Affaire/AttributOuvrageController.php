@@ -3,8 +3,12 @@
 namespace App\Controller\Affaire;
 
 use App\Entity\Affaire\AttributOuvrage;
+use App\Entity\Affaire\Ouvrage;
+use App\Entity\Affaire\TypeOuvrage;
 use App\Form\Affaire\AttributOuvrageType;
 use App\Repository\Affaire\AttributOuvrageRepository;
+use App\Repository\Affaire\OuvrageRepository;
+use App\Repository\Affaire\TypeOuvrageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,5 +86,29 @@ class AttributOuvrageController extends AbstractController
         }
 
         return $this->redirectToRoute('app_affaire_attribut_ouvrage_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    
+    #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
+    public function setOuvrageAttribut(Request $request, Ouvrage $ouvrage,OuvrageRepository $ouvrageRepository,TypeOuvrageRepository $typeOuvrageRepository)
+    {
+
+        $data = $request->request->all();
+        $data = $data["attribut"];
+
+        $ouvrage->setDenomination($data['denomination']);
+        $ouvrage->setTpsDeReference($data['tpsDeReference']);
+        $ouvrage->setPoidsDeReference($data['poidsDeReference']);
+        $ouvrage->setAttributs($data['attributs']);
+        $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
+
+       // dd($data);
+
+        $ouvrageRepository->add($ouvrage);
+
+        return new Response(json_encode(['code'=>200]));
+
+
+
     }
 }
