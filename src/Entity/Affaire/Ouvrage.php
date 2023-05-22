@@ -97,6 +97,8 @@ class Ouvrage
     public function __construct()
     {
         $this->quantite = 1;
+        $this->poidsDeReference = 0;
+        $this->tpsDeReference = 0;
         $this->composants = new ArrayCollection();
     }
 
