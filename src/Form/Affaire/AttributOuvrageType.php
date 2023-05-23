@@ -17,6 +17,7 @@ class AttributOuvrageType extends AbstractType
             ->add('tps')
             ->add('ordre')
             ->add('typeOuvrage')
+            ->add('isTable')
             ->add('attributOuvrage')
         ;
     }
