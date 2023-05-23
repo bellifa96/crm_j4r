@@ -38,7 +38,7 @@
                     <div step="1">
                         <div class="col-md-3">
                             {% set selected = false %}
-                            <select class="chakra-input ouvrage-attribut select-ouvrage" name="attribut[TypeOuvrage]" id="type_ouvrage" required="required">
+                            <select class="chakra-input ouvrage-attribut select-ouvrage" name="attribut[TypeOuvrage]" id="type_ouvrage_{{ouvrage.id}}" required="required">
                             {% for to in typeOuvrages %}
                                     {% if ouvrage.typeOuvrage == to %}
                                         <option value="{{ to.id }}" selected> {{ to }} </option>
