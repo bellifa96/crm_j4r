@@ -44,6 +44,7 @@ class AttributOuvrage
     {
         $this->attributOuvrageTrs = new ArrayCollection();
         $this->isTable = false;
+        $this->ordre = 0;
     }
 
     public function getId(): ?int
