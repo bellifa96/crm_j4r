@@ -20,7 +20,7 @@ class AttributOuvrageController extends AbstractController
     #[Route('/', name: 'app_affaire_attribut_ouvrage_index', methods: ['GET'])]
     public function index(AttributOuvrageRepository $attributOuvrageRepository): Response
     {
-        $data= [
+      /*  $data= [
             ['poids'=>0,'tps'=>0,'titre'=>"sans console"],
             ['poids'=>3,'tps'=>0,'titre'=>"Console 28"],
             ['poids'=>5,'tps'=>0,'titre'=>"Console 39"],
@@ -34,7 +34,7 @@ class AttributOuvrageController extends AbstractController
             $attribut->setTitre($val['titre']);
             $attribut->setAttributOuvrage($attributOuvrageRepository->find(47));
             $attributOuvrageRepository->save($attribut,true);
-        }
+        }*/
         return $this->render('affaire/attribut_ouvrage/index.html.twig', [
             'attribut_ouvrages' => $attributOuvrageRepository->findByIsTable(true),
             'title'=> 'attribut ouvrage',
