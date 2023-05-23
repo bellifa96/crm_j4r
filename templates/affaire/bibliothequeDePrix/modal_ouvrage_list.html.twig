@@ -26,12 +26,12 @@
 
                         <div class="col-md-2">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference" value="{{ouvrage.poidsDeReference}}"
-                                    class="chakra-input select-ouvrage"  name="attribut[poidsDeReference]"
+                                    class="chakra-input select-ouvrage text-center"  name="attribut[poidsDeReference]"
                                     placeholder="Poids de référence" >
                         </div>
                         <div class="col-md-2">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference" value="{{ouvrage.tpsDeReference}}"
-                                    class="chakra-input select-ouvrage" name="attribut[tpsDeReference]"
+                                    class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                     placeholder="temps de référence">
                         </div>
                     </div>
@@ -55,12 +55,12 @@
                             {% for to in typeOuvrages %}
                                 {% for tab in to.attributOuvrages %}  
                                     {% if tab.attributOuvrageTrs is not empty %} 
-                                                <div class="col-md-2 tab-after to-{{to.id}}  d-none  ouvrage-attribut-step-2">
+                                                <div class="col-md-2 mt-2 tab-after to-{{to.id}}  d-none  ouvrage-attribut-step-2">
                                                         {% set selected = false %}
                                                         <select name="attribut[attributs][{{ tab.titre }}]"
                                                          class="chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{to.id}}"  required="required">
                                                             {% for attribut in tab.attributOuvrageTrs %}
-                                                                {% if ouvrage.attributs is not empty and ouvrage.attributs[tab.titre] == attribut.id %}
+                                                                {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys  and ouvrage.attributs[tab.titre] == attribut.id %}
                                                                         <option value="{{ attribut.id }}" selected 
                                                                              poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}" tps="{{ attribut.tps is not empty ?  attribut.tps : 0}}">
                                                                              {{ attribut.titre }}
