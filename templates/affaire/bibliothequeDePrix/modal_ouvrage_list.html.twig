@@ -82,6 +82,33 @@
                             {% endfor %}
                     </div>
 
+                    <div class="mt-4 col-md-11 m-auto">
+
+                        <table class="table datatable text-center">
+                            <thead>
+                                <tr class="tr-head text-center">
+                                    <th colspan="2" class="text-center">Dénomination</th>
+                                    <th class="text-center">Déboursé U HT</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="mt-4">
+                            {% for composant in ouvrage.composants %}
+                                <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
+                                    <td colspan="2" style="background:{{ composant.typeComposant.couleur  }};line-height: 1em;font-size: 1em;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">
+                                            {{composant.typeComposant.titre}}
+                                    </td>
+                                    <td>
+                                        <input type="text" id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal" input="debourseUnitaireHT"
+                                            name="devis[composants][{{ composant.id }}][debourseUnitaireHTModal]" required="required" maxlength="255"
+                                            class="chakra-input numbers text-center"
+                                            placeholder="Déboursé U HT"
+                                            value="0">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Ajouter</button>

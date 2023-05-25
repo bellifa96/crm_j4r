@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Affaire\ComposantRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Affaire\TypeComposantRepository;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -116,7 +117,12 @@ class DevisController extends AbstractController
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             } elseif ($element['type'] == 'composant') {
                 $entity = $this->em->getRepository(Composant::class)->find($element['id']);
-                $options = $this->em->getRepository(Composant::class)->findComposantsByOuvrageId($element['origine']);
+                if(!empty($element['origine'])){
+                    $options = $this->em->getRepository(Composant::class)->findComposantsByOuvrageId($element['origine']);
+                    
+                }else{
+                    $options = [];
+                }
                 // dd($options,$origine,$parent);
             }
             try {
@@ -530,7 +536,7 @@ class DevisController extends AbstractController
 
 
     #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
-    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository): Response
     {
 
 
@@ -539,13 +545,32 @@ class DevisController extends AbstractController
         $ouvrage->setCreateur($this->getUser());
         $ouvrage->setStatut('Copie');
         $elements = $devis->getElements();
+        $this->em->persist($ouvrage);
+
+        $typeComposants = $typeComposantRepository->findAll();
+        $data = [];
+        foreach($typeComposants as $typeComposant){
+            $composant = new Composant();
+            $composant->setTypeComposant($typeComposant);
+            $composant->setDenomination($typeComposant->getTitre());
+            $composant->setStatut('copie');
+            $this->em->persist($composant);
+            $ouvrage->addComposant($composant);
+            $this->em->flush();
+            $data[]= [
+                'id' => $composant->getId(),
+                'type' => 'composant',
+                'data' => [],
+                'origine' => null,
+            ];
+        }
 
         try {
             $ouvrageRepository->add($ouvrage);
             $element = [
                 'id' => $ouvrage->getId(),
                 'type' => 'ouvrage',
-                'data' => [],
+                'data' => $data,
             ];
             $html = $this->recursiveElements([$element], $parentId);
 

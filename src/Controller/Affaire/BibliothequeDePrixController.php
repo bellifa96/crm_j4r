@@ -265,6 +265,7 @@ class BibliothequeDePrixController extends AbstractController
         $ouvrage->setMarge(1);
         $ouvrage->setCreateur($this->getUser());
         $ouvrage->setQuantite($data['quantite']);
+        
         try {
             $ouvrageRepository->add($ouvrage);
             return new Response(json_encode(['code' => 200]));
