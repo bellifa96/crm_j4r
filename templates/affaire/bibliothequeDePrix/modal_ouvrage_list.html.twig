@@ -34,6 +34,11 @@
                                     class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                     placeholder="temps de référence">
                         </div>
+                        <div class="col-md-2">
+                            <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference" value="{{ouvrage.pourcentageTpsDeReference~' %'}}"
+                                    class="chakra-input select-ouvrage text-center" name="attribut[pourcentageTpsDeReference]"
+                                    placeholder="% temps de référence ">
+                        </div>
                     </div>
                     <div step="1">
                         <div class="col-md-3">
@@ -41,10 +46,10 @@
                             <select class="chakra-input ouvrage-attribut select-ouvrage" name="attribut[TypeOuvrage]" id="type_ouvrage_{{ouvrage.id}}" required="required">
                             {% for to in typeOuvrages %}
                                     {% if ouvrage.typeOuvrage == to %}
-                                        <option value="{{ to.id }}" selected> {{ to }} </option>
+                                        <option value="{{ to.id }}" code="{{ to.code }}" selected> {{ to }} </option>
                                         {% set selected = true %}
                                     {% else %}
-                                        <option  value="{{ to.id }}"> {{ to }} </option>
+                                        <option  value="{{ to.id }}" code="{{ to.code }}"> {{ to }} </option>
                                     {% endif %}
                             {% endfor %}
                                 <option  {{ selected == false ? 'selected="true"' : ''}} value=""> type d'ouvrage </option>
@@ -64,7 +69,6 @@
                                                                         <option value="{{ attribut.id }}" selected 
                                                                              poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}" tps="{{ attribut.tps is not empty ?  attribut.tps : 0}}">
                                                                              {{ attribut.titre }}
-                                                                        </option>
                                                                         {% set selected = true %}
                                                                 {% else %}
                                                                         <option value="{{ attribut.id }}" 
@@ -82,6 +86,7 @@
                             {% endfor %}
                     </div>
 
+                    <button type="button" id="calcul-prix-unitaire" class="btn btn-info mt-2">Calculer le Prix Unitaire</button>
                     <div class="mt-4 col-md-11 m-auto">
 
                         <table class="table datatable text-center">
@@ -99,15 +104,23 @@
                                             {{composant.typeComposant.titre}}
                                     </td>
                                     <td>
+
                                         <input type="text" id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal" input="debourseUnitaireHT"
+                                            code="{{ composant.TypeComposant.code }}"
+                                            cadence ="{{ composant.TypeComposant.cadence }}"
+                                            {% for ligne in composant.TypeComposant.tableDePrix
+                                             %}
+                                               {{ ligne.typeOuvrage.code~"="~ligne.prix }}
+                                            {% endfor %}
                                             name="devis[composants][{{ composant.id }}][debourseUnitaireHTModal]" required="required" maxlength="255"
-                                            class="chakra-input numbers text-center"
+                                            class="chakra-input numbers text-center td-prix-{{ouvrage.id}}"
                                             placeholder="Déboursé U HT"
                                             value="0">
                                     </td>
                                 </tr>
                             {% endfor %}
-                            </ul>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -17,6 +17,7 @@ use App\Entity\Affaire\Ouvrage;
 use App\Form\Affaire\DevisType;
 use App\Entity\Affaire\Composant;
 use App\Repository\UserRepository;
+use App\Entity\Affaire\TypeComposant;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Affaire\LotRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -168,6 +169,7 @@ class DevisController extends AbstractController
         $form->handleRequest($request);
 
         $users = $userRepository->findAll();
+        $cadenceDeRerefence = $this->em->getRepository(TypeComposant::class)->findOneByCode('M')->getCadence();
 
         $referer = $request->headers->get('referer');
         if ($form->isSubmitted() && $form->isValid()) {
@@ -182,6 +184,7 @@ class DevisController extends AbstractController
             'referer' => $referer,
             'demande' => $devis->getDemande(),
             'html' => $this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []),
+            'cadenceDeRerefence' => $cadenceDeRerefence,
             'title' => "Création d'un devis - " . $devis->getTitre() . " " . $devis->getId(),
             'nav' => []
         ]);

@@ -63,4 +63,12 @@ class TableDePrixRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /*public function findCadenceDeRerefence(){
+            return $this->createQueryBuilder('t')
+           ->andWhere('t.exampleField = :val')
+           ->getQuery()
+           ->getResult()
+        ;
+    }*/
 }

@@ -35,6 +35,9 @@ class TypeOuvrage
     #[ORM\OrderBy(["ordre"=>"ASC"])]
     private Collection $attributOuvrages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->ouvrages = new ArrayCollection();
@@ -176,5 +179,17 @@ class TypeOuvrage
     public function __toString()
     {
         return $this->titre;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
     }
 }

@@ -36,6 +36,9 @@ class TypeComposant
     #[ORM\OneToMany(mappedBy: 'composant', targetEntity: TableDePrix::class, orphanRemoval: true)]
     private Collection $tableDePrix;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->composants = new ArrayCollection();
@@ -169,5 +172,17 @@ class TypeComposant
     public function __toString()
     {
         return $this->titre;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
     }
 }

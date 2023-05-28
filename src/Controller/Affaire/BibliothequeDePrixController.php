@@ -10,10 +10,12 @@ use App\Entity\Affaire\Devis;
 use App\Service\CalculService;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Composant;
+use App\Entity\Affaire\TableDePrix;
 use App\Entity\Affaire\TypeOuvrage;
 use App\Repository\UniteRepository;
 use App\Entity\Affaire\AttributOuvrage;
 use App\Entity\Affaire\CategorieOuvrage;
+use App\Entity\Affaire\TypeComposant;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use App\Repository\Affaire\OuvrageRepository;
@@ -178,12 +180,15 @@ class BibliothequeDePrixController extends AbstractController
         $response = new Response();
 
         $path = "affaire/bibliothequeDePrix/modal_ouvrage_list.html.twig";
+        
+        
+        $tps= 0;
         $params = [
             'typeOuvrages'=>$entityManager->getRepository(TypeOuvrage::class)->findAll(),
             'categorieOuvrages'=>$entityManager->getRepository(CategorieOuvrage::class)->findAll(),
             'attributOuvrages'=>$entityManager->getRepository(AttributOuvrage::class)->findAll(),
-            'ouvrage'=>$ouvrage
-        
+            'ouvrage'=>$ouvrage,
+            'tableDePrix'=>$entityManager->getRepository(TableDePrix::class)->findAll(),
         ];
 
         if (!empty($path)) {

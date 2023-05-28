@@ -94,6 +94,9 @@ class Ouvrage
     #[ORM\Column(type: 'array')]
     private $attributs = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?float $pourcentageTpsDeReference = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -407,6 +410,18 @@ class Ouvrage
     public function setAttributs(array $attributs): self
     {
         $this->attributs = $attributs;
+
+        return $this;
+    }
+
+    public function getPourcentageTpsDeReference(): ?float
+    {
+        return $this->pourcentageTpsDeReference;
+    }
+
+    public function setPourcentageTpsDeReference(?float $pourcentageTpsDeReference): self
+    {
+        $this->pourcentageTpsDeReference = $pourcentageTpsDeReference;
 
         return $this;
     }

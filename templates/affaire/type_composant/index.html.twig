@@ -9,6 +9,7 @@
             <tr class="tr-head">
                 <th>Id</th>
                 <th>Titre</th>
+                <th>Code</th>
                 <th>Couleur</th>
                 <th>actions</th>
             </tr>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ type_composant.id }}</td>
                 <td><div  class="badge" style="background:{{ type_composant.couleur  }};line-height: 1em;font-size: 1em;color:{{ type_composant.couleurText is not empty ? type_composant.couleurText : "white"   }}; ">{{ type_composant.titre }}</div></td>
+                <td> {{ type_composant.code }} </td>
                 <td>{{ type_composant.couleur }}</td>
                 <td>
                     <a href="{{ path('app_affaire_type_composant_edit', {'id': type_composant.id}) }}">Modifier</a>
