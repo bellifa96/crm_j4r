@@ -7,8 +7,10 @@ use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\TypeOuvrage;
 use App\Form\Affaire\AttributOuvrageType;
 use App\Repository\Affaire\AttributOuvrageRepository;
+use App\Repository\Affaire\ComposantRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
+use App\Service\CalculService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,23 +107,35 @@ class AttributOuvrageController extends AbstractController
 
     
     #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
-    public function setOuvrageAttribut(Request $request, Ouvrage $ouvrage,OuvrageRepository $ouvrageRepository,TypeOuvrageRepository $typeOuvrageRepository)
+    public function setOuvrageAttribut(Request $request,CalculService $calculService, Ouvrage $ouvrage,OuvrageRepository $ouvrageRepository,TypeOuvrageRepository $typeOuvrageRepository,ComposantRepository $composantRepository)
     {
 
         $data = $request->request->all();
         $data = $data["attribut"];
+
 
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $ouvrage->setPoidsDeReference($data['poidsDeReference']);
         $ouvrage->setAttributs($data['attributs']);
         $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
+        $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
+        $responseData = [];
+
+        foreach($data['composants'] as $key=>$val){
+            $composant = $composantRepository->find($key);
+            $composant->setDebourseUnitaireHT($val);
+            $composantRepository->add($composant);
+            if($key === array_key_last($data['composants'])){
+                $responseData = $calculService->recursiveCalculTop(['id' => $key, 'type' => 'composant']);
+            }
+        }
 
        // dd($data);
 
         $ouvrageRepository->add($ouvrage);
 
-        return new Response(json_encode(['code'=>200]));
+        return new Response(json_encode(['code'=>200,'data'=>$responseData]));
 
 
 

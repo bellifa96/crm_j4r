@@ -104,7 +104,10 @@
                        name="devis[prixDeVenteHT]" disabled>
             </div>
             <div class="col-md-3">
-
+                <label for="devis_tva">TVA</label>
+                <input type="text" id="devis_tva" class="form-control"
+                       value='{{ devis.tva }} %'
+                       name="devis[tva]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
 
@@ -119,6 +122,10 @@
             <div style="font-size: 1.5rem" class="col-md-1">
             </div>
             <div class="col-md-4">
+                <label for="devis_prixDeVente">Prix de vente</label>
+                <input type="text" id="devis_prixDeVente" class="form-control"
+                       value='{{ devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT)   }}'
+                       name="devis[prixDeVente]" disabled>
             </div>
         </div>
     </div>
@@ -498,12 +505,12 @@
     })*/
 
     function calculDebourseTotalHT(quantite,prixUnitaireHT,id,type){
-        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(2);
+        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
         $("#devis_"+type+"_"+id+"_debourseTotalHT").attr('value',debourseTotalHT)
         return debourseTotalHT;
     }
     function calculPrixDeVente(quantite,prixUnitaireHT, marge, id,type){
-        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(2);
+        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(3);
         $("#devis_"+type+"_"+id+"_prix_de_vente").attr('value',prixDeVenteHt)
         return prixDeVenteHt ;
     }
@@ -514,19 +521,19 @@
 
         data.forEach(function(element) {
             if(element.type === "devis"){
-                $('input[name="devis[marge]"]').attr("value",element.marge.toFixed(2));
-                $('input[name="devis[marge]"]').val(element.marge.toFixed(2));
-                $('input[name="devis[prixDeVenteHT]"]').attr("value",element.prixDeVenteHT.toFixed(2));
-                $('input[name="devis[debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
-                $('input[name="devis[margeTotal]"]').attr("value",element.prixDeVenteHT.toFixed(2) - element.debourseTotalHT.toFixed(2));
+                $('input[name="devis[marge]"]').attr("value",element.marge.toFixed(3));
+                $('input[name="devis[marge]"]').val(element.marge.toFixed(3));
+                $('input[name="devis[prixDeVenteHT]"]').attr("value",element.prixDeVenteHT.toFixed(3));
+                $('input[name="devis[debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(3));
+                $('input[name="devis[margeTotal]"]').attr("value",element.prixDeVenteHT.toFixed(3) - element.debourseTotalHT.toFixed(3));
 
 
             }else{
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
-                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(2));
-                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(2));
-                $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(2));
-                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(2));
+                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(3));
+                $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
+                $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(3));
+                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(3));
             }
 
         })
@@ -713,6 +720,7 @@
             $("#devis_ouvrages_"+currentOuvrageId+"_pourcentageTpsDeReference").val(pourcentageTps.toFixed(3));
             $("#devis_ouvrages_"+currentOuvrageId+"_poidsDeReference").val(poids);
             $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(tps);
+            calculPrixUnitaireComposant();
             
         }
     });
@@ -721,7 +729,7 @@
         calculPrixUnitaireComposant();
     })
     
-    function calculPrixUnitaireComposant(){
+    function calculPrixUnitaireComposant(update = false){
         let res = 0;
 
         const codeOuvrage = $('#type_ouvrage_'+currentOuvrageId).find('option:selected').attr('code');
@@ -731,47 +739,46 @@
             const variante = parseFloat($(this).attr(codeOuvrage));
             const code = $(this).attr('code');
             const cadence = parseFloat($(this).attr('cadence'));
-            console.log(variante,k,t,cadence)
             switch(code){
                 case "L":
                     //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
                     res = variante * k / 1000 * 30;
-                    $(this).val(res);
                     break;
                 case "M":
                     //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
                     res = variante *  k / cadence * (1 +(t/100));
-                    $(this).val(res);
                     break;
                 case "D":
                     // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
                     res = variante * k / cadence * (1+(t/100));
-                    $(this).val(res);
                     break;
                 case "MA":
                     // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K / 
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
                     res = variante * k / cadence;
-                    $(this).val(res);
                     break;
                 case "MR":
                   //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
                     res = variante * k / cadence;
-                    $(this).val(res);
                     break;
                 case "TA":
                    // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
-                    $(this).val(res);
                     break;
                 case "TR":
                   //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
-                    $(this).val(res);
                     break;
+            }
+            res = res.toFixed(3);
+            $(this).val(res);
+            if(update){
+                const id = $(this).attr('id').replace('_modal','');
+                console.log(id)
+                $("#"+id).attr('value',res);
             }
         })
     }
@@ -801,6 +808,7 @@
 
 
 
+            $('.form-submit-loader').show();
             // Effectuer la requête AJAX en utilisant fetch ou XMLHttpRequest
             fetch('/affaire/attribut/ouvrage/set/'+currentOuvrageId, {
                 method: 'POST',
@@ -809,9 +817,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if(data.code == 200){
+                        calculPrixUnitaireComposant(true);
                         $('#modal-import-ouvrage').modal('hide');
                         $('#modal-import-ouvrage').remove();
                         currentOuvrageId = null;
+                        updateData(data.data);
+                
                     }
                 // Traiter la réponse du serveur
                 console.log(data);
@@ -820,7 +831,6 @@
                 // Gérer les erreurs de la requête
                 console.error(error);
                 });
-            console.log(data.values);
           }
 
 
@@ -903,7 +913,7 @@
                                     sumParent += debourseLot;
                                 }
                             });
-                            $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(2));
+                            $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(3));
 
                             parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
                         }

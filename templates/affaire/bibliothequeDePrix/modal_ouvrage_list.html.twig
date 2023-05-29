@@ -86,7 +86,6 @@
                             {% endfor %}
                     </div>
 
-                    <button type="button" id="calcul-prix-unitaire" class="btn btn-info mt-2">Calculer le Prix Unitaire</button>
                     <div class="mt-4 col-md-11 m-auto">
 
                         <table class="table datatable text-center">
@@ -112,7 +111,9 @@
                                              %}
                                                {{ ligne.typeOuvrage.code~"="~ligne.prix }}
                                             {% endfor %}
-                                            name="devis[composants][{{ composant.id }}][debourseUnitaireHTModal]" required="required" maxlength="255"
+                                            value="{{ composant.debourseUnitaireHT }}"
+                                            name="attribut[composants][{{composant.id}}]"
+                                            required="required" maxlength="255"
                                             class="chakra-input numbers text-center td-prix-{{ouvrage.id}}"
                                             placeholder="Déboursé U HT"
                                             value="0">
