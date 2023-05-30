@@ -31,11 +31,6 @@
                                    class="chakra-input select-ouvrage text-center" name="attribut[poidsDeReference]"
                                    placeholder="Poids de référence">
                         </div>
-                        {# <div class="col-md-2">
-                            <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference" value="{{ouvrage.tpsDeReference}}"
-                                    class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
-                                    placeholder="temps de référence">
-                        </div> #}
                         <div class="col-md-2" style="margin-right: inherit">
                             <input type="text" maxlength="255"
                                    id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
@@ -47,6 +42,10 @@
                         <div class="col-md-1" style="margin-left: inherit">
                             <i class="bi bi-percent" style="font-size: 1rem"></i>
                         </div>
+
+                        <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference" value="{{ouvrage.tpsDeReference}}"
+                               class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
+                               placeholder="temps de référence" style="display: none;">
                     </div>
                     <div step="1">
                         <div class="col-md-3">
