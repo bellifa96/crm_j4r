@@ -34,13 +34,13 @@
                                     class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                     placeholder="temps de référence">
                         </div>#}
-                        <div class="col-md-2 text-end">
+                        <div class="col-md-2">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference" value="{{ouvrage.pourcentageTpsDeReference}}"
-                                    class="chakra-input select-ouvrage text-center" name="attribut[pourcentageTpsDeReference]"
-                                    placeholder="% temps de référence ">
+                                    class="chakra-input select-ouvrage text-end" name="attribut[pourcentageTpsDeReference]"
+                                    placeholder="% temps de référence " disabled>
                         </div>
-                        <div class="col-md-1">
-                            <i class="bi bi-percent"></i>
+                        <div class="col-md-1 text-start">
+                            <i class="bi bi-percent" style="font-size: 0.8rem"></i>
                         </div>
                     </div>
                     <div step="1">
