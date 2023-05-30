@@ -314,6 +314,7 @@
 
     <div class="tab-content" id="nav-tabContent">
 
+        <!-- Récapitulatif -->
         <div class="tab-pane fade  show active" id="nav-recap" role="tabpanel" aria-labelledby="nav-recap-tab">
 
             <div class="row mt-3">
@@ -395,7 +396,8 @@
                             </div>
 
                             <div class="col-md-12 text-end mt-3">
-                                <a href="{{ path('app_affaire_devis_pdf',{'id':devis.id}) }}" target="_blank" class="btn btn-outline-info btn-sm">Générer le devis</a>
+                                <a href="{{ path('app_affaire_devis_pdf',{'id':devis.id}) }}" target="_blank"
+                                   class="btn btn-outline-info btn-sm">Générer le devis</a>
                             </div>
 
                         </div>
@@ -491,10 +493,9 @@
                                             </button>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -509,9 +510,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
+        <!-- Détails devis -->
         <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
             <div class="row mt-3">
                 <div class="col-md-6 ">
@@ -675,6 +676,7 @@
             </div>
         </div>
 
+        <!-- Détails demande -->
         <div class="tab-pane fade" id="nav-demande" role="tabpanel" aria-labelledby="nav-demande-tab">
 
             <div class="page-block col-md-10 m-auto mt-3">
@@ -844,7 +846,7 @@
                 </div>
             </div>
             <div class="col-md-12 page-block mt-4">
-                
+
                 <ul class="nav nav-tabs nav-demande nav-tabs-demande mb-4" id="myTab" role="tablist">
                     <li class="col nav-item-demande" role="presentation">
                         <button class="nav-link nav-link-demande {{ devis.demande.menu is empty ? 'active' : '' }}{{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}"
@@ -1194,7 +1196,6 @@
 
     </div>
 
-    </div>
 
     {{ include('affaire/devis/_delete_form.html.twig') }}
 
