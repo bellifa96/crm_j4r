@@ -36,21 +36,24 @@
                                     class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                     placeholder="temps de référence">
                         </div> #}
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <input type="text" maxlength="255"
-                                       id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
-                                       value="{{ ouvrage.pourcentageTpsDeReference }}"
-                                       class="chakra-input select-ouvrage text-end"
-                                       name="attribut[pourcentageTpsDeReference]" placeholder="% temps de référence "
-                                       disabled>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                      <i class="bi bi-percent" style="font-size: 1rem"></i>
-                                    </span>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
+                                           value="{{ ouvrage.pourcentageTpsDeReference }}"
+                                           class="chakra-input select-ouvrage text-end"
+                                           name="attribut[pourcentageTpsDeReference]"
+                                           placeholder="% temps de référence " disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                          <i class="bi bi-percent" style="font-size: 1rem"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div step="1">
                         <div class="col-md-3">
