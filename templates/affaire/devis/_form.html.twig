@@ -739,6 +739,8 @@
             const variante = parseFloat($(this).attr(codeOuvrage));
             const code = $(this).attr('code');
             const cadence = parseFloat($(this).attr('cadence'));
+
+            console.log(variante,k,t,cadence)
             switch(code){
                 case "L":
                     //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
