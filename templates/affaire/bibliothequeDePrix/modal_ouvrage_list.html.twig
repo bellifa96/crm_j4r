@@ -24,17 +24,17 @@
                                     maxlength="30" class="chakra-input select-ouvrage" placeholder="Dénomination" id="devis_ouvrages_{{ouvrage.id}}_denomination_modal">
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference" value="{{ouvrage.poidsDeReference}}"
                                     class="chakra-input select-ouvrage text-center"  name="attribut[poidsDeReference]"
                                     placeholder="Poids de référence" >
                         </div>
-                        <div class="col-md-2">
+                        {#<div class="col-md-2">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference" value="{{ouvrage.tpsDeReference}}"
                                     class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                     placeholder="temps de référence">
-                        </div>
-                        <div class="col-md-2">
+                        </div>#}
+                        <div class="col-md-3">
                             <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference" value="{{ouvrage.pourcentageTpsDeReference~' %'}}"
                                     class="chakra-input select-ouvrage text-center" name="attribut[pourcentageTpsDeReference]"
                                     placeholder="% temps de référence ">
