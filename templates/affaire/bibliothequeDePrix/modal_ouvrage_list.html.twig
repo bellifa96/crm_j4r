@@ -21,44 +21,66 @@
                         <div class="col-md-6">
                             <input type="text" input="denomination" value="{{ ouvrage.denomination }}"
                                    required="required" name="attribut[denomination]"
-                                   maxlength="30" class="chakra-input select-ouvrage" placeholder="Dénomination"
+                                   maxlength="30" class="chakra-input select-ouvrage text-center"
+                                   placeholder="Dénomination de l'ouvrage"
                                    id="devis_ouvrages_{{ ouvrage.id }}_denomination_modal">
                         </div>
 
-                        <div class="col-md-3">
-                            <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
-                                   value="{{ ouvrage.poidsDeReference }}"
-                                   class="chakra-input select-ouvrage text-center" name="attribut[poidsDeReference]"
-                                   placeholder="Poids de référence">
+                        <div class="col-md-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-10">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
+                                           value="{{ ouvrage.poidsDeReference }}"
+                                           class="chakra-input select-ouvrage text-center"
+                                           name="attribut[poidsDeReference]"
+                                           placeholder="Poids de référence">
+                                </div>
+                                <div class="col-md-1" style="padding: inherit; margin-left: inherit">
+                                    kg
+                                </div>
+                            </div>
                         </div>
 
-                        <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference" value="{{ouvrage.tpsDeReference}}"
+                        <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
+                               value="{{ ouvrage.tpsDeReference }}"
                                class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
                                placeholder="temps de référence" style="display: none;">
 
-                        <div class="col-md-2" style="margin-right: inherit">
-                            <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference" value="{{ouvrage.pourcentageTpsDeReference}}"
-                                   class="chakra-input select-ouvrage text-end" name="attribut[pourcentageTpsDeReference]"
-                                   placeholder="% temps de référence ">
-                        </div>
-                        <div class="col-md-1" style="margin-left: inherit">
-                            <i class="bi bi-percent" style="font-size: 1rem"></i>
+                        <div class="col-md-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
+                                           value="{{ ouvrage.pourcentageTpsDeReference }}"
+                                           class="chakra-input select-ouvrage text-center"
+                                           name="attribut[pourcentageTpsDeReference]"
+                                           placeholder="% tps référence ">
+                                </div>
+                                <div class="col-md-4" style="padding: inherit; margin-left: inherit">
+                                    <i class="bi bi-percent" style="font-size: 1rem"></i> TPS
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div step="1">
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin-right: auto; margin-left: auto">
                             {% set selected = false %}
-                            <select class="chakra-input ouvrage-attribut select-ouvrage" name="attribut[TypeOuvrage]"
+                            <select class="chakra-input ouvrage-attribut select-ouvrage text-center"
+                                    name="attribut[TypeOuvrage]"
                                     id="type_ouvrage_{{ ouvrage.id }}" required="required">
                                 {% for to in typeOuvrages %}
                                     {% if ouvrage.typeOuvrage == to %}
-                                        <option value="{{ to.id }}" code="{{ to.code }}" selected> {{ to }} </option>
+                                        <option class="text-center" value="{{ to.id }}" code="{{ to.code }}"
+                                                selected> {{ to }} </option>
                                         {% set selected = true %}
                                     {% else %}
-                                        <option value="{{ to.id }}" code="{{ to.code }}"> {{ to }} </option>
+                                        <option class="text-center" value="{{ to.id }}"
+                                                code="{{ to.code }}"> {{ to }} </option>
                                     {% endif %}
                                 {% endfor %}
-                                <option {{ selected == false ? 'selected="true"' : '' }} value=""> type d'ouvrage
+                                <option {{ selected == false ? 'selected="true"' : '' }} class="text-center" value="">
+                                    Type d'ouvrage
                                 </option>
                             </select>
                         </div>
