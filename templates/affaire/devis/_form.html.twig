@@ -529,6 +529,7 @@
 
 
             }else{
+                $('input[name="devis['+element.type+'][' + element.id + '][denomination]"]').attr("value",element.denomination);
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(3));
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
@@ -775,7 +776,7 @@
                     res = variante * k / 1000;
                     break;
             }
-            res = res.toFixed(3);
+            res = res.toFixed(2);
             $(this).val(res);
             if(update){
                 const id = $(this).attr('id').replace('_modal','');
