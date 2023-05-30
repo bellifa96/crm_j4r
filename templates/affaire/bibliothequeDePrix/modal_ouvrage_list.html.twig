@@ -143,3 +143,13 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('input[name="attribut[pourcentageTpsDeReference]"]').on('input', function() {
+            var value = $(this).val();
+            if (value.charAt(value.length - 1) !== '%') {
+                $(this).val(value + '%');
+            }
+        });
+    });
+</script>
