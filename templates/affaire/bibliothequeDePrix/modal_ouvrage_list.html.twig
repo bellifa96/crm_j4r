@@ -144,12 +144,5 @@
     </div>
 </div>
 <script>
-    $(document).ready(function() {
-        $('input[name="attribut[pourcentageTpsDeReference]"]').val(function(index, value) {
-            if (value.charAt(value.length - 1) !== '%') {
-                return value + '%';
-            }
-            return value;
-        }).change();
-    });
+
 </script>
