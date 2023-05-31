@@ -104,13 +104,13 @@
                                 <tr>
                                     <td style="border: inherit">
                                         <div style="margin-bottom: 2px">Portable
-                                            : {{ devis.demande.contactPrincipalClient.telephone is not null ? devis.demande.contactPrincipalClient.telephone : '' }}</div>
+                                            : {#  {{ devis.demande.contactPrincipalClient.telephone is not null ? devis.demande.contactPrincipalClient.telephone : '' }}#}</div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border: inherit">
                                         <div style="margin-bottom: 2px">Email
-                                            : {{ devis.demande.contactPrincipalClient.email is not null ? devis.demande.contactPrincipalClient.email : '' }}</div>
+                                            : ~{#  {{ devis.demande.contactPrincipalClient.email is not null ? devis.demande.contactPrincipalClient.email : '' }}#}</div>
                                     </td>
                                 </tr>
                             </table>
