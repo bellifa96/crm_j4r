@@ -102,6 +102,7 @@ class Ouvrage
         $this->quantite = 1;
         $this->poidsDeReference = 0;
         $this->tpsDeReference = 0;
+        $this->pourcentageTpsDeReference = 0;
         $this->composants = new ArrayCollection();
     }
 
