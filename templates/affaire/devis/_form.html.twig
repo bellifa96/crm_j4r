@@ -545,7 +545,7 @@
                 $('input[name="devis[marge]"]').val(element.marge.toFixed(3));
                 $('input[name="devis[prixDeVenteHT]"]').attr("value",element.prixDeVenteHT.toFixed(3));
                 $('input[name="devis[debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(3));
-                $('input[name="devis[margeTotal]"]').attr("value",element.prixDeVenteHT.toFixed(3) - element.debourseTotalHT.toFixed(3));
+                $('input[name="devis[margeTotal]"]').attr("value",(element.prixDeVenteHT - element.debourseTotalHT).toFixed(3));
                 $('input[name="devis[margeTotal]"]').val(element.prixDeVenteHT.toFixed(3) - element.debourseTotalHT.toFixed(3));
 
 
