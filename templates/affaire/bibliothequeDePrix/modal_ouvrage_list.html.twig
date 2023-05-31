@@ -37,7 +37,7 @@
                                            placeholder="Poids de référence">
                                 </div>
                                 <div class="col-md-1" style="padding: inherit; margin-left: inherit">
-                                    kg
+                                    <strong>Kg</strong>
                                 </div>
                             </div>
                         </div>
@@ -57,8 +57,8 @@
                                            name="attribut[pourcentageTpsDeReference]"
                                            placeholder="0">
                                 </div>
-                                <div class="col-md-4" style="padding: inherit; margin-left: inherit">
-                                    <i class="bi bi-percent" style="font-size: 1rem"></i> TPS
+                                <div class="col-md-4" style="padding: inherit; margin-left: inherit;">
+                                    <strong><i class="bi bi-percent" style="font-size: 1rem"></i> Tps</strong>
                                 </div>
                             </div>
                         </div>
@@ -133,9 +133,8 @@
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td colspan="2"
-                                        style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">
-                                        {{ composant.typeComposant.titre }}
+                                    <td colspan="2">
+                                        <div style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; "><strong>{{ composant.typeComposant.titre }}</strong></div>
                                     </td>
                                     <td>
 
