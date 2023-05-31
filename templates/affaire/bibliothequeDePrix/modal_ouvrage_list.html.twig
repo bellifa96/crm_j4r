@@ -86,7 +86,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="tab step-2 {{ selected == true ? "" : "d-none" }} mt-3 row justify-content-center"
+                    <div class="tab step-2 {{ selected == true ? "" : "d-none" }} mt-3 mb-5 row justify-content-center"
                          length="{{ typeOuvrages|length }}" step="2">
                         {% for to in typeOuvrages %}
                             {% for tab in to.attributOuvrages %}
@@ -121,24 +121,24 @@
                         {% endfor %}
                     </div>
 
-                    <div class="mt-4 col-md-6 m-auto">
+                    <div class="mt-4 col-md-5 m-auto">
 
                         <table class="table datatable text-center">
                             <thead>
                             <tr class="tr-head text-center">
-                                <th colspan="2" class="text-center col-md-6">Dénomination</th>
-                                <th class="text-center col-md-6">Déboursé U HT</th>
+                                <th colspan="2" class="text-center col-md-8">Dénomination</th>
+                                <th class="text-center col-md-4">Déboursé U HT</th>
                             </tr>
                             </thead>
 
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td colspan="2" class="col-md-6">
+                                    <td colspan="2" class="col-md-8">
                                         <div class="fw-bold"
                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</div>
                                     </td>
-                                    <td class="col-md-6">
+                                    <td class="col-md-4">
                                         <div class="row align-items-center">
                                             <div class="col-md-9">
                                                 <input type="text" style="border-bottom: inherit"
@@ -154,7 +154,7 @@
                                                        required="required" maxlength="255"
                                                        class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
                                                        placeholder="Déboursé U HT"
-                                                       value="0" readonly></div>
+                                                       value="0" disabled></div>
                                             <div class="col-md-3 text-start" style="padding: inherit">€ HT</div>
                                         </div>
                                     </td>
