@@ -126,21 +126,21 @@
                         <table class="table datatable text-center">
                             <thead>
                             <tr class="tr-head text-center">
-                                <th colspan="2" class="text-center">Dénomination</th>
-                                <th class="text-center">Déboursé U HT</th>
+                                <th colspan="2" class="text-center col-md-8">Dénomination</th>
+                                <th class="text-center col-md-4">Déboursé U HT</th>
                             </tr>
                             </thead>
 
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td colspan="2">
+                                    <td colspan="2" class="col-md-8">
                                         <div class="fw-bold"
                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</div>
                                     </td>
-                                    <td>
+                                    <td class="col-md-4">
                                         <div class="row align-items-center">
-                                            <div class="col-md-10">
+                                            <div class="col-md-9">
                                                 <input type="text"
                                                        id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
                                                        input="debourseUnitaireHT"
@@ -155,7 +155,7 @@
                                                        class="chakra-input numbers text-center td-prix-{{ ouvrage.id }}"
                                                        placeholder="Déboursé U HT"
                                                        value="0"></div>
-                                            <div class="col-md-2 text-start" style="padding: inherit">€ HT</div>
+                                            <div class="col-md-3 text-start" style="padding: inherit">€ HT</div>
                                         </div>
                                     </td>
                                 </tr>
