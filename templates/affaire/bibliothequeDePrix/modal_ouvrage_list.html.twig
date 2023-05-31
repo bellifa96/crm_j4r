@@ -69,6 +69,10 @@
                             <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
                                     name="attribut[TypeOuvrage]"
                                     id="type_ouvrage_{{ ouvrage.id }}" required="required">
+                                <option {{ selected == false ? 'selected="true"' : '' }} class="text-center fst-italic"
+                                                                                         id="typeOuvrageDefaultOption" value="">
+                                    Type d'ouvrage
+                                </option>
                                 {% for to in typeOuvrages %}
                                     {% if ouvrage.typeOuvrage == to %}
                                         <option class="text-center fw-bold" value="{{ to.id }}" code="{{ to.code }}"
@@ -79,10 +83,6 @@
                                                 code="{{ to.code }}"> {{ to }} </option>
                                     {% endif %}
                                 {% endfor %}
-                                <option {{ selected == false ? 'selected="true"' : '' }} class="text-center fst-italic"
-                                                                                         id="typeOuvrageDefaultOption" value="">
-                                    Type d'ouvrage
-                                </option>
                             </select>
                         </div>
                     </div>
@@ -96,6 +96,8 @@
                                         <select name="attribut[attributs][{{ tab.titre }}]"
                                                 class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
                                                 required="required">
+                                            <option {{ selected == false ? 'selected="true"' : '' }}
+                                                    value="">  {{ tab.titre }} </option>
                                             {% for attribut in tab.attributOuvrageTrs %}
                                                 {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys  and ouvrage.attributs[tab.titre] == attribut.id %}
                                                 <option value="{{ attribut.id }}" selected
@@ -112,8 +114,6 @@
                                                 {% endif %}
 
                                             {% endfor %}
-                                            <option {{ selected == false ? 'selected="true"' : '' }}
-                                                    value="">  {{ tab.titre }} </option>
                                         </select>
                                     </div>
                                 {% endif %}
