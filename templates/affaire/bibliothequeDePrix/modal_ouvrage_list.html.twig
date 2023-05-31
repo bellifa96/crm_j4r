@@ -34,7 +34,7 @@
                                            value="{{ ouvrage.poidsDeReference }}"
                                            class="chakra-input select-ouvrage text-center fw-bold"
                                            name="attribut[poidsDeReference]"
-                                           placeholder="Poids de référence">
+                                           placeholder="Poids de référence" readonly>
                                 </div>
                                 <div class="col-md-1 fw-bold" style="padding: inherit; margin-left: inherit">
                                     Kg
@@ -55,7 +55,7 @@
                                            value="{{ ouvrage.pourcentageTpsDeReference }}"
                                            class="chakra-input select-ouvrage text-center fw-bold"
                                            name="attribut[pourcentageTpsDeReference]"
-                                           placeholder="0">
+                                           placeholder="0" readonly>
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
                                     <i class="bi bi-percent" style="font-size: 1rem"></i> Tps
@@ -126,22 +126,22 @@
                         <table class="table datatable text-center">
                             <thead>
                             <tr class="tr-head text-center">
-                                <th colspan="2" class="text-center col-md-8">Dénomination</th>
-                                <th class="text-center col-md-4">Déboursé U HT</th>
+                                <th colspan="2" class="text-center col-md-6">Dénomination</th>
+                                <th class="text-center col-md-6">Déboursé U HT</th>
                             </tr>
                             </thead>
 
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td colspan="2" class="col-md-8">
+                                    <td colspan="2" class="col-md-6">
                                         <div class="fw-bold"
                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</div>
                                     </td>
-                                    <td class="col-md-4">
+                                    <td class="col-md-6">
                                         <div class="row align-items-center">
                                             <div class="col-md-9">
-                                                <input type="text"
+                                                <input type="text" style="border-bottom: inherit"
                                                        id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
                                                        input="debourseUnitaireHT"
                                                        code="{{ composant.TypeComposant.code }}"
@@ -152,9 +152,9 @@
                                                        value="{{ composant.debourseUnitaireHT }}"
                                                        name="attribut[composants][{{ composant.id }}]"
                                                        required="required" maxlength="255"
-                                                       class="chakra-input numbers text-center td-prix-{{ ouvrage.id }}"
+                                                       class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
                                                        placeholder="Déboursé U HT"
-                                                       value="0"></div>
+                                                       value="0" readonly></div>
                                             <div class="col-md-3 text-start" style="padding: inherit">€ HT</div>
                                         </div>
                                     </td>
