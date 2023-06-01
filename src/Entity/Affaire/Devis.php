@@ -95,7 +95,7 @@ class Devis
         $this->referent = new ArrayCollection();
         $this->lots = new ArrayCollection();
         $this->ouvrages = new ArrayCollection();
-        $this->marge = 1.3;
+        $this->marge = 1.4;
         $this->tva = 20;
     }
 

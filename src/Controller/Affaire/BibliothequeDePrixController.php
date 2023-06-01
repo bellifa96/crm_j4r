@@ -335,12 +335,13 @@ class BibliothequeDePrixController extends AbstractController
 
         $composant->setCode($data['code']);
         $composant->setDebourseUnitaireHT($data['duht']);
+        $composant->setDebourseTotalHT($data['dtht']);
         $composant->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
         $composant->setQuantite($data['quantite']);
         $composant->setUnite($unite);
         $composant->setMarge(floatval($data['marge']));
-        $composant->setPrixDeVenteHT($composant->getMarge() * $composant->getDebourseUnitaireHT() * $composant->getQuantite());
+        $composant->setPrixDeVenteHT($data['prixdeVenteHT']);
         $composant->setNote(empty($data['note']) ? $composant->getNote(): $data['note']);
         $data = [];
         try {

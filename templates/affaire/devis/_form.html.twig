@@ -549,12 +549,13 @@
 
 
             }else{
+                console.log(data);
                 $('input[name="devis['+element.type+'][' + element.id + '][denomination]"]').attr("value",element.denomination);
                 $('input[name="devis['+element.type+'][' + element.id + '][quantite]"]').attr("value",element.quantite);
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').attr("value",element.marge.toFixed(3));
                 $('input[name="devis['+element.type+'][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
                 $('input[name="devis['+element.type+'][' + element.id + '][prixDeVente]"]').attr("value",element.prixDeVenteHT.toFixed(3));
-                $('input[name="devis['+element.type+'][' + element.id + '][debourseTotalHT]"]').attr("value",element.debourseTotalHT.toFixed(3));
+                $('input[name="devis[' + element.type + '][' + element.id + '][debourseTotalHT]"]').attr("value", element.debourseTotalHT.toFixed(3));
             }
 
         })
@@ -623,6 +624,7 @@
                     quantite: isNaN(quantite) ? 0 : quantite,
                     duht: prixUnite,
                     dtht: debourseTotalHT,
+                    prixDeVenteHT: prixDeVenteHt,
                     marge:marge,
                     note:null,
                 }
@@ -799,9 +801,17 @@
             res = res.toFixed(2);
             $(this).val(res);
             if(update){
-                const id = $(this).attr('id').replace('_modal','');
+                //modifie la valeur des inputs debourse unitaire des composants
+                const id = $(this).attr('id').replace('_debourseUnitaireHT_modal','');
                 console.log(id)
-                $("#"+id).attr('value',res);
+                $("#"+id+"_debourseUnitaireHT").attr('value',res);
+
+                //modifie la valeur des inputs debourse total des composants
+                $("#"+id+"_debourseTotalHT").attr('value',parseInt($("#"+id+"_quantite").val()) * res);
+
+                //modifie la valeur des inputs prix de vente des composants
+                $("#"+id+"_prix_de_vente").attr('value',($("#"+id+"_debourseTotalHT").val() * $("#"+id+"_marge").val()).toFixed(2));
+
             }
         })
     }

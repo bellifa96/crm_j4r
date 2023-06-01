@@ -73,10 +73,14 @@ class Composant
     #[ORM\ManyToOne(inversedBy: 'composants')]
     private ?Categorie $categorie = null;
 
+    #[ORM\Column]
+    private ?float $debourseTotalHT = null;
+
     public function __construct()
     {
         $this->quantite = 1;
         $this->debourseUnitaireHT = 0;
+        $this->debourseTotalHT = 0;
     }
 
     public function __toArray(){
@@ -89,7 +93,7 @@ class Composant
            "note"=> $this->note,
            "quantite"=> $this->quantite,
            'debourseUnitaireHT' => $this->debourseUnitaireHT,
-           'debourseTotalHT'=> $this->debourseUnitaireHT *  $this->quantite,
+           'debourseTotalHT'=> $this->debourseTotalHT,
            'prixDeVenteHT' => $this->prixDeVenteHT,
            'type'=>'composants',
         ];
@@ -314,6 +318,18 @@ class Composant
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getDebourseTotalHT(): ?float
+    {
+        return $this->debourseTotalHT;
+    }
+
+    public function setDebourseTotalHT(float $debourseTotalHT): self
+    {
+        $this->debourseTotalHT = $debourseTotalHT;
 
         return $this;
     }

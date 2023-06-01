@@ -385,7 +385,7 @@ class DevisController extends AbstractController
         //dd($data);
 
         $lot = new Lot();
-        $lot->setMarge(1);
+        $lot->setMarge($devis->getMarge());
         $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();

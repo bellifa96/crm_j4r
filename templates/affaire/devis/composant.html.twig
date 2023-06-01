@@ -87,9 +87,9 @@
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
                     input="debourseTotalHT"
-                    name="devis[composant][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
+                    name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
                     class="chakra-input text-end" placeholder="Déboursé Total HT"
-                    value="{{  (composant.debourseUnitaireHT * composant.quantite)|number_format(2,'.',' ') }}"
+                    value="{{  composant.debourseTotalHT|number_format(2,'.',' ') }}"
                 >
 
             </div>
