@@ -118,7 +118,7 @@ class Ouvrage
            "note"=> $this->note,
            "quantite"=> $this->quantite,
            'debourseTotalHT' => $this->getSommeDebourseTotalComposants(),
-           'prixDeVenteHT' => $this->prixDeVenteHT,
+           'prixDeVenteHT' => $this->getSommeDebourseTotalComposants() * $this->marge,
            'type'=>'ouvrages',
 
         ];
@@ -173,7 +173,7 @@ class Ouvrage
     public function getSommeDebourseTotalComposants(){
         $sum = 0;
         foreach($this->composants as $composant){
-             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT();
+             $sum += $composant->getDebourseTotalHT();
         }
         return $sum;
     }
@@ -181,7 +181,7 @@ class Ouvrage
     public function getSommePrixDeVenteHTComposants(){
         $sum = 0;
         foreach($this->composants as $composant){
-             $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $composant->getMarge();
+             $sum += $composant->getDebourseTotalHT() * $composant->getMarge();
         }
         return $sum;
     }

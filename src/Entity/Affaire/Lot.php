@@ -77,7 +77,7 @@ class Lot
             'code'=> $this->code,
             'denomination'=> $this->denomination,
             'unite'=> $this->unite,
-            'prixDeVenteHT'=> $this->prixDeVenteHT,
+            'prixDeVenteHT'=> ($this->getSommeDebourseTotalSousLots() + $this->getSommeDebourseTotalOuvrages()) * $this->marge,
             'type'=>'lots',
             'debourseTotalHT'=> $this->debourseTotalLot,
             'souslot'=>$this->getSommeDebourseTotalSousLots(),

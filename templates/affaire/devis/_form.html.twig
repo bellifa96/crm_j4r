@@ -595,25 +595,6 @@
             let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis['+type+'][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
             //$("#loader-devis-page").modal("show");
 
-            if (type === 'ouvrages') {
-                const ouvrage = {
-                    code: code,
-                    denomination: denomination,
-                    unite: unite,
-                    quantite: isNaN(quantite) ? 0 : quantite,
-                    note: null,
-                    marge:marge,
-                }
-                let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
-                $.post(path, {ouvrage}, function (response) {
-                    response = JSON.parse(response);
-                    if (response.code === 200) {
-                        updateData(response.data);
-                    }
-                })
-
-            }
-
             if(type == "composants"){
                 const debourseTotalHT = calculDebourseTotalHT(quantite,prixUnite,id,type);
                 const prixDeVenteHt = calculPrixDeVente(quantite,prixUnite,marge,id,type);
@@ -637,6 +618,26 @@
                     }
                 })
             }
+
+            if (type === 'ouvrages') {
+                const ouvrage = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    note: null,
+                    marge:marge,
+                }
+                let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
+                $.post(path, {ouvrage}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        updateData(response.data);
+                    }
+                })
+
+            }
+
             if (type == "lots") {
                 const lot = {
                     code: code,
