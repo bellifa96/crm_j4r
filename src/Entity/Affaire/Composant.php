@@ -77,7 +77,6 @@ class Composant
     {
         $this->quantite = 1;
         $this->debourseUnitaireHT = 0;
-        $this->marge = 1;
     }
 
     public function __toArray(){

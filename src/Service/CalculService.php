@@ -224,8 +224,8 @@ class CalculService
                     $tp = $this->recursiveCalculBottom($child,$dataa);
                 
             } 
-            $devis->setPrixDeVenteHT($devis->getSommePrixDeVenteHTOuvrages() + $devis->getSommePrixDeVenteHTLots());
-            $devis->setDebourseTotalHT($devis->getSommeDebourseTotalOuvrages() + $devis->getSommeDebourseTotalLots());
+            $devis->setPrixDeVenteHT(round($devis->getSommePrixDeVenteHTOuvrages(), 3) + round($devis->getSommePrixDeVenteHTLots(), 3));
+            $devis->setDebourseTotalHT(round($devis->getSommeDebourseTotalOuvrages(), 3) + round($devis->getSommeDebourseTotalLots(), 3));
             $this->em->getRepository(Devis::class)->add($devis);
         }
         return $dataa;

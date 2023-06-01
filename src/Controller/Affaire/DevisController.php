@@ -544,7 +544,7 @@ class DevisController extends AbstractController
 
 
         $ouvrage = new Ouvrage();
-        $ouvrage->setMarge(1);
+        $ouvrage->setMarge($devis->getMarge());
         $ouvrage->setCreateur($this->getUser());
         $ouvrage->setStatut('Copie');
         $elements = $devis->getElements();
@@ -556,6 +556,7 @@ class DevisController extends AbstractController
             $composant = new Composant();
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
+            $composant->setMarge($devis->getMarge());
             $composant->setStatut('copie');
             $this->em->persist($composant);
             $ouvrage->addComposant($composant);
