@@ -22,12 +22,23 @@ span i {
     font-size: 1.5rem;
 }
 
-.css-1r30cbj {
+.template-lot {
     display: grid;
     grid-gap: 1rem;
     row-gap: 1rem;
     column-gap: 1rem;
     grid-template-columns: 4rem 6rem minmax(10rem, 1fr) 4rem 6rem 8rem 8rem 4rem 7rem 7rem;
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
+    flex: 1 1 0%;
+}
+
+.css-1r30cbj {
+    display: grid;
+    grid-gap: 1rem;
+    row-gap: 1rem;
+    column-gap: 1rem;
+    grid-template-columns: 4rem minmax(10rem, 1fr) 4rem 6rem 8rem 8rem 4rem 7rem 7rem;
     padding-inline-start: 1rem;
     padding-inline-end: 1rem;
     flex: 1 1 0%;

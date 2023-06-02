@@ -46,13 +46,13 @@
                                 <div class="col-md-8">
                                     <input type="text" maxlength="255"
                                            id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
-                                           value="{{ ouvrage.tpsDeReference }}"
+                                           value="{{ ouvrage.tpsDeReference|number_format(0, '.', ' ') }}"
                                            class="chakra-input select-ouvrage text-center fw-bold"
                                            name="attribut[tpsDeReference]"
                                            placeholder="temps de référence" readonly>
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    Kg/j/pers
+                                    Kg/J/pers
                                 </div>
                             </div>
                         </div>

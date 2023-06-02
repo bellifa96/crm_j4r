@@ -5,12 +5,6 @@
         <div class="css-1r30cbj">
             <div class="tab-el-left"></div>
             <div class="tab-el-left">
-                <input type="text" id="devis_composants_{{ composant.id }}_code" input="code" element="composants"
-                       composants="{{ composant.id }}" name="devis[composants][{{ composant.id }}][code]" required="required"
-                       maxlength="255"
-                       class="chakra-input" placeholder="Code" value="{{ composant.code }}">
-            </div>
-            <div class="tab-el-left">
 
                 {% if composant.denomination is not empty %}
                 <input style="width:{{ composant.typeComposant.titre == "Location" ? '40% !important' : '100%'}}" type="text"  id="devis_composants_{{ composant.id }}_denomination" input="denomination"
@@ -25,11 +19,11 @@
                         placeholder="Quantité2"
                         value="{{ composant.quantite2 }}">
 
-                    <select disabled style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                    <select style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}
                                 <option value="{{unite.id}}"
-                                    {% if unite == composant.unite2 %}
+                                    {% if unite == composant.unite %}
                                             selected
                                             {% set isSelected = true %}
                                     {% endif %}

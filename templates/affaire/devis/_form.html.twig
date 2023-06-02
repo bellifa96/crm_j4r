@@ -231,7 +231,7 @@
 <div class="mt-4 col-md-11 m-auto">
     <div class=" css-1fnl9bt">
 
-        <div class="css-1r30cbj">
+        <div class="template-lot">
 
             <div class="tab-el-left"></div>
             <div class="tab-el-left">N°</div>
@@ -743,7 +743,7 @@
             let pourcentageTps = tps /  cadenceDeRerefence * 100;
             $("#devis_ouvrages_"+currentOuvrageId+"_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
             $("#devis_ouvrages_"+currentOuvrageId+"_poidsDeReference").val(poids);
-            $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(tps);
+            $("#devis_ouvrages_"+currentOuvrageId+"_tpsDeReference").val(tps.toLocaleString());
             calculPrixUnitaireComposant();
             
         }
