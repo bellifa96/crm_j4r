@@ -39,6 +39,16 @@ class UniteRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByLabel($value): ?Unite
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.label = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Unite[] Returns an array of Unite objects
 //     */

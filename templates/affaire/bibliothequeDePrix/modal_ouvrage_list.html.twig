@@ -70,7 +70,8 @@
                                     name="attribut[TypeOuvrage]"
                                     id="type_ouvrage_{{ ouvrage.id }}" required="required">
                                 <option {{ selected == false ? 'selected="true"' : '' }} class="text-center fst-italic"
-                                                                                         id="typeOuvrageDefaultOption" value="">
+                                                                                         id="typeOuvrageDefaultOption"
+                                                                                         value="">
                                     Type d'ouvrage
                                 </option>
                                 {% for to in typeOuvrages %}
@@ -79,40 +80,43 @@
                                                 style="font-style: inherit" selected> {{ to }} </option>
                                         {% set selected = true %}
                                     {% else %}
-                                        <option class="text-center fw-bold" value="{{ to.id }}" style="font-style: inherit"
+                                        <option class="text-center fw-bold" value="{{ to.id }}"
+                                                style="font-style: inherit"
                                                 code="{{ to.code }}"> {{ to }} </option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
-                    <div class="tab step-2 {{ selected == true ? "" : "d-none" }} mt-3 mb-5 row justify-content-center"
+                    <div class="tab step-2 {{ selected == true ? '' : 'd-none' }} mt-3 mb-5 row justify-content-center"
                          length="{{ typeOuvrages|length }}" step="2">
                         {% for to in typeOuvrages %}
                             {% for tab in to.attributOuvrages %}
                                 {% if tab.attributOuvrageTrs is not empty %}
-                                    <div class="col-md-2 mt-2 tab-after to-{{ to.id }}  d-none  ouvrage-attribut-step-2">
+                                    <div class="col-md-2 mt-2 tab-after to-{{ to.id }} d-none text-center ouvrage-attribut-step-2">
                                         {% set selected = false %}
+                                        <label class="labels"
+                                               for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
                                         <select name="attribut[attributs][{{ tab.titre }}]"
+                                                id="attribut-attributs-{{ tab.id }}"
                                                 class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
                                                 required="required">
-                                            <option {{ selected == false ? 'selected="true"' : '' }}
-                                                    value="">  {{ tab.titre }} </option>
+                                            <option {{ selected == false ? 'selected="true"' : '' }} value=""></option>
                                             {% for attribut in tab.attributOuvrageTrs %}
-                                                {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys  and ouvrage.attributs[tab.titre] == attribut.id %}
-                                                <option value="{{ attribut.id }}" selected
-                                                        poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                        tps="{{ attribut.tps is not empty ?  attribut.tps : 0 }}">
-                                                    {{ attribut.titre }}
-                                                    {% set selected = true %}
+                                                {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
+                                                    <option value="{{ attribut.id }}" selected
+                                                            poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
+                                                            tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
+                                                        {{ attribut.titre }}
+                                                        {% set selected = true %}
+                                                    </option>
                                                 {% else %}
                                                     <option value="{{ attribut.id }}"
                                                             poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                            tps="{{ attribut.tps is not empty ?  attribut.tps : 0 }}">
+                                                            tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
                                                         {{ attribut.titre }}
                                                     </option>
                                                 {% endif %}
-
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -141,7 +145,8 @@
                                     <td class="col-md-4">
                                         <div class="row align-items-center">
                                             <div class="col-md-9">
-                                                <input type="text" style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
+                                                <input type="text"
+                                                       style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
                                                        id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
                                                        input="debourseUnitaireHT"
                                                        code="{{ composant.TypeComposant.code }}"
@@ -155,7 +160,10 @@
                                                        class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
                                                        placeholder="Déboursé U HT"
                                                        value="0" readonly></div>
-                                            <div class="col-md-3 text-start" style="padding: inherit; color: #0e4377!important;; font-weight: bold">€ HT</div>
+                                            <div class="col-md-3 text-start"
+                                                 style="padding: inherit; color: #0e4377!important;; font-weight: bold">
+                                                € HT
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -197,26 +205,27 @@
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $(".custom-select select").on("blur", function() {
+        $(".custom-select select").on("blur", function () {
             $(this).css("font-style", "inherit");
         });
 
         $(".custom-select select option").css("font-style", "normal");
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var inputElement = $(`input[placeholder="Dénomination de l'ouvrage"]`);
 
-        inputElement.focus(function() {
+        inputElement.focus(function () {
             inputElement.removeClass("placeholder-active");
         });
 
-        inputElement.blur(function() {
+        inputElement.blur(function () {
             if (inputElement.val() === "") {
                 inputElement.addClass("placeholder-active");
             }
         });
     });
+
 </script>

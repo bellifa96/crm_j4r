@@ -67,6 +67,7 @@ class Lot
     {
         $this->ouvrages = new ArrayCollection();
         $this->sousLots = new ArrayCollection();
+        $this->quantite = 1;
     }
 
     public function __toArray(){

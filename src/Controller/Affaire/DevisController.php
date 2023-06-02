@@ -2,6 +2,7 @@
 
 namespace App\Controller\Affaire;
 
+use App\Repository\UniteRepository;
 use Exception;
 use App\Entity\Unite;
 use Twig\Environment;
@@ -377,7 +378,7 @@ class DevisController extends AbstractController
     }
 
     #[Route('/lot/{id}', name: 'app_affaire_lot_new', methods: ['GET', 'POST'])]
-    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository): Response
+    public function newLot(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, UniteRepository $uniteRepository): Response
     {
         $path = "affaire/devis/lot.html.twig";
 
@@ -386,6 +387,9 @@ class DevisController extends AbstractController
 
         $lot = new Lot();
         $lot->setMarge($devis->getMarge());
+
+        $uniteM2 = $uniteRepository->findOneByLabel('m2');
+        $lot->setUnite($uniteM2);
         $html = "";
 
         $elements = empty($devis->getElements()) ? [] : $devis->getElements();
@@ -539,13 +543,14 @@ class DevisController extends AbstractController
 
 
     #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
-    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository): Response
+    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, UniteRepository $uniteRepository): Response
     {
 
 
         $ouvrage = new Ouvrage();
         $ouvrage->setMarge($devis->getMarge());
         $ouvrage->setCreateur($this->getUser());
+        $ouvrage->setUnite($uniteRepository->findOneByLabel('m2'));
         $ouvrage->setStatut('Copie');
         $elements = $devis->getElements();
         $this->em->persist($ouvrage);
@@ -554,8 +559,12 @@ class DevisController extends AbstractController
         $data = [];
         foreach($typeComposants as $typeComposant){
             $composant = new Composant();
+            $composant->setUnite($uniteRepository->findOneByLabel('m2'));
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
+            if ($composant->getDenomination() == "Location"){
+                $composant->setQuantite2(1);
+            }
             $composant->setMarge($devis->getMarge());
             $composant->setStatut('copie');
             $this->em->persist($composant);
@@ -570,13 +579,13 @@ class DevisController extends AbstractController
         }
 
         try {
-            $ouvrageRepository->add($ouvrage);
             $element = [
                 'id' => $ouvrage->getId(),
                 'type' => 'ouvrage',
                 'data' => $data,
             ];
             $html = $this->recursiveElements([$element], $parentId);
+            $ouvrageRepository->add($ouvrage);
 
             if (!empty($parentId)) {
                 $parent = [];
@@ -586,6 +595,7 @@ class DevisController extends AbstractController
                 $lot = $lotRepository->find($parentId);
                 $lot->addOuvrage($ouvrage);
                 $lotRepository->add($lot);
+                $ouvrage->setUnite($ouvrage->getLot()->getUnite());
             } else {
                 $elements[] = $element;
                 $devis->addOuvrage($ouvrage);
