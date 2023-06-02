@@ -19,7 +19,7 @@
                         placeholder="Quantité2"
                         value="{{ composant.quantite2 }}">
 
-                    <select style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                    <select disabled style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}
                                 <option value="{{unite.id}}"
@@ -27,7 +27,7 @@
                                             selected
                                             {% set isSelected = true %}
                                     {% endif %}
-                                > {{ unite.label}}</option>
+                                > {{ unite2.label}}</option>
                             {% endfor %}
                             <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : ""}}>Unité 2</option>
                     </select>
