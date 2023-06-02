@@ -65,7 +65,7 @@ class DevisController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_affaire_devis_new', methods: ['GET', 'POST'])]
-    public function new(Demande $demande, Request $request, DevisRepository $devisRepository): Response
+    public function new(Demande $demande, Request $request, DevisRepository $devisRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, UniteRepository $uniteRepository): Response
     {
 
 
@@ -77,9 +77,90 @@ class DevisController extends AbstractController
         $devis->setCreateur($this->getUser());
         $devis->setFraisGeneraux(1);
         $devis->setMargeBeneficiaire(1);
+
+        //Crée un lot directement dans un nouveau devis
+        $lot = $this->initialiseLot($devis, $uniteRepository, $lotRepository);
+
+        //Crée un ouvrage et ses composants dans le lot précédemment initialisé
+        $this->initialiseOuvrage($devis, $lot, $ouvrageRepository, $typeComposantRepository, $lotRepository, $uniteRepository);
+
         $devisRepository->add($devis);
         return $this->redirectToRoute('app_affaire_devis_edit', ['id' => $devis->getId()], Response::HTTP_SEE_OTHER);
 
+    }
+
+    public function initialiseLot(Devis $devis, UniteRepository $uniteRepository, LotRepository $lotRepository)
+    {
+        // Crée un lot et l'ajoute au devis
+        $lot = new Lot();
+        $lot->setMarge($devis->getMarge());
+        $uniteM2 = $uniteRepository->findOneByLabel('m2');
+        $lot->setUnite($uniteM2);
+        $elements = empty($devis->getElements()) ? [] : $devis->getElements();
+        $lotRepository->save($lot);
+        $el = ['id' => $lot->getId(), 'type' => 'lot', 'data' => []];
+        $elements[] = $el;
+        $devis->addLot($lot);
+        $devis->setElements($elements);
+
+        return $lot;
+    }
+
+    public  function initialiseOuvrage(Devis $devis, Lot $lot, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, UniteRepository $uniteRepository)
+    {
+        $ouvrage = new Ouvrage();
+        $ouvrage->setMarge($devis->getMarge());
+        $ouvrage->setCreateur($this->getUser());
+        $ouvrage->setUnite($lot->getUnite());
+        $ouvrage->setUnite($uniteRepository->findOneByLabel('m2'));
+        $ouvrage->setStatut('Copie');
+        $parentId = $lot->getId();
+        $elements = $devis->getElements();
+        $this->em->persist($ouvrage);
+
+        $typeComposants = $typeComposantRepository->findAll();
+        $data = [];
+        foreach ($typeComposants as $typeComposant) {
+            $composant = new Composant();
+            $composant->setUnite($uniteRepository->findOneByLabel('m2'));
+            $composant->setTypeComposant($typeComposant);
+            $composant->setDenomination($typeComposant->getTitre());
+            if ($composant->getDenomination() == "Location") {
+                $composant->setQuantite2(1);
+            }
+            $composant->setMarge($devis->getMarge());
+            $composant->setStatut('copie');
+            $this->em->persist($composant);
+            $ouvrage->addComposant($composant);
+            $this->em->flush();
+            $data[] = [
+                'id' => $composant->getId(),
+                'type' => 'composant',
+                'data' => [],
+                'origine' => null,
+            ];
+        }
+
+        $element = [
+            'id' => $ouvrage->getId(),
+            'type' => 'ouvrage',
+            'data' => $data,
+        ];
+        $ouvrageRepository->add($ouvrage);
+
+        if (!empty($parentId)) {
+            $parent = [];
+            $parent['id'] = $parentId;
+            $parent['type'] = 'lot';
+            $elements = $this->setParent($elements, $element, $parent);
+            $this->em->persist($devis);
+            $lot->addOuvrage($ouvrage);
+            $lotRepository->add($lot);
+        } else {
+            $elements[] = $element;
+            $devis->addOuvrage($ouvrage);
+        }
+        $devis->setElements($elements);
     }
 
     #[Route('/{id}', name: 'app_affaire_devis_show', methods: ['GET'])]
@@ -119,10 +200,10 @@ class DevisController extends AbstractController
                 $entity = $this->em->getRepository(Lot::class)->find($element['id']);
             } elseif ($element['type'] == 'composant') {
                 $entity = $this->em->getRepository(Composant::class)->find($element['id']);
-                if(!empty($element['origine'])){
+                if (!empty($element['origine'])) {
                     $options = $this->em->getRepository(Composant::class)->findComposantsByOuvrageId($element['origine']);
-                    
-                }else{
+
+                } else {
                     $options = [];
                 }
                 // dd($options,$origine,$parent);
@@ -557,12 +638,12 @@ class DevisController extends AbstractController
 
         $typeComposants = $typeComposantRepository->findAll();
         $data = [];
-        foreach($typeComposants as $typeComposant){
+        foreach ($typeComposants as $typeComposant) {
             $composant = new Composant();
             $composant->setUnite($uniteRepository->findOneByLabel('m2'));
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
-            if ($composant->getDenomination() == "Location"){
+            if ($composant->getDenomination() == "Location") {
                 $composant->setQuantite2(1);
             }
             $composant->setMarge($devis->getMarge());
@@ -570,7 +651,7 @@ class DevisController extends AbstractController
             $this->em->persist($composant);
             $ouvrage->addComposant($composant);
             $this->em->flush();
-            $data[]= [
+            $data[] = [
                 'id' => $composant->getId(),
                 'type' => 'composant',
                 'data' => [],
@@ -838,7 +919,7 @@ class DevisController extends AbstractController
 
         foreach ($elementsDevis as $lotDevis) {
             $lot = $lotRepository->find($lotDevis['id']);
-            $tableauLot = ['lot' => $lot, 'type' => 'lot' ,'data' => []];
+            $tableauLot = ['lot' => $lot, 'type' => 'lot', 'data' => []];
 
             $prixDevis += $lot->getPrixDeVenteHT();
 
@@ -847,13 +928,13 @@ class DevisController extends AbstractController
 
                     $ouvrage = $ouvrageRepository->find($sousElementDevis['id']);
                     $tableauLot['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $composantRepository->findComposantsByOuvrageId($ouvrage->getId())];
-                }elseif ($sousElementDevis['type'] == 'lot'){
+                } elseif ($sousElementDevis['type'] == 'lot') {
                     $sousLot = $lotRepository->find($sousElementDevis['id']);
                     $tableauLot['data'][] = ['lot' => $sousLot, 'type' => 'lot', 'data' => []];
 
-                    foreach ($sousElementDevis['data'] as $ouvrageDevis){
+                    foreach ($sousElementDevis['data'] as $ouvrageDevis) {
                         $ouvrage = $ouvrageRepository->find($ouvrageDevis['id']);
-                        $tableauLot['data'][count($tableauLot['data'])-1]['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $composantRepository->findComposantsByOuvrageId($ouvrage->getId())];
+                        $tableauLot['data'][count($tableauLot['data']) - 1]['data'][] = ['ouvrage' => $ouvrage, 'type' => 'ouvrage', 'composants' => $composantRepository->findComposantsByOuvrageId($ouvrage->getId())];
 
                     }
                 }

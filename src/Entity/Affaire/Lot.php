@@ -60,7 +60,7 @@ class Lot
     #[ORM\Column(nullable: true)]
     private ?float $debourseTotalLot = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lots')]
+    #[ORM\ManyToOne(inversedBy: 'lots', cascade: ['persist'])]
     private ?Devis $devis = null;
 
     public function __construct()
