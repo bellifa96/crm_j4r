@@ -142,7 +142,7 @@
             <div style="font-size: 1.5rem" class="col-md-1">
             </div>
             <div class="col-md-4">
-                <label for="devis_prixDeVente">Prix de vente</label>
+                <label for="devis_prixDeVente">Prix de vente TTC</label>
                 <input type="text" id="devis_prixDeVente" class="form-control"
                        value='{{ devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT)   }}'
                        name="devis[prixDeVente]" disabled>
