@@ -125,8 +125,9 @@ class DevisController extends AbstractController
             $composant->setUnite($uniteRepository->findOneByLabel('m2'));
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
-            if ($composant->getDenomination() == "Location") {
+            if ($typeComposant->getCode() === "L") {
                 $composant->setQuantite2(1);
+                $composant->setUnite2($uniteRepository->findOneByLabel('J'));
             }
             $composant->setMarge($devis->getMarge());
             $composant->setStatut('copie');
@@ -641,6 +642,10 @@ class DevisController extends AbstractController
         foreach ($typeComposants as $typeComposant) {
             $composant = new Composant();
             $composant->setUnite($uniteRepository->findOneByLabel('m2'));
+            if ($typeComposant->getCode() === "L"){
+                $composant->setQuantite2(1);
+                $composant->setUnite2($uniteRepository->findOneByLabel('J'));
+            }
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
             if ($composant->getDenomination() == "Location") {
@@ -804,7 +809,7 @@ class DevisController extends AbstractController
         key_exists('prix', $data) && is_numeric($data['prix']) ? $lot->setPrixDeVenteHT($data['prix']) : "";
         key_exists('marge', $data) ? $lot->setMarge($data['marge']) : "";
         key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : "";
-        
+
         try {
 
             $lotRepository->add($lot);

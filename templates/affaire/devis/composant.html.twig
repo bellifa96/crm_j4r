@@ -25,11 +25,11 @@
                         placeholder="Quantité2"
                         value="{{ composant.quantite2 }}">
 
-                    <select style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                    <select disabled style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}
                                 <option value="{{unite.id}}"
-                                    {% if unite == composant.unite %}
+                                    {% if unite == composant.unite2 %}
                                             selected
                                             {% set isSelected = true %}
                                     {% endif %}
