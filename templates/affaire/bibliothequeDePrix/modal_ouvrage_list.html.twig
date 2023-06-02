@@ -37,15 +37,25 @@
                                            placeholder="Poids de référence" readonly>
                                 </div>
                                 <div class="col-md-1 fw-bold" style="padding: inherit; margin-left: inherit">
-                                    Kg
+                                    Kg/m²
                                 </div>
                             </div>
                         </div>
-
-                        <input type="text" maxlength="255" id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
-                               value="{{ ouvrage.tpsDeReference }}"
-                               class="chakra-input select-ouvrage text-center" name="attribut[tpsDeReference]"
-                               placeholder="temps de référence" style="display: none;">
+                        <div class="col-md-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
+                                           value="{{ ouvrage.tpsDeReference }}"
+                                           class="chakra-input select-ouvrage text-center fw-bold"
+                                           name="attribut[tpsDeReference]"
+                                           placeholder="temps de référence" readonly>
+                                </div>
+                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
+                                    Kg/j/pers
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-md-2">
                             <div class="row align-items-center">
@@ -69,9 +79,10 @@
                             <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
                                     name="attribut[TypeOuvrage]"
                                     id="type_ouvrage_{{ ouvrage.id }}" required="required">
-                                <option {{ selected == false ? 'selected="true"' : '' }} class="text-center fst-italic"
-                                                                                         id="typeOuvrageDefaultOption"
-                                                                                         value="">
+                                <option {{ selected == false ? 'selected="true"' : '' }}
+                                        class="text-center fst-italic"
+                                        id="typeOuvrageDefaultOption"
+                                        value="">
                                     Type d'ouvrage
                                 </option>
                                 {% for to in typeOuvrages %}
@@ -101,7 +112,8 @@
                                                 id="attribut-attributs-{{ tab.id }}"
                                                 class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
                                                 required="required">
-                                            <option {{ selected == false ? 'selected="true"' : '' }} value=""></option>
+                                            <option {{ selected == false ? 'selected="true"' : '' }}
+                                                    value=""></option>
                                             {% for attribut in tab.attributOuvrageTrs %}
                                                 {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
                                                     <option value="{{ attribut.id }}" selected
@@ -130,6 +142,7 @@
                         <table class="table datatable text-center">
                             <thead>
                             <tr class="tr-head text-center">
+                                <th></th>
                                 <th colspan="2" class="text-center col-md-8">Dénomination</th>
                                 <th class="text-center col-md-4">Déboursé U HT</th>
                             </tr>
@@ -138,7 +151,8 @@
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td colspan="2" class="col-md-8">
+                                    <td class="col-md-1"><input id="{{ composant.typeComposant.code }}" type="checkbox" {{ composant.typeComposant.code is not same as "MA" and composant.typeComposant.code is not same as "MR" ? "checked":""}} ></td>
+                                    <td colspan="2" class="col-md-7">
                                         <div class="fw-bold"
                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</div>
                                     </td>
@@ -175,10 +189,12 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Ajouter</button>
 
-                    <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
+                    <div class="spinner-border text-primary form-submit-loader" role="status"
+                         style="display: none;">
                         <span class="sr-only">.</span>
                     </div>
-                    <div class="alert alert-success" role="alert" style="display: none;" id="ouvrage-import-success">
+                    <div class="alert alert-success" role="alert" style="display: none;"
+                         id="ouvrage-import-success">
                         Les ouvrages sélectionnés ont été importés avec success
                     </div>
                     <div class="alert alert-danger" role="alert" style="display: none;" id="ouvrage-import-danger">
@@ -226,6 +242,6 @@
                 inputElement.addClass("placeholder-active");
             }
         });
-    });
+    })
 
 </script>
