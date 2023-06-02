@@ -794,9 +794,9 @@ class DevisController extends AbstractController
     public function editLot(Request $request, Lot $lot, LotRepository $lotRepository): Response
     {
 
-
         $data = $request->request->all();
         $data = $data['lot'];
+
 
         $lot->setCode($data['code']);
         $lot->setDenomination($data['denomination']);
@@ -804,6 +804,7 @@ class DevisController extends AbstractController
         key_exists('prix', $data) && is_numeric($data['prix']) ? $lot->setPrixDeVenteHT($data['prix']) : "";
         key_exists('marge', $data) ? $lot->setMarge($data['marge']) : "";
         key_exists('unite', $data) ? $lot->setUnite($this->em->getRepository(Unite::class)->find($data['unite'])) : "";
+        
         try {
 
             $lotRepository->add($lot);
