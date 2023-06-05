@@ -54,15 +54,28 @@
                 </select>
             </div>
             <div class="tab-el-right">
-                {# <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
-                       name="devis[ouvrages][{{ ouvrage.id }}][debourseUnitaireHT]" required="required" maxlength="255"
-                        {% if hasParent is not null %}
-                            parent-dht="{{ hasParent }}"
-                        {% endif %}
-                       element="ouvrages" ouvrages="{{ ouvrage.id }}" class="chakra-input numbers dtht-ouvrage"
-                       placeholder="Déboursé unitaire HT"
-                       value="{{ ouvrage.prixUnitaireDebourse|number_format(2,'.',' ') }}">
-                #}
+                {% for composant in ouvrage.composants %}
+                    {% if composant.typeComposant.titre == "Location" %}
+                        <input type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
+                               name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
+                               element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
+                               placeholder="Quantité2"
+                               value="{{ composant.quantite2 }}">
+
+                        <select disabled style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                            {% set isSelected = false %}
+                            {% for unite in unites %}
+                                <option value="{{unite.id}}"
+                                        {% if unite == composant.unite2 %}
+                                            selected
+                                            {% set isSelected = true %}
+                                        {% endif %}
+                                > {{ unite.label}}</option>
+                            {% endfor %}
+                            <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : ""}}>Unité 2</option>
+                        </select>
+                    {% endif %}
+                {% endfor %}
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_debourseTotalHT" disabled="disabled"
