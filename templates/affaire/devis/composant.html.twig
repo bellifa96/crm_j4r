@@ -23,11 +23,11 @@
                             {% set isSelected = false %}
                             {% for unite in unites %}
                                 <option value="{{unite.id}}"
-                                    {% if unite == composant.unite %}
+                                    {% if unite == composant.unite2 %}
                                             selected
                                             {% set isSelected = true %}
                                     {% endif %}
-                                > {{ unite2.label}}</option>
+                                > {{ unite.label}}</option>
                             {% endfor %}
                             <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : ""}}>Unité 2</option>
                     </select>
