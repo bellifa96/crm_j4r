@@ -308,11 +308,7 @@
                 $(this).show();
                 $('#spinner-'+id).hide();
             }
-
         }
-
-
-
     });
 
     // la fonction nous permet d'ajouter un nouveau ouvrage dans un lot
@@ -369,6 +365,43 @@
                 const lotId = data.lot;
             }
         })
+
+    })
+
+    // fonction qui permet de dupliquer des ouvrages ou des lots (non utilisé pour l'instant)
+
+    $('body').on('click', '.dupliquer-element', function () {
+
+        const element = $(this);
+        let parentId = null;
+        if (element.parent().parent().parent().parent().hasClass('children')) {
+            parentId = element.parent().parent().parent().parent().attr('id').replace('lot-ul-', '');
+        }
+
+        // si on a pas d'element selectionné alors on ne fait rien
+        if(selectedElementId == null){
+            return;
+        }
+
+        var id = selectedElementId;
+
+        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
+        $("#loader-devis-page").modal("show");
+
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType,
+            idParent: parentId
+        }, function (response) {
+            response = JSON.parse(response);
+            if (response.code == 200) {
+                    // on met ajout les chiffres de tous les elements impactés
+                    //updateData(response.data)
+                    // et on cache le loader
+                    $("#loader-devis-page").modal("hide");
+                }
+        })
+
 
     })
 
@@ -429,7 +462,7 @@
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
         div =  `<div class="context-menu">
-                    <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu dupliquer-element" type="lot"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
         $(this).parent().parent().parent().parent().parent().parent().append(div);
@@ -438,7 +471,7 @@
     // contextMenu ouvrage
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu">
-                    <div class="item-menu" id="dupliquer-ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu dupliquer-element" type="ouvrage"><i class="bi bi-stickies"></i>Dupliquer</div>
                     <div class="item-menu" id="delete-ouvrage"><i class="bi bi-trash-fill"></i>Supprimer</div>
                 </div>`;
 
@@ -971,32 +1004,6 @@
             }
         })
     }
-
-     // fonction qui permet de dupliquer des ouvrages ou des lots (non utilisé pour l'instant)
-
-    $('body').on('click', '#dupliquer-lot, #dupliquer-ouvrage', function () {
-        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
-        let idParent = $(this).parent().parent().attr('parent');
-        var id = selectedElementId;
-        $.post(path, {
-            id: selectedElementId,
-            type: selectedElementType,
-            idParent: idParent
-        }, function (data) {
-            if (code = 200) {
-                if (data.idParent != null) {
-                    $(JSON.parse(data).html).insertAfter('#element' + data.idParent);
-                } else {
-                    $('#main-devis').append(JSON.parse(data).html);
-                }
-                $("#lot").modal('show');
-            }
-        })
-
-
-    })
-
-
 
 
         // non utilisé

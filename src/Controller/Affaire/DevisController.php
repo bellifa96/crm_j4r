@@ -506,7 +506,7 @@ class DevisController extends AbstractController
 
     }
 
-    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository): array
+    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): array
     {
 
         if ($type == 'lot') {
@@ -529,32 +529,60 @@ class DevisController extends AbstractController
             $dupliquer->setPrixUnitaireDebourse(($ouvrage->getPrixUnitaireDebourse()) ? $ouvrage->getPrixUnitaireDebourse() : 0);
             $dupliquer->setMarge($ouvrage->getMarge());
             $dupliquer->setQuantite($ouvrage->getQuantite());
-            $dupliquer->setDebourseHTCalcule($ouvrage->getDebourseHTCalcule());
+            $dupliquer->setDebourseHTCalcule(($ouvrage->getDebourseHTCalcule()) ? $ouvrage->getDebourseHTCalcule() : 0);
             $ouvrageRepository->save($dupliquer);
 
-            return ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
+            $element = ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
+
+            foreach ($ouvrage->getComposants() as $composant) {
+                $composantDuplique = new Composant();
+                $composantDuplique->setDenomination($composant->getDenomination());
+                $composantDuplique->setTypeComposant($composant->getTypeComposant());
+                if ($composantDuplique->getTypeComposant()->getCode() === "L") {
+                    $composantDuplique->setQuantite2($composant->getQuantite2());
+                    $composantDuplique->setUnite2($composant->getUnite2());
+                }
+                $composantDuplique->setUnite($composant->getUnite());
+                $composantDuplique->setStatut($composant->getStatut());
+                $composantDuplique->setDebourseUnitaireHT($composant->getDebourseUnitaireHT());
+                $composantDuplique->setMarge($composant->getMarge());
+                $composantDuplique->setQuantite($composant->getQuantite());
+                $composantDuplique->setDebourseTotalHT($composant->getDebourseTotalHT());
+                $composantDuplique->setOuvrage($dupliquer);
+                $composantRepository->add($composantDuplique);
+
+                $element['data'][] = ['id' => $composantDuplique->getId(), 'type' => 'composant', "data" => [], 'origine' => null];
+            }
+
+            return $element;
         }
+
         return false;
     }
 
-    public function findElement($elements, $data, $lotRepository, $ouvrageRepository)
+    public function findElement($elements, $data, $lotRepository, $ouvrageRepository, $composantRepository)
     {
         foreach ($elements as $element) {
             if ($element['id'] == $data['id'] && $element['type'] == $data['type']) {
-                $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository, $ouvrageRepository);
+                $dupliquer = $this->cloneElement($data['id'], $data['type'], $lotRepository, $ouvrageRepository, $composantRepository);
                 if ($data['type'] == 'lot') {
                     $path = "affaire/devis/lot.html.twig";
                     if (!empty($element['data'])) {
                         foreach ($element['data'] as $el) {
-                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository);
+                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository);
                         }
                     }
                 } elseif ($data['type'] == 'ouvrage') {
                     $path = "affaire/devis/ouvrage.html.twig";
+                    if (!empty($element['data'])) {
+                        foreach ($element['data'] as $el) {
+                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository);
+                        }
+                    }
                 }
                 return $dupliquer;
             } else if (!empty($element['data'])) {
-                $dupliquer = $this->findElement($element['data'], $data, $lotRepository, $ouvrageRepository);
+                $dupliquer = $this->findElement($element['data'], $data, $lotRepository, $ouvrageRepository, $composantRepository);
                 if ($dupliquer) {
                     return $dupliquer;
                 }
@@ -752,16 +780,14 @@ class DevisController extends AbstractController
     }
 
     #[Route('/dupliquer/element/{id}', name: 'app_affaire_element_dupliquer', methods: ['GET', 'POST'])]
-    public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository): Response
+    public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
         $data = $request->request->all();
         //dd($data);
 
-        //$lot = $lotRepository->find($data['id']);
-        //$dupliquer->setTitre($lot->getTitre());
-
         $elements = $devis->getElements();
-        $dupliquer = $this->findElement($elements, $data, $lotRepository, $ouvrageRepository);
+        $dupliquer = $this->findElement($elements, $data, $lotRepository, $ouvrageRepository, $composantRepository);
+        //dd($dupliquer);
 
 
         $html = $this->recursiveElements([$dupliquer]);
@@ -785,7 +811,7 @@ class DevisController extends AbstractController
 
             $devis->setElements($elements);
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200, "html" => $html, 'idParent' => $data['idParent']]));
+            return new Response(json_encode(['code' => 200, 'data' => $data]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {
