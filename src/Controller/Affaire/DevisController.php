@@ -572,13 +572,6 @@ class DevisController extends AbstractController
                             $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository);
                         }
                     }
-                } elseif ($data['type'] == 'ouvrage') {
-                    $path = "affaire/devis/ouvrage.html.twig";
-                    if (!empty($element['data'])) {
-                        foreach ($element['data'] as $el) {
-                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository);
-                        }
-                    }
                 }
                 return $dupliquer;
             } else if (!empty($element['data'])) {
@@ -734,7 +727,6 @@ class DevisController extends AbstractController
 
         // on crée un nouveau composant avec le statut copie
         $composant = new Composant();
-        $composant->setMarge(1);
         $composant->setCreateur($this->getUser());
         $composant->setStatut('Copie');
 
@@ -787,21 +779,24 @@ class DevisController extends AbstractController
 
         $elements = $devis->getElements();
         $dupliquer = $this->findElement($elements, $data, $lotRepository, $ouvrageRepository, $composantRepository);
-        //dd($dupliquer);
+        //dd([$dupliquer]);
 
 
-        $html = $this->recursiveElements([$dupliquer]);
+        $html = $this->recursiveElements([$dupliquer], $data['idParent']);
 
         if (!empty($data['idParent'])) {
+            $idParent = $data['idParent'];
             $parent = [];
             $parent['id'] = $data['idParent'];
             $parent['type'] = 'lot';
-            $elements[] = $this->setParent($elements, $dupliquer, $parent);
+            $elements = $this->setParent($elements, $dupliquer, $parent);
+
+            $dataTop = $this->calculService->recursiveCalculTop(['id' => $data['idParent'], 'type' => 'lot']);
         } else {
+            $idParent = null;
             $elements[] = $dupliquer;
+            $dataTop = $this->calculService->recursiveCalculTop(['id' => $data['id'], 'type' => 'lot']);
         }
-
-
         //dd($html);
 
         //dump($data,$devis);
@@ -811,7 +806,7 @@ class DevisController extends AbstractController
 
             $devis->setElements($elements);
             $devisRepository->add($devis);
-            return new Response(json_encode(['code' => 200, 'data' => $data]));
+            return new Response(json_encode(['code' => 200, 'data' => $dataTop, "html" => $html, 'idParent' => $idParent]));
         } catch (OptimisticLockException $e) {
             dd($e);
         } catch (\Exception $e) {
