@@ -506,7 +506,7 @@ class DevisController extends AbstractController
 
     }
 
-    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): array
+    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository, $parent=null): array
     {
 
         if ($type == 'lot') {
@@ -514,6 +514,9 @@ class DevisController extends AbstractController
             $dupliquer = new Lot();
             $dupliquer->setDenomination($lot->getDenomination());
             $dupliquer->setCode($lot->getCode());
+            $dupliquer->setDevis($lot->getDevis());
+            $dupliquer->setUnite($lot->getUnite());
+            $dupliquer->setDebourseTotalLot($lot->getDebourseTotalLot());
             $dupliquer->setPrixDeVenteHT($lot->getPrixDeVenteHT());
             $dupliquer->setQuantite($lot->getQuantite());
             $dupliquer->setMarge($lot->getMarge());
@@ -522,14 +525,25 @@ class DevisController extends AbstractController
             return ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
         } elseif ($type == "ouvrage") {
             $ouvrage = $ouvrageRepository->find($id);
+            $lot = $lotRepository->find($parent['id']);
             $dupliquer = new Ouvrage();
             $dupliquer->setDenomination($ouvrage->getDenomination());
+            $dupliquer->setStatut($ouvrage->getStatut());
             $dupliquer->setCode($ouvrage->getCode());
             $dupliquer->setUnite($ouvrage->getUnite());
+            $dupliquer->setLot($lot);
+            $dupliquer->setCreateur($this->getUser());
+            $dupliquer->setOrigine($ouvrage->getOrigine());
+            $dupliquer->setAttributs($ouvrage->getAttributs());
+            $dupliquer->setTypeOuvrage($ouvrage->getTypeOuvrage());
+            $dupliquer->setPoidsDeReference($ouvrage->getPoidsDeReference());
+            $dupliquer->setTpsDeReference($ouvrage->getTpsDeReference());
+            $dupliquer->setPourcentageTpsDeReference($ouvrage->getPourcentageTpsDeReference());
             $dupliquer->setPrixUnitaireDebourse(($ouvrage->getPrixUnitaireDebourse()) ? $ouvrage->getPrixUnitaireDebourse() : 0);
             $dupliquer->setMarge($ouvrage->getMarge());
             $dupliquer->setQuantite($ouvrage->getQuantite());
             $dupliquer->setDebourseHTCalcule(($ouvrage->getDebourseHTCalcule()) ? $ouvrage->getDebourseHTCalcule() : 0);
+            $dupliquer->setPrixDeVenteHT($ouvrage->getPrixDeVenteHT());
             $ouvrageRepository->save($dupliquer);
 
             $element = ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
@@ -569,7 +583,7 @@ class DevisController extends AbstractController
                     $path = "affaire/devis/lot.html.twig";
                     if (!empty($element['data'])) {
                         foreach ($element['data'] as $el) {
-                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository);
+                            $dupliquer['data'][] = $this->cloneElement($el['id'], $el['type'], $lotRepository, $ouvrageRepository, $composantRepository, $dupliquer);
                         }
                     }
                 }

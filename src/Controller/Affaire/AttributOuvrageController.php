@@ -113,14 +113,14 @@ class AttributOuvrageController extends AbstractController
         $data = $request->request->all();
         $data = $data["attribut"];
 
-        //dd($data);
+        // dd($data);
 
         $ouvrage->setDenomination($data['denomination']);
-        $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $ouvrage->setPoidsDeReference($data['poidsDeReference']);
         $ouvrage->setAttributs($data['attributs']);
         $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
         $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
+        $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $responseData = [];
 
         foreach($data['composants'] as $key=>$val){

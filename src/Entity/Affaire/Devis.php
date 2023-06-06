@@ -106,6 +106,7 @@ class Devis
             'marge'=>$this->marge,
             'prixDeVenteHT'=>$this->prixDeVenteHT,
             'debourseTotalHT'=>$this->debourseTotalHT,
+            'tva'=>$this->tva,
             'type'=>'devis',
         ];
     }

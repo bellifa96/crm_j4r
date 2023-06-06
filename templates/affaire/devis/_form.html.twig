@@ -580,6 +580,8 @@
                 $('input[name="devis[prixDeVenteHT]"]').attr("value", element.prixDeVenteHT.toFixed(3));
                 $('input[name="devis[debourseTotalHT]"]').attr("value", element.debourseTotalHT.toFixed(3));
                 $('input[name="devis[margeTotal]"]').attr("value", (element.prixDeVenteHT - element.debourseTotalHT).toFixed(3));
+                $('input[name="devis[prixDeVente]"]').attr("value", (element.prixDeVenteHT + (element.tva / 100 * element.prixDeVenteHT)).toFixed(3));
+
 
 
             } else {
@@ -721,6 +723,7 @@
 
     // fonction qui permet d'appeler la pop up qui sert à importer un ouvrage
     $('body').on('click', '.import-ouvrage', function () {
+        $("#loader-devis-page").modal("show");
         $('#modal-import-ouvrage').remove();
 
         let id = $(this).attr('id').replace('import-ouvrage-', '');
@@ -729,6 +732,7 @@
         $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{ devis.id }}+
         '/' + id, function (response) {
             const data = JSON.parse(response);
+            $("#loader-devis-page").modal("hide");
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
             $('#form-' + currentOuvrageId + ' select').each(function () {
@@ -777,7 +781,7 @@
             let pourcentageTps = tps / cadenceDeRerefence * 100;
             $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
-            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps.toLocaleString());
+            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);
             calculPrixUnitaireComposant();
 
         }
