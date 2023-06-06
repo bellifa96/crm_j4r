@@ -113,6 +113,8 @@ class AttributOuvrageController extends AbstractController
         $data = $request->request->all();
         $data = $data["attribut"];
 
+        //dd($data);
+
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $ouvrage->setPoidsDeReference($data['poidsDeReference']);
