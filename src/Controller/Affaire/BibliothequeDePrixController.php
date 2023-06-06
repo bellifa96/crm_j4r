@@ -333,7 +333,7 @@ class BibliothequeDePrixController extends AbstractController
         $data = $request->request->all();
         $data = $data['composant'];
 
-        $composant->setCode($data['code']);
+        key_exists('code', $data) ? $composant->setCode($data['code']) : "";
         $composant->setDebourseUnitaireHT($data['duht']);
         $composant->setDebourseTotalHT($data['dtht']);
         $composant->setDenomination($data['denomination']);
@@ -341,7 +341,7 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setQuantite($data['quantite']);
         $composant->setUnite($unite);
         $composant->setMarge(floatval($data['marge']));
-        $composant->setPrixDeVenteHT($data['prixdeVenteHT']);
+        $composant->setPrixDeVenteHT($data['prixDeVenteHT']);
         $composant->setNote(empty($data['note']) ? $composant->getNote(): $data['note']);
         $data = [];
         try {

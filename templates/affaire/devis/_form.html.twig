@@ -602,6 +602,9 @@
 
     // lorsqu'on detecte un changement daans un champ on le sauvegarde et on recalcule les valeurs 
     $('body').on("change", 'input, select', function () {
+
+        $("#loader-devis-page").modal("show");
+
         if ($(this).hasClass('select-ouvrage')) {
             return;
         }
@@ -616,6 +619,7 @@
             $.post(path, {devis}, function (response) {
                 response = JSON.parse(response);
                 if (response.code === 200) {
+                    $("#loader-devis-page").modal("hide");
                     updateData(response.data);
                 }
             })
@@ -650,6 +654,7 @@
                 $.post(path, {composant}, function (response) {
                     response = JSON.parse(response);
                     if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
                         updateData(response.data);
                     }
                 })
@@ -668,6 +673,7 @@
                 $.post(path, {ouvrage}, function (response) {
                     response = JSON.parse(response);
                     if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
                         updateData(response.data);
                     }
                 })
@@ -688,6 +694,7 @@
                 $.post(path, {lot}, function (response) {
                     response = JSON.parse(response);
                     if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
                         updateData(response.data);
                     }
                 })
