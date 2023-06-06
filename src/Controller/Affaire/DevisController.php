@@ -549,23 +549,23 @@ class DevisController extends AbstractController
             $element = ['id' => $dupliquer->getId(), 'type' => $type, "data" => []];
 
             foreach ($ouvrage->getComposants() as $composant) {
-                $composantDuplique = new Composant();
-                $composantDuplique->setDenomination($composant->getDenomination());
-                $composantDuplique->setTypeComposant($composant->getTypeComposant());
-                if ($composantDuplique->getTypeComposant()->getCode() === "L") {
-                    $composantDuplique->setQuantite2($composant->getQuantite2());
-                    $composantDuplique->setUnite2($composant->getUnite2());
+                $composantDupliquer = new Composant();
+                $composantDupliquer->setDenomination($composant->getDenomination());
+                $composantDupliquer->setTypeComposant($composant->getTypeComposant());
+                if ($composantDupliquer->getTypeComposant()->getCode() === "L") {
+                    $composantDupliquer->setQuantite2($composant->getQuantite2());
+                    $composantDupliquer->setUnite2($composant->getUnite2());
                 }
-                $composantDuplique->setUnite($composant->getUnite());
-                $composantDuplique->setStatut($composant->getStatut());
-                $composantDuplique->setDebourseUnitaireHT($composant->getDebourseUnitaireHT());
-                $composantDuplique->setMarge($composant->getMarge());
-                $composantDuplique->setQuantite($composant->getQuantite());
-                $composantDuplique->setDebourseTotalHT($composant->getDebourseTotalHT());
-                $composantDuplique->setOuvrage($dupliquer);
-                $composantRepository->add($composantDuplique);
+                $composantDupliquer->setUnite($composant->getUnite());
+                $composantDupliquer->setStatut($composant->getStatut());
+                $composantDupliquer->setDebourseUnitaireHT($composant->getDebourseUnitaireHT());
+                $composantDupliquer->setMarge($composant->getMarge());
+                $composantDupliquer->setQuantite($composant->getQuantite());
+                $composantDupliquer->setDebourseTotalHT($composant->getDebourseTotalHT());
+                $composantDupliquer->setOuvrage($dupliquer);
+                $composantRepository->add($composantDupliquer);
 
-                $element['data'][] = ['id' => $composantDuplique->getId(), 'type' => 'composant', "data" => [], 'origine' => null];
+                $element['data'][] = ['id' => $composantDupliquer->getId(), 'type' => 'composant', "data" => [], 'origine' => null];
             }
 
             return $element;
