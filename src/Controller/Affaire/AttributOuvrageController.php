@@ -22,25 +22,25 @@ class AttributOuvrageController extends AbstractController
     #[Route('/', name: 'app_affaire_attribut_ouvrage_index', methods: ['GET'])]
     public function index(AttributOuvrageRepository $attributOuvrageRepository): Response
     {
-      /*  $data= [
-            ['poids'=>0,'tps'=>0,'titre'=>"sans console"],
-            ['poids'=>3,'tps'=>0,'titre'=>"Console 28"],
-            ['poids'=>5,'tps'=>0,'titre'=>"Console 39"],
-            ['poids'=>10,'tps'=>0,'titre'=>"Console 73"],
-            ['poids'=>15,'tps'=>0,'titre'=>"Console 109"],
-        ];
-        foreach($data as $val){
-            $attribut = new AttributOuvrage();
-            $attribut->setPoidsKG($val['poids']);
-            $attribut->setTps($val['tps']);
-            $attribut->setTitre($val['titre']);
-            $attribut->setAttributOuvrage($attributOuvrageRepository->find(47));
-            $attributOuvrageRepository->save($attribut,true);
-        }*/
+        /*  $data= [
+              ['poids'=>0,'tps'=>0,'titre'=>"sans console"],
+              ['poids'=>3,'tps'=>0,'titre'=>"Console 28"],
+              ['poids'=>5,'tps'=>0,'titre'=>"Console 39"],
+              ['poids'=>10,'tps'=>0,'titre'=>"Console 73"],
+              ['poids'=>15,'tps'=>0,'titre'=>"Console 109"],
+          ];
+          foreach($data as $val){
+              $attribut = new AttributOuvrage();
+              $attribut->setPoidsKG($val['poids']);
+              $attribut->setTps($val['tps']);
+              $attribut->setTitre($val['titre']);
+              $attribut->setAttributOuvrage($attributOuvrageRepository->find(47));
+              $attributOuvrageRepository->save($attribut,true);
+          }*/
         return $this->render('affaire/attribut_ouvrage/index.html.twig', [
             'attribut_ouvrages' => $attributOuvrageRepository->findByIsTable(true),
-            'title'=> 'attribut ouvrage',
-            'nav'=> []
+            'title' => 'attribut ouvrage',
+            'nav' => []
         ]);
     }
 
@@ -60,8 +60,8 @@ class AttributOuvrageController extends AbstractController
         return $this->renderForm('affaire/attribut_ouvrage/new.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
             'form' => $form,
-            'title'=> 'attribut ouvrage',
-            'nav'=> []
+            'title' => 'attribut ouvrage',
+            'nav' => []
         ]);
     }
 
@@ -70,8 +70,8 @@ class AttributOuvrageController extends AbstractController
     {
         return $this->render('affaire/attribut_ouvrage/show.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
-            'title'=> 'attribut ouvrage',
-            'nav'=> []
+            'title' => 'attribut ouvrage',
+            'nav' => []
         ]);
     }
 
@@ -90,24 +90,24 @@ class AttributOuvrageController extends AbstractController
         return $this->renderForm('affaire/attribut_ouvrage/edit.html.twig', [
             'attribut_ouvrage' => $attributOuvrage,
             'form' => $form,
-            'title'=> 'attribut ouvrage',
-            'nav'=> []
+            'title' => 'attribut ouvrage',
+            'nav' => []
         ]);
     }
 
     #[Route('/{id}', name: 'app_affaire_attribut_ouvrage_delete', methods: ['POST'])]
     public function delete(Request $request, AttributOuvrage $attributOuvrage, AttributOuvrageRepository $attributOuvrageRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$attributOuvrage->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $attributOuvrage->getId(), $request->request->get('_token'))) {
             $attributOuvrageRepository->remove($attributOuvrage, true);
         }
 
         return $this->redirectToRoute('app_affaire_attribut_ouvrage_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    
+
     #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
-    public function setOuvrageAttribut(Request $request,CalculService $calculService, Ouvrage $ouvrage,OuvrageRepository $ouvrageRepository,TypeOuvrageRepository $typeOuvrageRepository,ComposantRepository $composantRepository)
+    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository)
     {
 
         $data = $request->request->all();
@@ -124,25 +124,31 @@ class AttributOuvrageController extends AbstractController
         $ouvrage->setQuantite($data['quantite']);
         $responseData = [];
 
-        foreach($data['composants'] as $key=>$val){
+        foreach ($data['composants'] as $key => $val) {
             $composant = $composantRepository->find($key);
-            $composant->setDebourseUnitaireHT(round($val,3));
-            $composant->setQuantite($data['quantite']);
+            $composant->setDebourseUnitaireHT(round($val, 3));
+            if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {
+                $composant->setQuantite($data['quantite']);
+                $composant->setSelection(true);
+            } else {
+                $composant->setQuantite(0);
+                $composant->setSelection(false);
+            }
+
             if ($composant->getTypeComposant()->getCode() === 'L') {
                 $composant->setQuantite2($data['quantite2']);
-                $composant->setDebourseTotalHT(round($composant->getQuantite()*$val*$composant->getQuantite2(),3));
-            }
-            else {
-                $composant->setDebourseTotalHT(round($composant->getQuantite()*$val,3));
+                $composant->setDebourseTotalHT(round($composant->getQuantite() * $val * $composant->getQuantite2(), 3));
+            } else {
+                $composant->setDebourseTotalHT(round($composant->getQuantite() * $val, 3));
             }
             $composant->setPrixDeVenteHT(round($composant->getDebourseTotalHT() * $composant->getMarge(), 3));
             $composantRepository->add($composant);
-            if($key === array_key_last($data['composants'])){
+            if ($key === array_key_last($data['composants'])) {
                 $responseData = $calculService->recursiveCalculTop(['id' => $key, 'type' => 'composant']);
             }
         }
 
-       // dd($data);
+        // dd($data);
 
         $ouvrageRepository->add($ouvrage);
 
@@ -150,8 +156,7 @@ class AttributOuvrageController extends AbstractController
             $responseData[] = $composant->__toArray();
         }
 
-        return new Response(json_encode(['code'=>200,'data'=>$responseData]));
-
+        return new Response(json_encode(['code' => 200, 'data' => $responseData]));
 
 
     }

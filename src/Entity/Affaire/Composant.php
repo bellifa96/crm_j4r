@@ -76,6 +76,9 @@ class Composant
     #[ORM\Column]
     private ?float $debourseTotalHT = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $selection = null;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -330,6 +333,18 @@ class Composant
     public function setDebourseTotalHT(float $debourseTotalHT): self
     {
         $this->debourseTotalHT = $debourseTotalHT;
+
+        return $this;
+    }
+
+    public function isSelection(): ?bool
+    {
+        return $this->selection;
+    }
+
+    public function setSelection(?bool $selection): self
+    {
+        $this->selection = $selection;
 
         return $this;
     }
