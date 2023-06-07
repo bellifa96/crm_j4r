@@ -126,15 +126,16 @@ class AttributOuvrageController extends AbstractController
 
         foreach($data['composants'] as $key=>$val){
             $composant = $composantRepository->find($key);
-            $composant->setDebourseUnitaireHT($val);
+            $composant->setDebourseUnitaireHT(round($val,3));
             $composant->setQuantite($data['quantite']);
             if ($composant->getTypeComposant()->getCode() === 'L') {
                 $composant->setQuantite2($data['quantite2']);
-                $composant->setDebourseTotalHT($composant->getQuantite()*$val*$composant->getQuantite2());
+                $composant->setDebourseTotalHT(round($composant->getQuantite()*$val*$composant->getQuantite2(),3));
             }
             else {
-                $composant->setDebourseTotalHT($composant->getQuantite()*$val);
+                $composant->setDebourseTotalHT(round($composant->getQuantite()*$val,3));
             }
+            $composant->setPrixDeVenteHT(round($composant->getDebourseTotalHT() * $composant->getMarge(), 3));
             $composantRepository->add($composant);
             if($key === array_key_last($data['composants'])){
                 $responseData = $calculService->recursiveCalculTop(['id' => $key, 'type' => 'composant']);

@@ -82,7 +82,7 @@
                                            value="{{ ouvrage.quantite }}"
                                            class="chakra-input select-ouvrage text-center fw-bold"
                                            name="attribut[quantite]"
-                                           placeholder="quantité">
+                                           placeholder="quantité" numbers>
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
                                     m²
@@ -100,7 +100,7 @@
                                                    value="{{ composant.quantite2 }}"
                                                {% endif %}
                                            {% endfor %}
-                                           class="chakra-input select-ouvrage text-center fw-bold"
+                                           class="chakra-input select-ouvrage text-center fw-bold numbers"
                                            name="attribut[quantite2]"
                                            placeholder="quantité">
                                 </div>

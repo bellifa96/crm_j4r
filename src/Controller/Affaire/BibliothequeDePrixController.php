@@ -292,7 +292,7 @@ class BibliothequeDePrixController extends AbstractController
         $data = $request->request->all();
         $data = $data['ouvrage'];
 
-        $ouvrage->setCode($data['code']);
+        key_exists('code', $data) ? $ouvrage->setCode($data['code']) : "";
         key_exists('dtht', $data) ? $ouvrage->setDebourseHTCalcule($data['dtht']) : "";
         key_exists('duht', $data) ? $ouvrage->setPrixUnitaireDebourse($data['duht']) : "";
         key_exists('marge', $data) ? $ouvrage->setMarge($data['marge']) : "";

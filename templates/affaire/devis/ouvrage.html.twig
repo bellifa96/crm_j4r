@@ -65,7 +65,7 @@
                        maxlength="255"
                        class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}"> #}
 
-                <select id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]"
+                <select disabled id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]"
                         class="text-center col-md-12 chakra-input" required input="unite" element="ouvrages"
                         ouvrages="{{ ouvrage.id }}">
                     {% set isSelected = false %}
