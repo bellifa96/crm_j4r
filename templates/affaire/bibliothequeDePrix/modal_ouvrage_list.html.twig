@@ -73,6 +73,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-end align-items-center">
+                        <div class="col-md-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_quantite"
+                                           value="{{ ouvrage.quantite }}"
+                                           class="chakra-input select-ouvrage text-center fw-bold"
+                                           name="attribut[quantite]"
+                                           placeholder="quantité">
+                                </div>
+                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
+                                    m²
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_quantite"
+                                           {% for composant in ouvrage.composants %}
+                                               {% if composant.TypeComposant.code is same as "L" %}
+                                                   value="{{ composant.quantite2 }}"
+                                               {% endif %}
+                                           {% endfor %}
+                                           class="chakra-input select-ouvrage text-center fw-bold"
+                                           name="attribut[quantite2]"
+                                           placeholder="quantité">
+                                </div>
+                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
+                                    J
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div step="1" class="mb-5">
                         <div class="col-md-3 custom-select" style="margin-right: auto; margin-left: auto">
                             {% set selected = false %}

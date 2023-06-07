@@ -92,9 +92,9 @@ class Composant
            "unite"=> $this->unite,
            "note"=> $this->note,
            "quantite"=> $this->quantite,
+            "quantite2"=> $this->quantite2,
            'debourseUnitaireHT' => $this->debourseUnitaireHT,
            'debourseTotalHT'=> $this->debourseTotalHT,
-           'prixDeVenteHT' => $this->prixDeVenteHT,
            'type'=>'composants',
         ];
     }

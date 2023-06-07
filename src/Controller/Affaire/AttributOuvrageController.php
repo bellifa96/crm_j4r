@@ -121,12 +121,20 @@ class AttributOuvrageController extends AbstractController
         $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
         $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
+        $ouvrage->setQuantite($data['quantite']);
         $responseData = [];
 
         foreach($data['composants'] as $key=>$val){
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT($val);
-            $composant->setDebourseTotalHT($composant->getQuantite()*$val);
+            $composant->setQuantite($data['quantite']);
+            if ($composant->getTypeComposant()->getCode() === 'L') {
+                $composant->setQuantite2($data['quantite2']);
+                $composant->setDebourseTotalHT($composant->getQuantite()*$val*$composant->getQuantite2());
+            }
+            else {
+                $composant->setDebourseTotalHT($composant->getQuantite()*$val);
+            }
             $composantRepository->add($composant);
             if($key === array_key_last($data['composants'])){
                 $responseData = $calculService->recursiveCalculTop(['id' => $key, 'type' => 'composant']);
@@ -136,6 +144,10 @@ class AttributOuvrageController extends AbstractController
        // dd($data);
 
         $ouvrageRepository->add($ouvrage);
+
+        foreach ($ouvrage->getComposants() as $composant) {
+            $responseData[] = $composant->__toArray();
+        }
 
         return new Response(json_encode(['code'=>200,'data'=>$responseData]));
 

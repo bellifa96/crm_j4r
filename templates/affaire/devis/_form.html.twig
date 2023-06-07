@@ -101,7 +101,7 @@
             <div class="col-md-3">
                 <label for="devis_debourseTotalHT">Déboursé total HT</label>
                 <input type="text" id="devis_debourseTotalHT" class="form-control"
-                       value='{{ devis.debourseTotalHT }}'
+                       value='{{ devis.debourseTotalHT|number_format(3,'.',' ') }}'
                        name="devis[debourseTotalHT]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
@@ -111,7 +111,7 @@
 
                 <label for="devis_marge">Marge totale</label>
                 <input type="text" id="devis_marge" class="form-control"
-                       value='{{ devis.prixDeVenteHT - devis.debourseTotalHT }}'
+                       value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(3,'.',' ') }}'
                        name="devis[margeTotal]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
@@ -120,7 +120,7 @@
             <div class="col-md-4">
                 <label for="devis_prixDeVenteHT">Prix de vente HT</label>
                 <input type="text" id="devis__prix_de_vente" class="form-control"
-                       value='{{ devis.prixDeVenteHT }}'
+                       value='{{ devis.prixDeVenteHT|number_format(3,'.',' ') }}'
                        name="devis[prixDeVenteHT]" disabled>
             </div>
             <div class="col-md-3">
@@ -136,7 +136,7 @@
 
                 <label for="devis_marge">Marge %</label>
                 <input type="text" id="devis_marge" class="form-control"
-                       value='{{ devis.marge }}' element="devis"
+                       value='{{ devis.marge|number_format(3,'.',' ') }}' element="devis"
                        name="devis[marge]">
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
@@ -144,7 +144,7 @@
             <div class="col-md-4">
                 <label for="devis_prixDeVente">Prix de vente TTC</label>
                 <input type="text" id="devis_prixDeVente" class="form-control"
-                       value='{{ devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT) }}'
+                       value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(3,'.',' ') }}'
                        name="devis[prixDeVente]" disabled>
             </div>
         </div>
@@ -557,14 +557,19 @@
             })
     })*/
 
-    function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type) {
-        const debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
+    function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type, quantite2=null) {
+        let debourseTotalHT = 0;
+        if (quantite2 == null) {
+            debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
+        }else {
+            debourseTotalHT = (quantite * prixUnitaireHT * quantite2).toFixed(3);
+        }
         $("#devis_" + type + "_" + id + "_debourseTotalHT").attr('value', debourseTotalHT)
         return debourseTotalHT;
     }
 
-    function calculPrixDeVente(quantite, prixUnitaireHT, marge, id, type) {
-        const prixDeVenteHt = (quantite * prixUnitaireHT * marge).toFixed(3);
+    function calculPrixDeVente(debourseTotalHt, marge, id, type) {
+        const prixDeVenteHt = (debourseTotalHt * marge ).toFixed(3);
         $("#devis_" + type + "_" + id + "_prix_de_vente").attr('value', prixDeVenteHt)
         return prixDeVenteHt;
     }
@@ -588,9 +593,14 @@
                 console.log(data);
                 $('input[name="devis[' + element.type + '][' + element.id + '][denomination]"]').attr("value", element.denomination);
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite]"]').attr("value", element.quantite);
+                $('input[name="devis[' + element.type + '][' + element.id + '][quantite2]"]').attr("value", element.quantite2);
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toFixed(3));
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
-                $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", element.prixDeVenteHT.toFixed(3));
+                if (element.type === "composants") {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", (element.debourseTotalHT * element.marge).toFixed(3));
+                } else {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", element.prixDeVenteHT.toFixed(3));
+                }
                 $('input[name="devis[' + element.type + '][' + element.id + '][debourseTotalHT]"]').attr("value", element.debourseTotalHT.toFixed(3));
             }
 
@@ -628,6 +638,7 @@
             let id = $(this).attr(type);
 
             let quantite = parseInt($('input[name="devis[' + type + '][' + id + '][quantite]"]').val());
+            let quantite2 = parseInt($('input[name="devis[' + type + '][' + id + '][quantite2]"]').val());
             let marge = parseFloat($('input[name="devis[' + type + '][' + id + '][marge]"]').val().replace(',', '.'));
             let code = $('input[name="devis[' + type + '][' + id + '][code]"]').val();
             let denomination = $('input[name="devis[' + type + '][' + id + '][denomination]"]').val();
@@ -636,8 +647,8 @@
             //$("#loader-devis-page").modal("show");
 
             if (type == "composants") {
-                const debourseTotalHT = calculDebourseTotalHT(quantite, prixUnite, id, type);
-                const prixDeVenteHt = calculPrixDeVente(quantite, prixUnite, marge, id, type);
+                const debourseTotalHT = calculDebourseTotalHT(quantite, prixUnite, id, type, quantite2);
+                const prixDeVenteHt = calculPrixDeVente(debourseTotalHT, marge, id, type);
                 const composant = {
                     code: code,
                     denomination: denomination,

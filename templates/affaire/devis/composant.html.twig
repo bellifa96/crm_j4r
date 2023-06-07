@@ -17,7 +17,7 @@
                         name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
                         element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
                         placeholder="Quantité2"
-                        value="{{ composant.quantite2 }}">
+                        value="{{ composant.quantite2 }}" readonly>
 
                     <select disabled style="width:30% !important" id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
@@ -55,7 +55,7 @@
                        name="devis[composants][{{ composant.id }}][quantite]" required="required" maxlength="255"
                        element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
                        placeholder="Quantité"
-                       value="{{ composant.quantite }}">
+                       value="{{ composant.quantite }}" readonly>
             </div>
             <div class="tab-el-right">
                <select  id="devis_composants_{{ composant.id }}_unite" name="devis[composants][{{ composant.id }}][unite]" class="text-center col-md-12 chakra-input" required  input="unite" element="composants"  composants="{{ composant.id }}">
@@ -76,14 +76,14 @@
                        name="devis[composants][{{ composant.id }}][debourseUnitaireHT]" required="required" maxlength="255"
                        element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-end"
                        placeholder="Déboursé U HT"
-                       value="{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }}">
+                       value="{{ composant.debourseUnitaireHT|number_format(3,'.',' ') }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
                     input="debourseTotalHT"
                     name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
                     class="chakra-input text-end" placeholder="Déboursé Total HT"
-                    value="{{  composant.debourseTotalHT|number_format(2,'.',' ') }}"
+                    value="{{  composant.debourseTotalHT|number_format(3,'.',' ') }}"
                 >
 
             </div>
@@ -92,14 +92,14 @@
                        input="marge" element="composants" composants="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
                        class="chakra-input text-center" placeholder="Marge"
-                       value="{{ composant.marge|number_format(2,'.',' ') }}">
+                       value="{{ composant.marge|number_format(3,'.',' ') }}">
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_prix_de_vente" disabled="disabled"
                        input="prixDeVente"
                        name="devis[composants][{{ composant.id }}][prixDeVente]" required="required" maxlength="255"
                        class="chakra-input  text-end" placeholder="Prix de vente"
-                       value="{{ (composant.debourseUnitaireHT * composant.quantite * composant.marge)|number_format(2,'.',' ') }}">
+                       value="{{ (composant.debourseTotalHT * composant.marge)|number_format(3,'.',' ') }}">
             </div>
             <div class="tab-el-right row justify-content-center">
                 <button class="btn btn-danger btn-sm rounded-0 col-md-auto delete-composant" id="delete-composant-{{composant.id}}" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="this.parentNode.style.display = 'none'"
