@@ -26,9 +26,9 @@ class CalculService
             $composant = $this->em->getRepository(Composant::class)->find($element['id']);
             $composant->getOuvrage()->setPrixDeVenteHT($composant->getOuvrage()->getSommePrixDeVenteHTComposants());
             if($composant->getOuvrage()->getPrixDeVenteHT() > 0){
-                $composant->getOuvrage()->setMarge($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants());
+                $composant->getOuvrage()->setMarge(round($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants(),3));
             }else{
-                $composant->getOuvrage()->setMarge(1.4);
+                $composant->getOuvrage()->setMarge(round(1.4,3));
             }
             $this->em->getRepository(Ouvrage::class)->add($composant->getOuvrage());
             $data[]=$composant->getOuvrage()->__toArray();
@@ -46,11 +46,11 @@ class CalculService
                 $ouvrage->getLot()->setDebourseTotalLot($ouvrage->getLot()->getSommeDebourseTotalOuvrages() + $ouvrage->getLot()->getSommeDebourseTotalSousLots());
 
                 if($ouvrage->getLot()->getDebourseTotalLot() > 0){
-                    $ouvrage->getLot()->setMarge(
+                    $ouvrage->getLot()->setMarge(round(
                         $ouvrage->getLot()->getPrixDeVenteHT()  /
-                        $ouvrage->getLot()->getDebourseTotalLot() );
+                        $ouvrage->getLot()->getDebourseTotalLot() ,3));
                 }else{
-                    $ouvrage->getLot()->setMarge(1.4);
+                    $ouvrage->getLot()->setMarge(round(1.4,3));
 
                 }
 
@@ -72,11 +72,11 @@ class CalculService
                 $lot->getLot()->setDebourseTotalLot($lot->getLot()->getSommeDebourseTotalOuvrages() + $lot->getLot()->getSommeDebourseTotalSousLots());
 
                 if($lot->getLot()->getDebourseTotalLot() > 0){
-                    $lot->getLot()->setMarge(
+                    $lot->getLot()->setMarge(round(
                         $lot->getLot()->getPrixDeVenteHT() /
-                        $lot->getLot()->getDebourseTotalLot() );
+                        $lot->getLot()->getDebourseTotalLot() ,3));
                 }else{
-                    $lot->getLot()->setMarge(1.4);
+                    $lot->getLot()->setMarge(round(1.4,3));
                 }
                 $this->em->getRepository(Lot::class)->add($lot->getLot());
                 $data[]=$lot->getLot()->__toArray();
@@ -90,11 +90,11 @@ class CalculService
                 $lot->getDevis()->setDebourseTotalHT($lot->getDevis()->getSommeDebourseTotalOuvrages() + $lot->getDevis()->getSommeDebourseTotalLots());
 
                 if($lot->getDevis()->getDebourseTotalHT() > 0){
-                    $lot->getDevis()->setMarge(
+                    $lot->getDevis()->setMarge(round(
                         $lot->getDevis()->getPrixDeVenteHT()  /
-                        $lot->getDevis()->getDebourseTotalHT() );
+                        $lot->getDevis()->getDebourseTotalHT() ,3));
                 }else{
-                    $lot->getDevis()->setMarge(1.4);
+                    $lot->getDevis()->setMarge(round(1.4,3));
                 }
 
                 $this->em->getRepository(Devis::class)->add($lot->getDevis());
@@ -118,7 +118,7 @@ class CalculService
             $sum = 0;
             foreach($ouvrage->getComposants() as $composant){
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
-                $deboureTotalComposant = $composant->getQuantite() * $composant->getDebourseUnitaireHT();
+                $deboureTotalComposant = ($composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() : $composant->getQuantite() * $composant->getDebourseUnitaireHT());
                 $margeOuvrage = $ouvrage->getMarge();
                 
                 try {
@@ -126,9 +126,9 @@ class CalculService
                 } catch (\DivisionByZeroError $e) {
                     $nouvelleMargeComposant = 1.4;
                 }
-                $composant->setMarge($nouvelleMargeComposant);
-                $composant->setPrixDeVenteHT($composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant);
-                $sum += $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant;
+                $composant->setMarge(round($nouvelleMargeComposant,3));
+                $composant->setPrixDeVenteHT(($composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant : $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant));
+                $sum += $composant->getPrixDeVenteHT();
                 $this->em->getRepository(Composant::class)->add($composant);
                 $dataa[]=$composant->__toArray();
             }
@@ -150,7 +150,7 @@ class CalculService
                 } catch (\DivisionByZeroError $e) {
                     $nouvelleMargeOuvrage = 1.4;
                 }
-                $ouvrage->setMarge($nouvelleMargeOuvrage);
+                $ouvrage->setMarge(round($nouvelleMargeOuvrage,3));
                 $child = [
                     'id'=>$ouvrage->getId(),
                     'type'=>'ouvrage'
@@ -169,7 +169,7 @@ class CalculService
                     } catch (\DivisionByZeroError $e) {
                         $nouvelleMargeSousLot = 1.4;
                     }
-                    $sLot->setMarge($nouvelleMargeOuvrage);
+                    $sLot->setMarge(round($nouvelleMargeOuvrage,3));
                     $child = [
                         'id'=>$sLot->getId(),
                         'type'=>'lot'
@@ -195,7 +195,7 @@ class CalculService
                 } catch (\DivisionByZeroError $e) {
                     $nouvelleMargeOuvrage = 1;
                 }
-                $ouvrage->setMarge($nouvelleMargeOuvrage);
+                $ouvrage->setMarge(round($nouvelleMargeOuvrage);
                 $child = [
                     'id'=>$ouvrage->getId(),
                     'type'=>'ouvrage'
@@ -214,7 +214,7 @@ class CalculService
                     } catch (\DivisionByZeroError $e) {
                         $nouvelleMargelot = 1.4;
                     }
-                    $Lot->setMarge($nouvelleMargelot);
+                    $Lot->setMarge(round($nouvelleMargelot,3));
                     $child = [
                         'id'=>$Lot->getId(),
                         'type'=>'lot'

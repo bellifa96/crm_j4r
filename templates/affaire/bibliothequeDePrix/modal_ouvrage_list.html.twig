@@ -189,7 +189,11 @@
                             <tbody class="mt-4">
                             {% for composant in ouvrage.composants %}
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td class="col-md-1"><input id="{{ composant.typeComposant.code }}" type="checkbox" {{ composant.typeComposant.code is not same as "MA" and composant.typeComposant.code is not same as "MR" ? "checked":""}} ></td>
+                                    <td class="col-md-1">
+                                        <input id="{{ composant.typeComposant.code }}" type="checkbox"
+                                                {{ composant.typeComposant.code is not same as "MA" and composant.typeComposant.code is not same as "MR" ? "checked":""}}
+                                            >
+                                    </td>
                                     <td colspan="2" class="col-md-7">
                                         <div class="fw-bold"
                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</div>
