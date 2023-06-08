@@ -69,6 +69,23 @@
         display: none;
     }
 
+    .arrow {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: solid #0e4377;
+        border-width: 2px 2px 0 0;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .arrow.down {
+        transform: rotate(135deg);
+    }
+
+
+
 
 </style>
 
@@ -1046,21 +1063,22 @@
     }
 
     $(document).ready(function() {
-
-        $('body').on('click', '.hide-composants',function() {
+        $('body').on('click', '.hide-composants', function() {
             let id = $(this).attr('id');
-            var composants = $('#ouvrage-ul-'+id);
-            var icon = $(this).children('i');
+            var composants = $('#ouvrage-ul-' + id);
 
             if (composants.hasClass('ouvrage-children')) {
+                composants.slideDown();
                 composants.removeClass('ouvrage-children');
-                icon.removeClass('bi-arrow-right').addClass('bi-arrow-down');
+                $(this).toggleClass('down');
             } else {
+                composants.slideUp();
                 composants.addClass('ouvrage-children');
-                icon.removeClass('bi-arrow-down').addClass('bi-arrow-right');
+                $(this).toggleClass('down');
             }
         });
     });
+
 
 </script>
 
