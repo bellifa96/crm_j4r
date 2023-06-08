@@ -669,7 +669,12 @@ class DevisController extends AbstractController
 
 
         $ouvrage = new Ouvrage();
-        $ouvrage->setMarge($devis->getMarge());
+        if (!empty($parentId)) {
+            $lot = $lotRepository->find($parentId);
+            $ouvrage->setMarge($lot->getMarge());
+        } else {
+            $ouvrage->setMarge($devis->getMarge());
+        }
         $ouvrage->setCreateur($this->getUser());
         $ouvrage->setUnite($uniteRepository->findOneByLabel('m2'));
         $ouvrage->setStatut('Copie');
@@ -690,7 +695,7 @@ class DevisController extends AbstractController
             if ($composant->getDenomination() == "Location") {
                 $composant->setQuantite2(1);
             }
-            $composant->setMarge($devis->getMarge());
+            $composant->setMarge($ouvrage->getMarge());
             $composant->setStatut('copie');
             $this->em->persist($composant);
             $ouvrage->addComposant($composant);
@@ -717,7 +722,6 @@ class DevisController extends AbstractController
                 $parent['id'] = $parentId;
                 $parent['type'] = 'lot';
                 $elements = $this->setParent($elements, $element, $parent);
-                $lot = $lotRepository->find($parentId);
                 $lot->addOuvrage($ouvrage);
                 $lotRepository->add($lot);
                 $ouvrage->setUnite($ouvrage->getLot()->getUnite());
