@@ -285,7 +285,7 @@ class BibliothequeDePrixController extends AbstractController
     }
 
     #[Route('/ouvrage/edit/{id}', name: 'app_affaire_ouvrage_edit', methods: ['POST'])]
-    public function edit(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository): Response
+    public function edit(Request $request, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
 
 
@@ -302,12 +302,24 @@ class BibliothequeDePrixController extends AbstractController
 
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
+        $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
 
 
         //key_exists('note', $data) ? $ouvrage->setNote($data['note']) : $ouvrage->setNote(null);
         //key_exists('quantiteDOuvrage', $data) ? $ouvrage->setQuantite($data['quantiteDOuvrage']) : $ouvrage->setQuantite(null);
         try {
+            foreach ($ouvrage->getComposants() as $composant){
+                $composant->setQuantite($data['quantite']);
+                if ($composant->getTypeComposant()->getCode() === "L") {
+                    $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT());
+                }else {
+                    $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getDebourseUnitaireHT());
+                }
+                $composant->setPrixDeVenteHT($composant->getDebourseTotalHT() * $composant->getMarge());
+                $composantRepository->add($composant);
+            }
+            $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
             $ouvrageRepository->add($ouvrage);
             $dataTop= $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
             $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
@@ -339,6 +351,7 @@ class BibliothequeDePrixController extends AbstractController
         $composant->setDenomination($data['denomination']);
         $unite = $this->uniteRepository->find($data['unite']);
         $composant->setQuantite($data['quantite']);
+        $composant->setQuantite2($data['quantite2']);
         $composant->setUnite($unite);
         $composant->setMarge(floatval($data['marge']));
         $composant->setPrixDeVenteHT($data['prixDeVenteHT']);

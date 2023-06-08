@@ -32,8 +32,8 @@
             </div>
             <div class="tab-el-right">
                 {% if composant.typeComposant.titre == "Location" %}
-                    <input type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
-                           name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
+                    <input type="text" id="devis_composants_{{ composant.id }}_quantite2Show" input="quantite2"
+                           name="devis[composants][{{ composant.id }}][quantite2Show]" required="required" maxlength="255"
                            element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center"
                            placeholder="Quantité2"
                            value="{{ composant.quantite2 }}" readonly>

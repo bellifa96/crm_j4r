@@ -594,6 +594,7 @@
                 $('input[name="devis[' + element.type + '][' + element.id + '][denomination]"]').attr("value", element.denomination);
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite]"]').attr("value", element.quantite);
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite2]"]').attr("value", element.quantite2);
+                $('input[name="devis[' + element.type + '][' + element.id + '][quantite2Show]"]').attr("value", element.quantite2);
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toFixed(3));
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
                 if (element.type === "composants") {
@@ -645,7 +646,7 @@
             let unite = $('select[name="devis[' + type + '][' + id + '][unite]"]').val();
             let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis[' + type + '][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
             //$("#loader-devis-page").modal("show");
-
+            console.log(type, id, quantite2);
             if (type == "composants") {
                 const debourseTotalHT = calculDebourseTotalHT(quantite, prixUnite, id, type, quantite2);
                 const prixDeVenteHt = calculPrixDeVente(debourseTotalHT, marge, id, type);
@@ -654,6 +655,7 @@
                     denomination: denomination,
                     unite: unite,
                     quantite: isNaN(quantite) ? 0 : quantite,
+                    quantite2: isNaN(quantite2) ? 0 : quantite2,
                     duht: prixUnite,
                     dtht: debourseTotalHT,
                     prixDeVenteHT: prixDeVenteHt,
