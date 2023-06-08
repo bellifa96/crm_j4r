@@ -102,6 +102,9 @@
                         {% if hasParent is not null %}
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
+                        {% if ouvrage.marge < 1.3 %}
+                            style="color:red;"
+                        {% endif %}
                        class="chakra-input text-center" placeholder="Marge"
                        value="{{ ouvrage.marge|number_format(3,'.',' ') }}">
             </div>

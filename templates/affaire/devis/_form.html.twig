@@ -618,6 +618,11 @@
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite2Show]"]').attr("value", element.quantite2);
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toFixed(3));
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toFixed(3));
+                if (element.marge < 1.3 ) {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', 'red');
+                } else {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', '#486581');
+                }
                 if (element.type === "composants") {
                     $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", (element.debourseTotalHT * element.marge).toFixed(3));
                 } else {

@@ -92,6 +92,9 @@
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_marge"
+                        {% if composant.marge < 1.3%}
+                            style="color:red;"
+                        {% endif %}
                        input="marge" element="composants" composants="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
                        class="chakra-input text-center" placeholder="Marge"
