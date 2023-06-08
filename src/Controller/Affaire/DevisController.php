@@ -213,11 +213,12 @@ class DevisController extends AbstractController
                 $htmlTMP = $this->environment->render($path, [$element['type'] => $entity, 'hasChild' => !empty($element['data']), 'key' => $key, 'hasParent' => $parent, 'options' => $options, 'unites' => $this->unites]);
 
                 if (!empty($element['data'])) {
-                    $htmlTMP = "<li>" . $htmlTMP . "<ul class='children' id='" . $element['type'] . "-ul-" . $element['id'] . "'>";
                     if ($element['type'] == 'lot') {
+                        $htmlTMP = "<li>" . $htmlTMP . "<ul class='children' id='" . $element['type'] . "-ul-" . $element['id'] . "'>";
                         $htmlTMP .= $this->recursiveElements($element['data'], $element['id']);
                         $htmlTMP .= "</ul>";
                     } elseif ($element['type'] == 'ouvrage') {
+                        $htmlTMP = "<li>" . $htmlTMP . "<ul class='children ouvrage-children' id='" . $element['type'] . "-ul-" . $element['id'] . "'>";
                         $htmlTMP .= $this->recursiveElements($element['data'], $element['id']);
                         $htmlTMP .= "</ul>";
                     }

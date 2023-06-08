@@ -65,6 +65,10 @@
         font-style: inherit;
     }
 
+    .ouvrage-children {
+        display: none;
+    }
+
 
 </style>
 
@@ -1040,6 +1044,23 @@
             return false
         }
     }
+
+    $(document).ready(function() {
+
+        $('body').on('click', '.hide-composants',function() {
+            let id = $(this).attr('id');
+            var composants = $('#ouvrage-ul-'+id);
+            var icon = $(this).children('i');
+
+            if (composants.hasClass('ouvrage-children')) {
+                composants.removeClass('ouvrage-children');
+                icon.removeClass('bi-arrow-right').addClass('bi-arrow-down');
+            } else {
+                composants.addClass('ouvrage-children');
+                icon.removeClass('bi-arrow-down').addClass('bi-arrow-right');
+            }
+        });
+    });
 
 </script>
 
