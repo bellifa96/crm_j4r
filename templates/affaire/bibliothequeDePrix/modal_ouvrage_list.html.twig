@@ -37,7 +37,7 @@
                                            placeholder="Poids de référence" readonly>
                                 </div>
                                 <div class="col-md-1 fw-bold" style="padding: inherit; margin-left: inherit">
-                                    Kg/m²
+                                    kg/m²
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                            placeholder="temps de référence" readonly>
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    Kg/J/pers
+                                    kg/J/pers
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                     <td class="col-md-1">
                                         <input id="{{ composant.typeComposant.code }}" type="checkbox"
-                                                {{ composant.selection is same as true ? "checked":""}}
+                                                {{ composant.selection ? "checked":""}}
                                                name="attribut[composantsSelect][{{ composant.id }}]">
                                     </td>
                                     <td colspan="2" class="col-md-7">
