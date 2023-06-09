@@ -80,14 +80,14 @@
                        name="devis[composants][{{ composant.id }}][debourseUnitaireHT]" required="required" maxlength="255"
                        element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-end"
                        placeholder="Déboursé U HT"
-                       value="{{ composant.debourseUnitaireHT|number_format(3,'.',' ') }}" readonly>
+                       value="{{ composant.debourseUnitaireHT|number_format(3,'.',' ') }}" readonly><span class="euro">€</span>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
                     input="debourseTotalHT"
                     name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
                     class="chakra-input text-end" placeholder="Déboursé Total HT"
-                    value="{{  composant.debourseTotalHT|number_format(3,'.',' ') }}" readonly>
+                    value="{{  composant.debourseTotalHT|number_format(3,'.',' ') }}" readonly><span class="euro">€</span>
 
             </div>
             <div class="tab-el-right">
@@ -105,11 +105,11 @@
                        input="prixDeVente"
                        name="devis[composants][{{ composant.id }}][prixDeVente]" required="required" maxlength="255"
                        class="chakra-input  text-end" placeholder="Prix de vente"
-                       value="{{ (composant.debourseTotalHT * composant.marge)|number_format(3,'.',' ') }}" readonly>
+                       value="{{ (composant.debourseTotalHT * composant.marge)|number_format(3,'.',' ') }}" readonly><span class="euro">€</span>
             </div>
             <div class="tab-el-right row justify-content-center">
-                <button class="btn btn-danger btn-sm rounded-0 col-md-auto delete-composant" id="delete-composant-{{composant.id}}" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="this.parentNode.style.display = 'none'"
-><i class="fa fa-trash "></i>
+                <button style="background-color: #fff; border: #fff;" class="btn btn-danger btn-sm rounded-0 col-md-auto delete-composant" id="delete-composant-{{composant.id}}" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="this.parentNode.style.display = 'none'"
+><i class="fa fa-trash" style="color: #dc3545; font-size: 1rem;"></i>
 </button>
             </div>
         </div>

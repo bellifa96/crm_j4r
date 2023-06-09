@@ -93,7 +93,7 @@
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        class="chakra-input  text-end" placeholder="Déboursé Total HT"
-                       value="{{ (ouvrage.getSommeDebourseTotalComposants)|number_format(3,'.',' ') }}">
+                       value="{{ (ouvrage.getSommeDebourseTotalComposants)|number_format(3,'.',' ') }}"><span class="euro">€</span>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_marge"
@@ -116,12 +116,12 @@
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        class="chakra-input text-end" placeholder="Prix de vente HT"
-                       value="{{ (ouvrage.prixDeVenteHT)|number_format(3,'.',' ') }}">
+                       value="{{ (ouvrage.prixDeVenteHT)|number_format(3,'.',' ') }}"><span class="euro">€</span>
             </div>
             <div class="tab-el-right row justify-content-center">
                 <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ ouvrage.id }}" type="ouvrage"
                      style="cursor:pointer;">
-                    <span><i ouvrages="{{ ouvrage.id }}" class="bi bi-plus-circle"></i></span>
+                    <span><i ouvrages="{{ ouvrage.id }}" class="bi bi-plus-circle-fill"></i></span>
                 </div>
                 <div class="spinner-border text-primary col-md-auto" style="display:none" role="status"
                      id="spinner-{{ ouvrage.id }}">

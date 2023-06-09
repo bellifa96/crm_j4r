@@ -62,8 +62,7 @@
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        name="devis[lots][{{ lot.id }}][debourseTotalHT]"
-                       value="{{ lot.debourseTotalLot|number_format(3,'.',' ') }}"
-                />
+                       value="{{ lot.debourseTotalLot|number_format(3,'.',' ') }}"/><span class="euro">€</span>
             </div>
             <div class="tab-el-right">
                 <input class="chakra-input dtht-lot text-center" type="text" id="devis_lots_{{ lot.id }}_marge"
@@ -83,11 +82,11 @@
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        name="devis[lots][{{ lot.id }}][prixDeVente]"
-                       value="{{ (lot.prixDeVenteHT)|number_format(3,'.',' ') }}"/>
+                       value="{{ (lot.prixDeVenteHT)|number_format(3,'.',' ') }}"/><span class="euro">€</span>
             </div>
             <div class="tab-el-right row justify-content-center options">
                 <div class="col-md-auto add-element-button" id="bi-plus-circle-{{lot.id}}" type="lot" style="cursor:pointer;">
-                    <span><i class="bi bi-plus-circle"></i></span>
+                    <span><i class="bi bi-plus-circle-fill"></i></span>
                 </div>
                 <div class="spinner-border text-primary col-md-auto" style="display:none" role="status" id="spinner-{{lot.id}}">
                     <span class="sr-only">Loading...</span>
