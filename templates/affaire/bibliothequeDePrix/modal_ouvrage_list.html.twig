@@ -286,12 +286,9 @@
         });
     })
 
-    /*$(document).ready(function() {
-        $('label').click(function() {
-            var selectId = $(this).attr('for');
-            $('#' + selectId).select2();
-            $('#' + selectId).select2('open');
-        });
-    })*/
+    // supprimer les char non numerique
+    $('.numbers').keyup(function () {
+        this.value = this.value.replace(/[^0-9\.\,]/g, '');
+    });
 
 </script>

@@ -309,7 +309,7 @@ span i {
     position: absolute;
     z-index: 10000;
     width: 150px;
-    background: #1b1a1a;
+    background: #0E4377;
     border-radius: 5px;
     right: 0;
 }
@@ -320,10 +320,11 @@ span i {
     color: #eee;
     cursor: pointer;
     border-radius: inherit;
+    border-bottom: 1px solid;
 }
 
 .context-menu .item-menu:hover {
-    background: #343434;
+    background: #8ea9db;
 }
 
 .menu-lot:hover {
