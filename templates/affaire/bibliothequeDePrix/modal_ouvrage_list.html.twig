@@ -28,61 +28,13 @@
 
                         <div class="col-md-2">
                             <div class="row align-items-center">
-                                <div class="col-md-10">
-                                    <input type="text" maxlength="255"
-                                           id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
-                                           value="{{ ouvrage.poidsDeReference }}"
-                                           class="chakra-input select-ouvrage text-center fw-bold"
-                                           name="attribut[poidsDeReference]"
-                                           placeholder="Poids de référence" readonly>
-                                </div>
-                                <div class="col-md-1 fw-bold" style="padding: inherit; margin-left: inherit">
-                                    kg/m²
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-8">
-                                    <input type="text" maxlength="255"
-                                           id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
-                                           value="{{ ouvrage.tpsDeReference|number_format(0, '.', '') }}"
-                                           class="chakra-input select-ouvrage text-center fw-bold"
-                                           name="attribut[tpsDeReference]"
-                                           placeholder="temps de référence" readonly>
-                                </div>
-                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    kg/J/pers
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-8">
-                                    <input type="text" maxlength="255"
-                                           id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
-                                           value="{{ ouvrage.pourcentageTpsDeReference }}"
-                                           class="chakra-input select-ouvrage text-center fw-bold"
-                                           name="attribut[pourcentageTpsDeReference]"
-                                           placeholder="0" readonly>
-                                </div>
-                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    <span style="font-size: 1.1rem">%</span> Tps
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-end align-items-center">
-                        <div class="col-md-2">
-                            <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <input type="text" maxlength="255"
                                            id="devis_ouvrages_{{ ouvrage.id }}_quantite"
                                            value="{{ ouvrage.quantite }}"
                                            class="chakra-input select-ouvrage text-center fw-bold numbers"
                                            name="attribut[quantite]"
-                                           placeholder="quantité" >
+                                           placeholder="quantité">
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
                                     m²
@@ -95,11 +47,11 @@
                                 <div class="col-md-8">
                                     <input type="text" maxlength="255"
                                            id="devis_ouvrages_{{ ouvrage.id }}_quantite"
-                                           {% for composant in ouvrage.composants %}
-                                               {% if composant.TypeComposant.code is same as "L" %}
-                                                   value="{{ composant.quantite2 }}"
-                                               {% endif %}
-                                           {% endfor %}
+                                            {% for composant in ouvrage.composants %}
+                                                {% if composant.TypeComposant.code is same as "L" %}
+                                                    value="{{ composant.quantite2 }}"
+                                                {% endif %}
+                                            {% endfor %}
                                            class="chakra-input select-ouvrage text-center fw-bold numbers"
                                            name="attribut[quantite2]"
                                            placeholder="quantité">
@@ -109,6 +61,10 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="row justify-content-end align-items-center">
+
 
                     </div>
                     <div step="1" class="mb-5">
@@ -175,57 +131,106 @@
                         {% endfor %}
                     </div>
 
-                    <div class="mt-4 col-md-5 m-auto">
-
-                        <table class="table datatable text-center">
-                            <thead>
-                            <tr class="tr-head text-center">
-                                <th></th>
-                                <th colspan="2" class="text-center col-md-8">Dénomination</th>
-                                <th class="text-center col-md-4">Déboursé U HT</th>
-                            </tr>
-                            </thead>
-
-                            <tbody class="mt-4">
-                            {% for composant in ouvrage.composants %}
-                                <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                    <td class="col-md-1">
-                                        <input id="{{ composant.typeComposant.code }}" type="checkbox"
-                                                {{ composant.selection ? "checked":""}}
-                                               name="attribut[composantsSelect][{{ composant.id }}]">
-                                    </td>
-                                    <td colspan="2" class="col-md-7">
-                                        <span class="fw-bold badge badge-pill"
-                                             style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</span>
-                                    </td>
-                                    <td class="col-md-4">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-9">
-                                                <input type="text"
-                                                       style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
-                                                       id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
-                                                       input="debourseUnitaireHT"
-                                                       code="{{ composant.TypeComposant.code }}"
-                                                       cadence="{{ composant.TypeComposant.cadence }}"
-                                                        {% for ligne in composant.TypeComposant.tableDePrix %}
-                                                            {{ ligne.typeOuvrage.code~"="~ligne.prix }}
-                                                        {% endfor %}
-                                                       value="{{ composant.debourseUnitaireHT }}"
-                                                       name="attribut[composants][{{ composant.id }}]"
-                                                       required="required" maxlength="255"
-                                                       class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
-                                                       placeholder="Déboursé U HT"
-                                                       value="0" readonly></div>
-                                            <div class="col-md-3 text-start"
-                                                 style="padding: inherit; color: #0e4377!important;; font-weight: bold">
-                                                € HT
-                                            </div>
-                                        </div>
-                                    </td>
+                    <div class="mt-4 row m-auto justify-content-center align-items-center">
+                        <div class="col-md-4">
+                            <table class="table datatable text-center">
+                                <thead>
+                                <tr class="tr-head text-center">
+                                    <th colspan="2" class="text-center col-md-6">Dénomination</th>
+                                    <th class="text-center col-md-6">Déboursé U HT</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody class="mt-4">
+                                {% for composant in ouvrage.composants %}
+                                    <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
+                                        <td class="col-md-1">
+                                            <input id="{{ composant.typeComposant.code }}" type="checkbox"
+                                                    {{ composant.selection ? "checked":"" }}
+                                                   name="attribut[composantsSelect][{{ composant.id }}]">
+                                        </td>
+                                        <td class="col-md-5 text-start">
+                                        <span class="fw-bold badge badge-pill"
+                                              style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</span>
+                                        </td>
+                                        <td class="col-md-6">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
+                                                           id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
+                                                           input="debourseUnitaireHT"
+                                                           code="{{ composant.TypeComposant.code }}"
+                                                           cadence="{{ composant.TypeComposant.cadence }}"
+                                                            {% for ligne in composant.TypeComposant.tableDePrix %}
+                                                                {{ ligne.typeOuvrage.code~"="~ligne.prix }}
+                                                            {% endfor %}
+                                                           value="{{ composant.debourseUnitaireHT }}"
+                                                           name="attribut[composants][{{ composant.id }}]"
+                                                           required="required" maxlength="255"
+                                                           class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
+                                                           placeholder="Déboursé U HT"
+                                                           value="0" readonly></div>
+                                                <div class="col-md-3 text-start"
+                                                     style="padding: inherit; color: #0e4377!important;; font-weight: bold">
+                                                    € HT
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-md-10">
+                                        <input type="text" maxlength="255"
+                                               id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
+                                               value="{{ ouvrage.poidsDeReference }}"
+                                               class="chakra-input select-ouvrage text-center fw-bold"
+                                               name="attribut[poidsDeReference]"
+                                               placeholder="Poids de référence" readonly>
+                                    </div>
+                                    <div class="col-md-1 fw-bold" style="padding: inherit; margin-left: inherit">
+                                        kg/m²
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <input type="text" maxlength="255"
+                                               id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
+                                               value="{{ ouvrage.tpsDeReference|number_format(0, '.', '') }}"
+                                               class="chakra-input select-ouvrage text-center fw-bold"
+                                               name="attribut[tpsDeReference]"
+                                               placeholder="temps de référence" readonly>
+                                    </div>
+                                    <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
+                                        kg/J/pers
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <input type="text" maxlength="255"
+                                               id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
+                                               value="{{ ouvrage.pourcentageTpsDeReference }}"
+                                               class="chakra-input select-ouvrage text-center fw-bold"
+                                               name="attribut[pourcentageTpsDeReference]"
+                                               placeholder="0" readonly>
+                                    </div>
+                                    <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
+                                        <span style="font-size: 1.1rem">%</span> Tps
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
