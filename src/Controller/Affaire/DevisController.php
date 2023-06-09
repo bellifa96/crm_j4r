@@ -691,6 +691,11 @@ class DevisController extends AbstractController
                 $composant->setQuantite2(1);
                 $composant->setUnite2($uniteRepository->findOneByLabel('J'));
             }
+            if ($typeComposant->getCode() === "MA" || $typeComposant->getCode() === "MR"){
+                $composant->setSelection(false);
+            } else {
+                $composant->setSelection(true);
+            }
             $composant->setTypeComposant($typeComposant);
             $composant->setDenomination($typeComposant->getTitre());
             if ($composant->getDenomination() == "Location") {

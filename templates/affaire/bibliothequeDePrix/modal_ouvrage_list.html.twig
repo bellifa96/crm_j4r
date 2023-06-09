@@ -191,7 +191,7 @@
                                 <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                     <td class="col-md-1">
                                         <input id="{{ composant.typeComposant.code }}" type="checkbox"
-                                                {{ composant.typeComposant.code is not same as "MA" and composant.typeComposant.code is not same as "MR" ? "checked":""}}
+                                                {{ composant.selection ? "checked":""}}
                                                name="attribut[composantsSelect][{{ composant.id }}]">
                                     </td>
                                     <td colspan="2" class="col-md-7">

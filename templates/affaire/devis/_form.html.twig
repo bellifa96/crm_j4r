@@ -78,6 +78,7 @@
         transform: rotate(45deg);
         transition: transform 0.3s ease-in-out;
         cursor: pointer;
+        padding: 5px;
     }
 
     .arrow.down {
@@ -87,6 +88,10 @@
     .chakra-input {
         color: #0E4377;
         border-bottom: inherit;
+    }
+
+    .chakra-input::placeholder {
+        color: #0E4377;
     }
 
     .chakra-input:hover {
@@ -594,7 +599,8 @@
 
     function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type, quantite2=null) {
         let debourseTotalHT = 0;
-        if (quantite2 == null) {
+        console.log(quantite2);
+        if (isNaN(quantite2)) {
             debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
         }else {
             debourseTotalHT = (quantite * prixUnitaireHT * quantite2).toFixed(3);
@@ -635,7 +641,7 @@
                 if (element.marge < 1.3 ) {
                     $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', 'red');
                 } else {
-                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', '#486581');
+                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', '#0E4377');
                 }
                 if (element.type === "composants") {
                     $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", (element.debourseTotalHT * element.marge).toFixed(3));
@@ -651,7 +657,7 @@
 
     }
 
-    // lorsqu'on detecte un changement daans un champ on le sauvegarde et on recalcule les valeurs 
+    // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
     $('body').on("change", 'input, select', function () {
 
         $("#loader-devis-page").modal("show");
@@ -1080,7 +1086,7 @@
             return false
         }
     }
-
+     //Fonction qui permet d'ouvrir et fermer le volet des composants
     $(document).ready(function() {
         $('body').on('click', '.hide-composants', function() {
             let id = $(this).attr('id');

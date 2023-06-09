@@ -302,7 +302,6 @@ class BibliothequeDePrixController extends AbstractController
 
         $unite = $this->uniteRepository->find($data['unite']);
         $ouvrage->setUnite($unite);
-        $ouvrage->setUnite($unite);
         $ouvrage->setQuantite($data['quantite']);
 
 
@@ -310,14 +309,16 @@ class BibliothequeDePrixController extends AbstractController
         //key_exists('quantiteDOuvrage', $data) ? $ouvrage->setQuantite($data['quantiteDOuvrage']) : $ouvrage->setQuantite(null);
         try {
             foreach ($ouvrage->getComposants() as $composant){
-                $composant->setQuantite($data['quantite']);
-                if ($composant->getTypeComposant()->getCode() === "L") {
-                    $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT());
-                }else {
-                    $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getDebourseUnitaireHT());
+                if ($composant->isSelection()) {
+                    $composant->setQuantite($data['quantite']);
+                    if ($composant->getTypeComposant()->getCode() === "L") {
+                        $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT());
+                    }else {
+                        $composant->setDebourseTotalHT($composant->getQuantite() * $composant->getDebourseUnitaireHT());
+                    }
+                    $composant->setPrixDeVenteHT($composant->getDebourseTotalHT() * $composant->getMarge());
+                    $composantRepository->add($composant);
                 }
-                $composant->setPrixDeVenteHT($composant->getDebourseTotalHT() * $composant->getMarge());
-                $composantRepository->add($composant);
             }
             $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
             $ouvrageRepository->add($ouvrage);
