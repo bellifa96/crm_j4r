@@ -146,7 +146,7 @@
                                     <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                         <td class="col-md-1">
                                             <input id="{{ composant.typeComposant.code }}" type="checkbox"
-                                                    {% if composant.selection %} checked {% endif %}
+                                                    {{ composant.selection ? 'checked' : '' }}
                                                    name="attribut[composantsSelect][{{ composant.id }}]">
                                         </td>
                                         <td class="col-md-5 text-start">
