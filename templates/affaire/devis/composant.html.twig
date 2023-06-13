@@ -86,7 +86,7 @@
                 <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
                     input="debourseTotalHT"
                     name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
-                    class="chakra-input text-endborder-bottom-inherit " placeholder="Déboursé Total HT"
+                    class="chakra-input text-endborder-bottom-inherit text-end" placeholder="Déboursé Total HT"
                     value="{{  composant.debourseTotalHT|number_format(3,'.',' ') }}" readonly><span class="euro">€</span>
 
             </div>

@@ -568,6 +568,7 @@ class DevisController extends AbstractController
                 $composantDupliquer->setQuantite($composant->getQuantite());
                 $composantDupliquer->setDebourseTotalHT($composant->getDebourseTotalHT());
                 $composantDupliquer->setOuvrage($dupliquer);
+                $composantDupliquer->setSelection($composant->isSelection());
                 $composantRepository->add($composantDupliquer);
 
                 $element['data'][] = ['id' => $composantDupliquer->getId(), 'type' => 'composant', "data" => [], 'origine' => null];
