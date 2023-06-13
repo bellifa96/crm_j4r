@@ -183,33 +183,33 @@
                             </table>
                         </div>
 
-                        <div class="col-md-4 zone-attributs">
+                        <div class="col-md-2 zone-attributs">
                             <div class="col-md-12">
                                 <div class="row align-items-center text-center">
-                                    <div class="col-md-10">
+                                    <div class="col-md-6">
                                         <input type="text" maxlength="255"
                                                id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
                                                value="{{ ouvrage.poidsDeReference }}"
-                                               class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
                                                name="attribut[poidsDeReference]"
                                                placeholder="Poids de référence" readonly>
                                     </div>
-                                    <div class="col-md-2 fw-bold text-start" style="padding: inherit; margin-left: inherit">
+                                    <div class="col-md-2 fw-bold text-start" style="padding-left: 5%; margin-left: inherit">
                                         kg/m²
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="row align-items-center text-center">
-                                    <div class="col-md-10">
+                                    <div class="col-md-6 text-end">
                                         <input type="text" maxlength="255"
                                                id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
                                                value="{{ ouvrage.tpsDeReference|number_format(0, '.', '') }}"
-                                               class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
                                                name="attribut[tpsDeReference]"
                                                placeholder="temps de référence" readonly>
                                     </div>
-                                    <div class="col-md-2 fw-bold text-start" style="padding: inherit; margin-left: inherit;">
+                                    <div class="col-md-2 fw-bold text-start" style="padding-left: 5%; margin-left: inherit;">
                                         kg/J/pers
                                     </div>
                                 </div>
@@ -217,16 +217,16 @@
 
                             <div class="col-md-12">
                                 <div class="row align-items-center text-center">
-                                    <div class="col-md-10" style="margin-bottom: inherit">
+                                    <div class="col-md-6 text-end" style="margin-bottom: inherit">
                                         <input type="text" maxlength="255"
                                                id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
                                                value="{{ ouvrage.pourcentageTpsDeReference }}"
-                                               class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
                                                name="attribut[pourcentageTpsDeReference]"
                                                placeholder="0" readonly>
                                     </div>
-                                    <div class="col-md-2 fw-bold text-start" style="padding: inherit; margin-left: inherit;">
-                                        <span style="font-size: 1.1rem">%</span> Tps
+                                    <div class="col-md-2 fw-bold text-start" style="padding-left: 5%; margin-left: inherit;">
+                                        <span style="font-size: 1rem">%</span> Tps
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +242,7 @@
                     </div>
                     <div class="alert alert-success" role="alert" style="display: none;"
                          id="ouvrage-import-success">
-                        Les ouvrages sélectionnés ont été importés avec success
+                        Les ouvrages sélectionnés ont été importés avec succès
                     </div>
                     <div class="alert alert-danger" role="alert" style="display: none;" id="ouvrage-import-danger">
                         Erreur lors de l'importation des ouvrages, veuillez recharger la page
@@ -295,5 +295,17 @@
     $('.numbers').keyup(function () {
         this.value = this.value.replace(/[^0-9\.\,]/g, '');
     });
+
+    /*$(document).ready(function() {
+        $('input[selection]').each(function () {
+            console.log($(this).attr('selection'));
+            if ($(this).attr('selection') == 1) {
+                $(this).prop('checked', true)
+            } else {
+                $(this).prop('checked', false)
+            }
+            //$(this).prop('checked', true);
+        })
+    });*/
 
 </script>

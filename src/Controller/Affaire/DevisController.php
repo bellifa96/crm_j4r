@@ -129,6 +129,11 @@ class DevisController extends AbstractController
                 $composant->setQuantite2(1);
                 $composant->setUnite2($uniteRepository->findOneByLabel('J'));
             }
+            if ($typeComposant->getCode() === "MA" || $typeComposant->getCode() === "MR") {
+                $composant->setSelection(false);
+            } else {
+                $composant->setSelection(true);
+            }
             $composant->setMarge($devis->getMarge());
             $composant->setStatut('copie');
             $this->em->persist($composant);
