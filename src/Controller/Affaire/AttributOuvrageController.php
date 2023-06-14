@@ -113,6 +113,12 @@ class AttributOuvrageController extends AbstractController
         $data = $request->request->all();
         $data = $data["attribut"];
 
+        $data['poidsDeReference'] = floatval($data['poidsDeReference']);
+        $data['pourcentageTpsDeReference'] = floatval($data['pourcentageTpsDeReference']);
+        $data['tpsDeReference'] = floatval($data['tpsDeReference']);
+        $data['quantite'] = intval($data['quantite']);
+        $data['quantite2'] = intval($data['quantite2']);
+
         // dd($data);
 
         $ouvrage->setDenomination($data['denomination']);
@@ -125,6 +131,8 @@ class AttributOuvrageController extends AbstractController
         $responseData = [];
 
         foreach ($data['composants'] as $key => $val) {
+            $val = str_replace(',', '.', $val);
+            $val = floatval($val);
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT(round($val, 3));
             if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {

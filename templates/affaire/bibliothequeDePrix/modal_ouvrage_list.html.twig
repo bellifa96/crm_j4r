@@ -165,7 +165,7 @@
                                                             {% for ligne in composant.TypeComposant.tableDePrix %}
                                                                 {{ ligne.typeOuvrage.code~"="~ligne.prix }}
                                                             {% endfor %}
-                                                           value="{{ composant.debourseUnitaireHT }}"
+                                                           value="{{ composant.debourseUnitaireHT|number_format(3, ',', '') }}"
                                                            name="attribut[composants][{{ composant.id }}]"
                                                            required="required" maxlength="255"
                                                            class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
@@ -204,7 +204,7 @@
                                     <div class="col-md-6 text-end">
                                         <input type="text" maxlength="255"
                                                id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
-                                               value="{{ ouvrage.tpsDeReference|number_format(0, '.', '') }}"
+                                               value="{{ ouvrage.tpsDeReference|number_format(0, ',', ' ') }}"
                                                class="chakra-input select-ouvrage text-end fw-bold attributs"
                                                name="attribut[tpsDeReference]"
                                                placeholder="temps de référence" readonly>
@@ -220,7 +220,7 @@
                                     <div class="col-md-6 text-end" style="margin-bottom: inherit">
                                         <input type="text" maxlength="255"
                                                id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
-                                               value="{{ ouvrage.pourcentageTpsDeReference }}"
+                                               value="{{ ouvrage.pourcentageTpsDeReference|number_format(2, ',', ' ') }}"
                                                class="chakra-input select-ouvrage text-end fw-bold attributs"
                                                name="attribut[pourcentageTpsDeReference]"
                                                placeholder="0" readonly>

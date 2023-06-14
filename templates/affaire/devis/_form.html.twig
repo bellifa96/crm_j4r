@@ -864,6 +864,9 @@
             }
             let poids = 0;
             let tps = 0;
+            const options = {
+                minimumFractionDigits: 2
+            };
             $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
                 if (!isNaN(parseFloat($('option:selected', this).attr('poids'))) && !isNaN(parseFloat($('option:selected', this).attr('tps')))) {
                     console.log(poids, tps)
@@ -875,7 +878,7 @@
             let pourcentageTps = tps / cadenceDeRerefence * 100;
             $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
-            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);
+            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps.toLocaleString('fr-FR'));
             calculPrixUnitaireComposant();
 
         }
@@ -889,8 +892,8 @@
         let res = 0;
 
         const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
-        const k = $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val();
-        const t = $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val();
+        const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
+        const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val());
         $(".td-prix-" + currentOuvrageId).each(function () {
             const variante = parseFloat($(this).attr(codeOuvrage));
             const code = $(this).attr('code');
@@ -931,7 +934,10 @@
                     res = variante * k / 1000;
                     break;
             }
-            res = res.toFixed(2);
+            const options = {
+                minimumFractionDigits: 3
+            };
+            res = res.toLocaleString('fr-FR', options);
             $(this).val(res);
             if (update) {
                 //modifie la valeur des inputs debourse unitaire des composants
