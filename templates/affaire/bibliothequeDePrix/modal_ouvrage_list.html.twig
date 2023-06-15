@@ -272,7 +272,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="submit" class="btn btn-primary">
+                        {{ ouvrage.denomination is empty ? 'Ajouter' : 'Appliquer les modifications'}}
+                    </button>
 
                     <div class="spinner-border text-primary form-submit-loader" role="status"
                          style="display: none;">
@@ -327,7 +329,7 @@
                 inputElement.addClass("placeholder-active");
             }
         });
-    })
+    }})
 
     // supprimer les char non numerique
     $('.numbers').keyup(function () {
