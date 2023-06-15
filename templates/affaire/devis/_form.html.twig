@@ -904,52 +904,56 @@
             const code = $(this).attr('code');
             const cadence = parseFloat($(this).attr('cadence'));
 
+            const idComposant = $(this).attr('id').split("_")[2];
+
             console.log(variante, k, t, cadence)
             switch (code) {
                 case "L":
                     //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
                     res = variante * k / 1000 / 30;
-                    debourseOuvrage += res * quantite * quantite2;
                     break;
                 case "M":
                     //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
                     res = variante * k / cadence * (1 + (t / 100));
-                    debourseOuvrage += res * quantite;
                     break;
                 case "D":
                     // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
                     res = variante * k / cadence * (1 + (t / 100));
-                    debourseOuvrage += res * quantite;
                     break;
                 case "MA":
                     // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K / 
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
                     res = variante * k / cadence;
-                    debourseOuvrage += res * quantite;
                     break;
                 case "MR":
                     //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
                     res = variante * k / cadence;
-                    debourseOuvrage += res * quantite;
                     break;
                 case "TA":
                     // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
-                    debourseOuvrage += res * quantite;
                     break;
                 case "TR":
                     //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
-                    debourseOuvrage += res * quantite;
                     break;
             }
-            console.log(debourseOuvrage, quantite, quantite2);
+            console.log($(this));
             const options = {
                 minimumFractionDigits: 3
             };
+            //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
+            if ($('#' + code + '-' + idComposant).is(':checked')){
+                if (code === "L") {
+                    debourseOuvrage += res * quantite * quantite2;
+                } else {
+                    debourseOuvrage += res * quantite;
+                }
+            }
+
             res = res.toLocaleString('fr-FR', options);
             $(this).val(res);
             if (update) {
