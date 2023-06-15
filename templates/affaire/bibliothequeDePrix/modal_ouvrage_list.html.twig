@@ -305,59 +305,42 @@
 
         </div>
     </div>
-</div>
-<script>
-    $(document).ready(function () {
-        $('.select-type-ouvrage').change(function () {
-            var selectElement = $(this);
-            var defaultOption = $('#typeOuvrageDefaultOption');
+    <script>
+        $(document).ready(function () {
+            $('.select-type-ouvrage').change(function () {
+                var selectElement = $(this);
+                var defaultOption = $('#typeOuvrageDefaultOption');
 
-            if (selectElement.val() === '') {
-                defaultOption.parent().addClass('fst-italic').removeClass('fw-bold');
-            } else {
-                defaultOption.parent().removeClass('fst-italic').addClass('fw-bold');
-            }
-        });
-    });
-
-    $(document).ready(function () {
-
-        $(".custom-select select").on("blur", function () {
-            $(this).css("font-style", "inherit");
+                if (selectElement.val() === '') {
+                    defaultOption.parent().addClass('fst-italic').removeClass('fw-bold');
+                } else {
+                    defaultOption.parent().removeClass('fst-italic').addClass('fw-bold');
+                }
+            });
         });
 
-        $(".custom-select select option").css("font-style", "normal");
-    });
+        $(document).ready(function () {
 
-    $(document).ready(function () {
-        var inputElement = $(`input[placeholder="Dénomination de l'ouvrage"]`);
+            $(".custom-select select").on("blur", function () {
+                $(this).css("font-style", "inherit");
+            });
 
-        inputElement.focus(function () {
-            inputElement.removeClass("placeholder-active");
+            $(".custom-select select option").css("font-style", "normal");
         });
 
-        inputElement.blur(function () {
-            if (inputElement.val() === "") {
-                inputElement.addClass("placeholder-active");
-            }
-        });
-    })
+        $(document).ready(function () {
+            var inputElement = $(`input[placeholder="Dénomination de l'ouvrage"]`);
 
-    // supprimer les char non numerique
-    $('.numbers').keyup(function () {
-        this.value = this.value.replace(/[^0-9\.\,]/g, '');
-    });
+            inputElement.focus(function () {
+                inputElement.removeClass("placeholder-active");
+            });
 
-    /*$(document).ready(function() {
-        $('input[selection]').each(function () {
-            console.log($(this).attr('selection'));
-            if ($(this).attr('selection') == 1) {
-                $(this).prop('checked', true)
-            } else {
-                $(this).prop('checked', false)
-            }
-            //$(this).prop('checked', true);
+            inputElement.blur(function () {
+                if (inputElement.val() === "") {
+                    inputElement.addClass("placeholder-active");
+                }
+            });
         })
-    });*/
 
-</script>
+    </script>
+</div>

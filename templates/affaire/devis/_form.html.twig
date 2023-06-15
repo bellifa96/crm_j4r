@@ -785,7 +785,7 @@
     })
 
     // supprimer les char non numerique 
-    $('.numbers').keyup(function () {
+    $('body').on('keyup', '.numbers',function () {
         this.value = this.value.replace(/[^0-9\.\,]/g, '');
     });
 
