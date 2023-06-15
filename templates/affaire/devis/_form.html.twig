@@ -839,6 +839,8 @@
             $('#form-' + currentOuvrageId + ' select').each(function () {
                 if ($(this).parent().hasClass('d-none') && $(this).val() != "") {
                     $(this).parent().removeClass('d-none');
+                }else{
+                    $(this).attr('required',false)
                 }
             })
 
