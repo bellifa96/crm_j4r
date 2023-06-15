@@ -114,16 +114,23 @@
     .attributs {
         width: 100%;
         min-width: 0px;
+        outline: transparent solid 2px;
+        outline-offset: 2px;
         height: 2.5rem;
-        border-bottom: inherit;
+        border-radius: 0.25rem;
+        border-color: #BCCCDC;
+        border-width: 2px;
+        border-style: solid;
+        font-size: 16px;
+        background-color: #fff !important;
+        padding-right: 5%;
     }
 
     .zone-attributs {
-        margin-left: auto;
-        margin-right: auto;
         background-color: #F0F4F8;
         border-radius: 2%;
-        padding: 2% 0;
+        padding: 2% 1%;
+        width: 32%;
     }
 
     .zone-attributs div {
@@ -864,10 +871,6 @@
             }
             let poids = 0;
             let tps = 0;
-            const options = {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            };
             $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
                 if (!isNaN(parseFloat($('option:selected', this).attr('poids'))) && !isNaN(parseFloat($('option:selected', this).attr('tps')))) {
                     console.log(poids, tps)
@@ -877,10 +880,12 @@
             })
 
             let pourcentageTps = tps / cadenceDeRerefence * 100;
-            $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toLocaleString('fr-FR', options));
+            $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
-            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps.toLocaleString('fr-FR'));
+            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);
             calculPrixUnitaireComposant();
+
+
 
         }
     });
@@ -889,8 +894,18 @@
         calculPrixUnitaireComposant();
     })
 
+    $('body').on('change', '.quantite-modal, .quantite2-modal', function () {
+        calculPrixUnitaireComposant();
+    })
+
     function calculPrixUnitaireComposant(update = false) {
         let res = 0;
+
+        let debourseOuvrage = 0;
+        let quantite = parseInt($('.quantite-modal').val());
+        let quantite2 = parseInt($('.quantite2-modal').val());
+        let marge = parseFloat($('#ouvrages_' + currentOuvrageId + '_margeModal').val().replace(',', '.'));
+
 
         const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
         const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
@@ -905,36 +920,44 @@
                 case "L":
                     //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
                     res = variante * k / 1000 / 30;
+                    debourseOuvrage += res * quantite * quantite2;
                     break;
                 case "M":
                     //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
                     res = variante * k / cadence * (1 + (t / 100));
+                    debourseOuvrage += res * quantite;
                     break;
                 case "D":
                     // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
                     res = variante * k / cadence * (1 + (t / 100));
+                    debourseOuvrage += res * quantite;
                     break;
                 case "MA":
                     // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K / 
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
                     res = variante * k / cadence;
+                    debourseOuvrage += res * quantite;
                     break;
                 case "MR":
                     //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
                     // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
                     res = variante * k / cadence;
+                    debourseOuvrage += res * quantite;
                     break;
                 case "TA":
                     // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
+                    debourseOuvrage += res * quantite;
                     break;
                 case "TR":
                     //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
+                    debourseOuvrage += res * quantite;
                     break;
             }
+            console.log(debourseOuvrage, quantite, quantite2);
             const options = {
                 minimumFractionDigits: 3
             };
@@ -954,6 +977,12 @@
 
             }
         })
+        const options = {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3,
+        };
+        $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
+        $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
     }
 
     function validateForm() {
