@@ -112,31 +112,18 @@
     }
 
     .attributs {
-        width: 100%;
+        width: 90%;
         min-width: 0px;
         outline: transparent solid 2px;
         outline-offset: 2px;
         height: 2.5rem;
-        border-radius: 0.25rem;
-        border-color: #BCCCDC;
-        border-width: 2px;
-        border-style: solid;
-        font-size: 16px;
-        background-color: #fff !important;
-        padding-right: 5%;
     }
 
     .zone-attributs {
         background-color: #F0F4F8;
         border-radius: 2%;
         padding: 2% 1%;
-        width: 32%;
     }
-
-    .zone-attributs div {
-        margin-bottom: 1%;
-    }
-
 
 
 </style>
@@ -906,7 +893,7 @@
         let debourseOuvrage = 0;
         let quantite = parseInt($('.quantite-modal').val());
         let quantite2 = parseInt($('.quantite2-modal').val());
-        let marge = parseFloat($('#ouvrages_' + currentOuvrageId + '_margeModal').val().replace(',', '.'));
+        let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
 
 
         const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
@@ -984,7 +971,9 @@
             maximumFractionDigits: 3,
         };
         $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
+        $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
+        $('#quantite-modal').text(quantite);
     }
 
     function validateForm() {

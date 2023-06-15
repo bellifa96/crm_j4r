@@ -131,7 +131,7 @@
                         {% endfor %}
                     </div>
 
-                    <div class="mt-4 row m-auto justify-content-between align-items-start">
+                    <div class="mt-4 row m-auto justify-content-center align-items-start">
                         <div class="col-md-4">
                             <table class="table datatable text-center">
                                 <thead>
@@ -182,89 +182,99 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12 zone-attributs">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            kg/m²
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255"
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
+                                                   value="{{ ouvrage.poidsDeReference }}"
+                                                   class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                                   name="attribut[poidsDeReference]"
+                                                   placeholder="Poids de référence" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            kg/J/pers
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255"
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
+                                                   value="{{ ouvrage.tpsDeReference|number_format(0, ',', ' ') }}"
+                                                   class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                                   name="attribut[tpsDeReference]"
+                                                   placeholder="temps de référence" readonly>
+                                        </div>
+                                    </div>
 
-                        <div class="col-md-4 zone-attributs">
-                            <div class="row align-items-center">
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        kg/m²
-                                    </div>
-                                    <div class="col-md-12 text-end">
-                                        <input type="text" maxlength="255"
-                                               id="devis_ouvrages_{{ ouvrage.id }}_poidsDeReference"
-                                               value="{{ ouvrage.poidsDeReference }}"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               name="attribut[poidsDeReference]"
-                                               placeholder="Poids de référence" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        kg/J/pers
-                                    </div>
-                                    <div class="col-md-12 text-end">
-                                        <input type="text" maxlength="255"
-                                               id="devis_ouvrages_{{ ouvrage.id }}_tpsDeReference"
-                                               value="{{ ouvrage.tpsDeReference|number_format(0, ',', ' ') }}"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               name="attribut[tpsDeReference]"
-                                               placeholder="temps de référence" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        % Tps
-                                    </div>
-                                    <div class="col-md-12 text-end">
-                                        <input type="text" maxlength="255"
-                                               id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
-                                               value="{{ ouvrage.pourcentageTpsDeReference|number_format(2, ',', ' ') }}"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               name="attribut[pourcentageTpsDeReference]"
-                                               placeholder="0" readonly>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            % Tps
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255"
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_pourcentageTpsDeReference"
+                                                   value="{{ ouvrage.pourcentageTpsDeReference|number_format(2, ',', ' ') }}"
+                                                   class="chakra-input select-ouvrage text-center fw-bold attributs"
+                                                   name="attribut[pourcentageTpsDeReference]"
+                                                   placeholder="0" readonly>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-4 zone-attributs">
-                            <div class="row align-items-center">
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        Déboursé HT
+                            <div class="col-md-12 zone-attributs mt-5" style="font-size: 0.9rem;">
+                                <div class="col-md-12 justify-content-between">
+                                    <div class="col-md-6 fst-italic text-start">
+                                        Avec une quantité de <span class="quantite-modal" id="quantite-modal">{{ouvrage.quantite}}</span> :
                                     </div>
-                                    <div class="col-md-12 text-end">
+                                </div>
+                                <div class="col-md-12 row align-items-center">
+                                    <div class="col-md-6 fst-italic text-start">
+                                        Total débours HT
+                                    </div>
+                                    <div class="col-md-6 text-end">
                                         <input type="text" maxlength="255"
                                                id="ouvrages_{{ ouvrage.id }}_debourseTotalHTModal"
                                                name="ouvrage[debourseTotalModal]"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               value="{{ ouvrage.getSommeDebourseTotalComposants|number_format(3,',',' ') }}" readonly>
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               value="{{ ouvrage.getSommeDebourseTotalComposants|number_format(3,',',' ') }}"
+                                               readonly>
+                                        <span class="euro" style="padding-left: 0">€</span>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        % Marge
+                                <div class="col-md-12 row align-items-center">
+                                    <div class="col-md-6 fst-italic text-start">
+                                        Marge totale HT
                                     </div>
-                                    <div class="col-md-12 text-end">
+                                    <div class="col-md-6 text-end">
                                         <input type="text" maxlength="255"
                                                name="ouvrage[margeModal]"
                                                id="ouvrages_{{ ouvrage.id }}_margeModal"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               value="{{ ouvrage.marge|number_format(3,',',' ') }}" readonly>
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               value="{{ (ouvrage.prixDeVenteHT - ouvrage.getSommeDebourseTotalComposants)|number_format(3,',',' ') }}"
+                                               readonly>
+                                        <span class="euro" style="padding-left: 0">€</span>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="col-md-12 fw-bold text-end">
-                                        PV HT
+                                <div class="col-md-12 row align-items-center">
+                                    <div class="col-md-6 fst-italic text-start">
+                                        Total prix de vente HT
                                     </div>
-                                    <div class="col-md-12 text-end">
+                                    <div class="col-md-6 text-end">
                                         <input type="text" maxlength="255"
                                                id="ouvrages_{{ ouvrage.id }}_prixDeVenteModal"
                                                name="ouvrage[prixDeVenteModal]"
-                                               class="chakra-input select-ouvrage text-end fw-bold attributs"
-                                               value="{{ ouvrage.prixDeVenteHT|number_format(3,',',' ') }}" readonly>
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               value="{{ ouvrage.prixDeVenteHT|number_format(3,',',' ') }}"
+                                               readonly>
+                                        <span class="euro" style="padding-left: 0">€</span>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +283,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">
-                        {{ ouvrage.denomination is empty ? 'Ajouter' : 'Appliquer les modifications'}}
+                        {{ ouvrage.denomination is empty ? 'Ajouter' : 'Appliquer les modifications' }}
                     </button>
 
                     <div class="spinner-border text-primary form-submit-loader" role="status"
@@ -329,7 +339,7 @@
                 inputElement.addClass("placeholder-active");
             }
         });
-    }})
+    })
 
     // supprimer les char non numerique
     $('.numbers').keyup(function () {
