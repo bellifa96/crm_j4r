@@ -118,7 +118,7 @@ class CalculService
             $sum = 0;
             foreach($ouvrage->getComposants() as $composant){
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
-                $deboureTotalComposant = (!empty($composant->getTypeComposant()) && $composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() : $composant->getQuantite() * $composant->getDebourseUnitaireHT());
+                $deboureTotalComposant = (!empty($composant->getTypeComposant()) ? ($composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() : $composant->getQuantite() * $composant->getDebourseUnitaireHT()) : 0);
                 $margeOuvrage = $ouvrage->getMarge();
                 
                 try {
@@ -169,7 +169,7 @@ class CalculService
                     } catch (\DivisionByZeroError $e) {
                         $nouvelleMargeSousLot = $margeLot;
                     }
-                    $sLot->setMarge(round($nouvelleMargeOuvrage,3));
+                    $sLot->setMarge(round($nouvelleMargeSousLot,3));
                     $child = [
                         'id'=>$sLot->getId(),
                         'type'=>'lot'

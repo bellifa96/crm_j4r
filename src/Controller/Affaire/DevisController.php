@@ -562,7 +562,7 @@ class DevisController extends AbstractController
                 $composantDupliquer = new Composant();
                 $composantDupliquer->setDenomination($composant->getDenomination());
                 $composantDupliquer->setTypeComposant($composant->getTypeComposant());
-                if ($composantDupliquer->getTypeComposant()->getCode() === "L") {
+                if (!empty($composantDupliquer->getTypeComposant()) && $composantDupliquer->getTypeComposant()->getCode() === "L") {
                     $composantDupliquer->setQuantite2($composant->getQuantite2());
                     $composantDupliquer->setUnite2($composant->getUnite2());
                 }
@@ -572,6 +572,7 @@ class DevisController extends AbstractController
                 $composantDupliquer->setMarge($composant->getMarge());
                 $composantDupliquer->setQuantite($composant->getQuantite());
                 $composantDupliquer->setDebourseTotalHT($composant->getDebourseTotalHT());
+                $composantDupliquer->setPrixDeVenteHT($composant->getPrixDeVenteHT());
                 $composantDupliquer->setOuvrage($dupliquer);
                 $composantDupliquer->setSelection($composant->isSelection());
                 $composantRepository->add($composantDupliquer);
@@ -814,7 +815,7 @@ class DevisController extends AbstractController
     public function dupliquerElement(Request $request, Environment $environment, LotRepository $lotRepository, Devis $devis, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
         $data = $request->request->all();
-        //dd($data);
+        // dd($data);
 
         $elements = $devis->getElements();
         $dupliquer = $this->findElement($elements, $data, $lotRepository, $ouvrageRepository, $composantRepository);

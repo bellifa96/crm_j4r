@@ -71,8 +71,8 @@
                         <div class="col-md-3 custom-select" style="margin-right: auto; margin-left: auto">
                             {% set selected = false %}
                             <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
-                                    name="attribut[TypeOuvrage]"
-                                    id="type_ouvrage_{{ ouvrage.id }}" required="required">
+                                    name="attribut[TypeOuvrage]" id="type_ouvrage_{{ ouvrage.id }}" required="required"
+                                    {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : ''}}>
                                 <option {{ selected == false ? 'selected="true"' : '' }}
                                         class="text-center fst-italic"
                                         id="typeOuvrageDefaultOption"
@@ -231,7 +231,7 @@
                             </div>
 
                             <div class="col-md-12 zone-attributs mt-5" style="font-size: 0.9rem;">
-                                <div class="col-md-12 justify-content-between">
+                                <div class="col-md-12 justify-content-between mb-4">
                                     <div class="col-md-6 fst-italic text-start">
                                         Avec une quantité de <span class="quantite-modal" id="quantite-modal">{{ouvrage.quantite}}</span> :
                                     </div>
@@ -245,7 +245,7 @@
                                                id="ouvrages_{{ ouvrage.id }}_debourseTotalHTModal"
                                                name="ouvrage[debourseTotalModal]"
                                                class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
-                                               value="{{ ouvrage.getSommeDebourseTotalComposants|number_format(3,',',' ') }}"
+                                               value="{{ ouvrage.getSommeDebourseTotalComposants|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
                                     </div>
@@ -259,7 +259,7 @@
                                                name="ouvrage[margeModal]"
                                                id="ouvrages_{{ ouvrage.id }}_margeModal"
                                                class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
-                                               value="{{ (ouvrage.prixDeVenteHT - ouvrage.getSommeDebourseTotalComposants)|number_format(3,',',' ') }}"
+                                               value="{{ (ouvrage.prixDeVenteHT - ouvrage.getSommeDebourseTotalComposants)|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
                                     </div>

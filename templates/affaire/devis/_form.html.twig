@@ -126,7 +126,7 @@
         min-width: 0px;
         outline: transparent solid 2px;
         outline-offset: 2px;
-        height: 2.5rem;
+        height: 1.75rem;
     }
 
     .zone-attributs {
@@ -943,9 +943,6 @@
                     break;
             }
             console.log($(this));
-            const options = {
-                minimumFractionDigits: 3
-            };
             //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
             if ($('#' + code + '-' + idComposant).is(':checked')) {
                 if (code === "L") {
@@ -972,8 +969,8 @@
             }
         })
         const options = {
-            minimumFractionDigits: 3,
-            maximumFractionDigits: 3,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         };
         $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
