@@ -173,7 +173,7 @@
         <div class="row align-items-center">
 
             <div class="col-md-3 text-end">
-                <label for="devis_debourseTotalHT">Déboursé total HT</label>
+                <label for="devis_debourseTotalHT" style="color: #486581;">Déboursé total HT</label>
                 <input type="text" id="devis_debourseTotalHT" class="form-control text-end"
                        value='{{ devis.debourseTotalHT|number_format(3,'.',' ') }}' style="background-color: #F0F4F8;"
                        name="devis[debourseTotalHT]" disabled>
@@ -183,7 +183,7 @@
             </div>
             <div class="col-md-3 text-end">
 
-                <label for="devis_marge">Marge totale</label>
+                <label for="devis_marge" style="color: #486581;">Marge totale</label>
                 <input type="text" id="devis_marge" class="form-control text-end" style="background-color: #F0F4F8;"
                        value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(3,',',' ') }}'
                        name="devis[margeTotal]" disabled>
@@ -192,13 +192,13 @@
 
             </div>
             <div class="col-md-4 text-end">
-                <label for="devis_prixDeVenteHT">Prix de vente HT</label>
+                <label for="devis_prixDeVenteHT" style="color: #486581;">Prix de vente HT</label>
                 <input type="text" id="devis__prix_de_vente" class="form-control text-end"
                        value='{{ devis.prixDeVenteHT|number_format(3,',',' ') }}' style="background-color: #F0F4F8;"
                        name="devis[prixDeVenteHT]" disabled>
             </div>
             <div class="col-md-3 text-end">
-                <label for="devis_tva">TVA</label>
+                <label for="devis_tva" style="color: #486581;">TVA</label>
                 <input type="text" id="devis_tva" class="form-control text-end"
                        value='{{ devis.tva }} %' style="background-color: #F0F4F8;"
                        name="devis[tva]" disabled>
@@ -208,7 +208,7 @@
             </div>
             <div class="col-md-3 text-end">
 
-                <label for="devis_marge">%Marge</label>
+                <label for="devis_marge" style="color: #486581;">%Marge</label>
                 <input type="text" id="devis_marge" class="form-control text-end"
                        value='{{ devis.marge|number_format(3,',',' ') }}' element="devis"
                        name="devis[marge]">
@@ -216,7 +216,7 @@
             <div style="font-size: 1.5rem" class="col-md-1">
             </div>
             <div class="col-md-4 text-end">
-                <label for="devis_prixDeVente">Prix de vente TTC</label>
+                <label for="devis_prixDeVente" style="color: #486581;">Prix de vente TTC</label>
                 <input type="text" id="devis_prixDeVente" class="form-control text-end"
                        style="background-color: #F0F4F8;"
                        value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(3,',',' ') }}'
