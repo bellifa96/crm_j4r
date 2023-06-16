@@ -38,18 +38,18 @@
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
                                     <select id="devis_ouvrages_{{ ouvrage.id }}_uniteModal" name="attribut[unite]" onchange="calculPrixUnitaireComposant();"
-                                            class="text-center col-md-12 chakra-input select-ouvrage" required input="unite" element="ouvrages"
+                                            class="text-start fw-bold col-md-12 chakra-input select-ouvrage" required input="unite" element="ouvrages"
                                             ouvrages="{{ ouvrage.id }}">
                                         {% set isSelected = false %}
                                         {% for unite in unites %}
-                                            <option value="{{ unite.id }}"
+                                            <option class="text-center fw-bold" value="{{ unite.id }}"
                                                     {% if unite == ouvrage.unite %}
                                                         selected
                                                         {% set isSelected = true %}
                                                     {% endif %}
                                             > {{ unite.label }}</option>
                                         {% endfor %}
-                                        <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : "" }}>Unité
+                                        <option class="text-center fw-bold" disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : "" }}>Unité
                                         </option>
 
                                     </select>
@@ -158,6 +158,7 @@
 
                                 <tbody class="mt-4">
                                 {% for composant in ouvrage.composants %}
+                                    {% if composant.TypeComposant is not empty %}
                                     <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                         <td class="col-md-1">
                                             <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
@@ -196,6 +197,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    {% endif %}
                                 {% endfor %}
                                 </tbody>
                             </table>
