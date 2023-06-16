@@ -113,7 +113,7 @@ class Ouvrage
            "typeDOuvrage"=> $this->typeDOuvrage,
            "code"=> $this->code,
            "marge"=> $this->marge,
-           "unite"=> $this->unite,
+           "unite"=> $this->unite->getId(),
            "origine"=> $this->origine,
            "note"=> $this->note,
            "quantite"=> $this->quantite,

@@ -85,7 +85,7 @@
 
     .arrow.down {
         transform: rotate(135deg);
-        left : 0;
+        left: 0;
     }
 
     .hide-composants {
@@ -217,7 +217,8 @@
             </div>
             <div class="col-md-4 text-end">
                 <label for="devis_prixDeVente">Prix de vente TTC</label>
-                <input type="text" id="devis_prixDeVente" class="form-control text-end" style="background-color: #F0F4F8;"
+                <input type="text" id="devis_prixDeVente" class="form-control text-end"
+                       style="background-color: #F0F4F8;"
                        value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(3,',',' ') }}'
                        name="devis[prixDeVente]" disabled>
             </div>
@@ -396,7 +397,7 @@
     // la fonction nous permet d'ajouter un nouveau composant dans un ouvrage
     // l'id est celui du parent
     function newComposant(id) {
-        $.post('/affaire/devis/composant/new/' + '{{ devis.id }}' + '/' + id , function (response) {
+        $.post('/affaire/devis/composant/new/' + '{{ devis.id }}' + '/' + id, function (response) {
             const data = JSON.parse(response);
             if (data.idParent != null) {
                 $("#ouvrage-ul-" + data.idParent).append(data.html)
@@ -664,6 +665,12 @@
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite]"]').attr("value", element.quantite);
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite2]"]').attr("value", element.quantite2);
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite2Show]"]').attr("value", element.quantite2);
+                if (element.type === "composants" || element.type === "ouvrages") {
+                    // Retirer l'attribut selected des options du select
+                    $('select[name="devis[' + element.type + '][' + element.id + '][unite]"] option').removeAttr('selected');
+                    // Mettre l'attribut selected à l'option avec la valeur de l'unite de l'élément
+                    $('select[name="devis[' + element.type + '][' + element.id + '][unite]"] option[value="' + element.unite + '"]').attr('selected', 'selected');
+                }
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toLocaleString('fr-FR', options));
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toLocaleString('fr-FR', options));
                 if (element.marge < 1.3) {
@@ -688,11 +695,11 @@
     // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
     $('body').on("change", 'input, select', function () {
 
-        $("#loader-devis-page").modal("show");
-
         if ($(this).hasClass('select-ouvrage')) {
             return;
         }
+
+        $("#loader-devis-page").modal("show");
 
         let type = $(this).attr('element');
         if (type === 'devis') {

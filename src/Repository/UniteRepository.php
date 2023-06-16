@@ -39,6 +39,15 @@ class UniteRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneById($value): ?Unite
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
     public function findOneByLabel($value): ?Unite
     {
         return $this->createQueryBuilder('u')

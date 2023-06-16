@@ -30,14 +30,29 @@
                             <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <input type="text" maxlength="255"
-                                           id="devis_ouvrages_{{ ouvrage.id }}_quantite"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
                                            value="{{ ouvrage.quantite }}"
                                            class="chakra-input select-ouvrage text-center fw-bold numbers quantite-modal"
                                            name="attribut[quantite]"
                                            placeholder="quantité">
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    m²
+                                    <select id="devis_ouvrages_{{ ouvrage.id }}_uniteModal" name="attribut[unite]"
+                                            class="text-center col-md-12 chakra-input select-ouvrage" required input="unite" element="ouvrages"
+                                            ouvrages="{{ ouvrage.id }}">
+                                        {% set isSelected = false %}
+                                        {% for unite in unites %}
+                                            <option value="{{ unite.id }}"
+                                                    {% if unite == ouvrage.unite %}
+                                                        selected
+                                                        {% set isSelected = true %}
+                                                    {% endif %}
+                                            > {{ unite.label }}</option>
+                                        {% endfor %}
+                                        <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : "" }}>Unité
+                                        </option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -286,7 +301,7 @@
                                                id="ouvrages_{{ ouvrage.id }}_prixDeVenteModal"
                                                name="ouvrage[prixDeVenteModal]"
                                                class="chakra-input select-ouvrage text-end attributs border-bottom-inherit fw-bold"
-                                               value="{{ ouvrage.prixDeVenteHT|number_format(3,',',' ') }}"
+                                               value="{{ ouvrage.prixDeVenteHT|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
                                     </div>
@@ -352,7 +367,7 @@
                     inputElement.addClass("placeholder-active");
                 }
             });
-        }})
+        })
 
     </script>
 </div>

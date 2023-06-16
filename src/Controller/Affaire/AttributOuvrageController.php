@@ -10,6 +10,7 @@ use App\Repository\Affaire\AttributOuvrageRepository;
 use App\Repository\Affaire\ComposantRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
+use App\Repository\UniteRepository;
 use App\Service\CalculService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,7 +108,7 @@ class AttributOuvrageController extends AbstractController
 
 
     #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
-    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository)
+    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository, UniteRepository $uniteRepository)
     {
 
         $data = $request->request->all();
@@ -128,6 +129,7 @@ class AttributOuvrageController extends AbstractController
         $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $ouvrage->setQuantite($data['quantite']);
+        $ouvrage->setUnite($uniteRepository->findOneById($data['unite']));
         $responseData = [];
 
         foreach ($data['composants'] as $key => $val) {
@@ -135,6 +137,7 @@ class AttributOuvrageController extends AbstractController
             $val = floatval($val);
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT(round($val, 3));
+            $composant->setUnite($uniteRepository->findOneById($data['unite']));
             if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {
                 $composant->setQuantite($data['quantite']);
                 $composant->setSelection(true);

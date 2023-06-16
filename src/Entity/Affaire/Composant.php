@@ -92,7 +92,7 @@ class Composant
            "denomination"=> $this->denomination,
            "code"=> $this->code,
            "marge"=> $this->marge,
-           "unite"=> $this->unite,
+           "unite"=> $this->unite->getId(),
            "note"=> $this->note,
            "quantite"=> $this->quantite,
             "quantite2"=> $this->quantite2,
