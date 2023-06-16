@@ -2,7 +2,7 @@
 
     <div class="css-1ip68u7">
         <div class="css-1r30cbj">
-            <div class="tab-el-left"><span class="hide-composants class arrow" id="{{ ouvrage.id }}"></span></div>
+            <div class="tab-el-left"><span class="hide-composants" id="{{ ouvrage.id }}"><span class="arrow"></span></span></div>
             <div class="tab-el-left">
 
                 {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
@@ -24,7 +24,7 @@
             </div>
             <div class="tab-el-right">
                 {% for composant in ouvrage.composants %}
-                    {% if composant.typeComposant.titre == "Location" %}
+                    {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
                         <input type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
                                name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
                                element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center border-bottom-inherit"
@@ -35,7 +35,7 @@
             </div>
             <div class="tab-el-right">
                 {% for composant in ouvrage.composants %}
-                    {% if composant.typeComposant.titre == "Location" %}
+                    {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
                         <select disabled id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input border-bottom-inherit" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}

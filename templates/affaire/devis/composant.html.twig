@@ -31,7 +31,7 @@
                 {% endif %}
             </div>
             <div class="tab-el-right">
-                {% if composant.typeComposant.titre == "Location" %}
+                {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
                     <input type="text" id="devis_composants_{{ composant.id }}_quantite2Show" input="quantite2"
                            name="devis[composants][{{ composant.id }}][quantite2Show]" required="required" maxlength="255"
                            element="composants" composants="{{ composant.id }}" class="chakra-input border-bottom-inherit numbers dtht-composant text-center"
@@ -39,7 +39,7 @@
                            value="{{ composant.quantite2 }}" readonly>
                 {% endif %}
             </div>
-            <div class="tab-el-right">{% if composant.typeComposant.titre == "Location" %}
+            <div class="tab-el-right">{% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
                     <select disabled id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input border-bottom-inherit" required  input="unite2" element="composants"  composants="{{ composant.id }}">
                         {% set isSelected = false %}
                         {% for unite in unites %}
@@ -98,7 +98,7 @@
                        input="marge" element="composants" composants="{{ composant.id }}"
                        name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
                        class="chakra-input border-bottom-inherit text-center" placeholder="Marge"
-                       value="{{ composant.marge|number_format(3,',',' ') }}">
+                       value="{{ composant.marge|number_format(3,',',' ') }}" {{ composant.typeComposant is empty ? "readonly" : "" }}>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_composants_{{ composant.id }}_prix_de_vente" disabled="disabled"

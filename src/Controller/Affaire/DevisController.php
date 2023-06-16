@@ -754,8 +754,8 @@ class DevisController extends AbstractController
         return new Response(json_encode(['code' => 404]));
     }
 
-    #[Route('/composant/new/{id}/{parentId}/{origine}', name: 'app_affaire_devis_composant_new', methods: ['GET', 'POST'])]
-    public function newComposant(Devis $devis, $parentId, $origine, Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
+    #[Route('/composant/new/{id}/{parentId}', name: 'app_affaire_devis_composant_new', methods: ['GET', 'POST'])]
+    public function newComposant(Devis $devis, $parentId, Request $request, Environment $environment, OuvrageRepository $ouvrageRepository, DevisRepository $devisRepository, ComposantRepository $composantRepository): Response
     {
 
 
@@ -763,6 +763,8 @@ class DevisController extends AbstractController
         $composant = new Composant();
         $composant->setCreateur($this->getUser());
         $composant->setStatut('Copie');
+        $composant->setSelection(false);
+        $composant->setQuantite(0);
 
         // on recupere tout les elements du devis pour pouvoir les modifier et y ajouter des nouveaux elements
         $elements = $devis->getElements();
@@ -775,7 +777,6 @@ class DevisController extends AbstractController
             $element = [
                 'id' => $composant->getId(),
                 'type' => 'composant',
-                'origine' => $origine,
                 'data' => []
             ];
             $html = $this->recursiveElements([$element], $parentId);
@@ -787,7 +788,11 @@ class DevisController extends AbstractController
                 $elements = $this->setParent($elements, $element, $parent);
                 $ouvrage = $ouvrageRepository->find($parentId);
                 $ouvrage->addComposant($composant);
+                $composant->setOuvrage($ouvrage);
+                $composant->setUnite($ouvrage->getUnite());
+                $composant->setMarge($ouvrage->getMarge());
                 $ouvrageRepository->add($ouvrage);
+                $composantRepository->add($composant);
 
             } else {
                 $elements[] = $element;

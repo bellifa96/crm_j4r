@@ -118,7 +118,7 @@ class CalculService
             $sum = 0;
             foreach($ouvrage->getComposants() as $composant){
                 $prixDeVenteHTComposant = $composant->getPrixDeVenteHT();
-                $deboureTotalComposant = ($composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() : $composant->getQuantite() * $composant->getDebourseUnitaireHT());
+                $deboureTotalComposant = (!empty($composant->getTypeComposant()) && $composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() : $composant->getQuantite() * $composant->getDebourseUnitaireHT());
                 $margeOuvrage = $ouvrage->getMarge();
                 
                 try {
@@ -127,7 +127,7 @@ class CalculService
                     $nouvelleMargeComposant = $margeOuvrage;
                 }
                 $composant->setMarge(round($nouvelleMargeComposant,3));
-                $composant->setPrixDeVenteHT(($composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant : $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant));
+                $composant->setPrixDeVenteHT((!empty($composant->getTypeComposant()) && $composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant : $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant));
                 $sum += $composant->getPrixDeVenteHT();
                 $this->em->getRepository(Composant::class)->add($composant);
                 $dataa[]=$composant->__toArray();

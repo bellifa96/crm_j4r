@@ -73,16 +73,26 @@
         display: inline-block;
         width: 10px;
         height: 10px;
-        border: solid #0e4377;
+        border: solid #d9e1f2;
         border-width: 2px 2px 0 0;
         transform: rotate(45deg);
         transition: transform 0.3s ease-in-out;
         cursor: pointer;
         padding: 5px;
+        position: relative;
+        left: -2px;
     }
 
     .arrow.down {
         transform: rotate(135deg);
+        left : 0px
+    }
+
+    .hide-composants {
+        cursor: pointer;
+        padding: 10% 25%;
+        background-color: #0e4377;
+        border-radius: 5px;
     }
 
     .chakra-input {
@@ -108,7 +118,7 @@
     }
 
     .border-bottom-1 {
-        border-bottom: 1px!important;
+        border-bottom: 1px !important;
     }
 
     .attributs {
@@ -360,13 +370,7 @@
         }
         // et si on clique sur + dans un ouvrage alors on ajoute un composant
         else if ($(this).attr('type') === 'ouvrage') {
-            let origine = $('#devis_ouvrages_' + id + '_denomination').prop("tagName").toLowerCase() === "input" ? $('#devis_ouvrages_' + id + '_denomination').attr('origine') : $('#devis_ouvrages_' + id + '_denomination').val();
-            if (origine !== null) {
-                newComposant(id, origine);
-            } else {
-                $(this).show();
-                $('#spinner-' + id).hide();
-            }
+            newComposant(id);
         }
     });
 
@@ -387,9 +391,8 @@
 
     // la fonction nous permet d'ajouter un nouveau composant dans un ouvrage
     // l'id est celui du parent
-    // origine represente l'id de l'ouvrage d'origine à partir du quel on a crée l'ouvrage actuel 
-    function newComposant(id, origine) {
-        $.post('/affaire/devis/composant/new/' + '{{ devis.id }}' + '/' + id + '/' + origine, function (response) {
+    function newComposant(id) {
+        $.post('/affaire/devis/composant/new/' + '{{ devis.id }}' + '/' + id , function (response) {
             const data = JSON.parse(response);
             if (data.idParent != null) {
                 $("#ouvrage-ul-" + data.idParent).append(data.html)
@@ -617,12 +620,12 @@
             })
     })*/
 
-    function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type, quantite2=null) {
+    function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type, quantite2 = null) {
         let debourseTotalHT = 0;
         console.log(quantite2);
         if (isNaN(quantite2)) {
             debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
-        }else {
+        } else {
             debourseTotalHT = (quantite * prixUnitaireHT * quantite2).toFixed(3);
         }
         $("#devis_" + type + "_" + id + "_debourseTotalHT").attr('value', debourseTotalHT)
@@ -630,7 +633,7 @@
     }
 
     function calculPrixDeVente(debourseTotalHt, marge, id, type) {
-        const prixDeVenteHt = (debourseTotalHt * marge ).toFixed(3);
+        const prixDeVenteHt = (debourseTotalHt * marge).toFixed(3);
         $("#devis_" + type + "_" + id + "_prix_de_vente").attr('value', prixDeVenteHt)
         return parseFloat(prixDeVenteHt);
     }
@@ -651,7 +654,6 @@
                 $('input[name="devis[prixDeVente]"]').attr("value", (element.prixDeVenteHT + (element.tva / 100 * element.prixDeVenteHT)).toLocaleString('fr-FR', options));
 
 
-
             } else {
                 console.log(data);
                 $('input[name="devis[' + element.type + '][' + element.id + '][denomination]"]').attr("value", element.denomination);
@@ -660,7 +662,7 @@
                 $('input[name="devis[' + element.type + '][' + element.id + '][quantite2Show]"]').attr("value", element.quantite2);
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toLocaleString('fr-FR', options));
                 $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toLocaleString('fr-FR', options));
-                if (element.marge < 1.3 ) {
+                if (element.marge < 1.3) {
                     $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', 'red');
                 } else {
                     $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', '#0E4377');
@@ -785,7 +787,7 @@
     })
 
     // supprimer les char non numerique 
-    $('body').on('keyup', '.numbers',function () {
+    $('body').on('keyup', '.numbers', function () {
         this.value = this.value.replace(/[^0-9\.\,]/g, '');
     });
 
@@ -826,8 +828,8 @@
             $('#form-' + currentOuvrageId + ' select').each(function () {
                 if ($(this).parent().hasClass('d-none') && $(this).val() != "") {
                     $(this).parent().removeClass('d-none');
-                }else{
-                    $(this).attr('required',false)
+                } else {
+                    $(this).attr('required', false)
                 }
             })
 
@@ -873,7 +875,6 @@
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
             $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);
             calculPrixUnitaireComposant();
-
 
 
         }
@@ -946,7 +947,7 @@
                 minimumFractionDigits: 3
             };
             //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
-            if ($('#' + code + '-' + idComposant).is(':checked')){
+            if ($('#' + code + '-' + idComposant).is(':checked')) {
                 if (code === "L") {
                     debourseOuvrage += res * quantite * quantite2;
                 } else {
@@ -1145,20 +1146,21 @@
             return false
         }
     }
-     //Fonction qui permet d'ouvrir et fermer le volet des composants
-    $(document).ready(function() {
-        $('body').on('click', '.hide-composants', function() {
+
+    //Fonction qui permet d'ouvrir et fermer le volet des composants
+    $(document).ready(function () {
+        $('body').on('click', '.hide-composants', function () {
             let id = $(this).attr('id');
             var composants = $('#ouvrage-ul-' + id);
 
             if (composants.hasClass('ouvrage-children')) {
                 composants.slideDown();
                 composants.removeClass('ouvrage-children');
-                $(this).toggleClass('down');
+                $(this).children().toggleClass('down');
             } else {
                 composants.slideUp();
                 composants.addClass('ouvrage-children');
-                $(this).toggleClass('down');
+                $(this).children().toggleClass('down');
             }
         });
     });
