@@ -906,6 +906,8 @@
         let quantite = parseInt($('.quantite-modal').val());
         let quantite2 = parseInt($('.quantite2-modal').val());
         let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
+        let unite = $('select[name="devis[ouvrages][' + currentOuvrageId + '][unite]"] option:selected').text();
+        console.log(unite);
 
 
         const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
@@ -991,6 +993,7 @@
         $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
         $('#quantite-modal').text(quantite);
         $('#quantite2-modal').text(quantite2);
+        $('#unite-modal').text(unite);
     }
 
     function validateForm() {

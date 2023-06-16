@@ -37,7 +37,7 @@
                                            placeholder="quantité">
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    <select id="devis_ouvrages_{{ ouvrage.id }}_uniteModal" name="attribut[unite]"
+                                    <select id="devis_ouvrages_{{ ouvrage.id }}_uniteModal" name="attribut[unite]" onchange="calculPrixUnitaireComposant();"
                                             class="text-center col-md-12 chakra-input select-ouvrage" required input="unite" element="ouvrages"
                                             ouvrages="{{ ouvrage.id }}">
                                         {% set isSelected = false %}
@@ -63,7 +63,7 @@
                                     <input type="text" maxlength="255"
                                            id="devis_ouvrages_{{ ouvrage.id }}_quantite2"
                                             {% for composant in ouvrage.composants %}
-                                                {% if composant.TypeComposant.code is same as "L" %}
+                                                {% if composant.TypeComposant is not empty and composant.TypeComposant.code is same as "L" %}
                                                     value="{{ composant.quantite2 }}"
                                                 {% endif %}
                                             {% endfor %}
