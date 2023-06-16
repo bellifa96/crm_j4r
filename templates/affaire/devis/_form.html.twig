@@ -135,6 +135,10 @@
         padding: 2% 1%;
     }
 
+    .input-prix-devis {
+        background-color: #F0F4F8;
+    }
+
 
 </style>
 
@@ -165,55 +169,55 @@
 
 <div class="row mt-4">
 
-    <div class="col-md-8 page-block m-auto">
+    <div class="col-md-8 page-block m-auto" style="background-color: #F0F4F8;">
         <div class="row align-items-center">
 
-            <div class="col-md-3">
+            <div class="col-md-3 text-end">
                 <label for="devis_debourseTotalHT">Déboursé total HT</label>
-                <input type="text" id="devis_debourseTotalHT" class="form-control"
-                       value='{{ devis.debourseTotalHT|number_format(3,'.',' ') }}'
+                <input type="text" id="devis_debourseTotalHT" class="form-control text-end"
+                       value='{{ devis.debourseTotalHT|number_format(3,'.',' ') }}' style="background-color: #F0F4F8;"
                        name="devis[debourseTotalHT]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-end">
 
                 <label for="devis_marge">Marge totale</label>
-                <input type="text" id="devis_marge" class="form-control"
+                <input type="text" id="devis_marge" class="form-control text-end" style="background-color: #F0F4F8;"
                        value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(3,',',' ') }}'
                        name="devis[margeTotal]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 text-end">
                 <label for="devis_prixDeVenteHT">Prix de vente HT</label>
-                <input type="text" id="devis__prix_de_vente" class="form-control"
-                       value='{{ devis.prixDeVenteHT|number_format(3,',',' ') }}'
+                <input type="text" id="devis__prix_de_vente" class="form-control text-end"
+                       value='{{ devis.prixDeVenteHT|number_format(3,',',' ') }}' style="background-color: #F0F4F8;"
                        name="devis[prixDeVenteHT]" disabled>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-end">
                 <label for="devis_tva">TVA</label>
-                <input type="text" id="devis_tva" class="form-control"
-                       value='{{ devis.tva }} %'
+                <input type="text" id="devis_tva" class="form-control text-end"
+                       value='{{ devis.tva }} %' style="background-color: #F0F4F8;"
                        name="devis[tva]" disabled>
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 text-end">
 
                 <label for="devis_marge">%Marge</label>
-                <input type="text" id="devis_marge" class="form-control"
+                <input type="text" id="devis_marge" class="form-control text-end"
                        value='{{ devis.marge|number_format(3,',',' ') }}' element="devis"
                        name="devis[marge]">
             </div>
             <div style="font-size: 1.5rem" class="col-md-1">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 text-end">
                 <label for="devis_prixDeVente">Prix de vente TTC</label>
-                <input type="text" id="devis_prixDeVente" class="form-control"
+                <input type="text" id="devis_prixDeVente" class="form-control text-end" style="background-color: #F0F4F8;"
                        value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(3,',',' ') }}'
                        name="devis[prixDeVente]" disabled>
             </div>
@@ -349,7 +353,7 @@
 <script>
 
 
-    // on sauvegarde l'element selectioné (lot/ouvrage/composant) 
+    // on sauvegarde l'element selectioné (lot/ouvrage/composant)
     let selectedElement = null;
     let selectedElementId = null;
     let selectedElementType = null;
@@ -357,7 +361,7 @@
 
     // on ecoute sur le bouton add-element-button (c'est le + dans le html) qui nous permet d'ajouter un lot  ou un ouvrage
     $('body').on('click', '.add-element-button', function () {
-        // on recupere l'id du parent 
+        // on recupere l'id du parent
         let id = $(this).attr('id').replaceAll('bi-plus-circle-', '');
         // on cache le bouton + afin d'eviter d'avoir 2 evenement
         $(this).hide();
@@ -406,7 +410,7 @@
         })
     }
 
-    //  on ecoute sur les 2 autres boutons d'ajout de lot 
+    //  on ecoute sur les 2 autres boutons d'ajout de lot
     $('body').on('click', '#add-lots, .add-lot', function () {
         var parentId = selectedElementId;
         var parentType = selectedElementType;
@@ -500,17 +504,17 @@
         }, function (response) {
             response = JSON.parse(response);
             if (response.code == 200) {
-                // si on a success alors on vide les variables qui sauve l'element selectionné 
+                // si on a success alors on vide les variables qui sauve l'element selectionné
                 selectedElementId = null;
                 selectedElementType = null;
                 if (id != null) {
-                    // si l'element a des enfants alors on supprime la div qui contient ses enfants 
+                    // si l'element a des enfants alors on supprime la div qui contient ses enfants
                     if ($('#element-' + id).next().hasClass('children')) {
                         $('#element-' + id).next().remove();
                     }
                     // on supprime la div de l'element
                     $('#element-' + id).remove();
-                    // on met ajout les chiffres de tous les elements impactés 
+                    // on met ajout les chiffres de tous les elements impactés
                     updateData(response.data)
                     // et on cache le loader
                     $("#loader-devis-page").modal("hide");
@@ -942,7 +946,10 @@
                     res = variante * k / 1000;
                     break;
             }
-            console.log($(this));
+            const options = {
+                maximumFractionDigits: 3
+            };
+
             //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
             if ($('#' + code + '-' + idComposant).is(':checked')) {
                 if (code === "L") {
@@ -976,6 +983,7 @@
         $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
         $('#quantite-modal').text(quantite);
+        $('#quantite2-modal').text(quantite2);
     }
 
     function validateForm() {

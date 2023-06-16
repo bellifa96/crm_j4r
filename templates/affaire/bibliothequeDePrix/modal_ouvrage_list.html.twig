@@ -72,7 +72,7 @@
                             {% set selected = false %}
                             <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
                                     name="attribut[TypeOuvrage]" id="type_ouvrage_{{ ouvrage.id }}" required="required"
-                                    {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : ''}}>
+                                    {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : '' }}>
                                 <option {{ selected == false ? 'selected="true"' : '' }}
                                         class="text-center fst-italic"
                                         id="typeOuvrageDefaultOption"
@@ -145,10 +145,11 @@
                                 {% for composant in ouvrage.composants %}
                                     <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                         <td class="col-md-1">
-                                            <input id="{{ composant.typeComposant.code~'-'~composant.id }}" type="checkbox"
+                                            <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
+                                                   type="checkbox"
                                                     {{ composant.selection ? 'checked' : '' }}
-                                                    class="checkbox-composant"
-                                                   onclick= "calculPrixUnitaireComposant()"
+                                                   class="checkbox-composant"
+                                                   onclick="calculPrixUnitaireComposant()"
                                                    name="attribut[composantsSelect][{{ composant.id }}]">
                                         </td>
                                         <td class="col-md-5 text-start">
@@ -231,9 +232,20 @@
                             </div>
 
                             <div class="col-md-12 zone-attributs mt-5" style="font-size: 0.9rem;">
-                                <div class="col-md-12 justify-content-between mb-4">
-                                    <div class="col-md-6 fst-italic text-start">
-                                        Avec une quantité de <span class="quantite-modal" id="quantite-modal">{{ouvrage.quantite}}</span> :
+                                <div class="col-md-12 justify-content-between mb-3">
+                                    <div class="col-md-12 text-start">
+                                        Avec une quantité de
+                                        <span class="quantite-modal fw-bold"
+                                           id="quantite-modal">{{ ouvrage.quantite~' '}}</span>
+                                        <span class="unite-modal fw-bold" id="unite-modal">{{ ouvrage.unite.label}}</span>
+                                        et
+                                        {% for composant in ouvrage.composants %}
+                                                {% if composant.TypeComposant.code is same as "L" %}
+                                                <span class="quantite2-modal fw-bold"
+                                                      id="quantite2-modal">{{ composant.quantite2~' ' }}</span>
+                                                    <span class="fw-bold">{{ composant.unite2.label }}</span>
+                                            {% endif %}
+                                            {% endfor %} :
                                     </div>
                                 </div>
                                 <div class="col-md-12 row align-items-center">
@@ -244,7 +256,7 @@
                                         <input type="text" maxlength="255"
                                                id="ouvrages_{{ ouvrage.id }}_debourseTotalHTModal"
                                                name="ouvrage[debourseTotalModal]"
-                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit fw-bold"
                                                value="{{ ouvrage.getSommeDebourseTotalComposants|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
@@ -258,7 +270,7 @@
                                         <input type="text" maxlength="255"
                                                name="ouvrage[margeModal]"
                                                id="ouvrages_{{ ouvrage.id }}_margeModal"
-                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit fw-bold"
                                                value="{{ (ouvrage.prixDeVenteHT - ouvrage.getSommeDebourseTotalComposants)|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
@@ -273,7 +285,7 @@
                                         <input type="text" maxlength="255"
                                                id="ouvrages_{{ ouvrage.id }}_prixDeVenteModal"
                                                name="ouvrage[prixDeVenteModal]"
-                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit"
+                                               class="chakra-input select-ouvrage text-end attributs border-bottom-inherit fw-bold"
                                                value="{{ ouvrage.prixDeVenteHT|number_format(3,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
@@ -340,7 +352,7 @@
                     inputElement.addClass("placeholder-active");
                 }
             });
-        })
+        }})
 
     </script>
 </div>
