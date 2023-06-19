@@ -50,6 +50,13 @@
 </header>
 
 <main>
+    {% set sommeL = 0 %}
+    {% set sommeM = 0 %}
+    {% set sommeD = 0 %}
+    {% set sommeTA = 0 %}
+    {% set sommeTR = 0 %}
+    {% set sommeMA = 0 %}
+    {% set sommeMR = 0 %}
     <table style="font-size: 6px; margin-top: 10px; border-collapse: collapse; border-spacing: 0 10px;" id="table1">
         <thead style="margin-bottom: 5px">
         <tr>
@@ -116,13 +123,6 @@
         </tr>
         </thead>
         <tbody>
-        {% set sommeL = 0 %}
-        {% set sommeM = 0 %}
-        {% set sommeD = 0 %}
-        {% set sommeTA = 0 %}
-        {% set sommeTR = 0 %}
-        {% set sommeMA = 0 %}
-        {% set sommeMR = 0 %}
         {% for element in elements %}
             {% for enfant in element.data %}
                 {% if enfant.type == 'lot' %}
@@ -140,14 +140,69 @@
                             </td>
                             <td style="text-align: center"> {{ sousEnfant.ouvrage.unite is not null ? sousEnfant.ouvrage.unite.label : '-' }}</td>
                             <td style="text-align: center"> {{ sousEnfant.ouvrage.quantite is not null ? sousEnfant.ouvrage.quantite : '-' }} </td>
-                            <td style="text-align: center"> - </td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
+                            <td style="text-align: center">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('L') %}
+                                        {{ composant.quantite2 }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('L') %}
+                                        {% set sommeL = sommeL + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('M') %}
+                                        {% set sommeM = sommeM + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('D') %}
+                                        {% set sommeD = sommeD + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('TA') %}
+                                        {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('TR') %}
+                                        {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('MA') %}
+                                        {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('MR') %}
+                                        {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? (sousEnfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
