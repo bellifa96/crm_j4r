@@ -77,8 +77,36 @@
             <th style="width: 5%">Location</th>
             <th style="width: 5%">Montage</th>
             <th style="width: 5%">Démontage</th>
-            <th style="width: 10%" colspan="2">Transport</th>
-            <th style="width: 10%" colspan="2">Manutention</th>
+            <th style="width: 10%" colspan="2">
+                <table style="padding: 0; margin: 0; width: 100%">
+                    <tr style="padding: 0; margin: 0; width: 100%;">
+                        <th style="margin: 0; padding: 0; border: inherit" colspan="2">Transport</th>
+                    </tr>
+                    <tr style="padding: 0; margin: 0 ;width: 100%">
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Aller
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Retour
+                        </td>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 10%" colspan="2">
+                <table style="padding: 0; margin: 0; width: 100%">
+                    <tr style="padding: 0; margin: 0; width: 100%;">
+                        <th style="margin: 0; padding: 0; border: inherit" colspan="2">Manutention</th>
+                    </tr>
+                    <tr style="padding: 0; margin: 0 ;width: 100%">
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Appro
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Repli
+                        </td>
+                    </tr>
+                </table>
+            </th>
             <th style="width: 5%">Ventes</th>
             <th style="width: 5%">Etudes</th>
             <th style="width: 8%">Prix de vente total HT</th>
@@ -88,6 +116,13 @@
         </tr>
         </thead>
         <tbody>
+        {% set sommeL = 0 %}
+        {% set sommeM = 0 %}
+        {% set sommeD = 0 %}
+        {% set sommeTA = 0 %}
+        {% set sommeTR = 0 %}
+        {% set sommeMA = 0 %}
+        {% set sommeMR = 0 %}
         {% for element in elements %}
             {% for enfant in element.data %}
                 {% if enfant.type == 'lot' %}
@@ -137,14 +172,69 @@
                         </td>
                         <td style="text-align: center"> {{ enfant.ouvrage.unite is not null ? enfant.ouvrage.unite.label : '-' }} </td>
                         <td style="text-align: center"> {{ enfant.ouvrage.quantite is not null ? enfant.ouvrage.quantite : '-' }} </td>
-                        <td style="text-align: center"> -</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
+                        <td style="text-align: center">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('L') %}
+                                    {{ composant.quantite2 }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('L') %}
+                                    {% set sommeL = sommeL + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('M') %}
+                                    {% set sommeM = sommeM + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('D') %}
+                                    {% set sommeD = sommeD + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('TA') %}
+                                    {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('TR') %}
+                                    {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('MA') %}
+                                    {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('MR') %}
+                                    {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT| number_format(3,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? (enfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
@@ -159,27 +249,35 @@
         {% endfor %}
         <tr>
             <td class="secondRow" style="text-align: center" colspan="3">Total H.T.</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
             <td class="emptyCell"></td>
+            <td class="emptyCell"></td>
+            <td class="emptyCell"></td>
+            <td class="secondRow" style="text-align: right"> {{ sommeL|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeM|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeD|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeTA|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeTR|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeMA|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeMR|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> - €</td>
+            <td class="secondRow" style="text-align: right"> - €</td>
+            <td class="secondRow" style="text-align: right"> {{ devis.PrixDeVenteHT|number_format(3, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> - €</td>
             <td class="secondRow" style="text-align: right"> - €</td>
         </tr>
         <tr>
-            <td class="emptyCell" colspan="6"></td>
+            <td class="emptyCell" colspan="12"></td>
             <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
                 Montant Total € H.T. <br>
                 Prorata 0,00%
             </td>
             <td style="text-align: right; font-weight: bold; line-height: 10px">
-                {{ (prixDevis)|number_format(2, ',', '') }} € <br>
+                {{ devis.PrixDeVenteHT|number_format(3, ',', ' ') }} € <br>
                 - €
             </td>
         </tr>
         <tr>
-            <td class="emptyCell" colspan="6"></td>
+            <td class="emptyCell" colspan="12"></td>
             <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
                 Montant Total € H.T. + prorata <br>
                 T.V.A. 20,00% <br>
@@ -187,8 +285,8 @@
             </td>
             <td style="text-align: right; font-weight: bold; line-height: 10px">
                 - € <br>
-                - € <br>
-                - €
+                {{ ( devis.PrixDeVenteHT * devis.tva/100)|number_format(3, ',', ' ') }} € <br>
+                {{ (devis.PrixDeVenteHT + devis.PrixDeVenteHT * devis.tva/100)|number_format(3, ',', ' ') }} €
             </td>
         </tr>
         </tbody>

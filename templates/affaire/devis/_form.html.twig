@@ -2,7 +2,6 @@
     {{ encore_entry_link_tags('devis') }}
 {% endblock %}
 
-
 <style>
 
 
@@ -70,29 +69,17 @@
     }
 
     .arrow {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border: solid #d9e1f2;
-        border-width: 2px 2px 0 0;
-        transform: rotate(45deg);
         transition: transform 0.3s ease-in-out;
-        cursor: pointer;
-        padding: 5px;
-        position: relative;
-        left: -2px;
+        background-color: #0E4377;
+        border-radius: 50%;
     }
 
     .arrow.down {
-        transform: rotate(135deg);
-        left: 0;
+        transform: rotate(90deg);
     }
 
     .hide-composants {
         cursor: pointer;
-        padding: 10% 25%;
-        background-color: #0e4377;
-        border-radius: 5px;
     }
 
     .chakra-input {
@@ -300,7 +287,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="mt-4 col-md-11 m-auto">
     <div class=" css-1fnl9bt">
@@ -1171,11 +1157,11 @@
             if (composants.hasClass('ouvrage-children')) {
                 composants.slideDown();
                 composants.removeClass('ouvrage-children');
-                $(this).children().toggleClass('down');
+                $(this).toggleClass('down');
             } else {
                 composants.slideUp();
                 composants.addClass('ouvrage-children');
-                $(this).children().toggleClass('down');
+                $(this).toggleClass('down');
             }
         });
     });

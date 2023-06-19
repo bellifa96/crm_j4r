@@ -9,20 +9,87 @@
             position: relative;
         }
 
+        .container {
+            /* Assurez-vous que la largeur de la conteneur est suffisamment grande pour contenir tous les divs */
+            width: 100%;
+        }
+
+        .box {
+            height: 100px;
+            /* Flottez les divs à gauche */
+            float: left;
+        }
+
     </style>
     <div style="text-align: right; font-size: 20px; top: 0">
         <strong>Devis n°{{ devis.id }}</strong>
+    </div>
+    <div class="container">
+        <div class="box" style="width: 10%"><img src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo"></div>
+        <div class="box" style="width: 20%">
+            <div style="text-align: left; padding: 5px;">
+                <div style="font-weight: bold; text-decoration: underline;">Affaire:</div>
+                <div style="font-weight: bold;">{{ devis.titre }}</div>
+                <div style="">{{ devis.demande.adresse1 }}</div>
+                <div style="">{{ devis.demande.codePostal ~ ' ' ~ devis.demande.ville }}</div>
+            </div>
+        </div>
+        <div class="box" style="width: 20%">
+            <div style="text-align: left; padding: 5px;">
+                <div style="font-weight: bold; text-decoration: underline;">Chargé d'affaire :</div>
+                <div style="">Portable :</div>
+                <div style="">Email :</div>
+            </div>
+            <div style="text-align: left; padding: 5px;">
+                <div style="font-weight: bold; text-decoration: underline;">Deviseur :</div>
+                <div style="">{{ devis.createur.firstname ~ ' ' ~ devis.createur.lastname }}</div>
+                <div style="">Portable : {{ devis.createur.telephone is not null ? devis.createur.telephone : '' }}</div>
+                <div style="">Portable : {{ devis.createur.email is not null ? devis.createur.email : '' }}</div>
+            </div>
+        </div>
+        <div class="box" style="width: 10%">
+            <div style="padding: 5px; text-align: center">
+                <div style="font-weight: bold; text-decoration: underline;">Date du devis :</div>
+                <div style="font-weight: bold;">{{ devis.dateDuDevis }}</div>
+                <div style="">N° de devis :</div>
+                <div style="">{{ devis.id }}</div>
+            </div>
+        </div>
+        <div class="box" style="width: 20%">
+            <div style="text-align: left; padding: 5px;">
+                <div style="font-weight: bold; text-decoration: underline;">Contact client :</div>
+                <div style="">Portable :</div>
+                <div style="">Email :</div>
+            </div>
+            <div style="text-align: left; padding: 5px;">
+                <div style="font-weight: bold; text-decoration: underline;">Autre contact :</div>
+                <div style="">Portable :</div>
+                <div style="">Email :</div>
+            </div>
+        </div>
+        <div class="box" style="width: 20%">
+            <div style="text-align: left;">
+                <div style=""><strong><u>Adressé à:</u></strong></div>
+                <br>
+                <div style="">
+                    <strong>{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.nom : devis.demande.client.personne.nom~' '~devis.demande.client.personne.prenom }}</strong>
+                </div>
+                <div style=""> {{ devis.demande.client.societe is not empty ? (devis.demande.contactPrincipalClient is not null ? "A l'attention de " ~ devis.demande.contactPrincipalClient.prenom ~ ' ' ~ devis.demande.contactPrincipalClient.nom : "&nbsp;") : "&nbsp;" }}</div>
+                <div style="">{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.adresse1 : devis.demande.client.personne.adresse1 }}</div>
+                <div style="">{{ devis.demande.client.societe is not empty ? devis.demande.client.societe.codePostal~' '~devis.demande.client.societe.ville : devis.demande.client.personne.codePostal~' '~devis.demande.client.personne.ville }}</div>
+            </div>
+        </div>
     </div>
     <table style="width: 100%; margin-top: 1rem;">
         <tr>
             <td style="width: 10%; border: inherit;">
                 <div style="text-align: left;">
-                    <img src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo" style="width: 200px;">
+                    <img src="{{ asset('uploads/logo/j4r_logo_2.jpg') }}" alt="logo">
                 </div>
             </td>
             <td style="width: 20%">
                 <div style="text-align: left; padding: 5px;">
-                    <div style="font-weight: bold; text-decoration: underline;">Affaire:</div>
+                    <div style="font-weight: bold; text-decoration: underline;">Date du devis :</div>
                     <div style="font-weight: bold;">{{ devis.titre }}</div>
                     <div style="">{{ devis.demande.adresse1 }}</div>
                     <div style="">{{ devis.demande.codePostal ~ ' ' ~ devis.demande.ville }}</div>

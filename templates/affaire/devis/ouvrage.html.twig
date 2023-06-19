@@ -2,18 +2,25 @@
 
     <div class="css-1ip68u7">
         <div class="css-1r30cbj">
-            <div class="tab-el-left"><span class="hide-composants" id="{{ ouvrage.id }}"><span class="arrow"></span></span></div>
+            <div class="tab-el-left">
+                <svg class="hide-composants arrow" id="{{ ouvrage.id }}" height="32px" width="32px">
+                    <path d="M16.87,16.87l-6.153,6.154c-0.241,0.24-0.556,0.36-0.869,0.36c-0.316,0-0.631-0.12-0.872-0.36  c-0.48-0.481-0.48-1.26,0-1.741L14.259,16l-5.283-5.284c-0.48-0.48-0.48-1.259,0-1.74c0.482-0.48,1.261-0.48,1.741,0l6.153,6.154  C17.352,15.61,17.352,16.389,16.87,16.87z M18.102,8.976c-0.481-0.48-1.26-0.48-1.74,0c-0.481,0.481-0.481,1.26,0,1.74L21.645,16  l-5.283,5.283c-0.481,0.481-0.481,1.26,0,1.741c0.239,0.24,0.555,0.36,0.87,0.36s0.629-0.12,0.87-0.36l6.154-6.154  c0.479-0.481,0.479-1.26,0-1.74L18.102,8.976z M32,16c0,8.822-7.179,16-16,16S0,24.822,0,16C0,7.177,7.179,0,16,0S32,7.177,32,16z   M29.539,16c0-7.466-6.073-13.539-13.539-13.539C8.535,2.461,2.461,8.534,2.461,16c0,7.465,6.074,13.538,13.539,13.538  C23.466,29.538,29.539,23.465,29.539,16z"
+                          fill="#d9e2ec"/>
+                </svg>
+            </div>
             <div class="tab-el-left">
 
                 {% if ouvrage.denomination is not null and ouvrage.origine is not null %}
                     <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
                            element="ouvrages" ouvrages="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
-                           class="chakra-input border-bottom-inherit" placeholder="Dénomination" value="{{ ouvrage.denomination }}" disabled/>
+                           class="chakra-input border-bottom-inherit" placeholder="Dénomination"
+                           value="{{ ouvrage.denomination }}" disabled/>
                 {% else %}
-                    <div class="import-ouvrage" id="import-ouvrage-{{ouvrage.id}}" style="width: 100%">
+                    <div class="import-ouvrage" id="import-ouvrage-{{ ouvrage.id }}" style="width: 100%">
                         <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
-                               element="ouvrages" ouvrages="{{ ouvrage.id }}" maxlength="255" value="{{ ouvrage.denomination }}"
+                               element="ouvrages" ouvrages="{{ ouvrage.id }}" maxlength="255"
+                               value="{{ ouvrage.denomination }}"
                                name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required"
                                class="chakra-input border-bottom-inherit" placeholder="Veuillez sélectionner un ouvrage"
                                style="cursor: pointer;" disabled/>
@@ -26,8 +33,10 @@
                 {% for composant in ouvrage.composants %}
                     {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
                         <input type="text" id="devis_composants_{{ composant.id }}_quantite2" input="quantite2"
-                               name="devis[composants][{{ composant.id }}][quantite2]" required="required" maxlength="255"
-                               element="composants" composants="{{ composant.id }}" class="chakra-input numbers dtht-composant text-center border-bottom-inherit"
+                               name="devis[composants][{{ composant.id }}][quantite2]" required="required"
+                               maxlength="255"
+                               element="composants" composants="{{ composant.id }}"
+                               class="chakra-input numbers dtht-composant text-center border-bottom-inherit"
                                placeholder="Quantité2"
                                value="{{ composant.quantite2 }}">
                     {% endif %}
@@ -36,17 +45,22 @@
             <div class="tab-el-right">
                 {% for composant in ouvrage.composants %}
                     {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
-                        <select disabled id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input border-bottom-inherit" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                        <select disabled id="devis_composants_{{ composant.id }}_unite2"
+                                name="devis[composants][{{ composant.id }}][unite2]"
+                                class="text-center col-md-12 chakra-input border-bottom-inherit" required input="unite2"
+                                element="composants" composants="{{ composant.id }}">
                             {% set isSelected = false %}
                             {% for unite in unites %}
-                                <option value="{{unite.id}}"
+                                <option value="{{ unite.id }}"
                                         {% if unite == composant.unite2 %}
                                             selected
                                             {% set isSelected = true %}
                                         {% endif %}
-                                > {{ unite.label}}</option>
+                                > {{ unite.label }}</option>
                             {% endfor %}
-                            <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : ""}}>Unité 2</option>
+                            <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : "" }}>
+                                Unité 2
+                            </option>
                         </select>
                     {% endif %}
                 {% endfor %}
@@ -65,8 +79,10 @@
                        maxlength="255"
                        class="chakra-input" placeholder="Unité" value="{{ ouvrage.unite }}"> #}
 
-                <select disabled id="devis_ouvrages_{{ ouvrage.id }}_unite" name="devis[ouvrages][{{ ouvrage.id }}][unite]"
-                        class="text-center col-md-12 chakra-input border-bottom-inherit" required input="unite" element="ouvrages"
+                <select disabled id="devis_ouvrages_{{ ouvrage.id }}_unite"
+                        name="devis[ouvrages][{{ ouvrage.id }}][unite]"
+                        class="text-center col-md-12 chakra-input border-bottom-inherit" required input="unite"
+                        element="ouvrages"
                         ouvrages="{{ ouvrage.id }}">
                     {% set isSelected = false %}
                     {% for unite in unites %}
@@ -93,7 +109,8 @@
                             parent-dtht="{{ hasParent }}"
                         {% endif %}
                        class="chakra-input text-end border-bottom-inherit" placeholder="Déboursé Total HT"
-                       value="{{ (ouvrage.getSommeDebourseTotalComposants)|number_format(3,',',' ') }}"><span class="euro">€</span>
+                       value="{{ (ouvrage.getSommeDebourseTotalComposants)|number_format(3,',',' ') }}"><span
+                        class="euro">€</span>
             </div>
             <div class="tab-el-right">
                 <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_marge"
