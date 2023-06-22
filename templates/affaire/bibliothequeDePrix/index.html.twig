@@ -491,9 +491,9 @@
                                             {# à partir de chaque header des tableaux affiche les lignes qui correspondent #}
                                             {% for tr in table.attributOuvrageTrs %}
                                                 <tr class="attribut" id="attribut_{{ tr.id }}">
-                                                    <td class="editable" id="titre_{{ tr.id }}">{{ tr.titre }}</td>
-                                                    <td class="editable" id="poids_{{ tr.id }}">{{ tr.poidsKG }}</td>
-                                                    <td class="editable" id="temps_{{ tr.id }}">{{ tr.tps }}</td>
+                                                    <td class="editable attribut-titre" id="titre_{{ tr.id }}">{{ tr.titre }}</td>
+                                                    <td class="editable attribut-poids" id="poids_{{ tr.id }}">{{ tr.poidsKG }}</td>
+                                                    <td class="editable attribut-temps" id="temps_{{ tr.id }}">{{ tr.tps }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -698,8 +698,13 @@
             $('.editable').each(function () {
                 // stocke la valeur initiale de l'élément de texte dans un attribut data
                 $(this).data('initial-value', $(this).text());
-                // remplace l'élément de texte par un input avec la valeur initiale
-                $(this).html('<input class="numbers" type="text" value="' + $(this).text() + '">');
+                if ($(this).hasClass('attribut-titre')) {
+                    // remplace l'élément de texte par un input avec la valeur initiale
+                    $(this).html('<input type="text" value="' + $(this).text() + '">');
+                } else {
+                    // remplace l'élément de texte par un input avec la valeur initiale avec la classe numbers
+                    $(this).html('<input class="numbers" type="text" value="' + $(this).text() + '">');
+                }
             });
         });
 
