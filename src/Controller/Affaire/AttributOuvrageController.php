@@ -171,4 +171,23 @@ class AttributOuvrageController extends AbstractController
 
 
     }
+
+    #[Route('/edit/', name: 'app_affaire_attribut_table_edit', methods: ['POST'])]
+    public function editTableAttribut(Request $request, AttributOuvrageRepository $attributOuvrageRepository): Response
+    {
+        $data = $request->request->all();
+        // dd($data);
+
+        foreach ($data['attributs'] as $updatedAttribut){
+            $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
+            $attribut->setTitre($updatedAttribut['titre']);
+            is_numeric($updatedAttribut['poids']) ? $attribut->setPoidsKG(floatval($updatedAttribut['poids'])) : $attribut->setPoidsKG(null);
+            $attribut->setTps($updatedAttribut['temps']);
+
+            // dd($updatedAttribut, $attribut);
+            $attributOuvrageRepository->save($attribut);
+        }
+
+        return new Response(json_encode(['code' => 200]));
+    }
 }
