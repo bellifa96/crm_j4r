@@ -30,9 +30,6 @@ class TypeComposant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $unite = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $cadence = null;
-
     #[ORM\OneToMany(mappedBy: 'composant', targetEntity: TableDePrix::class, orphanRemoval: true)]
     private Collection $tableDePrix;
 
@@ -124,18 +121,6 @@ class TypeComposant
     public function setUnite(?string $unite): self
     {
         $this->unite = $unite;
-
-        return $this;
-    }
-
-    public function getCadence(): ?string
-    {
-        return $this->cadence;
-    }
-
-    public function setCadence(?string $cadence): self
-    {
-        $this->cadence = $cadence;
 
         return $this;
     }

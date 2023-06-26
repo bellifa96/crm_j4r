@@ -416,7 +416,6 @@
                                 {% for typeOuvrage in typeOuvrages %}
                                     <th>{{ typeOuvrage.titre }}</th>
                                 {% endfor %}
-                                <th>Cadence (TPS)</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -438,8 +437,43 @@
                                             {% endif %}
                                         {% endfor %}
                                     {% endfor %}
-                                    <td class="edit" id="cadence-composant{{ typeComposant.id }}"
-                                        composant="{{ typeComposant.id }}">{{ typeComposant.cadence }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="mt-5" style="overflow-x: auto;">
+                        <table class="table table-bordered">
+                            <thead style="color: #fff; border-color: #fff; --bs-table-bg: #0E4377;">
+                            <tr>
+                                <th colspan="9">Cadence (TPS)</th>
+                            </tr>
+                            <tr>
+                                <th>Composants</th>
+                                {% for typeOuvrage in typeOuvrages %}
+                                    <th>{{ typeOuvrage.titre }}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {# affiche le bon nombre de ligne en fonction du nombre de type de composant #}
+                            {% for typeComposant in typeComposants %}
+                                <tr>
+                                    <td>{{ typeComposant.titre }}</td>
+                                    {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
+                                    {% for typeOuvrage in typeOuvrages %}
+                                        {# permet d'affiche la cadence correspondant aux deux #}
+                                        {% for unite in typeComposant.tableDePrix %}
+                                            {% if unite.typeOuvrage is same as typeOuvrage %}
+                                                <td class="edit"
+                                                    id="cadence-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
+                                                    composant="{{ typeComposant.id }}"
+                                                    ouvrage="{{ typeOuvrage.id }}">{{ unite.cadence }}</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -455,7 +489,7 @@
         <div class="tab-pane fade" id="nav-ouvragesv2" role="tabpanel" aria-labelledby="nav-ouvragesv2-tab">
 
             <div class="pt-5">
-                <div class="container">
+                <div class="container col-md-12">
 
                     {# affiche un bouton pour chaque type d'ouvrage pour afficher les valeurs dépendantes #}
                     {% for typeOuvrage in typeOuvrages %}

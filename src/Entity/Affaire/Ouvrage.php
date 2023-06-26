@@ -97,6 +97,9 @@ class Ouvrage
     #[ORM\Column(nullable: true)]
     private ?float $pourcentageTpsDeReference = null;
 
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class)]
+    private Collection $metres;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -104,6 +107,7 @@ class Ouvrage
         $this->tpsDeReference = 0;
         $this->pourcentageTpsDeReference = 0;
         $this->composants = new ArrayCollection();
+        $this->metres = new ArrayCollection();
     }
 
     public function __toArray(){
@@ -423,6 +427,36 @@ class Ouvrage
     public function setPourcentageTpsDeReference(?float $pourcentageTpsDeReference): self
     {
         $this->pourcentageTpsDeReference = $pourcentageTpsDeReference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metre>
+     */
+    public function getMetres(): Collection
+    {
+        return $this->metres;
+    }
+
+    public function addMetre(Metre $metre): self
+    {
+        if (!$this->metres->contains($metre)) {
+            $this->metres->add($metre);
+            $metre->setOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetre(Metre $metre): self
+    {
+        if ($this->metres->removeElement($metre)) {
+            // set the owning side to null (unless already changed)
+            if ($metre->getOuvrage() === $this) {
+                $metre->setOuvrage(null);
+            }
+        }
 
         return $this;
     }

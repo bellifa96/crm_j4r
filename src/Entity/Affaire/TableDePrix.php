@@ -24,6 +24,9 @@ class TableDePrix
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeOuvrage $typeOuvrage = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cadence = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class TableDePrix
     public function setTypeOuvrage(?TypeOuvrage $typeOuvrage): self
     {
         $this->typeOuvrage = $typeOuvrage;
+
+        return $this;
+    }
+
+    public function getCadence(): ?string
+    {
+        return $this->cadence;
+    }
+
+    public function setCadence(?string $cadence): self
+    {
+        $this->cadence = $cadence;
 
         return $this;
     }
