@@ -120,7 +120,7 @@ class AttributOuvrageController extends AbstractController
         $data['quantite'] = intval($data['quantite']);
         $data['quantite2'] = intval($data['quantite2']);
 
-        // dd($data);
+         dd($data);
 
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setPoidsDeReference($data['poidsDeReference']);
@@ -129,7 +129,11 @@ class AttributOuvrageController extends AbstractController
         $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
         $ouvrage->setQuantite($data['quantite']);
-        $ouvrage->setUnite($uniteRepository->findOneById($data['unite']));
+        if (in_array($ouvrage->getTypeOuvrage()->getCode(),['E','PAR','A'])){
+            $ouvrage->setUnite($uniteRepository->findOneById(1));
+        } else {
+        $ouvrage->setUnite($uniteRepository->findOneById(9));
+        }
         $responseData = [];
 
         foreach ($data['composants'] as $key => $val) {
@@ -137,7 +141,7 @@ class AttributOuvrageController extends AbstractController
             $val = floatval($val);
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT(round($val, 3));
-            $composant->setUnite($uniteRepository->findOneById($data['unite']));
+            $composant->setUnite($ouvrage->getUnite());
             if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {
                 $composant->setQuantite($data['quantite']);
                 $composant->setSelection(true);
