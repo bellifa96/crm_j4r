@@ -126,6 +126,10 @@
         background-color: #F0F4F8;
     }
 
+    .table-metre {
+        overflow: auto;
+        max-height: 200px;
+    }
 
 </style>
 
@@ -805,8 +809,6 @@
 
     var currentOuvrageId = null;
     var currentOuvrageTypeId = null;
-    const cadenceDeRerefence = ("{{ cadenceDeRerefence }}").replace(/[^\d,]/g, "").replace(',', '.');
-
 
     // fonction qui permet d'appeler la pop up qui sert à importer un ouvrage
     $('body').on('click', '.import-ouvrage', function () {
@@ -815,9 +817,9 @@
 
         let id = $(this).attr('id').replace('import-ouvrage-', '');
         currentOuvrageId = id;
-        console.log($(this), id)
-        $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{ devis.id }}+
-        '/' + id, function (response) {
+        console.log($(this), id);
+        let path = '/affaire/bibliothequeDePrix/modal/ouvrage/liste/' + {{ devis.id }} + '/' + id;
+        $.post(path, function (response) {
             const data = JSON.parse(response);
             $("#loader-devis-page").modal("hide");
             $('body').append(data.html);
@@ -826,12 +828,10 @@
                 if ($(this).parent().hasClass('d-none') && $(this).val() != "") {
                     $(this).parent().removeClass('d-none');
                 } else {
-                    $(this).attr('required', false)
+                    $(this).attr('required', false);
                 }
             })
-
-        }
-    )
+        })
     })
 
 
@@ -839,6 +839,8 @@
         const step = $(this).parent().parent().attr('step');
         console.log("step : " + step);
         if (step === "1") {
+            let cadenceDeReference = $('option:selected', this).attr('cadence').replace(/[^\d,]/g, "").replace(',', '.');
+            let unite = $('option:selected', this).attr('unite');
 
             $(".ouvrage-attribut-step-2").addClass("d-none");
             $(".step-2").removeClass('d-none');
@@ -852,11 +854,29 @@
                 $(this).val("")
             })
 
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                $(this).attr('cadence', cadenceDeReference);
+            })
+
+            $(".unite-modal").each(function () {
+                if ($(this).hasClass('kg')){
+                    $(this).text('kg/'+unite);
+                }else {
+                    $(this).text(unite);
+                }
+
+            })
+
 
         } else if (step === "2") {
             if (currentOuvrageTypeId === null && $('#type_ouvrage_' + currentOuvrageId).val() != "") {
                 currentOuvrageTypeId = $('#type_ouvrage_' + currentOuvrageId).val();
             }
+            // Récupérer la cadence de l'option sélectionnée
+            let cadenceDeReference = $(this).attr('cadence').replace(/[^\d,]/g, "").replace(',', '.');
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                $(this).attr('cadence', cadenceDeReference);
+            })
             let poids = 0;
             let tps = 0;
             $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
@@ -867,7 +887,7 @@
                 }
             })
 
-            let pourcentageTps = tps / cadenceDeRerefence * 100;
+            let pourcentageTps = tps / cadenceDeReference * 100;
             $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
             $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);

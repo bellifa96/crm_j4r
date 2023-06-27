@@ -258,7 +258,7 @@ class DevisController extends AbstractController
         $form->handleRequest($request);
 
         $users = $userRepository->findAll();
-        $cadenceDeRerefence = $this->em->getRepository(TypeComposant::class)->findOneByCode('M')->getCadence();
+        $cadenceDeRerefence = 1200;//$this->em->getRepository(TypeComposant::class)->findOneByCode('M')->getCadence();
 
         $referer = $request->headers->get('referer');
         if ($form->isSubmitted() && $form->isValid()) {

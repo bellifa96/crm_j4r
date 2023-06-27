@@ -26,34 +26,51 @@
                                    id="devis_ouvrages_{{ ouvrage.id }}_denomination_modal">
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-8">
-                                    <input type="text" maxlength="255"
-                                           id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
-                                           value="{{ ouvrage.quantite }}"
-                                           class="chakra-input select-ouvrage text-center fw-bold numbers quantite-modal"
-                                           name="attribut[quantite]"
-                                           placeholder="quantité">
-                                </div>
-                                <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
-                                    <select id="devis_ouvrages_{{ ouvrage.id }}_uniteModal" name="attribut[unite]" onchange="calculPrixUnitaireComposant();"
-                                            class="text-start fw-bold col-md-12 chakra-input select-ouvrage" required input="unite" element="ouvrages"
-                                            ouvrages="{{ ouvrage.id }}">
-                                        {% set isSelected = false %}
-                                        {% for unite in unites %}
-                                            <option class="text-center fw-bold" value="{{ unite.id }}"
-                                                    {% if unite == ouvrage.unite %}
-                                                        selected
-                                                        {% set isSelected = true %}
+                        <div step="1" class="col-md-4">
+                            <div class="custom-select" style="margin-right: auto; margin-left: auto">
+                                {% set selected = false %}
+                                <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
+                                        name="attribut[TypeOuvrage]" id="type_ouvrage_{{ ouvrage.id }}"
+                                        required="required"
+                                        {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : '' }}>
+                                    <option {{ selected == false ? 'selected="true"' : '' }}
+                                            class="text-center fst-italic"
+                                            id="typeOuvrageDefaultOption"
+                                            value="">
+                                        Type d'ouvrage
+                                    </option>
+                                    {% for to in typeOuvrages %}
+                                        {% if ouvrage.typeOuvrage == to %}
+                                            <option class="text-center fw-bold" value="{{ to.id }}" code="{{ to.code }}"
+                                                    {% for tdp in to.tableDePrix %}
+                                                        {% if tdp.composant.code is same as 'M' %}
+                                                            cadence="{{ tdp.cadence }}"
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if to.code in ['E', 'PAR', 'A'] %}
+                                                        unite="m²"
+                                                    {% else %}
+                                                        unite="m&#xB3;"
                                                     {% endif %}
-                                            > {{ unite.label }}</option>
-                                        {% endfor %}
-                                        <option class="text-center fw-bold" disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : "" }}>Unité
-                                        </option>
-
-                                    </select>
-                                </div>
+                                                    style="font-style: inherit" selected> {{ to }} </option>
+                                            {% set selected = true %}
+                                        {% else %}
+                                            <option class="text-center fw-bold" value="{{ to.id }}"
+                                                    style="font-style: inherit"
+                                                    {% for tdp in to.tableDePrix %}
+                                                        {% if tdp.composant.code is same as 'M' %}
+                                                            cadence="{{ tdp.cadence }}"
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if to.code in ['E', 'PAR', 'A'] %}
+                                                        unite="m²"
+                                                    {% else %}
+                                                        unite="m&#xB3;"
+                                                    {% endif %}
+                                                    code="{{ to.code }}"> {{ to }} </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
 
@@ -80,36 +97,48 @@
                     </div>
                     <div class="row justify-content-end align-items-center">
 
-
-                    </div>
-                    <div step="1" class="mb-5">
-                        <div class="col-md-3 custom-select" style="margin-right: auto; margin-left: auto">
-                            {% set selected = false %}
-                            <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
-                                    name="attribut[TypeOuvrage]" id="type_ouvrage_{{ ouvrage.id }}" required="required"
-                                    {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : '' }}>
-                                <option {{ selected == false ? 'selected="true"' : '' }}
-                                        class="text-center fst-italic"
-                                        id="typeOuvrageDefaultOption"
-                                        value="">
-                                    Type d'ouvrage
-                                </option>
-                                {% for to in typeOuvrages %}
-                                    {% if ouvrage.typeOuvrage == to %}
-                                        <option class="text-center fw-bold" value="{{ to.id }}" code="{{ to.code }}"
-                                                style="font-style: inherit" selected> {{ to }} </option>
-                                        {% set selected = true %}
-                                    {% else %}
-                                        <option class="text-center fw-bold" value="{{ to.id }}"
-                                                style="font-style: inherit"
-                                                code="{{ to.code }}"> {{ to }} </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        </div>
                     </div>
                     <div class="tab step-2 {{ selected == true ? '' : 'd-none' }} mt-3 mb-5 row justify-content-center"
                          length="{{ typeOuvrages|length }}" step="2">
+
+                        <div class="col-md-12 mb-3 table-metre" id="table-metre-ouvrage-{{ ouvrage.id }}">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <div class="row">
+                                        <span class="col-md-5" style="float: left">Linéaire</span>
+                                        <span class="col-md-2">\</span>
+                                        <span class="col-md-5" style="float: right">Hauteur</span>
+                                        </div>
+                                    </th>
+                                    {% for i in 1..20 %}
+                                        <th>
+                                            <input type="text" name="metre[1][{{ i+1 }}]"
+                                                    {% if loop.first %}
+                                                        value="1"
+                                                    {% elseif loop.index == 2 %}
+                                                        value="4.5"
+                                                    {% elseif loop.index == 3 %}
+                                                        value="2.8"
+                                                    {% elseif loop.index == 4 %}
+                                                        value="3.8"
+                                                    {% endif %}>
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for row in 1..20 %}
+                                    <tr>
+                                        {% for col in 1..21 %}
+                                            <td><input type="text" name="metre[{{ row+1 }}][{{ col }}]"></td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                         {% for to in typeOuvrages %}
                             {% for tab in to.attributOuvrages %}
                                 {% if tab.attributOuvrageTrs is not empty %}
@@ -119,6 +148,11 @@
                                                for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
                                         <select name="attribut[attributs][{{ tab.titre }}]"
                                                 id="attribut-attributs-{{ tab.id }}"
+                                                {% for tdp in to.tableDePrix %}
+                                                    {% if tdp.composant.code is same as 'M' %}
+                                                        cadence="{{ tdp.cadence }}"
+                                                    {% endif %}
+                                                {% endfor %}
                                                 class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
                                                 required="required">
                                             <option {{ selected == false ? 'selected="true"' : '' }}
@@ -159,44 +193,48 @@
                                 <tbody class="mt-4">
                                 {% for composant in ouvrage.composants %}
                                     {% if composant.TypeComposant is not empty %}
-                                    <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
-                                        <td class="col-md-1">
-                                            <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
-                                                   type="checkbox"
-                                                    {{ composant.selection ? 'checked' : '' }}
-                                                   class="checkbox-composant"
-                                                   onclick="calculPrixUnitaireComposant()"
-                                                   name="attribut[composantsSelect][{{ composant.id }}]">
-                                        </td>
-                                        <td class="col-md-5 text-start">
+                                        <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
+                                            <td class="col-md-1">
+                                                <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
+                                                       type="checkbox"
+                                                        {{ composant.selection ? 'checked' : '' }}
+                                                       class="checkbox-composant"
+                                                       onclick="calculPrixUnitaireComposant()"
+                                                       name="attribut[composantsSelect][{{ composant.id }}]">
+                                            </td>
+                                            <td class="col-md-5 text-start">
                                         <span class="fw-bold badge badge-pill"
                                               style="background:{{ composant.typeComposant.couleur }};line-height: 1em;font-size: 1em;padding: inherit ;border-radius: 5px;color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white" }}; ">{{ composant.typeComposant.titre }}</span>
-                                        </td>
-                                        <td class="col-md-6">
-                                            <div class="row align-items-center" style="margin-left: auto">
-                                                <div class="col-md-6">
-                                                    <input type="text"
-                                                           style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
-                                                           id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
-                                                           input="debourseUnitaireHT"
-                                                           code="{{ composant.TypeComposant.code }}"
-                                                           cadence="{{ composant.TypeComposant.cadence }}"
-                                                            {% for ligne in composant.TypeComposant.tableDePrix %}
-                                                                {{ ligne.typeOuvrage.code~"="~ligne.prix }}
-                                                            {% endfor %}
-                                                           value="{{ composant.debourseUnitaireHT|number_format(3, ',', '') }}"
-                                                           name="attribut[composants][{{ composant.id }}]"
-                                                           required="required" maxlength="255"
-                                                           class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
-                                                           placeholder="Déboursé U HT"
-                                                           value="0" readonly></div>
-                                                <div class="col-md-3 text-start"
-                                                     style="padding: inherit; color: #0e4377!important;; font-weight: bold">
-                                                    € HT
+                                            </td>
+                                            <td class="col-md-6">
+                                                <div class="row align-items-center" style="margin-left: auto">
+                                                    <div class="col-md-6">
+                                                        <input type="text"
+                                                               style="border-bottom: inherit; color: #0e4377!important;; font-weight: bold"
+                                                               id="devis_composants_{{ composant.id }}_debourseUnitaireHT_modal"
+                                                               input="debourseUnitaireHT"
+                                                               code="{{ composant.TypeComposant.code }}"
+                                                                {% for unite in composant.TypeComposant.tableDePrix %}
+                                                                    {% if unite.typeOuvrage is same as ouvrage.typeOuvrage %}
+                                                                        cadence="{{ unite.cadence }}"
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                {% for ligne in composant.TypeComposant.tableDePrix %}
+                                                                    {{ ligne.typeOuvrage.code~"="~ligne.prix }}
+                                                                {% endfor %}
+                                                               value="{{ composant.debourseUnitaireHT|number_format(3, ',', '') }}"
+                                                               name="attribut[composants][{{ composant.id }}]"
+                                                               required="required" maxlength="255"
+                                                               class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
+                                                               placeholder="Déboursé U HT"
+                                                               value="0" readonly></div>
+                                                    <div class="col-md-3 text-start"
+                                                         style="padding: inherit; color: #0e4377!important;; font-weight: bold">
+                                                        € HT
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
                                     {% endif %}
                                 {% endfor %}
                                 </tbody>
@@ -206,7 +244,7 @@
                             <div class="col-md-12 zone-attributs">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
-                                        <div class="col-md-12 fw-bold text-center">
+                                        <div class="col-md-12 fw-bold text-center unite-modal kg">
                                             kg/m²
                                         </div>
                                         <div class="col-md-12 text-center">
@@ -253,16 +291,17 @@
                                     <div class="col-md-12 text-start">
                                         Avec une quantité de
                                         <span class="quantite-modal fw-bold"
-                                           id="quantite-modal">{{ ouvrage.quantite~' '}}</span>
-                                        <span class="unite-modal fw-bold" id="unite-modal">{{ ouvrage.unite.label}}</span>
+                                              id="quantite-modal">{{ ouvrage.quantite~' ' }}</span>
+                                        <span class="unite-modal fw-bold"
+                                              id="unite-modal">{{ ouvrage.unite.label }}</span>
                                         et
                                         {% for composant in ouvrage.composants %}
-                                                {% if composant.TypeComposant.code is same as "L" %}
+                                            {% if composant.TypeComposant is not empty and composant.TypeComposant.code is same as "L" %}
                                                 <span class="quantite2-modal fw-bold"
                                                       id="quantite2-modal">{{ composant.quantite2~' ' }}</span>
-                                                    <span class="fw-bold">{{ composant.unite2.label }}</span>
+                                                <span class="fw-bold">{{ composant.unite2.label }}</span>
                                             {% endif %}
-                                            {% endfor %} :
+                                        {% endfor %} :
                                     </div>
                                 </div>
                                 <div class="col-md-12 row align-items-center">
@@ -306,6 +345,22 @@
                                                value="{{ ouvrage.prixDeVenteHT|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <input type="text" maxlength="255"
+                                               id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
+                                               value="{{ ouvrage.quantite }}"
+                                               class="chakra-input select-ouvrage text-center fw-bold numbers quantite-modal"
+                                               name="attribut[quantite]"
+                                               placeholder="quantité">
+                                    </div>
+                                    <div class="col-md-4 fw-bold unite-modal"
+                                         style="padding: inherit; margin-left: inherit;">
+                                        m²
                                     </div>
                                 </div>
                             </div>
