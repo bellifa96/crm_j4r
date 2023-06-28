@@ -400,7 +400,8 @@
                         <div class="col-md-8 row justify-content-end">
                             <button type="button" class="col-md-6 add-button-devis" id="edit-table-de-prix">Modifier
                             </button>
-                            <button style="display: none;" type="button" class="col-md-6 add-button-devis" id="update-table-de-prix">Enregistrer
+                            <button style="display: none;" type="button" class="col-md-6 add-button-devis"
+                                    id="update-table-de-prix">Enregistrer
                             </button>
                         </div>
                     </div>
@@ -460,21 +461,31 @@
                             <tbody>
                             {# affiche le bon nombre de ligne en fonction du nombre de type de composant #}
                             {% for typeComposant in typeComposants %}
-                                <tr>
-                                    <td>{{ typeComposant.titre }}</td>
-                                    {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
-                                    {% for typeOuvrage in typeOuvrages %}
-                                        {# permet d'affiche la cadence correspondant aux deux #}
-                                        {% for unite in typeComposant.tableDePrix %}
-                                            {% if unite.typeOuvrage is same as typeOuvrage %}
-                                                <td class="edit"
-                                                    id="cadence-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
-                                                    composant="{{ typeComposant.id }}"
-                                                    ouvrage="{{ typeOuvrage.id }}">{{ unite.cadence }}</td>
-                                            {% endif %}
+                                {% set emptyCadence = true %}
+                                {% for unite in typeComposant.tableDePrix %}
+                                    {% if emptyCadence %}
+                                        {% if unite.cadence is not empty %}
+                                            {% set emptyCadence = false %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not emptyCadence %}
+                                    <tr>
+                                        <td>{{ typeComposant.titre }}</td>
+                                        {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
+                                        {% for typeOuvrage in typeOuvrages %}
+                                            {# permet d'affiche la cadence correspondant aux deux #}
+                                            {% for unite in typeComposant.tableDePrix %}
+                                                {% if unite.typeOuvrage is same as typeOuvrage %}
+                                                    <td class="edit"
+                                                        id="cadence-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
+                                                        composant="{{ typeComposant.id }}"
+                                                        ouvrage="{{ typeOuvrage.id }}">{{ unite.cadence }}</td>
+                                                {% endif %}
+                                            {% endfor %}
                                         {% endfor %}
-                                    {% endfor %}
-                                </tr>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                             </tbody>
 
@@ -501,16 +512,18 @@
                         <div class="col-md-8 row justify-content-end">
                             <button type="button" class="col-md-6 add-button-devis" id="edit-prix-ouvrage">Modifier
                             </button>
-                            <button style="display: none;" type="button" class="col-md-6 add-button-devis" id="update-prix-ouvrage">Enregistrer
+                            <button style="display: none;" type="button" class="col-md-6 add-button-devis"
+                                    id="update-prix-ouvrage">Enregistrer
                             </button>
                         </div>
                     </div>
 
                     {# initialise une div contenant les tableaux pour chaque type douvrage et les masque avec display:none #}
                     {% for typeOuvrage in typeOuvrages %}
-                        <div class="row mt-5 type-ouvrage-details {% if loop.first %}show{% endif %}" id="type-ouvrage-{{ typeOuvrage.id }}">
+                        <div class="row mt-5 type-ouvrage-details {% if loop.first %}show{% endif %}"
+                             id="type-ouvrage-{{ typeOuvrage.id }}">
                             <div class="row mt-5">
-                                {# pour un type d'ouvrage construit tous les tableaux qui font référence#}
+                                {# pour un type d'ouvrage construit tous les tableaux qui font référence #}
                                 {% for table in typeOuvrage.attributOuvrages %}
                                     <div class="col-md-4" style="overflow-x: auto">
                                         <table class="table table-bordered">
@@ -525,9 +538,12 @@
                                             {# à partir de chaque header des tableaux affiche les lignes qui correspondent #}
                                             {% for tr in table.attributOuvrageTrs %}
                                                 <tr class="attribut" id="attribut_{{ tr.id }}">
-                                                    <td class="editable attribut-titre" id="titre_{{ tr.id }}">{{ tr.titre }}</td>
-                                                    <td class="editable attribut-poids" id="poids_{{ tr.id }}">{{ tr.poidsKG }}</td>
-                                                    <td class="editable attribut-temps" id="temps_{{ tr.id }}">{{ tr.tps }}</td>
+                                                    <td class="editable attribut-titre"
+                                                        id="titre_{{ tr.id }}">{{ tr.titre }}</td>
+                                                    <td class="editable attribut-poids"
+                                                        id="poids_{{ tr.id }}">{{ tr.poidsKG }}</td>
+                                                    <td class="editable attribut-temps"
+                                                        id="temps_{{ tr.id }}">{{ tr.tps }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -711,7 +727,7 @@
 
         //Script partie ouvrage
         //Permet d'obtenir les tableaux avec les valeurs correspondantes
-        $('.type-ouvrage').on('click', function() {
+        $('.type-ouvrage').on('click', function () {
             // Masquer tous les détails de type d'ouvrage
             $('.type-ouvrage-details').hide();
             // Désélectionner tous les boutons
@@ -747,7 +763,12 @@
             let attributs = [];
             $('.attribut').each(function () {
                 let id = parseInt($(this).attr('id').replace('attribut_', ''));
-                let attribut = { 'id': id, 'titre': $('#titre_' + id).children().val(), 'poids': parseFloat($('#poids_' + id).children().val()), 'temps': $('#temps_' + id).children().val()};
+                let attribut = {
+                    'id': id,
+                    'titre': $('#titre_' + id).children().val(),
+                    'poids': parseFloat($('#poids_' + id).children().val()),
+                    'temps': $('#temps_' + id).children().val()
+                };
                 attributs.push(attribut);
             })
 
@@ -757,7 +778,7 @@
             $.post(path, {attributs}, function (response) {
                 let data = JSON.parse(response);
 
-                if (data.code === 200){
+                if (data.code === 200) {
                     $('.editable').each(function () {
                         // récupère la valeur de l'input
                         var value = $(this).find('input').val();
