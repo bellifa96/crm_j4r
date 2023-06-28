@@ -452,9 +452,9 @@
                                 <th colspan="9">Cadence (TPS)</th>
                             </tr>
                             <tr>
-                                <th>Composants</th>
+                                <th style="width: 12.5%">Composants</th>
                                 {% for typeOuvrage in typeOuvrages %}
-                                    <th>{{ typeOuvrage.titre }}</th>
+                                    <th style="width: 12.5%">{{ typeOuvrage.titre }}</th>
                                 {% endfor %}
                             </tr>
                             </thead>
@@ -471,13 +471,13 @@
                                 {% endfor %}
                                 {% if not emptyCadence %}
                                     <tr>
-                                        <td>{{ typeComposant.titre }}</td>
+                                        <td style="width: 12.5%">{{ typeComposant.titre }}</td>
                                         {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
                                         {% for typeOuvrage in typeOuvrages %}
                                             {# permet d'affiche la cadence correspondant aux deux #}
                                             {% for unite in typeComposant.tableDePrix %}
                                                 {% if unite.typeOuvrage is same as typeOuvrage %}
-                                                    <td class="edit"
+                                                    <td class="edit" style="width: 12.5%"
                                                         id="cadence-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
                                                         composant="{{ typeComposant.id }}"
                                                         ouvrage="{{ typeOuvrage.id }}">{{ unite.cadence }}</td>
