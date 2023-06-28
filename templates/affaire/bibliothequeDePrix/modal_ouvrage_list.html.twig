@@ -26,7 +26,7 @@
                                    id="devis_ouvrages_{{ ouvrage.id }}_denomination_modal">
                         </div>
 
-                        <div step="1" class="col-md-4">
+                        <div step="1" class="col-md-3">
                             <div class="custom-select" style="margin-right: auto; margin-left: auto">
                                 {% set selected = false %}
                                 <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
@@ -99,60 +99,62 @@
 
                     </div>
                     <div class="tab step-2 {{ selected == true ? '' : 'd-none' }} mt-3 mb-5 row justify-content-center"
-                         length="{{ typeOuvrages|length }}" step="2">
+                         length="{{ typeOuvrages|length }}" step="2" style="padding: 0 2%;">
 
-                        <div class="col-md-12 mb-3 table-metre" id="table-metre-ouvrage-{{ ouvrage.id }}">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <div class="row">
-                                            <span class="col-md-5" style="float: left">Linéaire</span>
-                                            <span class="col-md-2">\</span>
-                                            <span class="col-md-5" style="float: right">Hauteur</span>
-                                        </div>
-                                    </th>
-                                    {% for i in 1..20 %}
+                        <div class="col-md-12 mb-3 page-block" style="background-color: #f0f4f8; padding: 2rem 1rem;">
+                            <div class="table-metre" id="table-metre-ouvrage-{{ ouvrage.id }}">
+                                <table class="table">
+                                    <thead>
+                                    <tr class="tr-head">
                                         <th>
-                                            <input class="numbers hauteur" type="text"
-                                                    {% if loop.first %}
-                                                        value="1"
-                                                    {% elseif loop.index == 2 %}
-                                                        value="4.5"
-                                                    {% elseif loop.index == 3 %}
-                                                        value="2.8"
-                                                    {% elseif loop.index == 4 %}
-                                                        value="3.8"
-                                                    {% endif %}
-                                                   name="attribut[metre][][{{ i+1 }}][hauteur]">
+                                            <div class="row">
+                                                <span class="col-md-5" style="float: left">Linéaire</span>
+                                                <span class="col-md-2">\</span>
+                                                <span class="col-md-5" style="float: right">Hauteur</span>
+                                            </div>
                                         </th>
-                                    {% endfor %}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for row in 1..20 %}
-                                    <tr>
-                                        {% for col in 1..20 %}
-                                            {% if loop.first %}
-                                                <td>
-                                                    <input class="lineaire" type="text"
-                                                           name="attribut[metre][{{ row+1 }}][lineaire]">
-                                                </td>
-                                            {% else %}
-                                                <td>
-                                                    <input class="numbers longueur" type="text"
-                                                           name="attribut[metre][{{ row+1 }}][{{ col }}][longueur]"
-                                                           id="hauteur-{{ col+1 }}-lineaire-{{ row+1 }}"
-                                                    >
-                                                </td>
-                                            {% endif %}
+                                        {% for col in 1..19 %}
+                                            <th style="width: 20px">
+                                                <input class="numbers hauteur" type="text"
+                                                        {% if loop.first %}
+                                                            value="1"
+                                                        {% elseif loop.index == 2 %}
+                                                            value="4.5"
+                                                        {% elseif loop.index == 3 %}
+                                                            value="2.8"
+                                                        {% elseif loop.index == 4 %}
+                                                            value="3.8"
+                                                        {% endif %}
+                                                       name="attribut[metre][][{{ col+1 }}][hauteur]">
+                                            </th>
                                         {% endfor %}
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
+                                    </thead>
+                                    <tbody>
+                                    {% for row in 1..20 %}
+                                        <tr>
+                                            {% for col in 1..20 %}
+                                                {% if loop.first %}
+                                                    <td>
+                                                        <input class="lineaire" type="text"
+                                                               name="attribut[metre][{{ row+1 }}][][lineaire]">
+                                                    </td>
+                                                {% else %}
+                                                    <td style="width: 20px">
+                                                        <input class="numbers longueur" type="text"
+                                                               name="attribut[metre][{{ row+1 }}][{{ col }}][longueur]"
+                                                               id="hauteur-{{ col+1 }}-lineaire-{{ row+1 }}"
+                                                        >
+                                                    </td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <div class="page-block mt-2 row justify-content-center" style="background-color: #f0f4f8">
                         {% for to in typeOuvrages %}
                             {% for tab in to.attributOuvrages %}
                                 {% if tab.attributOuvrageTrs is not empty %}
@@ -192,6 +194,7 @@
                                 {% endif %}
                             {% endfor %}
                         {% endfor %}
+                        </div>
                     </div>
 
                     <div class="mt-4 row m-auto justify-content-center align-items-start">

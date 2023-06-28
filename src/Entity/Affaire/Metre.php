@@ -3,6 +3,8 @@
 namespace App\Entity\Affaire;
 
 use App\Repository\Affaire\MetreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MetreRepository::class)]
@@ -14,7 +16,7 @@ class Metre
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $denomination = null;
+    private ?string $lineaire = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $longueur = null;
@@ -25,19 +27,30 @@ class Metre
     #[ORM\ManyToOne(inversedBy: 'metres')]
     private ?Ouvrage $ouvrage = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'longueurs')]
+    private ?self $metre = null;
+
+    #[ORM\OneToMany(mappedBy: 'metre', targetEntity: self::class)]
+    private Collection $longueurs;
+
+    public function __construct()
+    {
+        $this->longueurs = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDenomination(): ?string
+    public function getLineaire(): ?string
     {
-        return $this->denomination;
+        return $this->lineaire;
     }
 
-    public function setDenomination(?string $denomination): self
+    public function setLineaire(?string $lineaire): self
     {
-        $this->denomination = $denomination;
+        $this->lineaire = $lineaire;
 
         return $this;
     }
@@ -74,6 +87,48 @@ class Metre
     public function setOuvrage(?Ouvrage $ouvrage): self
     {
         $this->ouvrage = $ouvrage;
+
+        return $this;
+    }
+
+    public function getMetre(): ?self
+    {
+        return $this->metre;
+    }
+
+    public function setMetre(?self $metre): self
+    {
+        $this->metre = $metre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getLongueurs(): Collection
+    {
+        return $this->longueurs;
+    }
+
+    public function addLongueur(self $longueur): self
+    {
+        if (!$this->longueurs->contains($longueur)) {
+            $this->longueurs->add($longueur);
+            $longueur->setMetre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLongueur(self $longueur): self
+    {
+        if ($this->longueurs->removeElement($longueur)) {
+            // set the owning side to null (unless already changed)
+            if ($longueur->getMetre() === $this) {
+                $longueur->setMetre(null);
+            }
+        }
 
         return $this;
     }
