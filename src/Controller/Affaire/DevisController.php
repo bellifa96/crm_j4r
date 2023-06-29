@@ -2,6 +2,8 @@
 
 namespace App\Controller\Affaire;
 
+use App\Entity\Affaire\Metre;
+use App\Repository\Affaire\MetreRepository;
 use App\Repository\UniteRepository;
 use Exception;
 use App\Entity\Unite;
@@ -106,7 +108,7 @@ class DevisController extends AbstractController
         return $lot;
     }
 
-    public  function initialiseOuvrage(Devis $devis, Lot $lot, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, UniteRepository $uniteRepository)
+    public function initialiseOuvrage(Devis $devis, Lot $lot, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository)
     {
         $ouvrage = new Ouvrage();
         $ouvrage->setMarge($devis->getMarge());
@@ -117,6 +119,47 @@ class DevisController extends AbstractController
         $parentId = $lot->getId();
         $elements = $devis->getElements();
         $this->em->persist($ouvrage);
+
+        // Création des linéaires et hauteurs
+        $lineaires = [];
+        $hauteurs = [];
+        for ($i = 0; $i < 15; $i++) {
+            $lineaire = new Metre();
+            $lineaire->setOuvrage($ouvrage);
+            $lineaire->setTypeMetre('lineaire');
+            $ouvrage->addMetre($lineaire);
+            $lineaires[] = $lineaire;
+
+            $hauteur = new Metre();
+            $hauteur->setOuvrage($ouvrage);
+            $hauteur->setTypeMetre('hauteur');
+            $ouvrage->addMetre($hauteur);
+            if ($i === 0){
+                $hauteur->setHauteur(1);
+            } elseif ($i === 1){
+                $hauteur->setHauteur(4.5);
+            } elseif ($i === 2){
+                $hauteur->setHauteur(2.8);
+            } elseif ($i === 3){
+                $hauteur->setHauteur(3.8);
+            }
+            $hauteurs[] = $hauteur;
+        }
+
+        foreach ($hauteurs as $hauteur){
+            foreach ($lineaires as $lineaire){
+                // Création de la longueur commune
+                $longueur = new Metre();
+
+                $longueur->setTypeMetre('longueur');
+                $longueur->setLongueurLineaire($lineaire);
+                $longueur->setLongueurHauteur($hauteur);
+
+                $metreRepository->save($lineaire);
+                $metreRepository->save($hauteur);
+                $metreRepository->save($longueur);
+            }
+        }
 
         $typeComposants = $typeComposantRepository->findAll();
         $data = [];
@@ -512,7 +555,7 @@ class DevisController extends AbstractController
 
     }
 
-    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository, $parent=null): array
+    public function cloneElement($id, $type, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository, $parent = null): array
     {
 
         if ($type == 'lot') {
@@ -672,7 +715,7 @@ class DevisController extends AbstractController
 
 
     #[Route('/ouvrage/new/{id}/{parentId}', name: 'app_affaire_devis_ouvrage_new', methods: ['GET', 'POST'])]
-    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, UniteRepository $uniteRepository): Response
+    public function newOuvrage(Devis $devis, $parentId = null, Request $request, Environment $environment, LotRepository $lotRepository, DevisRepository $devisRepository, OuvrageRepository $ouvrageRepository, TypeComposantRepository $typeComposantRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository): Response
     {
 
 
@@ -689,16 +732,59 @@ class DevisController extends AbstractController
         $elements = $devis->getElements();
         $this->em->persist($ouvrage);
 
+        // Création des linéaires et hauteurs
+        $lineaires = [];
+        $hauteurs = [];
+        for ($i = 0; $i < 15; $i++) {
+            $lineaire = new Metre();
+            $lineaire->setOuvrage($ouvrage);
+            $lineaire->setTypeMetre('lineaire');
+            $ouvrage->addMetre($lineaire);
+            $lineaires[] = $lineaire;
+
+            $hauteur = new Metre();
+            $hauteur->setOuvrage($ouvrage);
+            $hauteur->setTypeMetre('hauteur');
+            $ouvrage->addMetre($hauteur);
+            if ($i === 0){
+                $hauteur->setHauteur(1);
+            } elseif ($i === 1){
+                $hauteur->setHauteur(4.5);
+            } elseif ($i === 2){
+                $hauteur->setHauteur(2.8);
+            } elseif ($i === 3){
+                $hauteur->setHauteur(3.8);
+            }
+            $hauteurs[] = $hauteur;
+        }
+
+        foreach ($hauteurs as $hauteur){
+            foreach ($lineaires as $lineaire){
+                // Création de la longueur commune
+                $longueur = new Metre();
+
+                $longueur->setTypeMetre('longueur');
+                $longueur->setLongueurLineaire($lineaire);
+                $longueur->setLongueurHauteur($hauteur);
+
+                $metreRepository->save($lineaire);
+                $metreRepository->save($hauteur);
+                $metreRepository->save($longueur);
+            }
+        }
+
+
+
         $typeComposants = $typeComposantRepository->findAll();
         $data = [];
         foreach ($typeComposants as $typeComposant) {
             $composant = new Composant();
             $composant->setUnite($uniteRepository->findOneByLabel('m2'));
-            if ($typeComposant->getCode() === "L"){
+            if ($typeComposant->getCode() === "L") {
                 $composant->setQuantite2(1);
                 $composant->setUnite2($uniteRepository->findOneByLabel('J'));
             }
-            if ($typeComposant->getCode() === "MA" || $typeComposant->getCode() === "MR"){
+            if ($typeComposant->getCode() === "MA" || $typeComposant->getCode() === "MR") {
                 $composant->setSelection(false);
             } else {
                 $composant->setSelection(true);

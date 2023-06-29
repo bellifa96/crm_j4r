@@ -38,7 +38,7 @@ class Ouvrage
     #[Gedmo\Versioned]
     private $prixUnitaireDebourse;
 
-    #[ORM\Column(type: 'integer',nullable: true)]
+    #[ORM\Column(type: 'float',nullable: true)]
     #[Gedmo\Versioned]
     private $quantite;
 
@@ -97,8 +97,11 @@ class Ouvrage
     #[ORM\Column(nullable: true)]
     private ?float $pourcentageTpsDeReference = null;
 
-    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class)]
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class, cascade:['persist'])]
     private Collection $metres;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $largeur = null;
 
     public function __construct()
     {
@@ -197,12 +200,12 @@ class Ouvrage
         return $this;
     }
 
-    public function getQuantite(): ?int
+    public function getQuantite(): ?float
     {
         return $this->quantite;
     }
 
-    public function setQuantite(?int $quantite): self
+    public function setQuantite(?float $quantite): self
     {
         $this->quantite = $quantite;
 
@@ -457,6 +460,18 @@ class Ouvrage
                 $metre->setOuvrage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLargeur(): ?float
+    {
+        return $this->largeur;
+    }
+
+    public function setLargeur(?float $largeur): self
+    {
+        $this->largeur = $largeur;
 
         return $this;
     }

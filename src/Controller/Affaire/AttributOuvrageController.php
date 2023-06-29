@@ -5,17 +5,24 @@ namespace App\Controller\Affaire;
 use App\Entity\Affaire\AttributOuvrage;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\TypeOuvrage;
+use App\Entity\Unite;
 use App\Form\Affaire\AttributOuvrageType;
 use App\Repository\Affaire\AttributOuvrageRepository;
 use App\Repository\Affaire\ComposantRepository;
+use App\Repository\Affaire\MetreRepository;
 use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
 use App\Repository\UniteRepository;
 use App\Service\CalculService;
+use App\Service\PdfService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
+use function PHPUnit\Framework\isNan;
 
 #[Route('/affaire/attribut/ouvrage')]
 class AttributOuvrageController extends AbstractController
@@ -108,7 +115,7 @@ class AttributOuvrageController extends AbstractController
 
 
     #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
-    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository, UniteRepository $uniteRepository)
+    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository)
     {
 
         $data = $request->request->all();
@@ -117,10 +124,10 @@ class AttributOuvrageController extends AbstractController
         $data['poidsDeReference'] = floatval($data['poidsDeReference']);
         $data['pourcentageTpsDeReference'] = floatval($data['pourcentageTpsDeReference']);
         $data['tpsDeReference'] = floatval($data['tpsDeReference']);
-        $data['quantite'] = intval($data['quantite']);
         $data['quantite2'] = intval($data['quantite2']);
+        $data['largeur'] = floatval($data['largeur']);
 
-         dd($data);
+        // dd($data);
 
         $ouvrage->setDenomination($data['denomination']);
         $ouvrage->setPoidsDeReference($data['poidsDeReference']);
@@ -128,14 +135,46 @@ class AttributOuvrageController extends AbstractController
         $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
         $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
         $ouvrage->setTpsDeReference($data['tpsDeReference']);
-        $ouvrage->setQuantite($data['quantite']);
-        if (in_array($ouvrage->getTypeOuvrage()->getCode(),['E','PAR','A'])){
+        if (in_array($ouvrage->getTypeOuvrage()->getCode(), ['E', 'PAR', 'A'])) {
             $ouvrage->setUnite($uniteRepository->findOneById(1));
         } else {
-        $ouvrage->setUnite($uniteRepository->findOneById(9));
+            $ouvrage->setUnite($uniteRepository->findOneById(9));
         }
-        $responseData = [];
 
+        foreach ($data['metre'] as $key => $value) {
+            $metre = $metreRepository->find($key);
+            switch ($metre->getTypeMetre()) {
+                case 'longueur':
+                    $metre->setLongueur(!empty($value) ? floatval(str_replace(',', '.', $value)) : null);
+                    break;
+                case 'hauteur':
+                    $metre->setHauteur(!empty($value) ? floatval(str_replace(',', '.', $value)) : null);
+                    break;
+                case 'lineaire':
+                    $metre->setLineaire($value);
+                    break;
+                default:
+                    break;
+            }
+            $metreRepository->save($metre);
+        }
+        $quantiteOuvrage = 0;
+        foreach ($metreRepository->findAll() as $hauteur) {
+            if ($hauteur->getTypeMetre() === 'hauteur') {
+                if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
+                    $quantiteOuvrage += $metreRepository->sommeLongueurs($hauteur) * $hauteur->getHauteur();
+                }
+            }
+        }
+        if (!empty($data['largeur'])) {
+            $ouvrage->setLargeur($data['largeur']);
+             $quantiteOuvrage = $quantiteOuvrage * $data['largeur'];
+        }
+        $ouvrage->setQuantite(round($quantiteOuvrage,2));
+
+
+
+        $responseData = [];
         foreach ($data['composants'] as $key => $val) {
             $val = str_replace(',', '.', $val);
             $val = floatval($val);
@@ -143,7 +182,7 @@ class AttributOuvrageController extends AbstractController
             $composant->setDebourseUnitaireHT(round($val, 3));
             $composant->setUnite($ouvrage->getUnite());
             if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {
-                $composant->setQuantite($data['quantite']);
+                $composant->setQuantite(round($quantiteOuvrage,2));
                 $composant->setSelection(true);
             } else {
                 $composant->setQuantite(0);
@@ -182,7 +221,7 @@ class AttributOuvrageController extends AbstractController
         $data = $request->request->all();
         // dd($data);
 
-        foreach ($data['attributs'] as $updatedAttribut){
+        foreach ($data['attributs'] as $updatedAttribut) {
             $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
             $attribut->setTitre($updatedAttribut['titre']);
             is_numeric($updatedAttribut['poids']) ? $attribut->setPoidsKG(floatval($updatedAttribut['poids'])) : $attribut->setPoidsKG(null);

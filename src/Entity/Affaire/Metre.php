@@ -27,15 +27,25 @@ class Metre
     #[ORM\ManyToOne(inversedBy: 'metres')]
     private ?Ouvrage $ouvrage = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'longueurs')]
-    private ?self $metre = null;
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'longueursLineaire')]
+    private ?self $longueurLineaire = null;
 
-    #[ORM\OneToMany(mappedBy: 'metre', targetEntity: self::class)]
-    private Collection $longueurs;
+    #[ORM\OneToMany(mappedBy: 'longueurLineaire', targetEntity: self::class)]
+    private Collection $longueursLineaire;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'longueursHauteur')]
+    private ?self $longueurHauteur = null;
+
+    #[ORM\OneToMany(mappedBy: 'longueurHauteur', targetEntity: self::class)]
+    private Collection $longueursHauteur;
+
+    #[ORM\Column(length: 255)]
+    private ?string $typeMetre = null;
 
     public function __construct()
     {
-        $this->longueurs = new ArrayCollection();
+        $this->longueursLineaire = new ArrayCollection();
+        $this->longueursHauteur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,14 +101,14 @@ class Metre
         return $this;
     }
 
-    public function getMetre(): ?self
+    public function getLongueurLineaire(): ?self
     {
-        return $this->metre;
+        return $this->longueurLineaire;
     }
 
-    public function setMetre(?self $metre): self
+    public function setLongueurLineaire(?self $longueurLineaire): self
     {
-        $this->metre = $metre;
+        $this->longueurLineaire = $longueurLineaire;
 
         return $this;
     }
@@ -106,29 +116,83 @@ class Metre
     /**
      * @return Collection<int, self>
      */
-    public function getLongueurs(): Collection
+    public function getLongueursLineaire(): Collection
     {
-        return $this->longueurs;
+        return $this->longueursLineaire;
     }
 
-    public function addLongueur(self $longueur): self
+    public function addLongueursLineaire(self $longueursLineaire): self
     {
-        if (!$this->longueurs->contains($longueur)) {
-            $this->longueurs->add($longueur);
-            $longueur->setMetre($this);
+        if (!$this->longueursLineaire->contains($longueursLineaire)) {
+            $this->longueursLineaire->add($longueursLineaire);
+            $longueursLineaire->setLongueurLineaire($this);
         }
 
         return $this;
     }
 
-    public function removeLongueur(self $longueur): self
+    public function removeLongueursLineaire(self $longueursLineaire): self
     {
-        if ($this->longueurs->removeElement($longueur)) {
+        if ($this->longueursLineaire->removeElement($longueursLineaire)) {
             // set the owning side to null (unless already changed)
-            if ($longueur->getMetre() === $this) {
-                $longueur->setMetre(null);
+            if ($longueursLineaire->getLongueurLineaire() === $this) {
+                $longueursLineaire->setLongueurLineaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLongueurHauteur(): ?self
+    {
+        return $this->longueurHauteur;
+    }
+
+    public function setLongueurHauteur(?self $longueurHauteur): self
+    {
+        $this->longueurHauteur = $longueurHauteur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getLongueursHauteur(): Collection
+    {
+        return $this->longueursHauteur;
+    }
+
+    public function addLongueursHauteur(self $longueursHauteur): self
+    {
+        if (!$this->longueursHauteur->contains($longueursHauteur)) {
+            $this->longueursHauteur->add($longueursHauteur);
+            $longueursHauteur->setLongueurHauteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLongueursHauteur(self $longueursHauteur): self
+    {
+        if ($this->longueursHauteur->removeElement($longueursHauteur)) {
+            // set the owning side to null (unless already changed)
+            if ($longueursHauteur->getLongueurHauteur() === $this) {
+                $longueursHauteur->setLongueurHauteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTypeMetre(): ?string
+    {
+        return $this->typeMetre;
+    }
+
+    public function setTypeMetre(string $typeMetre): self
+    {
+        $this->typeMetre = $typeMetre;
 
         return $this;
     }

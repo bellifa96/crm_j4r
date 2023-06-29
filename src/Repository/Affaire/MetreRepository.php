@@ -21,7 +21,7 @@ class MetreRepository extends ServiceEntityRepository
         parent::__construct($registry, Metre::class);
     }
 
-    public function save(Metre $entity, bool $flush = false): void
+    public function save(Metre $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -38,6 +38,20 @@ class MetreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function sommeLongueurs($hauteur): float
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        $qb->select('SUM(m.longueur)')
+            ->where('m.longueurHauteur  = :hauteur')
+            ->setParameter('hauteur', $hauteur);
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return (float) $result;
+    }
+
 
 //    /**
 //     * @return Metre[] Returns an array of Metre objects

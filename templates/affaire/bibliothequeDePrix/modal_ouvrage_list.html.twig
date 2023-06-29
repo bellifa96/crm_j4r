@@ -73,7 +73,22 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="col-md-2" {{ ouvrage.largeur is empty ? 'style="display: none;"' : '' }}>
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <input type="text" maxlength="255"
+                                           id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
+                                           value="{{ ouvrage.largeur }}" onkeyup=calculPrixUnitaireComposant()
+                                           class="chakra-input select-ouvrage text-center fw-bold numbers largeur-modal"
+                                           name="attribut[largeur]"
+                                           placeholder="Largeur">
+                                </div>
+                                <div class="col-md-4 fw-bold"
+                                     style="padding: inherit; margin-left: inherit;">
+                                    m
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
@@ -85,7 +100,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                            class="chakra-input select-ouvrage text-center fw-bold numbers quantite2-modal"
-                                           name="attribut[quantite2]"
+                                           name="attribut[quantite2]" onkeyup=calculPrixUnitaireComposant()
                                            placeholder="quantité">
                                 </div>
                                 <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
@@ -108,92 +123,84 @@
                                     <tr class="tr-head">
                                         <th>
                                             <div class="row">
-                                                <span class="col-md-5" style="float: left">Linéaire</span>
-                                                <span class="col-md-2">\</span>
-                                                <span class="col-md-5" style="float: right">Hauteur</span>
+                                                <span class="col-md-5">Hauteur</span>
                                             </div>
                                         </th>
-                                        {% for col in 1..19 %}
-                                            <th style="width: 20px">
-                                                <input class="numbers hauteur" type="text"
-                                                        {% if loop.first %}
-                                                            value="1"
-                                                        {% elseif loop.index == 2 %}
-                                                            value="4.5"
-                                                        {% elseif loop.index == 3 %}
-                                                            value="2.8"
-                                                        {% elseif loop.index == 4 %}
-                                                            value="3.8"
-                                                        {% endif %}
-                                                       name="attribut[metre][][{{ col+1 }}][hauteur]">
-                                            </th>
+                                        {% for hauteur in metre %}
+                                            {% if hauteur.typeMetre is same as 'hauteur' %}
+                                                <th style="width: 20px">
+                                                    <input class="numbers hauteur select-ouvrage text-center" type="text" name="attribut[metre][{{ hauteur.id }}]"
+                                                           id="{{ hauteur.id }}" onkeyup=calculPrixUnitaireComposant()
+                                                           value={{ hauteur.hauteur is not empty ? hauteur.hauteur|number_format(2,',',' ') : '' }}
+                                                    >
+                                                </th>
+                                            {% endif %}
                                         {% endfor %}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for row in 1..20 %}
-                                        <tr>
-                                            {% for col in 1..20 %}
-                                                {% if loop.first %}
+                                    {% for lineaire in metre %}
+                                        {% if lineaire.typeMetre is same as 'lineaire' %}
+                                            <tr>
+                                                <td>
+                                                    <input class="lineaire select-ouvrage text-center" type="text" value="{{ lineaire.lineaire }}"
+                                                           name="attribut[metre][{{ lineaire.id }}]">
+                                                </td>
+                                                {% for longueur in lineaire.longueursLineaire %}
                                                     <td>
-                                                        <input class="lineaire" type="text"
-                                                               name="attribut[metre][{{ row+1 }}][][lineaire]">
+                                                        <input class="longueur numbers select-ouvrage text-center" type="text" name="attribut[metre][{{ longueur.id }}]"
+                                                               hauteur="{{ longueur.longueurHauteur.id }}" onkeyup=calculPrixUnitaireComposant()
+                                                               value={{ longueur.longueur is not empty ? longueur.longueur|number_format(2,',',' ') : ''}}>
                                                     </td>
-                                                {% else %}
-                                                    <td style="width: 20px">
-                                                        <input class="numbers longueur" type="text"
-                                                               name="attribut[metre][{{ row+1 }}][{{ col }}][longueur]"
-                                                               id="hauteur-{{ col+1 }}-lineaire-{{ row+1 }}"
-                                                        >
-                                                    </td>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </tr>
+
+                                                {% endfor %}
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="page-block mt-2 row justify-content-center" style="background-color: #f0f4f8">
-                        {% for to in typeOuvrages %}
-                            {% for tab in to.attributOuvrages %}
-                                {% if tab.attributOuvrageTrs is not empty %}
-                                    <div class="col-md-2 mt-2 tab-after to-{{ to.id }} d-none text-center ouvrage-attribut-step-2">
-                                        {% set selected = false %}
-                                        <label class="labels"
-                                               for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
-                                        <select name="attribut[attributs][{{ tab.titre }}]"
-                                                id="attribut-attributs-{{ tab.id }}"
-                                                {% for tdp in to.tableDePrix %}
-                                                    {% if tdp.composant.code is same as 'M' %}
-                                                        cadence="{{ tdp.cadence }}"
+                        <div class=" page-block mt-2 row justify-content-center" style="background-color: #f0f4f8" step="2">
+                            {% for to in typeOuvrages %}
+                                {% for tab in to.attributOuvrages %}
+                                    {% if tab.attributOuvrageTrs is not empty %}
+                                        <div class="col-md-2 mt-2 tab-after to-{{ to.id }} d-none text-center ouvrage-attribut-step-2">
+                                            {% set selected = false %}
+                                            <label class="labels"
+                                                   for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
+                                            <select name="attribut[attributs][{{ tab.titre }}]"
+                                                    id="attribut-attributs-{{ tab.id }}"
+                                                    {% for tdp in to.tableDePrix %}
+                                                        {% if tdp.composant.code is same as 'M' %}
+                                                            cadence="{{ tdp.cadence }}"
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
+                                                    required="required">
+                                                <option {{ selected == false ? 'selected="true"' : '' }}
+                                                        value=""></option>
+                                                {% for attribut in tab.attributOuvrageTrs %}
+                                                    {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
+                                                        <option value="{{ attribut.id }}" selected
+                                                                poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
+                                                                tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
+                                                            {{ attribut.titre }}
+                                                            {% set selected = true %}
+                                                        </option>
+                                                    {% else %}
+                                                        <option value="{{ attribut.id }}"
+                                                                poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
+                                                                tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
+                                                            {{ attribut.titre }}
+                                                        </option>
                                                     {% endif %}
                                                 {% endfor %}
-                                                class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
-                                                required="required">
-                                            <option {{ selected == false ? 'selected="true"' : '' }}
-                                                    value=""></option>
-                                            {% for attribut in tab.attributOuvrageTrs %}
-                                                {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
-                                                    <option value="{{ attribut.id }}" selected
-                                                            poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                            tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
-                                                        {{ attribut.titre }}
-                                                        {% set selected = true %}
-                                                    </option>
-                                                {% else %}
-                                                    <option value="{{ attribut.id }}"
-                                                            poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                            tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
-                                                        {{ attribut.titre }}
-                                                    </option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                {% endif %}
+                                            </select>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
                         </div>
                     </div>
 
@@ -215,7 +222,7 @@
                                                 <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
                                                        type="checkbox"
                                                         {{ composant.selection ? 'checked' : '' }}
-                                                       class="checkbox-composant"
+                                                       class="checkbox-composant select-ouvrage"
                                                        onclick="calculPrixUnitaireComposant()"
                                                        name="attribut[composantsSelect][{{ composant.id }}]">
                                             </td>
@@ -308,7 +315,7 @@
                                     <div class="col-md-12 text-start">
                                         Avec une quantité de
                                         <span class="quantite-modal fw-bold"
-                                              id="quantite-modal">{{ ouvrage.quantite~' ' }}</span>
+                                              id="quantite-modal">{{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
                                         <span class="unite-modal fw-bold"
                                               id="unite-modal">{{ ouvrage.unite.label }}</span>
                                         et
@@ -362,22 +369,6 @@
                                                value="{{ ouvrage.prixDeVenteHT|number_format(2,',',' ') }}"
                                                readonly>
                                         <span class="euro" style="padding-left: 0">€</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <input type="text" maxlength="255"
-                                               id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
-                                               value="{{ ouvrage.quantite }}"
-                                               class="chakra-input select-ouvrage text-center fw-bold numbers quantite-modal"
-                                               name="attribut[quantite]"
-                                               placeholder="quantité">
-                                    </div>
-                                    <div class="col-md-4 fw-bold unite-modal"
-                                         style="padding: inherit; margin-left: inherit;">
-                                        m²
                                     </div>
                                 </div>
                             </div>

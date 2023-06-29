@@ -857,7 +857,12 @@
             $(".td-prix-" + currentOuvrageId).each(function () {
                 $(this).attr('cadence', cadenceDeReference);
             })
-
+            if (unite === 'm²') {
+                $('.largeur-modal').parent().parent().parent().hide();
+                $('.largeur-modal').val(0);
+            } else {
+                $('.largeur-modal').parent().parent().parent().show();
+            }
             $(".unite-modal").each(function () {
                 if ($(this).hasClass('kg')){
                     $(this).text('kg/'+unite);
@@ -909,7 +914,7 @@
         let res = 0;
 
         let debourseOuvrage = 0;
-        let quantite = parseInt($('.quantite-modal').val());
+        let quantite = calculMetre();
         let quantite2 = parseInt($('.quantite2-modal').val());
         let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
         let unite = $('select[name="devis[ouvrages][' + currentOuvrageId + '][unite]"] option:selected').text();
@@ -1185,6 +1190,34 @@
             }
         });
     });
+
+    function calculMetre() {
+        let quantite = 0;
+        let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+        $('.hauteur').each(function() {
+            let idHauteur = $(this).attr('id');
+            let hauteur = parseFloat($(this).val().replace(',', '.'));
+
+            let sommeLongueur = 0;
+            $('input[hauteur="' + idHauteur + '"]').each(function() {
+                let longueur = parseFloat($(this).val().replace(',', '.'));
+                if (!isNaN(longueur)) {
+                    sommeLongueur += longueur;
+                }
+            });
+
+            if (!isNaN(hauteur)) {
+                quantite += sommeLongueur * hauteur;
+            }
+            console.log(hauteur, sommeLongueur,quantite);
+        })
+        if (!isNaN(largeur)) {
+            quantite = quantite * largeur;
+        }
+        return quantite.toFixed(2);
+    }
+
+
 
 
 </script>

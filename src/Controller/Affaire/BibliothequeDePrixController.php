@@ -2,6 +2,7 @@
 
 namespace App\Controller\Affaire;
 
+use App\Entity\Affaire\Metre;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
@@ -190,6 +191,7 @@ class BibliothequeDePrixController extends AbstractController
             'ouvrage'=>$ouvrage,
             'tableDePrix'=>$entityManager->getRepository(TableDePrix::class)->findAll(),
             'unites'=>$this->unites,
+            'metre' =>$ouvrage->getMetres(),
         ];
 
         if (!empty($path)) {

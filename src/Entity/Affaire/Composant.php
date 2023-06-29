@@ -45,7 +45,7 @@ class Composant
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $statut;
 
-    #[ORM\Column(type: 'integer',nullable: false)]
+    #[ORM\Column(type: 'float',nullable: false)]
     #[Gedmo\Versioned]
     private $quantite;
 
@@ -217,12 +217,12 @@ class Composant
         return $this;
     }
 
-    public function getQuantite(): ?int
+    public function getQuantite(): ?float
     {
         return $this->quantite;
     }
 
-    public function setQuantite(int $quantite): self
+    public function setQuantite(float $quantite): self
     {
         $this->quantite = $quantite;
 
