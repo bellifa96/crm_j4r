@@ -67,7 +67,7 @@ class DevisController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_affaire_devis_new', methods: ['GET', 'POST'])]
-    public function new(Demande $demande, Request $request, DevisRepository $devisRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, UniteRepository $uniteRepository): Response
+    public function new(Demande $demande, Request $request, DevisRepository $devisRepository, TypeComposantRepository $typeComposantRepository, LotRepository $lotRepository, OuvrageRepository $ouvrageRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository): Response
     {
 
 
@@ -84,7 +84,7 @@ class DevisController extends AbstractController
         $lot = $this->initialiseLot($devis, $uniteRepository, $lotRepository);
 
         //Crée un ouvrage et ses composants dans le lot précédemment initialisé
-        $this->initialiseOuvrage($devis, $lot, $ouvrageRepository, $typeComposantRepository, $lotRepository, $uniteRepository);
+        $this->initialiseOuvrage($devis, $lot, $ouvrageRepository, $typeComposantRepository, $lotRepository, $uniteRepository, $metreRepository);
 
         $devisRepository->add($devis);
         return $this->redirectToRoute('app_affaire_devis_edit', ['id' => $devis->getId()], Response::HTTP_SEE_OTHER);
