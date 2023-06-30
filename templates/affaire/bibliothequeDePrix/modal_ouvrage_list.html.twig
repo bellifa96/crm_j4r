@@ -80,8 +80,8 @@
                                     <input type="text" maxlength="255"
                                            id="devis_ouvrages_{{ ouvrage.id }}_quantiteModal"
                                            value="{{ ouvrage.largeur }}" onkeyup=calculPrixUnitaireComposant()
-                                           class="chakra-input select-ouvrage text-center fw-bold numbers largeur-modal"
-                                           name="attribut[largeur]"
+                                           class="chakra-input select-ouvrage text-center fw-bold placeholder-italic numbers largeur-modal"
+                                           name="attribut[largeur]" {{ ouvrage.largeur is not empty ? 'required="required"' : '' }}
                                            placeholder="Largeur">
                                 </div>
                                 <div class="col-md-4 fw-bold"
