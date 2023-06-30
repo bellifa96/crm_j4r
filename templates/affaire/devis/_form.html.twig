@@ -643,6 +643,7 @@
             minimumFractionDigits: 3
         };
         data.forEach(function (element) {
+            $("#loader-devis-page").modal("show");
             if (element.type === "devis") {
                 $('input[name="devis[marge]"]').attr("value", element.marge.toLocaleString('fr-FR', options));
                 $('input[name="devis[marge]"]').val(element.marge.toLocaleString('fr-FR', options));
@@ -863,8 +864,10 @@
             if (unite === 'm²') {
                 $('.largeur-modal').parent().parent().parent().hide();
                 $('.largeur-modal').val('');
+                $('.largeur-modal').attr('required', false);
             } else {
                 $('.largeur-modal').parent().parent().parent().show();
+                $('.largeur-modal').attr('required', true);
             }
             $(".unite-modal").each(function () {
                 if ($(this).hasClass('kg')){
