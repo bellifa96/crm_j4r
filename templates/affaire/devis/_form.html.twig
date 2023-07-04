@@ -121,7 +121,6 @@
 
     .zone-attributs {
         background-color: #F0F4F8;
-        border-radius: 10px;
         padding: 2% 1%;
     }
 
@@ -861,21 +860,12 @@
             $(".td-prix-" + currentOuvrageId).each(function () {
                 $(this).attr('cadence', cadenceDeReference);
             })
-            if (unite === 'm²') {
-                $('.largeur-modal').parent().parent().parent().hide();
-                $('.largeur-modal').val('');
-                $('.largeur-modal').attr('required', false);
-            } else {
-                $('.largeur-modal').parent().parent().parent().show();
-                $('.largeur-modal').attr('required', true);
-            }
             $(".unite-modal").each(function () {
                 if ($(this).hasClass('kg')){
                     $(this).text('kg/'+unite);
                 }else {
                     $(this).text(unite);
                 }
-
             })
             calculPrixUnitaireComposant();
 
@@ -1004,9 +994,26 @@
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         };
+
         $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
+        if ($('option:selected', $('.select-type-ouvrage')).attr('unite') === 'm²') {
+            $('.largeur-modal').parent().parent().parent().hide();
+            $('.largeur-modal').val('');
+            $('.largeur-modal').attr('required', false);
+            $('.surface-volume').text('(Surface : ' + quantite.replace('.',',') + ' m²)')
+        } else {
+            $('.largeur-modal').parent().parent().parent().show();
+            $('.largeur-modal').attr('required', true);
+
+            let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+            console.log(largeur);
+            if (isNaN(largeur)) {
+                quantite = '0.00';
+            }
+            $('.surface-volume').text('(Volume : ' + quantite.replace('.',',') + ' m³)');
+        }
         $('#quantite-modal').text(quantite.replace('.',','));
         $('#quantite2-modal').text(quantite2);
     }
