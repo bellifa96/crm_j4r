@@ -6,7 +6,7 @@
         <div class="modal-content">
             <form onsubmit="validateForm()" name="modal-import-ouvrage" id="form-{{ ouvrage.id }}" methods="POST">
 
-                <div class="modal-header">
+                <div class="modal-header" style="border-bottom: inherit">
                     <h5 class="modal-title" id="modal-import-ouvrage-label"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                             <div class="table-metre" id="table-metre-ouvrage-{{ ouvrage.id }}">
-                                <table class="table" style="table-layout: fixed;">
+                                <table class="table" style="table-layout: fixed; transform: scale(0.75); transform-origin: top left ">
                                     <thead style="position: sticky; top: 0; z-index: 1;">
                                     <tr class="tr-head">
                                         <th style="width: 160px">
