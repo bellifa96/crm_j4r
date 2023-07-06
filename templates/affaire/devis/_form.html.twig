@@ -162,57 +162,49 @@
 
 <div class="row mt-4">
 
-    <div class="col-md-8 page-block m-auto" style="background-color: #F0F4F8;">
+    <div class="col-md-8 page-block m-auto">
         <div class="row align-items-center">
 
-            <div class="col-md-3 text-end">
+            <div class="text-end" style="width: 20%">
                 <label for="devis_debourseTotalHT" style="color: #486581;">Déboursé total HT</label>
                 <input type="text" id="devis_debourseTotalHT" class="form-control text-end"
-                       value='{{ devis.debourseTotalHT|number_format(3,'.',' ') }}' style="background-color: #F0F4F8;"
+                       value='{{ devis.debourseTotalHT|number_format(2,',',' ') }}'
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
                        name="devis[debourseTotalHT]" disabled>
             </div>
-            <div style="font-size: 1.5rem" class="col-md-1">
-
-            </div>
-            <div class="col-md-3 text-end">
-
-                <label for="devis_marge" style="color: #486581;">Marge totale</label>
-                <input type="text" id="devis_marge" class="form-control text-end" style="background-color: #F0F4F8;"
-                       value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(3,',',' ') }}'
-                       name="devis[margeTotal]" disabled>
-            </div>
-            <div style="font-size: 1.5rem" class="col-md-1">
-
-            </div>
-            <div class="col-md-4 text-end">
-                <label for="devis_prixDeVenteHT" style="color: #486581;">Prix de vente HT</label>
-                <input type="text" id="devis__prix_de_vente" class="form-control text-end"
-                       value='{{ devis.prixDeVenteHT|number_format(3,',',' ') }}' style="background-color: #F0F4F8;"
-                       name="devis[prixDeVenteHT]" disabled>
-            </div>
-            <div class="col-md-3 text-end">
-                <label for="devis_tva" style="color: #486581;">TVA</label>
-                <input type="text" id="devis_tva" class="form-control text-end"
-                       value='{{ devis.tva }} %' style="background-color: #F0F4F8;"
-                       name="devis[tva]" disabled>
-            </div>
-            <div style="font-size: 1.5rem" class="col-md-1">
-
-            </div>
-            <div class="col-md-3 text-end">
-
+            <div class="text-end" style="width: 10%">
                 <label for="devis_marge" style="color: #486581;">%Marge</label>
-                <input type="text" id="devis_marge" class="form-control text-end"
+                <input type="text" id="devis_marge" class="form-control text-end numbers"
+                       style="color: #0e4377; font-weight: bold;"
                        value='{{ devis.marge|number_format(3,',',' ') }}' element="devis"
                        name="devis[marge]">
             </div>
-            <div style="font-size: 1.5rem" class="col-md-1">
+            <div class="text-end" style="width: 20%">
+
+                <label for="devis_marge" style="color: #486581;">Marge totale</label>
+                <input type="text" id="devis_margeTotal" class="form-control text-end numbers"
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;" element="devis"
+                       value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(2,',',' ') }}'
+                       name="devis[margeTotal]" onchange="calculPourcentageMarge()">
             </div>
-            <div class="col-md-4 text-end">
+            <div class="text-end" style="width: 20%">
+                <label for="devis_prixDeVenteHT" style="color: #486581;">Prix de vente HT</label>
+                <input type="text" id="devis__prix_de_vente" class="form-control text-end"
+                       value='{{ devis.prixDeVenteHT|number_format(2,',',' ') }}'
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       name="devis[prixDeVenteHT]" disabled>
+            </div>
+            <div class="text-end" style="width: 10%">
+                <label for="devis_tva" style="color: #486581;">TVA</label>
+                <input type="text" id="devis_tva" class="form-control text-end"
+                       value='{{ devis.tva }} %' style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       name="devis[tva]" disabled>
+            </div>
+            <div class="text-end" style="width: 20%">
                 <label for="devis_prixDeVente" style="color: #486581;">Prix de vente TTC</label>
                 <input type="text" id="devis_prixDeVente" class="form-control text-end"
-                       style="background-color: #F0F4F8;"
-                       value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(3,',',' ') }}'
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(2,',',' ') }}'
                        name="devis[prixDeVente]" disabled>
             </div>
         </div>
@@ -639,13 +631,18 @@
 
     function updateData(data) {
         const options = {
-            minimumFractionDigits: 3
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        };
+        const optionMarge = {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
         };
         data.forEach(function (element) {
             $("#loader-devis-page").modal("show");
             if (element.type === "devis") {
-                $('input[name="devis[marge]"]').attr("value", element.marge.toLocaleString('fr-FR', options));
-                $('input[name="devis[marge]"]').val(element.marge.toLocaleString('fr-FR', options));
+                $('input[name="devis[marge]"]').attr("value", element.marge.toLocaleString('fr-FR', optionMarge));
+                $('input[name="devis[marge]"]').val(element.marge.toLocaleString('fr-FR', optionMarge));
                 $('input[name="devis[prixDeVenteHT]"]').attr("value", element.prixDeVenteHT.toLocaleString('fr-FR', options));
                 $('input[name="devis[debourseTotalHT]"]').attr("value", element.debourseTotalHT.toLocaleString('fr-FR', options));
                 $('input[name="devis[margeTotal]"]').attr("value", (element.prixDeVenteHT - element.debourseTotalHT).toLocaleString('fr-FR', options));
@@ -684,6 +681,16 @@
 
 
     }
+
+    function calculPourcentageMarge() {
+        let debourse = parseFloat($('input[name="devis[debourseTotalHT]"]').val().replace(/\s/g, '').replace(',', '.'));
+        let margeTotal = parseFloat($('input[name="devis[margeTotal]').val().replace(/\s/g, '').replace(',', '.'));
+        let marge = (debourse + margeTotal) / debourse;
+        console.log(debourse, margeTotal, marge);
+        $('input[name="devis[marge]"]').val(marge.toFixed(3));
+
+    }
+
 
     // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
     $('body').on("change", 'input, select', function () {
@@ -821,7 +828,7 @@
         let id = $(this).attr('id').replace('import-ouvrage-', '');
         currentOuvrageId = id;
         console.log($(this), id);
-        let path = '/affaire/bibliothequeDePrix/modal/ouvrage/liste/' + {{ devis.id }} + '/' + id;
+        let path = '/affaire/bibliothequeDePrix/modal/ouvrage/liste/' + {{ devis.id }} +'/' + id;
         $.post(path, function (response) {
             const data = JSON.parse(response);
             $("#loader-devis-page").modal("hide");
@@ -836,7 +843,6 @@
             })
         })
     })
-
 
     $('body').on('change', '.ouvrage-attribut', function () {
         const step = $(this).parent().parent().attr('step');
@@ -861,9 +867,9 @@
                 $(this).attr('cadence', cadenceDeReference);
             })
             $(".unite-modal").each(function () {
-                if ($(this).hasClass('kg')){
-                    $(this).text('kg/'+unite);
-                }else {
+                if ($(this).hasClass('kg')) {
+                    $(this).text('kg/' + unite);
+                } else {
                     $(this).text(unite);
                 }
             })
@@ -1002,7 +1008,8 @@
             $('.largeur-modal').parent().parent().parent().hide();
             $('.largeur-modal').val('');
             $('.largeur-modal').attr('required', false);
-            $('.surface-volume').text('(Surface : ' + quantite.replace('.',',') + ' m²)')
+            $('.surface-volume').text('(Surface : ' + quantite.replace('.', ',') + ' m²)')
+            $('.quantite-modal').text(' une surface de ' + quantite.replace('.', ','))
         } else {
             $('.largeur-modal').parent().parent().parent().show();
             $('.largeur-modal').attr('required', true);
@@ -1012,9 +1019,9 @@
             if (isNaN(largeur)) {
                 quantite = '0.00';
             }
-            $('.surface-volume').text('(Volume : ' + quantite.replace('.',',') + ' m³)');
+            $('.surface-volume').text('(Volume : ' + quantite.replace('.', ',') + ' m³)');
+            $('.quantite-modal').text('un volume de ' + quantite.replace('.', ','));
         }
-        $('.quantite-modal').text(quantite.replace('.',','));
         $('#quantite2-modal').text(quantite2);
     }
 
@@ -1205,12 +1212,12 @@
     function calculMetre() {
         let quantite = 0;
         let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
-        $('.hauteur').each(function() {
+        $('.hauteur').each(function () {
             let idHauteur = $(this).attr('id');
             let hauteur = parseFloat($(this).val().replace(',', '.'));
 
             let sommeLongueur = 0;
-            $('input[hauteur="' + idHauteur + '"]').each(function() {
+            $('input[hauteur="' + idHauteur + '"]').each(function () {
                 let longueur = parseFloat($(this).val().replace(',', '.'));
                 if (!isNaN(longueur)) {
                     sommeLongueur += longueur;
@@ -1220,15 +1227,13 @@
             if (!isNaN(hauteur)) {
                 quantite += sommeLongueur * hauteur;
             }
-            console.log(hauteur, sommeLongueur,quantite);
+            console.log(hauteur, sommeLongueur, quantite);
         })
         if (!isNaN(largeur)) {
             quantite = quantite * largeur;
         }
         return quantite.toFixed(2);
     }
-
-
 
 
 </script>

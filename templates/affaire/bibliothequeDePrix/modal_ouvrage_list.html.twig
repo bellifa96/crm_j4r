@@ -7,8 +7,7 @@
             <form onsubmit="validateForm()" name="modal-import-ouvrage" id="form-{{ ouvrage.id }}" methods="POST">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-import-ouvrage-label">Ajout d'un ouvrage au sous-lot ou au
-                        lot</h5>
+                    <h5 class="modal-title" id="modal-import-ouvrage-label"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -135,23 +134,26 @@
                                 </div>
                             </div>
                             <div class="table-metre" id="table-metre-ouvrage-{{ ouvrage.id }}">
-                                <table class="table">
-                                    <thead>
+                                <table class="table" style="table-layout: fixed;">
+                                    <thead style="position: sticky; top: 0; z-index: 1;">
                                     <tr class="tr-head">
-                                        <th>
+                                        <th style="width: 150px">
                                             <div class="row">
-                                                <span class="col-md-5">Hauteur</span>
+                                                <span class="text-center">Hauteur</span>
                                             </div>
                                         </th>
+                                        {% set counter = 1 %}
                                         {% for hauteur in metre %}
                                             {% if hauteur.typeMetre is same as 'hauteur' %}
-                                                <th style="width: 20px">
+                                                <th style="width: 100px">
                                                     <input class="numbers hauteur select-ouvrage text-center"
                                                            type="text" name="attribut[metre][{{ hauteur.id }}]"
                                                            id="{{ hauteur.id }}" onkeyup=calculPrixUnitaireComposant()
+                                                            {{ counter <= 4 ? 'readonly style="width: 80px; background: #0e4377; border: #0e4377; color: #fff"' : 'style="width: 80px"' }}
                                                            value={{ hauteur.hauteur is not empty ? hauteur.hauteur|number_format(2,',',' ') : '' }}
                                                     >
                                                 </th>
+                                                {% set counter = counter + 1 %}
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
@@ -160,17 +162,17 @@
                                     {% for lineaire in metre %}
                                         {% if lineaire.typeMetre is same as 'lineaire' %}
                                             <tr>
-                                                <td>
+                                                <td style="width: 150px">
                                                     <input class="lineaire select-ouvrage text-center" type="text"
-                                                           value="{{ lineaire.lineaire }}"
+                                                           value="{{ lineaire.lineaire }}" style="width: 140px"
                                                            name="attribut[metre][{{ lineaire.id }}]">
                                                 </td>
                                                 {% for longueur in lineaire.longueursLineaire %}
-                                                    <td>
+                                                    <td style="width: 100px;">
                                                         <input class="longueur numbers select-ouvrage text-center"
                                                                type="text" name="attribut[metre][{{ longueur.id }}]"
                                                                hauteur="{{ longueur.longueurHauteur.id }}"
-                                                               onkeyup=calculPrixUnitaireComposant()
+                                                               onkeyup=calculPrixUnitaireComposant() style="width: 80px"
                                                                value={{ longueur.longueur is not empty ? longueur.longueur|number_format(2,',',' ') : '' }}>
                                                     </td>
 
@@ -338,17 +340,24 @@
                             <div class="col-md-12 zone-attributs mt-5" style="font-size: 0.9rem;">
                                 <div class="col-md-12 justify-content-between mb-3">
                                     <div class="col-md-12 text-start">
-                                        Avec une quantité de
-                                        <span class="quantite-modal fw-bold"
-                                              id="quantite-modal">{{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
-                                        <span class="unite-modal fw-bold"
-                                              id="unite-modal">{{ ouvrage.unite.label }}</span>
+                                        Avec
+                                        {% if ouvrage.unite is not empty and ouvrage.unite.label is same as "m3" %}
+                                            <span class="quantite-modal fw-bold"
+                                                  id="quantite-modal">un volume de {{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
+                                            <span class="unite-modal fw-bold"
+                                                  id="unite-modal">m&#xB3;</span>
+                                        {% else %}
+                                            <span class="quantite-modal fw-bold"
+                                                  id="quantite-modal">une surface de {{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
+                                            <span class="unite-modal fw-bold"
+                                                  id="unite-modal">m²</span>
+                                        {% endif %}
                                         et
                                         {% for composant in ouvrage.composants %}
                                             {% if composant.TypeComposant is not empty and composant.TypeComposant.code is same as "L" %}
                                                 <span class="quantite2-modal fw-bold"
                                                       id="quantite2-modal">{{ composant.quantite2~' ' }}</span>
-                                                <span class="fw-bold">{{ composant.unite2.label }}</span>
+                                                <span class="fw-bold">jour(s)</span>
                                             {% endif %}
                                         {% endfor %} :
                                     </div>
