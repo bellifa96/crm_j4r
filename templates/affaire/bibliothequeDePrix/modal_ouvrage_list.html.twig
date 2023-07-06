@@ -137,9 +137,9 @@
                                 <table class="table" style="table-layout: fixed;">
                                     <thead style="position: sticky; top: 0; z-index: 1;">
                                     <tr class="tr-head">
-                                        <th style="width: 150px">
+                                        <th style="width: 160px">
                                             <div class="row">
-                                                <span class="text-center">Hauteur</span>
+                                                <span class="text-center">Hauteur (en m)</span>
                                             </div>
                                         </th>
                                         {% set counter = 1 %}
@@ -159,25 +159,27 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {% set counter = 1 %}
                                     {% for lineaire in metre %}
                                         {% if lineaire.typeMetre is same as 'lineaire' %}
                                             <tr>
-                                                <td style="width: 150px">
+                                                <td style="width: 160px; font-weight: bold"> {{ counter }}
                                                     <input class="lineaire select-ouvrage text-center" type="text"
-                                                           value="{{ lineaire.lineaire }}" style="width: 140px"
+                                                           value="{{ lineaire.lineaire }}" style="width: 130px"
                                                            name="attribut[metre][{{ lineaire.id }}]">
                                                 </td>
                                                 {% for longueur in lineaire.longueursLineaire %}
-                                                    <td style="width: 100px;">
+                                                    <td style="width: 100px; padding: 0.5rem 0">
                                                         <input class="longueur numbers select-ouvrage text-center"
                                                                type="text" name="attribut[metre][{{ longueur.id }}]"
                                                                hauteur="{{ longueur.longueurHauteur.id }}"
-                                                               onkeyup=calculPrixUnitaireComposant() style="width: 80px"
+                                                               onkeyup=calculPrixUnitaireComposant() style="width: 90%;"
                                                                value={{ longueur.longueur is not empty ? longueur.longueur|number_format(2,',',' ') : '' }}>
                                                     </td>
 
                                                 {% endfor %}
                                             </tr>
+                                            {% set counter = counter + 1 %}
                                         {% endif %}
                                     {% endfor %}
                                     </tbody>
