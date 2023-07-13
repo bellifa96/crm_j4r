@@ -39,9 +39,9 @@ class TypeComposantController extends AbstractController
             //Ajoute des prix pour chaque nouveau type de composant créé
             foreach ($typeOuvrageRepository->findAll() as $typeOuvrage){
                 $tableDePrix = new TableDePrix();
-                $tableDePrix->setComposant($typeComposant->getId());
-                $tableDePrix->setTypeOuvrage($typeOuvrage->getId());
-                $tableDePrixRepository->add($tableDePrix);
+                $tableDePrix->setComposant($typeComposant);
+                $tableDePrix->setTypeOuvrage($typeOuvrage);
+                $tableDePrixRepository->save($tableDePrix);
             }
 
             return $this->redirectToRoute('app_affaire_type_composant_index', [], Response::HTTP_SEE_OTHER);
