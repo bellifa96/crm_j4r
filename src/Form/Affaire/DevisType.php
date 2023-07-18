@@ -27,6 +27,7 @@ class DevisType extends AbstractType
                 ]
             ])
             ->add('description')
+            ->add('observations')
             /*->add('referent', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $entityRepository) {

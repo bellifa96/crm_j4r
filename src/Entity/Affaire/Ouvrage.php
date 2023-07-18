@@ -97,7 +97,7 @@ class Ouvrage
     #[ORM\Column(nullable: true)]
     private ?float $pourcentageTpsDeReference = null;
 
-    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class, cascade:['persist'])]
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class, cascade:['persist' , 'remove'])]
     private Collection $metres;
 
     #[ORM\Column(nullable: true)]

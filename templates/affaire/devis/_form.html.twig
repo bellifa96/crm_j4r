@@ -131,7 +131,12 @@
     .table-metre {
         overflow: auto;
         max-height: 170px;
-    }s
+    }
+
+    .table-metre table thead, .table-metre table tbody {
+        transform: scale(0.75);
+        transform-origin: top left;
+    }
 
 </style>
 
@@ -328,6 +333,10 @@
         </button>
         #}
     </div>
+</div>
+
+<div class="page-block col-md-10 m-auto mt-4">
+    <textarea class="form-control editor devis-observations" placeholder="Observations"></textarea>
 </div>
 
 <div class="mt-5">
@@ -695,7 +704,7 @@
     // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
     $('body').on("change", 'input, select', function () {
 
-        if ($(this).hasClass('select-ouvrage')) {
+        if ($(this).hasClass('select-ouvrage') || $(this).hasClass('devis-observations')) {
             return;
         }
 
