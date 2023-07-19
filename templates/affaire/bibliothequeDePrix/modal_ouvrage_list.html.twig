@@ -37,35 +37,37 @@
                                             Type d'ouvrage
                                         </option>
                                         {% for to in typeOuvrages %}
-                                            {% if ouvrage.typeOuvrage == to %}
-                                                <option class="text-center fw-bold" value="{{ to.id }}"
-                                                        code="{{ to.code }}"
-                                                        {% for tdp in to.tableDePrix %}
-                                                            {% if tdp.composant.code is same as 'M' %}
-                                                                cadence="{{ tdp.cadence }}"
+                                            {% if to.code in ['E', 'P', 'SDA', 'RAM'] %}
+                                                {% if ouvrage.typeOuvrage == to %}
+                                                    <option class="text-center fw-bold" value="{{ to.id }}"
+                                                            code="{{ to.code }}"
+                                                            {% for tdp in to.tableDePrix %}
+                                                                {% if tdp.composant.code is same as 'M' %}
+                                                                    cadence="{{ tdp.cadence }}"
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if to.code in ['E', 'PAR', 'A'] %}
+                                                                unite="m²"
+                                                            {% else %}
+                                                                unite="m&#xB3;"
                                                             {% endif %}
-                                                        {% endfor %}
-                                                        {% if to.code in ['E', 'PAR', 'A'] %}
-                                                            unite="m²"
-                                                        {% else %}
-                                                            unite="m&#xB3;"
-                                                        {% endif %}
-                                                        style="font-style: inherit" selected> {{ to }} </option>
-                                                {% set selected = true %}
-                                            {% else %}
-                                                <option class="text-center fw-bold" value="{{ to.id }}"
-                                                        style="font-style: inherit"
-                                                        {% for tdp in to.tableDePrix %}
-                                                            {% if tdp.composant.code is same as 'M' %}
-                                                                cadence="{{ tdp.cadence }}"
+                                                            style="font-style: inherit" selected> {{ to }} </option>
+                                                    {% set selected = true %}
+                                                {% else %}
+                                                    <option class="text-center fw-bold" value="{{ to.id }}"
+                                                            style="font-style: inherit"
+                                                            {% for tdp in to.tableDePrix %}
+                                                                {% if tdp.composant.code is same as 'M' %}
+                                                                    cadence="{{ tdp.cadence }}"
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if to.code in ['E', 'PAR', 'A'] %}
+                                                                unite="m²"
+                                                            {% else %}
+                                                                unite="m&#xB3;"
                                                             {% endif %}
-                                                        {% endfor %}
-                                                        {% if to.code in ['E', 'PAR', 'A'] %}
-                                                            unite="m²"
-                                                        {% else %}
-                                                            unite="m&#xB3;"
-                                                        {% endif %}
-                                                        code="{{ to.code }}"> {{ to }} </option>
+                                                            code="{{ to.code }}"> {{ to }} </option>
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </select>
@@ -163,10 +165,12 @@
                                     {% for lineaire in metre %}
                                         {% if lineaire.typeMetre is same as 'lineaire' %}
                                             <tr>
-                                                <td class="justify-content-between align-items-center" style="width: 160px; font-weight: bold; padding: 0.5rem 0; display: flex">
+                                                <td class="justify-content-between align-items-center"
+                                                    style="width: 160px; font-weight: bold; padding: 0.5rem 0; display: flex">
                                                     <span>{{ counter }}</span>
                                                     <input class="lineaire select-ouvrage text-center" type="text"
-                                                           value="{{ lineaire.lineaire }}" style="width: 140px; position: relative; right: 5px"
+                                                           value="{{ lineaire.lineaire }}"
+                                                           style="width: 140px; position: relative; right: 5px"
                                                            name="attribut[metre][{{ lineaire.id }}]">
                                                 </td>
                                                 {% for longueur in lineaire.longueursLineaire %}
@@ -250,7 +254,7 @@
                                         <tr class="composant-ouvrage-modal " id="element-{{ composant.id }}">
                                             <td class="col-md-1">
                                                 <input id="{{ composant.typeComposant.code~'-'~composant.id }}"
-                                                       type="checkbox"
+                                                       type="checkbox" {{ composant.TypeComposant.code is same as 'ETU' ? 'style="display: none;"' : '' }}
                                                         {{ composant.selection ? 'checked' : '' }}
                                                        class="checkbox-composant select-ouvrage"
                                                        onclick="calculPrixUnitaireComposant()"
@@ -279,9 +283,11 @@
                                                                value="{{ composant.debourseUnitaireHT|number_format(3, ',', '') }}"
                                                                name="attribut[composants][{{ composant.id }}]"
                                                                required="required" maxlength="255"
-                                                               class="chakra-input numbers text-end td-prix-{{ ouvrage.id }}"
+                                                               class="chakra-input select-ouvrage numbers text-end td-prix-{{ ouvrage.id }}"
                                                                placeholder="Déboursé U HT"
-                                                               value="0" readonly></div>
+                                                               value="0"
+                                                                {{ composant.TypeComposant.code is same as 'ETU' ? 'onchange=calculPrixUnitaireComposant()' : 'readonly' }}>
+                                                    </div>
                                                     <div class="col-md-3 text-start"
                                                          style="padding: inherit; color: #0e4377!important;; font-weight: bold">
                                                         € HT

@@ -975,20 +975,26 @@
                     //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
                     res = variante * k / 1000;
                     break;
+                case "ETU":
+                    //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                    res = parseFloat($(this).val().replace(',','.'));
+                    break;
             }
-            const options = {
-                maximumFractionDigits: 3
-            };
-
             //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
             if ($('#' + code + '-' + idComposant).is(':checked')) {
                 if (code === "L") {
                     debourseOuvrage += res * quantite * quantite2;
+                } else if (code === "ETU") {
+                    debourseOuvrage += res;
                 } else {
                     debourseOuvrage += res * quantite;
                 }
             }
 
+            const options = {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            };
             res = res.toLocaleString('fr-FR', options);
             $(this).val(res);
             if (update) {

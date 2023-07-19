@@ -192,6 +192,9 @@ class AttributOuvrageController extends AbstractController
             if ($composant->getTypeComposant()->getCode() === 'L') {
                 $composant->setQuantite2($data['quantite2']);
                 $composant->setDebourseTotalHT(round($composant->getQuantite() * $val * $composant->getQuantite2(), 3));
+            } elseif ($composant->getTypeComposant()->getCode() === 'ETU') {
+                $composant->setQuantite(1);
+                $composant->setDebourseTotalHT(round($composant->getQuantite() * $val, 3));
             } else {
                 $composant->setDebourseTotalHT(round($composant->getQuantite() * $val, 3));
             }
