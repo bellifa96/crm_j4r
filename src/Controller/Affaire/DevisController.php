@@ -301,12 +301,11 @@ class DevisController extends AbstractController
         $form->handleRequest($request);
 
         $users = $userRepository->findAll();
-        $cadenceDeRerefence = 1200;//$this->em->getRepository(TypeComposant::class)->findOneByCode('M')->getCadence();
 
         $referer = $request->headers->get('referer');
         if ($form->isSubmitted() && $form->isValid()) {
             $devisRepository->add($devis);
-            return $this->redirectToRoute('app_affaire_devis_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_affaire_devis_show', ['id' => $devis->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('affaire/devis/new.html.twig', [
@@ -316,7 +315,6 @@ class DevisController extends AbstractController
             'referer' => $referer,
             'demande' => $devis->getDemande(),
             'html' => $this->recursiveElements(!empty($devis->getElements()) ? $devis->getElements() : []),
-            'cadenceDeRerefence' => $cadenceDeRerefence,
             'title' => "Création d'un devis - " . $devis->getTitre() . " " . $devis->getId(),
             'nav' => []
         ]);

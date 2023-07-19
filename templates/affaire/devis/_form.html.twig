@@ -334,15 +334,15 @@
         #}
     </div>
 </div>
-
+{{ form_start(form) }}
 <div class="page-block col-md-10 m-auto mt-4">
-    <textarea class="form-control editor devis-observations" placeholder="Observations"></textarea>
+    {{ form_widget(form.designationDesTravaux,{"attr":{"class":"form-control my-3 devis-informations","placeholder":"Désignation des travaux"}}) }}
+    {{ form_widget(form.observations,{"attr":{"class":"form-control editor devis-informations","placeholder":"Observations"}}) }}
+    <div class="mt-5 col-md-12 text-end">
+        <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+    </div>
 </div>
-
-<div class="mt-5">
-    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
-</div>
-
+{{ form_end(form) }}
 
 <script>
 
@@ -704,7 +704,7 @@
     // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
     $('body').on("change", 'input, select', function () {
 
-        if ($(this).hasClass('select-ouvrage') || $(this).hasClass('devis-observations')) {
+        if ($(this).hasClass('select-ouvrage') || $(this).hasClass('devis-informations')) {
             return;
         }
 
