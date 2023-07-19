@@ -72,6 +72,78 @@ class DevisController extends AbstractController
 
 
         $nom = $request->request->all()['devis']['nom'];
+        $observations = '
+    <u>Madame / Monsieur,&nbsp;</u><br>
+    Veuillez trouver ci-joint notre offre de prix pour les travaux en &eacute;chafaudages concernant les lots : GO (&agrave; l&apos;avancement), RAVALEMENT, BARDAGE, CHARPENTE, COUVERTURE, ITE, &Eacute;TANCH&Eacute;IT&Eacute; &amp; SERRURERIE.&nbsp;<br>
+    <u>Cette offre de prix tient compte des sp&eacute;cificit&eacute;s techniques que vous nous avez pr&eacute;cis&eacute;, &agrave; savoir :&nbsp;</u><br>
+    - Sous r&eacute;serve : acc&egrave;s &agrave; pied d&apos;&oelig;uvre pour la manutention de nos palettes munis de roues.&nbsp;<br>
+    - Mise en place de garde-corps de s&eacute;curit&eacute; d&eacute;finitive type MDS en face ext&eacute;rieur de l&apos;&eacute;chafaudage.&nbsp;<br>
+    - La protection sous nos pieds d&apos;&eacute;chafaudages sera r&eacute;alis&eacute; par cales madriers de 22 x 50 cm&nbsp;<br>
+    - Mise en place d&apos;un &eacute;chafaudage de 0,73m de large de type multidirectionnels.&nbsp;&nbsp;<br>
+    - La fourniture des plans en 3D, PV de r&eacute;ception et bulletins d&apos;ad&eacute;quation&nbsp;<br>
+    - Approvisionnement et replis du mat&eacute;riel &agrave; l&apos;aide de la grue G.O&nbsp;<br>
+    - Suivant hauteur du terrain naturelle indiqu&eacute; sur les plans architecte&nbsp;<br>
+    - Dur&eacute;e de location calendaire suivant tableau page 2&nbsp;<br>
+    - Contournement des balcons&nbsp;<br>
+    - Echafaudages au droit des lucarnes.&nbsp;<br>
+    - Sous r&eacute;serve : visite sur chantier&nbsp;<br>
+    <u>Non compris &agrave; la pr&eacute;sente :&nbsp;</u><br>
+    - Insertion sociale&nbsp;<br>
+    - Frais de grue&nbsp;<br>
+    - Compte prorata&nbsp;<br>
+    - Consoles int&eacute;rieures.&nbsp;<br>
+    - Garde-corps en face int&eacute;rieur de l&apos;&eacute;chafaudage.&nbsp;<br>
+    - Echafaudages des joues des lucarnes.&nbsp;<br>
+    - La d&eacute;pose de l&apos;&eacute;chafaudage pour permettre les travaux d&apos;&eacute;tanch&eacute;it&eacute;&nbsp;<br>
+    - La mise en place d&apos;&eacute;chafaudages int&eacute;rieurs sur terrasses techniques&nbsp;<br>
+    - Echafaudage au pourtour des chemin&eacute;es.&nbsp;<br>
+    - La protection des fils &eacute;lectrique avant notre intervention.&nbsp;<br>
+    - Mise &agrave; la terre de l&apos;&eacute;chafaudage.&nbsp;<br>
+    - Palissade de cl&ocirc;ture de chantier.&nbsp;<br>
+    - Murs de refends, &eacute;chafaudages int&eacute;rieurs, vides sur s&eacute;jours, etc...&nbsp;<br>
+    - La protection &eacute;tanche des planchers de travail.&nbsp;<br>
+    - Pignons interm&eacute;diaires entre b&acirc;timents et maisons ou cages.&nbsp;<br>
+    - Filets pare gravats et filets de protections couvreur (option)&nbsp;<br>
+    - Pare-gravois et b&acirc;ches anti-UV&nbsp;<br>
+    - Protection des ouvrages existants.&nbsp;<br>
+    - Recette &agrave; mat&eacute;riaux &amp; Escalier d&apos;acc&egrave;s (option)&nbsp;<br>
+    - Manutention des &eacute;chafaudages apr&egrave;s d&eacute;montage de la grue (Option)&nbsp;<br>
+    - Rebouchage des trous des ancrages lors de notre d&eacute;pose de l&apos;&eacute;chafaudage.&nbsp;<br>
+    - Gardiennage, entretien du mat&eacute;riel et droit de voirie, durant toute la dur&eacute;e du chantier.&nbsp;<br>
+    - Demande empi&eacute;tement chez voisins &agrave; la charge du client ainsi que la r&eacute;alisation des protocoles d&apos;accord&nbsp;<br>
+    - La protection compl&egrave;te des terrasses &eacute;tanch&eacute;s avant la mise en place de nos &eacute;chafaudages&nbsp;<br>
+    - Autorisations, frais de voierie et administratives ou priv&eacute;es, avec stockage 3,00m x 15,00m accessible &agrave; nos camions sur la voie publique.&nbsp;<br>
+    - Surfaces d&apos;appuis : Contr&ocirc;les des natures des sols et des toitures pour l&apos;implantation de l&apos;&eacute;chafaudage suivant les descentes de charge par pied.&nbsp;<br>
+    - D&eacute;pollution d&apos;&eacute;chafaudages en fin de chantier (&agrave; la charge du client)&nbsp;<br>
+    <u>Nota :&nbsp;</u><br>
+    - Dans le cas o&ugrave; l&apos;&eacute;chafaudage devrait &ecirc;tre d&eacute;mont&eacute; &agrave; une date pr&eacute;cise indiqu&eacute; par le Maitre d&apos;&OElig;uvre/d&apos;Ouvrage et que cette t&acirc;che n&apos;est pas possible car des travaux ne seraient pas termin&eacute;s ou que le ravaleur n&apos;est pas pr&eacute;sent sur site pour reboucher les trous d&apos;amarrage, le Maitre d&apos;&OElig;uvre/Maitre d&apos;Ouvrage/Pilote peut demander par &eacute;crit &agrave; J4R de ne pas d&eacute;monter l&apos;&eacute;chafaudage. J4R sera en droit de facturer au tarif de 900 &euro;HT des frais de d&eacute;placement par intervention annul&eacute;.&nbsp;<br>
+    - Sur les chantiers de courte dur&eacute;e et sans pr&eacute;sence de base vie, il est imp&eacute;ratif la mise &agrave; disposition d&apos;un local ou d&apos;un v&eacute;hicule de chantier disposant &agrave; minima d&apos;un coin vestiaire chauff&eacute;, un WC et d&apos;un micro-ondes (article 4228 du code du travail)&nbsp;<br>
+    - Les plans d&apos;&eacute;chafaudages seront remis un mois avant notre intervention sur le lot ou la phase concern&eacute;e pour validation du Ma&icirc;tre d&apos;ouvrage/Ma&icirc;tre d&apos;&OElig;uvre/Pilote et entreprises utilisatrices.&nbsp;<br>
+    - Le Client assure tous les risques de d&eacute;t&eacute;rioration et de perte partielle ou totale du mat&eacute;riel, quelle qu&rsquo;en soit la cause. Le client entend express&eacute;ment renoncer &agrave; invoquer la force majeure et plus g&eacute;n&eacute;ralement aux dispositions de l&rsquo;article 1218 du Code Civil. Le mat&eacute;riel d&eacute;t&eacute;rior&eacute; ou perdu sera factur&eacute; au Client au prix en vigueur le jour o&ugrave; le mat&eacute;riel aurait d&ucirc; &ecirc;tre rendu. Il appartiendra au client de s&rsquo;assurer pour tous les risques pouvant survenir aux personnes et au mat&eacute;riel, y compris pour le transport du mat&eacute;riel, aupr&egrave;s d&rsquo;une compagnie notoirement connue. Il reste &eacute;galement responsable du remboursement du mat&eacute;riel vol&eacute; sur son chantier ou sur les emprises au sol pour le stockage. La liste du mat&eacute;riel entrant et sortant du chantier est &agrave; la disposition du client sur demande.&nbsp;<br>
+    - En cas de suspicion de contamination au Plomb ou &agrave; l&apos;Amiante de l&apos;&eacute;chafaudage pendant la dur&eacute;e du chantier, un test &agrave; la linguette &agrave; la charge du client peut &ecirc;tre exig&eacute; par J4R avant la d&eacute;pose.&nbsp;<br>
+    - A noter que la dur&eacute;e d&apos;immobilisation de l&apos;&eacute;chafaudage entre la d&eacute;pollution et la d&eacute;pose est &agrave; la charge du client&nbsp;&nbsp;<br>
+    - Tous frais de d&eacute;pollution et/ou de mise au rebu des &eacute;l&eacute;ments non&nbsp;d&eacute;polluables&nbsp;seront factur&eacute;s&nbsp;<br>
+    - Le remblais compact&eacute; au pourtour de l&apos;&eacute;difice &agrave; &eacute;chafauder est obligatoire avant notre intervention&nbsp;&nbsp;<br>
+    - Aucun remontage sans devis sign&eacute; sera fait apr&egrave;s validation des plans&nbsp;<br>
+    - Aucune d&eacute;pose de l&apos;&eacute;chafaudage ne sera faite pour l&apos;&eacute;tanch&eacute;it&eacute;&nbsp;&nbsp;<br>
+    - Un seul montage est pr&eacute;vu &agrave; cette offre&nbsp;<br>
+    - Les sur locations &eacute;ventuelles sont &agrave; r&eacute;gler sur la situation du mois en cours.&nbsp;<br>
+    - Les dur&eacute;es de location n&apos;incluent pas les journ&eacute;es d&apos;intemp&eacute;ries, arr&ecirc;t de chantier, retard, etc...&nbsp;<br>
+    - Les dur&eacute;es de location inf&eacute;rieures &agrave; la dur&eacute;e contractuelle sont indivisibles.&nbsp;<br>
+    - Toute modification de l&apos;&eacute;chafaudage apr&egrave;s validation des plans et du montage fera l&apos;objet d&apos;un devis compl&eacute;mentaire&nbsp;<br>
+    - Les locations d&eacute;marrent &agrave; compter de la mise en s&eacute;curit&eacute; de l&apos;&eacute;difice ou de la phase suivant d&eacute;composition en page 2 de notre devis&nbsp;<br>
+    - 100,00 &euro; H.T par heure en &eacute;quipe de deux pour intervention en reprise, remontage, modification d&apos;&eacute;chafaudage&nbsp;&nbsp;<br>
+    - Co&ucirc;t de remplacement des pi&egrave;ces suivant tarif du catalogue de notre fournisseur&nbsp;Layher.&nbsp;<br>
+    - Travaux suppl&eacute;mentaires pouvant faire l&apos;objet d&apos;un TS.&nbsp;<br>
+    - Les d&eacute;montages partiels non pr&eacute;vus dans le devis seront en suppl&eacute;ment ainsi que les transports&nbsp;<br>
+    - En cas de non-accessibilit&eacute; ou de retard dans le planning chantier, des frais d&apos;approvisionnement ou de repli &agrave; la grue mobile seront factur&eacute;s&nbsp;<br>
+    - J4R se r&eacute;serve le droit de sous-traiter tout ou partie des travaux de montage et d&eacute;montage de l&apos;&eacute;chafaudage.&nbsp;<br>
+    - La r&eacute;ception des &eacute;chafaudages et l&apos;&eacute;tablissement d&apos;un PV de r&eacute;ception sera r&eacute;alis&eacute; par J4R.&nbsp;<br>
+    - Un planning sign&eacute; par l&apos;ensemble des corps d&apos;&eacute;tats devra &ecirc;tre fourni avant le d&eacute;marrage de notre intervention.&nbsp;<br>
+    - En l&rsquo;absence d&rsquo;ouvrages restants, aucune retenue de garantie ne doit &ecirc;tre envisag&eacute;e&nbsp;<br>
+    - Le pr&eacute;sent march&eacute; porte sur les travaux tels que d&eacute;finis &agrave; la date du pr&eacute;sent devis&nbsp;<br>
+    <strong>Offre valable 2 mois&nbsp;</strong><br>
+';
 
         $devis = new Devis();
         $devis->setTitre($nom);
@@ -79,6 +151,7 @@ class DevisController extends AbstractController
         $devis->setCreateur($this->getUser());
         $devis->setFraisGeneraux(1);
         $devis->setMargeBeneficiaire(1);
+        $devis->setObservations($observations);
 
         //Crée un lot directement dans un nouveau devis
         $lot = $this->initialiseLot($devis, $uniteRepository, $lotRepository);
