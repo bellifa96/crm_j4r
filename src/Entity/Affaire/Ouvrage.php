@@ -103,6 +103,9 @@ class Ouvrage
     #[ORM\Column(nullable: true)]
     private ?float $largeur = null;
 
+    #[ORM\ManyToMany(targetEntity: AutreOuvrage::class, mappedBy: 'ouvrage')]
+    private Collection $autreOuvrages;
+
     public function __construct()
     {
         $this->quantite = 1;
@@ -111,6 +114,7 @@ class Ouvrage
         $this->pourcentageTpsDeReference = 0;
         $this->composants = new ArrayCollection();
         $this->metres = new ArrayCollection();
+        $this->autreOuvrages = new ArrayCollection();
     }
 
     public function __toArray(){
@@ -472,6 +476,33 @@ class Ouvrage
     public function setLargeur(?float $largeur): self
     {
         $this->largeur = $largeur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AutreOuvrage>
+     */
+    public function getAutreOuvrages(): Collection
+    {
+        return $this->autreOuvrages;
+    }
+
+    public function addAutreOuvrage(AutreOuvrage $autreOuvrage): self
+    {
+        if (!$this->autreOuvrages->contains($autreOuvrage)) {
+            $this->autreOuvrages->add($autreOuvrage);
+            $autreOuvrage->addOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAutreOuvrage(AutreOuvrage $autreOuvrage): self
+    {
+        if ($this->autreOuvrages->removeElement($autreOuvrage)) {
+            $autreOuvrage->removeOuvrage($this);
+        }
 
         return $this;
     }

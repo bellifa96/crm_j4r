@@ -138,6 +138,10 @@
         transform-origin: top left;
     }
 
+    .add-row:hover {
+        cursor: pointer;
+    }
+
 </style>
 
 
@@ -456,7 +460,6 @@
             response = JSON.parse(response);
             if (response.code == 200) {
                 if (response.idParent != null) {
-                    console.log('oui');
                     $('#lot-ul-' + response.idParent).append(response.html);
                 } else {
                     console.log(response.html);
@@ -843,6 +846,30 @@
             $("#loader-devis-page").modal("hide");
             $('body').append(data.html);
             $("#modal-import-ouvrage").modal("show");
+            $(document).ready(function () {
+                // Options de personnalisation pour votre DataTable
+                $("#dataTable_AutreOuvrage_" + currentOuvrageId).DataTable({
+                    "lengthMenu": [[5, 10], [5, 10]],
+                    "language": {
+                        "search": "",
+                        "searchPlaceholder": "Rechercher...",
+                    }
+                });
+
+                $("#dataTable_AutreOuvrage_selected_" + currentOuvrageId).DataTable({
+                    "lengthMenu": [[5, 10], [5, 10]],
+                    "language": {
+                        "search": "",
+                        "searchPlaceholder": "Rechercher...",
+                    }
+                });
+
+                // Ajouter la classe 'devis-informations' à l'input de la barre de recherche
+                $("div.dataTables_wrapper input[type='search']").addClass("devis-informations");
+
+                // Ajouter la classe 'devis-informations' au menu déroulant du nombre d'entrées par page
+                $("div.dataTables_wrapper select").addClass("devis-informations");
+            });
             $('#form-' + currentOuvrageId + ' select').each(function () {
                 if ($(this).parent().hasClass('d-none') && $(this).val() != "") {
                     $(this).parent().removeClass('d-none');
@@ -852,6 +879,22 @@
             })
         })
     })
+
+    // Gestionnaire d'événements pour le clic sur l'icône "plus" dans la première DataTable
+    $('body').on('click', '.add-row', function () {
+        // Récupérer les deux DataTables
+        var dataTable1 = $("#dataTable_AutreOuvrage_" + currentOuvrageId).DataTable();
+        var dataTable2 = $("#dataTable_AutreOuvrage_selected_" + currentOuvrageId).DataTable();
+
+        var row = $(this).closest('tr'); // Récupérer la ligne cliquée
+        var rowData = dataTable1.row(row).data(); // Récupérer les données de la ligne
+
+        // Ajouter la ligne à la deuxième DataTable
+        dataTable2.row.add(rowData).draw();
+
+        // Supprimer la ligne de la première DataTable
+        dataTable1.row(row).remove().draw();
+    });
 
     $('body').on('change', '.ouvrage-attribut', function () {
         const step = $(this).parent().parent().attr('step');

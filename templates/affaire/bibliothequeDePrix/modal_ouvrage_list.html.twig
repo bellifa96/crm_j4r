@@ -37,7 +37,7 @@
                                             Type d'ouvrage
                                         </option>
                                         {% for to in typeOuvrages %}
-                                            {% if to.code in ['E', 'P', 'SDA', 'RAM'] %}
+                                            {% if to.code in ['E', 'P', 'SDA', 'RAM', 'A'] %}
                                                 {% if ouvrage.typeOuvrage == to %}
                                                     <option class="text-center fw-bold" value="{{ to.id }}"
                                                             code="{{ to.code }}"
@@ -197,43 +197,80 @@
                             <div class="col-md-12 text-center mb-2"><h5 style="color: #0E4377">Caractéristiques de
                                     l’ouvrage</h5></div>
                             {% for to in typeOuvrages %}
-                                {% for tab in to.attributOuvrages %}
-                                    {% if tab.attributOuvrageTrs is not empty %}
-                                        <div class="col-md-2 mt-2 tab-after to-{{ to.id }} d-none text-center ouvrage-attribut-step-2">
-                                            {% set selected = false %}
-                                            <label class="labels"
-                                                   for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
-                                            <select name="attribut[attributs][{{ tab.titre }}]"
-                                                    id="attribut-attributs-{{ tab.id }}"
-                                                    {% for tdp in to.tableDePrix %}
-                                                        {% if tdp.composant.code is same as 'M' %}
-                                                            cadence="{{ tdp.cadence }}"
+                                {% if to.code is same as "A" %}
+                                    <div class="col-md-8">
+                                        <table class="table datatable text-center"
+                                               id="dataTable_AutreOuvrage_{{ ouvrage.id }}">
+                                            <thead>
+                                            <tr class="tr-head">
+                                                <th>Désignation</th>
+                                                <th>Prix Unitaire</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for autreOuvrage in autresOuvrages %}
+                                                <tr data-id="{{ autreOuvrage.id }}">
+                                                    <td>{{ autreOuvrage.designation }}</td>
+                                                    <td>{{ autreOuvrage.prixUnitaire|number_format(2,',',' ') }}</td>
+                                                    <td><span class="add-row" id="autreOuvrage_{{ autreOuvrage.id }}"><i class="bi bi-plus-square-fill"></i></span></td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table datatable text-center mt-3"
+                                               id="dataTable_AutreOuvrage_selected_{{ ouvrage.id }}">
+                                            <thead>
+                                            <tr class="tr-head">
+                                                <th>Désignation</th>
+                                                <th>Prix Unitaire</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    {% for tab in to.attributOuvrages %}
+                                        {% if tab.attributOuvrageTrs is not empty %}
+                                            <div class="col-md-2 mt-2 tab-after to-{{ to.id }} d-none text-center ouvrage-attribut-step-2">
+                                                {% set selected = false %}
+                                                <label class="labels"
+                                                       for="attribut-attributs-{{ tab.id }}">{{ tab.titre }}</label>
+                                                <select name="attribut[attributs][{{ tab.titre }}]"
+                                                        id="attribut-attributs-{{ tab.id }}"
+                                                        {% for tdp in to.tableDePrix %}
+                                                            {% if tdp.composant.code is same as 'M' %}
+                                                                cadence="{{ tdp.cadence }}"
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
+                                                        required="required">
+                                                    <option {{ selected == false ? 'selected="true"' : '' }}
+                                                            value=""></option>
+                                                    {% for attribut in tab.attributOuvrageTrs %}
+                                                        {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
+                                                            <option value="{{ attribut.id }}" selected
+                                                                    poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
+                                                                    tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
+                                                                {{ attribut.titre }}
+                                                                {% set selected = true %}
+                                                            </option>
+                                                        {% else %}
+                                                            <option value="{{ attribut.id }}"
+                                                                    poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
+                                                                    tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
+                                                                {{ attribut.titre }}
+                                                            </option>
                                                         {% endif %}
                                                     {% endfor %}
-                                                    class="fst-italic chakra-input text-center ouvrage-attribut select-ouvrage attribut-select-step2-{{ to.id }}"
-                                                    required="required">
-                                                <option {{ selected == false ? 'selected="true"' : '' }}
-                                                        value=""></option>
-                                                {% for attribut in tab.attributOuvrageTrs %}
-                                                    {% if ouvrage.attributs is not empty and tab.titre in ouvrage.attributs|keys and ouvrage.attributs[tab.titre] == attribut.id %}
-                                                        <option value="{{ attribut.id }}" selected
-                                                                poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                                tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
-                                                            {{ attribut.titre }}
-                                                            {% set selected = true %}
-                                                        </option>
-                                                    {% else %}
-                                                        <option value="{{ attribut.id }}"
-                                                                poids="{{ attribut.poidsKG is not empty ? attribut.poidsKG : 0 }}"
-                                                                tps="{{ attribut.tps is not empty ? attribut.tps : 0 }}">
-                                                            {{ attribut.titre }}
-                                                        </option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+                                                </select>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>
@@ -441,41 +478,7 @@
         </div>
     </div>
     <script>
-        $(document).ready(function () {
-            $('.select-type-ouvrage').change(function () {
-                var selectElement = $(this);
-                var defaultOption = $('#typeOuvrageDefaultOption');
-
-                if (selectElement.val() === '') {
-                    defaultOption.parent().addClass('fst-italic').removeClass('fw-bold');
-                } else {
-                    defaultOption.parent().removeClass('fst-italic').addClass('fw-bold');
-                }
-            });
-        });
-
-        $(document).ready(function () {
-
-            $(".custom-select select").on("blur", function () {
-                $(this).css("font-style", "inherit");
-            });
-
-            $(".custom-select select option").css("font-style", "normal");
-        });
-
-        $(document).ready(function () {
-            var inputElement = $(`input[placeholder="Dénomination de l'ouvrage"]`);
-
-            inputElement.focus(function () {
-                inputElement.removeClass("placeholder-active");
-            });
-
-            inputElement.blur(function () {
-                if (inputElement.val() === "") {
-                    inputElement.addClass("placeholder-active");
-                }
-            });
-        })
 
     </script>
 </div>
+
