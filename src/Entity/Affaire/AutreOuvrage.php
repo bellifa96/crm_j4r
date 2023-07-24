@@ -58,16 +58,17 @@ class AutreOuvrage
     #[ORM\Column(nullable: true)]
     private ?float $marge = null;
 
-    #[ORM\ManyToMany(targetEntity: Ouvrage::class, inversedBy: 'autreOuvrages')]
-    private Collection $ouvrage;
-
     #[ORM\Column]
     private ?float $prixUnitaire = null;
 
+    #[ORM\OneToMany(mappedBy: 'autreOuvrage', targetEntity: Ouvrage::class)]
+    private Collection $ouvrages;
+
     public function __construct()
     {
-        $this->ouvrage = new ArrayCollection();
+        $this->ouvrages = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -242,30 +243,6 @@ class AutreOuvrage
         return $this;
     }
 
-    /**
-     * @return Collection<int, Ouvrage>
-     */
-    public function getOuvrage(): Collection
-    {
-        return $this->ouvrage;
-    }
-
-    public function addOuvrage(Ouvrage $ouvrage): self
-    {
-        if (!$this->ouvrage->contains($ouvrage)) {
-            $this->ouvrage->add($ouvrage);
-        }
-
-        return $this;
-    }
-
-    public function removeOuvrage(Ouvrage $ouvrage): self
-    {
-        $this->ouvrage->removeElement($ouvrage);
-
-        return $this;
-    }
-
     public function getPrixUnitaire(): ?float
     {
         return $this->prixUnitaire;
@@ -274,6 +251,36 @@ class AutreOuvrage
     public function setPrixUnitaire(float $prixUnitaire): self
     {
         $this->prixUnitaire = $prixUnitaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ouvrage>
+     */
+    public function getOuvrages(): Collection
+    {
+        return $this->ouvrages;
+    }
+
+    public function addOuvrage(Ouvrage $ouvrage): self
+    {
+        if (!$this->ouvrages->contains($ouvrage)) {
+            $this->ouvrages->add($ouvrage);
+            $ouvrage->setAutreOuvrage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOuvrage(Ouvrage $ouvrage): self
+    {
+        if ($this->ouvrages->removeElement($ouvrage)) {
+            // set the owning side to null (unless already changed)
+            if ($ouvrage->getAutreOuvrage() === $this) {
+                $ouvrage->setAutreOuvrage(null);
+            }
+        }
 
         return $this;
     }

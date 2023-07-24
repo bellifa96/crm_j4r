@@ -880,21 +880,27 @@
         })
     })
 
-    // Gestionnaire d'événements pour le clic sur l'icône "plus" dans la première DataTable
+    // Gestionnaire d'événements pour le clic sur l'icône "plus" dans la DataTable
     $('body').on('click', '.add-row', function () {
-        // Récupérer les deux DataTables
-        var dataTable1 = $("#dataTable_AutreOuvrage_" + currentOuvrageId).DataTable();
-        var dataTable2 = $("#dataTable_AutreOuvrage_selected_" + currentOuvrageId).DataTable();
+        var dataTable = $('#dataTable_AutreOuvrage_' + currentOuvrageId).DataTable();
 
-        var row = $(this).closest('tr'); // Récupérer la ligne cliquée
-        var rowData = dataTable1.row(row).data(); // Récupérer les données de la ligne
+        // Recherche dans toute la DataTable les éléments ayant la classe "bi-check-square-fill"
+        var allCheckSquareFillIcons = dataTable.rows().nodes().to$().find(".bi-check-square-fill");
 
-        // Ajouter la ligne à la deuxième DataTable
-        dataTable2.row.add(rowData).draw();
+        // Changer toutes les icônes "bi-check-square-fill" en icônes "bi-plus-square-fill"
+        allCheckSquareFillIcons.removeClass('bi-check-square-fill').addClass('bi-plus-square-fill');
 
-        // Supprimer la ligne de la première DataTable
-        dataTable1.row(row).remove().draw();
-    });
+        // Si aucune icône cochée n'existe, mettre à jour l'icône actuelle en icône cochée
+        $(this).html("<i class='bi bi-check-square-fill'></i>");
+        var id = $(this).closest("tr").data("id");
+        var designation = $(this).closest("tr").find("td:first").text();
+        var prixUnitaire = $(this).closest("tr").find("td:eq(1)").text();
+        $(".selected-autre-ouvrage").html("Vous avez sélectionné : " + designation + " - Prix Unitaire : " + prixUnitaire + "€");
+
+        //Calcul des prix des composants
+        calculPrixUnitaireComposant();
+    })
+
 
     $('body').on('change', '.ouvrage-attribut', function () {
         const step = $(this).parent().parent().attr('step');
@@ -925,6 +931,7 @@
                     $(this).text(unite);
                 }
             })
+            //$("#type_ouvrage_"+currentOuvrageId+" option:selected").attr('code');
             calculPrixUnitaireComposant();
 
 
@@ -967,93 +974,195 @@
 
     function calculPrixUnitaireComposant(update = false) {
         let res = 0;
+        const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
 
+        let quantite = calculMetre("m2");
         let debourseOuvrage = 0;
-        let quantite = calculMetre();
         let quantite2 = parseInt($('.quantite2-modal').val());
         let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
 
+        if (codeOuvrage === "A") {
+            var dataTable = $('#dataTable_AutreOuvrage_' + currentOuvrageId).DataTable();
+            // Recherche dans toute la DataTable les éléments ayant la classe "bi-check-square-fill"
+            var autreOuvrageSelected = dataTable.rows().nodes().to$().find(".bi-check-square-fill").parent();
 
-        const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
-        const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
-        const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val());
-        $(".td-prix-" + currentOuvrageId).each(function () {
-            const variante = parseFloat($(this).attr(codeOuvrage));
-            const code = $(this).attr('code');
-            const cadence = parseFloat($(this).attr('cadence'));
 
-            const idComposant = $(this).attr('id').split("_")[2];
-
-            console.log(variante, k, t, cadence)
-            switch (code) {
-                case "L":
-                    //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
-                    res = variante * k / 1000 / 30;
-                    break;
-                case "M":
-                    //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
-                    // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
-                    res = variante * k / cadence * (1 + (t / 100));
-                    break;
-                case "D":
-                    // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
-                    // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
-                    res = variante * k / cadence * (1 + (t / 100));
-                    break;
-                case "MA":
-                    // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K / 
-                    // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
-                    res = variante * k / cadence;
-                    break;
-                case "MR":
-                    //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
-                    // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
-                    res = variante * k / cadence;
-                    break;
-                case "TA":
-                    // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
-                    res = variante * k / 1000;
-                    break;
-                case "TR":
-                    //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
-                    res = variante * k / 1000;
-                    break;
-                case "ETU":
-                    //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
-                    res = parseFloat($(this).val().replace(',','.'));
-                    break;
+            quantite = calculMetre(autreOuvrageSelected.attr('unite'));
+            if (isNaN(quantite)) {
+                quantite = 0;
             }
-            //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
-            if ($('#' + code + '-' + idComposant).is(':checked')) {
-                if (code === "L") {
-                    debourseOuvrage += res * quantite * quantite2;
-                } else if (code === "ETU") {
-                    debourseOuvrage += res;
-                } else {
-                    debourseOuvrage += res * quantite;
+            console.log('quantite :' +quantite);
+            quantite2 = parseInt(autreOuvrageSelected.attr('dureeLocation'));
+            if (isNaN(quantite2)) {
+                quantite2 = 0;
+            }
+            $('.quantite2-modal').val(quantite2);
+
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                let res = 0;
+                const code = $(this).attr('code');
+                const idComposant = $(this).attr('id').split("_")[2];
+
+                switch (code) {
+                    case "L":
+                        //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
+                        res = parseFloat(autreOuvrageSelected.attr('location'));
+                        break;
+                    case "M":
+                        //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
+                        res = parseFloat(autreOuvrageSelected.attr('montage'));
+                        break;
+                    case "D":
+                        // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
+                        res = parseFloat(autreOuvrageSelected.attr('demontage'));
+                        break;
+                    case "MA":
+                        // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
+                        res = parseFloat(autreOuvrageSelected.attr('manutentionAppro'));
+                        break;
+                    case "MR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
+                        res = parseFloat(autreOuvrageSelected.attr('manutentionRepli'));
+                        break;
+                    case "TA":
+                        // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('transportAller'));
+                        break;
+                    case "TR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('transportRetour'));
+                        break;
+                    case "ETU":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat($(this).val().replace(',', '.'));
+                        break;
+                    case "V":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('vente'));
+                        break;
                 }
-            }
+                if (isNaN(res)) {
+                    res = 0;
+                }
+                //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
+                if ($('#' + code + '-' + idComposant).is(':checked')) {
+                    if (code === "L") {
+                        debourseOuvrage += res * quantite * quantite2;
+                    } else if (code === "ETU") {
+                        debourseOuvrage += res;
+                    } else {
+                        debourseOuvrage += res * quantite;
+                    }
+                }
+                const options = {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                };
+                res = res.toLocaleString('fr-FR', options);
+                $(this).val(res);
+                if (update) {
+                    //modifie la valeur des inputs debourse unitaire des composants
+                    const id = $(this).attr('id').replace('_debourseUnitaireHT_modal', '');
+                    console.log(id)
+                    $("#" + id + "_debourseUnitaireHT").attr('value', res);
 
-            const options = {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            };
-            res = res.toLocaleString('fr-FR', options);
-            $(this).val(res);
-            if (update) {
-                //modifie la valeur des inputs debourse unitaire des composants
-                const id = $(this).attr('id').replace('_debourseUnitaireHT_modal', '');
-                console.log(id)
-                $("#" + id + "_debourseUnitaireHT").attr('value', res);
+                    //modifie la valeur des inputs debourse total des composants
+                    $("#" + id + "_debourseTotalHT").attr('value', parseInt($("#" + id + "_quantite").val()) * res);
 
-                //modifie la valeur des inputs debourse total des composants
-                $("#" + id + "_debourseTotalHT").attr('value', parseInt($("#" + id + "_quantite").val()) * res);
+                    //modifie la valeur des inputs prix de vente des composants
+                    $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
 
-                //modifie la valeur des inputs prix de vente des composants
-                $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
+                }
+            })
+        } else {
+            const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
+            const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val());
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                const variante = parseFloat($(this).attr(codeOuvrage));
+                const code = $(this).attr('code');
+                const cadence = parseFloat($(this).attr('cadence'));
 
-            }
-        })
+                const idComposant = $(this).attr('id').split("_")[2];
+
+                console.log(variante, k, t, cadence)
+                switch (code) {
+                    case "L":
+                        //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
+                        res = variante * k / 1000 / 30;
+                        break;
+                    case "M":
+                        //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
+                        res = variante * k / cadence * (1 + (t / 100));
+                        break;
+                    case "D":
+                        // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
+                        res = variante * k / cadence * (1 + (t / 100));
+                        break;
+                    case "MA":
+                        // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
+                        res = variante * k / cadence;
+                        break;
+                    case "MR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
+                        res = variante * k / cadence;
+                        break;
+                    case "TA":
+                        // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
+                        res = variante * k / 1000;
+                        break;
+                    case "TR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = variante * k / 1000;
+                        break;
+                    case "ETU":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat($(this).val().replace(',', '.'));
+                        break;
+                    case "V":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = 0;
+                        break;
+                }
+                //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
+                if ($('#' + code + '-' + idComposant).is(':checked')) {
+                    if (code === "L") {
+                        debourseOuvrage += res * quantite * quantite2;
+                    } else if (code === "ETU") {
+                        debourseOuvrage += res;
+                    } else {
+                        debourseOuvrage += res * quantite;
+                    }
+                }
+
+                const options = {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                };
+                res = res.toLocaleString('fr-FR', options);
+                $(this).val(res);
+                if (update) {
+                    //modifie la valeur des inputs debourse unitaire des composants
+                    const id = $(this).attr('id').replace('_debourseUnitaireHT_modal', '');
+                    console.log(id)
+                    $("#" + id + "_debourseUnitaireHT").attr('value', res);
+
+                    //modifie la valeur des inputs debourse total des composants
+                    $("#" + id + "_debourseTotalHT").attr('value', parseInt($("#" + id + "_quantite").val()) * res);
+
+                    //modifie la valeur des inputs prix de vente des composants
+                    $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
+
+                }
+            })
+        }
         const options = {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -1267,29 +1376,45 @@
         });
     });
 
-    function calculMetre() {
+    function calculMetre(unite) {
         let quantite = 0;
-        let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
-        $('.hauteur').each(function () {
-            let idHauteur = $(this).attr('id');
-            let hauteur = parseFloat($(this).val().replace(',', '.'));
+        if (unite === "ml" || unite === "unité") {
+            $('.hauteur').each(function () {
+                let idHauteur = $(this).attr('id');
 
-            let sommeLongueur = 0;
-            $('input[hauteur="' + idHauteur + '"]').each(function () {
-                let longueur = parseFloat($(this).val().replace(',', '.'));
-                if (!isNaN(longueur)) {
-                    sommeLongueur += longueur;
+                let sommeLongueur = 0;
+                $('input[hauteur="' + idHauteur + '"]').each(function () {
+                    let longueur = parseFloat($(this).val().replace(',', '.'));
+                    if (!isNaN(longueur)) {
+                        sommeLongueur += longueur;
+                    }
+                });
+                quantite += sommeLongueur;
+            })
+        } else {
+            let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+            $('.hauteur').each(function () {
+                let idHauteur = $(this).attr('id');
+                let hauteur = parseFloat($(this).val().replace(',', '.'));
+
+                let sommeLongueur = 0;
+                $('input[hauteur="' + idHauteur + '"]').each(function () {
+                    let longueur = parseFloat($(this).val().replace(',', '.'));
+                    if (!isNaN(longueur)) {
+                        sommeLongueur += longueur;
+                    }
+                });
+
+                if (!isNaN(hauteur)) {
+                    quantite += sommeLongueur * hauteur;
                 }
-            });
-
-            if (!isNaN(hauteur)) {
-                quantite += sommeLongueur * hauteur;
+                console.log(hauteur, sommeLongueur, quantite);
+            })
+            if (!isNaN(largeur)) {
+                quantite = quantite * largeur;
             }
-            console.log(hauteur, sommeLongueur, quantite);
-        })
-        if (!isNaN(largeur)) {
-            quantite = quantite * largeur;
         }
+        console.log('quantite : ' + quantite);
         return quantite.toFixed(2);
     }
 
