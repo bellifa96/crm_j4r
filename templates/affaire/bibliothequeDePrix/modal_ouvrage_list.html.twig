@@ -199,33 +199,37 @@
                             {% for to in typeOuvrages %}
                                 {% if to.code is same as "A" %}
                                     <div class="col-md-8 ouvrage-{{ ouvrage.id }}-autres ">
-                                        <table class="table datatable text-center"
+                                        <table class="table datatable table-autre-ouvrage text-center"
                                                id="dataTable_AutreOuvrage_{{ ouvrage.id }}">
                                             <thead>
                                             <tr class="tr-head">
                                                 <th>Désignation</th>
                                                 <th>Prix Unitaire</th>
+                                                <th>%Marge</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {% for autreOuvrage in autresOuvrages %}
-                                                <tr data-id="{{ autreOuvrage.id }}">
-                                                    <td>{{ autreOuvrage.designation }}</td>
-                                                    <td>{{ autreOuvrage.prixUnitaire|number_format(2,',',' ') }}</td>
+                                                <tr class="" data-id="{{ autreOuvrage.id }}">
+                                                    <td class="text-start">{{ autreOuvrage.designation }}</td>
+                                                    <td>{{ autreOuvrage.prixUnitaire|number_format(2,',',' ') }}€ /{{ autreOuvrage.unite.label }}</td>
+                                                    <td>{{ autreOuvrage.marge|number_format(3,',',' ') }}</td>
                                                     <td>
-                                                        <span class="add-row" id="autreOuvrage_{{ autreOuvrage.id }}" unite="{{ autreOuvrage.unite.label }}"
+                                                        <span class="add-row" id="autreOuvrage_{{ autreOuvrage.id }}"
+                                                              unite="{{ autreOuvrage.unite.label }}"
+                                                              marge="{{ autreOuvrage.marge }}"
                                                               {{ autreOuvrage.location is not empty ? 'location=' ~ autreOuvrage.location  : '' }}
                                                                 {{ autreOuvrage.dureeLocation is not empty ? 'dureeLocation=' ~ autreOuvrage.dureeLocation  : '' }}
-                                                                {{ autreOuvrage.montage is not empty ? 'montage=' ~ autreOuvrage.montage  : ''}}
-                                                                {{ autreOuvrage.demontage is not empty ? 'demontage=' ~ autreOuvrage.demontage : ''}}
-                                                                {{ autreOuvrage.transportAller is not empty ? 'transportAller=' ~ autreOuvrage.transportAller : ''}}
-                                                                {{ autreOuvrage.transportRetour is not empty ? 'transportRetour=' ~ autreOuvrage.transportRetour : ''}}
-                                                                {{ autreOuvrage.manutentionAppro is not empty ? 'manutentionAppro=' ~ autreOuvrage.manutentionAppro  : ''}}
-                                                                {{ autreOuvrage.manutentionRepli is not empty ? 'manutentionRepli=' ~ autreOuvrage.manutentionRepli  : ''}}
-                                                                {{ autreOuvrage.vente is not empty ? 'vente=' ~ autreOuvrage.vente  : ''}}
-                                                                {{ autreOuvrage.prixUnitaire is not empty ? 'prixUnitaire=' ~ autreOuvrage.prixUnitaire : ''}}>
-                                                            <i class="{{ ouvrage.autreOuvrage is not null and ouvrage.autreOuvrage.id is same as autreOuvrage.id ? 'bi bi-check-square-fill' : 'bi bi-plus-square-fill' }}"></i>
+                                                                {{ autreOuvrage.montage is not empty ? 'montage=' ~ autreOuvrage.montage  : '' }}
+                                                                {{ autreOuvrage.demontage is not empty ? 'demontage=' ~ autreOuvrage.demontage : '' }}
+                                                                {{ autreOuvrage.transportAller is not empty ? 'transportAller=' ~ autreOuvrage.transportAller : '' }}
+                                                                {{ autreOuvrage.transportRetour is not empty ? 'transportRetour=' ~ autreOuvrage.transportRetour : '' }}
+                                                                {{ autreOuvrage.manutentionAppro is not empty ? 'manutentionAppro=' ~ autreOuvrage.manutentionAppro  : '' }}
+                                                                {{ autreOuvrage.manutentionRepli is not empty ? 'manutentionRepli=' ~ autreOuvrage.manutentionRepli  : '' }}
+                                                                {{ autreOuvrage.vente is not empty ? 'vente=' ~ autreOuvrage.vente  : '' }}
+                                                                {{ autreOuvrage.prixUnitaire is not empty ? 'prixUnitaire=' ~ autreOuvrage.prixUnitaire : '' }}>
+                                                            <i style="font-size: 1rem" class="{{ ouvrage.autreOuvrage is not null and ouvrage.autreOuvrage.id is same as autreOuvrage.id ? 'bi bi-check-square-fill' : 'bi bi-plus-square-fill' }}"></i>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -234,8 +238,12 @@
                                         </table>
                                         <div class="selected-autre-ouvrage text-center">
                                             {% if ouvrage.autreOuvrage is not empty %}
-                                                Vous avez selectionné : {{ ouvrage.autreOuvrage.denomination }} - Prix Unitaire : {{ ouvrage.autreOuvrage.prixUnitaire }}€
+                                                <input type="hidden" class="selected-autre-ouvrage"
+                                                       name="attribut[autreOuvrage]" value="{{ ouvrage.autreOuvrage.id }}">
+                                                Vous avez selectionné : {{ ouvrage.autreOuvrage.designation }} - Prix Unitaire : {{ ouvrage.autreOuvrage.prixUnitaire }}€ /{{ ouvrage.autreOuvrage.unite.label }}
                                             {% else %}
+                                                <input type="hidden" class="selected-autre-ouvrage"
+                                                       name="attribut[autreOuvrage]">
                                                 Vous n'avez sélectionné aucun ouvrage.
                                             {% endif %}
                                         </div>
