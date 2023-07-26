@@ -1002,23 +1002,56 @@
         let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
 
         if (codeOuvrage === "A") {
+            $('.largeur-modal').parent().parent().parent().hide();
+            $('.largeur-modal').val('');
+            $('.largeur-modal').attr('required', false);
+            $('.typeOuvrage-classique').hide();
+            $('.typeOuvrage-autre').show();
             var dataTable = $('#dataTable_AutreOuvrage_' + currentOuvrageId).DataTable();
             // Recherche dans toute la DataTable les éléments ayant la classe "bi-check-square-fill"
             var autreOuvrageSelected = dataTable.rows().nodes().to$().find(".bi-check-square-fill").parent();
 
+            if (autreOuvrageSelected.length > 0) {
+                if (autreOuvrageSelected.attr('unite') === "m2") {
+                    quantite = calculMetre(autreOuvrageSelected.attr('unite'));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(quantite.replace('.', ','));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', false);
 
-            quantite = calculMetre(autreOuvrageSelected.attr('unite'));
-            if (isNaN(quantite)) {
-                quantite = 0;
+                    $('.quantite-modal').text(' une surface de ' + quantite.replace('.', ','));
+                    $('.unite-modal').text('m²');
+                } else if (autreOuvrageSelected.attr('unite') === "ml") {
+                    quantite = calculMetre(autreOuvrageSelected.attr('unite'));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(quantite.replace('.', ','));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', false);
+
+                    $('.quantite-modal').text(' une longueur de ' + quantite.replace('.', ','));
+                    $('.unite-modal').text('ml');
+                } else {
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', true);
+                    quantite = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val().replace(',', '.')).toFixed(2);
+
+                    $('.quantite-modal').text(' une quantité de ' + quantite.replace('.', ','));
+                    $('.unite-modal').text('');
+                }
             }
-            console.log('quantite :' +quantite);
-            quantite2 = parseInt(autreOuvrageSelected.attr('dureeLocation'));
-            if (isNaN(quantite2)) {
+            let dureeLocation = parseInt(autreOuvrageSelected.attr('dureeLocation'));
+            if (isNaN(dureeLocation)) {
                 quantite2 = 0;
+                $('.quantite2-modal').val(quantite2);
             }
-            $('.quantite2-modal').val(quantite2);
+            $('#quantite2-modal').text(quantite2);
 
             marge = parseFloat(autreOuvrageSelected.attr('marge'));
+
+            let quantiteM2 = calculMetre("m2");
+            let quantiteML = calculMetre("ml");
+            $('.surface-volume').text('(Surface : ' + quantiteM2.replace('.', ',') + ' m² / Longueur : ' + quantiteML.replace('.', ',') + ' m)');
 
             $(".td-prix-" + currentOuvrageId).each(function () {
                 let res = 0;
@@ -1069,9 +1102,9 @@
                 }
                 if (isNaN(res)) {
                     res = 0;
-                    $('#'+ code+'-'+idComposant).prop('checked', false);
+                    $('#' + code + '-' + idComposant).prop('checked', false);
                 } else {
-                    $('#'+ code+'-'+idComposant).prop('checked', true);
+                    $('#' + code + '-' + idComposant).prop('checked', true);
                 }
                 //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
                 if ($('#' + code + '-' + idComposant).is(':checked')) {
@@ -1104,6 +1137,8 @@
                 }
             })
         } else {
+            $('.typeOuvrage-classique').show();
+            $('.typeOuvrage-autre').hide();
             const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
             const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val());
             $(".td-prix-" + currentOuvrageId).each(function () {
@@ -1186,6 +1221,26 @@
                     $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
 
                 }
+
+                if ($('option:selected', $('.select-type-ouvrage')).attr('unite') === 'm²') {
+                    $('.largeur-modal').parent().parent().parent().hide();
+                    $('.largeur-modal').val('');
+                    $('.largeur-modal').attr('required', false);
+                    $('.surface-volume').text('(Surface : ' + quantite.toString().replace('.', ',') + ' m²)')
+                    $('.quantite-modal').text(' une surface de ' + quantite.toString().replace('.', ','))
+                } else {
+                    $('.largeur-modal').parent().parent().parent().show();
+                    $('.largeur-modal').attr('required', true);
+
+                    let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+                    console.log(largeur);
+                    if (isNaN(largeur)) {
+                        quantite = '0.00';
+                    }
+                    $('.surface-volume').text('(Volume : ' + quantite.toString().replace('.', ',') + ' m³)');
+                    $('.quantite-modal').text('un volume de ' + quantite.toString().replace('.', ','));
+                }
+                $('#quantite2-modal').text(quantite2);
             })
         }
         const options = {
@@ -1196,25 +1251,7 @@
         $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
         $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
-        if ($('option:selected', $('.select-type-ouvrage')).attr('unite') === 'm²') {
-            $('.largeur-modal').parent().parent().parent().hide();
-            $('.largeur-modal').val('');
-            $('.largeur-modal').attr('required', false);
-            $('.surface-volume').text('(Surface : ' + quantite.replace('.', ',') + ' m²)')
-            $('.quantite-modal').text(' une surface de ' + quantite.replace('.', ','))
-        } else {
-            $('.largeur-modal').parent().parent().parent().show();
-            $('.largeur-modal').attr('required', true);
 
-            let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
-            console.log(largeur);
-            if (isNaN(largeur)) {
-                quantite = '0.00';
-            }
-            $('.surface-volume').text('(Volume : ' + quantite.replace('.', ',') + ' m³)');
-            $('.quantite-modal').text('un volume de ' + quantite.replace('.', ','));
-        }
-        $('#quantite2-modal').text(quantite2);
     }
 
     function validateForm() {
@@ -1403,7 +1440,7 @@
 
     function calculMetre(unite) {
         let quantite = 0;
-        if (unite === "ml" || unite === "unité") {
+        if (unite === "ml") {
             $('.hauteur').each(function () {
                 let idHauteur = $(this).attr('id');
 

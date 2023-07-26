@@ -354,7 +354,7 @@
                             </table>
                         </div>
                         <div class="col-md-4">
-                            <div class="col-md-12 zone-attributs">
+                            <div class="col-md-12 zone-attributs typeOuvrage-classique" style="{{ ouvrage.typeOuvrage is empty or ouvrage.typeOuvrage.code is not same as 'A' ? '' : 'display: none'}}">
                                 <div class="row align-items-center">
                                     <div class="col-md-4">
                                         <div class="col-md-12 fw-bold text-center unite-modal kg">
@@ -399,6 +399,59 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12 zone-attributs typeOuvrage-autre" style="{{ ouvrage.typeOuvrage is not empty and ouvrage.typeOuvrage.code is same as 'A' ? '' : 'display: none' }}">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            m²
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255"
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_m2"
+                                                    {% if ouvrage.autreOuvrage is not empty and ouvrage.autreOuvrage.unite.label is same as "m2" %}
+                                                        value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                    {% else %}
+                                                        value="0"
+                                                    {% endif %}
+                                                   class="chakra-input select-ouvrage text-center fw-bold attributs autreOuvrage-m2" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            ml
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255"
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_ml"
+                                                   {% if ouvrage.autreOuvrage is not empty and ouvrage.AutreOuvrage.unite.label is same as "ml" %}
+                                                   value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                   {% else %}
+                                                       value="0"
+                                                   {% endif %}
+                                                   class="chakra-input select-ouvrage text-center fw-bold attributs autreOuvrage-ml" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="col-md-12 fw-bold text-center">
+                                            Nb d'unités
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <input type="text" maxlength="255" onkeyup=calculPrixUnitaireComposant()
+                                                   id="devis_ouvrages_{{ ouvrage.id }}_quantiteUnitaire"
+                                                    {% if ouvrage.autreOuvrage is not empty and ouvrage.autreOuvrage.unite.label not in ['m2','ml'] %}
+                                                        required
+                                                        value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                    {% else %}
+                                                        value="0"
+                                                    {% endif %}
+                                                   class="chakra-input numbers select-ouvrage text-center fw-bold attributs autreOuvrage-unite"
+                                                   name="attribut[quantiteAutreOuvrage]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 zone-attributs mt-5" style="font-size: 0.9rem;">
                                 <div class="col-md-12 justify-content-between mb-3">
                                     <div class="col-md-12 text-start">
@@ -408,11 +461,16 @@
                                                   id="quantite-modal">un volume de {{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
                                             <span class="unite-modal fw-bold"
                                                   id="unite-modal">m&#xB3;</span>
-                                        {% else %}
+                                        {% elseif ouvrage.unite is not empty and ouvrage.unite.label is same as "m2" %}
                                             <span class="quantite-modal fw-bold"
                                                   id="quantite-modal">une surface de {{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
                                             <span class="unite-modal fw-bold"
                                                   id="unite-modal">m²</span>
+                                        {% else %}
+                                            <span class="quantite-modal fw-bold"
+                                                  id="quantite-modal">une quantité de {{ ouvrage.quantite|number_format(2,',',' ')~' ' }}</span>
+                                            <span class="unite-modal fw-bold"
+                                                  id="unite-modal"></span>
                                         {% endif %}
                                         et
                                         {% for composant in ouvrage.composants %}

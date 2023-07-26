@@ -154,9 +154,14 @@ class AttributOuvrageController extends AbstractController
         if ($ouvrage->getTypeOuvrage()->getCode() === "A") {
             $autreOuvrage = $autreOuvrageRepository->find($data['autreOuvrage']);
             $autreOuvrage->addOuvrage($ouvrage);
-            $ouvrage->setUnite($autreOuvrage->getUnite());
+            if ($autreOuvrage->getUnite() === "m2" || $autreOuvrage->getUnite() === "ml") {
+                $ouvrage->setUnite($autreOuvrage->getUnite());
+            } else {
+                $ouvrage->setUnite($uniteRepository->findOneByLabel('unité'));
+            }
+
             $ouvrage->setMarge($autreOuvrage->getMarge());
-            if ($ouvrage->getUnite()->getLabel() !== "m2") {
+            if ($ouvrage->getUnite()->getLabel() === "ml") {
                 foreach ($metreRepository->findAll() as $hauteur) {
                     if ($hauteur->getTypeMetre() === 'hauteur') {
                         if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
@@ -164,7 +169,7 @@ class AttributOuvrageController extends AbstractController
                         }
                     }
                 }
-            } else {
+            } else if ($ouvrage->getUnite()->getLabel() === "m2"){
                 foreach ($metreRepository->findAll() as $hauteur) {
                     if ($hauteur->getTypeMetre() === 'hauteur') {
                         if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
@@ -172,6 +177,9 @@ class AttributOuvrageController extends AbstractController
                         }
                     }
                 }
+            }
+            else {
+                $quantiteOuvrage = $data['quantiteAutreOuvrage'];
             }
         } else {
 
