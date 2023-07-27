@@ -95,6 +95,9 @@ class Devis
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $designationDesTravaux = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaireInterne = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->statut = "Brouillon";
@@ -538,6 +541,18 @@ class Devis
     public function setDesignationDesTravaux(?string $designationDesTravaux): self
     {
         $this->designationDesTravaux = $designationDesTravaux;
+
+        return $this;
+    }
+
+    public function getCommentaireInterne(): ?string
+    {
+        return $this->commentaireInterne;
+    }
+
+    public function setCommentaireInterne(?string $commentaireInterne): self
+    {
+        $this->commentaireInterne = $commentaireInterne;
 
         return $this;
     }

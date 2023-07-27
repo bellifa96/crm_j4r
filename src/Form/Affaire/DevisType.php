@@ -19,6 +19,7 @@ class DevisType extends AbstractType
         $builder
             ->add('designationDesTravaux')
             ->add('observations')
+            ->add('commentaireInterne')
             /*->add('referent', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $entityRepository) {
