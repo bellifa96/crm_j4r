@@ -154,7 +154,7 @@ class AttributOuvrageController extends AbstractController
         if ($ouvrage->getTypeOuvrage()->getCode() === "A") {
             $autreOuvrage = $autreOuvrageRepository->find($data['autreOuvrage']);
             $autreOuvrage->addOuvrage($ouvrage);
-            if ($autreOuvrage->getUnite() === "m2" || $autreOuvrage->getUnite() === "ml") {
+            if ($autreOuvrage->getUnite()->getLabel() === "m2" || $autreOuvrage->getUnite()->getLabel() === "ml") {
                 $ouvrage->setUnite($autreOuvrage->getUnite());
             } else {
                 $ouvrage->setUnite($uniteRepository->findOneByLabel('unité'));

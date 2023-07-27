@@ -100,8 +100,7 @@
                                                     {% endif %}
                                                 {% endfor %}
                                                class="chakra-input select-ouvrage text-center fw-bold numbers quantite2-modal"
-                                               name="attribut[quantite2]" onkeyup=calculPrixUnitaireComposant()
-                                               placeholder="quantité">
+                                               name="attribut[quantite2]" onkeyup=calculPrixUnitaireComposant() required>
                                     </div>
                                     <div class="col-md-4 fw-bold" style="padding: inherit; margin-left: inherit;">
                                         J
@@ -198,7 +197,7 @@
                                     l’ouvrage</h5></div>
                             {% for to in typeOuvrages %}
                                 {% if to.code is same as "A" %}
-                                    <div class="col-md-8 ouvrage-{{ ouvrage.id }}-autres ">
+                                    <div class="col-md-8 ouvrage-{{ ouvrage.id }}-autres" style="{{ ouvrage.typeOuvrage is not empty and ouvrage.typeOuvrage.code is same as "A" ? '' : 'display:none' }}">
                                         <table class="table datatable table-autre-ouvrage text-center"
                                                id="dataTable_AutreOuvrage_{{ ouvrage.id }}">
                                             <thead>
@@ -333,7 +332,7 @@
                                                                 {% for ligne in composant.TypeComposant.tableDePrix %}
                                                                     {{ ligne.typeOuvrage.code~"="~ligne.prix }}
                                                                 {% endfor %}
-                                                               value="{{ composant.debourseUnitaireHT|number_format(3, ',', '') }}"
+                                                               value="{{ composant.debourseUnitaireHT|number_format(2, ',', '') }}"
                                                                name="attribut[composants][{{ composant.id }}]"
                                                                required="required" maxlength="255"
                                                                class="chakra-input select-ouvrage numbers text-end td-prix-{{ ouvrage.id }}"
@@ -409,7 +408,7 @@
                                             <input type="text" maxlength="255"
                                                    id="devis_ouvrages_{{ ouvrage.id }}_m2"
                                                     {% if ouvrage.autreOuvrage is not empty and ouvrage.autreOuvrage.unite.label is same as "m2" %}
-                                                        value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                        value="{{ ouvrage.quantite|number_format(2, ',', ' ') }}"
                                                     {% else %}
                                                         value="0"
                                                     {% endif %}
@@ -424,7 +423,7 @@
                                             <input type="text" maxlength="255"
                                                    id="devis_ouvrages_{{ ouvrage.id }}_ml"
                                                    {% if ouvrage.autreOuvrage is not empty and ouvrage.AutreOuvrage.unite.label is same as "ml" %}
-                                                   value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                   value="{{ ouvrage.quantite|number_format(2, ',', ' ') }}"
                                                    {% else %}
                                                        value="0"
                                                    {% endif %}
@@ -441,7 +440,7 @@
                                                    id="devis_ouvrages_{{ ouvrage.id }}_quantiteUnitaire"
                                                     {% if ouvrage.autreOuvrage is not empty and ouvrage.autreOuvrage.unite.label not in ['m2','ml'] %}
                                                         required
-                                                        value="{{ ouvrage.quantite|number_format(0, ',', ' ') }}"
+                                                        value="{{ ouvrage.quantite|number_format(2, ',', ' ') }}"
                                                     {% else %}
                                                         value="0"
                                                     {% endif %}
@@ -530,7 +529,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary button-pop-up-ouvrage">
                         {{ ouvrage.denomination is empty ? 'Ajouter' : 'Appliquer les modifications' }}
                     </button>
 
