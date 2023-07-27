@@ -951,6 +951,15 @@
                     $(this).text(unite);
                 }
             })
+
+            if ($('option:selected', this).attr('code') === "A") {
+                console.log('non');
+                $('.ouvrage-' + currentOuvrageId + '-autres').show();
+            }else {
+                console.log('oui');
+                $('.ouvrage-' + currentOuvrageId + '-autres').hide();
+            }
+
             //$("#type_ouvrage_"+currentOuvrageId+" option:selected").attr('code');
             calculPrixUnitaireComposant();
 
