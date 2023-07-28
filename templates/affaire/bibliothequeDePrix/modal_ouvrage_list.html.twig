@@ -28,7 +28,7 @@
                                     {% set selected = false %}
                                     <select class="chakra-input ouvrage-attribut select-ouvrage text-center select-type-ouvrage"
                                             name="attribut[TypeOuvrage]" id="type_ouvrage_{{ ouvrage.id }}"
-                                            required="required" onchange="calculPrixUnitaireComposant()"
+                                            required="required"
                                             {{ ouvrage.typeOuvrage is not empty ? 'onmousedown="event.preventDefault();"' : '' }}>
                                         <option {{ selected == false ? 'selected="true"' : '' }}
                                                 class="text-center fst-italic"
@@ -42,8 +42,8 @@
                                                     <option class="text-center fw-bold" value="{{ to.id }}"
                                                             code="{{ to.code }}"
                                                             {% for tdp in to.tableDePrix %}
-                                                                {% if tdp.composant.code is same as 'M' %}
-                                                                    cadence="{{ tdp.cadence }}"
+                                                                {% if tdp.cadence is not empty %}
+                                                                    {{ "cadence"~tdp.composant.code~"="~tdp.cadence }}
                                                                 {% endif %}
                                                             {% endfor %}
                                                             {% if to.code in ['E', 'PAR', 'A'] %}
@@ -57,8 +57,8 @@
                                                     <option class="text-center fw-bold" value="{{ to.id }}"
                                                             style="font-style: inherit"
                                                             {% for tdp in to.tableDePrix %}
-                                                                {% if tdp.composant.code is same as 'M' %}
-                                                                    cadence="{{ tdp.cadence }}"
+                                                                {% if tdp.cadence is not empty %}
+                                                                {{ "cadence"~tdp.composant.code~"="~tdp.cadence }}
                                                                 {% endif %}
                                                             {% endfor %}
                                                             {% if to.code in ['E', 'PAR', 'A'] %}

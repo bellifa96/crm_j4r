@@ -928,7 +928,6 @@
         const step = $(this).parent().parent().attr('step');
         console.log("step : " + step);
         if (step === "1") {
-            let cadenceDeReference = $('option:selected', this).attr('cadence').replace(/[^\d,]/g, "").replace(',', '.');
             let unite = $('option:selected', this).attr('unite');
 
             $(".ouvrage-attribut-step-2").addClass("d-none");
@@ -939,13 +938,18 @@
             $('.attribut-select-step2-' + currentOuvrageTypeId).attr('required', true);
             $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(0);
             $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(0);
+            $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(0);
             $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
                 $(this).val("")
             })
 
             $(".td-prix-" + currentOuvrageId).each(function () {
+                let code = $(this).attr('code').toLowerCase();
+                let cadenceDeReference = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('cadence'+code);
+                console.log('cadence'+code,cadenceDeReference, $('option:selected', this));
                 $(this).attr('cadence', cadenceDeReference);
             })
+
             $(".unite-modal").each(function () {
                 if ($(this).hasClass('kg')) {
                     $(this).text('kg/' + unite);
@@ -979,14 +983,11 @@
             }
             // Récupérer la cadence de l'option sélectionnée
             let cadenceDeReference = $(this).attr('cadence').replace(/[^\d,]/g, "").replace(',', '.');
-            $(".td-prix-" + currentOuvrageId).each(function () {
-                $(this).attr('cadence', cadenceDeReference);
-            })
             let poids = 0;
             let tps = 0;
             $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
                 if (!isNaN(parseFloat($('option:selected', this).attr('poids'))) && !isNaN(parseFloat($('option:selected', this).attr('tps')))) {
-                    console.log(poids, tps)
+                    // console.log(poids, tps)
                     poids += parseFloat($('option:selected', this).attr('poids'));
                     tps += parseFloat($('option:selected', this).attr('tps'));
                 }
@@ -1183,16 +1184,19 @@
         } else {
             $('.typeOuvrage-classique').show();
             $('.typeOuvrage-autre').hide();
-            const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val());
-            const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val());
+            const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val().replace(',','.'));
+            const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val().replace(',','.'));
             $(".td-prix-" + currentOuvrageId).each(function () {
                 const variante = parseFloat($(this).attr(codeOuvrage));
                 const code = $(this).attr('code');
-                const cadence = parseFloat($(this).attr('cadence'));
+                let cadence = 1;
+                if ($(this).attr('cadence')) {
+                    cadence = parseFloat($(this).attr('cadence').replace(',','.'));
+                }
 
                 const idComposant = $(this).attr('id').split("_")[2];
 
-                // console.log(variante, k, t, cadence)
+                 console.log(variante, k, t, cadence);
                 switch (code) {
                     case "L":
                         //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
@@ -1201,12 +1205,12 @@
                     case "M":
                         //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
                         // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
-                        res = variante * k / cadence * (1 + (t / 100));
+                        res = variante * k / cadence * 100 / t;
                         break;
                     case "D":
                         // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
                         // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
-                        res = variante * k / cadence * (1 + (t / 100));
+                        res = variante * k / cadence * 100 / t;
                         break;
                     case "MA":
                         // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K /
@@ -1235,6 +1239,9 @@
                         res = 0;
                         break;
                 }
+                if (isNaN(res)) {
+                    res = 0;
+                }
 
                 //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
                 if ($('#' + code + '-' + idComposant).is(':checked')) {
@@ -1246,7 +1253,7 @@
                         debourseOuvrage += res * quantite;
                     }
                 }
-                console.log(debourseOuvrage, res, quantite, quantite2);
+                //console.log(debourseOuvrage, res, quantite, quantite2);
 
                 const options = {
                     minimumFractionDigits: 2,
@@ -1515,7 +1522,7 @@
                 if (!isNaN(hauteur)) {
                     quantite += sommeLongueur * hauteur;
                 }
-                console.log(hauteur, sommeLongueur, quantite);
+                //console.log(hauteur, sommeLongueur, quantite);
             })
             if (unite === "m3"){
                 let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
