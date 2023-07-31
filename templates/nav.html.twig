@@ -129,14 +129,6 @@
                     </li>
 
                     {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles %}
-                        <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_bibliotheque_de_prix' ? 'active' }} ">
-                            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}"
-                               class="sidebar-link  ">
-                                <i class="bi bi-currency-dollar"></i>
-                                <span> Bibliothèque de prix </span>
-                            </a>
-                        </li>
-
                         <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }} ">
                             <a href="{{ path('app_affaire_type_composant_index') }}"
                                class="sidebar-link  ">
