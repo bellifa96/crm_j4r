@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AutreOuvrage{% endblock %}
+
+{% block body %}
+    <h1>Edit AutreOuvrage</h1>
+
+    {{ include('affaire/autre_ouvrage/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_affaire_autre_ouvrage_index') }}">back to list</a>
+
+    {{ include('affaire/autre_ouvrage/_delete_form.html.twig') }}
+{% endblock %}

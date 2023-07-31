@@ -100,7 +100,7 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item ">
+                    {# <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-stack"></i>
                             <span>Taches</span>
@@ -112,7 +112,7 @@
                             <i class="bi bi-bar-chart-line"></i>
                             <span>Forecast</span>
                         </a>
-                    </li>
+                    </li> #}
                 </ul>
             </li>
 
@@ -128,46 +128,38 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_bibliotheque_de_prix' ? 'active' }} ">
-                        <a href="{{ path('app_affaire_bibliotheque_de_prix') }}"
-                           class="sidebar-link  ">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span> Bibliothèque de prix </span>
-                        </a>
-                    </li>
+                    {% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles %}
+                        <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_bibliotheque_de_prix' ? 'active' }} ">
+                            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}"
+                               class="sidebar-link  ">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span> Bibliothèque de prix </span>
+                            </a>
+                        </li>
 
+                        <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }} ">
+                            <a href="{{ path('app_affaire_type_composant_index') }}"
+                               class="sidebar-link  ">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span> Gestion des composants </span>
+                            </a>
+                        </li>
 
-
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }} ">
-                        <a href="{{ path('app_affaire_type_composant_index') }}"
-                           class="sidebar-link  ">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span> Type de composant </span>
-                        </a>
-                    </li>
-                    
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_ouvrage_index' ? 'active' }} ">
-                        <a href="{{ path('app_affaire_type_ouvrage_index') }}"
-                           class="sidebar-link  ">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span> Type d'ourvage </span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_categorie_index' ? 'active' }} ">
-                        <a href="{{ path('app_affaire_categorie_index') }}"
-                           class="sidebar-link  ">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span> Catégorie composant </span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_categorie_ouvrage_index' ? 'active' }} ">
-                        <a href="{{ path('app_affaire_categorie_ouvrage_index') }}"
-                           class="sidebar-link  ">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span> Catégorie ouvrage  </span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item ">
+                        <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_ouvrage_index' ? 'active' }} ">
+                            <a href="{{ path('app_affaire_type_ouvrage_index') }}"
+                               class="sidebar-link  ">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span> Gestion des ouvrages </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  {{ app.request.get('_route') == 'app_unite_index' ? 'active' }}">
+                            <a href="{{ path('app_unite_index') }}" class="sidebar-link">
+                                <i class="bi bi-stack"></i>
+                                <span>Gestion des unités</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {# <li class="sidebar-item ">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-stack"></i>
                             <span>Taches</span>
@@ -179,13 +171,13 @@
                             <i class="bi bi-bar-chart-line"></i>
                             <span>Forecast</span>
                         </a>
-                    </li>
+                    </li> #}
                 </ul>
             </li>
 
             <li class="sidebar-title">
                 Chantier
-                <ul>
+                {# <ul>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-list-ul"></i>
@@ -206,7 +198,7 @@
                             <span>YTD</span>
                         </a>
                     </li>
-                </ul>
+                </ul> #}
             </li>
 
 
@@ -229,7 +221,7 @@
             <li class="sidebar-title">
                 Analyse
 
-                <ul>
+                {# <ul>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-clock-history"></i>
@@ -248,9 +240,8 @@
                             <span> Statistiques </span>
                         </a>
                     </li>
-                </ul>
+                </ul> #}
             </li>
-
 
 
             <li class="sidebar-title">
@@ -322,16 +313,6 @@
                             <span>Services</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ app.request.get('_route') == 'app_unite_index' ? 'active' }}">
-                        <a href="{{ path('app_unite_index') }}" class="sidebar-link">
-                            <i class="bi bi-stack"></i>
-                            <span>Unité</span>
-                        </a>
-                    </li>
-                    
-
-
-
                 </ul>
             </li>
 

@@ -5,6 +5,8 @@ namespace App\Controller\Affaire;
 use App\Entity\Affaire\TableDePrix;
 use App\Entity\Affaire\TypeComposant;
 use App\Form\Affaire\TypeComposantType;
+use App\Repository\Affaire\ComposantRepository;
+use App\Repository\Affaire\OuvrageRepository;
 use App\Repository\Affaire\TableDePrixRepository;
 use App\Repository\Affaire\TypeComposantRepository;
 use App\Repository\Affaire\TypeOuvrageRepository;
@@ -17,10 +19,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class TypeComposantController extends AbstractController
 {
     #[Route('/', name: 'app_affaire_type_composant_index', methods: ['GET'])]
-    public function index(TypeComposantRepository $typeComposantRepository): Response
+    public function index(TypeComposantRepository $typeComposantRepository, TypeOuvrageRepository $typeOuvrageRepository, TableDePrixRepository $tableDePrixRepository, OuvrageRepository $ouvrageRepository, ComposantRepository $composantRepository): Response
     {
+        $ouvrages = $ouvrageRepository->findByStatut(null);
+        $composants = $composantRepository->findByStatut(null);
+
+        foreach($composants as $composant){
+            if(empty($composant->getDenomination())){
+                $composant->setDenomination($composant->getTypeComposant()->getTitre());
+                $composantRepository->add($composant);
+            }
+        }
         return $this->render('affaire/type_composant/index.html.twig', [
-            'type_composants' => $typeComposantRepository->findAll(),
+            'ouvrages' => $ouvrages,
+            'composants' => $composants,
+            'typeComposants' => $typeComposantRepository->findAll(),
+            'typeOuvrages' => $typeOuvrageRepository->findAll(),
+            'tableDePrix' => $tableDePrixRepository->findAll(),
             'title'=> 'Liste des composants',
             'nav'=> [['app_affaire_type_composant_new','Type +']]
         ]);

@@ -1,0 +1,236 @@
+<style>
+    .col-md-2-5 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #1ab2e4
+    }
+
+    .profile-button {
+        background: #1ab2e4;
+        box-shadow: none;
+        border: none
+    }
+
+    .profile-button:hover {
+        background: #1ab2e4
+    }
+
+    .profile-button:focus {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #1ab2e4;
+        cursor: pointer
+    }
+
+    h6 {
+        color: #0d4377;
+        text-align: center;
+    }
+
+    .labels {
+        font-size: 11px;
+        color: #0d4377;
+        font-weight: bold;
+    }
+
+    .add-service {
+        color: black;
+    }
+
+    .add-service:hover {
+        background: #BA68C8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #BA68C8
+    }
+
+
+    section {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    section > div {
+        flex: 1;
+        padding: 0.5rem;
+    }
+
+    .te {
+        display: none;
+    }
+
+    .te:not(:disabled) ~ .te-label {
+        cursor: pointer;
+    }
+
+    .te:disabled ~ .te-label {
+        color: #bcc2bf;
+        border-color: #bcc2bf;
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+
+    .te-label {
+
+        font-weight: 900;
+        height: 100%;
+        display: block;
+        color: #0d4377;
+        background: white;
+        border: 2px solid #0d4377;
+        border-radius: 20px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 3px 5px -2px rgba(161, 170, 166, 0.5);
+        position: relative;
+    }
+
+    .te:checked + .te-label {
+        background: #0d4377;
+        color: white;
+        box-shadow: 0 0 5px #0d4377;
+    }
+
+    .te:checked + .te-label::after {
+        color: #3d3f43;
+        border: 2px solid #0d4377;
+        content: "✔";
+        color: #0d4377;
+        font-size: 24px;
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
+    }
+
+
+    @media only screen and (max-width: 700px) {
+        section {
+            flex-direction: column;
+        }
+    }
+
+    label {
+        color: #0d4377;
+    }
+</style>
+{{ form_start(form) }}
+<div class="page-block col-md-10 m-auto">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Désignation</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.designation, {'attr': {'class': 'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Location</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.location, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.location}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Montage</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.montage, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.montage}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Transport Aller</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.transportAller, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.transportAller}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Manutention appro</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.manutentionAppro, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.manutentionAppro}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">%Marge</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.marge, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.marge}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Ventes</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.vente, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.vente}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Demontage</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.demontage, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.demontage}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Transport Retour</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.transportRetour, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.transportRetour}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Manutention Repli</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.manutentionRepli, {'attr': {'class': 'form-control form-control-sm-2'}, 'value': autre_ouvrage_data.manutentionRepli}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Enregistrer</button>
+{{ form_end(form) }}

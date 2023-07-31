@@ -256,18 +256,25 @@ class AttributOuvrageController extends AbstractController
     public function editTableAttribut(Request $request, AttributOuvrageRepository $attributOuvrageRepository): Response
     {
         $data = $request->request->all();
-        // dd($data);
 
-        foreach ($data['attributs'] as $updatedAttribut) {
-            $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
-            $attribut->setTitre($updatedAttribut['titre']);
-            is_numeric($updatedAttribut['poids']) ? $attribut->setPoidsKG(floatval($updatedAttribut['poids'])) : $attribut->setPoidsKG(null);
-            $attribut->setTps($updatedAttribut['temps']);
+        try {
+            foreach ($data['attributs'] as $updatedAttribut) {
+                $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
+                $attribut->setTitre($updatedAttribut['titre']);
+                if (is_numeric($updatedAttribut['poids'])) {
+                    $attribut->setPoidsKG(floatval($updatedAttribut['poids']));
+                } else {
+                    $attribut->setPoidsKG(null);
+                }
+                $attribut->setTps($updatedAttribut['temps']);
 
-            // dd($updatedAttribut, $attribut);
-            $attributOuvrageRepository->save($attribut);
+                $attributOuvrageRepository->save($attribut);
+            }
+
+            return new Response(json_encode(['code' => 200]));
+        } catch (\Exception $e) {
+            return new Response(json_encode(['code' => 500, 'message' => 'Une erreur est survenue lors de la mise à jour des données.']));
         }
-
-        return new Response(json_encode(['code' => 200]));
     }
+
 }
