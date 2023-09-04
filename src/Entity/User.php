@@ -7,7 +7,6 @@ use App\Entity\Affaire\Evenement;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Transport;
 use App\Entity\Conversation\Message;
-use App\Entity\Entite\Depot;
 use App\Entity\Entite\Entite;
 use App\Entity\Ged\Fichier;
 use App\Entity\User\Poste;
@@ -73,9 +72,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(targetEntity: Poste::class, inversedBy: 'users')]
     private $poste;
-
-    #[ORM\ManyToMany(targetEntity: Depot::class, mappedBy: 'users')]
-    private $depots;
 
     #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Fichier::class)]
     private $fichiers;
@@ -160,7 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isActif = false;
         $this->locked = false;
-        $this->depots = new ArrayCollection();
         $this->fichiers = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->evenements = new ArrayCollection();
@@ -328,33 +323,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoste(?Poste $poste): self
     {
         $this->poste = $poste;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Depot>
-     */
-    public function getDepots(): Collection
-    {
-        return $this->depots;
-    }
-
-    public function addDepot(Depot $depot): self
-    {
-        if (!$this->depots->contains($depot)) {
-            $this->depots[] = $depot;
-            $depot->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDepot(Depot $depot): self
-    {
-        if ($this->depots->removeElement($depot)) {
-            $depot->removeUser($this);
-        }
 
         return $this;
     }

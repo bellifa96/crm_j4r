@@ -40,10 +40,6 @@ class SousEntite
 
     #[ORM\Column(type: 'string', length: 255)]
     private $type;
-
-    #[ORM\OneToOne(mappedBy: 'sousEntite', targetEntity: Depot::class, cascade: ['persist', 'remove'])]
-    private $depot;
-
     #[ORM\ManyToOne(targetEntity: Entite::class, inversedBy: 'sousEntites')]
     private $entite;
 
@@ -144,35 +140,6 @@ class SousEntite
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getDepot(): ?Depot
-    {
-        return $this->depot;
-    }
-
-    public function setDepot(Depot $depot): self
-    {
-        // set the owning side of the relation if necessary
-        if ($depot->getSousEntite() !== $this) {
-            $depot->setSousEntite($this);
-        }
-
-        $this->depot = $depot;
-
-        return $this;
-    }
-
-    public function getEntite(): ?Entite
-    {
-        return $this->entite;
-    }
-
-    public function setEntite(?Entite $entite): self
-    {
-        $this->entite = $entite;
 
         return $this;
     }
