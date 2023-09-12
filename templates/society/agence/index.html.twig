@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agence index{% endblock %}
+
+{% block body %}
+    <h1>Agence index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Agence</th>
+                <th>NomAgence</th>
+                <th>AdresseAgence</th>
+                <th>AdresseAgence2</th>
+                <th>CpAgence</th>
+                <th>VilleAgence</th>
+                <th>ContactNom</th>
+                <th>ContactPrenom</th>
+                <th>ContactTel</th>
+                <th>ContactPortable</th>
+                <th>InfoOuverture</th>
+                <th>ContactEmail</th>
+                <th>Commentaires</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agence in agences %}
+            <tr>
+                <td>{{ agence.id }}</td>
+                <td>{{ agence.Agence }}</td>
+                <td>{{ agence.NomAgence }}</td>
+                <td>{{ agence.AdresseAgence }}</td>
+                <td>{{ agence.AdresseAgence2 }}</td>
+                <td>{{ agence.CpAgence }}</td>
+                <td>{{ agence.VilleAgence }}</td>
+                <td>{{ agence.ContactNom }}</td>
+                <td>{{ agence.ContactPrenom }}</td>
+                <td>{{ agence.ContactTel }}</td>
+                <td>{{ agence.ContactPortable }}</td>
+                <td>{{ agence.InfoOuverture }}</td>
+                <td>{{ agence.ContactEmail }}</td>
+                <td>{{ agence.Commentaires }}</td>
+                <td>
+                    <a href="{{ path('app_society_agence_show', {'id': agence.id}) }}">show</a>
+                    <a href="{{ path('app_society_agence_edit', {'id': agence.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_society_agence_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Depot{% endblock %}
+
+{% block body %}
+    <h1>Depot</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ depot.id }}</td>
+            </tr>
+            <tr>
+                <th>CodeDepot</th>
+                <td>{{ depot.CodeDepot }}</td>
+            </tr>
+            <tr>
+                <th>NomDepot</th>
+                <td>{{ depot.NomDepot }}</td>
+            </tr>
+            <tr>
+                <th>AdresseDepot</th>
+                <td>{{ depot.AdresseDepot }}</td>
+            </tr>
+            <tr>
+                <th>AdresseDepot2</th>
+                <td>{{ depot.AdresseDepot2 }}</td>
+            </tr>
+            <tr>
+                <th>CpDepot</th>
+                <td>{{ depot.CpDepot }}</td>
+            </tr>
+            <tr>
+                <th>VilleDepot</th>
+                <td>{{ depot.VilleDepot }}</td>
+            </tr>
+            <tr>
+                <th>ContactNom</th>
+                <td>{{ depot.ContactNom }}</td>
+            </tr>
+            <tr>
+                <th>ContactPrenom</th>
+                <td>{{ depot.ContactPrenom }}</td>
+            </tr>
+            <tr>
+                <th>ContactTel</th>
+                <td>{{ depot.ContactTel }}</td>
+            </tr>
+            <tr>
+                <th>ContactPortable</th>
+                <td>{{ depot.ContactPortable }}</td>
+            </tr>
+            <tr>
+                <th>InfoOuverture</th>
+                <td>{{ depot.InfoOuverture }}</td>
+            </tr>
+            <tr>
+                <th>ContactEmail</th>
+                <td>{{ depot.ContactEmail }}</td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td>{{ depot.commentaires }}</td>
+            </tr>
+            <tr>
+                <th>IdAgence</th>
+                <td>{{ depot.IdAgence }}</td>
+            </tr>
+            <tr>
+                <th>CodeChantier</th>
+                <td>{{ depot.CodeChantier }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_society_depot_index') }}">back to list</a>
+
+    <a href="{{ path('app_society_depot_edit', {'id': depot.id}) }}">edit</a>
+
+    {{ include('society/depot/_delete_form.html.twig') }}
+{% endblock %}

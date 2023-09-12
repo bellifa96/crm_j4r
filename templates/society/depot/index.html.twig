@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Depot index{% endblock %}
+
+{% block body %}
+    <h1>Depot index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CodeDepot</th>
+                <th>NomDepot</th>
+                <th>AdresseDepot</th>
+                <th>AdresseDepot2</th>
+                <th>CpDepot</th>
+                <th>VilleDepot</th>
+                <th>ContactNom</th>
+                <th>ContactPrenom</th>
+                <th>ContactTel</th>
+                <th>ContactPortable</th>
+                <th>InfoOuverture</th>
+                <th>ContactEmail</th>
+                <th>Commentaires</th>
+                <th>IdAgence</th>
+                <th>CodeChantier</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for depot in depots %}
+            <tr>
+                <td>{{ depot.id }}</td>
+                <td>{{ depot.CodeDepot }}</td>
+                <td>{{ depot.NomDepot }}</td>
+                <td>{{ depot.AdresseDepot }}</td>
+                <td>{{ depot.AdresseDepot2 }}</td>
+                <td>{{ depot.CpDepot }}</td>
+                <td>{{ depot.VilleDepot }}</td>
+                <td>{{ depot.ContactNom }}</td>
+                <td>{{ depot.ContactPrenom }}</td>
+                <td>{{ depot.ContactTel }}</td>
+                <td>{{ depot.ContactPortable }}</td>
+                <td>{{ depot.InfoOuverture }}</td>
+                <td>{{ depot.ContactEmail }}</td>
+                <td>{{ depot.commentaires }}</td>
+                <td>{{ depot.IdAgence }}</td>
+                <td>{{ depot.CodeChantier }}</td>
+                <td>
+                    <a href="{{ path('app_society_depot_show', {'id': depot.id}) }}">show</a>
+                    <a href="{{ path('app_society_depot_edit', {'id': depot.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_society_depot_new') }}">Create new</a>
+{% endblock %}

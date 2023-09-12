@@ -2,11 +2,11 @@
 
 namespace App\Entity\Society;
 
-use App\Repository\Society\DepotRepository;
+use App\Repository\Society\AgenceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DepotRepository::class)]
-class Depot
+#[ORM\Entity(repositoryClass: AgenceRepository::class)]
+class Agence
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,27 +14,27 @@ class Depot
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $CodeDepot = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $NomDepot = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $AdresseDepot = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $AdresseDepot2 = null;
-
-    #[ORM\Column(length: 10)]
-    private ?string $CpDepot = null;
+    private ?int $Agence = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $VilleDepot = null;
+    private ?string $NomAgence = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 255)]
+    private ?string $AdresseAgence = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $AdresseAgence2 = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $CpAgence = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $VilleAgence = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $ContactNom = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $ContactPrenom = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -46,91 +46,85 @@ class Depot
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $InfoOuverture = null;
 
-    #[ORM\Column(length: 150, nullable: true)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $ContactEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $commentaires = null;
-
-    #[ORM\Column]
-    private ?int $IdAgence = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $CodeChantier = null;
+    private ?string $Commentaires = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCodeDepot(): ?int
+    public function getAgence(): ?int
     {
-        return $this->CodeDepot;
+        return $this->Agence;
     }
 
-    public function setCodeDepot(int $CodeDepot): self
+    public function setAgence(int $Agence): self
     {
-        $this->CodeDepot = $CodeDepot;
+        $this->Agence = $Agence;
 
         return $this;
     }
 
-    public function getNomDepot(): ?string
+    public function getNomAgence(): ?string
     {
-        return $this->NomDepot;
+        return $this->NomAgence;
     }
 
-    public function setNomDepot(string $NomDepot): self
+    public function setNomAgence(string $NomAgence): self
     {
-        $this->NomDepot = $NomDepot;
+        $this->NomAgence = $NomAgence;
 
         return $this;
     }
 
-    public function getAdresseDepot(): ?string
+    public function getAdresseAgence(): ?string
     {
-        return $this->AdresseDepot;
+        return $this->AdresseAgence;
     }
 
-    public function setAdresseDepot(string $AdresseDepot): self
+    public function setAdresseAgence(string $AdresseAgence): self
     {
-        $this->AdresseDepot = $AdresseDepot;
+        $this->AdresseAgence = $AdresseAgence;
 
         return $this;
     }
 
-    public function getAdresseDepot2(): ?string
+    public function getAdresseAgence2(): ?string
     {
-        return $this->AdresseDepot2;
+        return $this->AdresseAgence2;
     }
 
-    public function setAdresseDepot2(?string $AdresseDepot2): self
+    public function setAdresseAgence2(?string $AdresseAgence2): self
     {
-        $this->AdresseDepot2 = $AdresseDepot2;
+        $this->AdresseAgence2 = $AdresseAgence2;
 
         return $this;
     }
 
-    public function getCpDepot(): ?string
+    public function getCpAgence(): ?string
     {
-        return $this->CpDepot;
+        return $this->CpAgence;
     }
 
-    public function setCpDepot(string $CpDepot): self
+    public function setCpAgence(string $CpAgence): self
     {
-        $this->CpDepot = $CpDepot;
+        $this->CpAgence = $CpAgence;
 
         return $this;
     }
 
-    public function getVilleDepot(): ?string
+    public function getVilleAgence(): ?string
     {
-        return $this->VilleDepot;
+        return $this->VilleAgence;
     }
 
-    public function setVilleDepot(string $VilleDepot): self
+    public function setVilleAgence(string $VilleAgence): self
     {
-        $this->VilleDepot = $VilleDepot;
+        $this->VilleAgence = $VilleAgence;
 
         return $this;
     }
@@ -209,36 +203,12 @@ class Depot
 
     public function getCommentaires(): ?string
     {
-        return $this->commentaires;
+        return $this->Commentaires;
     }
 
-    public function setCommentaires(?string $commentaires): self
+    public function setCommentaires(?string $Commentaires): self
     {
-        $this->commentaires = $commentaires;
-
-        return $this;
-    }
-
-    public function getIdAgence(): ?int
-    {
-        return $this->IdAgence;
-    }
-
-    public function setIdAgence(int $IdAgence): self
-    {
-        $this->IdAgence = $IdAgence;
-
-        return $this;
-    }
-
-    public function getCodeChantier(): ?int
-    {
-        return $this->CodeChantier;
-    }
-
-    public function setCodeChantier(?int $CodeChantier): self
-    {
-        $this->CodeChantier = $CodeChantier;
+        $this->Commentaires = $Commentaires;
 
         return $this;
     }

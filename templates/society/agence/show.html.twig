@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agence{% endblock %}
+
+{% block body %}
+    <h1>Agence</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ agence.id }}</td>
+            </tr>
+            <tr>
+                <th>Agence</th>
+                <td>{{ agence.Agence }}</td>
+            </tr>
+            <tr>
+                <th>NomAgence</th>
+                <td>{{ agence.NomAgence }}</td>
+            </tr>
+            <tr>
+                <th>AdresseAgence</th>
+                <td>{{ agence.AdresseAgence }}</td>
+            </tr>
+            <tr>
+                <th>AdresseAgence2</th>
+                <td>{{ agence.AdresseAgence2 }}</td>
+            </tr>
+            <tr>
+                <th>CpAgence</th>
+                <td>{{ agence.CpAgence }}</td>
+            </tr>
+            <tr>
+                <th>VilleAgence</th>
+                <td>{{ agence.VilleAgence }}</td>
+            </tr>
+            <tr>
+                <th>ContactNom</th>
+                <td>{{ agence.ContactNom }}</td>
+            </tr>
+            <tr>
+                <th>ContactPrenom</th>
+                <td>{{ agence.ContactPrenom }}</td>
+            </tr>
+            <tr>
+                <th>ContactTel</th>
+                <td>{{ agence.ContactTel }}</td>
+            </tr>
+            <tr>
+                <th>ContactPortable</th>
+                <td>{{ agence.ContactPortable }}</td>
+            </tr>
+            <tr>
+                <th>InfoOuverture</th>
+                <td>{{ agence.InfoOuverture }}</td>
+            </tr>
+            <tr>
+                <th>ContactEmail</th>
+                <td>{{ agence.ContactEmail }}</td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td>{{ agence.Commentaires }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_society_agence_index') }}">back to list</a>
+
+    <a href="{{ path('app_society_agence_edit', {'id': agence.id}) }}">edit</a>
+
+    {{ include('society/agence/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+    <h1>Articles</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ article.id }}</td>
+            </tr>
+            <tr>
+                <th>Depot</th>
+                <td>{{ article.Depot }}</td>
+            </tr>
+            <tr>
+                <th>Article</th>
+                <td>{{ article.Article }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ article.Designation }}</td>
+            </tr>
+            <tr>
+                <th>PrixVente</th>
+                <td>{{ article.PrixVente }}</td>
+            </tr>
+            <tr>
+                <th>PrixLoc</th>
+                <td>{{ article.PrixLoc }}</td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td>{{ article.Poids }}</td>
+            </tr>
+            <tr>
+                <th>Vente</th>
+                <td>{{ article.Vente ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ article.Location ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Consommable</th>
+                <td>{{ article.Consommable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Conditionnement</th>
+                <td>{{ article.Conditionnement ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>QteTotale</th>
+                <td>{{ article.QteTotale }}</td>
+            </tr>
+            <tr>
+                <th>QteDispo</th>
+                <td>{{ article.QteDispo }}</td>
+            </tr>
+            <tr>
+                <th>QteSortie</th>
+                <td>{{ article.QteSortie }}</td>
+            </tr>
+            <tr>
+                <th>QteReserve</th>
+                <td>{{ article.QteReserve }}</td>
+            </tr>
+            <tr>
+                <th>QteTransit</th>
+                <td>{{ article.QteTransit }}</td>
+            </tr>
+            <tr>
+                <th>QteTemp</th>
+                <td>{{ article.QteTemp }}</td>
+            </tr>
+            <tr>
+                <th>DateAchat</th>
+                <td>{{ article.DateAchat ? article.DateAchat|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateAchatInv</th>
+                <td>{{ article.DateAchatInv }}</td>
+            </tr>
+            <tr>
+                <th>Commentaires</th>
+                <td>{{ article.Commentaires }}</td>
+            </tr>
+            <tr>
+                <th>DateSaisie</th>
+                <td>{{ article.DateSaisie ? article.DateSaisie|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateSaisieInv</th>
+                <td>{{ article.DateSaisieInv }}</td>
+            </tr>
+            <tr>
+                <th>Emplacement</th>
+                <td>{{ article.Emplacement }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ article.Image }}</td>
+            </tr>
+            <tr>
+                <th>AControler</th>
+                <td>{{ article.AControler ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Fournisseur</th>
+                <td>{{ article.Fournisseur }}</td>
+            </tr>
+            <tr>
+                <th>RefFourn</th>
+                <td>{{ article.RefFourn }}</td>
+            </tr>
+            <tr>
+                <th>OldPrixV</th>
+                <td>{{ article.OldPrixV }}</td>
+            </tr>
+            <tr>
+                <th>OldPrixL</th>
+                <td>{{ article.OldPrixL }}</td>
+            </tr>
+            <tr>
+                <th>OldPoids</th>
+                <td>{{ article.OldPoids }}</td>
+            </tr>
+            <tr>
+                <th>DateChange</th>
+                <td>{{ article.DateChange ? article.DateChange|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateChangeInv</th>
+                <td>{{ article.DateChangeInv }}</td>
+            </tr>
+            <tr>
+                <th>QteHs</th>
+                <td>{{ article.QteHs }}</td>
+            </tr>
+            <tr>
+                <th>QteAchat</th>
+                <td>{{ article.QteAchat }}</td>
+            </tr>
+            <tr>
+                <th>Agence</th>
+                <td>{{ article.Agence }}</td>
+            </tr>
+            <tr>
+                <th>QteLocTheorique</th>
+                <td>{{ article.QteLocTheorique }}</td>
+            </tr>
+            <tr>
+                <th>QteLocReelle</th>
+                <td>{{ article.QteLocReelle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transport_articles_index') }}">back to list</a>
+
+    <a href="{{ path('app_transport_articles_edit', {'id': article.id}) }}">edit</a>
+
+    {{ include('transport/articles/_delete_form.html.twig') }}
+{% endblock %}

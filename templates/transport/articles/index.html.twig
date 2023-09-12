@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles index{% endblock %}
+
+{% block body %}
+    <h1>Articles index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Depot</th>
+                <th>Article</th>
+                <th>Designation</th>
+                <th>PrixVente</th>
+                <th>PrixLoc</th>
+                <th>Poids</th>
+                <th>Vente</th>
+                <th>Location</th>
+                <th>Consommable</th>
+                <th>Conditionnement</th>
+                <th>QteTotale</th>
+                <th>QteDispo</th>
+                <th>QteSortie</th>
+                <th>QteReserve</th>
+                <th>QteTransit</th>
+                <th>QteTemp</th>
+                <th>DateAchat</th>
+                <th>DateAchatInv</th>
+                <th>Commentaires</th>
+                <th>DateSaisie</th>
+                <th>DateSaisieInv</th>
+                <th>Emplacement</th>
+                <th>Image</th>
+                <th>AControler</th>
+                <th>Fournisseur</th>
+                <th>RefFourn</th>
+                <th>OldPrixV</th>
+                <th>OldPrixL</th>
+                <th>OldPoids</th>
+                <th>DateChange</th>
+                <th>DateChangeInv</th>
+                <th>QteHs</th>
+                <th>QteAchat</th>
+                <th>Agence</th>
+                <th>QteLocTheorique</th>
+                <th>QteLocReelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.Depot }}</td>
+                <td>{{ article.Article }}</td>
+                <td>{{ article.Designation }}</td>
+                <td>{{ article.PrixVente }}</td>
+                <td>{{ article.PrixLoc }}</td>
+                <td>{{ article.Poids }}</td>
+                <td>{{ article.Vente ? 'Yes' : 'No' }}</td>
+                <td>{{ article.Location ? 'Yes' : 'No' }}</td>
+                <td>{{ article.Consommable ? 'Yes' : 'No' }}</td>
+                <td>{{ article.Conditionnement ? 'Yes' : 'No' }}</td>
+                <td>{{ article.QteTotale }}</td>
+                <td>{{ article.QteDispo }}</td>
+                <td>{{ article.QteSortie }}</td>
+                <td>{{ article.QteReserve }}</td>
+                <td>{{ article.QteTransit }}</td>
+                <td>{{ article.QteTemp }}</td>
+                <td>{{ article.DateAchat ? article.DateAchat|date('Y-m-d') : '' }}</td>
+                <td>{{ article.DateAchatInv }}</td>
+                <td>{{ article.Commentaires }}</td>
+                <td>{{ article.DateSaisie ? article.DateSaisie|date('Y-m-d') : '' }}</td>
+                <td>{{ article.DateSaisieInv }}</td>
+                <td>{{ article.Emplacement }}</td>
+                <td>{{ article.Image }}</td>
+                <td>{{ article.AControler ? 'Yes' : 'No' }}</td>
+                <td>{{ article.Fournisseur }}</td>
+                <td>{{ article.RefFourn }}</td>
+                <td>{{ article.OldPrixV }}</td>
+                <td>{{ article.OldPrixL }}</td>
+                <td>{{ article.OldPoids }}</td>
+                <td>{{ article.DateChange ? article.DateChange|date('Y-m-d') : '' }}</td>
+                <td>{{ article.DateChangeInv }}</td>
+                <td>{{ article.QteHs }}</td>
+                <td>{{ article.QteAchat }}</td>
+                <td>{{ article.Agence }}</td>
+                <td>{{ article.QteLocTheorique }}</td>
+                <td>{{ article.QteLocReelle }}</td>
+                <td>
+                    <a href="{{ path('app_transport_articles_show', {'id': article.id}) }}">show</a>
+                    <a href="{{ path('app_transport_articles_edit', {'id': article.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="38">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transport_articles_new') }}">Create new</a>
+{% endblock %}
