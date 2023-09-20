@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacts Liste{% endblock %}
+
+{% block body %}
+
+    <table class="table text-center datatable">
+        <thead>
+        <tr class="tr-head">
+            <th>Interlocuteur</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Telephone Mobile</th>
+            <th>Telephone Fixe</th>
+            <th>DateAnniversaire</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{"id":contact.societe.id}) }}">
+                        {{ contact.societe.societe is not empty ? contact.societe.societe.raisonSociale : contact.societe.personne.nom~" "~contact.societe.personne.prenom }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('app_contact_contact_show',{"id":contact.id}) }}">
+                        {{ contact.nom }}
+                    </a>
+                </td>
+                <td>{{ contact.prenom }}</td>
+                <td><a href="mailto: {{ contact.email }}">{{ contact.email }}</a></td>
+                <td>{{ contact.telephoneMobile }}</td>
+                <td>{{ contact.telephone }}</td>
+                <td>{{ contact.dateAnniversaire }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

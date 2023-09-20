@@ -1,0 +1,1542 @@
+{% block stylesheets %}
+    {{ encore_entry_link_tags('devis') }}
+{% endblock %}
+
+<style>
+
+
+    select.invalid {
+        background-color: #ffdddd;
+    }
+
+
+    #encadre-marge {
+        cursor: pointer;
+    }
+
+    #menu-marge {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 40%;
+        z-index: 1;
+        background: whitesmoke;
+        border: 1px solid black;
+        color: #0e4377;
+    }
+
+    #loader-devis-page {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #loader-devis-page .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .ouvrage-attribut {
+        cursor: pointer;
+    }
+
+    .placeholder-italic::placeholder {
+        font-style: italic;
+    }
+
+    .placeholder-italic.placeholder-active {
+        font-style: normal;
+    }
+
+    .custom-select select {
+        font-style: italic;
+    }
+
+    .custom-select select option {
+        font-style: inherit;
+    }
+
+    .ouvrage-children {
+        display: none;
+    }
+
+    .arrow {
+        transition: transform 0.3s ease-in-out;
+        background-color: #0E4377;
+        border-radius: 50%;
+        background-image: radial-gradient(circle, #0E4377 65%, #d9e1f2 35%);
+        background-position: center;
+        background-size: cover;
+    }
+
+    .arrow.down {
+        transform: rotate(90deg);
+    }
+
+    .hide-composants {
+        cursor: pointer;
+    }
+
+    .chakra-input {
+        color: #0E4377;
+    }
+
+    .border-bottom-inherit {
+        border-bottom: inherit;
+    }
+
+    .chakra-input::placeholder {
+        color: #0E4377;
+    }
+
+    .chakra-input:hover {
+        border-bottom: 1px solid;
+    }
+
+    .euro {
+        color: #0E4377;
+        font-weight: bold;
+        padding-left: 5%;
+    }
+
+    .border-bottom-1 {
+        border-bottom: 1px !important;
+    }
+
+    .attributs {
+        width: 90%;
+        min-width: 0px;
+        outline: transparent solid 2px;
+        outline-offset: 2px;
+        height: 1.75rem;
+    }
+
+    .zone-attributs {
+        background-color: #F0F4F8;
+        padding: 2% 1%;
+    }
+
+    .input-prix-devis {
+        background-color: #F0F4F8;
+    }
+
+    .table-metre {
+        overflow: auto;
+        max-height: 170px;
+    }
+
+    .table-metre table thead, .table-metre table tbody {
+        transform: scale(0.75);
+        transform-origin: top left;
+    }
+
+    .add-row:hover {
+        cursor: pointer;
+    }
+
+    .table-autre-ouvrage.datatable tbody tr {
+        height: 50%; /* Réduire la hauteur de chaque ligne de moitié */
+    }
+
+    .table-autre-ouvrage.datatable tbody td {
+        vertical-align: middle;
+        height: 50%;
+        padding: 0.3rem;
+    }
+
+    .table-autre-ouvrage.datatable tbody td {
+        font-size: 12px; /* Vous pouvez ajuster la taille de la police selon vos besoins */
+    }
+
+</style>
+
+
+<div id="loader-devis-page" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-between">
+    <div class="col-md-auto">
+        <a href=" {{ referer }} ">
+            <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi"
+                 aria-hidden="true">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+            </svg>
+            Retour
+        </a>
+    </div>
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-8 page-block m-auto">
+        <div class="row align-items-center">
+
+            <div class="text-end" style="width: 20%">
+                <label for="devis_debourseTotalHT" style="color: #486581; font-weight: bold">Déboursé total HT</label>
+                <input type="text" id="devis_debourseTotalHT" class="form-control text-end"
+                       value='{{ devis.debourseTotalHT|number_format(2,',',' ') }}'
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       name="devis[debourseTotalHT]" disabled>
+            </div>
+            <div class="text-end" style="width: 10%">
+                <label for="devis_marge" style="color: #486581; font-weight: bold">%Marge</label>
+                <input type="text" id="devis_marge" class="form-control text-end numbers"
+                       style="color: #0e4377; font-weight: bold;"
+                       value='{{ devis.marge|number_format(3,',',' ') }}' element="devis"
+                       name="devis[marge]">
+            </div>
+            <div class="text-end" style="width: 20%">
+
+                <label for="devis_marge" style="color: #486581; font-weight: bold">Marge totale</label>
+                <input type="text" id="devis_margeTotal" class="form-control text-end numbers"
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;" element="devis"
+                       value='{{ (devis.prixDeVenteHT - devis.debourseTotalHT)|number_format(2,',',' ') }}'
+                       name="devis[margeTotal]" onchange="calculPourcentageMarge()">
+            </div>
+            <div class="text-end" style="width: 20%">
+                <label for="devis_prixDeVenteHT" style="color: #486581; font-weight: bold">Prix de vente HT</label>
+                <input type="text" id="devis__prix_de_vente" class="form-control text-end"
+                       value='{{ devis.prixDeVenteHT|number_format(2,',',' ') }}'
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       name="devis[prixDeVenteHT]" disabled>
+            </div>
+            <div class="text-end" style="width: 10%">
+                <label for="devis_tva" style="color: #486581; font-weight: bold">TVA</label>
+                <input type="text" id="devis_tva" class="form-control text-end"
+                       value='{{ devis.tva }} %' style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       name="devis[tva]" disabled>
+            </div>
+            <div class="text-end" style="width: 20%">
+                <label for="devis_prixDeVente" style="color: #486581; font-weight: bold">Prix de vente TTC</label>
+                <input type="text" id="devis_prixDeVente" class="form-control text-end"
+                       style="background-color: #FFF; color: #0e4377; font-weight: bold;"
+                       value='{{ (devis.prixDeVenteHT + (devis.tva / 100 * devis.prixDeVenteHT))|number_format(2,',',' ') }}'
+                       name="devis[prixDeVente]" disabled>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="menu-marge">
+    <h3 class="ms-2">Feuille de vente du devis</h3>
+    <hr>
+    <div class="mt-3 ms-2">
+        <p>La feuille de vente permet d'analyser le chiffrage du devis et d'ajuster certains montants. Les ajustements
+            réalisés dans la feuille de vente vont impacter les montants de chaque ouvrage ou lot du devis.</p>
+        <div class="col-md-11 page-block mt-2">
+            <h4>Marge du devis</h4>
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+                    <label for="devis_fraisGeneraux">Frais généraux</label>
+                    <input type="text" id="devis_fraisGeneraux" class="form-control"
+                           value='{{ devis.fraisGeneraux }}'
+                           name="devis[fraisGeneraux]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    X
+                </div>
+                <div class="col-md-3">
+
+                    <label for="devis_margeBeneficiaire">Marge bénéficiaire</label>
+                    <input type="text" id="devis_margeBeneficiaire" class="form-control"
+                           value='{{ devis.margeBeneficiaire }}'
+                           name="devis[margeBeneficiaire]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    =
+                </div>
+                <div class="col-md-4">
+
+                    <label for="devis_margeTotalee">Marge totale</label>
+                    <input type="text" id="devis_margeTotalee" class="form-control"
+                           value='{{ devis.fraisGeneraux * devis.margeBeneficiaire }}'
+                           name="devis[margeTotale]" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-11 page-block mt-2">
+            <h4>Prix de vente du devis</h4>
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+                    <label for="devis_debourseTotalHTT2">Déboursé total HT</label>
+                    <input type="text" id="devis_debourseTotalHTT2" class="form-control"
+                           value='{{ devis.debourseTotalHT }}'
+                           name="devis[debourseTotalHT]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    X
+                </div>
+                <div class="col-md-3">
+
+                    <label for="devis_margeTotale">Marge totale</label>
+                    <input type="text" id="devis_margeTotale" class="form-control"
+                           value='{{ devis.fraisGeneraux * devis.margeBeneficiaire }}'
+                           name="devis[margeTotale]" disabled>
+                </div>
+                <div style="font-size: 1.5rem" class="col-md-1">
+                    =
+                </div>
+                <div class="col-md-4">
+
+                    <label for="devis_prixDeVenteHT2">Prix de vente HT</label>
+                    <input type="text" id="devis_prixDeVenteHT2" class="form-control"
+                           value='{{ devis.prixDeVenteHT }}'
+                           name="devis[prixDeVenteHT]" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 col-md-11 m-auto">
+    <div class=" css-1fnl9bt">
+
+        <div class="template-lot">
+
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left">N°</div>
+            <div class="tab-el-left">Dénomination</div>
+            <div class="tab-el-left">Quantité</div>
+            <div class="tab-el-left">Unité</div>
+            <div class="tab-el-left">Déboursé U HT</div>
+            <div class="tab-el-left">Déboursé Total HT</div>
+            <div class="tab-el-left">%Marge</div>
+            <div class="tab-el-left text-end">PV Total HT</div>
+            <div class="tab-el-left"></div>
+
+
+        </div>
+
+    </div>
+
+    <div id="main-devis">
+        <ul id="sortable-elements">
+            {{ html|raw('html') }}
+        </ul>
+
+    </div>
+</div>
+
+<div class="row css-gg4vpm buttons">
+    <div>
+        <button type="button" class="css-15nl7at add-lot">
+            + Créer un lot
+        </button>
+        {# <button type="button" class="css-15nl7at import-ouvrage">
+            + Importer un ouvrage
+        </button>
+        <button type="button" class="css-15nl7at" id="add-ouvrage">
+            + Créer un ouvrage
+        </button>
+        #}
+    </div>
+</div>
+{{ form_start(form) }}
+<div class="page-block col-md-10 m-auto mt-4">
+    {{ form_widget(form.designationDesTravaux,{"attr":{"class":"form-control my-3 devis-informations placeholder-italic","placeholder":"Désignation des travaux", "style":"font-size:0.9rem"}}) }}
+    {{ form_widget(form.observations,{"attr":{"class":"form-control editor devis-informations placeholder-italic","placeholder":"Observations"}}) }}
+    <label class="labels mt-3">Commentaire (interne)</label>
+    {{ form_widget(form.commentaireInterne,{"attr":{"class":"form-control devis-informations placeholder-italic", "style":"height:14vh; font-size:0.9rem"}}) }}
+    <div class="mt-5 col-md-12 text-end">
+        <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+    </div>
+</div>
+{{ form_end(form) }}
+
+<script>
+
+
+    // on sauvegarde l'element selectioné (lot/ouvrage/composant)
+    let selectedElement = null;
+    let selectedElementId = null;
+    let selectedElementType = null;
+
+
+    // on ecoute sur le bouton add-element-button (c'est le + dans le html) qui nous permet d'ajouter un lot  ou un ouvrage
+    $('body').on('click', '.add-element-button', function () {
+        // on recupere l'id du parent
+        let id = $(this).attr('id').replaceAll('bi-plus-circle-', '');
+        // on cache le bouton + afin d'eviter d'avoir 2 evenement
+        $(this).hide();
+        // on affiche le loader
+        $('#spinner-' + id).show();
+
+        // si on clique sur + dans un lot alors on ajoute un ouvrage
+        if ($(this).attr('type') === 'lot') {
+            newOuvrage(id);
+        }
+        // et si on clique sur + dans un ouvrage alors on ajoute un composant
+        else if ($(this).attr('type') === 'ouvrage') {
+            newComposant(id);
+        }
+    });
+
+    // la fonction nous permet d'ajouter un nouveau ouvrage dans un lot
+    // id = l'id du lot (donc du parent)
+    function newOuvrage(id) {
+        $.post('/affaire/devis/ouvrage/new/' + '{{ devis.id }}' + '/' + id, function (response) {
+            const data = JSON.parse(response);
+            if (data.idParent != null) {
+                $('#lot-ul-' + id).append(data.html);
+            } else {
+                $('#main-devis').append(data.html);
+            }
+            $("#bi-plus-circle-" + id).show();
+            $('#spinner-' + id).hide();
+        })
+    }
+
+    // la fonction nous permet d'ajouter un nouveau composant dans un ouvrage
+    // l'id est celui du parent
+    function newComposant(id) {
+        $.post('/affaire/devis/composant/new/' + '{{ devis.id }}' + '/' + id, function (response) {
+            const data = JSON.parse(response);
+            if (data.idParent != null) {
+                $("#ouvrage-ul-" + data.idParent).append(data.html)
+                // $(data.html).append($('#element-' + data.idParent));
+            } else {
+                $('#main-devis').append(data.html);
+            }
+            $("#bi-plus-circle-" + id).show();
+            $('#spinner-' + id).hide();
+
+        })
+    }
+
+    //  on ecoute sur les 2 autres boutons d'ajout de lot
+    $('body').on('click', '#add-lots, .add-lot', function () {
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
+        let path = "{{ path('app_affaire_lot_new', {'id':devis.id}) }}";
+        $.post(path, {
+            parentId: selectedElementId,
+            parentType: selectedElementType
+        }, function (data) {
+            if (code = 200) {
+                if (parentId != null && parentType == "lot") {
+                    $("#lot-ul-" + parentId).append(JSON.parse(data).html);
+                } else {
+                    $('#sortable-elements').append(JSON.parse(data).html);
+                }
+                $("#lot").modal('show');
+                $('.svg').remove();
+                $('.organisation').remove();
+                const lotId = data.lot;
+            }
+        })
+
+    })
+
+    // fonction qui permet de dupliquer des ouvrages ou des lots (non utilisé pour l'instant)
+
+    $('body').on('click', '.dupliquer-element', function () {
+
+        const element = $(this);
+        let parentId = null;
+        if (element.parent().parent().parent().parent().hasClass('children')) {
+            parentId = element.parent().parent().parent().parent().attr('id').replace('lot-ul-', '');
+        }
+
+        // si on a pas d'element selectionné alors on ne fait rien
+        if (selectedElementId == null) {
+            return;
+        }
+
+        var id = selectedElementId;
+
+        let path = "{{ path('app_affaire_element_dupliquer', {'id':devis.id}) }}";
+        $("#loader-devis-page").modal("show");
+
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType,
+            idParent: parentId
+        }, function (response) {
+            response = JSON.parse(response);
+            if (response.code == 200) {
+                if (response.idParent != null) {
+                    $('#lot-ul-' + response.idParent).append(response.html);
+                } else {
+                    console.log(response.html);
+                    $('#sortable-elements').append(response.html);
+                }
+                // on met ajout les chiffres de tous les elements impactés
+                updateData(response.data)
+                // et on cache le loader
+                $("#loader-devis-page").modal("hide");
+            }
+        })
+    })
+
+
+    // on ecoute sur les boutons de suppression d'element (ouvrage/composant/lot)
+    $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
+
+        const element = $(this);
+
+        // si on clique sur le bouton delete d'un composant et qu'on a pas de selected element alors on initialise les valeurs de :
+        //selectedElementId && selectedElementType
+        if (element.hasClass('delete-composant') && selectedElementId == null || (element.hasClass('delete-composant') && selectedElementId != element.attr('id').replace('delete-composant-', ''))) {
+            selectedElementId = element.attr('id').replace('delete-composant-', '');
+            selectedElementType = "composant";
+        }
+
+        // si on a pas d'element selectionné alors on ne fait rien
+        if (selectedElementId == null) {
+            return;
+        }
+
+        var id = selectedElementId;
+
+        let path = "{{ path('app_affaire_devis_element_delete', {'id':devis.id}) }}";
+        $("#loader-devis-page").modal("show");
+        $.post(path, {
+            id: selectedElementId,
+            type: selectedElementType
+        }, function (response) {
+            response = JSON.parse(response);
+            if (response.code == 200) {
+                // si on a success alors on vide les variables qui sauve l'element selectionné
+                selectedElementId = null;
+                selectedElementType = null;
+                if (id != null) {
+                    // si l'element a des enfants alors on supprime la div qui contient ses enfants
+                    if ($('#element-' + id).next().hasClass('children')) {
+                        $('#element-' + id).next().remove();
+                    }
+                    // on supprime la div de l'element
+                    $('#element-' + id).remove();
+                    // on met ajout les chiffres de tous les elements impactés
+                    updateData(response.data)
+                    // et on cache le loader
+                    $("#loader-devis-page").modal("hide");
+                }
+            }
+        })
+
+    })
+
+    // contextMenu lot
+    $('body').on('click', '.menu-lot', function () {
+        let div = `<div class="context-menu">
+                    <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
+                    <div class="item-menu" id="add-lots"><i class="bi bi-plus-square"></i>Créer un sous-lot</div>
+                    <div class="item-menu" id="dupliquer-lot"><i class="bi bi-stickies"></i>Dupliquer</div>
+                    <div class="item-menu" id="delete-lot"><i class="bi bi-trash-fill"></i>Supprimer</div>
+                </div>`;
+        div = `<div class="context-menu">
+                    <div class="item-menu dupliquer-element" type="lot"><div class="row align-items-center"><i style="font-size: 1rem" class="bi bi-stickies col-md-3"></i><div style="padding: inherit" class="col-md-9">Dupliquer</div></div></div>
+                    <div class="item-menu" id="delete-lot"><div class="row align-items-center"><i style="font-size: 1rem; color: #dc3545;" class="bi bi-trash-fill col-md-3"></i><div style="padding: inherit" class="col-md-9">Supprimer</div></div></div>
+                </div>`;
+        $(this).parent().parent().parent().parent().parent().parent().append(div);
+    })
+
+    // contextMenu ouvrage
+    $('body').on('click', '.menu-ouvrage', function () {
+        let div = `<div class="context-menu align-items-center">
+                    {#<div class="item-menu dupliquer-element" type="ouvrage"><div class="row align-items-center"><i style="font-size: 1rem" class="bi bi-stickies col-md-3"></i><div style="padding: inherit" class="col-md-9">Dupliquer</div></div></div>#}
+                    <div class="item-menu" id="delete-ouvrage"><div class="row align-items-center"><i style="font-size: 1rem; color: #dc3545;" class="bi bi-trash-fill col-md-3"></i><div style="padding: inherit" class="col-md-9">Supprimer</div></div></div>
+                </div>`;
+
+        $(this).parent().parent().parent().parent().parent().parent().append(div);
+    })
+
+
+    // on ecoute sur la listes des elements afin de selectionner l'element cliqué
+    $('body').on('click', '#sortable-elements li', function () {
+        let firstDiv = $(this).find('div:first');
+        selectedElement = firstDiv;
+        selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+        selectedElementType = firstDiv.attr('type');
+    });
+
+    // on ecoute sur le body si on clique sur l'un des elements on va pouvoir selectionner l'element cliqué et sinon on met à null les variables suivante :
+    //               selectedElement = null;
+    //            selectedElementId = null;
+    //            selectedElementType = null;
+
+    $('body').on('click', function (event) {
+        if (!$(event.target).hasClass('import-ouvrage') && !$(event.target).hasClass('delete-composant') && $(event.target).attr('id') != 'import-ouvrage' && !$(event.target).hasClass('check-ouvrage') && !$(event.target).hasClass('paginate_button'))
+            $('.selected').each(function () {
+                $(this).removeClass('selected');
+                selectedElement = null;
+                selectedElementId = null;
+                selectedElementType = null;
+                $('.context-menu').remove();
+            });
+        const selector = '.elements .' + (event.target.classList[0] ? event.target.classList[0] : "unselect");
+        if (document.querySelector(selector) && selectedElement) {
+
+            if ($(event.target).is('li') && selectedElement) {
+                let firstDiv = $(this).find('div:first');
+                firstDiv.addClass('selected');
+                selectedElement = $(this);
+                selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+                selectedElementType = firstDiv.attr('type');
+            } else {
+                const closestLi = $(event.target).closest('li');
+                if (closestLi.length && selectedElement) {
+                    let firstDiv = closestLi.find('div:first');
+                    firstDiv.addClass('selected');
+                    selectedElement = firstDiv;
+                    selectedElementId = firstDiv.attr('id').replaceAll('element-', '');
+                    selectedElementType = firstDiv.attr('type');
+                }
+            }
+        }
+    });
+
+
+    // ajout d'un ouvrage
+    $('#add-ouvrage').click(function () {
+        $('#modal-ouvrage').remove();
+        let path = "{{ path('app_affaire_modal_ouvrage') }}";
+        $.post(path, function (data) {
+            $('body').append(JSON.parse(data).message);
+            $("#modal-ouvrage").modal('show');
+
+        })
+    })
+
+    // un ecouteur qui detecte le choix d'ouvrage sur le quel on se base afin de le copier
+    /*$('body').on("change", '.select-ouvrage', function () {
+
+            let id = $(this).attr('ouvrages');
+            let origine = $(this).val();
+
+            let path = '/affaire/devis/ouvrage/origine/add/'+ "{{ devis.id }}" +"/"+ id+'/'+origine;
+
+            $.post(path, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    $('#ouvrage-ul-'+id).append(response.html)
+                    updateData(response.data)
+                    $('#devis_ouvrages_'+id+'_denomination').attr('disabled',true);
+                }
+            })
+    })*/
+
+    function calculDebourseTotalHT(quantite, prixUnitaireHT, id, type, quantite2 = null) {
+        let debourseTotalHT = 0;
+        console.log(quantite2);
+        if (isNaN(quantite2)) {
+            debourseTotalHT = (quantite * prixUnitaireHT).toFixed(3);
+        } else {
+            debourseTotalHT = (quantite * prixUnitaireHT * quantite2).toFixed(3);
+        }
+        $("#devis_" + type + "_" + id + "_debourseTotalHT").attr('value', debourseTotalHT)
+        return parseFloat(debourseTotalHT);
+    }
+
+    function calculPrixDeVente(debourseTotalHt, marge, id, type) {
+        const prixDeVenteHt = (debourseTotalHt * marge).toFixed(3);
+        $("#devis_" + type + "_" + id + "_prix_de_vente").attr('value', prixDeVenteHt)
+        return parseFloat(prixDeVenteHt);
+    }
+
+    // la fonction permet de mettre à jour les valeurs de calculs qui ont été changé par une action (modification/suppression/ajout etc)
+
+    function updateData(data) {
+        const options = {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        };
+        const optionMarge = {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
+        };
+        data.forEach(function (element) {
+            $("#loader-devis-page").modal("show");
+            if (element.type === "devis") {
+                $('input[name="devis[marge]"]').attr("value", element.marge.toLocaleString('fr-FR', optionMarge));
+                $('input[name="devis[marge]"]').val(element.marge.toLocaleString('fr-FR', optionMarge));
+                $('input[name="devis[prixDeVenteHT]"]').attr("value", element.prixDeVenteHT.toLocaleString('fr-FR', options));
+                $('input[name="devis[debourseTotalHT]"]').attr("value", element.debourseTotalHT.toLocaleString('fr-FR', options));
+                $('input[name="devis[margeTotal]"]').attr("value", (element.prixDeVenteHT - element.debourseTotalHT).toLocaleString('fr-FR', options));
+                $('input[name="devis[prixDeVente]"]').attr("value", (element.prixDeVenteHT + (element.tva / 100 * element.prixDeVenteHT)).toLocaleString('fr-FR', options));
+
+
+            } else {
+                console.log(data);
+                $('input[name="devis[' + element.type + '][' + element.id + '][denomination]"]').attr("value", element.denomination);
+                $('input[name="devis[' + element.type + '][' + element.id + '][quantite]"]').attr("value", element.quantite);
+                $('input[name="devis[' + element.type + '][' + element.id + '][quantite2]"]').attr("value", element.quantite2);
+                $('input[name="devis[' + element.type + '][' + element.id + '][quantite2Show]"]').attr("value", element.quantite2);
+                if (element.type === "composants" || element.type === "ouvrages") {
+                    // Retirer l'attribut selected des options du select
+                    $('select[name="devis[' + element.type + '][' + element.id + '][unite]"] option').removeAttr('selected');
+                    // Mettre l'attribut selected à l'option avec la valeur de l'unite de l'élément
+                    $('select[name="devis[' + element.type + '][' + element.id + '][unite]"] option[value="' + element.unite + '"]').attr('selected', 'selected');
+                }
+                $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').attr("value", element.marge.toLocaleString('fr-FR', optionMarge));
+                $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').val(element.marge.toLocaleString('fr-FR', optionMarge));
+                if (element.marge < 1.2) {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', 'red');
+                } else {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][marge]"]').css('color', '#0E4377');
+                }
+                if (element.type === "composants") {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", (element.debourseTotalHT * element.marge).toLocaleString('fr-FR', options));
+                } else {
+                    $('input[name="devis[' + element.type + '][' + element.id + '][prixDeVente]"]').attr("value", element.prixDeVenteHT.toLocaleString('fr-FR', options));
+                }
+                $('input[name="devis[' + element.type + '][' + element.id + '][debourseTotalHT]"]').attr("value", element.debourseTotalHT.toLocaleString('fr-FR', options));
+            }
+
+        })
+        $("#loader-devis-page").modal("hide");
+
+
+    }
+
+    function calculPourcentageMarge() {
+        let debourse = parseFloat($('input[name="devis[debourseTotalHT]"]').val().replace(/\s/g, '').replace(',', '.'));
+        let margeTotal = parseFloat($('input[name="devis[margeTotal]').val().replace(/\s/g, '').replace(',', '.'));
+        let marge = (debourse + margeTotal) / debourse;
+        console.log(debourse, margeTotal, marge);
+        $('input[name="devis[marge]"]').val(marge.toFixed(3));
+
+    }
+
+
+    // lorsqu'on detecte un changement dans un champ on le sauvegarde et on recalcule les valeurs
+    $('body').on("change", 'input, select', function () {
+
+        if ($(this).hasClass('select-ouvrage') || $(this).hasClass('devis-informations')) {
+            return;
+        }
+
+        $("#loader-devis-page").modal("show");
+
+        let type = $(this).attr('element');
+        if (type === 'devis') {
+            let marge = parseFloat($('input[name="devis[marge]"]').val().replace(',', '.'));
+            const devis = {
+                marge: marge,
+            }
+            let path = "{{ path('app_affaire_devis_calcul_edit',{id:devis.id}) }}";
+            $.post(path, {devis}, function (response) {
+                response = JSON.parse(response);
+                if (response.code === 200) {
+                    $("#loader-devis-page").modal("hide");
+                    updateData(response.data);
+                }
+            })
+        } else {
+
+            let id = $(this).attr(type);
+
+            let quantite = parseInt($('input[name="devis[' + type + '][' + id + '][quantite]"]').val());
+            let quantite2 = parseInt($('input[name="devis[' + type + '][' + id + '][quantite2]"]').val());
+            let marge = parseFloat($('input[name="devis[' + type + '][' + id + '][marge]"]').val().replace(',', '.'));
+            let code = $('input[name="devis[' + type + '][' + id + '][code]"]').val();
+            let denomination = $('input[name="devis[' + type + '][' + id + '][denomination]"]').val();
+            let unite = $('select[name="devis[' + type + '][' + id + '][unite]"]').val();
+            let prixUnite = type !== "ouvrages" ? parseFloat($('input[name="devis[' + type + '][' + id + '][debourseUnitaireHT]"]').val().replace(',', '.')) : 0.0;
+            //$("#loader-devis-page").modal("show");
+            console.log(type, id, quantite2);
+            if (type == "composants") {
+                const debourseTotalHT = calculDebourseTotalHT(quantite, prixUnite, id, type, quantite2);
+                const prixDeVenteHt = calculPrixDeVente(debourseTotalHT, marge, id, type);
+                const composant = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    quantite2: isNaN(quantite2) ? 0 : quantite2,
+                    duht: prixUnite,
+                    dtht: debourseTotalHT,
+                    prixDeVenteHT: prixDeVenteHt,
+                    marge: marge,
+                    note: null,
+                }
+                let path = '/affaire/bibliothequeDePrix/composant/edit/' + id;
+
+                $.post(path, {composant}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
+                        updateData(response.data);
+                    }
+                })
+            }
+
+            if (type === 'ouvrages') {
+                const ouvrage = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    note: null,
+                    marge: marge,
+                }
+                let path = '/affaire/bibliothequeDePrix/ouvrage/edit/' + id;
+                $.post(path, {ouvrage}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
+                        updateData(response.data);
+                    }
+                })
+
+            }
+
+            if (type == "lots") {
+                const lot = {
+                    code: code,
+                    denomination: denomination,
+                    unite: unite,
+                    quantite: isNaN(quantite) ? 0 : quantite,
+                    prix: prixUnite,
+                    marge: marge,
+
+                };
+                let path = '/affaire/devis/edit/lot/' + id;
+                $.post(path, {lot}, function (response) {
+                    response = JSON.parse(response);
+                    if (response.code === 200) {
+                        $("#loader-devis-page").modal("hide");
+                        updateData(response.data);
+                    }
+                })
+            }
+
+        }
+    })
+
+    // supprimer les char non numerique 
+    $('body').on('keyup', '.numbers', function () {
+        this.value = this.value.replace(/[^0-9\.\,]/g, '');
+    });
+
+    function afficherMenu() {
+        $('#menu-marge').css('display', 'block');
+    }
+
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('#menu-marge').length) {
+            $('#menu-marge').css('display', 'none');
+        }
+    });
+
+    $('#encadre-marge').on('click', function (e) {
+        e.stopPropagation();
+        afficherMenu();
+    });
+
+    var currentOuvrageId = null;
+    var currentOuvrageTypeId = null;
+
+    // fonction qui permet d'appeler la pop up qui sert à importer un ouvrage
+    $('body').on('click', '.import-ouvrage', function () {
+        $("#loader-devis-page").modal("show");
+        $('#modal-import-ouvrage').remove();
+
+        let id = $(this).attr('id').replace('import-ouvrage-', '');
+        currentOuvrageId = id;
+        console.log($(this), id);
+        let path = '/affaire/bibliothequeDePrix/modal/ouvrage/liste/' + {{ devis.id }} +'/' + id;
+        $.post(path, function (response) {
+            const data = JSON.parse(response);
+            $("#loader-devis-page").modal("hide");
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $(document).ready(function () {
+                // Options de personnalisation pour votre DataTable
+                $("#dataTable_AutreOuvrage_" + currentOuvrageId).DataTable({
+                    "lengthMenu": [[5, 10], [5, 10]],
+                    "language": {
+                        "search": "",
+                        "searchPlaceholder": "Rechercher...",
+                    }
+                });
+
+                $("#dataTable_AutreOuvrage_selected_" + currentOuvrageId).DataTable({
+                    "lengthMenu": [[5, 10], [5, 10]],
+                    "language": {
+                        "search": "",
+                        "searchPlaceholder": "Rechercher...",
+                    }
+                });
+
+                // Ajouter la classe 'devis-informations' à l'input de la barre de recherche
+                $("div.dataTables_wrapper input[type='search']").addClass("devis-informations");
+
+                // Ajouter la classe 'devis-informations' au menu déroulant du nombre d'entrées par page
+                $("div.dataTables_wrapper select").addClass("devis-informations");
+            });
+            $('#form-' + currentOuvrageId + ' select').each(function () {
+                if ($(this).parent().hasClass('d-none') && $(this).val() != "") {
+                    $(this).parent().removeClass('d-none');
+                } else {
+                    $(this).attr('required', false);
+                }
+            })
+        })
+    })
+
+    // Gestionnaire d'événements pour le clic sur l'icône "plus" dans la DataTable
+    $('body').on('click', '.add-row', function () {
+        var dataTable = $('#dataTable_AutreOuvrage_' + currentOuvrageId).DataTable();
+
+        // Recherche dans toute la DataTable les éléments ayant la classe "bi-check-square-fill"
+        var allCheckSquareFillIcons = dataTable.rows().nodes().to$().find(".bi-check-square-fill");
+
+        // Changer toutes les icônes "bi-check-square-fill" en icônes "bi-plus-square-fill"
+        allCheckSquareFillIcons.removeClass('bi-check-square-fill').addClass('bi-plus-square-fill');
+
+        // Si aucune icône cochée n'existe, mettre à jour l'icône actuelle en icône cochée
+        $(this).html("<i style='font-size:1rem;' class='bi bi-check-square-fill'></i>");
+        var id = $(this).closest("tr").data("id");
+        var designation = $(this).closest("tr").find("td:first").text();
+        var prixUnitaire = $(this).closest("tr").find("td:eq(1)").text();
+        let selectedAutreOuvrage = `
+            <input type="hidden" class="selected-autre-ouvrage" name="attribut[autreOuvrage]" value="${$(this).attr('id').replace(/[^\d,]/g, "")}">
+            Vous avez sélectionné : ${designation} - Prix Unitaire : ${prixUnitaire}`;
+        $(".selected-autre-ouvrage").html(selectedAutreOuvrage);
+
+        //On change le nom de l'ouvrage par celui de l'ouvrage autre sélectionné
+        $("#devis_ouvrages_" + currentOuvrageId + "_denomination_modal").val(designation);
+
+        //Calcul des prix des composants
+        calculPrixUnitaireComposant();
+    })
+
+
+    $('body').on('change', '.ouvrage-attribut', function () {
+        const step = $(this).parent().parent().attr('step');
+        console.log("step : " + step);
+        if (step === "1") {
+            let unite = $('option:selected', this).attr('unite');
+
+            $(".ouvrage-attribut-step-2").addClass("d-none");
+            $(".step-2").removeClass('d-none');
+            currentOuvrageTypeId = $(this).val();
+            $('.to-' + currentOuvrageTypeId).removeClass('d-none');
+            $('.ouvrage-attribut-step-2 select').attr('required', false);
+            $('.attribut-select-step2-' + currentOuvrageTypeId).attr('required', true);
+            $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(0);
+            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(0);
+            $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(0);
+            $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
+                $(this).val("")
+            })
+
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                let code = $(this).attr('code').toLowerCase();
+                let cadenceDeReference = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('cadence'+code);
+                console.log('cadence'+code,cadenceDeReference, $('option:selected', this));
+                $(this).attr('cadence', cadenceDeReference);
+            })
+
+            $(".unite-modal").each(function () {
+                if ($(this).hasClass('kg')) {
+                    $(this).text('kg/' + unite);
+                } else {
+                    $(this).text(unite);
+                }
+            })
+
+            if ($('option:selected', this).attr('code') === "A") {
+                $('.ouvrage-' + currentOuvrageId + '-autres').show();
+            } else {
+                $('.ouvrage-' + currentOuvrageId + '-autres').hide();
+                $(".td-prix-" + currentOuvrageId).each(function () {
+                    const code = $(this).attr('code');
+                    const idComposant = $(this).attr('id').split("_")[2];
+                    if (code === "MA" || code === "MR") {
+                        $('#' + code + '-' + idComposant).prop('checked', false);
+                    } else {
+                        $('#' + code + '-' + idComposant).prop('checked', true);
+                    }
+                })
+            }
+
+            //$("#type_ouvrage_"+currentOuvrageId+" option:selected").attr('code');
+            calculPrixUnitaireComposant();
+
+
+        } else if (step === "2") {
+            if (currentOuvrageTypeId === null && $('#type_ouvrage_' + currentOuvrageId).val() != "") {
+                currentOuvrageTypeId = $('#type_ouvrage_' + currentOuvrageId).val();
+            }
+            // Récupérer la cadence de l'option sélectionnée
+            let cadenceDeReference = $(this).attr('cadence').replace(/[^\d,]/g, "").replace(',', '.');
+            let poids = 0;
+            let tps = 0;
+            $('.attribut-select-step2-' + currentOuvrageTypeId).each(function (index) {
+                if (!isNaN(parseFloat($('option:selected', this).attr('poids'))) && !isNaN(parseFloat($('option:selected', this).attr('tps')))) {
+                    // console.log(poids, tps)
+                    poids += parseFloat($('option:selected', this).attr('poids'));
+                    tps += parseFloat($('option:selected', this).attr('tps'));
+                }
+            })
+
+            let pourcentageTps = tps / cadenceDeReference * 100;
+            $("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val(pourcentageTps.toFixed(2));
+            $("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val(poids);
+            $("#devis_ouvrages_" + currentOuvrageId + "_tpsDeReference").val(tps);
+            calculPrixUnitaireComposant();
+
+
+        }
+    });
+
+    $('body').on('click', '#calcul-prix-unitaire', function () {
+        calculPrixUnitaireComposant();
+    })
+
+    $('body').on('keyup', '.quantite-modal, .quantite2-modal', function () {
+        calculPrixUnitaireComposant();
+    })
+
+    function calculPrixUnitaireComposant(update = false) {
+        let res = 0;
+        let quantite = 0;
+        const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
+        const uniteTypeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('unite');
+        if (uniteTypeOuvrage === 'm²') {
+            quantite = calculMetre("m2");
+        } else {
+            quantite = calculMetre("m3");
+        }
+        let debourseOuvrage = 0;
+        let quantite2 = parseInt($('.quantite2-modal').val());
+        let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
+
+        if (codeOuvrage === "A") {
+            $('.largeur-modal').parent().parent().parent().hide();
+            $('.largeur-modal').val('');
+            $('.largeur-modal').attr('required', false);
+            $('.typeOuvrage-classique').hide();
+            $('.typeOuvrage-autre').show();
+            var dataTable = $('#dataTable_AutreOuvrage_' + currentOuvrageId).DataTable();
+            // Recherche dans toute la DataTable les éléments ayant la classe "bi-check-square-fill"
+            var autreOuvrageSelected = dataTable.rows().nodes().to$().find(".bi-check-square-fill").parent();
+
+            if (autreOuvrageSelected.length > 0) {
+                marge = parseFloat(autreOuvrageSelected.attr('marge'));
+                if (autreOuvrageSelected.attr('unite') === "m2") {
+                    quantite = calculMetre(autreOuvrageSelected.attr('unite'));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(quantite.replace('.', ','));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', false);
+
+                    $('.quantite-modal').text(' une surface de ' + quantite.replace('.', ','));
+                    $('.unite-modal').text('m²');
+                } else if (autreOuvrageSelected.attr('unite') === "ml") {
+                    quantite = calculMetre(autreOuvrageSelected.attr('unite'));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(quantite.replace('.', ','));
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', false);
+
+                    $('.quantite-modal').text(' une longueur de ' + quantite.replace('.', ','));
+                    $('.unite-modal').text('ml');
+                } else {
+                    $('#devis_ouvrages_' + currentOuvrageId + '_m2').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_ml').val(0);
+                    $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').prop('required', true);
+                    quantite = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val().replace(',', '.')).toFixed(2);
+
+                    console.log(quantite);
+                    if (isNaN(quantite) || quantite <= 0) {
+                        $('#devis_ouvrages_' + currentOuvrageId + '_quantiteUnitaire').val('');
+                        $('.quantite-modal').text(' une quantité de 0');
+                    } else {
+                        $('.quantite-modal').text(' une quantité de ' + quantite.replace('.', ','));
+                    }
+                    $('.unite-modal').text('');
+                }
+            }
+            // Récupérer la durée de location de l'ouvrage autre sélectionné
+            let dureeLocationOuvrage = parseInt(autreOuvrageSelected.attr('dureeLocation'));
+            // Vérifier si la durée de location est un nombre valide
+            if (isNaN(dureeLocationOuvrage)) {
+                // Cas où la durée de location n'est pas un nombre valide on met à 0
+                $('.quantite2-modal').val(0);
+                $('#quantite2-modal').text(quantite2);
+            } else {
+                // Cas où la durée de location est un nombre valide
+                if (quantite2 <= 0) {
+                    // Si la quantité est inférieure ou égale à zéro, réinitialiser la quantité pour la rendre obligatoire
+                    $('.quantite2-modal').val('');
+                    $('#quantite2-modal').text('0');
+                } else {
+                    // Afficher la quantité actuelle si elle est valide
+                    $('#quantite2-modal').text(quantite2);
+                }
+            }
+
+            if (isNaN(quantite)) {
+                quantite = 0;
+            }
+
+            let quantiteM2 = calculMetre("m2");
+            let quantiteML = calculMetre("ml");
+            $('.surface-volume').text('(Surface : ' + quantiteM2.replace('.', ',') + ' m² / Longueur : ' + quantiteML.replace('.', ',') + ' m)');
+
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                let res = 0;
+                const code = $(this).attr('code');
+                const idComposant = $(this).attr('id').split("_")[2];
+
+                switch (code) {
+                    case "L":
+                        //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
+                        res = parseFloat(autreOuvrageSelected.attr('location'));
+                        break;
+                    case "M":
+                        //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
+                        res = parseFloat(autreOuvrageSelected.attr('montage'));
+                        break;
+                    case "D":
+                        // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
+                        res = parseFloat(autreOuvrageSelected.attr('demontage'));
+                        break;
+                    case "MA":
+                        // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
+                        res = parseFloat(autreOuvrageSelected.attr('manutentionAppro'));
+                        break;
+                    case "MR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
+                        res = parseFloat(autreOuvrageSelected.attr('manutentionRepli'));
+                        break;
+                    case "TA":
+                        // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('transportAller'));
+                        break;
+                    case "TR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('transportRetour'));
+                        break;
+                    case "ETU":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat($(this).val().replace(',', '.'));
+                        break;
+                    case "V":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat(autreOuvrageSelected.attr('vente'));
+                        break;
+                }
+                if (isNaN(res)) {
+                    res = 0;
+                    $('#' + code + '-' + idComposant).prop('checked', false);
+                } else {
+                    $('#' + code + '-' + idComposant).prop('checked', true);
+                }
+                //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
+                if ($('#' + code + '-' + idComposant).is(':checked')) {
+                    if (code === "L") {
+                        debourseOuvrage += res * quantite * quantite2;
+                    } else if (code === "ETU") {
+                        debourseOuvrage += res;
+                    } else {
+                        debourseOuvrage += res * quantite;
+                    }
+                }
+                const options = {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                };
+                res = res.toLocaleString('fr-FR', options);
+                $(this).val(res);
+                if (update) {
+                    //modifie la valeur des inputs debourse unitaire des composants
+                    const id = $(this).attr('id').replace('_debourseUnitaireHT_modal', '');
+                    console.log(id)
+                    $("#" + id + "_debourseUnitaireHT").attr('value', res);
+
+                    //modifie la valeur des inputs debourse total des composants
+                    $("#" + id + "_debourseTotalHT").attr('value', parseInt($("#" + id + "_quantite").val()) * res);
+
+                    //modifie la valeur des inputs prix de vente des composants
+                    $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
+
+                }
+            })
+        } else {
+            $('.typeOuvrage-classique').show();
+            $('.typeOuvrage-autre').hide();
+            const k = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_poidsDeReference").val().replace(',','.'));
+            const t = parseFloat($("#devis_ouvrages_" + currentOuvrageId + "_pourcentageTpsDeReference").val().replace(',','.'));
+            $(".td-prix-" + currentOuvrageId).each(function () {
+                const variante = parseFloat($(this).attr(codeOuvrage));
+                const code = $(this).attr('code');
+                let cadence = 1;
+                if ($(this).attr('cadence')) {
+                    cadence = parseFloat($(this).attr('cadence').replace(',','.'));
+                }
+
+                const idComposant = $(this).attr('id').split("_")[2];
+
+                 console.log(variante, k, t, cadence);
+                switch (code) {
+                    case "L":
+                        //"(valeur du tableau « Composants v2 » pour la ligne « Location » et la colonne « Echafaudage ») x K / 1000 / 30"
+                        res = variante * k / 1000 / 30;
+                        break;
+                    case "M":
+                        //"[ (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Montage » et la colonne « Cadence » ) ] x [ 1 + ( T /100 ) ]"
+                        res = variante * k / cadence * 100 / t;
+                        break;
+                    case "D":
+                        // " [ (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Démontage » et la colonne « Cadence » ) ] x [ 1 + ( T/100 ) ]"
+                        res = variante * k / cadence * 100 / t;
+                        break;
+                    case "MA":
+                        // "(valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Appro » et la colonne « Cadence » )"
+                        res = variante * k / cadence;
+                        break;
+                    case "MR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Echafaudage ») x K /
+                        // (valeur du tableau « Composants v2 » pour la ligne « Manutention Repli » et la colonne « Cadence » )"
+                        res = variante * k / cadence;
+                        break;
+                    case "TA":
+                        // res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Aller » et la colonne « Echafaudage ») x K / 1000 "
+                        res = variante * k / 1000;
+                        break;
+                    case "TR":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = variante * k / 1000;
+                        break;
+                    case "ETU":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = parseFloat($(this).val().replace(',', '.'));
+                        break;
+                    case "V":
+                        //  res = "(valeur du tableau « Composants v2 » pour la ligne « Transport Retour » et la colonne « Echafaudage ») x K / 1000 "
+                        res = 0;
+                        break;
+                }
+                if (isNaN(res)) {
+                    res = 0;
+                }
+
+                //calcule dynamiquement le deboursé de l'ouvrage en tenant compte des checkboxs des composants
+                if ($('#' + code + '-' + idComposant).is(':checked')) {
+                    if (code === "L") {
+                        debourseOuvrage += res * quantite * quantite2;
+                    } else if (code === "ETU") {
+                        debourseOuvrage += res;
+                    } else {
+                        debourseOuvrage += res * quantite;
+                    }
+                }
+                //console.log(debourseOuvrage, res, quantite, quantite2);
+
+                const options = {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                };
+                res = res.toLocaleString('fr-FR', options);
+                $(this).val(res);
+                if (update) {
+                    //modifie la valeur des inputs debourse unitaire des composants
+                    const id = $(this).attr('id').replace('_debourseUnitaireHT_modal', '');
+                    console.log(id)
+                    $("#" + id + "_debourseUnitaireHT").attr('value', res);
+
+                    //modifie la valeur des inputs debourse total des composants
+                    $("#" + id + "_debourseTotalHT").attr('value', parseInt($("#" + id + "_quantite").val()) * res);
+
+                    //modifie la valeur des inputs prix de vente des composants
+                    $("#" + id + "_prix_de_vente").attr('value', ($("#" + id + "_debourseTotalHT").val() * $("#" + id + "_marge").val()).toFixed(2));
+
+                }
+
+                if ($('option:selected', $('.select-type-ouvrage')).attr('unite') === 'm²') {
+                    $('.largeur-modal').parent().parent().parent().hide();
+                    $('.largeur-modal').val('');
+                    $('.largeur-modal').attr('required', false);
+                    $('.surface-volume').text('(Surface : ' + quantite.toString().replace('.', ',') + ' m²)')
+                    $('.quantite-modal').text(' une surface de ' + quantite.toString().replace('.', ','))
+                } else {
+                    $('.largeur-modal').parent().parent().parent().show();
+                    $('.largeur-modal').attr('required', true);
+
+                    let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+                    console.log(largeur);
+                    if (isNaN(largeur)) {
+                        quantite = '0.00';
+                    }
+                    $('.surface-volume').text('(Volume : ' + quantite.toString().replace('.', ',') + ' m³)');
+                    $('.quantite-modal').text('un volume de ' + quantite.toString().replace('.', ','));
+                }
+                $('#quantite2-modal').text(quantite2);
+            })
+        }
+        const options = {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        };
+
+        $('#ouvrages_' + currentOuvrageId + '_debourseTotalHTModal').val(debourseOuvrage.toLocaleString('fr-FR', options));
+        $('#ouvrages_' + currentOuvrageId + '_margeModal').val((debourseOuvrage * marge - debourseOuvrage).toLocaleString('fr-FR', options));
+        $('#ouvrages_' + currentOuvrageId + '_prixDeVenteModal').val((debourseOuvrage * marge).toLocaleString('fr-FR', options));
+
+    }
+
+    function validateForm() {
+        event.preventDefault();
+        let isValide = true;
+        $('#form-' + currentOuvrageId + ' select').each(function () {
+            if (!$(this).parent().hasClass('d-none') && $(this).val() == "") {
+                $(this).addClass('invalid');
+                isValide = false;
+            } else {
+                $(this).removeClass('invalid');
+            }
+        })
+        if (isValide) {
+
+            $('#form-' + currentOuvrageId + ' select').each(function () {
+                if ($(this).parent().hasClass('d-none')) {
+                    $(this).remove();
+                }
+            })
+            // Récupérer l'élément de formulaire
+            const form = document.getElementById('form-' + currentOuvrageId);
+
+            // Créer un objet FormData à partir du formulaire
+            const formData = new FormData(form);
+
+
+            $('.form-submit-loader').show();
+            // Effectuer la requête AJAX en utilisant fetch ou XMLHttpRequest
+            fetch('/affaire/attribut/ouvrage/set/' + currentOuvrageId, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code == 200) {
+                        calculPrixUnitaireComposant(true);
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
+                        currentOuvrageId = null;
+                        updateData(data.data);
+
+                    }
+                    // Traiter la réponse du serveur
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Gérer les erreurs de la requête
+                    console.error(error);
+                });
+        }
+
+
+    }
+
+
+    // fonction qui permet d'importer des ouvrages (non utilisé pour l'instant)
+    /* $("body").on('click', '#import-ouvrage', function () {
+         $('#modal-import-ouvrage').remove();
+         let id = $(this).attr('id').replace('import-ouvrage-','');
+
+         $.post('/affaire/bibliothequeDePrix/modal/ouvrage/liste/'+{{ devis.id }}+'/'+id', function (response) {
+            const data = JSON.parse(response);
+            $('body').append(data.html);
+            $("#modal-import-ouvrage").modal("show");
+            $('.datatable').DataTable({
+                "oLanguage": {
+                    sSearch: "",
+                    searchPlaceholder: "Chercher"
+
+                },
+                language: {
+                    searchPlaceholder: "Chercher"
+                },
+                order: [[0, 'desc']],
+                pageLength: 25,
+
+
+            });
+        })
+    })*/
+
+    // non utilisé
+    function submitImportOuvrageEvent(event) {
+        var parentId = selectedElementId;
+        var parentType = selectedElementType;
+        event.preventDefault();
+        //console.log(parentId, parentType);
+        let data = {};
+        $('.check-ouvrage').each(function (index) {
+            if ($(this).is(':checked')) {
+                data[index] = {
+                    parentId: selectedElementId,
+                    parentType: selectedElementType,
+                    id: $(this).val(),
+                    order: null,
+                }
+            }
+        })
+
+        $.post("{{ path('app_affaire_ouvrage_import',{'id':devis.id}) }}", data, function (response) {
+            let data = JSON.parse(response);
+            if (data.code === 200) {
+
+                $("#modal-import-ouvrage").modal("show");
+                if (data.code === 200) {
+                    $('#ouvrage-import-success').show();
+                    setTimeout(() => {
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
+
+                    }, "1000");
+                    if (parentId != null && parentType == "lot") {
+                        $("<div class='children' parent='lot-" + parentId + "'>" + data.html + "</div>").insertAfter($('#element-' + parentId));
+                        //console.log(parentId);
+                        while (parentId) {
+                            let sumParent = 0;
+
+                            $("[parent-dht='" + parentId + "']").each(function () {
+                                let debourseOuvrage = parseFloat($('#devis_ouvrages_' + $(this).attr('ouvrage') + '_debourseTotalHT').val());
+                                if (!isNaN(debourseOuvrage)) {
+                                    sumParent += debourseOuvrage;
+                                }
+                            });
+                            $("[parent-dtht='" + parentId + "']").each(function () {
+                                let debourseLot = parseFloat($('#devis_lots_' + $(this).attr('lot') + '_debourse').val());
+                                if (!isNaN(debourseLot)) {
+                                    sumParent += debourseLot;
+                                }
+                            });
+                            $("#devis_lots_" + parentId + "_debourse").val(sumParent.toFixed(3));
+
+                            parentId = $("#devis_lots_" + parentId + "_debourse").attr('parent-dtht');
+                        }
+
+                    } else {
+                        $('#main-devis').append(data.html);
+                    }
+                    $('.svg').remove();
+                    $('.organisation').remove();
+                    $('.css-gg4vpm').show();
+
+
+                } else {
+                    $('#ouvrage-import-danger').show();
+                    setTimeout(() => {
+                        $('#modal-import-ouvrage').modal('hide');
+                        $('#modal-import-ouvrage').remove();
+                    }, "3000")
+                }
+                //    location.reload();
+
+            }
+        })
+    }
+
+
+    // non utilisé
+    function hasSomeParentTheClass(element, classname) {
+        if (element.className && element.className.split(' ').indexOf(classname) >= 0) {
+            return true;
+        } else if (element.parentNode) {
+            hasSomeParentTheClass(element.parentNode, classname)
+        } else {
+            return false
+        }
+    }
+
+    //Fonction qui permet d'ouvrir et fermer le volet des composants
+    $(document).ready(function () {
+        $('body').on('click', '.hide-composants', function () {
+            let id = $(this).attr('id');
+            var composants = $('#ouvrage-ul-' + id);
+
+            if (composants.hasClass('ouvrage-children')) {
+                composants.slideDown();
+                composants.removeClass('ouvrage-children');
+                $(this).toggleClass('down');
+            } else {
+                composants.slideUp();
+                composants.addClass('ouvrage-children');
+                $(this).toggleClass('down');
+            }
+        });
+    });
+
+    function calculMetre(unite) {
+        let quantite = 0;
+        if (unite === "ml") {
+            $('.hauteur').each(function () {
+                let idHauteur = $(this).attr('id');
+
+                let sommeLongueur = 0;
+                $('input[hauteur="' + idHauteur + '"]').each(function () {
+                    let longueur = parseFloat($(this).val().replace(',', '.'));
+                    if (!isNaN(longueur)) {
+                        sommeLongueur += longueur;
+                    }
+                });
+                quantite += sommeLongueur;
+            })
+        } else {
+            $('.hauteur').each(function () {
+                let idHauteur = $(this).attr('id');
+                let hauteur = parseFloat($(this).val().replace(',', '.'));
+
+                let sommeLongueur = 0;
+                $('input[hauteur="' + idHauteur + '"]').each(function () {
+                    let longueur = parseFloat($(this).val().replace(',', '.'));
+                    if (!isNaN(longueur)) {
+                        sommeLongueur += longueur;
+                    }
+                });
+
+                if (!isNaN(hauteur)) {
+                    quantite += sommeLongueur * hauteur;
+                }
+                //console.log(hauteur, sommeLongueur, quantite);
+            })
+            if (unite === "m3"){
+                let largeur = parseFloat($('.largeur-modal').val().replace(',', '.'));
+                if (!isNaN(largeur)) {
+                    quantite = quantite * largeur;
+                } else {
+                    quantite = 0;
+                }
+            }
+        }
+        console.log('quantite : ' + quantite);
+        return quantite.toFixed(2);
+    }
+
+
+</script>
+

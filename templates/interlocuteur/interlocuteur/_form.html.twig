@@ -1,0 +1,595 @@
+<style>
+
+
+    .label {
+        font-weight: bold;
+    }
+
+    .button-label {
+        display: inline-block;
+        padding: 0.5em 2em;
+        margin: 0.5em;
+        cursor: pointer;
+        color: #0E4377;
+        border-radius: 0.25em;
+        background: #efefef;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+        transition: 0.3s;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .button-label h1 {
+        font-size: 1.1em;
+        font-family: "Lato", sans-serif;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .button-label:hover {
+        background: #d6d6d6;
+        color: #0E4377;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+    }
+
+    .button-label:active {
+        transform: translateY(2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
+    }
+
+    @media (max-width: 40em) {
+        .button-label {
+            padding: 0em 1em 3px;
+            margin: 0.25em;
+        }
+    }
+
+    #societe:checked + .button-label {
+        background: #0e4377;
+        color: #efefef;
+    }
+
+    #societe:checked + .button-label:hover {
+        background: #0e4377;
+        color: #e2e2e2;
+    }
+
+    #personne:checked + .button-label {
+        background: #0e4377;
+        color: #efefef;
+    }
+
+    #personne:checked + .button-label:hover {
+        background: #0e4377;
+        color: #e2e2e2;
+    }
+
+
+    .hidden {
+        display: none;
+    }
+
+</style>
+
+
+{% if not form.vars.valid %}
+    <ul>
+        {# Loop through every form item #}
+        {% for child in form.children %}
+            {# Display the errors of the form item #}
+            {%for error in child.vars.errors%}
+                <h1>{{error.message}}</h1>
+            {%endfor%}
+        {%endfor%}
+    </ul>
+{%endif%}
+
+<div class="container mt-5">
+
+
+    <div class="row d-flex justify-content-center align-items-center">
+        {{ form_start(form) }}
+
+
+        <div class="col-lg-6 m-auto page-block page-block-sm page-block-margin-bottom offset-4">
+
+
+            <div class="justify-content-center">
+                {% if interlocuteur.id is empty %}
+                    <div class="checkbox col-md-12 m-auto">
+                        <div class="button-wrap text-center">
+                            <input class="hidden radio-label type" type="radio" name="type" id="societe"
+                                   checked="checked"
+                                   value="societe"/>
+                            <label class="button-label" for="societe">
+                                <h1>Société</h1>
+                            </label>
+                            <input class="hidden radio-label type" type="radio" name="type" id="personne"
+                                   value="personne"/>
+                            <label class="button-label" for="personne">
+                                <h1>Personne</h1>
+                            </label>
+                        </div>
+                    </div>
+                    {{ form_widget(form.type,{'attr' : {'class':'form-control' }}) }}
+                {% endif %}
+                <div class="col-md-8 societe m-auto">
+                    {{ form_widget(form.societe.siren,{"attr":{"class":"form-control form-control-sm-2 societe-input required", "autofocus":"on"}}) }}
+                </div>
+
+                <div class="col-md-12 m-auto mt-4">
+                    {{ form_widget(form.roles) }}
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-11 m-auto page-block mt-4">
+            <div class="societe">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Raison Sociale
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.raisonSociale,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Nom Commercial
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.nom,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Adresse
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.adresse1,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Complément
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.adresse2,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Ville
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Code Postal
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.codePostal,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Pays
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.pays,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Siret
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.siret,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Dirigeant
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.dirigeant,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Forme Juridique
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.formeJuridique,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Activité Principale
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.activitePrincipale,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                                <button type="button" class="float-end btn btn-link p-0" id="activite-modal"
+                                        style="text-decoration: none;font-size: inherit;"> Ajouter une nouvelle
+                                    Activité
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Activité Secondaire
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.activitesSecondaires,{'attr':{"class":"societe-input multi-select bg-blue "}}) }}
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Date de Création
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.dateDeCreation,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Email
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.societe.email,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="personne">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Nom
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.nom,{'attr':{"class":"form-control form-control-sm-2 personne-input required", 'autofocus':'on'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Prénom
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.prenom,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Email
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.email,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Adresse
+                            </div>
+                            <div class="col-md-9 text-end label">
+                                {{ form_widget(form.personne.adresse1,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Complément
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.adresse2,{'attr':{"class":"form-control form-control-sm-2 personne-input "}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Ville
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.ville,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3 text-end label">
+                                Code Postal
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.codePostal,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 row mt-3">
+                            <div class="col-md-3  text-end label">
+                                Pays
+                            </div>
+                            <div class="col-md-9">
+                                {{ form_widget(form.personne.pays,{'attr':{"class":"form-control form-control-sm-2 personne-input required"}}) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 row ">
+                            <div class="col-md-3 text-end label">
+                                Téléphone
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-sm-4 pr-0">
+                                        {{ form_widget(form.phone.code,{'attr':{"class":"form-control form-control-sm-2  tel tel-code"}}) }}
+                                    </div>
+                                    <div class="col-sm-8 pl-0">
+                                        {{ form_widget(form.phone.number,{'attr':{"class":"form-control form-control-sm-2 tel"}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="comment mt-4">
+                <p>{{ form_widget(form.commentaire,{'attr':{"class":"form-control "}}) }} </p>
+            </div>
+            {{ form_widget(form) }}
+
+
+            {{ form_end(form) }}
+
+            <div class="row mt-4 justify-content-between">
+                <div class="col-md-auto">
+                    <button type="submit" class="btn btn-info">Enregistrer</button>
+                </div>
+
+                {% if interlocuteur.id is not empty and is_granted('ROLE_ADMIN') %}
+                    <div class="col-md-auto">
+                        {{ include('interlocuteur/interlocuteur/_delete_form.html.twig') }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    function submitActivite(event) {
+        event.preventDefault();
+
+        $("#activite-error").length > 0 ? $("#activite-error").remove() : "";
+        var activite = {
+            titre: $("#titre").val(),
+            code: $("#code").val(),
+        };
+
+        $.post("{{ path('app_interlocuteur_activite_new_app') }}", {activite}, function (data) {
+
+            data = JSON.parse(data);
+            if (data.code == 200) {
+                $('#interlocuteur_societe_activitePrincipale').append($('<option>', {
+                    value: data.message.id,
+                    text: data.message.titre
+                }));
+                $('#interlocuteur_societe_activitesSecondaires').append($('<option>', {
+                    value: data.message.id,
+                    text: data.message.titre
+                }));
+
+                $('.multi-select').multipleSelect('refresh');
+
+                $("#add-activite").modal('hide');
+                $('#add-activite').remove()
+            } else {
+
+                $('#modal_button').show();
+                $('#footer-load').hide()
+
+                $('#modal-body').append(`
+                  <div class="alert alert-danger mt-2" role="alert" id="activite-error">
+                      ${data.message}
+                   </div>
+                `)
+            }
+        })
+    }
+
+    $('#activite-modal').on('click', function () {
+        if ($('#add-activite').length > 0) {
+            $("#add-activite").modal('show');
+
+        } else {
+            var path = "{{ path('app_interlocuteur_activite_new_modal') }}";
+
+            $.get(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#add-activite").modal('show');
+            })
+        }
+
+
+    })
+
+    function requestSiren() {
+
+        var url = "https://api.insee.fr/entreprises/sirene/V3/siren/" + $('#interlocuteur_societe_siren').val();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer fe050770-16a5-3012-bc37-01c677b1fac0");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    let dateCreation = data.uniteLegale.dateCreationUniteLegale;
+                    const [year, month, day] = dateCreation.split('-');
+                    dateCreation = [day, month, year].join('/');
+
+                    let periode = data.uniteLegale.periodesUniteLegale[0];
+                    let raisonSociale = periode.denominationUniteLegale;
+                    let nic = periode.nicSiegeUniteLegale;
+
+                    let siret = $('#interlocuteur_societe_siren').val() + nic;
+
+                    $('#interlocuteur_societe_raisonSociale').val(raisonSociale);
+                    $('#interlocuteur_societe_dateDeCreation').val(dateCreation);
+                    $('#interlocuteur_societe_siret').val(siret)
+
+                    requestSiret(siret);
+                } else {
+                    $('#interlocuteur_societe_raisonSociale').val("");
+                    $('#interlocuteur_societe_dateDeCreation').val("");
+                    $('#interlocuteur_societe_siret').val("")
+                    $("#interlocuteur_societe_adresse1").val("");
+                    $('#interlocuteur_societe_codePostal').val("");
+                    $("#interlocuteur_societe_ville").val("");
+                    $('#interlocuteur_societe_pays').val("");
+
+                }
+            }
+        };
+
+        xhr.send();
+
+    }
+
+
+    function requestSiret(siret) {
+
+        var url = "https://api.insee.fr/entreprises/sirene/V3/siret/" + siret;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Authorization", "Bearer fe050770-16a5-3012-bc37-01c677b1fac0");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+
+
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+
+                    const etablissementAdresse = data.etablissement.adresseEtablissement;
+
+
+                    const nve =  etablissementAdresse.numeroVoieEtablissement !== null ? etablissementAdresse.numeroVoieEtablissement : "" ;
+                    const tve = etablissementAdresse.typeVoieEtablissement !== null ? etablissementAdresse.typeVoieEtablissement : "" ;
+                    const lve = etablissementAdresse.libelleVoieEtablissement !== null ? etablissementAdresse.libelleVoieEtablissement : "";
+                    let adresse = nve + " " + tve + " " + lve;
+
+                    let cp = etablissementAdresse.codePostalEtablissement != null ? etablissementAdresse.codePostalEtablissement : " ";
+                    let ville = etablissementAdresse.libelleCommuneEtablissement != null ? etablissementAdresse.libelleCommuneEtablissement : " " ;
+
+                    $("#interlocuteur_societe_adresse1").val(adresse);
+                    $('#interlocuteur_societe_codePostal').val(cp);
+                    $("#interlocuteur_societe_ville").val(ville);
+                    $('#interlocuteur_societe_pays').val('France');
+                }
+
+            }
+        };
+
+        xhr.send();
+
+    }
+
+    $('#interlocuteur_societe_siren').on("keyup change", function () {
+        $('#interlocuteur_societe_siren').val($('#interlocuteur_societe_siren').val().replace(/\s/g,''))
+        if ($('#interlocuteur_societe_siren').val().length === 9) {
+            requestSiren();
+        }
+    })
+
+    function typeShow() {
+        if ($('#interlocuteur_type').val() === 'societe' || "{{ interlocuteur.type }}" === "societe") {
+            $('.personne').slideUp();
+            $('.societe').slideDown();
+            $('.personne-input').each(function () {
+                $(this).val("");
+                $(this).prop('required', false);
+            })
+            $('.societe-input').each(function () {
+                if ($(this).hasClass('required')) {
+                    $(this).prop('required', true);
+                }
+            })
+        } else {
+            $('.societe').slideUp();
+            $('.personne').slideDown();
+            $('.societe-input').each(function () {
+                $(this).val("");
+                $(this).prop('required', false);
+            })
+            $('.personne-input').each(function () {
+                if ($(this).hasClass('required')) {
+                    $(this).prop('required', true);
+                }
+            })
+        }
+    }
+
+
+    typeShow()
+
+    function checkType() {
+
+        let val = document.querySelector('input[name="type"]:checked').value;
+        val == "societe" ? $('#interlocuteur_type').val('societe') : $('#interlocuteur_type').val('personne');
+        typeShow();
+        val == "societe" ? $('#interlocuteur_personne_nom').attr('autofocus', 'off') : $('#interlocuteur_personne_nom').focus();
+        val == "societe" ? $('#interlocuteur_societe_siren').focus() : $('#interlocuteur_societe_siren').attr('autofocus', 'off');
+    }
+
+    $('.type').change(function () {
+        checkType();
+    })
+
+
+</script>

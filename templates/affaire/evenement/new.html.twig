@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Evenement{% endblock %}
+
+{% block body %}
+
+    <h6 style="color: #0E4377;">demande N° {{ evenement.demande.id }}</h6>
+    <h6  style="color: #0E4377;">createur : {{ evenement.createur.lastname }}</h6>
+
+    {{ include('affaire/evenement/_form.html.twig') }}
+
+    <a href="{{ path('app_affaire_evenement_index') }}">back to list</a>
+{% endblock %}

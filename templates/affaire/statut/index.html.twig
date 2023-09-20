@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statut index{% endblock %}
+
+{% block body %}
+
+    <table class="table datatable">
+        <thead>
+        <tr class="tr-head">
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Couleur</th>
+            <th>Destination</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for statut in statuts %}
+            <tr>
+                <td>{{ statut.id }}</td>
+                <td>{{ statut.titre }}</td>
+                <td>
+                    <div class="badge"
+                         style="background: {{ statut.couleurBG is not empty ? statut.couleurBG : 'black' }};color: {{ statut.couleur is not empty ? statut.couleur : 'white' }};">
+                        {{ statut.couleurBG~" | "~statut.couleur }}
+                    </div>
+                </td>
+                <td>{{ statut.destination ? statut.destination|join(', ') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_statut_show', {'id': statut.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_statut_edit', {'id': statut.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_statut_new') }}">Create new</a>
+{% endblock %}

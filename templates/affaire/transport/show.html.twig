@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transport{% endblock %}
+
+{% block body %}
+    <style>
+
+        .container {
+            color: #0E4377;
+        }
+
+        .labels {
+            color: #0E4377;
+            text-align: left;
+            display: block;
+            font-weight: bold;
+            padding-top: 1rem;
+        }
+
+    </style>
+
+
+    <div class="container rounded bg-white mt-5 mb-5">
+
+        <div class="row">
+            <div class="col-md-3 border-end">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+                    <div class="col-md-12"><label class="labels">Statut</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.statut }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Nom chantier</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.chantier.nomChantier }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Client</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.chantier.client }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Conducteur de travaux</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.chantier.createur.firstname }}
+                            {{ transport.chantier.createur.telephone }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Code chantier J4R</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.chantier.reference }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Code chantier Layher</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.codeChantierLayher }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">N° commande</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.referenceCommande }}
+                        </div>
+                    </div>
+                    <div class="col-md-12"><label class="labels">code ERP</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.codeERP }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 border-end">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <div class="col-md-12"><label class="labels">Type de transport</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.typeDeTransport }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Type de véhicule</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.typeDeVehicule }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Tonnage commandé (en kg)</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.tonnageCommande }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Tonnage Préparé (en kg)</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.tonnagePrepare }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Tonnage livré (en kg)</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.tonnageLivre }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6" id="prix">
+                                <label class="labels">Prix</label>
+
+                                <div class="col-md-12 form-control-sm-2">
+                                    {{ transport.prix['type'] }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Montant</label>
+                                <div class="col-md-12 form-control-sm-2">
+                                    {{ transport.prix['montant'] }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Montant de la course</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.montantDeLaCourse }} €
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Transporteur</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.transporteur }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Chauffeur</label>
+                        <div class="col-md-12 form-control-sm-2">
+                            {{ transport.chauffeur }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center m-4">
+                    <div class="col-md-auto">
+                        <a href="{{ path('app_affaire_transport_edit',{'id':transport.id}) }}"
+                           class="btn btn-info">{{ button_label|default('Modifier') }}</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mt-4 mb-2">
+                <h6 class="text-center"><u>Transport</u></h6>
+
+                <div class="col-md-12"><label class="labels">Adresse d'enlevement</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.adresseEnlevement }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Contact à l'enlevement</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.contactEnlevement }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Date d'enlevement demandé</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.dateDEnlevementDemande }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="labels">Heure d'enlevement</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.heureEnlevement|date('H:i') }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Référence</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.referenceEnlevement }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="labels">Instruction à l'elevement pour conducteur</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.instructionEnlevementConducteur }}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-12"><label class="labels">Adresse de Livraison</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.adresseLivraison }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Contact à la livraison</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.contactLivraison }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Date de livraison demandé</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.dateLivraisonDemande }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="labels">Heure Livraison</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.heureLivraison|date('H:i') }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Référence</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.referenceLivraison }}
+                    </div>
+                </div>
+
+                <div class="col-md-12"><label class="labels">Instruction à la livraison pour conducteur</label>
+                    <div class="col-md-12 form-control-sm-2">
+                        {{ transport.instructionLivraisonConducteur }}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

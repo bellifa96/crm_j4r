@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pret{% endblock %}
+
+{% block body %}
+    <h1>Pret</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pret.id }}</td>
+            </tr>
+            <tr>
+                <th>DateDAffectation</th>
+                <td>{{ pret.dateDAffectation }}</td>
+            </tr>
+            <tr>
+                <th>DateDeRetour</th>
+                <td>{{ pret.dateDeRetour }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ pret.etat }}</td>
+            </tr>
+            <tr>
+                <th>EtatApreesRetour</th>
+                <td>{{ pret.etatApreesRetour }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ pret.note }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ pret.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pret_index') }}">back to list</a>
+
+    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
+
+    {{ include('pret/_delete_form.html.twig') }}
+{% endblock %}

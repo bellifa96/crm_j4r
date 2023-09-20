@@ -1,0 +1,16 @@
+<div style="font-size:15px;">
+    {% if data.status == 'A traiter' %}
+        <p>Votre ticket :<br><br>{{ data.description }}<br><br>a bien été pris en compte.</p>
+    {% endif %}
+    {% if data.status == 'En cours' %}
+    {% endif %}
+    {% if data.status == 'En confirmation' %}
+        <p>Votre ticket :<br><br>{{ data.description }}<br><br>est désormais résolu.</p>
+    {% endif %}
+    <br>
+    <div >
+        <a href="https://www.j4r.fr">
+            <img src="" alt="signatureService.png" style="max-width:30%;">
+        </a>
+    </div>
+</div>

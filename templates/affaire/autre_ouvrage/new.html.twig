@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AutreOuvrage{% endblock %}
+
+{% block body %}
+    <h1>Create new AutreOuvrage</h1>
+
+    {{ include('affaire/autre_ouvrage/_form.html.twig') }}
+
+    <a href="{{ path('app_affaire_autre_ouvrage_index') }}">back to list</a>
+{% endblock %}

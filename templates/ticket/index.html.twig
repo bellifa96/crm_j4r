@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tickets
+{% endblock %}
+
+{% block body %}
+	<div class="page-block col-lg-12">
+
+		<table class="table text-center datatable" style="color: #0E4377;">
+			<thead class="tr-head">
+				<tr >
+					<th>Id</th>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Level</th>
+					<th>Status</th>
+					<th>Date</th>
+					<th>Createur</th>
+					<th>Développeur</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for ticket in tickets %}
+					<tr>
+						<td>{{ ticket.id }}</td>
+						<td>{{ ticket.title }}</td>
+						<td>{{ ticket.description }}</td>
+						<td>{{ ticket.level }}</td>
+						<td>{{ ticket.status }}</td>
+						<td>{{ ticket.date }}</td>
+						<td>{{ ticket.creator.getFirstname()  }}</td>
+
+						<td>
+						
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="13">n'est pas tickets</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+{% endblock %}
+
+

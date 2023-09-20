@@ -1,0 +1,461 @@
+<html style="margin: 0; padding: 0;background: grey;">
+<style>
+
+    th {
+        background-color: #C5C5C5;
+    }
+
+    .secondRow {
+        background-color: #C5C5C5;
+    }
+
+    .rentingTime {
+        background-color: #989898;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 3px;
+    }
+
+    .emptyCell {
+        border: none;
+    }
+
+    footer {
+        position: absolute;
+        bottom: 50px;
+        left: 30px;
+        right: 30px;
+    }
+
+    .firstCell {
+        height: 25px;
+    }
+
+    body {
+        margin: 30px auto;
+        width: 210mm;
+        min-height: 297mm;
+        background: white;
+        padding: 0 30px;
+        box-sizing: border-box;
+        font-size: 10px;
+        line-height: 15px;
+        position: relative;
+    }
+</style>
+<body>
+<header>
+    {% include 'pdf/devis_paysage_header.html.twig' %}
+</header>
+
+<main>
+    {% set sommeL = 0 %}
+    {% set sommeM = 0 %}
+    {% set sommeD = 0 %}
+    {% set sommeTA = 0 %}
+    {% set sommeTR = 0 %}
+    {% set sommeMA = 0 %}
+    {% set sommeMR = 0 %}
+    {% set sommeETU = 0 %}
+    {% set sommeV = 0 %}
+    <table style="font-size: 6px; margin-top: 10px; border-collapse: collapse; border-spacing: 0 10px;" id="table1">
+        <thead style="margin-bottom: 5px">
+        <tr>
+            <th style="width: 28%; padding: 0" colspan="3">
+                <table style="width: 100%">
+                    <tr>
+                        <th style="border: inherit" colspan="3">Désignation des ouvrages</th>
+                    </tr>
+                    <tr>
+                        <th style="border: inherit; width: 15%">Lot</th>
+                        <th style="border: inherit; width: 15%">Sous lot</th>
+                        <th style="border: inherit; width: 70%">Ouvrage</th>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 3%">Unité</th>
+            <th style="width: 3%">QTE</th>
+            <th style="width: 3%">Durée location en jours</th>
+            <th style="width: 5%">Location</th>
+            <th style="width: 5%">Montage</th>
+            <th style="width: 5%">Démontage</th>
+            <th style="width: 10%" colspan="2">
+                <table style="padding: 0; margin: 0; width: 100%">
+                    <tr style="padding: 0; margin: 0; width: 100%;">
+                        <th style="margin: 0; padding: 0; border: inherit" colspan="2">Transport</th>
+                    </tr>
+                    <tr style="padding: 0; margin: 0 ;width: 100%">
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Aller
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Retour
+                        </td>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 10%" colspan="2">
+                <table style="padding: 0; margin: 0; width: 100%">
+                    <tr style="padding: 0; margin: 0; width: 100%;">
+                        <th style="margin: 0; padding: 0; border: inherit" colspan="2">Manutention</th>
+                    </tr>
+                    <tr style="padding: 0; margin: 0 ;width: 100%">
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Appro
+                        </td>
+                        <td style="padding: 0; margin: 0; border: inherit">
+                            Repli
+                        </td>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 5%">Ventes</th>
+            <th style="width: 5%">Etudes</th>
+            <th style="width: 8%">Prix de vente total HT</th>
+            <th style="width: 5%">Sur location mensuelle</th>
+            <th style="width: 5%">Sur location journalière</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for element in elements %}
+            {% for enfant in element.data %}
+                {% if enfant.type == 'lot' %}
+                    {% for sousEnfant in enfant.data %}
+                        <tr>
+                            <td style="text-align: center; width: 5%">
+                                {{ element.lot.denomination }}
+                            </td>
+
+                            <td style="text-align: center; width: 5%">
+                                {{ enfant.lot.denomination }}
+                            </td>
+                            <td style="text-align: center; width: 18%">
+                                {{ sousEnfant.ouvrage.denomination }}
+                            </td>
+                            <td style="text-align: center"> {{ sousEnfant.ouvrage.unite is not null ? sousEnfant.ouvrage.unite.label : '-' }}</td>
+                            <td style="text-align: center"> {{ sousEnfant.ouvrage.quantite is not null ? sousEnfant.ouvrage.quantite|number_format(2,',',' ') : '-' }} </td>
+                            <td style="text-align: center">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('L') %}
+                                        {{ composant.quantite2 }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('L') %}
+                                        {% set sommeL = sommeL + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('M') %}
+                                        {% set sommeM = sommeM + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('D') %}
+                                        {% set sommeD = sommeD + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('TA') %}
+                                        {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('TR') %}
+                                        {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('MA') %}
+                                        {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('MR') %}
+                                        {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('V') %}
+                                        {% set sommeV = sommeV + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('ETU') %}
+                                        {% set sommeETU = sommeETU + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? (sousEnfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
+                                €
+                            </td>
+                            <td style="text-align: right"> - €</td>
+                            <td style="text-align: right"> - €</td>
+                        </tr>
+                    {% endfor %}
+                {% elseif enfant.type == 'ouvrage' %}
+                    <tr>
+                        <td style="text-align: center; width: 5%">
+                            {{ element.lot.denomination }}
+                        </td>
+
+                        <td style="text-align: center; width: 5%">
+                            -
+                        </td>
+                        <td style="text-align: center; width: 18%">
+                            {{ enfant.ouvrage.denomination }}
+                        </td>
+                        <td style="text-align: center"> {{ enfant.ouvrage.unite is not null ? enfant.ouvrage.unite.label : '-' }} </td>
+                        <td style="text-align: center"> {{ enfant.ouvrage.quantite is not null ? enfant.ouvrage.quantite|number_format(2,',',' ') : '-' }} </td>
+                        <td style="text-align: center">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('L') %}
+                                    {{ composant.quantite2 }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('L') %}
+                                    {% set sommeL = sommeL + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('M') %}
+                                    {% set sommeM = sommeM + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('D') %}
+                                    {% set sommeD = sommeD + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('TA') %}
+                                    {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('TR') %}
+                                    {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('MA') %}
+                                    {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('MR') %}
+                                    {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('V') %}
+                                    {% set sommeV = sommeV + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('ETU') %}
+                                    {% set sommeETU = sommeETU + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? (enfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
+                            €
+                        </td>
+                        <td style="text-align: right"> - €</td>
+                        <td style="text-align: right"> - €</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <tr>
+            <td class="secondRow" style="text-align: center" colspan="3">Total H.T.</td>
+            <td class="emptyCell"></td>
+            <td class="emptyCell"></td>
+            <td class="emptyCell"></td>
+            <td class="secondRow" style="text-align: right"> {{ sommeL|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeM|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeD|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeTA|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeTR|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeMA|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeMR|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeV|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeETU|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ devis.PrixDeVenteHT|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> - €</td>
+            <td class="secondRow" style="text-align: right"> - €</td>
+        </tr>
+        <tr>
+            <td class="emptyCell" colspan="12"></td>
+            <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
+                Montant Total € H.T. <br>
+                Prorata 0,00%
+            </td>
+            <td style="text-align: right; font-weight: bold; line-height: 10px">
+                {{ devis.PrixDeVenteHT|number_format(2, ',', ' ') }} € <br>
+                - €
+            </td>
+        </tr>
+        <tr>
+            <td class="emptyCell" colspan="12"></td>
+            <td style="text-align: right; font-weight: bold; line-height: 10px" colspan="3">
+                Montant Total € H.T. + prorata <br>
+                T.V.A. 20,00% <br>
+                Montant Total € T.T.C.
+            </td>
+            <td style="text-align: right; font-weight: bold; line-height: 10px">
+                - € <br>
+                {{ ( devis.PrixDeVenteHT * devis.tva/100)|number_format(2, ',', ' ') }} € <br>
+                {{ (devis.PrixDeVenteHT + devis.PrixDeVenteHT * devis.tva/100)|number_format(2, ',', ' ') }} €
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--<div style="margin-top: 10px; font-size: 6px;"><strong>OPTIONS:</strong></div>
+    <table style="font-size: 6px; border-collapse: collapse">
+        <thead>
+        <tr>
+            <th style="width: 18%" colspan="2">Désignation des ouvrages</th>
+            <th style="width: 6%">Durée location en jours</th>
+            <th style="width: 8%">Location</th>
+            <th style="width: 7%">Montage</th>
+            <th style="width: 7%">Démontage</th>
+            <th style="width: 7%">Transport Manutention</th>
+            <th style="width: 8%">Prix de vente unitaire HT</th>
+            <th style="width: 2%">QTE</th>
+            <th style="width: 8%">Prix de vente total HT</th>
+            <th style="width: 7%">Sur location mensuelle</th>
+            <th style="width: 7%">Sur location journalière</th>
+            <th style="width: 15%">Observations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="firstCell" style="text-align: center; width: 11%">Filets pare gravats standard</td>
+            <td style="text-align: center; width: 7%">0 m²</td>
+            <td class="rentingTime" style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+        </tr>
+        <tr>
+            <td class="firstCell" style="text-align: center">Filets de gravats anti-poussière 70%</td>
+            <td style="text-align: center">0 m²</td>
+            <td class="rentingTime" style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+        </tr>
+        <tr>
+            <td class="firstCell" style="text-align: center">Filets de protections couvreur</td>
+            <td style="text-align: center">0 ml</td>
+            <td class="rentingTime" style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+        </tr>
+        <tr>
+            <td class="firstCell" style="text-align: center">Pare-gravois<br></td>
+            <td style="text-align: center">0 ml</td>
+            <td style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: right">- €</td>
+            <td style="text-align: center">0</td>
+            <td style="text-align: right">- €</td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right; color: royalblue; font-weight: bold">Option</td>
+        </tr>
+        </tbody>
+    </table> -->
+    <div style="border: 1px solid black; padding: 3px; text-align: center; width: 48%; height: 100px; margin: 10px 0 0 0">
+        <strong><u>Bon pour accord client</u></strong> (Date, cachet, signature) :
+    </div>
+</main>
+<footer>
+    {% include 'pdf/devis_footer.html.twig' %}
+</footer>
+</body>
+</html>
+

@@ -1,0 +1,400 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande index{% endblock %}
+
+{% block body %}
+
+
+    <style>
+        table {
+            overflow: auto;
+        }
+
+        .btn-info-2 {
+            background: #17a2b8 !important;
+            border-color: #17a2b8 !important;
+            color: #fff !important;
+            font-size: .7rem !important;
+        }
+
+
+    </style>
+
+
+    <button class="btn btn-info-2 mb-4" id="vue"
+            value='{{ 'demandeIndex' in app.user.vue|keys  and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "commerciale" : "globale" }}'>
+        {{ 'demandeIndex' in app.user.vue|keys and app.user.vue['demandeIndex'] == "DemandeVueCommerciale" ? "Vue globale": "Vue commerciale" }}
+    </button>
+    <div id="globale">
+
+        <table class="table datatable text-center">
+            <thead>
+            <tr class="tr-head text-center">
+                <th>N°Demande</th>
+                <th>Nom Chantier</th>
+                <th>Type d'Échafaudage</th>
+                <th>Client</th>
+                <th>Maitre d'ouvrage</th>
+                <th>Intermediaire</th>
+                <th>Date</th>
+                <th>CP</th>
+                <th>Ville</th>
+                <th>Statut</th>
+                <th>Par</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for demande in demandes %}
+                <tr>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.id }}</a></td>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
+                    <td>{{ demande.typeEchafaudage }}</td>
+                    <td>
+                        {% if demande.client is not empty %}
+                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a>
+                        {% endif %}
+                    </td>
+                    <td>{% if demande.intermediaire is not empty %}<a
+                            href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.intermediaire.id}) }}"> {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }} </a>
+                        {% endif %}
+                    </td>
+                    <td>{% if demande.maitreDOuvrage is not empty %}<a
+                            href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.maitreDOuvrage.id}) }}"> {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }} </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ demande.date }}</td>
+                    <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.ville }}</td>
+                    <td>{{ demande.statut }}</td>
+                    <td>{{ demande.createur.lastname~" "~demande.createur.firstname }}</td>
+
+
+                    <td>
+                        {% if demande.lienGed is not empty %}
+                            <a href="{{ demande.lienGed }}" target="_blank"> <i class="bi bi-files"
+                                                                                style="font-size: 1.5rem;"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div id="commerciale">
+
+
+        <table class="table datatable text-center">
+            <thead>
+            <tr class="tr-head text-center">
+                <th>Statut</th>
+                <th>Échéance</th>
+                <th>N°Demande</th>
+                <th>Client</th>
+                <th>Nom chantier</th>
+                <th>CP</th>
+                <th>Ville</th>
+                <th>Interlocuteur</th>
+                <th>Tel</th>
+                <th>Date du Devis</th>
+                <th>Commentaire</th>
+                <td></td>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for demande in demandes %}
+                <tr class="text-center">
+                    <td class="statut-td" id="{{ demande.id }}">
+
+                        <div class="badge col-md-12" id="badge-statut-{{ demande.id }}"
+                             style="font-size:1em;background:{{ demande.statutCommercial is not empty ? demande.statutCommercial.couleurBG : '' }};color: {{ demande.statutCommercial is not empty ? demande.statutCommercial.couleur : '' }};">
+                            {{ demande.statutCommercial }}
+                        </div>
+
+                        {% if demande.statutCommercial2 is not empty %}
+                            <div class="badge col-md-12 mt-1" id="badge-statut2-{{ demande.id }}"
+                                 style="font-size:1em;background:{{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleurBG : '' }};color: {{ demande.statutCommercial2 is not empty ? demande.statutCommercial2.couleur : '' }};">
+                                {{ demande.statutCommercial2 }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set statut1Tache = "" %}
+                        {% set statut2Tache = "" %}
+
+
+                        {% for tache in demande.evenements %}
+
+                            {% if demande.statutCommercial is not empty and  tache.code == demande.statutCommercial.id and tache.statut == "En cours" %}
+
+                                {% set statut1Tache = tache %}
+
+                            {% endif %}
+
+                            {% if demande.statutCommercial2 is not empty and tache.code == demande.statutCommercial2.id and tache.statut == "En cours" %}
+
+                                {% set statut2Tache = tache %}
+
+                            {% endif %}
+
+                        {% endfor %}
+                        <div class="badge col-md-12" id="badge-tache-1-{{ demande.id }}" style="color: #0E4377;font-size:1em;">
+
+                            {% if statut1Tache is not empty %}
+                                {{ statut1Tache.dateDeFin|date('d/m/Y H:i') }}
+                            {% else %}
+                                Aucune Tâche
+                            {% endif %}
+                        </div>
+
+                        {% if statut2Tache is not empty %}
+                            <div class="badge col-md-12 mt-1" id="badge-tache-2-{{ demande.id }}" style="color: #0E4377;font-size:1em;">
+                                {{ statut2Tache.dateDeFin|date('d/m/Y H:i') }}
+                            </div>
+                        {% endif %}
+
+
+                    </td>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.reference }}</a></td>
+                    <td>
+                        {% if demande.client is not empty %}
+                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':demande.client.id}) }}"> {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}</a>
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ path('app_demande_show', {'id': demande.id}) }}">{{ demande.nomChantier }}</a></td>
+                    <td>{{ demande.codePostal }}</td>
+                    <td>{{ demande.ville }}</td>
+                    <td>
+                        {% if demande.contactPrincipalClient is not empty %}
+                            <a href="{{ path('app_contact_contact_show',{'id':demande.contactPrincipalClient.id}) }}">
+                                {{ demande.contactPrincipalClient.nom~" "~demande.contactPrincipalClient.prenom }}
+                            </a>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if demande.contactPrincipalClient is not empty %}
+                            {{ demande.contactPrincipalClient.telephoneMobile is not empty ? demande.contactPrincipalClient.telephoneMobile : demande.contactPrincipalClient.telephone }}
+                        {% endif %}
+                    </td>
+                    <td></td>
+
+                    <td>
+
+                        {% if demande.conversationClient is not empty %}
+                            {% set content = demande.conversationClient.messages|last %}
+                            {% if content.message is defined %}
+                                <a href="{{ path('app_demande_show', {'id': demande.id,'menu':'commentaires-tab'}) }}">
+                                    {{ content.message }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if demande.lienGed is not empty %}
+                            <a href="{{ demande.lienGed }}" target="_blank">
+                                <i class="bi bi-files" style="font-size: 1.2rem;"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="13">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+
+
+        $(document).on('click', '.add-button-evenement', function () {
+
+            const id = $(this).attr('id').replace('s1_', '').replace('s2_', '');
+            const indice = $(this).attr('id').replaceAll('_' + id, '');
+            let url = "/demande/modal/statut/evenement/" + id + "/" + indice;
+
+            const button = $(this);
+
+            console.log(indice);
+
+            if (button.hasClass('plus')) {
+                if ($('#div_' + indice).length == 0) {
+                    $.post(url, function (response) {
+                        const data = JSON.parse(response);
+                        $('#' + indice).append(data.message);
+                        $('.select2').select2();
+                        button.removeClass('plus');
+                        button.addClass('moins')
+                        button.text('- Annuler la tache')
+                        if (indice === "s2") {
+                            $('#demande_statut2_' + id).attr('required', true)
+                        }
+                    })
+                }
+            } else if (button.hasClass('moins')) {
+                if (indice === "s2") {
+                    $('#demande_statut2_' + id).attr('required', false)
+                }
+                $('#div_' + indice).remove();
+                button.removeClass('moins');
+                button.addClass('plus');
+                button.text('+ Ajouter une tache');
+            }
+
+
+        })
+
+        function submitStatut(event) {
+            event.preventDefault();
+            $('.form-submit-loader').show();
+
+            const id = $('.statut-select').attr('id').replaceAll('demande_statut_', '');
+
+            const val = $('.statut-select').val();
+            const val2 = $('.statut-select-2').val();
+
+            let event1 = {};
+            let event2 = {};
+
+
+            if ($('#div_s1').length > 0) {
+
+                const date = $('#evenement_date_s1').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s1').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s1').val()
+                    + ":00";
+
+                event1 = {
+                    titre: $('#evenement_titre_s1').val(),
+                    attribueA: $('#evenement_dateDeFin_s1').val(),
+                    description: $('#evenement_description_s1').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s1_[priorite]"]:checked').val(),
+                }
+                console.log(event1);
+            }
+            if ($('#div_s2').length > 0) {
+                const date = $('#evenement_date_s2').val()
+                    + " " + $('#evenement_dateDeFin_time_hour_s2').val()
+                    + ":" + $('#evenement_dateDeFin_time_time_s2').val()
+                    + ":00";
+                event2 = {
+                    titre: $('#evenement_titre_s2').val(),
+                    attribueA: $('#evenement_dateDeFin_s2').val(),
+                    description: $('#evenement_description_s2').val(),
+                    dateDeFin: date,
+                    priorite: $('input[name="evenement_s2_[priorite]"]:checked').val(),
+                }
+                console.log(event2);
+            }
+
+            let data = {
+                id: id,
+                statut: val,
+                statut2: val2,
+                event1: event1,
+                event2: event2
+            };
+
+            $.post('{{ path('app_demande_statut_update') }}', {data: data}, function (response) {
+                const data = JSON.parse(response);
+                console.log(response)
+
+                $('.form-submit-loader').hide();
+
+                if (data.code === 200) {
+                    $('#statut-success').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+                        $('#badge-statut-' + id).text(data.statut);
+                        $('#badge-statut-' + id).css('color', data.couleur);
+                        $('#badge-statut-' + id).css('background-color', data.couleurBG);
+
+
+                    }, "1000")
+
+                } else {
+                    $('#statut-danger').show();
+                    setTimeout(() => {
+                        $('#modal-changer-statut-demande').modal('hide');
+                        $('#modal-changer-statut-demande').remove();
+
+                    }, "3000")
+                }
+            })
+
+
+        }
+
+        $('.statut-td').dblclick(function () {
+            const id = $(this).attr('id');
+            $('#modal-changer-statut-demande').remove();
+
+
+            if ($('#modal-changer-statut-demande').length == 0) {
+
+
+                const url = "/demande/statut/modal/template/" + id;
+
+                $('.modal').remove();
+                $.post(url, function (response) {
+                    const data = JSON.parse(response);
+                    $('body').append(data.message);
+                    $('#modal-changer-statut-demande').modal('show');
+                })
+            }
+
+
+        })
+
+
+        $('#vue').click(function () {
+            console.log($(this).val())
+
+            setVue();
+        })
+
+        function setVue() {
+            if ($('#vue').val() === "globale") {
+                $('#commerciale').slideDown();
+                $('#globale').slideUp();
+                $('#vue').val('commerciale');
+                $('#vue').text('Vue globale')
+                vue('DemandeVueCommerciale')
+            } else if ($('#vue').val() === "commerciale") {
+                $('#commerciale').slideUp();
+                $('#globale').slideDown();
+                $('#vue').val('globale');
+                $('#vue').text('Vue commerciale')
+                vue('DemandeVueGlobal')
+            }
+        }
+
+        if ($('#vue').val() === "globale") {
+            $('#commerciale').slideUp();
+            $('#globale').slideDown();
+        } else if ($('#vue').val() === "commerciale") {
+            $('#commerciale').slideDown();
+            $('#globale').slideUp();
+        }
+
+        function vue(val) {
+            const url = '/user/vue/' + val + '/demandeIndex';
+            $.post(url, function (response) {
+                console.log(JSON.parse(response));
+            })
+        }
+    </script>
+{% endblock %}

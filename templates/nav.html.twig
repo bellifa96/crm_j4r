@@ -1,0 +1,345 @@
+<div class="sidebar-wrapper active ps ps--active-y">
+	<div class="sidebar-menu">
+		<ul class="menu">
+			<li class="sidebar-title">Menu</li>
+
+			<li class="sidebar-item {{ app.request.get('_route') == 'app_home' ? 'active' }}">
+				<a href="{{ path('app_home') }}" class="sidebar-link">
+					<i class="bi bi-grid-fill"></i>
+					<span>Dashboard</span>
+				</a>
+			</li>
+
+			<li class="sidebar-title  sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index' ? 'active' }}">
+				<a href="{{ path('app_interlocuteur_interlocuteur_index') }}" class="sidebar-link">
+					<span>Interlocuteur</span>
+				</a>
+
+
+				<ul>
+
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index_client' ? 'active' }}">
+						<a href="{{ path('app_interlocuteur_interlocuteur_index_client') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>Client</span>
+						</a>
+					</li>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index_sous_traitant' ? 'active' }}">
+						<a href="{{ path('app_interlocuteur_interlocuteur_index_sous_traitant') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>Sous traitant</span>
+						</a>
+					</li>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index_transporteur' ? 'active' }}">
+						<a href="{{ path('app_interlocuteur_interlocuteur_index_transporteur') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>Transporteur</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_interlocuteur_interlocuteur_index_fournisseur' ? 'active' }}">
+						<a href="{{ path('app_interlocuteur_interlocuteur_index_fournisseur') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>Fournisseur</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item ">
+						<a href="{{ path('app_contact_contact_index') }}" class="sidebar-link {{ app.request.get('_route') == 'app_contact_contact_index' ? 'active' }}">
+							<i class="bi bi-person-lines-fill"></i>
+							<span>Contact</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item ">
+						<a href="{{ path('app_interlocuteur_activite_index') }}" class="sidebar-link">
+							<i class="bi bi-person-lines-fill"></i>
+							<span>Activité</span>
+						</a>
+					</li>
+				</ul>
+
+			</li>
+
+
+			<li class="sidebar-title">
+				GED
+				<ul>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_ged_fichier_index' ? 'active' }}">
+						<a href="{{ path('app_ged_fichier_index') }}" class="sidebar-link">
+							<i class="bi bi-folder2-open"></i>
+							<span>Fichiers</span>
+						</a>
+					</li>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_ged_type_fichier_index' ? 'active' }} ">
+						<a href="{{ path('app_ged_type_fichier_index') }}" class="sidebar-link">
+							<i class="bi bi-folder2-open"></i>
+							<span>Type de documents</span>
+						</a>
+					</li>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_ged_fichier_deleted' ? 'active' }} ">
+						<a href="{{ path('app_ged_fichier_deleted') }}" class="sidebar-link">
+							<i class="bi bi-trash"></i>
+							<span>Corbeille</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+
+
+			<li class="sidebar-title">
+				Demande
+				<ul>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_demande_index' ? 'active' }} ">
+						<a href="{{ path('app_demande_index') }}" class="sidebar-link  ">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+
+					{# <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-stack"></i>
+					                            <span>Taches</span>
+					                        </a>
+					                    </li>
+					
+					                    <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-bar-chart-line"></i>
+					                            <span>Forecast</span>
+					                        </a>
+					                    </li> #}
+				</ul>
+			</li>
+
+
+			<li class="sidebar-title">
+				Devis
+				<ul>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_devis_index' ? 'active' }} ">
+						<a href="{{ path('app_affaire_devis_index') }}" class="sidebar-link  ">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+
+					{% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles %}
+						<li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }} ">
+							<a href="{{ path('app_affaire_type_composant_index') }}" class="sidebar-link  ">
+								<i class="bi bi-currency-dollar"></i>
+								<span>
+									Gestion des composants
+								</span>
+							</a>
+						</li>
+
+						<li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_type_ouvrage_index' ? 'active' }} ">
+							<a href="{{ path('app_affaire_type_ouvrage_index') }}" class="sidebar-link  ">
+								<i class="bi bi-currency-dollar"></i>
+								<span>
+									Gestion des ouvrages
+								</span>
+							</a>
+						</li>
+						<li class="sidebar-item  {{ app.request.get('_route') == 'app_unite_index' ? 'active' }}">
+							<a href="{{ path('app_unite_index') }}" class="sidebar-link">
+								<i class="bi bi-stack"></i>
+								<span>Gestion des unités</span>
+							</a>
+						</li>
+					{% endif %}
+					{# <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-stack"></i>
+					                            <span>Taches</span>
+					                        </a>
+					                    </li>
+					
+					                    <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-bar-chart-line"></i>
+					                            <span>Forecast</span>
+					                        </a>
+					                    </li> #}
+				</ul>
+			</li>
+
+			<li class="sidebar-title">
+				Chantier
+				{# <ul>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-list-ul"></i>
+				                            <span> Liste </span>
+				                        </a>
+				                    </li>
+				
+				                    <li class="sidebar-item ">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span>Taches</span>
+				                        </a>
+				                    </li>
+				
+				                    <li class="sidebar-item ">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span>YTD</span>
+				                        </a>
+				                    </li>
+				                </ul> #}
+			</li>
+
+
+			<li class="sidebar-title">
+				Transport
+
+				<ul>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_transport_index' ? 'active' }} ">
+						<a href="{{ path('app_affaire_transport_index') }}" class="sidebar-link  ">
+							<i class="bi bi-cart-dash-fill"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+
+				</ul>
+			</li>
+
+
+			<li class="sidebar-title">
+				Analyse
+
+				{# <ul>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-clock-history"></i>
+				                            <span> Chiffres </span>
+				                        </a>
+				                    </li>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span> Objectifs </span>
+				                        </a>
+				                    </li>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-graph-up-arrow"></i>
+				                            <span> Statistiques </span>
+				                        </a>
+				                    </li>
+				                </ul> #}
+			</li>
+
+
+			<li class="sidebar-title">
+				Inventaire
+
+				<ul>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_materiel_index' ? 'active' }} ">
+						<a href="{{ path('app_materiel_index') }}" class="sidebar-link  ">
+							<i class="bi bi-cart-dash-fill"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_pret_index' ? 'active' }}">
+						<a href="{{ path('app_pret_index') }}" class="sidebar-link">
+							<i class="bi bi-handbag-fill"></i>
+							<span>
+								Prêts
+							</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="sidebar-title">
+				Utilisateur
+				<ul>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_user_index' ? 'active' }}">
+						<a href="{{ path('app_user_index') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_entite_entite_index' ? 'active' }}">
+						<a href="{{ path('app_entite_entite_index') }}" class="sidebar-link">
+							<i class="bi bi-stack"></i>
+							<span>Entité</span>
+						</a>
+					</li>
+					<li class="sidebar-item ">
+						<a href="#" class="sidebar-link">
+							<i class="bi bi-stack"></i>
+							<span>LOGS</span>
+						</a>
+					</li>
+
+
+				</ul>
+			</li>
+			<li class="sidebar-title">
+				Ticket
+				<ul>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_index' ? 'active' }}">
+						<a href="{{ path('app_ticket_index') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_new' ? 'active' }}">
+						<a href="{{ path('app_ticket_new') }}" class="sidebar-link">
+							<i class="bi bi-stack"></i>
+							<span>Ajouter</span>
+						</a>
+					</li>
+				
+
+
+				</ul>
+			</li>
+
+			<li class="sidebar-title">
+				Administration
+				<ul>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_affaire_statut_index' ? 'active' }}">
+						<a href="{{ path('app_affaire_statut_index') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Statuts
+							</span>
+						</a>
+					</li>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_user_poste_index' ? 'active' }}">
+						<a href="{{ path('app_user_poste_index') }}" class="sidebar-link">
+							<i class="bi bi-stack"></i>
+							<span>Postes</span>
+						</a>
+					</li>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_user_service_index' ? 'active' }}">
+						<a href="{{ path('app_user_service_index') }}" class="sidebar-link">
+							<i class="bi bi-stack"></i>
+							<span>Services</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+
+
+		</ul>
+	</div>
+</div>

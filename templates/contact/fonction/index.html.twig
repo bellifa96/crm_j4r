@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fonction index{% endblock %}
+
+{% block body %}
+    <h1>Fonction index</h1>
+
+    <table class="table datatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fonction in fonctions %}
+            <tr>
+                <td>{{ fonction.id }}</td>
+                <td>{{ fonction.titre }}</td>
+                <td>{{ fonction.code }}</td>
+                <td>
+                    <a href="{{ path('app_contact_fonction_show', {'id': fonction.id}) }}">show</a>
+                    <a href="{{ path('app_contact_fonction_edit', {'id': fonction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contact_fonction_new') }}">Create new</a>
+{% endblock %}

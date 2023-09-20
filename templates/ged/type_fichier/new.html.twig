@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeFichier{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeFichier</h1>
+
+    {{ include('ged/type_fichier/_form.html.twig') }}
+
+    <a href="{{ path('app_ged_type_fichier_index') }}">back to list</a>
+{% endblock %}

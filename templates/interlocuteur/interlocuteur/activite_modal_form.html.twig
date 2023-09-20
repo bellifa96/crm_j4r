@@ -1,0 +1,55 @@
+<div class="modal fade col-md-4" id="add-activite" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <form class="form-control" method="POST" onsubmit="return submitActivite(event)" id="activite-form" >
+
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleModalLabel">Ajouter une nouvelle activité</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            Titre
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm-2" name="titre_new_activite" id="titre" />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            Code
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control form-control-sm-2" name="code_new_activite" id="code" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="footer-load" style="display: none;">
+
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+
+                    <div id="modal_button">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler
+                        </button>
+
+                        <button type="submit" class="btn btn-primary submit" value="create"
+                                name="create_new_activite"
+                                id="create_new_Activite" onclick="$('#modal_button').hide();$('#footer-load').show();">
+                            Enregistrer
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

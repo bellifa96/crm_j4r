@@ -1,0 +1,1002 @@
+<style>
+
+    .col-md-2-5 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #1ab2e4
+    }
+
+    .profile-button {
+        background: #1ab2e4;
+        box-shadow: none;
+        border: none
+    }
+
+    .profile-button:hover {
+        background: #1ab2e4
+    }
+
+    .profile-button:focus {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .profile-button:active {
+        background: #1ab2e4;
+        box-shadow: none
+    }
+
+    .back:hover {
+        color: #1ab2e4;
+        cursor: pointer
+    }
+
+    h6 {
+        color: #0d4377;
+        text-align: center;
+    }
+
+    .labels {
+        font-size: 11px;
+        color: #0d4377;
+        font-weight: bold;
+    }
+
+    .add-service {
+        color: black;
+    }
+
+    .add-service:hover {
+        background: #BA68C8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #BA68C8
+    }
+
+
+    section {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    section > div {
+        flex: 1;
+        padding: 0.5rem;
+    }
+
+    .te {
+        display: none;
+    }
+
+    .te:not(:disabled) ~ .te-label {
+        cursor: pointer;
+    }
+
+    .te:disabled ~ .te-label {
+        color: #bcc2bf;
+        border-color: #bcc2bf;
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+
+    .te-label {
+
+        font-weight: 900;
+        height: 100%;
+        display: block;
+        color: #0d4377;
+        background: white;
+        border: 2px solid #0d4377;
+        border-radius: 20px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 3px 5px -2px rgba(161, 170, 166, 0.5);
+        position: relative;
+    }
+
+    .te:checked + .te-label {
+        background: #0d4377;
+        color: white;
+        box-shadow: 0 0 5px #0d4377;
+    }
+
+    .te:checked + .te-label::after {
+        color: #3d3f43;
+        border: 2px solid #0d4377;
+        content: "✔";
+        color: #0d4377;
+        font-size: 24px;
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
+    }
+
+
+    @media only screen and (max-width: 700px) {
+        section {
+            flex-direction: column;
+        }
+    }
+
+    label {
+        color: #0d4377;
+    }
+</style>
+
+{{ form_start(form) }}
+
+
+<div class="col-md-10 m-auto row justify-content-around mb-4">
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Statut
+            </div>
+            <div class="col-md-auto">
+                {{ form_widget(form.statut,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Statut commercial
+            </div>
+            <div class="col-md-auto ">
+                {{ form_widget(form.statutCommercial,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if form.createur is defined and app.user == demande.createur and ( is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') ) %}
+
+
+        <div class="col-md-4 row">
+            <div class="col-md-auto labels">
+                Conducteur de travaux
+            </div>
+            <div class="col-md-auto ">
+                {{ form_widget(form.createur,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+            </div>
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+
+<div class="page-block col-md-10 m-auto">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Client</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.client,{"attr":{"class":" ","autofocus":"on"}}) }}
+                </div>
+            </div>
+
+
+            {% if demande.contactPrincipalClient is not empty and demande.client is not empty %}
+
+                <div class="row mt-2 contact-client">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]"
+                                id="demande_contact_principal_client">
+                            {% for contact in demande.client.contacts %}
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalClient  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            {% endif %}
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels required">Nom du chantier</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.nomChantier,{"attr":{"class":"form-control form-control-sm-2","autofocus":"on","placeholder":"Nom du chantier"}}) }}
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Adresse Chantier</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.adresse1,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Adresse postale"}}) }}
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Complément d'adresse</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.adresse2,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Adresse postale"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de la demande</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.date,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date du relevé</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDuReleve,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de remise</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDeRemise,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Date de début prévisionnel</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.dateDebutPrevisionnel,{"attr":{"class":"form-control form-control-sm-2 datepicker","autocomplete":"off"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Référence demande</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.reference,{"attr":{"class":"form-control form-control-sm-2","autocomplete":"off"}}) }}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Lien serveur</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.lienGed,{"attr":{"class":"form-control form-control-sm-2","autocomplete":"off"}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Maître d'ouvrage</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.maitreDOuvrage,{"attr":{"class":""}}) }}
+                </div>
+            </div>
+
+
+            {% if demande.contactPrincipalMaitreDOuvrage is not empty and demande.maitreDOuvrage is not empty %}
+                <div class="row mt-2 contact-maitre-douvrage">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]"
+                                id="demande_contact_principal_maitre_douvrage">
+                            {% for contact in demande.maitreDOuvrage.contacts %}
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalMaitreDOuvrage  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Intermediaire</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.intermediaire,{"attr":{"class":""}}) }}
+                </div>
+            </div>
+
+            {% if demande.contactPrincipalIntermediaire is not empty and demande.intermediaire is not empty %}
+                <div class="row mt-2 contact-intermediaire">
+                    <div class="col-md-3 text-end">
+                        <label class="labels">Contact principal</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]"
+                                id="demande_contact_principal_intermediaire">
+                            {% for contact in demande.intermediaire.contacts %}
+                                <option value="{{ contact.id }}" {{ contact == demande.contactPrincipalIntermediaire  ? "selected" }}>{{ contact.nom~" "~contact.prenom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Contacts Secondaires</label>
+                </div>
+                <div class="col-md-9">
+                    <select class="form-control tel-code" name="demande[contactsSecondaires][]"
+                            id="demande_contacts_secondaires" multiple>
+                        {% for contact in demande.contactsSecondaires %}
+                            <option value="{{ contact.id }}" selected> {{ contact.nom~" "~contact.prenom }}</option>
+                        {% endfor %}
+
+                        {% if demande.intermediaire is not empty %}
+                            {% for contact in demande.intermediaire.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if demande.client is not empty %}
+                            {% for contact in demande.client.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if demande.maitreDOuvrage is not empty %}
+                            {% for contact in demande.maitreDOuvrage.contacts %}
+                                {% if  contact not in demande.contactsSecondaires %}
+                                    <option value="{{ contact.id }}"> {{ contact.nom~" "~contact.prenom }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-2" style="justify-content: flex-end;">
+                <div class="col-md-6 row">
+                    <div class=" text-end" style="flex: 0 0 auto; width: 37.33333333%;">
+                        <label class="labels" style="margin-right: 2%;">Code postal</label>
+                    </div>
+                    <div class="col-md-7">
+                        {{ form_widget(form.codePostal,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Code postal"}}) }}
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 row">
+                    <div class="col-md-4 text-end">
+                        <label class="labels">Ville</label>
+                    </div>
+                    <div class="col-md-8">
+                        {{ form_widget(form.ville,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Ville"}}) }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels">Pays</label>
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.pays,{"attr":{"class":"form-control form-control-sm-2","placeholder":"Pays"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels" for="demande_faireUnReleve">Faire un relevé</label>
+                    {{ form_widget(form.faireUnReleve,{"attr":{"class":"checkbox-input"}}) }}
+
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.userReleve,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3 text-end">
+                    <label class="labels" for="demande_faireUnDevis">Faire un Devis</label>
+                    {{ form_widget(form.faireUnDevis,{"attr":{"class":"checkbox-input"}}) }}
+
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.userDevis,{"attr":{"class":"form-control form-control-sm-2"}}) }}
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="page-block col-md-10 m-auto mt-4">
+
+
+    <div class="demande_typeEchafaudage col-md-8 m-auto ">
+
+        <div class="row justify-content-center">
+            <div class="col-md-auto text-end mt-2">
+                <label class="labels" style="position: relative;top: 50%;">Type d'échafaudage</label>
+            </div>
+            {% for child in form.typeEchafaudage %}
+                <div class="col-md-2-5 required mt-2">
+                    {{ form_widget(child,{'attr':{'class':'te'}}) }}
+                    <label for="{{ child.vars.id }}" class="te-label required mt-2">
+                        {{ child.vars.label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page-block col-md-10 m-auto mt-4" id="form-container">
+
+    {% if demande.id is not empty %}
+
+        {% if demande.typeEchafaudage == "Façade" %}
+            {% include 'demande/echafaudage/facade.html.twig' with {'demande': demande} %}
+        {% elseif  demande.typeEchafaudage == "Parapluie" %}
+            {% include 'demande/echafaudage/parapluie.html.twig' with {'demande': demande} %}
+
+        {% elseif  demande.typeEchafaudage == "Plateforme" %}
+            {% include 'demande/echafaudage/plateforme.html.twig' with {'demande': demande} %}
+
+        {% elseif  demande.typeEchafaudage == "Particulier" %}
+            {% include 'demande/echafaudage/particulier.html.twig' with {'demande': demande} %}
+
+        {% endif %}
+
+
+    {% endif %}
+
+
+</div>
+
+<div class="page-block col-md-10 m-auto mt-4">
+
+    <div class="col-md-12"><label class="labels">Commentaire</label>
+        {{ form_widget(form.commentaire,{"attr":{"class":"form-control editor","placeholder":"Commentaire"}}) }}
+    </div>
+    <br>
+
+
+</div>
+
+<div class="mt-5 text-center">
+    <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+</div>
+{{ form_end(form) }}
+
+
+<script>
+
+
+    $('#demande_statutCommercial').change(function () {
+
+      //  console.log($(this).val())
+        if($(this).val() == "A modifier"){
+            $('#demande_statut').val('A modifier suite retour client')
+        }
+        // negoce + modifier === modal tache
+        // en attente os
+        // modal
+    })
+
+
+    function releveDevis() {
+
+        if ($('#demande_faireUnReleve').is(':checked')) {
+            $('#demande_userReleve').show();
+            $('#demande_userReleve').attr('required',true);
+
+        } else {
+            $('#demande_userReleve').hide();
+            $('#demande_userReleve').attr('required',false);
+        }
+
+        if ($('#demande_faireUnDevis').is(':checked')) {
+            $('#demande_userDevis').show();
+            $('#demande_userDevis').attr('required',true);
+
+        } else {
+            $('#demande_userDevis').hide();
+            $('#demande_userDevis').attr('required',false);
+        }
+    }
+
+    $('#demande_faireUnReleve, #demande_faireUnDevis').change(function () {
+        releveDevis();
+    })
+
+    releveDevis();
+
+    $("input[name='demande[typeEchafaudage]']").change(function () {
+        $('.form-container').remove();
+        var path = "{{ path('app_demande_form') }}";
+        $.post(path, {
+            data: $("input[name='demande[typeEchafaudage]']:checked").val(),
+            id: "{{ demande.id }}"
+        }, function (data) {
+            $('#form-container').append(JSON.parse(data).message);
+        })
+    });
+
+    $("#demande_client_autocomplete").change(function () {
+        $('.contact-client').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {
+            id: $("#demande_client_autocomplete").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "client"
+        }, function (data) {
+            const div = `<div class="row mt-2 contact-client">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalClient]" id="demande_contact_principal_client"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                $(div).insertAfter($("#demande_client_autocomplete").parent().parent());
+                data.forEach((value, key) => {
+                    $('#demande_contact_principal_client').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
+        })
+    });
+
+    $("#demande_maitreDOuvrage_autocomplete").change(function () {
+        $('.contact-maitre-douvrage').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {
+            id: $("#demande_maitreDOuvrage_autocomplete").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "maitreDOuvrage"
+        }, function (data) {
+            const div = `<div class="row mt-2 contact-maitre-douvrage">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalMaitreDOuvrage]" id="demande_contact_principal_maitre_douvrage"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                console.log(data),
+                    $(div).insertAfter($("#demande_maitreDOuvrage_autocomplete").parent().parent());
+                data.forEach((value, key) => {
+                    $('#demande_contact_principal_maitre_douvrage').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
+        })
+    });
+
+    $("#demande_intermediaire_autocomplete").change(function () {
+        $('.contact-intermediaire').remove();
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        $.post(path, {
+            id: $("#demande_intermediaire_autocomplete").val(),
+            demande: "{{ demande.id is not empty ? demande.id : '' }}",
+            role: "intermediaire"
+        }, function (data) {
+            const div = `<div class="row mt-2 contact-intermediaire">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Contact principal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control form-control-sm-2" name="demande[contactPrincipalIntermediaire]" id="demande_contact_principal_intermediaire"></select>
+                            </div>
+                         </div>`;
+            data = JSON.parse(data);
+            if (data.length > 0) {
+                $(div).insertAfter($("#demande_intermediaire_autocomplete").parent().parent());
+                data.forEach((value, key) => {
+                    $('#demande_contact_principal_intermediaire').append($('<option>', {
+                        value: value.id,
+                        text: value.text
+                    }));
+                })
+            }
+        })
+    });
+
+    $("#demande_client_autocomplete, #demande_maitreDOuvrage_autocomplete, #demande_intermediaire_autocomplete").change(function () {
+        var path = "{{ path('app_contact_interlocuteur_get_contact') }}";
+        let param = {
+            idClient: $("#demande_client_autocomplete").val(),
+            idMaitreOuvrage: $("#demande_maitreDOuvrage_autocomplete").val(),
+            idIntermediaire: $("#demande_intermediaire_autocomplete").val(),
+            demande: "{{ demande.id }}"
+        }
+        $.post(path, param, function (data) {
+            data = JSON.parse(data);
+            $('#demande_contacts_secondaires').children().remove();
+            console.log(data)
+            data.forEach((value, key) => {
+                $('#demande_contacts_secondaires').append($('<option>', {
+                    value: value.id,
+                    text: value.text,
+                    selected: value.selected
+                }));
+            })
+        })
+    })
+    ;
+
+    $(document).on("change", "input[name='demande[documentsSouhaites][]']", function () {
+
+        let arr = [];
+        $.each($("input[name='demande[documentsSouhaites][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if (arr.includes("Autre") && $('#demande_documentsSouhaites_2_autre').length === 0) {
+            let div = `<div class="col-md-6 row">
+                                <input type="text" id="demande_documentsSouhaites_2_autre"
+                                       name="demande[documentsSouhaites][]"
+                                       class="form-control">
+                       </div>`;
+            $('#demande_documentsSouhaites').append(div);
+
+        } else if (!arr.includes("Autre") && $('#demande_documentsSouhaites_2_autre').length > 0) {
+
+            $('#demande_documentsSouhaites_2_autre').parent().remove();
+
+        }
+    });
+
+
+    $(document).on("change", "input[name='demande[travauxPrevus][]']", function () {
+        let arr = [];
+        $.each($("input[name='demande[travauxPrevus][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+        console.log(arr)
+        if (arr.includes("Autre") && $('#demande_travauxPrevus_autre').length === 0) {
+            let div = `     <div class="col-md-6">
+                                <input type="text" id="demande_travauxPrevus_autre" name="demande[travauxPrevus][]" class="form-control">
+                            </div>`;
+            $('#demande_travauxPrevus').append(div);
+
+        } else if (!arr.includes("Autre") && $('#demande_travauxPrevus_autre').length > 0) {
+            $('#demande_travauxPrevus_autre').parent().remove();
+        }
+    });
+
+
+    $(document).on("change", "input[name='demande[typeDeMateriel]']", function () {
+        if ($("input[name='demande[typeDeMateriel]']:checked").val() === "Universel" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Eurofacadacier"
+            || $("input[name='demande[typeDeMateriel]']:checked").val() === "Couvralu" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Couvralu XL"
+            || $("input[name='demande[typeDeMateriel]']:checked").val() === "Fixe" || $("input[name='demande[typeDeMateriel]']:checked").val() === "Roulant"
+        ) {
+            $('#demande_typeDeMateriel_autre').remove();
+        } else if ($('#demande_typeDeMateriel_autre').length === 0) {
+            let div = `<input type="text" id="demande_typeDeMateriel_autre" name="demande[typeDeMateriel]" required="required" class="form-control">`;
+            $('#demande_typeDeMateriel').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[ammarages][]']", function () {
+        let arr = [];
+        $.each($("input[name='demande[ammarages][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+        if (arr.includes("Autre") && $('#demande_ammarages_autre').length === 0) {
+            let div = `<input type="text" id="demande_ammarages_autre" name="demande[ammarages][]" required="required"   class="form-control">`;
+            $('#demande_ammarages').append(div);
+        } else if (!arr.includes("Autre") && $('#demande_ammarages_autre').length > 0) {
+            $('#demande_ammarages_autre').remove();
+        }
+    });
+
+    $(document).on("change", "input[name='demande[largeurDeTravail]']", function () {
+
+        if ($("input[name='demande[largeurDeTravail]']:checked").val() === "0.4" || $("input[name='demande[largeurDeTravail]']:checked").val() === "1"
+        ) {
+            $('#demande_largeur_de_travail_autre').remove();
+        } else if ($('#demande_largeur_de_travail_autre').length === 0) {
+            let div = `<input type="text" id="demande_largeur_de_travail_autre" name="demande[largeurDeTravail]" required="required"  class="form-control">`;
+            $('#demande_largeur_de_travail').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[consoles]']", function () {
+        if ($("input[name='demande[consoles]']:checked").val() === "0.4" || $("input[name='demande[consoles]']:checked").val() === "0.7"
+        ) {
+            $('#demande_consoles_autre').remove();
+        } else if ($('#demande_consoles_autre').length === 0) {
+            let div = `<input type="text" id="demande_consoles_autre" name="demande[consoles]" required="required"  class="form-control">`;
+            $('#demande_consoles').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[distanceALaFacade]']", function () {
+        if ($("input[name='demande[distanceALaFacade]']:checked").val() === "0.2") {
+            $('#demande_distance_a_la_facade_autre').remove();
+            let div = `
+                    <div id="demande_rapport_distance_a_la_facade">
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_0" name="demande[rapportDistanceALaFacade]" required="required" value="Par rapport au brut">
+                        <label for="demande_rapport_distance_a_la_facade_0" class="required">Par rapport au brut</label>
+
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_1" name="demande[rapportDistanceALaFacade]" required="required" value="Par rapport au fini">
+                        <label for="demande_rapport_distance_a_la_facade_1" class="required">Par rapport au fini</label>
+
+                        <input type="radio" id="demande_rapport_distance_a_la_facade_2" name="demande[rapportDistanceALaFacade]" required="required" value="Autre">
+                        <label for="demande_rapport_distance_a_la_facade_2" class="required">Autre</label>
+                    </div>
+            `;
+            $('#demande_distance_a_la_facade').parent().append(div);
+
+        } else if ($('#demande_distance_a_la_facade_autre').length === 0) {
+            let div = `<input type="text" id="demande_distance_a_la_facade_autre" name="demande[distanceALaFacade]" required="required"  class="form-control">`;
+            $('#demande_distance_a_la_facade').append(div);
+            $('#demande_rapport_distance_a_la_facade').remove();
+
+        }
+    });
+
+
+    $(document).on("change", "input[name='demande[equipements][]']", function () {
+
+        let arr = [];
+        $.each($("input[name='demande[equipements][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if (arr.includes("Passage piéton") && $('#demande_largeur_pssage_pieton').length === 0) {
+            let div = `
+                  <div id="demande_largeur_pssage_pieton" class="equipement_sous_param">
+                    <input type="radio" id="demande_largeur_pssage_pieton_0" name="demande[largeurPassagePieton]" required="required" value="0.7">
+                    <label for="demande_largeur_pssage_pieton_0" class="required">Largeur 0,7 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_1" name="demande[largeurPassagePieton]" required="required" value="1">
+                    <label for="demande_largeur_pssage_pieton_1" class="required">Largeur 1 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_2" name="demande[largeurPassagePieton]" required="required" value="1.5">
+                    <label for="demande_largeur_pssage_pieton_2" class="required">Largeur 1,5 m</label>
+
+                    <input type="radio" id="demande_largeur_pssage_pieton_3" name="demande[largeurPassagePieton]" required="required" value="Autre">
+                    <label for="demande_largeur_pssage_pieton_3" class="required">Autre</label>
+                </div>
+            `;
+            $('#demande_equipements').parent().append(div);
+        } else if (!arr.includes("Passage piéton") && $('#demande_largeur_pssage_pieton').length > 0) {
+            $('#demande_largeur_pssage_pieton').remove();
+        }
+
+
+        if (arr.includes("Protection couvreur") && $('#demande_protection_couvreur').length === 0) {
+            let div = `
+                  <div id="demande_protection_couvreur" class="equipement_sous_param">
+                    <input type="radio" id="demande_protection_couvreur_0" name="demande[protectionCouvreur]" required="required" value="En moise">
+                    <label for="demande_protection_couvreur_0" class="required">En moise</label>
+
+                    <input type="radio" id="demande_protection_couvreur_1" name="demande[protectionCouvreur]" required="required" value="Grillagée">
+                    <label for="demande_protection_couvreur_1" class="required">Grillagée</label>
+                </div>
+            `;
+            $('#demande_equipements').parent().append(div);
+        } else if (!arr.includes("Protection couvreur") && $('#demande_protection_couvreur').length > 0) {
+            $('#demande_protection_couvreur').remove();
+        }
+    });
+
+    $(document).on("change", "input[name='demande[largeurPassagePieton]']", function () {
+        if ($("input[name='demande[largeurPassagePieton]']:checked").val() === "0.7" || $("input[name='demande[largeurPassagePieton]']:checked").val() === "1"
+            || $("input[name='demande[largeurPassagePieton]']:checked").val() === "1.5") {
+            $('#demande_protection_couvreur_autre').remove();
+        } else if ($('#demande_protection_couvreur_autre').length === 0) {
+            let div = `<input type="text" id="demande_protection_couvreur_autre" name="demande[largeurPassagePieton]" required="required"  class="form-control">`;
+            $('#demande_largeur_pssage_pieton').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[acces]']", function () {
+        if ($("input[name='demande[acces]']:checked").val() === "Volée alu à palier incorporé" || $("input[name='demande[acces]']:checked").val() === "Planche à trappe") {
+            $('#demande_acces_autre').remove();
+        } else if ($('#demande_acces_autre').length === 0) {
+            let div = `<input type="text" id="demande_acces_autre" name="demande[acces]" required="required"  class="form-control">`;
+            $('#demande_acces').append(div);
+        }
+    });
+
+    $(document).on("change", "input[name='demande[bache][]']", function () {
+
+        let arr = [];
+        $.each($("input[name='demande[bache][]']:checked"), function () {
+            arr.push($(this).val());
+        });
+
+        if (arr.includes("Thémée") && $('#demande_bache_autre').length === 0) {
+            let div = `<div class="col-md-6">
+                                <input type="text" id="demande_bache_autre"
+                                       name="demande[bache][themee]"
+                                       class="form-control">
+                       </div>`;
+
+            $('#demande_themee').append(div);
+
+        } else if (!arr.includes("Thémée") && $('#demande_bache_autre').length > 0) {
+
+            $('#demande_bache_autre').parent().remove();
+
+        }
+    });
+
+    $(document).on("change", "input[name='demande[finitionPlancher]']", function () {
+        if ($("input[name='demande[finitionPlancher]']:checked").val() === "Planchers acier" || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers scenes"
+            || $("input[name='demande[finitionPlancher]']:checked").val() === "Planchers combi") {
+            $('#demande_finitionPlancher_autre').remove();
+        } else if ($('#demande_finitionPlancher_autre').length === 0) {
+            let div = `<input type="text" id="demande_finitionPlancher_autre" name="demande[finitionPlancher]" required="required" class="form-control">`;
+            $('#demande_finitionPlancher').append(div);
+        }
+    });
+
+
+    function sumDG() {
+        let sum = parseFloat($('#demande_dimensionsGlobales_longueur_totale').val()) * parseFloat($('#demande_dimensionsGlobales_hauteur_totale').val());
+        if ($('#sumDG').length > 0) {
+            $('#sumDG-input').val(isNaN(sum) ? 0 : sum)
+        } else {
+            let p = '<p id="sumDG">' + (isNaN(sum) ? 0 : sum) + '</p>'
+
+            let div = `
+                    <div class="col-md-4" id="sumDG">
+                        <label for="sumDG-label">Surface m2</label>
+                        <input type="text" id="sumDG-input" class="form-control" disabled
+                               value='0'
+                     >
+            </div>
+            `;
+            $('#demande_dimensionsGlobales_hauteur_totale').parent().parent().append(div)
+            $('#sumDG-input').val(isNaN(sum) ? 0 : sum)
+
+        }
+    }
+
+    $(document).on("change", "#demande_dimensionsGlobales_longueur_totale, #demande_dimensionsGlobales_hauteur_totale", function () {
+        sumDG();
+    });
+
+    $(document).on("change", "input[name='demande[implantation]']", function () {
+        if ($("input[name='demande[implantation]']:checked").val() === "Surface à implanter") {
+            let div = `
+                    <div id="demande_surface_implantation">
+                        <input type="radio" id="demande_surface_implantation_0" name="demande[implantation][surface]" required="required" value="Sol meuble (terre, trous,...)">
+                        <label for="demande_surface_implantation_0" class="required">Sol meuble (terre, trous,...)</label>
+
+                        <input type="radio" id="demande_surface_implantation_1" name="demande[implantation][surface]" required="required" value="Sol dur (béton, enrobé,...)">
+                        <label for="demande_surface_implantation_1" class="required">Sol dur (béton, enrobé,...)</label>
+                    </div>
+            `;
+            $('#demande_surface_implantation').append(div);
+            $('#demande_zone_implantation').remove();
+            $('#demande_desencombrement_implantation').remove();
+
+        } else if ($("input[name='demande[implantation]']:checked").val() === "Zone à implanter") {
+            let div = `
+                    <div id="demande_zone_implantation">
+                        <input type="radio" id="demande_zone_implantation_0" name="demande[implantation][zone]" required="required" value="Emprise chantier">
+                        <label for="demande_zone_implantation_0" class="required">Emprise chantier</label>
+
+                        <input type="radio" id="demande_zone_implantation_1" name="demande[implantation][zone]" required="required" value="Cour intérieure">
+                        <label for="demande_zone_implantation_1" class="required">Cour intérieure</label>
+
+                        <input type="radio" id="demande_zone_implantation_2" name="demande[implantation][zone]" required="required" value="Trottoir">
+                        <label for="demande_zone_implantation_2" class="required">Trottoir</label>
+                    </div>
+            `;
+            $('#demande_zone_implantation').append(div);
+            $('#demande_surface_implantation').remove();
+            $('#demande_desencombrement_implantation').remove();
+
+        } else if ($("input[name='demande[implantation]']:checked").val() === "Désencombrement") {
+            let div = `
+                    <div id="demande_desencombrement_implantation">
+                        <input type="radio" id="demande_desencombrement_implantation_0" name="demande[implantation][desencombrement]" required="required" value="A prévoir / Charge client">
+                        <label for="demande_desencombrement_implantation_0" class="required">A prévoir / Charge client</label>
+
+                        <input type="radio" id="demande_desencombrement_implantation_1" name="demande[implantation][desencombrement]" required="required" value="Situation">
+                        <label for="demande_desencombrement_implantation_1" class="required">Situation</label>
+                    </div>
+            `;
+            $('#demande_desencombrement_implantation').append(div);
+            $('#demande_surface_implantation').remove();
+            $('#demande_zone_implantation').remove();
+
+        }
+    });
+
+    $(document).on("change", "input[name='demande[zoneDeStockage]']", function () {
+        if ($("input[name='demande[zoneDeStockage]']:checked").val() === "Balisage à prévoir") {
+            let div = `
+                    <div id="demande_balisage_zoneDeStockage">
+                        <input type="radio" id="demande_balisage_zoneDeStockage_0" name="demande[zoneDeStockage][balisage]" required="required" value="Cônes">
+                        <label for="demande_balisage_zoneDeStockage_0" class="required">Cônes</label>
+
+                        <input type="radio" id="demande_balisage_zoneDeStockage_1" name="demande[zoneDeStockage][balisage]" required="required" value="Barrières HERAS">
+                        <label for="demande_balisage_zoneDeStockage_1" class="required">Barrières HERAS</label>
+
+                        <input type="radio" id="demande_balisage_zoneDeStockage_2" name="demande[zoneDeStockage][balisage]" required="required" value="Rubalisage">
+                        <label for="demande_balisage_zoneDeStockage_2" class="required">Rubalisage</label>
+                    </div>
+            `;
+            $('#demande_balisage_zoneDeStockage').parent().append(div);
+
+        } else {
+            $('#demande_balisage_zoneDeStockage').remove();
+
+        }
+    });
+
+    $(document).on("change", "input[name='demande[manutentionSupplementaire]']", function () {
+        if ($("input[name='demande[manutentionSupplementaire]']:checked").val() === "Cage d'escalier") {
+            let div = `
+                    <div id="demande_escalier_manutentionSupplementaire">
+                        <input type="number" id="demande_escalier_manutentionSupplementaire_0" name="demande[manutentionSupplementaire][escalier]" required="required">
+                        <label for="demande_escalier_manutentionSupplementaire_0" class="required">Nombre d'étage à monter</label>
+
+                        <input type="number" id="demande_escalier_manutentionSupplementaire_1" name="demande[manutentionSupplementaire][escalier]" required="required">
+                        <label for="demande_escalier_manutentionSupplementaire_1" class="required">Largeur de passage</label>
+
+                        <input type="radio" id="demande_escalier_manutentionSupplementaire_2" name="demande[manutentionSupplementaire][escalier]" required="required" value="Colimasson">
+                        <label for="demande_escalier_manutentionSupplementaire_2" class="required">Colimasson</label>
+
+                        <input type="radio" id="demande_escalier_manutentionSupplementaire_3" name="demande[manutentionSupplementaire][escalier]" required="required" value="Droit">
+                        <label for="demande_escalier_manutentionSupplementaire_3" class="required">Droit</label>
+
+                    </div>
+            `;
+            $('#demande_escalier_manutentionSupplementaire').parent().append(div);
+
+        } else {
+            $('#demande_escalier_manutentionSupplementaire').remove();
+
+        }
+    });
+
+
+
+
+</script>
+

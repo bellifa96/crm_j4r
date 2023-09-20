@@ -1,0 +1,606 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bibliotheque de prix{% endblock %}
+
+{% block body %}
+
+    <style>
+
+        .badge {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .nav-link {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            min-width: 11.25rem !important;
+        }
+
+        .nav-tabs {
+            border-bottom: 8px solid #d9e2ec;
+        }
+
+        .add-button-devis {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            background: #109cf1;
+            color: #ffffff;
+            width: min-content;
+            font-family: Lato, sans-serif;
+            border: 0px;
+        }
+
+        .add-button-devis:hover {
+            background: #0d8cd9;
+        }
+
+        .chakra-input {
+            width: 100%;
+            min-width: 0px;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            position: relative;
+            appearance: none;
+            font-size: 1rem;
+            padding-inline: 0px;
+            height: 1.8rem;
+            border-radius: 0px;
+            border: 0px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-color: #d9e2ec;
+            background: #00000000;
+            color: #486581;
+            opacity: 1;
+
+        }
+
+        .chakra-input:focus {
+            border-color: #109cf1;
+        }
+
+        .chakra-input:focus-visible {
+            border-color: rgb(16, 156, 241);
+            border-top-color: rgb(16, 156, 241);
+            border-right-color: #109cf1;
+            border-bottom-color: rgb(16, 156, 241);
+            border-left-color: rgb(16, 156, 241);
+            box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
+        }
+
+        .modal-footer {
+            border: 0px;
+            justify-content: space-between;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .pointer:hover {
+            background: #edf8ff;
+        }
+
+        .tpoints {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        #svg-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            color: currentcolor;
+            vertical-align: middle;
+            color: #d9e2ec;
+            appearance: none;
+            border: 0;
+            background: unset;
+        }
+
+        #svg-button:hover {
+            color: #0d8cd9;
+        }
+
+        .action-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            color: currentcolor;
+            vertical-align: middle;
+            color: #d9e2ec;
+            appearance: none;
+            border: 0;
+            background: unset;
+        }
+
+        .titre {
+            width: 70%;
+        }
+
+        .valeur {
+            width: 15%;
+        }
+
+        #loader-bibliotheque-page {
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        #loader-bibliotheque-page .modal-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+    <div id="loader-bibliotheque-page" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link" id="nav-composantsv2-tab" data-bs-toggle="tab" data-bs-target="#nav-composantsv2"
+                    type="button" role="tab" aria-controls="nav-composantsv2" aria-selected="false">
+                Composants
+            </button>
+            <button class="nav-link" id="nav-ouvragesv2-tab" data-bs-toggle="tab" data-bs-target="#nav-ouvragesv2"
+                    type="button" role="tab" aria-controls="nav-ouvragesv2" aria-selected="false">
+                Ouvrages
+            </button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+
+        {# nouvelle version des composants et des types d'ouvrage #}
+        <div class="tab-pane fade" id="nav-composantsv2" role="tabpanel" aria-labelledby="nav-composantsv2-tab">
+
+            <div class="pt-5">
+                <div class="container">
+                    <div class="row justify-content-around pb-2">
+                        <div class="col-md-12 row justify-content-end">
+                            <button type="button" class="col-md-6 add-button-devis" id="edit-table-de-prix">Modifier
+                            </button>
+                            <button style="display: none;" type="button" class="col-md-6 add-button-devis"
+                                    id="update-table-de-prix">Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="table table-bordered">
+                            <thead style="color: #fff; border-color: #fff; --bs-table-bg: #0E4377;">
+                            <tr>
+                                <th colspan="10">Base</th>
+                            </tr>
+                            <tr>
+                                <th>Composants</th>
+                                <th>Unités</th>
+                                {% for typeOuvrage in typeOuvrages %}
+                                    <th>{{ typeOuvrage.titre }}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {# affiche le bon nombre de ligne en fonction du nombre de type de composant #}
+                            {% for typeComposant in typeComposants %}
+                                <tr>
+                                    <td>{{ typeComposant.titre }}</td>
+                                    <td class="edit" id="unite-composant{{ typeComposant.id }}"
+                                        composant="{{ typeComposant.id }}">{{ typeComposant.unite }}</td>
+                                    {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
+                                    {% for typeOuvrage in typeOuvrages %}
+                                        {# permet d'affiche le prix correspondant aux deux #}
+                                        {% for unite in typeComposant.tableDePrix %}
+                                            {% if unite.typeOuvrage is same as typeOuvrage %}
+                                                <td class="edit"
+                                                    id="prix-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
+                                                    composant="{{ typeComposant.id }}"
+                                                    ouvrage="{{ typeOuvrage.id }}">{{ unite.prix }}</td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="mt-5" style="overflow-x: auto;">
+                        <table class="table table-bordered">
+                            <thead style="color: #fff; border-color: #fff; --bs-table-bg: #0E4377;">
+                            <tr>
+                                <th colspan="9">Cadence (TPS)</th>
+                            </tr>
+                            <tr>
+                                <th style="width: 12.5%">Composants</th>
+                                {% for typeOuvrage in typeOuvrages %}
+                                    <th style="width: 12.5%">{{ typeOuvrage.titre }}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {# affiche le bon nombre de ligne en fonction du nombre de type de composant #}
+                            {% for typeComposant in typeComposants %}
+                                {% set emptyCadence = true %}
+                                {% for unite in typeComposant.tableDePrix %}
+                                    {% if emptyCadence %}
+                                        {% if unite.cadence is not empty %}
+                                            {% set emptyCadence = false %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not emptyCadence %}
+                                    <tr>
+                                        <td style="width: 12.5%">{{ typeComposant.titre }}</td>
+                                        {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
+                                        {% for typeOuvrage in typeOuvrages %}
+                                            {# permet d'affiche la cadence correspondant aux deux #}
+                                            {% for unite in typeComposant.tableDePrix %}
+                                                {% if unite.typeOuvrage is same as typeOuvrage %}
+                                                    <td class="edit" style="width: 12.5%"
+                                                        id="cadence-composant{{ typeComposant.id }}-ouvrage{{ typeOuvrage.id }}"
+                                                        composant="{{ typeComposant.id }}"
+                                                        ouvrage="{{ typeOuvrage.id }}">{{ unite.cadence }}</td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {# nouvelle version des ouvrages #}
+        <div class="tab-pane fade" id="nav-ouvragesv2" role="tabpanel" aria-labelledby="nav-ouvragesv2-tab">
+
+            <div class="pt-5">
+                <div class="container col-md-12">
+
+                    {# affiche un bouton pour chaque type d'ouvrage pour afficher les valeurs dépendantes #}
+                    {% for typeOuvrage in typeOuvrages %}
+                        <button type="button" class="btn btn-primary type-ouvrage {% if loop.first %}active{% endif %}"
+                                data-id="{{ typeOuvrage.id }}">{{ typeOuvrage.titre }}</button>
+                    {% endfor %}
+
+                    <div class="row justify-content-around pb-5">
+                        <div class="col-md-8 row justify-content-end">
+                            <button type="button" class="col-md-6 add-button-devis" id="edit-prix-ouvrage">Modifier
+                            </button>
+                            <button style="display: none;" type="button" class="col-md-6 add-button-devis"
+                                    id="update-prix-ouvrage">Enregistrer
+                            </button>
+                        </div>
+                    </div>
+
+                    {# initialise une div contenant les tableaux pour chaque type douvrage et les masque avec display:none #}
+                    {% for typeOuvrage in typeOuvrages %}
+                        <div class="row mt-5 type-ouvrage-details {% if loop.first %}show{% endif %}"
+                             id="type-ouvrage-{{ typeOuvrage.id }}">
+                            <div class="row mt-5">
+                                {# pour un type d'ouvrage construit tous les tableaux qui font référence #}
+                                {% for table in typeOuvrage.attributOuvrages %}
+                                    <div class="col-md-4" style="overflow-x: auto">
+                                        <table class="table table-bordered">
+                                            <thead style="color: #fff; border-color: #fff; --bs-table-bg: #0E4377;">
+                                            <tr>
+                                                <th class="titre">{{ table.titre }}</th>
+                                                <th class="valeur">kg</th>
+                                                <th class="valeur">TPS</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {# à partir de chaque header des tableaux affiche les lignes qui correspondent #}
+                                            {% for tr in table.attributOuvrageTrs %}
+                                                <tr class="attribut" id="attribut_{{ tr.id }}">
+                                                    <td class="editable attribut-titre"
+                                                        id="titre_{{ tr.id }}">{{ tr.titre }}</td>
+                                                    <td class="editable attribut-poids"
+                                                        id="poids_{{ tr.id }}">{{ tr.poidsKG }}</td>
+                                                    <td class="editable attribut-temps"
+                                                        id="temps_{{ tr.id }}">{{ tr.tps }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        $('#add-ouvrage').click(function () {
+            $('.modal-ouvrage').remove();
+            let path = "{{ path('app_affaire_modal_ouvrage') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-ouvrage").modal('show');
+
+            })
+        })
+
+
+        $('.dupliquer-composant').click(function () {
+
+            $('.modal-composant').remove();
+            let path = "/affaire/bibliothequeDePrix/modal/composant/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-composant-', '');
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-composant-dupliquer").modal('show');
+
+            })
+        })
+
+        $('.dupliquer-ouvrage').click(function () {
+
+            $('.modal-ouvrage').remove();
+            let path = "/affaire/bibliothequeDePrix/modal/ouvrage/dupliquer/" + $(this).attr('id').replaceAll('dupliquer-ouvrage-', '');
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-ouvrage-dupliquer").modal('show');
+
+            })
+        })
+
+
+        $('#add-composant').click(function () {
+            $('.modal-composant').remove();
+            var path = "{{ path('app_affaire_modal_composant') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-composant").modal('show');
+
+            })
+        })
+
+        function submitOuvrageEvenement(event) {
+            event.preventDefault();
+
+            const ouvrage = {
+                code: $('#ouvrage_code').val(),
+                denomination: $('#ouvrage_denomination').val(),
+                unite: $('#ouvrage_unite').val(),
+                duht: $('#ouvrage_DUHT').val(),
+                quantite: $("#ouvrage_quantite").val(),
+            }
+
+            $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+
+                    /*   const tr = `
+                       <tr>
+                           <td>${ouvrage.code}</td>
+                           <td>${ouvrage.denomination}</td>
+                           <td>${ouvrage.unite}</td>
+                           <td>${ouvrage.duht}</td>
+                       </tr>
+                       `;
+                       $('#table-ouvrage tbody').append(tr);
+                       $('#modal-ouvrage').modal('hide');
+                       $('#modal-ouvrage').remove();*/
+
+                    location.reload();
+
+
+                }
+            });
+
+
+        }
+
+
+        function submitComposantEvenement(event) {
+            event.preventDefault();
+
+            const composant = {
+                type: $('#composant_type').val(),
+                code: $('#composant_code').val(),
+                denomination: $('#composant_denomination').val(),
+                unite: $('#composant_unite').val(),
+                duht: $('#composant_DUHT').val(),
+                marge: $('#composant_marge').val(),
+                note: $('#composant_note').val(),
+                quantite: $('#composant_quantite').val(),
+            }
+
+            $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {
+                let data = JSON.parse(response);
+
+                if (data.code === 200) {
+
+
+                    /*   const tr = `
+                       <tr>
+                           <td>${ouvrage.code}</td>
+                           <td>${ouvrage.denomination}</td>
+                           <td>${ouvrage.unite}</td>
+                           <td>${ouvrage.duht}</td>
+                       </tr>
+                       `;
+                       $('#table-ouvrage tbody').append(tr);
+                       $('#modal-ouvrage').modal('hide');
+                       $('#modal-ouvrage').remove();*/
+
+                    location.reload();
+
+
+                }
+            });
+
+
+        }
+
+        //Script partie composant
+        //fonction qui permet de mettre des inputs dans le tableau des prix
+        $('#edit-table-de-prix').click(function () {
+            $('#edit-table-de-prix').hide(); // masque le bouton modifier
+            $('#update-table-de-prix').show(); // affiche le bouton enregistrer
+            $('.edit').each(function () {
+                // stocke la valeur initiale de l'élément de texte dans un attribut data
+                $(this).data('initial-value', $(this).text());
+                // remplace l'élément de texte par un input avec la valeur initiale
+                $(this).html('<input type="text" value="' + $(this).text() + '">');
+            });
+        });
+
+        //fonction qui permet de retirer les inputs (servira à enregistrer les inputs avec un POST)
+        $('#update-table-de-prix').click(function () {
+            $('.edit').each(function () {
+                // récupère la valeur de l'input
+                var value = $(this).find('input').val();
+                // remplace l'input par l'élément de texte avec la valeur mise à jour
+                $(this).html(value);
+            });
+            $('#edit-table-de-prix').show(); // affiche le bouton modifier
+            $('#update-table-de-prix').hide(); // masque le bouton enregistrer
+        });
+
+
+        $(document).ready(function () {
+            $('.type-ouvrage').click(function () {
+                // Récupérer l'ID du type d'ouvrage sélectionné
+                var typeOuvrageId = $(this).data('id');
+
+                // Masquer tous les détails du type d'ouvrage
+                $('.type-ouvrage-details').hide();
+
+                // Afficher les détails correspondants au type d'ouvrage sélectionné
+                $('#type-ouvrage-' + typeOuvrageId).show();
+            });
+        });
+
+
+        //Script partie ouvrage
+        //Permet d'obtenir les tableaux avec les valeurs correspondantes
+        $('.type-ouvrage').on('click', function () {
+            // Masquer tous les détails de type d'ouvrage
+            $('.type-ouvrage-details').hide();
+            // Désélectionner tous les boutons
+            $('.type-ouvrage').removeClass('active');
+
+            // Afficher les détails correspondant au bouton cliqué
+            var id = $(this).data('id');
+            $('#type-ouvrage-' + id).show();
+            // Sélectionner le bouton cliqué
+            $(this).addClass('active');
+        });
+
+
+        //fonction qui permet de mettre des inputs dans les tableaux des prix
+        $('#edit-prix-ouvrage').click(function () {
+            $('#edit-prix-ouvrage').hide(); // masque le bouton modifier
+            $('#update-prix-ouvrage').show(); // affiche le bouton enregistrer
+            $('.editable').each(function () {
+                // stocke la valeur initiale de l'élément de texte dans un attribut data
+                $(this).data('initial-value', $(this).text());
+                if ($(this).hasClass('attribut-titre')) {
+                    // remplace l'élément de texte par un input avec la valeur initiale
+                    $(this).html('<input type="text" value="' + $(this).text() + '">');
+                } else {
+                    // remplace l'élément de texte par un input avec la valeur initiale avec la classe numbers
+                    $(this).html('<input class="numbers" type="text" value="' + $(this).text() + '">');
+                }
+            });
+        });
+
+        //fonction qui permet de retirer les inputs (servira à enregistrer les inputs avec un POST)
+        $('#update-prix-ouvrage').click(function () {
+            let attributs = [];
+            $('.attribut').each(function () {
+                let id = parseInt($(this).attr('id').replace('attribut_', ''));
+                let attribut = {
+                    'id': id,
+                    'titre': $('#titre_' + id).children().val(),
+                    'poids': parseFloat($('#poids_' + id).children().val()),
+                    'temps': $('#temps_' + id).children().val()
+                };
+                attributs.push(attribut);
+            })
+
+            $("#loader-bibliotheque-page").modal("show");
+
+            let path = "{{ path('app_affaire_attribut_table_edit') }}";
+            $.post(path, {attributs}, function (response) {
+                let data = JSON.parse(response);
+
+                if (data.code === 200) {
+                    $('.editable').each(function () {
+                        // récupère la valeur de l'input
+                        var value = $(this).find('input').val();
+                        // remplace l'input par l'élément de texte avec la valeur mise à jour
+                        $(this).html(value);
+                    });
+                    $('#edit-prix-ouvrage').show(); // affiche le bouton modifier
+                    $('#update-prix-ouvrage').hide(); // masque le bouton enregistrer
+                    $("#loader-bibliotheque-page").modal("hide");
+                }
+            })
+        });
+
+        // supprimer les char non numerique
+        $('body').on('keyup', '.numbers', function () {
+            this.value = this.value.replace(/[^0-9\.\,]/g, '');
+        });
+    </script>
+
+
+
+
+
+{% endblock %}

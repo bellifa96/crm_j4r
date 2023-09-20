@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SousEntite index{% endblock %}
+
+{% block body %}
+    <h1>SousEntite index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>RaisonSociale</th>
+                <th>Siret</th>
+                <th>Dirigeant</th>
+                <th>DateDeCreation</th>
+                <th>FormeJuridique</th>
+                <th>ActivitePrincipale</th>
+                <th>Type</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Adresse1</th>
+                <th>Adresse2</th>
+                <th>Ville</th>
+                <th>CodePostal</th>
+                <th>Pays</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sous_entite in sous_entites %}
+            <tr>
+                <td>{{ sous_entite.id }}</td>
+                <td>{{ sous_entite.nom }}</td>
+                <td>{{ sous_entite.raisonSociale }}</td>
+                <td>{{ sous_entite.siret }}</td>
+                <td>{{ sous_entite.dirigeant }}</td>
+                <td>{{ sous_entite.dateDeCreation }}</td>
+                <td>{{ sous_entite.formeJuridique }}</td>
+                <td>{{ sous_entite.activitePrincipale }}</td>
+                <td>{{ sous_entite.type }}</td>
+                <td>{{ sous_entite.createdAt ? sous_entite.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sous_entite.updatedAt ? sous_entite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sous_entite.adresse1 }}</td>
+                <td>{{ sous_entite.adresse2 }}</td>
+                <td>{{ sous_entite.ville }}</td>
+                <td>{{ sous_entite.codePostal }}</td>
+                <td>{{ sous_entite.pays }}</td>
+                <td>
+                    <a href="{{ path('app_entite_sous_entite_show', {'id': sous_entite.id}) }}">show</a>
+                    <a href="{{ path('app_entite_sous_entite_edit', {'id': sous_entite.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_entite_sous_entite_new') }}">Create new</a>
+{% endblock %}

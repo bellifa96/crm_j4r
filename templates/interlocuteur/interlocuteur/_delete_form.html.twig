@@ -1,0 +1,4 @@
+<form name="delete" class="col-md-auto" method="post" action="{{ path('app_interlocuteur_interlocuteur_delete', {'id': interlocuteur.id}) }}" onsubmit="return confirm('êtes vous sùr de vouloir supprimer cette fiche?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ interlocuteur.id) }}">
+    <button class="btn btn-danger">Delete</button>
+</form>

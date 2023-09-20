@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pret index{% endblock %}
+
+{% block body %}
+
+    <table class="table datatable">
+        <thead>
+        <tr class="tr-head">
+            <th>Id</th>
+            <th>Date d'affectation</th>
+            <th>Date de retour</th>
+            <th>État</th>
+            <th>État après Retour</th>
+            <th>Note</th>
+            <th>Status</th>
+            <th>Attribué à</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pret in prets %}
+            <tr>
+                <td>{{ pret.id }}</td>
+                <td>{{ pret.dateDAffectation }}</td>
+                <td>{{ pret.dateDeRetour }}</td>
+                <td>{{ pret.etat }}</td>
+                <td>{{ pret.etatApresRetour }}</td>
+                <td>{{ pret.note }}</td>
+                <td>{{ pret.statut }}</td>
+                <td>{{ pret.utilisateur.firstname~" "~pret.utilisateur.lastname }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

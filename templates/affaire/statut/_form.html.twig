@@ -1,0 +1,59 @@
+
+<div class="page-block col-md-10 m-auto mt-4">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mb-2">
+                <div class="col-md-3 text-end">
+                     Titre
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.titre,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 text-end">
+                    Code
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.code,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 text-end">
+                      Pour
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.destination) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row mb-2">
+                <div class="col-md-3 text-end">
+                    Couleur du text
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.couleur,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 text-end">
+                     Couleur du fond
+                </div>
+                <div class="col-md-9">
+                    {{ form_widget(form.couleurBG,{'attr':{'class':'form-control form-control-sm-2'}}) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="btn btn-outline-success">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+
+
+</div>

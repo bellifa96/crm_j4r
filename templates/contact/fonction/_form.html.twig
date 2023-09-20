@@ -1,0 +1,4 @@
+{{ form_start(form) }}
+    {{ form_widget(form.titre,{'attr':{'class':'form-control form-control-sm-2','autofocus':'on'}}) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

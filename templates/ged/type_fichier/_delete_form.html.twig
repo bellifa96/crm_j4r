@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_ged_type_fichier_delete', {'id': type_fichier.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type_fichier.id) }}">
+    <button class="btn">Delete</button>
+</form>

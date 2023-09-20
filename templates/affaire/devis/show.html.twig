@@ -1,0 +1,1372 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devis N°{{ devis.id }}{% endblock %}
+
+{% block body %}
+    <style>
+        .css-1bxjlke {
+            display: flex;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);;
+            color: #627D98;
+            overflow: auto;
+            flex-direction: column;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            background-color: #fff;
+            border-color: grey;
+        }
+
+        .css-1l4w6pd {
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        .css-doans4 {
+            border: inherit;
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;;
+            transition-duration: 200ms;
+            height: 2.5rem;
+            min-width: 2.5rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            background: none;
+            width: min-content;
+            opacity: 1;
+            color: #109CF1;
+            font-family: Lato, sans-serif;
+            font-size: 1rem;
+        }
+
+        .css-1jx0oto {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+
+        .chcl:hover {
+            color: #0d4377;
+        }
+
+        .bg-leasy {
+            background: #e2e8ed;
+            border-radius: 5px;
+
+        }
+
+        .chats::-webkit-scrollbar {
+            width: 0.125rem;
+        }
+
+        .chats::-webkit-scrollbar-thumb {
+            background: #cfd8dc;
+        }
+
+        .chats::-webkit-scrollbar-thumb:hover {
+            background: #b0bec5;
+        }
+
+        /* INPUT TEXT PLACEHOLDER CUSTOMIZE */
+        ::-webkit-input-placeholder {
+            color: #b0bec5;
+        }
+
+        ::-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        :-ms-input-placeholder {
+            color: #b0bec5;
+        }
+
+        :-moz-placeholder {
+            color: #b0bec5;
+        }
+
+        #viewport {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #viewport > .chatbox {
+            position: relative;
+            display: table;
+            float: left;
+            margin: 1rem;
+            height: 40rem;
+            background-color: white;
+            box-shadow: 0 0.25rem 2rem rgba(38, 50, 56, 0.1);
+            overflow: hidden;
+        }
+
+        #viewport > .chatbox > .chats {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: table-cell;
+            vertical-align: bottom;
+            padding: 1rem;
+            margin-bottom: 2.875rem;
+            overflow: auto;
+        }
+
+        .chats > ul {
+            padding: 0;
+        }
+
+        .chats > ul > li {
+            position: relative;
+            list-style: none;
+            display: block;
+            margin: 1.5rem 0;
+            transition: 0.5s all;
+        }
+
+        .chats > ul > li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .msg {
+            max-width: 85%;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            line-height: 1rem;
+            min-height: 2rem;
+            font-size: 0.875rem;
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            text-transform: capitalize;
+        }
+
+        .msg.him {
+            float: left;
+            background-color: #e91e63;
+            color: #fff;
+            border-bottom-left-radius: 0.125rem;
+        }
+
+        .msg.you {
+            float: right;
+            background-color: #eceff1;
+            color: #607d8b;
+            border-bottom-right-radius: 0.125rem;
+        }
+
+        .msg > span {
+            font-weight: 500;
+            position: absolute;
+        }
+
+        .msg > span.partner {
+            color: #b0bec5;
+            top: 0;
+            font-size: 0.675rem;
+            margin-top: -1rem;
+        }
+
+        .msg > span.time {
+            color: #cfd8dc;
+            font-size: 0.8rem;
+            bottom: -0.35rem;
+            display: none;
+        }
+
+        .msg:hover span.time {
+            display: block;
+        }
+
+        .msg.him > span {
+            left: 0;
+        }
+
+        .msg.you > span {
+            right: 0;
+        }
+
+        .sendBox {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+        }
+
+        .sendBox input {
+            font-family: "Lato", sans-serif;
+            font-size: 0.875rem;
+            display: block;
+            width: 100%;
+            border: none;
+            padding: 0.75rem 0.75rem;
+            line-height: 1.25rem;
+            border-top: 0.125rem solid #eceff1;
+            transition: 0.5s ease-in-out;
+        }
+
+        .chatin:hover,
+        .chatin:focus,
+        .chatin:active {
+            outline: none !important;
+            border-top: 0.125rem solid #e91e63;
+        }
+
+        .chats-title {
+            border-bottom: 1px solid #e91e63;
+            text-align: center;
+        }
+
+        .nav-tabs-demande .nav-link-demande {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            color: #0E4377;
+            width: 100%;
+            border-right: 1px solid #0E4377;
+        }
+
+
+        .nav-tabs-demande .nav-link-demande.active {
+            background-color: #fff;
+            border-color: #0e4377 #0e4377 #0e4377;
+            color: #495057;
+        }
+
+        body .nav-tabs-demande li button {
+            display: block;
+            padding: 5px 30px;
+        }
+
+        body .nav-tabs-demande li .active {
+            background-color: #0E4377 !important;
+            color: white !important;
+        }
+
+        .nav-item-demande .nav-link-demande:hover {
+            background: #0E4377;
+            color: white !important;
+            border-color: #0E4377;
+            font-weight: 700;
+        }
+
+        .nav-tabs-demande {
+            border: 1px solid #0E4377;
+            border-bottom: 5px solid #0E4377;
+        }
+
+
+    </style>
+
+    <div class="row justify-content-between">
+        <div class="col-md-auto">
+            <a href="{{ referer }}">
+                <svg viewBox="0 0 24 24" style="width:50px;" focusable="false" class="chakra-icon css-onkibi"
+                     aria-hidden="true">
+                    <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+                Retour
+            </a>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-recap-tab" data-bs-toggle="tab" data-bs-target="#nav-recap"
+                    type="button" role="tab" aria-controls="nav-recap" aria-selected="true">
+                Récapitulatif
+            </button>
+            <button class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" data-bs-target="#nav-detail"
+                    type="button" role="tab" aria-controls="nav-detail" aria-selected="false">
+                Détails
+            </button>
+            <button class="nav-link" id="nav-demande-tab" data-bs-toggle="tab" data-bs-target="#nav-demande"
+                    type="button" role="tab" aria-controls="nav-demande" aria-selected="false">
+                Demande
+            </button>
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+
+        <!-- Récapitulatif -->
+        <div class="tab-pane fade  show active" id="nav-recap" role="tabpanel" aria-labelledby="nav-recap-tab">
+
+            <div class="row mt-3">
+                <div class="col-md-8 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Informations
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_id">N° devis</label>
+                                    <input type="text" id="devis_id" name="devis[id]"
+                                           class="col-md-12 chakra-input " value="{{ devis.id }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_debourseTotalHT">Deboursé HT</label>
+                                    <input type="text" id="devis_debourseTotalHT" name="devis[debourseTotalHT]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.debourseTotalHT is not null) ? devis.debourseTotalHT : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_date">Date du devis</label>
+                                    <input type="text" id="devis_date" name="devis[date]"
+                                           class="col-md-12 chakra-input " value="{{ devis.dateDuDevis }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_relance">Date de relance</label>
+                                    <input type="text" id="devis_relance" name="devis[relance]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.dateRelance is not null) ? devis.dateRelance : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_debutTravaux">Date du début des travaux</label>
+                                    <input type="text" id="devis_debutTravaux" name="devis[debutTravaux]"
+                                           class="col-md-12 chakra-input " value="-"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_dureeTravaux">Durée estimée</label>
+                                    <input type="text" id="devis_dureeTravaux" name="devis[dureeTravaux]"
+                                           class="col-md-12 chakra-input "
+                                           value="-"
+                                           disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            État du devis
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label class="labels" for="devis_statut">Statut</label>
+                                <input type="text" id="devis_statut" name="devis[statut]"
+                                       class="col-md-12 chakra-input "
+                                       value="{{ devis.statut }}"
+                                       disabled/>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-end mt-2">
+                                <a href="{{ path('app_affaire_devis_edit', {'id': devis.id}) }}"
+                                   class="btn btn-info btn-sm">Modifier le devis</a>
+                            </div>
+
+                            <div class="col-md-12 text-end mt-3">
+                                <a href="{{ path('app_affaire_devis_pdf',{'id':devis.id}) }}" target="_blank"
+                                   class="btn btn-outline-info btn-sm">Générer le devis</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="page-block bg-white">
+                        <div class="row">
+                            <div class="commentaire"
+                                 style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Commentaire (privé)
+                            </div>
+                        </div>
+                        <div class="row espace-commentaire">
+                            <div id="viewport" class="row">
+
+                                <div class="chatbox col-md-5" id="chantier">
+
+                                    <div class="chats">
+                                        <div class="chats-title border-bottom-1">
+                                            <h6>Commentaires Chantier</h6>
+                                        </div>
+                                        <ul id="chantier-ul">
+                                            {% if devis.conversationChantier %}
+                                                {% for message in  devis.conversationChantier.messages %}
+                                                    <li>
+                                                        <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                            {{ message.message }}
+                                                            <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    <div class="sendBox row">
+                                        <div class="col-md-11">
+                                            <input type="text" placeholder="écrire un commentaire chantier"
+                                                   name="message_chantier"
+                                                   class="chatin">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="button message-submit"
+                                                    style="background: transparent; border: none;"
+                                                    id="btn-chantier">
+                                                <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chatbox col-md-5" id="client">
+                                    <div class="chats">
+                                        <div class="chats-title border-bottom-1">
+                                            <h6>Commentaires client</h6>
+                                        </div>
+                                        <ul id="client-ul">
+                                            {% if devis.demande.conversationClient %}
+
+                                                {% for message in  devis.demande.conversationClient.messages %}
+
+                                                    <li>
+                                                        <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                            {{ message.message }}
+                                                            <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    <div class="sendBox row">
+                                        <div class="col-md-11">
+                                            <input type="text" placeholder="écrire un commentaire client"
+                                                   name="message_client"
+                                                   class="chatin">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="button message-submit"
+                                                    style="background: transparent; border: none;"
+                                                    id="btn-client">
+                                                <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class="col-md-12">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            Version du devis
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détails devis -->
+        <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
+            <div class="row mt-3">
+                <div class="col-md-6 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Informations client
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_nom">Dénomination</label>
+                                    <div class="col-md-12 chakra-input">
+                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':devis.demande.client.id}) }}">
+                                            <b>{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.nom~" "~devis.demande.client.personne.prenom : devis.demande.client.societe.nom }}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_code">Code client</label>
+                                    <input type="text" id="devis_client_code" name="devis[client][code]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.demande.client.societe is not null) ? devis.demande.client.societe.nom : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_adresse">Adresse</label>
+                                    <input type="text" id="devis_client_adresse" name="devis[client][adresse]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.adresse1~", "~devis.demande.client.personne.codePostal~" "~devis.demande.client.personne.ville : devis.demande.client.societe.adresse1~", "~devis.demande.client.societe.codePostal~" "~devis.demande.client.societe.ville }}"
+                                           disabled/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_email">Email</label>
+                                    <input type="text" id="devis_client_email" name="devis[client][email]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ (devis.demande.client.personne is not null) ? devis.demande.client.personne.email : devis.demande.client.societe.email }}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels" for="devis_client_telephone">Téléphone</label>
+                                    <input type="text" id="devis_client_telephone" name="devis[client][telephone]"
+                                           class="col-md-12 chakra-input "
+                                           value="{{ devis.demande.client.phone is not empty ? "+"~devis.demande.client.phone['code']~" "~devis.demande.client.phone['number'] : "-" }}"
+                                           disabled/>
+                                </div>
+                            </div>
+
+                            <hr aria-orientation="horizontal" class="ligne">
+
+                            {% if devis.demande.contactPrincipalClient is not empty %}
+
+                                <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                    Contact Principal
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_contact_nom">Nom et prénom</label>
+                                        <div class="col-md-12 chakra-input">
+                                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':devis.demande.contactPrincipalClient.id}) }}">
+                                                <b>{{ devis.demande.contactPrincipalClient.nom~" "~devis.demande.contactPrincipalClient.prenom }}</b>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_clientContact_telephone">Téléphone</label>
+                                        <input type="text" id="devis_clientContact_telephone"
+                                               name="devis[clientContact][telephone]"
+                                               class="col-md-12 chakra-input "
+                                               value="{{ devis.demande.contactPrincipalClient.telephoneMobile is not empty ? devis.demande.contactPrincipalClient.telephoneMobile : "-" }}"
+                                               disabled/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="labels" for="devis_clientContact_mail">Email</label>
+                                        <input type="text" id="devis_clientContact_mail"
+                                               name="devis[clientContact][mail]"
+                                               class="col-md-12 chakra-input "
+                                               value="{{ devis.demande.contactPrincipalClient.email is not empty ? devis.demande.contactPrincipalClient.email : "-" }}"
+                                               disabled/>
+                                    </div>
+                                </div>
+
+                            {% else %}
+
+                                <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                    Pas de contact principal
+                                </div>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="page-block bg-white">
+                        <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                            Chantier associé
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class="col-md-6 ">
+                    <div class="page-block bg-white">
+                        <div>
+                            <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                                Référent(s)
+                            </div>
+                            <div class="row" id="referents">
+                                {% if devis.referent is not empty %}
+
+                                    {% for unReferent in devis.referent %}
+                                        <div class="row" id="referent-{{ unReferent.id }}">
+                                            <div class="col-md-10"
+                                                 style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                                                <a href="{{ path('app_user_show',{'id':unReferent.id}) }}">
+                                                    <b>{{ unReferent.lastname~" "~unReferent.firstname }}</b>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="{{ unReferent.id }}"
+                                                        class="delete-ref border-0 btn-transition btn btn-outline-danger">
+                                                    <i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;"
+                                         id="noReferent">
+                                        Pas de référent
+                                    </div>
+
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <div class="css-1l4w6pd">
+                                    <button type="button" class="chakra-button css-doans4 chcl add-referent"
+                                            aria-disabled="false">
+                                        <svg viewBox="0 0 23 22" focusable="false" class="chakra-icon css-1jx0oto">
+                                            <path fill="currentColor"
+                                                  d="M11.5449 19.8C6.69392 19.8 2.74492 15.851 2.74492 11C2.74492 6.149 6.69392 2.2 11.5449 2.2C16.3959 2.2 20.3449 6.149 20.3449 11C20.3449 15.851 16.3959 19.8 11.5449 19.8ZM11.5449 0C10.1004 0 8.66999 0.284523 7.3354 0.837325C6.00082 1.39013 4.78819 2.20038 3.76675 3.22183C1.70385 5.28473 0.544922 8.08262 0.544922 11C0.544922 13.9174 1.70385 16.7153 3.76675 18.7782C4.78819 19.7996 6.00082 20.6099 7.3354 21.1627C8.66999 21.7155 10.1004 22 11.5449 22C14.4623 22 17.2602 20.8411 19.3231 18.7782C21.386 16.7153 22.5449 13.9174 22.5449 11C22.5449 9.55546 22.2604 8.12506 21.7076 6.79048C21.1548 5.4559 20.3445 4.24327 19.3231 3.22183C18.3017 2.20038 17.089 1.39013 15.7544 0.837325C14.4199 0.284523 12.9895 0 11.5449 0ZM12.6449 5.5H10.4449V9.9H6.04492V12.1H10.4449V16.5H12.6449V12.1H17.0449V9.9H12.6449V5.5Z"></path>
+                                        </svg>
+                                        Associer un référent de devis
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détails demande -->
+        <div class="tab-pane fade" id="nav-demande" role="tabpanel" aria-labelledby="nav-demande-tab">
+
+            <div class="page-block col-md-10 m-auto mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Client</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {% if devis.demande.client is not empty %}
+                                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id' :devis.demande.client.id}) }}">
+                                        <b>{{ devis.demande.client.societe ? devis.demande.client.societe.raisonSociale : devis.demande.client.personne.nom~" " ~devis.demande.client.personne.prenom }}</b>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels required">Contact Principal Client</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+
+                                {% if devis.demande.contactPrincipalClient is not empty %}
+                                    <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalClient.id}) }}">
+                                        <b>{{ devis.demande.contactPrincipalClient.nom~" " ~devis.demande.contactPrincipalClient.prenom }}</b>
+                                    </a>
+                                {% else %}
+                                    NC
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if devis.demande.maitreDOuvrage is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Maitre D'ouvrage</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    <b>{{ devis.demande.maitreDOuvrage.societe ? devis.demande.maitreDOuvrage.societe.raisonSociale : devis.demande.maitreDOuvrage.personne.nom }}</b>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels required">Contact Principal maitre d'ouvrage</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {% if devis.demande.contactPrincipalMaitreDOuvrage is not empty %}
+                                        <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalMaitreDOuvrage.id}) }}">
+                                            <b>{{ devis.demande.contactPrincipalMaitreDOuvrage.nom~" " ~devis.demande.contactPrincipalMaitreDOuvrage.prenom }}</b>
+                                        </a>
+                                    {% else %}
+                                        NC
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        {% if devis.demande.intermediaire is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Intermediaire</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    <b>  {{ devis.demande.intermediaire.societe ? devis.demande.intermediaire.societe.raisonSociale : devis.demande.intermediaire.personne.nom }}</b>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels required">Contact Principal intermédiaire</label>
+                                </div>
+                                <div class="col-md-9 form-control-sm-2">
+                                    {% if devis.demande.contactPrincipalIntermediaire is not empty %}
+                                        <a href="{{ path('app_contact_contact_show',{'id' :devis.demande.contactPrincipalIntermediaire.id}) }}">
+                                            <b>  {{ devis.demande.contactPrincipalIntermediaire.nom~" " ~devis.demande.contactPrincipalIntermediaire.prenom }}</b>
+                                        </a>
+                                    {% else %}
+                                        NC
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if devis.demande.contactsSecondaires is not empty %}
+                            <div class="row mt-2">
+                                <div class="col-md-3 text-end">
+                                    <label class="labels">Contacts Secondaires</label>
+                                </div>
+                                <div class="col-md-9 bg-leasy">
+                                    {% for contact in devis.demande.contactsSecondaires %}
+                                        <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">
+                                            <b>{{ contact.nom~" "~contact.prenom }}</b>
+                                        </a>
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels required">Nom du chantier</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.nomChantier }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Adresse</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.adresse1 }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Complément d'adresse</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.adresse2 }}
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Code postal</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.codePostal }}
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Ville</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.ville }}
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2">
+                            <div class="col-md-3 text-end">
+                                <label class="labels">Pays</label>
+                            </div>
+                            <div class="col-md-9 form-control-sm-2">
+                                {{ devis.demande.pays }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12 page-block mt-4">
+
+                <ul class="nav nav-tabs nav-demande nav-tabs-demande mb-4" id="myTab" role="tablist">
+                    <li class="col nav-item-demande" role="presentation">
+                        <button class="nav-link nav-link-demande {{ devis.demande.menu is empty ? 'active' : '' }}{{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'details-tab' ? 'active' : '' }}"
+                                id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+                                type="button"
+                                role="tab" aria-controls="details" aria-selected="true">
+                            Détail demande
+                        </button>
+                    </li>
+                    <li class="col nav-item nav-item-demande" role="presentation">
+                        <button class="nav-link nav-link-demande {{ devis.demande.menu is not empty and app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'commentaires-tab' ? 'active' : '' }}"
+                                id="commentaires-tab" data-bs-toggle="tab" data-bs-target="#commentaires"
+                                type="button"
+                                role="tab" aria-controls="Commentaires" aria-selected="false">
+                            Commentaires
+                        </button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content mt-4" id="myTabContent">
+
+
+                    <!-- Détails -->
+                    <div class="tab-pane fade show active"
+                         id="details" role="tabpanel" aria-labelledby="details-tab">
+                        <div class="page-block col-md-12 m-auto mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mt-1">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Type de prestation</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.typeDePrestation }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Documents souhaités </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.documentsSouhaites|join('-') }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Fonds de plan </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.fondsDePlan }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Travaux prevus </label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.travauxPrevus|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Classe d'échafaudage </label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.ClasseDEchaffaudage }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Type de materiel</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.TypeDeMateriel }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Dimensions globales</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.dimensionsGlobales|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels">Ammarages</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {{ devis.demande.ammarages|join('\n')|nl2br }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Largeur de travail</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.LargeurDeTravail }}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Consoles</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.consoles }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Distance à la façade</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.distanceALaFacade }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Hauteur des planchers</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.hauteurDesPlanchers %}
+                                                <div> {{ key~" : "~value }} </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Équipements</label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.equipements %}
+                                                <div>
+                                                    {% if value == "Passage piéton" %}
+                                                        {{ value~" : " ~devis.demande.largeurPassagePieton }}
+                                                    {% elseif value == "Protection couvreur" %}
+                                                        {{ value~" : " ~devis.demande.protectionCouvreur }}
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Accés</label>
+                                        </div>
+                                        <div class="col-md-9 form-control-sm-2">
+                                            {{ devis.demande.acces }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                            <label class="labels"> Bâche et filet </label>
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.bacheEtFilet %}
+                                                <div>
+                                                    {{ key~" : "~value }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-3 text-end">
+                                        </div>
+                                        <div class="col-md-9 bg-leasy">
+                                            {% for key,value in devis.demande.bache %}
+                                                <div>
+                                                    {{ value }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="page-block col-md-12 m-auto mt-4">
+                            <div class="row mt-2">
+                                <div class="col-md-auto text-end">
+                                    Commentaire
+                                </div>
+                                <div class="col-md-10 bg-leasy">
+                                    {{ devis.demande.commentaire|raw('html') }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Commentaires -->
+                    <div class="tab-pane fade {{ devis.demande.menu is not empty and  app.user.id in devis.demande.menu|keys and devis.demande.menu[app.user.id] ==  'commentaires-tab' ? 'show active' : '' }}"
+                         id="commentaires" role="tabpanel" aria-labelledby="commentaires-tab">
+
+                        <div id="viewport" class="row">
+
+                            <div class="chatbox col-md-3" id="metre">
+
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires métré</h6>
+                                    </div>
+                                    <ul id="metre-ul">
+                                        {% if devis.demande.conversationMetreDemande %}
+                                            {% for message in  devis.demande.conversationMetreDemande.messages %}
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire métré"
+                                               name="message_metre"
+                                               class="chatin">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-metre">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chatbox col-md-3" id="client">
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires client</h6>
+                                    </div>
+                                    <ul id="client-ul">
+                                        {% if devis.demande.conversationClient %}
+
+                                            {% for message in  devis.demande.conversationClient.messages %}
+
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                        <span class="partner">
+                                            {{ message.createur.firstname~" "~message.createur.lastname }}
+                                        </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire client"
+                                               name="message_client"
+                                               class="chatin">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-client">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chatbox col-md-3" id="apres-negociatio">
+                                <div class="chats">
+                                    <div class="chats-title border-bottom-1">
+                                        <h6>Commentaires après négociation</h6>
+                                    </div>
+                                    <ul id="negociation-ul">
+                                        {% if devis.demande.conversationApresNegociationDemande %}
+                                            {% for message in  devis.demande.conversationApresNegociationDemande.messages %}
+                                                <li>
+                                                    <div class='{{ message.createur.id == app.user.id ? "msg you" :"msg him" }}'>
+                                                <span class="partner">
+                                                    {{ message.createur.firstname~" "~message.createur.lastname }}
+                                                </span>
+                                                        {{ message.message }}
+                                                        <span class="time">{{ message.createdAt|date("d/m/Y H:i:s") }}</span>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="sendBox row">
+                                    <div class="col-md-10">
+                                        <input type="text" placeholder="écrire un commentaire aprés négociation"
+                                               class="chatin"
+                                               name="message_negociation">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="button message-submit"
+                                                style="background: transparent; border: none;"
+                                                id="btn-negociation">
+                                            <i class="bi bi-send" style="font-size: 1.5rem;color: blue;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    {{ include('affaire/devis/_delete_form.html.twig') }}
+
+    <script>
+        $('.add-referent').on('click', function () {
+            let modal = `
+         <div class="modal fade" id="referentModal"   role="dialog" aria-labelledby="referentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form onsubmit=submitReferent(event) name="modal-import-referent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un référent</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                            Veuillez sélectionner un ou plusieurs référents à ajouter à ce devis.
+                        </p>
+                        <div class="col-md-12 mb-3">
+                            <div class="row">
+                                <table class="table datatable" id="table-ouvrage" style="background: white;">
+                                <thead>
+                                <tr class="tr-head">
+                                    <th></th>
+                                    <th>Utilisateur</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for referent in users %}
+                                    {% if referent not in devis.referent %}
+                                        <tr class="text-center">
+                                            <td><input type="checkbox" name="utilisateur{{ referent.id }}" value="{{ referent.id }}"
+                                                       class="check-referent"/>
+                                            </td>
+                                            <td onclick="document.location = ' {{ path('app_user_show',{'id':referent.id}) }}';">{{ referent.lastname~" "~referent.firstname }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">Aucun utilisateur disponible</td>
+                                        </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit"  class="btn btn-primary submit-referent">Ajouter</button>
+
+                        <div class="spinner-border text-primary form-submit-loader" role="status" style="display: none;">
+                        <span class="sr-only">.</span>
+                    </div>
+                        <div class="alert alert-success" role="alert" style="display: none;" id="referent-import-success">
+                        Les référents sélectionnés ont été importés avec succès
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="display: none;" id="referent-import-danger">
+                        Erreur lors de l'importation des référents, veuillez recharger la page
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        `;
+            $('body').append(modal);
+            $('#referentModal').modal('show');
+        })
+
+        function submitReferent(event) {
+            event.preventDefault();
+            let data = {};
+            $('.check-referent:checked').each(function (index) {
+                //console.log($(this).val());
+                data[index] = {
+                    id: $(this).val(),
+                }
+            })
+
+            $.post("{{ path('app_affaire_referent_import',{'id':devis.id}) }}", data, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    //console.log(data.referents);
+                    $('#referent-import-success').show();
+                    setTimeout(() => {
+                        $('#referentModal').modal('hide');
+                        $('#referentModal').remove();
+
+                    }, "1000");
+                    if ($("#noReferent").length) {
+                        $("#noReferent").remove();
+                    }
+                    for (const referent of data['referents']) {
+                        console.log(referent['id'], referent['nom'], referent['prenom']);
+                        let div = `<div style="font-size: 0.9rem;color: #334e68;font-family: Lato,sans-serif;">
+                            <a href="#" class="referent-link" data-id="${referent['id']}">
+                                <b>${referent['nom']} ${referent['prenom']}</b>
+                              </a>
+                        </div>`;
+                        $('#referents').append(div);
+                    }
+                }
+
+            })
+        }
+
+        $(document).on('click', '.referent-link', function (e) {
+            e.preventDefault();
+            const referentId = $(this).data('id');
+            const url = "{{ path('app_user_show', {'id': 'referentId'}) }}".replace('referentId', referentId);
+            window.location.href = url;
+        });
+
+        $('.delete-ref').on('click', function () {
+            confirm('Voulez-vous vraiment retirer ce référent ?');
+            let referent = {
+                id: $(this).attr('id')
+            }
+            if (true) {
+                $.post("{{ path('app_affaire_referent_delete',{'id':devis.id}) }}", referent, function (response) {
+                    let data = JSON.parse(response);
+                    if (data.code == 200) {
+                        $('#referent-' + data['idReferent']).remove();
+                    }
+                })
+            }
+        })
+
+        $('.message-submit').click(function () {
+
+            let id = $(this).attr('id');
+            let message = "";
+            let ul = "";
+            let url;
+            if (id === "btn-chantier") {
+                url = "/devis/conversation/message/{{ devis.id }}/chantier";
+                message = $("input[name='message_chantier']").val();
+                $("input[name='message_chantier']").val("")
+                ul = 'chantier-ul';
+            } else if (id === "btn-client") {
+                url = "/conversation/message/{{ devis.demande.id }}/client";
+                message = $("input[name='message_client']").val();
+                $("input[name='message_client']").val("")
+                ul = 'client-ul';
+            } else {
+                console.log('id')
+                return 0;
+            }
+
+
+            $.post(url, {message: message}, function (data) {
+                data = JSON.parse(data);
+                if (data.code === 200) {
+                    let li = ` <li>
+                                        <div class="msg you">
+                                        <span class="partner">
+                                            ${data.message.createur}
+                                        </span>
+                                                 ${data.message.message}
+                                        <span class="time">${data.message.date}</span>
+                             </li>`
+                    $('#' + ul).append(li)
+                }
+            })
+
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeFichier index{% endblock %}
+
+{% block body %}
+    <h1>TypeFichier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_fichier in type_fichiers %}
+            <tr>
+                <td>{{ type_fichier.id }}</td>
+                <td>{{ type_fichier.titre }}</td>
+                <td>{{ type_fichier.code }}</td>
+                <td>
+                    <a href="{{ path('app_ged_type_fichier_show', {'id': type_fichier.id}) }}">show</a>
+                    <a href="{{ path('app_ged_type_fichier_edit', {'id': type_fichier.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ged_type_fichier_new') }}">Create new</a>
+{% endblock %}

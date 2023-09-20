@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devis index{% endblock %}
+
+{% block body %}
+    <style>
+
+        .css-1baulvz {
+            display: inline-block;
+        }
+
+        .css-1rs5v3u {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: end;
+            justify-content: flex-end;
+            flex-direction: row-reverse;
+            --chakra-space-x-reverse: 1;
+            --chakra-divide-x-reverse: 1;
+        }
+
+        .css-iiwwb3 {
+            display: inline-flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+            position: relative;
+            flex-shrink: 0;
+            color: #334E68;
+            --avatar-border-color: #fff;
+            vertical-align: top;
+            background-color: #c4d9ed;
+            width: 2rem;
+            height: 2rem;
+            font-size: calc(0.8rem);
+            margin-inline-end: 0px;
+            border-radius: 9999px;
+            border-width: 2px;
+            border-color: #fff;
+        }
+
+        .css-1pd2iu3 {
+            font-size: calc(0.8rem);
+            line-height: 2rem;
+        }
+
+        .tlt {
+            position: absolute;
+            z-index: 1;
+            border: 1px solid #ccc;
+            padding: 5px;
+            display: none;
+            transform: translateX(-50%); /* centre la bulle horizontalement */
+            background-color: #c4d9ed;
+            color: #334E68;
+        }
+
+
+    </style>
+
+    <h1>Devis index</h1>
+
+    <table class="table datatable text-center">
+        <thead>
+        <tr class="tr-head text-center">
+            <th>N°Devis</th>
+            <th>Nom Devis</th>
+            <th>Client</th>
+            <th>Date du devis</th>
+            <th>Date de relance</th>
+            <th>Montant HT</th>
+            <th>Statut</th>
+            <th>Par</th>
+            <th>Référents</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for unDevis in devis %}
+            <tr>
+                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.id }}</a></td>
+                <td><a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">{{ unDevis.titre }}</a></td>
+                <td>
+                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{'id':unDevis.demande.client.id}) }}">
+                        <b>{{ (unDevis.demande.client.personne is not null) ? unDevis.demande.client.personne.nom~" "~unDevis.demande.client.personne.prenom : unDevis.demande.client.societe.nom }}</b>
+                    </a>
+                </td>
+                <td>{{ unDevis.dateDuDevis }}</td>
+                <td>{{ (unDevis.dateRelance is not null) ? unDevis.dateRelance : "-" }}</td>
+                <td>{{ (unDevis.debourseTotalHT is not null) ? unDevis.debourseTotalHT : "-" }}</td>
+                <td>{{ unDevis.statut }}</td>
+                <td>{{ (unDevis.createur is not null ) ? unDevis.createur.lastname~" "~unDevis.createur.firstname : "-" }}</td>
+                <td>
+                    {% for unReferent in unDevis.referent %}
+                        <div id="avatar-{{ unDevis.id }}-{{ unReferent.id }}" class="css-1baulvz"
+                             onmouseover="showTooltip('{{ unReferent.id }}', '{{ unDevis.id }}')"
+                             onmouseout="hideTooltip('{{ unReferent.id }}', '{{ unDevis.id }}')">
+
+                            <div role="group" class="chakra-avatar__group css-1rs5v3u">
+                                <span class="chakra-avatar css-iiwwb3">
+                                    <div role="img" aria-label="{{ unReferent.lastname~" "~unReferent.firstname }}"
+                                         class="chakra-avatar__initials css-1pd2iu3">
+                                        <a href="{{ path('app_user_show', {'id': unReferent.id}) }}">{{ unReferent.lastname|first|upper~unReferent.firstname|first|upper }}</a>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="tooltip-{{ unDevis.id }}-{{ unReferent.id }}" class="tlt">
+                            {{ unReferent.lastname~" "~unReferent.firstname }}
+                        </div>
+
+                    {% else %}
+                        -
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_affaire_devis_show', {'id': unDevis.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_devis_edit', {'id': unDevis.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+
+        function showTooltip(referentId, devisId) {
+            var parentElement = document.getElementById("avatar-" + devisId + "-" + referentId);
+            var tooltipElement = document.getElementById("tooltip-" + devisId + "-" + referentId);
+            var parentRect = parentElement.getBoundingClientRect();
+            tooltipElement.style.display = "block";
+            tooltipElement.style.top = (parentRect.top - tooltipElement.offsetHeight - 5) + "px";
+            tooltipElement.style.left = ((parentRect.left + parentRect.right) / 2 ) + "px";
+        }
+
+        function hideTooltip(referentId, devisId) {
+            var tooltip = document.getElementById('tooltip-' + devisId + '-' + referentId);
+            tooltip.style.display = 'none';
+        }
+
+
+    </script>
+
+{% endblock %}

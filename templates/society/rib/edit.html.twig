@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Rib{% endblock %}
+
+{% block body %}
+    <h1>Edit Rib</h1>
+
+    {{ include('society/rib/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_society_rib_index') }}">back to list</a>
+
+    {{ include('society/rib/_delete_form.html.twig') }}
+{% endblock %}

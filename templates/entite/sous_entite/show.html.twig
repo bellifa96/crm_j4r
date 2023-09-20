@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SousEntite{% endblock %}
+
+{% block body %}
+    <h1>SousEntite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sous_entite.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sous_entite.nom }}</td>
+            </tr>
+            <tr>
+                <th>RaisonSociale</th>
+                <td>{{ sous_entite.raisonSociale }}</td>
+            </tr>
+            <tr>
+                <th>Siret</th>
+                <td>{{ sous_entite.siret }}</td>
+            </tr>
+            <tr>
+                <th>Dirigeant</th>
+                <td>{{ sous_entite.dirigeant }}</td>
+            </tr>
+            <tr>
+                <th>DateDeCreation</th>
+                <td>{{ sous_entite.dateDeCreation }}</td>
+            </tr>
+            <tr>
+                <th>FormeJuridique</th>
+                <td>{{ sous_entite.formeJuridique }}</td>
+            </tr>
+            <tr>
+                <th>ActivitePrincipale</th>
+                <td>{{ sous_entite.activitePrincipale }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ sous_entite.type }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ sous_entite.createdAt ? sous_entite.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ sous_entite.updatedAt ? sous_entite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Adresse1</th>
+                <td>{{ sous_entite.adresse1 }}</td>
+            </tr>
+            <tr>
+                <th>Adresse2</th>
+                <td>{{ sous_entite.adresse2 }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ sous_entite.ville }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ sous_entite.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ sous_entite.pays }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_entite_sous_entite_index') }}">back to list</a>
+
+    <a href="{{ path('app_entite_sous_entite_edit', {'id': sous_entite.id}) }}">edit</a>
+
+    {{ include('entite/sous_entite/_delete_form.html.twig') }}
+{% endblock %}

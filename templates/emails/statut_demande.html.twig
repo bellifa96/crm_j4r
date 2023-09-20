@@ -1,0 +1,80 @@
+{% set colors = {"Normale":"green","Urgent":"red","Important":"orange","Faible":"grey"} %}
+
+<table data-bgcolor="background" data-module="module9"
+       style="background-color: white; opacity: 1; position: relative; z-index: 0;" align="center" bgcolor="#212121"
+       border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td class="editable">
+            <table class="table680" data-bgcolor="body9"
+                   style="border-top: 5px solid #5e6db3; background-color: #F5F5F5;" align="center" bgcolor="#EDE7E7"
+                   border="0" cellpadding="0" cellspacing="0" width="800">
+                <tr>
+                    <td height="60">
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <table class="table-inner" align="center" border="0" cellpadding="0" cellspacing="0"
+                               width="600">
+                            <!-- Heading -->
+                            <tr>
+                                <td class="text-center" data-color="m9_text1" data-link-color="m9_text1"
+                                    data-link-style="text-decoration:none; color:#595959;" data-size="m9_text1"
+                                    style="color: rgb(89, 89, 89); font-family: 'Raleway', sans-serif; font-size: 18px; font-weight: 600; line-height: 36px;"
+                                    align="left" valign="top">
+                                </td>
+                            </tr>
+                            <!-- End Heading -->
+                            <tr>
+                                <td height="20">
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-inner" align="center" border="0" cellpadding="0" cellspacing="0"
+                               width="600">
+                            <tr>
+                                <td class="td_600" valign="top">
+                                    <table class="table2" align="left" border="0" cellpadding="0" cellspacing="0"
+                                           width="600">
+                                        <tr>
+                                            <td valign="top">
+                                                <table class="table1" align="left" border="0" cellpadding="0"
+                                                       cellspacing="0" width="600">
+                                                    <!-- Content -->
+                                                    <tr>
+                                                        <td class="text-center" data-color="m9_text2"
+                                                            data-size="m9_text2"
+                                                            style="color: rgb(143, 150, 161); font-family: 'Raleway', sans-serif; font-size: 15px; font-weight: 500; line-height: 26px;"
+                                                            align="left" valign="top">
+                                                            Statut :<strong> {{ data.statut }}</strong><br/>
+                                                            Statut Commercial :<strong> {{ data.statutCommercial }}</strong><br/>
+                                                            N° : <strong> {{ data.id }}</strong><br/>
+                                                            Client : {{ data.client.societe ? data.client.societe.raisonSociale : data.client.personne.nom~" "~data.client.personne.prenom }}<br/>
+                                                            {% if data.maitreDOuvrage is not empty %}
+                                                             Maitre d'ouvrage : {{ data.maitreDOuvrage.societe ? data.maitreDOuvrage.societe.raisonSociale : data.maitreDOuvrage.personne.nom~" "~data.maitreDOuvrage.personne.prenom }}<br/>
+                                                            {% endif %}
+                                                            {% if data.intermediaire is not empty %}
+                                                                Intermediaire : {{ data.intermediaire.societe ? data.intermediaire.societe.raisonSociale : data.intermediaire.personne.nom~" "~data.intermediaire.personne.prenom }}<br/>
+                                                            {% endif %}
+
+
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="70">
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

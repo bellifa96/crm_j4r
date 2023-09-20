@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypeOuvrage{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeOuvrage</h1>
+
+    {{ include('affaire/type_ouvrage/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}

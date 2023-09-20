@@ -1,0 +1,118 @@
+<li>
+<div class="elements" id="element-{{ composant.id }}" type="composant">
+
+    <div class="css-1ip68u77">
+        <div class="css-1r30cbj">
+            <div class="tab-el-left"></div>
+            <div class="tab-el-left">
+                {% if composant.denomination is not empty %}
+                <input type="text"  id="devis_composants_{{ composant.id }}_denomination" input="denomination"
+                       element="composants" composants="{{ composant.id }}" disabled value="{{composant.denomination}}"
+                       name="devis[composants][{{ composant.id }}][denomination]" required="required" 
+                       class="chakra-input border-bottom-inherit" placeholder="Dénomination" />
+
+
+                {% else %}
+                <select  id="devis_composants_{{ composant.id }}_denomination" input="denomination"
+                       element="composants" composants="{{ composant.id }}"
+                       name="devis[composants][{{ composant.id }}][denomination]" required="required" 
+                       class="chakra-input border-bottom-inherit" placeholder="Dénomination" >
+                        <option disabled selected> Veuillez selectionner un composant </option>
+
+                       {% for option in options %}
+
+                         <option value="{{option.id}}"> {{ option.denomination }} </option>
+
+                       {% endfor %}
+                        <option value="Autre"> Autre </option>
+
+                </select>
+
+                {% endif %}
+            </div>
+            <div class="tab-el-right">
+                {% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
+                    <input type="text" id="devis_composants_{{ composant.id }}_quantite2Show" input="quantite2"
+                           name="devis[composants][{{ composant.id }}][quantite2Show]" required="required" maxlength="255"
+                           element="composants" composants="{{ composant.id }}" class="chakra-input border-bottom-inherit numbers dtht-composant text-center"
+                           placeholder="Quantité2"
+                           value="{{ composant.quantite2 }}" readonly>
+                {% endif %}
+            </div>
+            <div class="tab-el-right">{% if composant.typeComposant is not empty and composant.typeComposant.titre == "Location" %}
+                    <select disabled id="devis_composants_{{ composant.id }}_unite2" name="devis[composants][{{ composant.id }}][unite2]" class="text-center col-md-12 chakra-input border-bottom-inherit" required  input="unite2" element="composants"  composants="{{ composant.id }}">
+                        {% set isSelected = false %}
+                        {% for unite in unites %}
+                            <option value="{{unite.id}}"
+                                    {% if unite == composant.unite2 %}
+                                        selected
+                                        {% set isSelected = true %}
+                                    {% endif %}
+                            > {{ unite.label}}</option>
+                        {% endfor %}
+                        <option disabled {{ composant.unite2 is empty or isSelected == false ? "selected" : ""}}>Unité 2</option>
+                    </select>
+                {% endif %}
+            </div>
+            <div class="tab-el-right">
+                <input  type="text" id="devis_composants_{{ composant.id }}_quantite" input="quantite"
+                       name="devis[composants][{{ composant.id }}][quantite]" required="required" maxlength="255"
+                       element="composants" composants="{{ composant.id }}" class="border-bottom-inherit chakra-input numbers dtht-composant text-center"
+                       placeholder="Quantité"
+                       value="{{ composant.quantite }}" readonly>
+            </div>
+            <div class="tab-el-right">
+               <select disabled id="devis_composants_{{ composant.id }}_unite" name="devis[composants][{{ composant.id }}][unite]" class="border-bottom-inherit text-center col-md-12 chakra-input" required  input="unite" element="composants"  composants="{{ composant.id }}">
+                        {% set isSelected = false %}
+                        {% for unite in unites %}
+                            <option value="{{unite.id}}"
+                                {% if unite == composant.unite %}
+                                        selected
+                                        {% set isSelected = true %}
+                                {% endif %}
+                            > {{ unite.label}}</option>
+                        {% endfor %}
+                        <option disabled {{ composant.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                </select>
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_debourseUnitaireHT" input="debourseUnitaireHT"
+                       name="devis[composants][{{ composant.id }}][debourseUnitaireHT]" required="required" maxlength="255"
+                       element="composants" composants="{{ composant.id }}" class="chakra-input border-bottom-inherit numbers dtht-composant text-end"
+                       placeholder="Déboursé U HT"
+                       value="{{ composant.debourseUnitaireHT|number_format(3,',',' ') }}" readonly><span class="euro">€</span>
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_debourseTotalHT" disabled="disabled"
+                    input="debourseTotalHT"
+                    name="devis[composants][{{ composant.id }}][debourseTotalHT]" required="required" maxlength="255"
+                    class="chakra-input text-endborder-bottom-inherit text-end" placeholder="Déboursé Total HT"
+                    value="{{  composant.debourseTotalHT|number_format(3,',',' ') }}" readonly><span class="euro">€</span>
+
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_marge"
+                        {% if composant.marge < 1.3%}
+                            style="color:red;"
+                        {% endif %}
+                       input="marge" element="composants" composants="{{ composant.id }}"
+                       name="devis[composants][{{ composant.id }}][marge]" required="required" maxlength="255"
+                       class="chakra-input border-bottom-inherit text-center" placeholder="Marge"
+                       value="{{ composant.marge|number_format(3,',',' ') }}" {{ composant.typeComposant is empty ? "readonly" : "" }}>
+            </div>
+            <div class="tab-el-right">
+                <input type="text" id="devis_composants_{{ composant.id }}_prix_de_vente" disabled="disabled"
+                       input="prixDeVente"
+                       name="devis[composants][{{ composant.id }}][prixDeVente]" required="required" maxlength="255"
+                       class="chakra-input border-bottom-inherit text-end" placeholder="Prix de vente"
+                       value="{{ (composant.debourseTotalHT * composant.marge)|number_format(3,',',' ') }}" readonly><span class="euro">€</span>
+            </div>
+            <div class="tab-el-right row justify-content-center">
+                <button style="background-color: #fff; border: #fff;" class="btn btn-danger btn-sm rounded-0 col-md-auto delete-composant" id="delete-composant-{{composant.id}}" type="button" data-toggle="tooltip" data-placement="top" title="Delete" onclick="this.parentNode.style.display = 'none'"
+><i class="fa fa-trash" style="color: #dc3545; font-size: 1rem;"></i>
+</button>
+            </div>
+        </div>
+    </div>
+</div>
+</li>

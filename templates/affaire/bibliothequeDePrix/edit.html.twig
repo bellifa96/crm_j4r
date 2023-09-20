@@ -1,0 +1,488 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouvrage:{{ ouvrage.denomination }}{% endblock %}
+
+{% block body %}
+
+    <style>
+        .badge{
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .nav-link {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            min-width: 11.25rem !important;
+        }
+
+        .nav-tabs {
+            border-bottom: 5px solid #d9e2ec;
+        }
+
+        .add-button-devis {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            background: #109cf1;
+            color: #ffffff;
+            width: min-content;
+            font-family: Lato, sans-serif;
+            border: 0px;
+        }
+
+        .add-button-devis:hover {
+            background: #0d8cd9;
+        }
+
+        .chakra-input {
+            width: 100%;
+            min-width: 0px;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            position: relative;
+            appearance: none;
+            font-size: 1rem;
+            padding-inline: 0px;
+            height: 1.8rem;
+            border-radius: 0px;
+            border: 0px;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-color: #d9e2ec;
+            background: #00000000;
+            color: #486581;
+            opacity: 1;
+
+        }
+
+        .chakra-input:focus {
+            border-color: #109cf1;
+        }
+
+        .chakra-input:focus-visible {
+            border-color: rgb(16, 156, 241);
+            border-top-color: rgb(16, 156, 241);
+            border-right-color: #109cf1;
+            border-bottom-color: rgb(16, 156, 241);
+            border-left-color: rgb(16, 156, 241);
+            box-shadow: rgb(16 156 241) 0px 1px 0px 0px;
+        }
+
+        .modal-footer {
+            border: 0px;
+            justify-content: space-between;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .pointer:hover {
+            background: #edf8ff;
+        }
+
+        .tpoints {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        #svg-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            line-height: 1em;
+            flex-shrink: 0;
+            color: currentcolor;
+            vertical-align: middle;
+            color: #d9e2ec;
+            appearance: none;
+            border: 0;
+            background: unset;
+        }
+
+        #svg-button:hover {
+            color: #0d8cd9;
+        }
+
+        .svg-composant {
+            width: 9rem;
+            height: 9rem;
+            color: transparent;
+        }
+
+
+        #add-ouvrage-fill {
+            display: inline-flex;
+            appearance: none;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            user-select: none;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: middle;
+            outline: transparent solid 2px;
+            outline-offset: 2px;
+            line-height: 1.2;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            height: 2.25rem;
+            min-width: 2.5rem;
+            font-size: 1rem;
+            padding-inline-start: 1rem;
+            padding-inline-end: 1rem;
+            border: 1px solid #109cf1;
+            background: transparent;
+            color: #109cf1;
+            width: min-content;
+            font-family: Lato, sans-serif;
+        }
+
+        .labels {
+            display: block;
+            text-align: start;
+            font-size: 0.75rem;
+            margin-inline-end: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            transition-duration: 0.2s;
+            opacity: 1;
+            color: #627d98;
+        }
+        #ouvrage_note{
+            height: min-content;
+        }
+    </style>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link active" id="nav-ouvrage-tab" >
+                Ouvrages
+            </a>
+            <a  href="{{ path('app_affaire_bibliotheque_de_prix') }}" class="nav-link" id="nav-composants-tab" >
+                Composants
+            </a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-ouvrages" role="tabpanel" aria-labelledby="nav-ouvrages-tab">
+
+            <div class="pt-5">
+
+
+                <div class="page-block bg-white">
+                    <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                        Informations
+                    </div>
+                    <form onsubmit="return submitOuvrageEvenement(event)" name="demande">
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="labels" for="ouvrage_code">Code</label>
+                                <input type="text" id="ouvrage_code" name="ouvrage[code]"
+                                       class="col-md-12 chakra-input ouvrage-edit" value="{{ ouvrage.code }}"
+                                       required/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="labels" for="ouvrage_denomination">Dénomination</label>
+                                <input type="text" id="ouvrage_denomination" name="ouvrage[denomination]"
+                                       value="{{ ouvrage.denomination }}"
+                                       class="col-md-12 chakra-input ouvrage-edit" required/>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="labels" for="ouvrage_unite">Unité</label>
+                                <select id="ouvrage_unite" name="ouvrage[unite]" class="col-md-12 chakra-input ouvrage-edit">
+                                    {% set isSelected = false %}
+                                    {% for unite in unites %}
+                                        <option value="{{unite.id}}"
+                                            {% if unite == ouvrage.unite %}
+                                                    selected
+                                                    {% set isSelected = true %}
+                                            {% endif %}
+                                        > {{ unite.label}}</option>
+                                    {% endfor %}
+                                    <option disabled {{ ouvrage.unite is empty or isSelected == false ? "selected" : ""}}>Unité</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="labels" for="ouvrage_quantite">Quantité</label>
+                                <input type="number" id="ouvrage_quantite" name="ouvrage[quantite]"
+                                        class="col-md-12 chakra-input ouvrage-edit" required value="{{ ouvrage.quantite }}"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="labels" for="ouvrage_DUHT">Déboursé unitaire HT</label>
+                                <input type="number" id="ouvrage_DUHT" name="ouvrage[DUHT]"
+                                       value="{{ ouvrage.prixUnitaireDebourse }}"
+                                       class="col-md-12 chakra-input ouvrage-edit"
+                                       required/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="page-block bg-white mt-4 mb-4">
+                    <div style="font-size: 1.125rem;color: #334e68;font-family: Lato,sans-serif;margin-bottom: 0.75rem;">
+                        Notes de l'ouvrage
+                    </div>
+
+                    <textarea placeholder="Noter les informations complémentaires relatives à cet ouvrage" id="ouvrage_note" name="ouvrage[note]"
+                              class="col-md-12 chakra-input ouvrage-edit" oninput="auto_grow(this)">{{ ouvrage.note|raw }}</textarea>
+
+
+                </div>
+
+                {% if ouvrage.composants is not empty %}
+                    <div class="row justify-content-around pb-5">
+                        <div class="col-md-4">
+                            <p style="font-size: 22px;font-weight: 600;">Composants de l'ouvrage</p>
+                        </div>
+                        <div class="col-md-8 row justify-content-end">
+                            <button type="button" class="col-md-auto m-2" id="add-ouvrage-fill">Créer un nouveau composant
+                            </button>
+                            <button type="button" class="col-md-auto add-button-devis m-2" id="import-composant">Importer un composant existant
+                            </button>
+
+                        </div>
+                    </div>
+                    <table class="table datatable" id="table-ouvrage" style="background: white;">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Code</th>
+                            <th>Dénomination</th>
+                            <th>Unité</th>
+                            <th>Déboursé unitaire HT</th>
+                            <th>Quantité</th>
+                            <th>Déboursé total HT</th>
+                            <th>Marge</th>
+                            <th>Prix de vente</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for composant in ouvrage.composants %}
+                            <tr class="pointer">
+                                <td><span class="badge badge-pill"  style="background:{{ composant.typeComposant.couleur }};color:{{ composant.typeComposant.couleurText is not empty ? composant.typeComposant.couleurText : "white"   }}; ">{{ composant.typeComposant.titre }}</span></td>
+                                <td>{{ composant.code }}</td>
+                                <td>{{ composant.denomination }}</td>
+                                <td>{{ composant.unite }}</td>
+                                <td id="debourseUHT-{{ composant.id }}">{{ composant.debourseUnitaireHT|number_format(2,'.',' ') }} €</td>
+                                <td>{{ composant.quantite }}</td>
+                                <td id="debourseht-{{ composant.id }}">{{ (composant.quantite * composant.debourseUnitaireHT)|number_format(2,'.',' ')}} €</td>
+                                <td>{{ composant.marge|number_format(2,'.',' ') }}  %</td>
+                                <td>{{ composant.prixDeVenteHT|number_format(2,'.',' ') }} €</td>
+
+                                <td>
+                                    <button id="svg-button">
+                                        <svg viewBox="0 0 408 408" focusable="false" class="chakra-icon tpoints">
+                                            <path fill="currentColor"
+                                                  d="M51,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S79.05,153,51,153z M357,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S385.05,153,357,153z M204,153c-28.05,0-51,22.95-51,51s22.95,51,51,51s51-22.95,51-51S232.05,153,204,153z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% else %}
+
+                    <div class="row justify-content-center">
+                        <svg viewBox="0 0 100 100" focusable="false" class="chakra-icon svg-composant">
+                            <circle cx="50" cy="50" r="50" fill="currentColor"></circle>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M35.7854 17.5665C34.5973 18.001 32.9197 17.9256 31.1541 17.3322C30.0222 18.8115 28.6735 19.8121 27.4455 20.1163C27.011 18.9281 27.0863 17.2505 27.6798 15.4849C26.2005 14.353 25.1999 13.0043 24.8957 11.7763C26.0839 11.3418 27.7615 11.4172 29.5271 12.0106C30.659 10.5313 32.0077 9.53073 33.2357 9.22656C33.6702 10.4147 33.5948 12.0923 33.0014 13.8579C34.4807 14.9898 35.4813 16.3385 35.7854 17.5665ZM16.6688 67.9876C15.9363 68.4649 14.7948 68.675 13.5136 68.5499C12.9814 69.722 12.2288 70.6055 11.4491 71.0012C10.9718 70.2687 10.7617 69.1272 10.8869 67.846C9.71475 67.3138 8.83128 66.5612 8.43555 65.7815C9.16809 65.3042 10.3095 65.0941 11.5907 65.2193C12.1229 64.0471 12.8756 63.1637 13.6552 62.7679C14.1325 63.5005 14.3426 64.6419 14.2175 65.9231C15.3896 66.4553 16.2731 67.208 16.6688 67.9876ZM61.0964 85.7939C62.0529 87.0902 63.204 87.9758 64.2613 88.2573C64.655 87.2365 64.6152 85.7846 64.1286 84.2489C65.4249 83.2924 66.3105 82.1413 66.5921 81.084C65.5712 80.6903 64.1194 80.7302 62.5837 81.2167C61.6272 79.9204 60.4761 79.0348 59.4188 78.7533C59.0251 79.7741 59.0649 81.226 59.5514 82.7617C58.2552 83.7181 57.3696 84.8693 57.088 85.9266C58.1089 86.3203 59.5607 86.2804 61.0964 85.7939ZM94.8616 39.6691C93.7382 39.3699 92.5151 38.4289 91.4989 37.0517C89.8672 37.5686 88.3246 37.6109 87.2399 37.1926C87.5391 36.0692 88.48 34.8462 89.8573 33.8299C89.3404 32.1982 89.298 30.6556 89.7163 29.571C90.8397 29.8701 92.0628 30.8111 93.079 32.1884C94.7107 31.6714 96.2533 31.6291 97.338 32.0474C97.0388 33.1708 96.0979 34.3939 94.7206 35.4101C95.2375 37.0418 95.2799 38.5844 94.8616 39.6691Z"
+                                  fill="#83CDFA"></path>
+                            <path d="M25 48.5352H30.8594V51.4648H25V48.5352Z" fill="#FFCB7F"></path>
+                            <path d="M26.6133 41.9922L28.0781 39.4551L33.1523 42.3848L31.6875 44.9219L26.6133 41.9922Z"
+                                  fill="#FFCB7F"></path>
+                            <path d="M26.6128 58.0078L31.687 55.0781L33.1519 57.6152L28.0776 60.5449L26.6128 58.0078Z"
+                                  fill="#FFCB7F"></path>
+                            <path d="M69.1406 48.5352H75V51.4648H69.1406V48.5352Z" fill="#E67105"></path>
+                            <path d="M66.8472 42.3828L71.9214 39.4531L73.3862 41.9902L68.312 44.9199L66.8472 42.3828Z"
+                                  fill="#E67105"></path>
+                            <path d="M66.8467 57.6133L68.3115 55.0762L73.3857 58.0059L71.9209 60.543L66.8467 57.6133Z"
+                                  fill="#E67105"></path>
+                            <path d="M58.8379 46.3125H61.0596V38.9395H53.6865V36.7178C53.6865 34.6817 52.036 33.0312 50 33.0312L48.0469 49.999L50 66.9668C52.036 66.9668 53.6865 65.3163 53.6865 63.2803V61.0586H61.0596V53.6855H58.8379C56.8019 53.6855 55.1514 52.0351 55.1514 49.999C55.1514 47.963 56.8019 46.3125 58.8379 46.3125Z"
+                                  fill="#0D8CD9"></path>
+                            <path d="M46.314 36.7178V38.9395H38.9409V46.3125H41.1626C43.1986 46.3125 44.8491 47.963 44.8491 49.999C44.8491 52.0351 43.1986 53.6855 41.1626 53.6855H38.9409V61.0586H46.314V63.2803C46.314 65.3163 47.9645 66.9668 50.0005 66.9668V33.0312C47.9645 33.0312 46.314 34.6817 46.314 36.7178Z"
+                                  fill="#B0E2FF"></path>
+                        </svg>
+                    </div>
+                    <div class="col-md-12 row justify-content-center">
+                        <button type="button" class="col-md-auto m-2" id="add-ouvrage-fill">Créer un nouveau composant
+                        </button>
+                        <button type="button" class="col-md-auto m-2 add-button-devis" id="import-composant">Importer un composant existant
+                        </button>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-composants" role="tabpanel" aria-labelledby="nav-composants-tab">
+
+            Composants
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+
+
+        $('#import-composant').click(function () {
+
+            const data = {
+                id:"{{ ouvrage.id }}"
+            }
+            $('.modal-composant').remove();
+            var path = "{{ path('app_affaire_modal_composant_liste',{'id':ouvrage.id}) }}";
+            $.post(path,{data} ,function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-import-composant").modal('show');
+
+            })
+
+        })
+
+        $('.ouvrage-edit').change(function () {
+
+            const ouvrage = {
+                code: $('#ouvrage_code').val(),
+                denomination: $('#ouvrage_denomination').val(),
+                unite: $('#ouvrage_unite').val(),
+                duht: $('#ouvrage_DUHT').val(),
+                note:$('#ouvrage_note').val(),
+                quantite:$('#ouvrage_quantite').val(),
+            }
+
+            $.post("{{ path('app_affaire_ouvrage_edit',{'id':ouvrage.id}) }}", {ouvrage}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                     console.log(data,ouvrage);
+                }
+            })
+
+        })
+
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
+        $('#add-ouvrage').click(function () {
+            $('#modal-ouvrage').remove();
+            var path = "{{ path('app_affaire_modal_ouvrage') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-ouvrage").modal('show');
+
+            })
+        })
+
+        function submitImportComposantEvent(event){
+            event.preventDefault();
+
+            let data = {};
+            $('.check-composant').each(function (index) {
+                if($(this).is(':checked')){
+                    console.log($(this).val());
+                    data[index]= ($(this).val())
+                }
+            })
+
+            $.post("{{ path('app_affaire_composant_import',{'id':ouvrage.id}) }}", data, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200){
+                    location.reload();
+
+                }
+            })
+        }
+        function submitOuvrageEvenement(event) {
+            event.preventDefault();
+
+            const ouvrage = {
+                code: $('#ouvrage_code').val(),
+                denomination: $('#ouvrage_code').val(),
+                unite: $('#ouvrage_unite').val(),
+                duht: $('#ouvrage_DUHT').val(),
+            }
+
+            $.post("{{ path('app_affaire_ouvrage_new') }}", {ouvrage}, function (response) {
+                let data = JSON.parse(response);
+                if (data.code === 200) {
+                    location.reload();
+                }
+            });
+        }
+
+
+        function submitComposantEvenement(event) {
+            event.preventDefault();
+
+            const composant = {
+                type: $('#composant_type').val(),
+                code: $('#composant_code').val(),
+                denomination: $('#composant_denomination').val(),
+                unite: $('#composant_unite').val(),
+                duht: $('#composant_DUHT').val(),
+                quantite: $('#composant_quantite').val(),
+                ouvrage: "{{ ouvrage.id }}",
+                marge:$('#composant_marge').val(),
+            }
+
+            $.post("{{ path('app_affaire_composant_new') }}", {composant}, function (response) {
+                let data = JSON.parse(response);
+
+                if (data.code === 200) {
+                    location.reload();
+                }
+            });
+        }
+
+
+        $('#add-ouvrage-fill').click(function () {
+            $('.modal-composant').remove();
+            let path = "{{ path('app_affaire_modal_composant') }}";
+            $.post(path, function (data) {
+                $('body').append(JSON.parse(data).message);
+                $("#modal-composant").modal('show');
+
+            })
+        })
+
+
+    </script>
+
+
+
+
+
+{% endblock %}
