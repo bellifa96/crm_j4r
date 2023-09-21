@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Affecter Un Ticket
+{% endblock %}
+
+{% block body %}
+
+	<div class="back_data_afficher">
+		{{ include('ticket/_formAssigned.html.twig') }}
+	</div>
+	<style>
+
+		.back_data_afficher {
+			background-color: white;
+			border-radius: 10px; /* All corners will have a 10px radius */
+		}
+        .span-color {
+            color : #1C1C1C;
+        }
+	</style>
+
+{% endblock %}

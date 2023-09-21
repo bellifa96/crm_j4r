@@ -17,12 +17,13 @@ class EmailService
         $this->mailer = $mailer;
     }
 
-    public function send($to, $data, $htmlTemplate,$titre)
+    public function send($to, $data, $htmlTemplate,$titre, $image)
+
     {
 
         $email = (new TemplatedEmail())
             ->from('abellifa@myleasy.com')
-            ->to(...$to)
+            ->to($to)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
@@ -33,6 +34,7 @@ class EmailService
             // pass variables (name => value) to the template
             ->context([
                 'data' => $data,
+                'image' =>$image
             ]);
 
         try {
@@ -42,6 +44,4 @@ class EmailService
         }
 
     }
-
-
 }

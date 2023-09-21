@@ -89,6 +89,15 @@ class Devis
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observation = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $observations = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $designationDesTravaux = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaireInterne = null;
+
     public function __construct(){
         $this->dateDuDevis = date('d/m/Y');
         $this->statut = "Brouillon";
@@ -508,6 +517,42 @@ class Devis
     public function setObservation(?string $observation): self
     {
         $this->observation = $observation;
+
+        return $this;
+    }
+
+    public function getObservations(): ?string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(?string $observations): self
+    {
+        $this->observations = $observations;
+
+        return $this;
+    }
+
+    public function getDesignationDesTravaux(): ?string
+    {
+        return $this->designationDesTravaux;
+    }
+
+    public function setDesignationDesTravaux(?string $designationDesTravaux): self
+    {
+        $this->designationDesTravaux = $designationDesTravaux;
+
+        return $this;
+    }
+
+    public function getCommentaireInterne(): ?string
+    {
+        return $this->commentaireInterne;
+    }
+
+    public function setCommentaireInterne(?string $commentaireInterne): self
+    {
+        $this->commentaireInterne = $commentaireInterne;
 
         return $this;
     }

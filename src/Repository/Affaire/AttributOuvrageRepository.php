@@ -21,7 +21,7 @@ class AttributOuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, AttributOuvrage::class);
     }
 
-    public function save(AttributOuvrage $entity, bool $flush = false): void
+    public function save(AttributOuvrage $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 

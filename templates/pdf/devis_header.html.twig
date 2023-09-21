@@ -4,6 +4,7 @@
             position: absolute;
             bottom: 10px;
         }
+
         body {
             position: relative;
         }
@@ -43,42 +44,42 @@
         </div>
 
     </div>
-        <div style="display: flex;flex-direction: row;">
-            <div style="width: 70%">
+    <div style="display: flex;flex-direction: row;">
+        <div style="width: 70%">
             <span>
                 <strong><u>Contact:</u> Julien Rodrigues</strong>
             </span>
-                <br>
-                <span>
+            <br>
+            <span>
                 Tel: 06.76.36.49.08 - Email: j.rodrigues@j4r.fr
             </span>
-            </div>
         </div>
-        <div>
+    </div>
+    <div>
         <span>
             <strong><u>Designation des travaux:</u></strong>
         </span>
-            <br>
-            <span>
-            {{ devis.description is not null ? devis.description : "&nbsp;"}}
+        <br>
+        <span>
+            {{ devis.designationDesTravaux is not null ? devis.designationDesTravaux : "&nbsp;" }}
         </span>
-        </div>
-        <div>
+    </div>
+    <div>
         <span>
             <strong><u>Chantier:</u></strong>
         </span>
-            <br>
-            <span>
+        <br>
+        <span>
             {{ devis.titre }}
         </span>
-            <br>
-            <span>
+        <br>
+        <span>
             {{ devis.demande.adresse1 }}
         </span>
-            <br>
-            <span>
+        <br>
+        <span>
             {{ devis.demande.codePostal~' '~devis.demande.ville }}
         </span>
-        </div>
+    </div>
     </div>
 {% endblock %}

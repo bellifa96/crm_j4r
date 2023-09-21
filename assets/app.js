@@ -17,6 +17,8 @@ import './styles/pagination.scss'
 
 
 import './styles/app.css';
+import './styles/styles.css';
+
 
 
 // start the Stimulus application

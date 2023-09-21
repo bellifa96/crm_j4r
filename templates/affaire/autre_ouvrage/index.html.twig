@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AutreOuvrage index{% endblock %}
+
+{% block body %}
+    <h1>AutreOuvrage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Designation</th>
+                <th>Quantite</th>
+                <th>DureeLocation</th>
+                <th>Poids</th>
+                <th>Montage</th>
+                <th>Demontage</th>
+                <th>TransportAller</th>
+                <th>TransportRetour</th>
+                <th>ManutentionAppro</th>
+                <th>ManutentionRepli</th>
+                <th>Vente</th>
+                <th>Location</th>
+                <th>Marge</th>
+                <th>PrixUnitaire</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for autre_ouvrage in autre_ouvrages %}
+            <tr>
+                <td>{{ autre_ouvrage.id }}</td>
+                <td>{{ autre_ouvrage.designation }}</td>
+                <td>{{ autre_ouvrage.quantite }}</td>
+                <td>{{ autre_ouvrage.dureeLocation }}</td>
+                <td>{{ autre_ouvrage.poids }}</td>
+                <td>{{ autre_ouvrage.montage }}</td>
+                <td>{{ autre_ouvrage.demontage }}</td>
+                <td>{{ autre_ouvrage.transportAller }}</td>
+                <td>{{ autre_ouvrage.transportRetour }}</td>
+                <td>{{ autre_ouvrage.manutentionAppro }}</td>
+                <td>{{ autre_ouvrage.manutentionRepli }}</td>
+                <td>{{ autre_ouvrage.vente }}</td>
+                <td>{{ autre_ouvrage.location }}</td>
+                <td>{{ autre_ouvrage.marge }}</td>
+                <td>{{ autre_ouvrage.prixUnitaire }}</td>
+                <td>
+                    <a href="{{ path('app_affaire_autre_ouvrage_show', {'id': autre_ouvrage.id}) }}">show</a>
+                    <a href="{{ path('app_affaire_autre_ouvrage_edit', {'id': autre_ouvrage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_autre_ouvrage_new') }}">Create new</a>
+{% endblock %}

@@ -166,4 +166,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="1a4efb3103" level="application" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="a9ce398e-1c16-42d4-8e00-e763d91b3c50" />
+  </component>
 </module>

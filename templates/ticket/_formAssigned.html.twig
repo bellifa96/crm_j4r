@@ -1,0 +1,78 @@
+{{ form_start(form) }}
+<div class="row justify-content-between">
+	<div class="col-6" style="display: flex; flex-direction: column; {{ ticket.status != " en confirmation" ? " justify-content: center" : " " }}">
+		<div style="margin-top: 10px; display: flex; justify-content: left">
+			<span class="span-color" style="width: 100px" class="ticket">Titre</span>
+			{% if ticket.status is not null %}
+				<div class="span-color">{{ ticket.title }}</div>
+			{% endif %}
+		</div>
+		<div style="display: flex; margin-top: 10px; justify-content: left">
+			<span class="span-color" style="width: 100px" class="ticket">Description</span>
+			{% if ticket.status is not null %}
+				<div class="span-color" style="width: 500px; text-align: justify">{{ ticket.description }}</div>
+
+			{% endif %}
+		</div>
+		<div style="display: flex; margin-top: 10px; justify-content: left">
+			<span class="span-color" style="width: 100px" class="ticket">Importance</span>
+			{% if ticket.level is not null %}
+				<span class="span-color">
+					{{ ticket.level }}
+				</span>
+			{% endif %}
+		</div>
+		<div class="mb-3">
+			<label>{{ field_label(form.status) }}</label>
+			<select name="{{ field_name(form.status) }}" class="form-control">
+				<option value="">{{ field_label(form.status) }}</option>
+				{% for label, value in field_choices(form.status) %}
+					{% set selected = (value == form.status.vars.value) ? 'selected' : '' %}
+
+					<option value="{{ value }}" {{ selected }}>{{ label }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="mb-3">
+			<button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Prendre Ticket') }}</button>
+		</div>
+
+
+	</div>
+	<div class="col-6" style="text-align: center; margin: auto">
+		{% if ticket.creator is not null %}
+			<div>
+				<span class="span-color" style="font-size: 15px; font-weight: bold">Créateur du ticket :</span><br>
+				<span class="span-color">
+					{{ ticket.creator.lastname }}
+					{{ ticket.creator.firstname }}
+				</span>
+			</div>
+			{% if ticket.admin is not null %}
+				<br>
+				<div>
+					<span class="span-color" style="font-size: 15px; font-weight: bold">Administrateur en charge du ticket :</span><br>
+					<span class="span-color">{{ ticket.admin.lastname }}
+						{{ ticket.admin.firstname }}</span>
+				</div>
+			{% endif %}
+			<br>
+			<div>
+				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de création du ticket :</span><br>
+				<span class="span-color">{{ ticket.date is null ? '...' : ticket.date }}</span>
+			</div>
+			<br>
+			<div>
+				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de prise en charge du ticket :</span><br>
+				<span class="span-color">{{ ticket.dateTaken is null ? '...' : ticket.dateTaken }}</span>
+			</div>
+			<br>
+			<div>
+				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de résolution du ticket :</span><br>
+				<span class="span-color">{{ ticket.dateResolved is null ? '...' : ticket.dateResolved }}</span>
+			</div>
+
+		{% endif %}
+	</div>
+</div>
+{{ form_end(form) }}
