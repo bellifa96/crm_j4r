@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="row page-head">
     {% if template is defined and template is not empty and template == 'others' %}
     <div class="col-lg-8 offset-lg-2 no-padding">
@@ -50,3 +51,57 @@
     </div>
     {% endif %}
 </div>
+=======
+<div class="row page-head">
+    {% if template is defined and template is not empty and template == 'others' %}
+    <div class="col-lg-8 offset-lg-2 no-padding">
+        <div class="row">
+    {% endif %}
+
+    <h2 class="col-lg-6">{{ title |trans }}</h2>
+
+    {% if nav is defined and nav is not empty %}
+    <ul class="col-lg-6 text-end">
+        {%  for link in nav %}
+        <li>
+            <a
+                {% if link[0] is defined and link[0] is not empty and link[0] == 'url' %}
+                    href="{{ link[1] }}"
+
+                    {% if link[3] is defined and link[3] is empty %}
+                    target="_blank"
+                    {% endif %}
+                    id="{{ link[2]|replace({' ':'-'}) }}"
+                    class="btn btn-info btn-sm">{{ link[2] |trans }}
+
+                {% else %}
+                    href="
+                    {% if link[2] is defined and link[2] is not empty %}
+                        {% if link[4] is defined and link[4] is not empty %}
+                            {{ path(link[0], {'id': link[2], 'type': link[4]}) }}
+                        {% else %}
+                            {{ path(link[0], {'id': link[2]}) }}
+                        {% endif %}
+                    {% else %}
+                            {{ path(link[0]) }}
+                    {% endif %}
+                    "
+                    {% if link[3] is defined and link[3] is not empty %}
+                    target="_blank"
+                    {% endif %}
+
+                    id="{{ link[1]|replace({' ':'-'}) }}"
+                    class="btn btn-info btn-sm">{{ link[1] |trans }}
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if template is defined and template is not empty and template == 'others' %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+>>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76

@@ -6,7 +6,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Swift_Message;
 
 class EmailService
 {
@@ -18,7 +17,8 @@ class EmailService
         $this->mailer = $mailer;
     }
 
-    public function send($to, $data, $htmlTemplate,$titre,$image)
+    public function send($to, $data, $htmlTemplate,$titre, $image)
+
     {
 
         $email = (new TemplatedEmail())
@@ -44,6 +44,4 @@ class EmailService
         }
 
     }
-   
-
 }

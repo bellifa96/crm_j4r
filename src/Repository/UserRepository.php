@@ -50,8 +50,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */

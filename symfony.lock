@@ -339,8 +339,11 @@
             "./assets/controllers.json",
             "./assets/controllers/hello_controller.js",
             "./assets/styles/app.css",
+<<<<<<< HEAD
             "./assets/styles/styles.css",
 
+=======
+>>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
             "./config/packages/webpack_encore.yaml",
             "./package.json",
             "./webpack.config.js"
