@@ -8,7 +8,7 @@
 
 		<table class="table text-center datatable" style="color: #0E4377;">
 			<thead class="tr-head">
-				<tr >
+				<tr>
 					<th>Id</th>
 					<th>Title</th>
 					<th>Description</th>
@@ -23,16 +23,36 @@
 			<tbody>
 				{% for ticket in tickets %}
 					<tr>
-						<td>{{ ticket.id }}</td>
+						<td>
+							<a href="{{ path('ticket_assigned',{'id':ticket.id}) }}" style="color: #555;">
+								{{ ticket.id }}
+							</a>
+						</td>
 						<td>{{ ticket.title }}</td>
 						<td>{{ ticket.description }}</td>
 						<td>{{ ticket.level }}</td>
-						<td>{{ ticket.status }}</td>
+						<td>
+							{% if ticket.status == 'En cours' %}
+								<span style="color : #FFBF00 ">
+									En cours
+								</span>
+							{% elseif ticket.status == 'En confirmation' %}
+								<span style="color : #2EFE2E ">
+									En confirmation
+								</span>
+							{% else %}
+								{{ ticket.status }}
+							{% endif %}
+						</td>
 						<td>{{ ticket.date }}</td>
 						<td>{{ ticket.creator.getFirstname()  }}</td>
 
 						<td>
-						
+							{% if ticket.admin is defined %}
+								{{ ticket.admin.getFirstname() ?? '' }}
+							{% else %}
+								{{ '' }}
+							{% endif %}
 						</td>
 					</tr>
 				{% else %}
@@ -45,5 +65,3 @@
 	</div>
 
 {% endblock %}
-
-

@@ -246,6 +246,8 @@ class UserType extends AbstractType
                         'Manageur'=>'ROLE_MANAGER',
                         'Commercial'=>'ROLE_COMMERCIAL',
                         'J4R' => 'ROLE_USER',
+                        'DEV' => 'ROLE_DEV',
+
                     ],
                     'multiple' => true,
                     'expanded' => true,

@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Ticket;
 use App\Form\TicketType;
+use App\Form\TypeAssignedType;
 use App\Repository\TicketRepository;
 use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +20,14 @@ class TicketController extends AbstractController
 {
     private $logger;
     private $emailServices;
+    private EntityManagerInterface $entityManager; // Declare the EntityManagerInterface
 
-    public function __construct(LoggerInterface $logger, EmailService $emailServices)
+    public function __construct(LoggerInterface $logger, EmailService $emailServices, EntityManagerInterface $entityManager)
     {
         $this->logger = $logger;
         $this->emailServices = $emailServices;
+        $this->entityManager = $entityManager; // Inject the EntityManagerInterface via constructor
+
     }
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
@@ -50,7 +55,7 @@ class TicketController extends AbstractController
             $ticket->setStatus('A traiter');
             $entityManager->persist($ticket);
             $entityManager->flush();
-            $this->emailServices->send("salaheddineelmamouni20@gmail.com",$ticket,"emails/ticketMail.html.twig",$ticket->getTitle(), $image);
+            $this->emailServices->send("salaheddineelmamouni20@gmail.com", $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $image);
 
             $this->logger->info('Ticket est bien Créer');
 
@@ -99,5 +104,98 @@ class TicketController extends AbstractController
         }
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+    }
+  
+
+    // La prémier etape aprés la crétion du ticket
+
+    /**
+     * @Route("/{id}/assigned", name="ticket_assigned", methods={"GET", "POST"})
+     */
+    public function ticketAssigned($id, Request $request, TicketRepository $ticketRepository): Response
+    {
+
+        try {
+            $issue = "assigned";
+            $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+
+            $previousStatus = $ticket->getStatus();
+
+            $form = $this->createForm(TypeAssignedType::class, $ticket);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $date = new \DateTime();
+                $status = $ticket->getStatus();
+
+                if ($status != $previousStatus) {
+                    if ($status == "En cours") {
+                        $ticket->setDateTaken($date->format('d-m-Y H:i:s'));
+                        $ticket->setAdmin($this->getUser());
+                    }
+                    if ($status == "En confirmation") {
+                        $ticket->setResolved(false);
+                    }
+                }
+                $this->emailServices->send($ticket->getCreator()->getEmailPerso(), $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
+                $this->entityManager->persist($ticket);
+                $this->entityManager->flush();
+
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+
+
+            $nav = [['app_ticket_index', 'Revenir à la liste'],['app_ticket_index', 'Demande des informations']];
+
+            return $this->renderForm('ticket/assigned.html.twig', [
+                'ticket' => $ticket,
+                'nav' => $nav,
+                'title' => 'Prendre un ticket',
+                'form' => $form,
+            ]);
+        } catch (Exception $e) {
+            $this->logger->error('Error :'.$e->getMessage());
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+    /**
+     * @Route("/{id}/information", name="ticket_informations", methods={"GET", "POST"})
+     */
+    public function ticketInformations($id, Request $request, TicketRepository $ticketRepository): Response
+    {
+
+        try {
+            $issue = "informations";
+            $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+
+            $previousStatus = $ticket->getStatus();
+
+            $form = $this->createForm(TypeAssignedType::class, $ticket);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+           
+             //   $this->emailServices->send($ticket->getCreator()->getEmailPerso(), $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
+             
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+
+
+            $nav = [['app_ticket_index', 'Revenir à la liste']];
+
+            return $this->renderForm('ticket/assigned.html.twig', [
+                'ticket' => $ticket,
+                'nav' => $nav,
+                'title' => 'Demande des informations',
+                'form' => $form,
+            ]);
+        } catch (Exception $e) {
+            $this->logger->error('Error :'.$e->getMessage());
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 }
