@@ -34,11 +34,8 @@
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
         "symfony/mime": "6.0.*",
-<<<<<<< HEAD
-        "symfony/monolog-bundle": "^3.8",
-=======
+
         "symfony/monolog-bundle": "^3.7",
->>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
         "symfony/notifier": "6.0.*",
         "symfony/process": "6.0.*",
         "symfony/property-access": "6.0.*",

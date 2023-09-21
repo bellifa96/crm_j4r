@@ -4,11 +4,8 @@ namespace App\Controller\Affaire;
 
 use App\Entity\Affaire\Transport;
 use App\Entity\Ged\Fichier;
-<<<<<<< HEAD
-use App\Entity\Interlocuteur;
-=======
+
 use App\Entity\Interlocuteur\Interlocuteur;
->>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
 use App\Form\Affaire\TransportType;
 use App\Form\Ged\FichierType;
 use App\Repository\Affaire\TransportRepository;

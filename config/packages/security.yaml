@@ -6,10 +6,8 @@ security:
     ROLE_MANAGER: [ 'ROLE_MANAGER','ROLE_USER' ]
     ROLE_COMMERCIAL: ['ROLE_COMMERCIAL','ROLE_USER']
     ROLE_USER: [ 'ROLE_USER' ]
-<<<<<<< HEAD
     ROLE_DEV: ['ROLE_DEV']
-=======
->>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
+
 
 
   enable_authenticator_manager: true

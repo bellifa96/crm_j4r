@@ -23,10 +23,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-<<<<<<< HEAD
 
-=======
->>>>>>> 14fd9fbb87cce363ad8c2bc7e5bea3ab716a8b76
     .addEntry('devis', './assets/devis.js')
 
     .addEntry('chart', './assets/chart.js')
