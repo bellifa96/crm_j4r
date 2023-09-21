@@ -2,6 +2,7 @@
 
 namespace App\Controller\Affaire;
 
+use App\Entity\Affaire\AutreOuvrage;
 use App\Entity\Affaire\Metre;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -190,6 +191,7 @@ class BibliothequeDePrixController extends AbstractController
             'attributOuvrages'=>$entityManager->getRepository(AttributOuvrage::class)->findAll(),
             'ouvrage'=>$ouvrage,
             'tableDePrix'=>$entityManager->getRepository(TableDePrix::class)->findAll(),
+            'autresOuvrages'=>$entityManager->getRepository(AutreOuvrage::class)->findAll(),
             'unites'=>$this->unites,
             'metre' =>$ouvrage->getMetres(),
         ];
@@ -565,6 +567,32 @@ class BibliothequeDePrixController extends AbstractController
 
         return $this->redirectToRoute('app_affaire_bibliotheque_de_prix', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/edit/tableDePrix', name: 'app_affaire_table_de_prix_edit', methods: ['POST'])]
+    public function editTableDePrix(Request $request, TableDePrixRepository $tableDePrixRepository): Response
+    {
+        $data = $request->request->all();
+
+        try {
+            foreach ($data['prixTDP'] as $attributTDP) {
+                $attribut = $tableDePrixRepository->find($attributTDP['id']);
+                if (key_exists('prix', $attributTDP)) {
+                    $attribut->setPrix($attributTDP['prix']);
+                }
+                if (key_exists('cadence', $attributTDP)) {
+                    $attribut->setCadence($attributTDP['cadence']);
+                }
+
+                $tableDePrixRepository->save($attribut);
+            }
+
+            return new Response(json_encode(['code' => 200]));
+        } catch (\Exception $e) {
+            // Gérer l'exception ici, par exemple en renvoyant une réponse d'erreur appropriée
+            return new Response(json_encode(['code' => 500, 'message' => 'Une erreur est survenue lors de la mise à jour des données.']));
+        }
+    }
+
 
 
     #[Route('/ouvrage/{id}', name: 'app_affaire_ouvrage_delete', methods: ['POST'])]

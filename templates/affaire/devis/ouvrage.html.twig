@@ -15,7 +15,7 @@
                            element="ouvrages" ouvrages="{{ ouvrage.id }}" origine={{ ouvrage.origine }}
                            name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required" maxlength="255"
                            class="chakra-input border-bottom-inherit" placeholder="Dénomination"
-                           value="{{ ouvrage.denomination }}" disabled/>
+                           value="{{ ouvrage.denomination }}"/>
                 {% else %}
                     <div class="import-ouvrage" id="import-ouvrage-{{ ouvrage.id }}" style="width: 100%">
                         <input type="text" id="devis_ouvrages_{{ ouvrage.id }}_denomination" input="denomination"
@@ -23,7 +23,7 @@
                                value="{{ ouvrage.denomination }}"
                                name="devis[ouvrages][{{ ouvrage.id }}][denomination]" required="required"
                                class="chakra-input border-bottom-inherit" placeholder="Veuillez sélectionner un ouvrage"
-                               style="cursor: pointer;" disabled/>
+                               style="cursor: pointer;"/>
                     </div>
 
                 {% endif %}
@@ -136,10 +136,10 @@
                        value="{{ (ouvrage.prixDeVenteHT)|number_format(3,',',' ') }}"><span class="euro">€</span>
             </div>
             <div class="tab-el-right row justify-content-center">
-                <div class="col-md-auto add-element-button" id="bi-plus-circle-{{ ouvrage.id }}" type="ouvrage"
+                <!--<div class="col-md-auto add-element-button" id="bi-plus-circle-{{ ouvrage.id }}" type="ouvrage"
                      style="cursor:pointer;">
                     <span><i ouvrages="{{ ouvrage.id }}" class="bi bi-plus-circle-fill"></i></span>
-                </div>
+                </div>-->
                 <div class="spinner-border text-primary col-md-auto" style="display:none" role="status"
                      id="spinner-{{ ouvrage.id }}">
                     <span class="sr-only">Loading...</span>

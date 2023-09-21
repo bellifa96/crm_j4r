@@ -97,11 +97,15 @@ class Ouvrage
     #[ORM\Column(nullable: true)]
     private ?float $pourcentageTpsDeReference = null;
 
-    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class, cascade:['persist'])]
+    #[ORM\OneToMany(mappedBy: 'ouvrage', targetEntity: Metre::class, cascade:['persist' , 'remove'])]
     private Collection $metres;
 
     #[ORM\Column(nullable: true)]
     private ?float $largeur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ouvrages')]
+    private ?AutreOuvrage $autreOuvrage = null;
+
 
     public function __construct()
     {
@@ -472,6 +476,18 @@ class Ouvrage
     public function setLargeur(?float $largeur): self
     {
         $this->largeur = $largeur;
+
+        return $this;
+    }
+
+    public function getAutreOuvrage(): ?AutreOuvrage
+    {
+        return $this->autreOuvrage;
+    }
+
+    public function setAutreOuvrage(?AutreOuvrage $autreOuvrage): self
+    {
+        $this->autreOuvrage = $autreOuvrage;
 
         return $this;
     }

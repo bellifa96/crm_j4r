@@ -58,24 +58,20 @@
     {% set sommeTR = 0 %}
     {% set sommeMA = 0 %}
     {% set sommeMR = 0 %}
+    {% set sommeETU = 0 %}
+    {% set sommeV = 0 %}
     <table style="font-size: 6px; margin-top: 10px; border-collapse: collapse; border-spacing: 0 10px;" id="table1">
         <thead style="margin-bottom: 5px">
         <tr>
-            <th style="width: 18%" colspan="3">
-                <table style="padding: 0; margin: 0; width: 100%">
-                    <tr style="padding: 0; margin: 0; width: 100%;">
-                        <th style="margin: 0; padding: 0; border: inherit" colspan="3">Désignation des ouvrages</th>
+            <th style="width: 28%; padding: 0" colspan="3">
+                <table style="width: 100%">
+                    <tr>
+                        <th style="border: inherit" colspan="3">Désignation des ouvrages</th>
                     </tr>
-                    <tr style="padding: 0; margin: 0 ;width: 100%">
-                        <td style="padding: 0; margin: 0; border: inherit">
-                            Lot
-                        </td>
-                        <td style="padding: 0; margin: 0; border: inherit">
-                            Sous lot
-                        </td>
-                        <td style="padding: 0; margin: 0; border: inherit">
-                            Ouvrage
-                        </td>
+                    <tr>
+                        <th style="border: inherit; width: 15%">Lot</th>
+                        <th style="border: inherit; width: 15%">Sous lot</th>
+                        <th style="border: inherit; width: 70%">Ouvrage</th>
                     </tr>
                 </table>
             </th>
@@ -120,7 +116,6 @@
             <th style="width: 8%">Prix de vente total HT</th>
             <th style="width: 5%">Sur location mensuelle</th>
             <th style="width: 5%">Sur location journalière</th>
-            <th style="width: 10%">Observations</th>
         </tr>
         </thead>
         <tbody>
@@ -136,11 +131,11 @@
                             <td style="text-align: center; width: 5%">
                                 {{ enfant.lot.denomination }}
                             </td>
-                            <td style="text-align: center; width: 8%">
+                            <td style="text-align: center; width: 18%">
                                 {{ sousEnfant.ouvrage.denomination }}
                             </td>
                             <td style="text-align: center"> {{ sousEnfant.ouvrage.unite is not null ? sousEnfant.ouvrage.unite.label : '-' }}</td>
-                            <td style="text-align: center"> {{ sousEnfant.ouvrage.quantite is not null ? sousEnfant.ouvrage.quantite : '-' }} </td>
+                            <td style="text-align: center"> {{ sousEnfant.ouvrage.quantite is not null ? sousEnfant.ouvrage.quantite|number_format(2,',',' ') : '-' }} </td>
                             <td style="text-align: center">
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('L') %}
@@ -152,7 +147,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('L') %}
                                         {% set sommeL = sommeL + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -160,7 +155,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('M') %}
                                         {% set sommeM = sommeM + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -168,7 +163,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('D') %}
                                         {% set sommeD = sommeD + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -176,7 +171,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('TA') %}
                                         {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -184,7 +179,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('TR') %}
                                         {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -192,7 +187,7 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('MA') %}
                                         {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -200,18 +195,31 @@
                                 {% for composant in sousEnfant.ouvrage.composants %}
                                     {% if composant.TypeComposant.code is same as('MR') %}
                                         {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
-                                        {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td style="text-align: right"> - €</td>
-                            <td style="text-align: right"> - €</td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('V') %}
+                                        {% set sommeV = sommeV + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="text-align: right">
+                                {% for composant in sousEnfant.ouvrage.composants %}
+                                    {% if composant.TypeComposant.code is same as('ETU') %}
+                                        {% set sommeETU = sommeETU + composant.prixDeVenteHT %}
+                                        {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                             <td style="text-align: right"> {{ sousEnfant.ouvrage.prixDeVenteHT is not null ? (sousEnfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
                                 €
                             </td>
                             <td style="text-align: right"> - €</td>
                             <td style="text-align: right"> - €</td>
-                            <td style="text-align: center"></td>
                         </tr>
                     {% endfor %}
                 {% elseif enfant.type == 'ouvrage' %}
@@ -223,11 +231,11 @@
                         <td style="text-align: center; width: 5%">
                             -
                         </td>
-                        <td style="text-align: center; width: 8%">
+                        <td style="text-align: center; width: 18%">
                             {{ enfant.ouvrage.denomination }}
                         </td>
                         <td style="text-align: center"> {{ enfant.ouvrage.unite is not null ? enfant.ouvrage.unite.label : '-' }} </td>
-                        <td style="text-align: center"> {{ enfant.ouvrage.quantite is not null ? enfant.ouvrage.quantite : '-' }} </td>
+                        <td style="text-align: center"> {{ enfant.ouvrage.quantite is not null ? enfant.ouvrage.quantite|number_format(2,',',' ') : '-' }} </td>
                         <td style="text-align: center">
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('L') %}
@@ -239,7 +247,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('L') %}
                                     {% set sommeL = sommeL + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -247,7 +255,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('M') %}
                                     {% set sommeM = sommeM + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -255,7 +263,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('D') %}
                                     {% set sommeD = sommeD + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -263,7 +271,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('TA') %}
                                     {% set sommeTA = sommeTA + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -271,7 +279,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('TR') %}
                                     {% set sommeTR = sommeTR + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -279,7 +287,7 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('MA') %}
                                     {% set sommeMA = sommeMA + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -287,18 +295,31 @@
                             {% for composant in enfant.ouvrage.composants %}
                                 {% if composant.TypeComposant.code is same as('MR') %}
                                     {% set sommeMR = sommeMR + composant.prixDeVenteHT %}
-                                    {{ composant.prixDeVenteHT| number_format(2,',',' ') }} €
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td style="text-align: right"> - €</td>
-                        <td style="text-align: right"> - €</td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('V') %}
+                                    {% set sommeV = sommeV + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for composant in enfant.ouvrage.composants %}
+                                {% if composant.TypeComposant.code is same as('ETU') %}
+                                    {% set sommeETU = sommeETU + composant.prixDeVenteHT %}
+                                    {{ composant.prixDeVenteHT|number_format(2,',',' ') }} €
+                                {% endif %}
+                            {% endfor %}
+                        </td>
                         <td style="text-align: right"> {{ enfant.ouvrage.prixDeVenteHT is not null ? (enfant.ouvrage.prixDeVenteHT)|number_format(2, ',', '') : '0' }}
                             €
                         </td>
                         <td style="text-align: right"> - €</td>
                         <td style="text-align: right"> - €</td>
-                        <td style="text-align: center"></td>
                     </tr>
                 {% endif %}
             {% endfor %}
@@ -315,8 +336,8 @@
             <td class="secondRow" style="text-align: right"> {{ sommeTR|number_format(2, ',', ' ') }} €</td>
             <td class="secondRow" style="text-align: right"> {{ sommeMA|number_format(2, ',', ' ') }} €</td>
             <td class="secondRow" style="text-align: right"> {{ sommeMR|number_format(2, ',', ' ') }} €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
-            <td class="secondRow" style="text-align: right"> - €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeV|number_format(2, ',', ' ') }} €</td>
+            <td class="secondRow" style="text-align: right"> {{ sommeETU|number_format(2, ',', ' ') }} €</td>
             <td class="secondRow" style="text-align: right"> {{ devis.PrixDeVenteHT|number_format(2, ',', ' ') }} €</td>
             <td class="secondRow" style="text-align: right"> - €</td>
             <td class="secondRow" style="text-align: right"> - €</td>

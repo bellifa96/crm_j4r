@@ -17,16 +17,9 @@ class DevisType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
-            //->add('commentaire')
-            ->add('statut', ChoiceType::class, [
-                'choices' => [
-                    'En cours' => 'En cours',
-                    'Validé' => 'Validé',
-                    'Refusé' => 'Refusé',
-                ]
-            ])
-            ->add('description')
+            ->add('designationDesTravaux')
+            ->add('observations')
+            ->add('commentaireInterne')
             /*->add('referent', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $entityRepository) {

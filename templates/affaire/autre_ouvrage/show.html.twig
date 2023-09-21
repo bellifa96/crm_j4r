@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AutreOuvrage{% endblock %}
+
+{% block body %}
+    <h1>AutreOuvrage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ autre_ouvrage.id }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ autre_ouvrage.designation }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ autre_ouvrage.quantite }}</td>
+            </tr>
+            <tr>
+                <th>DureeLocation</th>
+                <td>{{ autre_ouvrage.dureeLocation }}</td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td>{{ autre_ouvrage.poids }}</td>
+            </tr>
+            <tr>
+                <th>Montage</th>
+                <td>{{ autre_ouvrage.montage }}</td>
+            </tr>
+            <tr>
+                <th>Demontage</th>
+                <td>{{ autre_ouvrage.demontage }}</td>
+            </tr>
+            <tr>
+                <th>TransportAller</th>
+                <td>{{ autre_ouvrage.transportAller }}</td>
+            </tr>
+            <tr>
+                <th>TransportRetour</th>
+                <td>{{ autre_ouvrage.transportRetour }}</td>
+            </tr>
+            <tr>
+                <th>ManutentionAppro</th>
+                <td>{{ autre_ouvrage.manutentionAppro }}</td>
+            </tr>
+            <tr>
+                <th>ManutentionRepli</th>
+                <td>{{ autre_ouvrage.manutentionRepli }}</td>
+            </tr>
+            <tr>
+                <th>Vente</th>
+                <td>{{ autre_ouvrage.vente }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ autre_ouvrage.location }}</td>
+            </tr>
+            <tr>
+                <th>Marge</th>
+                <td>{{ autre_ouvrage.marge }}</td>
+            </tr>
+            <tr>
+                <th>PrixUnitaire</th>
+                <td>{{ autre_ouvrage.prixUnitaire }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_affaire_autre_ouvrage_index') }}">back to list</a>
+
+    <a href="{{ path('app_affaire_autre_ouvrage_edit', {'id': autre_ouvrage.id}) }}">edit</a>
+
+    {{ include('affaire/autre_ouvrage/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,41 @@
+
+
+{{ form_start(form) }}
+<div class="my-custom-class-for-errors">
+	{{ form_errors(form) }}
+</div>
+
+<div class="row">
+	<div class="mb-3">
+		<label>{{ field_label(form.title) }}</label>
+		<input name="{{ field_name(form.title) }}" value="{{ field_value(form.title) }}" placeholder="{{ field_label(form.title) }}" class="form-control">
+		<span class="error_msg">
+			{{ form_errors(form.title) }}
+		</span>
+
+	</div>
+	<div class="mb-3">
+		<label>{{ field_label(form.description) }}</label>
+		<textarea name="{{ field_name(form.description) }}" value="{{ field_value(form.description) }}" placeholder="{{ field_label(form.description) }}" class="form-control" rows="3"></textarea>
+		<span class="error_msg">
+			{{ form_errors(form.description) }}
+		</span>
+
+	</div>
+	<div class="mb-3">
+		<label>{{ field_label(form.level) }}</label>
+		<select name="{{ field_name(form.level) }}" class="form-control">
+			<option value="">{{ field_label(form.level) }}</option>
+			{% for label, value in field_choices(form.level) %}
+				<option value="{{ value }}">{{ label }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="mb-3">
+		<button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Créer Ticket') }}</button>
+	</div>
+
+</div>
+
+
+{{ form_end(form) }}

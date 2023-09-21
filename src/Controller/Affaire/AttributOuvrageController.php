@@ -8,6 +8,7 @@ use App\Entity\Affaire\TypeOuvrage;
 use App\Entity\Unite;
 use App\Form\Affaire\AttributOuvrageType;
 use App\Repository\Affaire\AttributOuvrageRepository;
+use App\Repository\Affaire\AutreOuvrageRepository;
 use App\Repository\Affaire\ComposantRepository;
 use App\Repository\Affaire\MetreRepository;
 use App\Repository\Affaire\OuvrageRepository;
@@ -115,7 +116,7 @@ class AttributOuvrageController extends AbstractController
 
 
     #[Route('/set/{id}', name: 'app_affaire_attribut_ouvrage_set', methods: ['POST'])]
-    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository)
+    public function setOuvrageAttribut(Request $request, CalculService $calculService, Ouvrage $ouvrage, OuvrageRepository $ouvrageRepository, TypeOuvrageRepository $typeOuvrageRepository, ComposantRepository $composantRepository, UniteRepository $uniteRepository, MetreRepository $metreRepository, AutreOuvrageRepository $autreOuvrageRepository)
     {
 
         $data = $request->request->all();
@@ -127,19 +128,10 @@ class AttributOuvrageController extends AbstractController
         $data['quantite2'] = intval($data['quantite2']);
         $data['largeur'] = floatval($data['largeur']);
 
-        // dd($data);
+        // dd($autreOuvrage);
 
         $ouvrage->setDenomination($data['denomination']);
-        $ouvrage->setPoidsDeReference($data['poidsDeReference']);
-        $ouvrage->setAttributs($data['attributs']);
         $ouvrage->setTypeOuvrage($typeOuvrageRepository->find($data['TypeOuvrage']));
-        $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
-        $ouvrage->setTpsDeReference($data['tpsDeReference']);
-        if (in_array($ouvrage->getTypeOuvrage()->getCode(), ['E', 'PAR', 'A'])) {
-            $ouvrage->setUnite($uniteRepository->findOneById(1));
-        } else {
-            $ouvrage->setUnite($uniteRepository->findOneById(9));
-        }
 
         foreach ($data['metre'] as $key => $value) {
             $metre = $metreRepository->find($key);
@@ -159,19 +151,60 @@ class AttributOuvrageController extends AbstractController
             $metreRepository->save($metre);
         }
         $quantiteOuvrage = 0;
-        foreach ($metreRepository->findAll() as $hauteur) {
-            if ($hauteur->getTypeMetre() === 'hauteur') {
-                if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
-                    $quantiteOuvrage += $metreRepository->sommeLongueurs($hauteur) * $hauteur->getHauteur();
+        if ($ouvrage->getTypeOuvrage()->getCode() === "A") {
+            $autreOuvrage = $autreOuvrageRepository->find($data['autreOuvrage']);
+            $autreOuvrage->addOuvrage($ouvrage);
+            if ($autreOuvrage->getUnite()->getLabel() === "m2" || $autreOuvrage->getUnite()->getLabel() === "ml") {
+                $ouvrage->setUnite($autreOuvrage->getUnite());
+            } else {
+                $ouvrage->setUnite($uniteRepository->findOneByLabel('unité'));
+            }
+
+            $ouvrage->setMarge($autreOuvrage->getMarge());
+            if ($ouvrage->getUnite()->getLabel() === "ml") {
+                foreach ($metreRepository->findAll() as $hauteur) {
+                    if ($hauteur->getTypeMetre() === 'hauteur') {
+                        if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
+                            $quantiteOuvrage += $metreRepository->sommeLongueurs($hauteur);
+                        }
+                    }
+                }
+            } else if ($ouvrage->getUnite()->getLabel() === "m2"){
+                foreach ($metreRepository->findAll() as $hauteur) {
+                    if ($hauteur->getTypeMetre() === 'hauteur') {
+                        if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
+                            $quantiteOuvrage += $metreRepository->sommeLongueurs($hauteur) * $hauteur->getHauteur();
+                        }
+                    }
                 }
             }
-        }
-        if (!empty($data['largeur'])) {
-            $ouvrage->setLargeur($data['largeur']);
-             $quantiteOuvrage = $quantiteOuvrage * $data['largeur'];
-        }
-        $ouvrage->setQuantite(round($quantiteOuvrage,2));
+            else {
+                $quantiteOuvrage = $data['quantiteAutreOuvrage'];
+            }
+        } else {
 
+            $ouvrage->setPourcentageTpsDeReference($data['pourcentageTpsDeReference']);
+            $ouvrage->setTpsDeReference($data['tpsDeReference']);
+            $ouvrage->setPoidsDeReference($data['poidsDeReference']);
+            $ouvrage->setAttributs($data['attributs']);
+            if (in_array($ouvrage->getTypeOuvrage()->getCode(), ['E', 'PAR'])) {
+                $ouvrage->setUnite($uniteRepository->findOneById(1));
+            } else {
+                $ouvrage->setUnite($uniteRepository->findOneById(9));
+            }
+            foreach ($metreRepository->findAll() as $hauteur) {
+                if ($hauteur->getTypeMetre() === 'hauteur') {
+                    if ($hauteur->getOuvrage()->getId() === $ouvrage->getId()) {
+                        $quantiteOuvrage += $metreRepository->sommeLongueurs($hauteur) * $hauteur->getHauteur();
+                    }
+                }
+            }
+            if (!empty($data['largeur'])) {
+                $ouvrage->setLargeur($data['largeur']);
+                $quantiteOuvrage = $quantiteOuvrage * $data['largeur'];
+            }
+        }
+        $ouvrage->setQuantite(round($quantiteOuvrage, 2));
 
 
         $responseData = [];
@@ -181,8 +214,9 @@ class AttributOuvrageController extends AbstractController
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT(round($val, 3));
             $composant->setUnite($ouvrage->getUnite());
+            $composant->setMarge($ouvrage->getMarge());
             if (isset($data['composantsSelect'][$key]) && $data['composantsSelect'][$key] === 'on') {
-                $composant->setQuantite(round($quantiteOuvrage,2));
+                $composant->setQuantite(round($quantiteOuvrage, 2));
                 $composant->setSelection(true);
             } else {
                 $composant->setQuantite(0);
@@ -192,6 +226,9 @@ class AttributOuvrageController extends AbstractController
             if ($composant->getTypeComposant()->getCode() === 'L') {
                 $composant->setQuantite2($data['quantite2']);
                 $composant->setDebourseTotalHT(round($composant->getQuantite() * $val * $composant->getQuantite2(), 3));
+            } elseif ($composant->getTypeComposant()->getCode() === 'ETU') {
+                $composant->setQuantite(1);
+                $composant->setDebourseTotalHT(round($composant->getQuantite() * $val, 3));
             } else {
                 $composant->setDebourseTotalHT(round($composant->getQuantite() * $val, 3));
             }
@@ -219,18 +256,25 @@ class AttributOuvrageController extends AbstractController
     public function editTableAttribut(Request $request, AttributOuvrageRepository $attributOuvrageRepository): Response
     {
         $data = $request->request->all();
-        // dd($data);
 
-        foreach ($data['attributs'] as $updatedAttribut) {
-            $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
-            $attribut->setTitre($updatedAttribut['titre']);
-            is_numeric($updatedAttribut['poids']) ? $attribut->setPoidsKG(floatval($updatedAttribut['poids'])) : $attribut->setPoidsKG(null);
-            $attribut->setTps($updatedAttribut['temps']);
+        try {
+            foreach ($data['attributs'] as $updatedAttribut) {
+                $attribut = $attributOuvrageRepository->find($updatedAttribut['id']);
+                $attribut->setTitre($updatedAttribut['titre']);
+                if (is_numeric($updatedAttribut['poids'])) {
+                    $attribut->setPoidsKG(floatval($updatedAttribut['poids']));
+                } else {
+                    $attribut->setPoidsKG(null);
+                }
+                $attribut->setTps($updatedAttribut['temps']);
 
-            // dd($updatedAttribut, $attribut);
-            $attributOuvrageRepository->save($attribut);
+                $attributOuvrageRepository->save($attribut);
+            }
+
+            return new Response(json_encode(['code' => 200]));
+        } catch (\Exception $e) {
+            return new Response(json_encode(['code' => 500, 'message' => 'Une erreur est survenue lors de la mise à jour des données.']));
         }
-
-        return new Response(json_encode(['code' => 200]));
     }
+
 }

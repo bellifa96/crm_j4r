@@ -21,7 +21,7 @@ class TableDePrixRepository extends ServiceEntityRepository
         parent::__construct($registry, TableDePrix::class);
     }
 
-    public function save(TableDePrix $entity, bool $flush = false): void
+    public function save(TableDePrix $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
