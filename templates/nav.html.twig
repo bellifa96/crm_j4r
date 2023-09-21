@@ -211,14 +211,30 @@
 
 
             <li class="sidebar-title">
-                Transport
+                Stock
 
                 <ul>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_society_agence_index' ? 'active' }} ">
+                        <a href="{{ path('app_society_agence_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span> Agences</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_society_depot_index' ? 'active' }} ">
+                        <a href="{{ path('app_society_depot_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span> Depot</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_transport_index' ? 'active' }} ">
                         <a href="{{ path('app_affaire_transport_index') }}"
                            class="sidebar-link  ">
                             <i class="bi bi-cart-dash-fill"></i>
-                            <span> Liste </span>
+                            <span> Liste Transport</span>
                         </a>
                     </li>
 
