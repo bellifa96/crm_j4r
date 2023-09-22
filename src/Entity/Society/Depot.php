@@ -14,49 +14,49 @@ class Depot
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $CodeDepot = null;
+    private ?int $codeDepot = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $NomDepot = null;
+    private ?string $nomDepot = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $AdresseDepot = null;
+    private ?string $adresseDepot = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $AdresseDepot2 = null;
+    private ?string $adresseDepot2 = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $CpDepot = null;
+    private ?string $cpDepot = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $VilleDepot = null;
+    private ?string $villeDepot = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $ContactNom = null;
+    private ?string $contactNom = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $ContactPrenom = null;
+    private ?string $contactPrenom = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $ContactTel = null;
+    private ?string $contactTel = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $ContactPortable = null;
+    private ?string $contactPortable = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $InfoOuverture = null;
+    private ?string $infoOuverture = null;
 
     #[ORM\Column(length: 150, nullable: true)]
-    private ?string $ContactEmail = null;
+    private ?string $contactEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $commentaires = null;
 
     #[ORM\Column]
-    private ?int $IdAgence = null;
+    private ?int $idAgence = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $CodeChantier = null;
+    private ?int $codeChantier = null;
 
     public function getId(): ?int
     {
@@ -65,144 +65,144 @@ class Depot
 
     public function getCodeDepot(): ?int
     {
-        return $this->CodeDepot;
+        return $this->codeDepot;
     }
 
-    public function setCodeDepot(int $CodeDepot): self
+    public function setCodeDepot(int $codeDepot): self
     {
-        $this->CodeDepot = $CodeDepot;
+        $this->codeDepot = $codeDepot;
 
         return $this;
     }
 
     public function getNomDepot(): ?string
     {
-        return $this->NomDepot;
+        return $this->nomDepot;
     }
 
-    public function setNomDepot(string $NomDepot): self
+    public function setNomDepot(string $nomDepot): self
     {
-        $this->NomDepot = $NomDepot;
+        $this->nomDepot = $nomDepot;
 
         return $this;
     }
 
     public function getAdresseDepot(): ?string
     {
-        return $this->AdresseDepot;
+        return $this->adresseDepot;
     }
 
-    public function setAdresseDepot(string $AdresseDepot): self
+    public function setAdresseDepot(string $adresseDepot): self
     {
-        $this->AdresseDepot = $AdresseDepot;
+        $this->adresseDepot = $adresseDepot;
 
         return $this;
     }
 
     public function getAdresseDepot2(): ?string
     {
-        return $this->AdresseDepot2;
+        return $this->adresseDepot2;
     }
 
-    public function setAdresseDepot2(?string $AdresseDepot2): self
+    public function setAdresseDepot2(?string $adresseDepot2): self
     {
-        $this->AdresseDepot2 = $AdresseDepot2;
+        $this->adresseDepot2 = $adresseDepot2;
 
         return $this;
     }
 
     public function getCpDepot(): ?string
     {
-        return $this->CpDepot;
+        return $this->cpDepot;
     }
 
-    public function setCpDepot(string $CpDepot): self
+    public function setCpDepot(string $cpDepot): self
     {
-        $this->CpDepot = $CpDepot;
+        $this->cpDepot = $cpDepot;
 
         return $this;
     }
 
     public function getVilleDepot(): ?string
     {
-        return $this->VilleDepot;
+        return $this->villeDepot;
     }
 
-    public function setVilleDepot(string $VilleDepot): self
+    public function setVilleDepot(string $villeDepot): self
     {
-        $this->VilleDepot = $VilleDepot;
+        $this->villeDepot = $villeDepot;
 
         return $this;
     }
 
     public function getContactNom(): ?string
     {
-        return $this->ContactNom;
+        return $this->contactNom;
     }
 
-    public function setContactNom(?string $ContactNom): self
+    public function setContactNom(?string $contactNom): self
     {
-        $this->ContactNom = $ContactNom;
+        $this->contactNom = $contactNom;
 
         return $this;
     }
 
     public function getContactPrenom(): ?string
     {
-        return $this->ContactPrenom;
+        return $this->contactPrenom;
     }
 
-    public function setContactPrenom(?string $ContactPrenom): self
+    public function setContactPrenom(?string $contactPrenom): self
     {
-        $this->ContactPrenom = $ContactPrenom;
+        $this->contactPrenom = $contactPrenom;
 
         return $this;
     }
 
     public function getContactTel(): ?string
     {
-        return $this->ContactTel;
+        return $this->contactTel;
     }
 
-    public function setContactTel(?string $ContactTel): self
+    public function setContactTel(?string $contactTel): self
     {
-        $this->ContactTel = $ContactTel;
+        $this->contactTel = $contactTel;
 
         return $this;
     }
 
     public function getContactPortable(): ?string
     {
-        return $this->ContactPortable;
+        return $this->contactPortable;
     }
 
-    public function setContactPortable(?string $ContactPortable): self
+    public function setContactPortable(?string $contactPortable): self
     {
-        $this->ContactPortable = $ContactPortable;
+        $this->contactPortable = $contactPortable;
 
         return $this;
     }
 
     public function getInfoOuverture(): ?string
     {
-        return $this->InfoOuverture;
+        return $this->infoOuverture;
     }
 
-    public function setInfoOuverture(?string $InfoOuverture): self
+    public function setInfoOuverture(?string $infoOuverture): self
     {
-        $this->InfoOuverture = $InfoOuverture;
+        $this->infoOuverture = $infoOuverture;
 
         return $this;
     }
 
     public function getContactEmail(): ?string
     {
-        return $this->ContactEmail;
+        return $this->contactEmail;
     }
 
-    public function setContactEmail(?string $ContactEmail): self
+    public function setContactEmail(?string $contactEmail): self
     {
-        $this->ContactEmail = $ContactEmail;
+        $this->contactEmail = $contactEmail;
 
         return $this;
     }
@@ -221,24 +221,24 @@ class Depot
 
     public function getIdAgence(): ?int
     {
-        return $this->IdAgence;
+        return $this->idAgence;
     }
 
-    public function setIdAgence(int $IdAgence): self
+    public function setIdAgence(int $idAgence): self
     {
-        $this->IdAgence = $IdAgence;
+        $this->idAgence = $idAgence;
 
         return $this;
     }
 
     public function getCodeChantier(): ?int
     {
-        return $this->CodeChantier;
+        return $this->codeChantier;
     }
 
-    public function setCodeChantier(?int $CodeChantier): self
+    public function setCodeChantier(?int $codeChantier): self
     {
-        $this->CodeChantier = $CodeChantier;
+        $this->codeChantier = $codeChantier;
 
         return $this;
     }

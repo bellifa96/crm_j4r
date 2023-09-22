@@ -1,4 +1,63 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="col-md-10 m-auto page-block">
+
+	{{ form_start(form) }}
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">N° Agence</label>
+            {{ form_widget(form.agence) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Nom Agence</label>
+			{{ form_widget(form.nomAgence) }}
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">Adresse</label>
+            {{ form_widget(form.adresseAgence) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Adresse 2</label>
+			{{ form_widget(form.adresseAgence2) }}
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">Code Postal</label>
+            {{ form_widget(form.cpAgence) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Ville</label>
+			{{ form_widget(form.villeAgence) }}
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">Nom du Contact</label>
+            {{ form_widget(form.contactNom) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Prénom Contact</label>
+			{{ form_widget(form.contactPrenom) }}
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">Tel du Contact</label>
+            {{ form_widget(form.contactTel) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Portable Contact</label>
+			{{ form_widget(form.contactPortable) }}
+		</div>
+	</div>
+	<div class="row">
+        <div class="col-md-4 text-end fw-bold"><label class="labels">Info Horaire</label>
+            {{ form_widget(form.infoOuverture) }}
+        </div>
+		<div class="col-md-4 text-end fw-bold"><label class="labels">Email du Contact</label>
+			{{ form_widget(form.contactEmail) }}
+		</div>
+	</div>
+	<div class="row mt-2">
+        <div class="col-md-4"><label class="labels"></label>
+            {{ form_widget(form.commentaires,{"attr":{"class":"form-control","placeholder":"Commentaires",}}) }}
+        </div>        
+    </div>
+    <div class="mt-5 text-left">
+        <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
+    </div>
+	{{ form_end(form) }}
+
+
+</div>

@@ -12,20 +12,19 @@ class AgenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Agence')
-            ->add('NomAgence')
-            ->add('AdresseAgence')
-            ->add('AdresseAgence2')
-            ->add('CpAgence')
-            ->add('VilleAgence')
-            ->add('ContactNom')
-            ->add('ContactPrenom')
-            ->add('ContactTel')
-            ->add('ContactPortable')
-            ->add('InfoOuverture')
-            ->add('ContactEmail')
-            ->add('Commentaires')
-        ;
+            ->add('agence')
+            ->add('nomAgence')
+            ->add('adresseAgence')
+            ->add('adresseAgence2')
+            ->add('cpAgence')
+            ->add('villeAgence')
+            ->add('contactNom')
+            ->add('contactPrenom')
+            ->add('contactTel')
+            ->add('contactPortable')
+            ->add('infoOuverture')
+            ->add('contactEmail')
+            ->add('commentaires');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

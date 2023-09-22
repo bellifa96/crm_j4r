@@ -14,43 +14,43 @@ class Agence
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $Agence = null;
+    private ?int $agence = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $NomAgence = null;
+    private ?string $nomAgence = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $AdresseAgence = null;
+    private ?string $adresseAgence = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $AdresseAgence2 = null;
+    private ?string $adresseAgence2 = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $CpAgence = null;
+    private ?string $cpAgence = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $VilleAgence = null;
+    private ?string $villeAgence = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $ContactNom = null;
+    private ?string $contactNom = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $ContactPrenom = null;
+    private ?string $contactPrenom = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $ContactTel = null;
+    private ?string $contactTel = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $ContactPortable = null;
+    private ?string $contactPortable = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $InfoOuverture = null;
+    private ?string $infoOuverture = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $ContactEmail = null;
+    private ?string $contactEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Commentaires = null;
+    private ?string $commentaires = null;
 
     public function getId(): ?int
     {
@@ -59,156 +59,156 @@ class Agence
 
     public function getAgence(): ?int
     {
-        return $this->Agence;
+        return $this->agence;
     }
 
-    public function setAgence(int $Agence): self
+    public function setAgence(int $agence): self
     {
-        $this->Agence = $Agence;
+        $this->agence = $agence;
 
         return $this;
     }
 
     public function getNomAgence(): ?string
     {
-        return $this->NomAgence;
+        return $this->nomAgence;
     }
 
-    public function setNomAgence(string $NomAgence): self
+    public function setNomAgence(string $nomAgence): self
     {
-        $this->NomAgence = $NomAgence;
+        $this->nomAgence = $nomAgence;
 
         return $this;
     }
 
     public function getAdresseAgence(): ?string
     {
-        return $this->AdresseAgence;
+        return $this->adresseAgence;
     }
 
-    public function setAdresseAgence(string $AdresseAgence): self
+    public function setAdresseAgence(string $adresseAgence): self
     {
-        $this->AdresseAgence = $AdresseAgence;
+        $this->adresseAgence = $adresseAgence;
 
         return $this;
     }
 
     public function getAdresseAgence2(): ?string
     {
-        return $this->AdresseAgence2;
+        return $this->adresseAgence2;
     }
 
-    public function setAdresseAgence2(?string $AdresseAgence2): self
+    public function setAdresseAgence2(?string $adresseAgence2): self
     {
-        $this->AdresseAgence2 = $AdresseAgence2;
+        $this->adresseAgence2 = $adresseAgence2;
 
         return $this;
     }
 
     public function getCpAgence(): ?string
     {
-        return $this->CpAgence;
+        return $this->cpAgence;
     }
 
-    public function setCpAgence(string $CpAgence): self
+    public function setCpAgence(string $cpAgence): self
     {
-        $this->CpAgence = $CpAgence;
+        $this->cpAgence = $cpAgence;
 
         return $this;
     }
 
     public function getVilleAgence(): ?string
     {
-        return $this->VilleAgence;
+        return $this->villeAgence;
     }
 
-    public function setVilleAgence(string $VilleAgence): self
+    public function setVilleAgence(string $villeAgence): self
     {
-        $this->VilleAgence = $VilleAgence;
+        $this->villeAgence = $villeAgence;
 
         return $this;
     }
 
     public function getContactNom(): ?string
     {
-        return $this->ContactNom;
+        return $this->contactNom;
     }
 
-    public function setContactNom(?string $ContactNom): self
+    public function setContactNom(?string $contactNom): self
     {
-        $this->ContactNom = $ContactNom;
+        $this->contactNom = $contactNom;
 
         return $this;
     }
 
     public function getContactPrenom(): ?string
     {
-        return $this->ContactPrenom;
+        return $this->contactPrenom;
     }
 
-    public function setContactPrenom(?string $ContactPrenom): self
+    public function setContactPrenom(?string $contactPrenom): self
     {
-        $this->ContactPrenom = $ContactPrenom;
+        $this->contactPrenom = $contactPrenom;
 
         return $this;
     }
 
     public function getContactTel(): ?string
     {
-        return $this->ContactTel;
+        return $this->contactTel;
     }
 
-    public function setContactTel(?string $ContactTel): self
+    public function setContactTel(?string $contactTel): self
     {
-        $this->ContactTel = $ContactTel;
+        $this->contactTel = $contactTel;
 
         return $this;
     }
 
     public function getContactPortable(): ?string
     {
-        return $this->ContactPortable;
+        return $this->contactPortable;
     }
 
-    public function setContactPortable(?string $ContactPortable): self
+    public function setContactPortable(?string $contactPortable): self
     {
-        $this->ContactPortable = $ContactPortable;
+        $this->contactPortable = $contactPortable;
 
         return $this;
     }
 
     public function getInfoOuverture(): ?string
     {
-        return $this->InfoOuverture;
+        return $this->infoOuverture;
     }
 
-    public function setInfoOuverture(?string $InfoOuverture): self
+    public function setInfoOuverture(?string $infoOuverture): self
     {
-        $this->InfoOuverture = $InfoOuverture;
+        $this->infoOuverture = $infoOuverture;
 
         return $this;
     }
 
     public function getContactEmail(): ?string
     {
-        return $this->ContactEmail;
+        return $this->contactEmail;
     }
 
-    public function setContactEmail(?string $ContactEmail): self
+    public function setContactEmail(?string $contactEmail): self
     {
-        $this->ContactEmail = $ContactEmail;
+        $this->contactEmail = $contactEmail;
 
         return $this;
     }
 
     public function getCommentaires(): ?string
     {
-        return $this->Commentaires;
+        return $this->commentaires;
     }
 
-    public function setCommentaires(?string $Commentaires): self
+    public function setCommentaires(?string $commentaires): self
     {
-        $this->Commentaires = $Commentaires;
+        $this->commentaires = $commentaires;
 
         return $this;
     }

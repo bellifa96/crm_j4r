@@ -12,21 +12,21 @@ class DepotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('CodeDepot')
-            ->add('NomDepot')
-            ->add('AdresseDepot')
-            ->add('AdresseDepot2')
-            ->add('CpDepot')
-            ->add('VilleDepot')
-            ->add('ContactNom')
-            ->add('ContactPrenom')
-            ->add('ContactTel')
-            ->add('ContactPortable')
-            ->add('InfoOuverture')
-            ->add('ContactEmail')
+            ->add('codeDepot')
+            ->add('nomDepot')
+            ->add('adresseDepot')
+            ->add('adresseDepot2')
+            ->add('cpDepot')
+            ->add('villeDepot')
+            ->add('contactNom')
+            ->add('contactPrenom')
+            ->add('contactTel')
+            ->add('contactPortable')
+            ->add('infoOuverture')
+            ->add('contactEmail')
             ->add('commentaires')
-            ->add('IdAgence')
-            ->add('CodeChantier')
+            ->add('idAgence')
+            ->add('codeChantier')
         ;
     }
 
