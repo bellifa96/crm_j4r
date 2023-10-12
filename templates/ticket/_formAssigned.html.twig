@@ -1,78 +1,396 @@
 {{ form_start(form) }}
-<div class="row justify-content-between">
-	<div class="col-6" style="display: flex; flex-direction: column; {{ ticket.status != " en confirmation" ? " justify-content: center" : " " }}">
-		<div style="margin-top: 10px; display: flex; justify-content: left">
-			<span class="span-color" style="width: 100px" class="ticket">Titre</span>
-			{% if ticket.status is not null %}
-				<div class="span-color">{{ ticket.title }}</div>
-			{% endif %}
-		</div>
-		<div style="display: flex; margin-top: 10px; justify-content: left">
-			<span class="span-color" style="width: 100px" class="ticket">Description</span>
-			{% if ticket.status is not null %}
-				<div class="span-color" style="width: 500px; text-align: justify">{{ ticket.description }}</div>
+<style>
+	.css-1bxjlke {
+		display: flex;
+		padding: 1rem;
+		border-radius: 0.25rem;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		color: #627D98;
+		overflow: auto;
+		flex-direction: column;
+		-webkit-box-pack: justify;
+		justify-content: space-between;
+		background-color: #fff;
+		border-color: grey;
+	}
 
-			{% endif %}
-		</div>
-		<div style="display: flex; margin-top: 10px; justify-content: left">
-			<span class="span-color" style="width: 100px" class="ticket">Importance</span>
-			{% if ticket.level is not null %}
-				<span class="span-color">
-					{{ ticket.level }}
+	.css-1l4w6pd {
+		display: flex;
+		-webkit-box-pack: center;
+		justify-content: center;
+	}
+
+	.css-doans4 {
+		border: inherit;
+		display: inline-flex;
+		appearance: none;
+		-webkit-box-align: center;
+		align-items: center;
+		-webkit-box-pack: center;
+		justify-content: center;
+		user-select: none;
+		position: relative;
+		white-space: nowrap;
+		vertical-align: middle;
+		outline: transparent solid 2px;
+		outline-offset: 2px;
+		line-height: 1.2;
+		border-radius: 0.25rem;
+		font-weight: 600;
+		transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+		transition-duration: 200ms;
+		height: 2.5rem;
+		min-width: 2.5rem;
+		padding-inline-start: 1rem;
+		padding-inline-end: 1rem;
+		background: none;
+		width: min-content;
+		opacity: 1;
+		color: #109CF1;
+		font-family: Lato, sans-serif;
+		font-size: 1rem;
+	}
+
+	.css-1jx0oto {
+		width: 1.5rem;
+		height: 1.5rem;
+		display: inline-block;
+		line-height: 1em;
+		flex-shrink: 0;
+		vertical-align: middle;
+		margin-right: 0.5rem;
+	}
+
+	.chcl:hover {
+		color: #0d4377;
+	}
+
+	.bg-leasy {
+		background: #e2e8ed;
+		border-radius: 5px;
+
+	}
+
+	.chats::-webkit-scrollbar {
+		width: 0.125rem;
+	}
+
+	.chats::-webkit-scrollbar-thumb {
+		background: #cfd8dc;
+	}
+
+	.chats::-webkit-scrollbar-thumb:hover {
+		background: #b0bec5;
+	}
+
+	/* INPUT TEXT PLACEHOLDER CUSTOMIZE */
+	::-webkit-input-placeholder {
+		color: #b0bec5;
+	}
+
+	::-moz-placeholder {
+		color: #b0bec5;
+	}
+
+	:-ms-input-placeholder {
+		color: #b0bec5;
+	}
+
+	:-moz-placeholder {
+		color: #b0bec5;
+	}
+
+	#viewport {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#viewport > .chatbox {
+		position: relative;
+		display: table;
+		float: left;
+		margin: 1rem;
+		height: 40rem;
+		background-color: white;
+		box-shadow: 0 0.25rem 2rem rgba(38, 50, 56, 0.1);
+		overflow: hidden;
+	}
+
+	#viewport > .chatbox > .chats {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		display: table-cell;
+		vertical-align: bottom;
+		padding: 1rem;
+		margin-bottom: 2.875rem;
+		overflow: auto;
+	}
+
+	.chats > ul {
+		padding: 0;
+	}
+
+	.chats > ul > li {
+		position: relative;
+		list-style: none;
+		display: block;
+		margin: 1.5rem 0;
+		transition: 0.5s all;
+	}
+
+	.chats > ul > li:after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+
+	.msg {
+		max-width: 85%;
+		display: inline-block;
+		padding: 0.5rem 1rem;
+		line-height: 1rem;
+		min-height: 2rem;
+		font-size: 0.875rem;
+		border-radius: 1rem;
+		margin-bottom: 0.5rem;
+		word-break: break-all;
+		text-transform: capitalize;
+	}
+
+	.msg.him {
+		float: left;
+		background-color: #e91e63;
+		color: #fff;
+		border-bottom-left-radius: 0.125rem;
+	}
+
+	.msg.you {
+		float: right;
+		background-color: #eceff1;
+		color: #607d8b;
+		border-bottom-right-radius: 0.125rem;
+	}
+
+	.msg > span {
+		font-weight: 500;
+		position: absolute;
+	}
+
+	.msg > span.partner {
+		color: #b0bec5;
+		top: 0;
+		font-size: 0.675rem;
+		margin-top: -1rem;
+	}
+
+	.msg > span.time {
+		color: #cfd8dc;
+		font-size: 0.8rem;
+		bottom: -0.35rem;
+		display: none;
+	}
+
+	.msg:hover span.time {
+		display: block;
+	}
+
+	.msg.him > span {
+		left: 0;
+	}
+
+	.msg.you > span {
+		right: 0;
+	}
+
+	.sendBox {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: white;
+	}
+
+	.sendBox input {
+		font-family: "Lato", sans-serif;
+		font-size: 0.875rem;
+		display: block;
+		width: 100%;
+		border: none;
+		padding: 0.75rem;
+		line-height: 1.25rem;
+		border-top: 0.125rem solid #eceff1;
+		transition: 0.5s ease-in-out;
+	}
+
+	.chatin:hover,
+	.chatin:focus,
+	.chatin:active {
+		outline: none !important;
+		border-top: 0.125rem solid #e91e63;
+	}
+
+	.chats-title {
+		border-bottom: 1px solid #e91e63;
+		text-align: center;
+	}
+
+	.nav-tabs-demande .nav-link-demande {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		color: #0E4377;
+		width: 100%;
+		border-right: 1px solid #0E4377;
+	}
+
+
+	.nav-tabs-demande .nav-link-demande.active {
+		background-color: #fff;
+		border-color: #0e4377 #0e4377 #0e4377;
+		color: #495057;
+	}
+
+	body .nav-tabs-demande li button {
+		display: block;
+		padding: 5px 30px;
+	}
+
+	body .nav-tabs-demande li .active {
+		background-color: #0E4377 !important;
+		color: white !important;
+	}
+
+	.nav-item-demande .nav-link-demande:hover {
+		background: #0E4377;
+		color: white !important;
+		border-color: #0E4377;
+		font-weight: 700;
+	}
+
+	.nav-tabs-demande {
+		border: 1px solid #0E4377;
+		border-bottom: 5px solid #0E4377;
+	}
+	.custom-textarea-class {
+		/* Add your custom styling here */
+		border: 1px solid #ccc;
+		padding: 10px;
+		width: 100%;
+		height: 150px;
+		/* Add more styles as needed */
+	}
+</style>
+<script type="module" src="{{ asset('js/ajax.js') }}"></script>
+<script type="module" src="{{ asset('js/comment-action.js') }}"></script>
+
+<script type="module" src="{{ asset('js/main.js') }}"></script>
+<div class="divTicket">
+	<div class="row justify-content-between">
+
+		<input type="hidden" value="{{ ticket.id }}" id="ticket_id"/>
+		<div class="col-6" style="display: flex; flex-direction: column; {{ ticket.status != " en confirmation" ? " justify-content: center" : " " }}">
+			<div style="margin-top: 10px; display: flex; justify-content: left">
+				<span class="span-color ticket" style="width: 100px">Titre
 				</span>
-			{% endif %}
-		</div>
-		<div class="mb-3">
-			<label>{{ field_label(form.status) }}</label>
-			<select name="{{ field_name(form.status) }}" class="form-control">
-				<option value="">{{ field_label(form.status) }}</option>
-				{% for label, value in field_choices(form.status) %}
-					{% set selected = (value == form.status.vars.value) ? 'selected' : '' %}
-
-					<option value="{{ value }}" {{ selected }}>{{ label }}</option>
-				{% endfor %}
-			</select>
-		</div>
-		<div class="mb-3">
-			<button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Prendre Ticket') }}</button>
-		</div>
-
-
-	</div>
-	<div class="col-6" style="text-align: center; margin: auto">
-		{% if ticket.creator is not null %}
-			<div>
-				<span class="span-color" style="font-size: 15px; font-weight: bold">Créateur du ticket :</span><br>
-				<span class="span-color">
-					{{ ticket.creator.lastname }}
-					{{ ticket.creator.firstname }}
-				</span>
+				{% if ticket.status is not null %}
+					<div class="span-color ticketTitleValue">{{ ticket.title }}</div>
+				{% endif %}
 			</div>
-			{% if ticket.admin is not null %}
+			<div style="display: flex; margin-top: 10px; justify-content: left">
+				<span class="span-color ticket" style="width: 100px">Description</span>
+				{% if ticket.status is not null %}
+					<div class="span-color ticketTitleValue" style="width: 500px; text-align: justify">{{ ticket.description }}</div>
+
+				{% endif %}
+			</div>
+			<div style="display: flex; margin-top: 10px;">
+				<span class="span-color ticket" style="width: 100px">Importance</span>
+				{% if ticket.level is not null %}
+					<span class="span-color ticketTitleValue">
+						{{ ticket.level }}
+					</span>
+				{% endif %}
+			</div>
+
+			{% if affichage == 0 %}
+				<div class="mb-3">
+
+
+					{% if demande_information == 0  %}
+						<label class="span-color  ticket">{{ field_label(form.status) }}</label>
+						<select name="{{ field_name(form.status) }}" class="form-control">
+							<option value="">{{ field_label(form.status) }}</option>
+							{% for label, value in field_choices(form.status) %}
+								{% set selected = (value == form.status.vars.value) ? 'selected' : '' %}
+
+								<option value="{{ value }}" {{ selected }}>{{ label }}</option>
+							{% endfor %}
+						</select>
+					{% else %}
+					    <div style="margin-left:10%">
+						{{ form_row(form.message) }}
+						</div>
+					{% endif %}
+
+
+				</div>
+				<div class="mb-3">
+
+					{% if demande_information == 0  %}
+						<button class="btn custom-button mt-3">{{ button_label|default('Envoyer') }}</button>
+
+					{% elseif demande_information == 1 %}
+						<button class="btn custom-button mt-3">{{ button_label|default('Transmettre') }}</button>
+
+					{% endif %}
+
+				</div>
+
+			{% endif %}
+
+
+		</div>
+		<div class="col-6" style="text-align: center;margin-top : 4%">
+			{% if ticket.creator is not null %}
+				<div>
+					<span class="span-color ticket">Créateur du ticket :</span><br>
+					<span class="span-color ticketTitleValue">
+						{{ ticket.creator.lastname }}
+						{{ ticket.creator.firstname }}
+					</span>
+				</div>
+				{% if ticket.admin is not null %}
+					<br>
+					<div>
+						<span class="span-color ticket">Administrateur en charge du ticket :</span><br>
+						<span class="span-color ticketTitleValue">{{ ticket.admin.lastname }}
+							{{ ticket.admin.firstname }}</span>
+					</div>
+				{% endif %}
 				<br>
 				<div>
-					<span class="span-color" style="font-size: 15px; font-weight: bold">Administrateur en charge du ticket :</span><br>
-					<span class="span-color">{{ ticket.admin.lastname }}
-						{{ ticket.admin.firstname }}</span>
+					<span class="span-color ticket">Date de création du ticket :</span><br>
+					<span class="span-color ticketTitleValue">{{ ticket.date is null ? '...' : ticket.date }}</span>
 				</div>
-			{% endif %}
-			<br>
-			<div>
-				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de création du ticket :</span><br>
-				<span class="span-color">{{ ticket.date is null ? '...' : ticket.date }}</span>
-			</div>
-			<br>
-			<div>
-				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de prise en charge du ticket :</span><br>
-				<span class="span-color">{{ ticket.dateTaken is null ? '...' : ticket.dateTaken }}</span>
-			</div>
-			<br>
-			<div>
-				<span class="span-color" style="font-size: 15px; font-weight: bold">Date de résolution du ticket :</span><br>
-				<span class="span-color">{{ ticket.dateResolved is null ? '...' : ticket.dateResolved }}</span>
-			</div>
+				<br>
+				<div>
+					<span class="span-color ticket">Date de prise en charge du ticket :</span><br>
+					<span class="span-color ticketTitleValue">{{ ticket.dateTaken is null ? '...' : ticket.dateTaken }}</span>
+				</div>
+				<br>
+				<div>
+					<span class="span-color ticket">Date de résolution du ticket :</span><br>
+					<span class="span-color ticketTitleValue">{{ ticket.dateResolved is null ? '...' : ticket.dateResolved }}</span>
+				</div>
 
-		{% endif %}
+			{% endif %}
+		</div>
+
 	</div>
 </div>
+
 {{ form_end(form) }}

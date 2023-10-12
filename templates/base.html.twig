@@ -1,136 +1,137 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    <script src="https://kit.fontawesome.com/1a4efb3103.js" crossorigin="anonymous"></script>
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<script src="https://kit.fontawesome.com/1a4efb3103.js" crossorigin="anonymous"></script>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
 
-    <style>
-        body .background-body {
-            background-image: url({{asset("/build/img/etoiles-background.jpg")}});
-            transition: all .25s ease-out 0s;
-            position: fixed;
-            z-index: 1;
-            height: 100%;
-            width: 100%;
-            display: block;
-            top: 0;
-            left: 0;
-            background-size: cover;
-            background-position: 50%;
-        }
-    </style>
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-</head>
+		<style>
+			body .background-body {
+				background-image: url({{asset("/build/img/etoiles-background.jpg")}});
+				transition: all 0.25s ease-out 0s;
+				position: fixed;
+				z-index: 1;
+				height: 100%;
+				width: 100%;
+				display: block;
+				top: 0;
+				left: 0;
+				background-size: cover;
+				background-position: 50%;
+			}
+		</style>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+	
 
-<body class="container-fluid">
-<div class="container-main">
-    <div class="background-body"></div>
-    
-    <div id="divLoader">
-        <div class="loader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
+		{% endblock %}
+	</head>
 
+	<body class="container-fluid">
+		<div class="container-main">
+			<div class="background-body"></div>
 
-    <div class="container-main">
-
-        <header class="row header-row">
-            <div class="logo col-md-2">
-                <a href="{{ path('app_home') }}"><img id="company-logo" src="{{ asset('uploads/logo/j4r_logo.png') }}"
-                                                      alt="Logo" srcset=""></a>
-                <hr>
-
-            </div>
-            <div class="col-md-10 row">
-            </div>
-
-            <nav class="col-lg-10">
-            </nav>
-        </header>
+			<div id="divLoader">
+				<div class="loader">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
 
 
-        <div class="row">
+			<div class="container-main">
 
-            <div class="col-md-2" id="nav-main">
-                <div class="nav-user">
+				<header class="row header-row">
+					<div class="logo col-md-2">
+						<a href="{{ path('app_home') }}"><img id="company-logo" src="{{ asset('uploads/logo/j4r_logo.png') }}" alt="Logo" srcset=""></a>
+						<hr>
 
-                    <ul class="clearfix nav-user-i">
-                        <li class=" col-md-4">
-                            <a id="leaspect" style="cursor: pointer;">
-                                <i class="bi bi-search"></i>
-                            </a>
-                        </li>
-                        <li class="col-md-4">
-                            <a href="{{ path('app_user_show',{'id':app.user.id}) }}">
-                                {% if app.user.photo is defined and app.user.photo is not empty %}
-                                    <img style="height: 50px; width: 50px;border-radius: 50%;"
-                                         src="{{ asset('../uploads/photo/' ~ app.user.photo) }}" alt=""/>
-                                {% else %}
-                                    <i class="bi bi-person-circle"></i>
-                                {% endif %}
-                            </a>
-                        </li>
-                        <li class="col-md-4">
-                            <a href="/logout">
-                                <i class="bi bi-power"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+					</div>
+					<div class="col-md-10 row"></div>
 
-                {% include 'nav.html.twig' %}
-            </div>
+					<nav class="col-lg-10"></nav>
+				</header>
 
-            <div class="page-content col-md-10">
-                {% include 'include/title.html.twig' with {'title': title, 'nav': nav} %}
 
-                {% block body %}
-                    {% for type, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ type }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endfor %}
-                {% endblock %}
+				<div class="row">
 
-            </div>
+					<div class="col-md-2" id="nav-main">
+						<div class="nav-user">
 
-        </div>
-    </div>
-</div>
+							<ul class="clearfix nav-user-i">
+								<li class=" col-md-4">
+									<a id="leaspect" style="cursor: pointer;">
+										<i class="bi bi-search"></i>
+									</a>
+								</li>
+								<li class="col-md-4">
+									<a href="{{ path('app_user_show',{'id':app.user.id}) }}">
+										{% if app.user.photo is defined and app.user.photo is not empty %}
+											<img style="height: 50px; width: 50px;border-radius: 50%;" src="{{ asset('../uploads/photo/' ~ app.user.photo) }}" alt=""/>
+										{% else %}
+											<i class="bi bi-person-circle"></i>
+										{% endif %}
+									</a>
+								</li>
+								<li class="col-md-4">
+									<a href="/logout">
+										<i class="bi bi-power"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
 
-</body>
+						{% include 'nav.html.twig' %}
+					</div>
+
+					<div class="page-content col-md-10">
+						{% include 'include/title.html.twig' with {'title': title, 'nav': nav} %}
+
+						{% block body %}
+							{% for type, messages in app.flashes %}
+								{% for message in messages %}
+									<div class="alert alert-{{ type }}">{{ message }}</div>
+								{% endfor %}
+							{% endfor %}
+						{% endblock %}
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
 
 </html>
 
 <script>
-    function prixDeVente(){
+	function prixDeVente() {
 
 
-        $('#composant_DUHT').val($('#composant_DUHT').val().replaceAll(',','.'))
-        $('#composant_marge').val($('#composant_marge').val().replaceAll(',','.'))
-        const prix =$('#composant_DUHT').val();
-        const marge = $('#composant_marge').val();
+$('#composant_DUHT').val($('#composant_DUHT').val().replaceAll(',', '.'))
+$('#composant_marge').val($('#composant_marge').val().replaceAll(',', '.'))
+const prix = $('#composant_DUHT').val();
+const marge = $('#composant_marge').val();
 
-        const prixDeVente = prix * marge ;
+const prixDeVente = prix * marge;
 
-        console.log(prixDeVente);
+console.log(prixDeVente);
 
-        $('#composant_prix_de_vente').val(prixDeVente.toFixed(3));
+$('#composant_prix_de_vente').val(prixDeVente.toFixed(3));
 
-    }
+}
 </script>

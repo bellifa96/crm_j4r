@@ -17,24 +17,57 @@ class EmailService
         $this->mailer = $mailer;
     }
 
-    public function send($to, $data, $htmlTemplate,$titre, $image)
+    public function sendNew($tos, $createur_ticket, $data, $htmlTemplate, $titre, $image)
+
+    {
+
+
+        foreach ($tos as $to) {
+            $email = (new TemplatedEmail())
+                ->from('abellifa@myleasy.com')
+                ->to($to)
+                ->cc('J.rodrigues@j4r.fr', $createur_ticket)
+                //->bcc($createur_ticket)
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject("J4R - " . $titre)
+                ->htmlTemplate($htmlTemplate)
+
+                // pass variables (name => value) to the template
+                ->context([
+                    'data' => $data,
+                    'image' => $image,
+                    'var' => 'variable',
+                    'drapo' => -1,
+
+                ]);
+
+            try {
+                $this->mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                dd($e);
+            }
+        }
+    }
+    public function sendAssigend($to, $emailUser, $data, $htmlTemplate, $titre, $image)
 
     {
 
         $email = (new TemplatedEmail())
             ->from('abellifa@myleasy.com')
             ->to($to)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
+            //->cc('J.rodrigues@j4r.fr', $emailUser)
+            ->cc($emailUser)
+            //->bcc($createur_ticket)
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject("J4R - ".$titre)
+            ->subject("J4R - " . $titre)
             ->htmlTemplate($htmlTemplate)
 
             // pass variables (name => value) to the template
             ->context([
                 'data' => $data,
-                'image' =>$image
+                'drapo' => 0
             ]);
 
         try {
@@ -42,6 +75,89 @@ class EmailService
         } catch (TransportExceptionInterface $e) {
             dd($e);
         }
+    }
+    public function sendInformation($to, $emailUser, $data, $htmlTemplate, $titre, $message_information, $drapo)
 
+    {
+
+        $email = (new TemplatedEmail())
+            ->from('abellifa@myleasy.com')
+            ->to($to)
+            //->cc('J.rodrigues@j4r.fr', $emailUser)
+            ->cc($emailUser)
+            //->bcc($createur_ticket)
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("J4R - " . $titre)
+            ->htmlTemplate($htmlTemplate)
+
+            // pass variables (name => value) to the template
+            ->context([
+                'data' => $data,
+                'drapo' => $drapo,
+                'message_information' => $message_information
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            dd($e);
+        }
+    }
+    public function sendMessageRefus($to, $emailUser, $data, $htmlTemplate, $titre, $message_information, $drapo)
+
+    {
+
+        $email = (new TemplatedEmail())
+            ->from('abellifa@myleasy.com')
+            ->to($to)
+            //->cc('J.rodrigues@j4r.fr', $emailUser)
+            ->cc($emailUser)
+            //->bcc($createur_ticket)
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("J4R - " . $titre)
+            ->htmlTemplate($htmlTemplate)
+
+            // pass variables (name => value) to the template
+            ->context([
+                'data' => $data,
+                'drapo' => $drapo,
+                'message_information' => $message_information
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            dd($e);
+        }
+    }
+    public function sendTicketResolu($to, $emailUser, $data, $htmlTemplate, $titre, $message_information, $drapo)
+
+    {
+
+        $email = (new TemplatedEmail())
+            ->from('abellifa@myleasy.com')
+            ->to($to)
+            //->cc('J.rodrigues@j4r.fr', $emailUser)
+            ->cc($emailUser)
+            //->bcc($createur_ticket)
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("J4R - " . $titre)
+            ->htmlTemplate($htmlTemplate)
+
+            // pass variables (name => value) to the template
+            ->context([
+                'data' => $data,
+                'drapo' => $drapo,
+                'message_information' => $message_information
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            dd($e);
+        }
     }
 }

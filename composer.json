@@ -7,6 +7,7 @@
         "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "denisok94/symfony-export-xlsx": "^0.0.7",
         "doctrine/annotations": "^1.13",
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -36,7 +37,6 @@
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
         "symfony/mime": "6.0.*",
-
         "symfony/monolog-bundle": "^3.7",
         "symfony/notifier": "6.0.*",
         "symfony/process": "6.0.*",
@@ -67,7 +67,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "denisok94/helper-composer": true
         },
         "optimize-autoloader": true,
         "preferred-install": {

@@ -1,4 +1,7 @@
 {
+    "denisok94/symfony-export-xlsx": {
+        "version": "0.0.7"
+    },
     "doctrine/annotations": {
         "version": "1.14",
         "recipe": {
@@ -340,8 +343,6 @@
             "./assets/controllers/hello_controller.js",
             "./assets/styles/app.css",
             "./assets/styles/styles.css",
-
-
             "./config/packages/webpack_encore.yaml",
             "./package.json",
             "./webpack.config.js"

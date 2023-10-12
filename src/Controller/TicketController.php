@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Form\TypeAssignedType;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -14,27 +15,43 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
-
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/ticket')]
 class TicketController extends AbstractController
 {
     private $logger;
     private $emailServices;
+
+    private $emailUser;
     private EntityManagerInterface $entityManager; // Declare the EntityManagerInterface
 
-    public function __construct(LoggerInterface $logger, EmailService $emailServices, EntityManagerInterface $entityManager)
+    private $security;
+
+    private $userRepository;
+
+
+    public function __construct(LoggerInterface $logger, EmailService $emailServices, EntityManagerInterface $entityManager, Security $security, UserRepository $userRepository)
     {
         $this->logger = $logger;
         $this->emailServices = $emailServices;
         $this->entityManager = $entityManager; // Inject the EntityManagerInterface via constructor
-
+        $this->security = $security;
+        $this->userRepository = $userRepository;
     }
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
+        $repository = $this->entityManager->getRepository(Ticket::class); // Replace with your entity class
+
+        $query = $repository->createQueryBuilder('e')
+            ->orderBy('e.date', 'ASC') // Replace 'yourField' with the field you want to order by
+            ->getQuery();
+
+        $data = $query->getResult();
         return $this->render('ticket/index.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
+            'tickets' => $data,
             'title' => 'Ticket',
             'nav' => [['app_ticket_new', 'Ajouter un ticket']]
         ]);
@@ -44,9 +61,10 @@ class TicketController extends AbstractController
     public function new(Request $request, TicketRepository $ticketRepository, EntityManagerInterface $entityManager): Response
     {
         $ticket = new Ticket();
-        $image  = __DIR__ . "/../../public/uploads/logo/signatureService.png";
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
+
+        $email_roles_dev = $this->userRepository->getEmailsForRoleDevUsers();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -56,7 +74,12 @@ class TicketController extends AbstractController
             $ticket->setStatus('A traiter');
             $entityManager->persist($ticket);
             $entityManager->flush();
-            $this->emailServices->send("salaheddineelmamouni20@gmail.com", $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $image);
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $this->emailUser = $user->getEmail();
+            } else {
+            }
+            $this->emailServices->sendNew($email_roles_dev, $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), '');
 
             $this->logger->info('Ticket est bien Créer');
 
@@ -106,7 +129,7 @@ class TicketController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
-  
+
 
     // La prémier etape aprés la crétion du ticket
 
@@ -117,14 +140,32 @@ class TicketController extends AbstractController
     {
 
         try {
+            /*if (!$this->security->isGranted('ROLE_DEV')) {
+                throw $this->createAccessDeniedException('Access denied');
+            }*/
             $issue = "assigned";
             $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+            $userRoles = [];
+
+            $search = "ROLE_DEV";
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $userRoles = $user->getRoles();
+            } else {
+            }
+            $affichage = 0;
+            if (in_array($search, $userRoles) == false) {
+                $affichage = 1;
+            }
+
+
 
             $previousStatus = $ticket->getStatus();
-
-            $form = $this->createForm(TypeAssignedType::class, $ticket);
+            $form = $this->createForm(TypeAssignedType::class, $ticket, [
+                'demande_information' => 0, 'affichage' => $affichage
+            ]);
             $form->handleRequest($request);
-
+            $status = $ticket->getStatus();
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $date = new \DateTime();
@@ -139,25 +180,41 @@ class TicketController extends AbstractController
                         $ticket->setResolved(false);
                     }
                 }
-                $this->emailServices->send($ticket->getCreator()->getEmailPerso(), $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
+                if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $user = $this->security->getUser();
+
+                    $userRoles = $user->getRoles();
+                    $this->emailUser = $user->getEmail();
+                } else {
+                }
+                $this->emailServices->sendAssigend($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
                 $this->entityManager->persist($ticket);
                 $this->entityManager->flush();
 
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
             }
 
+            if ($status == "En confirmation" && !in_array($search, $userRoles) && $user->getId() == $ticket->getCreator()->getId()) {
+                $nav = [
+              ['ticket_resolu', 'Clôturer le ticket', $id], ['ticket_probleme', 'Envoyer un message', $id],['app_ticket_index', 'Revenir à la liste']
 
-
-            $nav = [['app_ticket_index', 'Revenir à la liste'],['app_ticket_index', 'Demande des informations']];
+                ];
+            } else {
+                $nav = [['app_ticket_index', 'Revenir à la liste'], ['ticket_informations', 'Demande des informations', $id]];
+            }
 
             return $this->renderForm('ticket/assigned.html.twig', [
                 'ticket' => $ticket,
                 'nav' => $nav,
-                'title' => 'Prendre un ticket',
+                'title' => 'Ticket (' . $ticket->getTitle() . ')',
+                'commantaires' => null,
                 'form' => $form,
+                'demande_information' => 0,
+                "affichage" => $affichage // Pass the value here
+
             ]);
         } catch (Exception $e) {
-            $this->logger->error('Error :'.$e->getMessage());
+            $this->logger->error('Error :' . $e->getMessage());
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
     }
@@ -168,34 +225,176 @@ class TicketController extends AbstractController
     {
 
         try {
-            $issue = "informations";
+
+
+
+
+
             $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
 
-            $previousStatus = $ticket->getStatus();
+            $search = "ROLE_DEV";
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $userRoles = $user->getRoles();
+            } else {
+            }
+            $affichage = 0;
+            if (in_array($search, $userRoles) == false) {
+                $affichage = 1;
+            }
 
-            $form = $this->createForm(TypeAssignedType::class, $ticket);
+            $form  = $this->createForm(TypeAssignedType::class, $ticket, [
+                'demande_information' => 1, 'affichage' => $affichage
+            ]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $user = $this->security->getUser();
+                    $this->emailUser = $user->getEmail();
+                } else {
+                }
 
-           
-             //   $this->emailServices->send($ticket->getCreator()->getEmailPerso(), $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
-             
+                $message_information = $form->get('message')->getData();
+
+
+                $this->emailServices->sendInformation($ticket->getAdmin()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 1);
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
             }
 
 
 
             $nav = [['app_ticket_index', 'Revenir à la liste']];
-
+            $search = "ROLE_DEV";
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $userRoles = $user->getRoles();
+                $this->emailUser = $user->getEmail();
+            } else {
+            }
             return $this->renderForm('ticket/assigned.html.twig', [
                 'ticket' => $ticket,
+                'commantaires' => null,
                 'nav' => $nav,
                 'title' => 'Demande des informations',
                 'form' => $form,
+                'demande_information' => 1,
+                "affichage" => $affichage // Pass the value here
             ]);
         } catch (Exception $e) {
-            $this->logger->error('Error :'.$e->getMessage());
+            $this->logger->error('Error :' . $e->getMessage());
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/probleme", name="ticket_probleme", methods={"GET", "POST"})
+     */
+    public function ticketprobleme($id, Request $request, TicketRepository $ticketRepository): Response
+    {
+        try {
+
+
+
+
+
+            $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+
+            $search = "ROLE_DEV";
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $userRoles = $user->getRoles();
+            } else {
+            }
+            $affichage = 0;
+            if (!in_array($search, $userRoles) == false) {
+                $affichage = 1;
+            }
+
+            $form  = $this->createForm(TypeAssignedType::class, $ticket, [
+                'demande_information' => 1, 'affichage' => $affichage
+            ]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $user = $this->security->getUser();
+                    $this->emailUser = $user->getEmail();
+                } else {
+                }
+
+                $message_information = $form->get('message')->getData();
+
+                $this->emailServices->sendMessageRefus($ticket->getAdmin()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 3);
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+
+
+            $nav = [['app_ticket_index', 'Revenir à la liste']];
+            $search = "ROLE_DEV";
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $userRoles = $user->getRoles();
+                $this->emailUser = $user->getEmail();
+            } else {
+            }
+            return $this->renderForm('ticket/assigned.html.twig', [
+                'ticket' => $ticket,
+                'commantaires' => null,
+                'nav' => $nav,
+                'title' => 'Envoyer Un Message',
+                'form' => $form,
+                'demande_information' => 1,
+                "affichage" => $affichage // Pass the value here
+            ]);
+        } catch (Exception $e) {
+            $this->logger->error('Error :' . $e->getMessage());
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+    /**
+     * @return User|null
+     */
+    protected function getUser(): ?UserInterface
+    {
+        return parent::getUser();
+    }
+
+
+
+    /**
+     * @Route("/{id}/resolu", name="ticket_resolu", methods={"GET", "POST"})
+     */
+    public function ticketResolu($id, Request $request, TicketRepository $ticketRepository): Response
+    {
+
+        try {
+
+            $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+            $status = $ticket->getStatus();
+
+            $ticket->setStatus("Résolu");
+
+            $date = new \DateTime();
+
+            if ($status == "En confirmation") {
+                $ticket->setDateResolved($date->format('d-m-Y H:i:s'));
+                $ticket->setResolved(true);
+            }
+            if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $user = $this->security->getUser();
+                $this->emailUser = $user->getEmail();
+            } else {
+            }
+            $this->emailServices->sendTicketResolu($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "", 2);
+
+            $this->entityManager->persist($ticket);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        } catch (Exception $e) {
+            $this->logger->error('Error :' . $e->getMessage());
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
     }

@@ -19,4 +19,5 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
+    Denisok94\SymfonyExportXlsxBundle\Denisok94SymfonyExportXlsxBundle::class => ['all' => true],
 ];

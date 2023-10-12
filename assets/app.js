@@ -18,6 +18,7 @@ import './styles/pagination.scss'
 
 import './styles/app.css';
 import './styles/styles.css';
+import './styles/ticket.css';
 
 
 
