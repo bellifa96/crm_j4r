@@ -187,7 +187,13 @@ class TicketController extends AbstractController
                     $this->emailUser = $user->getEmail();
                 } else {
                 }
-                $this->emailServices->sendAssigend($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "");
+                if($ticket->getStatus() == "En confirmation"){
+                    $this->emailServices->sendAssigend($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "",2);
+
+                }else{
+                    $this->emailServices->sendAssigend($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "",0);
+
+                }
                 $this->entityManager->persist($ticket);
                 $this->entityManager->flush();
 

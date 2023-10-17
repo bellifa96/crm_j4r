@@ -49,7 +49,7 @@ class EmailService
             }
         }
     }
-    public function sendAssigend($to, $emailUser, $data, $htmlTemplate, $titre, $image)
+    public function sendAssigend($to, $emailUser, $data, $htmlTemplate, $titre, $image,$drapo)
 
     {
 
@@ -67,7 +67,7 @@ class EmailService
             // pass variables (name => value) to the template
             ->context([
                 'data' => $data,
-                'drapo' => 0
+                'drapo' => $drapo
             ]);
 
         try {
