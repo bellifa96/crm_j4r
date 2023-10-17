@@ -199,8 +199,11 @@ class TicketController extends AbstractController
               ['ticket_resolu', 'Clôturer le ticket', $id], ['ticket_probleme', 'Envoyer un message', $id],['app_ticket_index', 'Revenir à la liste']
 
                 ];
-            } else {
+            } else if($user->getId() == $ticket->getCreator()->getId()) {
+                $nav = [['app_ticket_index', 'Revenir à la liste']];
+            }else{
                 $nav = [['app_ticket_index', 'Revenir à la liste'], ['ticket_informations', 'Demande des informations', $id]];
+ 
             }
 
             return $this->renderForm('ticket/assigned.html.twig', [
