@@ -196,14 +196,16 @@ class TicketController extends AbstractController
 
             if ($status == "En confirmation" && !in_array($search, $userRoles) && $user->getId() == $ticket->getCreator()->getId()) {
                 $nav = [
-              ['ticket_resolu', 'Clôturer le ticket', $id], ['ticket_probleme', 'Envoyer un message', $id],['app_ticket_index', 'Revenir à la liste']
+                    ['ticket_resolu', 'Clôturer le ticket', $id], ['ticket_probleme', 'Envoyer un message', $id], ['app_ticket_index', 'Revenir à la liste']
 
                 ];
-            } else if($user->getId() == $ticket->getCreator()->getId()) {
+            } else if ($status != "En confirmation" && $user->getId() == $ticket->getCreator()->getId()) {
                 $nav = [['app_ticket_index', 'Revenir à la liste']];
-            }else{
+
+            } else if (!in_array($search, $userRoles) && $user->getId() != $ticket->getCreator()->getId()) {
+                $nav = [['app_ticket_index', 'Revenir à la liste']];
+            } else {
                 $nav = [['app_ticket_index', 'Revenir à la liste'], ['ticket_informations', 'Demande des informations', $id]];
- 
             }
 
             return $this->renderForm('ticket/assigned.html.twig', [
