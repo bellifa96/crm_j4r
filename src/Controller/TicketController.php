@@ -392,7 +392,7 @@ class TicketController extends AbstractController
                 $this->emailUser = $user->getEmail();
             } else {
             }
-            $this->emailServices->sendTicketResolu($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "", 2);
+            $this->emailServices->sendTicketResolu($ticket->getAdmin()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), "", 2);
 
             $this->entityManager->persist($ticket);
             $this->entityManager->flush();
