@@ -263,7 +263,7 @@ class TicketController extends AbstractController
                 $message_information = $form->get('message')->getData();
 
 
-                $this->emailServices->sendInformation($ticket->getAdmin()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 1);
+                $this->emailServices->sendInformation($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 1);
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
             }
 
