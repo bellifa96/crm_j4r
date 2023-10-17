@@ -10,7 +10,9 @@
 /public/uploads/photo/contact/*
 /public/uploads/signatureM/*
 /public/uploads/signature/*
-
+.env
+.env.local
+composer.lock
 
 ###< symfony/framework-bundle ###
 /uploads/
