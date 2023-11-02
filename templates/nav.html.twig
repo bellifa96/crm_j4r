@@ -312,6 +312,23 @@
 
 				</ul>
 			</li>
+				<li class="sidebar-title">
+				composants
+				<ul>
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }}">
+						<a href="{{ path('app_affaire_type_composant_index') }}" class="sidebar-link">
+							<i class="bi bi-list-ul"></i>
+							<span>
+								Liste
+							</span>
+						</a>
+					</li>
+					
+				
+
+
+				</ul>
+			</li>
 
 			<li class="sidebar-title">
 				Administration

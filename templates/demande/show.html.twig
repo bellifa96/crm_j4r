@@ -1443,7 +1443,7 @@
         })
 
 
-        $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Créer un devis </a> </li>");
+        $('.page-head ul').append("<li> <a href='#'  id='devis-add'  class='btn btn-info btn-sm mr-1'>Créer un devis</a> </li>");
 
 
         $('#devis-add').click(function () {
@@ -1452,6 +1452,7 @@
             let path = "{{ path('app_affaire_devis_modal_titre',{'id':demande.id}) }}";
             $.post(path, function (data) {
                 $('body').append(JSON.parse(data).message);
+                console.log(JSON.parse(data));
                 $("#modal-devis").modal('show');
 
             })

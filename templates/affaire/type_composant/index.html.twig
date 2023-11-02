@@ -221,7 +221,7 @@
                                 <th>Composants</th>
                                 <th>Unités</th>
                                 {% for typeOuvrage in typeOuvrages %}
-                                    {% if typeOuvrage.code not in ['P','T','A'] %}
+                                    {% if typeOuvrage.code not in ['T','A'] %}
                                         <th>{{ typeOuvrage.titre }}</th>
                                     {% endif %}
                                 {% endfor %}
@@ -237,7 +237,7 @@
                                             composant="{{ typeComposant.id }}">{{ typeComposant.unite }}</td>
                                         {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
                                         {% for typeOuvrage in typeOuvrages %}
-                                            {% if typeOuvrage.code not in ['P','T','A'] %}
+                                            {% if typeOuvrage.code not in ['T','A'] %}
                                                 {# permet d'affiche le prix correspondant aux deux #}
                                                 {% for unite in typeComposant.tableDePrix %}
                                                     {% if unite.typeOuvrage is same as typeOuvrage %}
@@ -276,7 +276,7 @@
                             <tr>
                                 <th style="width: 12.5%">Composants</th>
                                 {% for typeOuvrage in typeOuvrages %}
-                                    {% if typeOuvrage.code not in ['P','T','A'] %}
+                                    {% if typeOuvrage.code not in ['T','A'] %}
                                         <th style="width: 12.5%">{{ typeOuvrage.titre }}</th>
                                     {% endif %}
                                 {% endfor %}
@@ -298,7 +298,7 @@
                                         <td style="width: 12.5%">{{ typeComposant.titre }}</td>
                                         {# affiche le bon nombre de colonne pour chaque ligne en fonction des types d'ouvrage #}
                                         {% for typeOuvrage in typeOuvrages %}
-                                            {% if typeOuvrage.code not in ['P','T','A'] %}
+                                            {% if typeOuvrage.code not in ['T','A'] %}
                                                 {# permet d'affiche la cadence correspondant aux deux #}
                                                 {% for unite in typeComposant.tableDePrix %}
                                                     {% if unite.typeOuvrage is same as typeOuvrage %}

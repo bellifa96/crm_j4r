@@ -37,7 +37,7 @@
                                             Type d'ouvrage
                                         </option>
                                         {% for to in typeOuvrages %}
-                                            {% if to.code in ['E', 'PAR', 'SDA', 'RAM', 'A'] %}
+                                            {% if to.code in ['E', 'PAR', 'SDA', 'RAM', 'A','P'] %}
                                                 {% if ouvrage.typeOuvrage == to %}
                                                     <option class="text-center fw-bold" value="{{ to.id }}"
                                                             code="{{ to.code }}"

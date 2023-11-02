@@ -185,6 +185,7 @@ class BibliothequeDePrixController extends AbstractController
         
         
         $tps= 0;
+        
         $params = [
             'typeOuvrages'=>$entityManager->getRepository(TypeOuvrage::class)->findAll(),
             'categorieOuvrages'=>$entityManager->getRepository(CategorieOuvrage::class)->findAll(),

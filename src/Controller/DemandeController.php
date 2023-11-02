@@ -52,7 +52,7 @@ class DemandeController extends AbstractController
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
     public function index(DemandeRepository $demandeRepository, StatutRepository $statutRepository, UserRepository $userRepository): Response
     {
-
+        
         foreach ($demandeRepository->findAll() as $demande) {
             if (empty($demande->getReference())) {
                 $demande->setReference(date('y') . date('m') . '-' . $demande->getId());
@@ -163,18 +163,19 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
     public function show(Demande $demande, Request $request, SluggerInterface $slugger, FichierRepository $fichierRepository, DemandeRepository $demandeRepository, UserRepository $userRepository): Response
     {
-
+        // récuperer toutes les parametre de gets
         $data = $request->query->all();
 
         if (key_exists('menu', $data)) {
             $menu = $demande->getMenu();
             $menu[$this->getUser()->getId()] = $data['menu'];
+
         }
 
 
         $users = $userRepository->findAll();
 
-
+        
         if (empty($demande->getReference())) {
             $demande->setReference(date('y') . date('m') . '-' . $demande->getId());
             $demandeRepository->add($demande);
@@ -182,6 +183,7 @@ class DemandeController extends AbstractController
 
         $repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
         $demande = $this->em->find(Demande::class, $demande->getId());
+       
         $logs = $repo->getLogEntries($demande);
 
         //  dd($logs);
@@ -216,9 +218,10 @@ class DemandeController extends AbstractController
         }
 
         $referer = $request->headers->get('referer');
+       
+      
 
-
-        return $this->render('demande/show.html.twig', [
+       return $this->render('demande/show.html.twig', [
             'users' => $users,
             'demande' => $demande,
             'logs' => $logs,
@@ -226,7 +229,7 @@ class DemandeController extends AbstractController
             'title' => "Demande N° " . $demande->getReference(),
             'referer' => $referer,
             'nav' => [['app_demande_edit', 'Modifier la demande', $demande->getId()]]
-        ]);
+        ]); 
     }
 
     #[Route('/statut/update', name: 'app_demande_statut_update', methods: ['GET', 'POST'])]

@@ -30,7 +30,7 @@ class EmailService
                 //->bcc($createur_ticket)
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
-                ->subject("J4R - " . $titre)
+                ->subject("Création du ticket " . $data->getTitle() . "-" . $data->getId())
                 ->htmlTemplate($htmlTemplate)
 
                 // pass variables (name => value) to the template
@@ -49,9 +49,15 @@ class EmailService
             }
         }
     }
-    public function sendAssigend($to, $emailUser, $data, $htmlTemplate, $titre, $image,$drapo)
+    public function sendAssigend($to, $emailUser, $data, $htmlTemplate, $titre, $image, $drapo)
 
     {
+        $titleMessage = "";
+        if ($drapo == 2) {
+            $titleMessage = "Confirmer la résolution" . $data->getTitle() . "-" . $data->getId();
+        } else {
+            $titleMessage = "Pris en charge " . $data->getTitle() . "-" . $data->getId();
+        }
 
         $email = (new TemplatedEmail())
             ->from('abellifa@myleasy.com')
@@ -61,7 +67,7 @@ class EmailService
             //->bcc($createur_ticket)
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject("J4R - " . $titre)
+            ->subject($titleMessage)
             ->htmlTemplate($htmlTemplate)
 
             // pass variables (name => value) to the template
@@ -88,7 +94,7 @@ class EmailService
             //->bcc($createur_ticket)
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject("J4R - " . $titre)
+            ->subject("Demande d'information " . $data->getTitle() . "-" . $data->getId())
             ->htmlTemplate($htmlTemplate)
 
             // pass variables (name => value) to the template
@@ -144,7 +150,7 @@ class EmailService
             //->bcc($createur_ticket)
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject("J4R - " . $titre)
+            ->subject($data->getTitle() . "-" . $data->getId() . " Résolu")
             ->htmlTemplate($htmlTemplate)
 
             // pass variables (name => value) to the template
