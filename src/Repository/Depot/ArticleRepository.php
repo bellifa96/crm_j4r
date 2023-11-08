@@ -35,6 +35,16 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findAllbyIdDepot($iddepotId)
     {
-        return $this->_em->getRepository(Articles::class)->findBy(["depot"=> $iddepotId]);
+        return $this->_em->getRepository(Articles::class)->findBy(["depot" => $iddepotId]);
+    }
+    public function addAll($articles)
+    {
+        $em = $this->getEntityManager();
+
+        foreach ($articles as $article) {
+            $em->persist($article);
+        }
+
+        $em->flush();
     }
 }

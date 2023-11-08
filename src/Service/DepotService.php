@@ -34,64 +34,61 @@ class DepotService
         $feuille = $spreadsheet->getActiveSheet();
         $donnees = $feuille->toArray();
 
-        // Créez un tableau associatif pour mapper les colonnes aux numéros de colonne
-        $columnMap = array_flip($donnees[0]);
+        $articles = []; // Tableau pour stocker les articles
 
-        foreach ($donnees as $index => $ligne) {
-            if ($index === 0) {
-                // La première ligne est l'en-tête, ignorez-la
-                continue;
-            }
+        foreach ($donnees as $ligne) {
+            $articleData = [
+                'Article' => '',
+                'Designation' => '',
+                'Poids' => 0,
+                'PrixVente' => 0,
+                'PrixLoc' => 0,
+                'vente' => 0,
+                'location' => 0,
+            ];
 
-            $article = new Articles();
-            $vente = 0;
-            $location = 0;
-
-            foreach ($ligne as $colonne => $cellule) {
-                // Utilisez le mappage pour obtenir le nom de la colonne
-                $nomColonne = $columnMap[$colonne];
-
-                switch ($nomColonne) {
-                    case 'Code article':
-                        $article->setArticle($cellule);
-                        break;
-
-                    case 'Désignation':
-                        $article->setDesignation($cellule);
-                        break;
-
-                    case 'Poids (kg)':
-                        $article->setPoids($cellule);
-                        break;
-
-                    case 'Prix Vente':
-                        $PrixVente = $cellule;
-                        if ($PrixVente > 0) {
-                            $vente = 1;
-                        }
-                        $article->setPrixvente($PrixVente);
-                        break;
-
-                    case 'Location Mensuelle':
-                        $PrixLoc = $cellule;
-                        if ($PrixLoc > 0) {
-                            $location = 1;
-                        }
-                        $article->setPrixloc($PrixLoc);
-                        break;
+            foreach ($ligne as $cellule) {
+                if (empty($articleData['Article']) && $cellule !== 'Code article') {
+                    $articleData['Article'] = $cellule;
+                } elseif (empty($articleData['Designation']) && $cellule !== 'Désignation') {
+                    $articleData['Designation'] = $cellule;
+                } elseif ($articleData['Poids'] === 0 && $cellule !== 'Poids (kg)') {
+                    $articleData['Poids'] = (float) $cellule;
+                } elseif ($articleData['PrixVente'] === 0 && $cellule !== 'Prix Vente') {
+                    $articleData['PrixVente'] = (float) $cellule;
+                    $articleData['vente'] = $articleData['PrixVente'] > 0 ? 1 : 0;
+                } elseif ($articleData['PrixLoc'] === 0 && $cellule !== 'Location Mensuelle') {
+                    $articleData['PrixLoc'] = (float) $cellule;
+                    $articleData['location'] = $articleData['PrixLoc'] > 0 ? 1 : 0;
                 }
             }
 
-            foreach ($depots as $depot) {
-                $agence = $depot->getIdagence();
+            $articles[] = $articleData;
+        }
+
+        $insertData = [];
+        foreach ($depots as $depot) {
+            $agence = $depot->getIdagence();
+            foreach ($articles as $articleData) {
+                $article = new Articles();
+                $article->setArticle($articleData['Article']);
+                $article->setDesignation($articleData['Designation']);
+                $article->setPoids($articleData['Poids']);
+                $article->setPrixvente($articleData['PrixVente']);
+                $article->setPrixloc($articleData['PrixLoc']);
                 $article->setDepot($depot);
                 $article->setIdagence($agence);
                 $article->setDateachat(new \DateTime('2023-11-08'));
                 $article->setDateachatinv(null);
-                $article->setVente($vente);
-                $article->setLocation($location);
-                $this->articlesRepository->add($article);
+                $article->setOldprixl($articleData['PrixLoc']);
+                $article->setOldprixv($articleData['PrixVente']);
+                $article->setVente($articleData['vente']);
+                $article->setLocation($articleData['location']);
+                $insertData[] = $article;
             }
         }
+
+        // Insérer les données dans la base de données
+        $this->articlesRepository->addAll($insertData);
     }
 }
