@@ -55,7 +55,7 @@ class DepotController extends AbstractController
             'controller_name' => 'DepotController',
             'title' => 'Dépot',
             'depots' => $depots,
-            'articles'=> null,
+            'articles'=> $articles,
             'nav' => []
         ]);
     }
