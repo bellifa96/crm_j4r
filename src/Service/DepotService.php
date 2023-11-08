@@ -7,6 +7,12 @@ use App\Repository\Depot\ArticleRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * Depot Service inject Repository pour faire traitement métier
+ * ici tu trouve toutes les régles metiér 
+ * 
+ */
+
 class DepotService
 {
 

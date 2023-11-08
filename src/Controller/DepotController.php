@@ -14,6 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller Depot Inject Service (DepotService) et Repository ($ArticleRepositoy)
+ * tu créer rien ici par rapport des requéte tous sur repository (pattern DAO)
+ * 
+ * 
+ */
+
 class DepotController extends AbstractController
 {
     private $depotRepository;
