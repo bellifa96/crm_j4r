@@ -41,17 +41,16 @@ class DepotController extends AbstractController
     {
         $depots = $this->depotRepository->getAllDepot();
 
-        $this->depotService->article_layher_parser_file_xsl("Table m_tabArticle.xlsx",$depots);
+        //$this->depotService->article_layher_parser_file_xsl("Table m_tabArticle.xlsx",$depots);
 
-        /*if (!empty($depots)) {
+        if (!empty($depots)) {
             $firstDepot = $depots[1];
             $articles = $this->articleRepository->findAllbyIdDepot($firstDepot->getIddepot());
 
         } else {
             $articles = array();
-        }*/
+        }
 
-         dd("ss");
         return $this->render('depot/index.html.twig', [
             'controller_name' => 'DepotController',
             'title' => 'Dépot',
