@@ -22,7 +22,11 @@ doctrine:
                 dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
                 is_bundle: false
-
+            AppEntityDepot:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity/Depot'
+                prefix: 'App\Entity\Depot'
+       
 
 
 when@test:
