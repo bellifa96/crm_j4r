@@ -29,79 +29,68 @@ class DepotService
 
     public function article_layher_parser_file_xsl($file, $depots)
     {
-
-        //
-        $fileData =    $this->params->get('kernel.project_dir') . '/public/data/' . $file;
+        $fileData = $this->params->get('kernel.project_dir') . '/public/data/' . $file;
         $spreadsheet = IOFactory::load($fileData);
-
-
-        // Sélection de la première feuille de calcul (index 0)
         $feuille = $spreadsheet->getActiveSheet();
-
-        // Récupération des données de la feuille de calcul sous forme de tableau
         $donnees = $feuille->toArray();
 
-       
-        foreach ($depots as $depot) {
-            $agence = $depot->getIdagence();
+        // Créez un tableau associatif pour mapper les colonnes aux numéros de colonne
+        $columnMap = array_flip($donnees[0]);
 
-            foreach ($donnees as $ligne) {
-                $article = new Articles();
-                $Compteur = 0;
-                foreach ($ligne as $cellule) {
-                    $Compteur++;
-                    if ($Compteur == 1) {
-                        if ($cellule != 'Code article') {
-                            $Article = $cellule;
-                            $RefFourn = $cellule;
-                            $article->setArticle($Article);
-                        }
-                    }
-                    if ($Compteur == 2) {
-                        if ($cellule != 'Désignation') {
+        foreach ($donnees as $index => $ligne) {
+            if ($index === 0) {
+                // La première ligne est l'en-tête, ignorez-la
+                continue;
+            }
 
-                            $Designation = $cellule;
-                            $article->setDesignation($Designation);
+            $article = new Articles();
+            $vente = 0;
+            $location = 0;
+
+            foreach ($ligne as $colonne => $cellule) {
+                // Utilisez le mappage pour obtenir le nom de la colonne
+                $nomColonne = $columnMap[$colonne];
+
+                switch ($nomColonne) {
+                    case 'Code article':
+                        $article->setArticle($cellule);
+                        break;
+
+                    case 'Désignation':
+                        $article->setDesignation($cellule);
+                        break;
+
+                    case 'Poids (kg)':
+                        $article->setPoids($cellule);
+                        break;
+
+                    case 'Prix Vente':
+                        $PrixVente = $cellule;
+                        if ($PrixVente > 0) {
+                            $vente = 1;
                         }
-                    }
-                    if ($Compteur == 3) {
-                        if ($cellule != 'Poids (kg)') {
-                            $Poids = $cellule;
-                            $article->setPoids($Poids);
+                        $article->setPrixvente($PrixVente);
+                        break;
+
+                    case 'Location Mensuelle':
+                        $PrixLoc = $cellule;
+                        if ($PrixLoc > 0) {
+                            $location = 1;
                         }
-                    }
-                    if ($Compteur == 4) {
-                        if ($cellule != 'Prix Vente') {
-                            $PrixVente = $cellule;
-                            if ($PrixVente > 0) {
-                                $vente = 1;
-                                $old_prix_v = $PrixVente;
-                            } else {
-                                $vente = 0;
-                                $old_prix_v = 0;
-                            }
-                            $article->setPrixvente($PrixVente);
-                        }
-                    }
-                    if ($Compteur == 5) {
-                        if ($cellule != 'Location Mensuelle') {
-                            $PrixLoc = $cellule;
-                            if ($PrixLoc > 0) {
-                                $location = 1;
-                                $old_prix_l = $PrixLoc;
-                            } else {
-                                $location = 0;
-                                $old_prix_l = 0;
-                            }
-                            $article->setPrixloc($PrixLoc);
-                        }
-                    }
+                        $article->setPrixloc($PrixLoc);
+                        break;
                 }
+            }
+
+            foreach ($depots as $depot) {
+                $agence = $depot->getIdagence();
                 $article->setDepot($depot);
                 $article->setIdagence($agence);
-                $article->setDateachat(new \DateTime('2023-11-08')); // Example date
+                $article->setDateachat(new \DateTime('2023-11-08'));
                 $article->setDateachatinv(null);
-                $this->articlesRepository->add($article); // appel la method add in repository 
+                $article->setVente($vente);
+                $article->setLocation($location);
+                $this->articlesRepository->add($article);
             }
         }
     }
