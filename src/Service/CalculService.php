@@ -34,9 +34,9 @@ class CalculService
             $composant = $this->em->getRepository(Composant::class)->find($element['id']);
             $composant->getOuvrage()->setPrixDeVenteHT($composant->getOuvrage()->getSommePrixDeVenteHTComposants());
             if($composant->getOuvrage()->getPrixDeVenteHT() > 0){
-                $composant->getOuvrage()->setMarge(round($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants(),3));
+                $composant->getOuvrage()->setMarge($composant->getOuvrage()->getSommePrixDeVenteHTComposants() / $composant->getOuvrage()->getSommeDebourseTotalComposants());
             }else{
-                $composant->getOuvrage()->setMarge(round(1.4,3));
+                $composant->getOuvrage()->setMarge(1.4);
             }
             $this->em->getRepository(Ouvrage::class)->add($composant->getOuvrage());
             $data[]=$composant->getOuvrage()->__toArray();
@@ -55,11 +55,11 @@ class CalculService
                 $ouvrage->getLot()->setDebourseTotalLot($ouvrage->getLot()->getSommeDebourseTotalOuvrages() + $ouvrage->getLot()->getSommeDebourseTotalSousLots());
 
                 if($ouvrage->getLot()->getDebourseTotalLot() > 0){
-                    $ouvrage->getLot()->setMarge(round(
+                    $ouvrage->getLot()->setMarge(
                         $nouveauDeventeLot /
-                        $ouvrage->getLot()->getDebourseTotalLot() ,3));
+                        $ouvrage->getLot()->getDebourseTotalLot());
                 }else{
-                    $ouvrage->getLot()->setMarge(round(1.4,3));
+                    $ouvrage->getLot()->setMarge(1.4);
 
                 }
 
@@ -82,11 +82,11 @@ class CalculService
                 $lot->getLot()->setDebourseTotalLot($lot->getLot()->getSommeDebourseTotalOuvrages() + $lot->getLot()->getSommeDebourseTotalSousLots());
 
                 if($lot->getLot()->getDebourseTotalLot() > 0){
-                    $lot->getLot()->setMarge(round(
+                    $lot->getLot()->setMarge(
                         $lot->getLot()->getPrixDeVenteHT() /
-                        $lot->getLot()->getDebourseTotalLot() ,3));
+                        $lot->getLot()->getDebourseTotalLot());
                 }else{
-                    $lot->getLot()->setMarge(round(1.4,3));
+                    $lot->getLot()->setMarge(1.4);
                 }
                 $this->em->getRepository(Lot::class)->add($lot->getLot());
                 $data[]=$lot->getLot()->__toArray();
@@ -100,11 +100,11 @@ class CalculService
                 $lot->getDevis()->setDebourseTotalHT($lot->getDevis()->getSommeDebourseTotalOuvrages() + $lot->getDevis()->getSommeDebourseTotalLots());
 
                 if($lot->getDevis()->getDebourseTotalHT() > 0){
-                    $lot->getDevis()->setMarge(round(
+                    $lot->getDevis()->setMarge(
                         $lot->getDevis()->getPrixDeVenteHT()  /
-                        $lot->getDevis()->getDebourseTotalHT() ,3));
+                        $lot->getDevis()->getDebourseTotalHT());
                 }else{
-                    $lot->getDevis()->setMarge(round(1.4,3));
+                    $lot->getDevis()->setMarge(1.4);
                 }
 
                 $this->em->getRepository(Devis::class)->add($lot->getDevis());
@@ -137,7 +137,7 @@ class CalculService
                 } catch (\DivisionByZeroError $e) {
                     $nouvelleMargeComposant = $margeOuvrage;
                 }
-                $composant->setMarge(round($nouvelleMargeComposant,3));
+                $composant->setMarge($nouvelleMargeComposant);
                 $composant->setPrixDeVenteHT((!empty($composant->getTypeComposant()) && $composant->getTypeComposant()->getCode() === 'L' ? $composant->getQuantite() * $composant->getQuantite2() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant : $composant->getQuantite() * $composant->getDebourseUnitaireHT() * $nouvelleMargeComposant));
                 $sum += $composant->getPrixDeVenteHT();
                 $this->em->getRepository(Composant::class)->add($composant);
@@ -161,7 +161,7 @@ class CalculService
                 } catch (\DivisionByZeroError $e) {
                     $nouvelleMargeOuvrage = $margeLot;
                 }
-                $ouvrage->setMarge(round($nouvelleMargeOuvrage,3));
+                $ouvrage->setMarge($nouvelleMargeOuvrage);
                 $child = [
                     'id'=>$ouvrage->getId(),
                     'type'=>'ouvrage'
@@ -180,7 +180,7 @@ class CalculService
                     } catch (\DivisionByZeroError $e) {
                         $nouvelleMargeSousLot = $margeLot;
                     }
-                    $sLot->setMarge(round($nouvelleMargeSousLot,3));
+                    $sLot->setMarge($nouvelleMargeSousLot);
                     $child = [
                         'id'=>$sLot->getId(),
                         'type'=>'lot'
@@ -225,7 +225,7 @@ class CalculService
                     } catch (\DivisionByZeroError $e) {
                         $nouvelleMargelot = $margeDevis;
                     }
-                    $Lot->setMarge(round($nouvelleMargelot,3));
+                    $Lot->setMarge($nouvelleMargelot);
                     $child = [
                         'id'=>$Lot->getId(),
                         'type'=>'lot'
@@ -235,8 +235,8 @@ class CalculService
                     $tp = $this->recursiveCalculBottom($child,$dataa);
                 
             } 
-            $devis->setPrixDeVenteHT(round($devis->getSommePrixDeVenteHTOuvrages(), 3) + round($devis->getSommePrixDeVenteHTLots(), 3));
-            $devis->setDebourseTotalHT(round($devis->getSommeDebourseTotalOuvrages(), 3) + round($devis->getSommeDebourseTotalLots(), 3));
+            $devis->setPrixDeVenteHT($devis->getSommePrixDeVenteHTOuvrages() + $devis->getSommePrixDeVenteHTLots());
+            $devis->setDebourseTotalHT($devis->getSommeDebourseTotalOuvrages() + $devis->getSommeDebourseTotalLots());
             $this->em->getRepository(Devis::class)->add($devis);
         }
         return $dataa;
