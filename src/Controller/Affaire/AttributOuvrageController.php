@@ -266,6 +266,12 @@ class AttributOuvrageController extends AbstractController
                 } else {
                     $attribut->setPoidsKG(null);
                 }
+                if (is_numeric($updatedAttribut['order'])) {
+                    $attribut->setOrdre(floatval($updatedAttribut['order']));
+                } else {
+                    $attribut->setOrdre(0);
+                }
+              
                 $attribut->setTps($updatedAttribut['temps']);
 
                 $attributOuvrageRepository->save($attribut);
