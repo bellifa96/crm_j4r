@@ -587,7 +587,7 @@ class DevisController extends AbstractController
         //dd($data);
 
         $lot = new Lot();
-        $lot->setMarge($devis->getMarge());
+        $lot->setMarge(1.4);
 
         $uniteM2 = $uniteRepository->findOneByLabel('m2');
         $lot->setUnite($uniteM2);
