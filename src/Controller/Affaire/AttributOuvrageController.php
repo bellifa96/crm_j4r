@@ -209,8 +209,11 @@ class AttributOuvrageController extends AbstractController
 
         $responseData = [];
         foreach ($data['composants'] as $key => $val) {
+            $val = preg_replace('/[^0-9,.]/', '', $val);
             $val = str_replace(',', '.', $val);
-            $val = floatval($val);
+
+            // Utiliser number_format pour gérer les milliers avec espace comme séparateur
+            $val = floatval(number_format($val, 2, '.', ''));
             $composant = $composantRepository->find($key);
             $composant->setDebourseUnitaireHT(round($val, 3));
             $composant->setUnite($ouvrage->getUnite());
