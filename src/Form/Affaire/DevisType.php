@@ -3,14 +3,11 @@
 namespace App\Form\Affaire;
 
 use App\Entity\Affaire\Devis;
-use App\Entity\User;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class DevisType extends AbstractType
 {
@@ -18,20 +15,12 @@ class DevisType extends AbstractType
     {
         $builder
             ->add('designationDesTravaux')
-            ->add('observations')
-            ->add('commentaireInterne')
-            /*->add('referent', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $entityRepository) {
-                    return $entityRepository->createQueryBuilder('u')
-                        ->orderBy('u.firstname', 'ASC');
-                },
-                'choice_label' => function ($user) {
-                    return $user->getFirstname() . " " . $user->getLastname();
-                }
-            ])*/
-
-;
+            ->add('observations', TextareaType::class, [
+                'constraints' => [new Length(['max' => 10])],
+                'attr' => ['maxlength' => 10], // Remplace 100 par le nombre de caractères souhaité
+            ])
+            ->add('commentaireInterne');
+       
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,6 +6,8 @@ use App\Entity\Affaire\Lot;
 use App\Entity\Affaire\Devis;
 use App\Entity\Affaire\Ouvrage;
 use App\Entity\Affaire\Composant;
+use App\Repository\Affaire\LotRepository;
+use App\Repository\Affaire\OuvrageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -13,11 +15,17 @@ use Doctrine\ORM\EntityManagerInterface;
 class CalculService
 {
     private $em;
+  
+    private $repositoryOuvrage;
 
+    private  $LotRepository;
 
-    public function __construct(EntityManagerInterface $entityManagerInterface)
+    public function __construct(EntityManagerInterface $entityManagerInterface,OuvrageRepository $repositoryOuvrage,LotRepository $LotRepository)
     {
         $this->em = $entityManagerInterface;
+        $this->repositoryOuvrage = $repositoryOuvrage;
+        $this->LotRepository = $LotRepository;
+        
     }
 
     public function recursiveCalculTop($element,&$data=[]){

@@ -39,11 +39,14 @@ class BibliothequeDePrixController extends AbstractController
     private $uniteRepository;
     private $calculService;
 
+    private $em;
+
                     
-    public function __construct(UniteRepository $uniteRepository,CalculService $calculService){
+    public function __construct(UniteRepository $uniteRepository,CalculService $calculService,EntityManagerInterface $em){
         $this->uniteRepository = $uniteRepository;
         $this->unites = $uniteRepository->findAll();
         $this->calculService = $calculService;
+        $this->em = $em;
 
     }
 
@@ -328,6 +331,7 @@ class BibliothequeDePrixController extends AbstractController
             }
             $ouvrage->setPrixDeVenteHT($ouvrage->getSommePrixDeVenteHTComposants());
             $ouvrageRepository->add($ouvrage);
+            $this->em->flush();
             $dataTop= $this->calculService->recursiveCalculTop(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
             $dataBottom = $this->calculService->recursiveCalculBottom(['id'=>$ouvrage->getId(),'type'=>'ouvrage']);
             $data = array_merge($dataBottom,$dataTop);

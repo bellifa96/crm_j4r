@@ -366,7 +366,17 @@
 
 <script>
 
+$(document).ready(function() {
+    var maxChars = 10000;
 
+    $('.trumbowyg-editor').on('keydown', function(e) {
+        var text = $(this).text();
+
+        if (text.length >= maxChars && e.key.length === 1) {
+            e.preventDefault();
+        }
+    });
+});
     // on sauvegarde l'element selectioné (lot/ouvrage/composant)
     let selectedElement = null;
     let selectedElementId = null;
