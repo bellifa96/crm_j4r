@@ -36,7 +36,7 @@ class CalculService
                 'id'=>$composant->getOuvrage()->getId(),
                 'type'=>'ouvrage'
              ];
-
+             $this->em->flush();
             $tp = $this->recursiveCalculTop($topParentTmp,$data);
         } elseif ($element['type'] == 'ouvrage') {
 
@@ -62,6 +62,7 @@ class CalculService
                     'id'=>$ouvrage->getLot()->getId(),
                     'type'=>'lot'
                  ];
+                 $this->em->flush();
                  $tp = $this->recursiveCalculTop($topParentTmp,$data);
 
             }
@@ -104,6 +105,7 @@ class CalculService
                     'id'=>$lot->getDevis()->getId(),
                     'type'=>'devis'
                 ];
+                $this->em->flush();
                 $tp = $this->recursiveCalculTop($topParentTmp,$data);
             }         
         }
