@@ -167,8 +167,12 @@
 			transform: translate(-50%, -50%);
 		}
 
-		.table-bordered .valeur {
-			max-width: 50px; /* Ajoutez la largeur maximale souhaitée en pixels */
+		.table-bordered th.titre {
+			width: 150px; /* Ajustez la largeur du titre selon vos besoins */
+		}
+
+		.table-bordered td.valeur {
+			max-width: 50px; /* Ajustez la largeur maximale de kg et tps selon vos besoins */
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -242,7 +246,7 @@
 												<td>{{ autreOuvrage.designation }}</td>
 												<td>
 													{{ autreOuvrage.prixUnitaire|number_format(2,',',' ') }}€
-													                                                /{{ autreOuvrage.unite.label }}
+																										                                                /{{ autreOuvrage.unite.label }}
 												</td>
 												<td>{{ autreOuvrage.marge|number_format(3,',',' ') }}</td>
 												<td>{{ autreOuvrage.location|number_format(2,',',' ') }}€</td>
@@ -365,7 +369,7 @@ $('#update-ouvrage-attributs-' + typeOuvrageId).show(); // affiche le bouton enr
 $('.editable.typeOuvrage-' + typeOuvrageId).each(function () { // stocke la valeur initiale de l'élément de texte dans un attribut data
 $(this).data('initial-value', $(this).text());
 // remplace l'élément de texte par un input avec la valeur initiale
-$(this).html('<input type="text" value="' + $(this).text() + '">');
+$(this).html('<input type="text" style="width:60%" value="' + $(this).text() + '">');
 
 })
 })
