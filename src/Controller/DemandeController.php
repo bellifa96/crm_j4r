@@ -104,7 +104,7 @@ class DemandeController extends AbstractController
             if ($demande->isFaireUnReleve() and !empty($demande->getUserReleve())) {
                 $objet = "Faire un relevé de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/releve.html.twig";
-                $email = $this->emailService->send([$demande->getUserReleve()->getEmail()], $demande, $template, $objet);
+              //  $email = $this->emailService->send([$demande->getUserReleve()->getEmail()], $demande, $template, $objet);
 
             } elseif (!$demande->isFaireUnReleve() and !empty($demande->getUserReleve())) {
                 $demande->setUserReleve(null);
@@ -113,7 +113,7 @@ class DemandeController extends AbstractController
             if ($demande->isFaireUnDevis() and !empty($demande->getUserDevis())) {
                 $objet = "Faire un Devis de la demande N°" . $demande->getId() . " pour le client " . $demande->getClient();
                 $template = "/emails/devis.html.twig";
-                $email = $this->emailService->send([$demande->getUserDevis()->getEmail()], $demande, $template, $objet);
+               // $email = $this->emailService->send([$demande->getUserDevis()->getEmail()], $demande, $template, $objet);
 
             } elseif (!$demande->isFaireUnDevis() and !empty($demande->getUserDevis())) {
                 $demande->setUserDevis(null);
