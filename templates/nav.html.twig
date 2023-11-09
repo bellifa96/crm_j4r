@@ -100,18 +100,18 @@
 					</li>
 
 					{# <li class="sidebar-item ">
-															                        <a href="#" class="sidebar-link">
-															                            <i class="bi bi-stack"></i>
-															                            <span>Taches</span>
-															                        </a>
-															                    </li>
-															
-															                    <li class="sidebar-item ">
-															                        <a href="#" class="sidebar-link">
-															                            <i class="bi bi-bar-chart-line"></i>
-															                            <span>Forecast</span>
-															                        </a>
-															                    </li> #}
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-stack"></i>
+					                            <span>Taches</span>
+					                        </a>
+					                    </li>
+					
+					                    <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-bar-chart-line"></i>
+					                            <span>Forecast</span>
+					                        </a>
+					                    </li> #}
 				</ul>
 			</li>
 
@@ -154,88 +154,105 @@
 						</li>
 					{% endif %}
 					{# <li class="sidebar-item ">
-															                        <a href="#" class="sidebar-link">
-															                            <i class="bi bi-stack"></i>
-															                            <span>Taches</span>
-															                        </a>
-															                    </li>
-															
-															                    <li class="sidebar-item ">
-															                        <a href="#" class="sidebar-link">
-															                            <i class="bi bi-bar-chart-line"></i>
-															                            <span>Forecast</span>
-															                        </a>
-															                    </li> #}
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-stack"></i>
+					                            <span>Taches</span>
+					                        </a>
+					                    </li>
+					
+					                    <li class="sidebar-item ">
+					                        <a href="#" class="sidebar-link">
+					                            <i class="bi bi-bar-chart-line"></i>
+					                            <span>Forecast</span>
+					                        </a>
+					                    </li> #}
 				</ul>
 			</li>
 
 			<li class="sidebar-title">
 				Chantier
 				{# <ul>
-												                    <li class="sidebar-item">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-list-ul"></i>
-												                            <span> Liste </span>
-												                        </a>
-												                    </li>
-												
-												                    <li class="sidebar-item ">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-stack"></i>
-												                            <span>Taches</span>
-												                        </a>
-												                    </li>
-												
-												                    <li class="sidebar-item ">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-stack"></i>
-												                            <span>YTD</span>
-												                        </a>
-												                    </li>
-												                </ul> #}
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-list-ul"></i>
+				                            <span> Liste </span>
+				                        </a>
+				                    </li>
+				
+				                    <li class="sidebar-item ">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span>Taches</span>
+				                        </a>
+				                    </li>
+				
+				                    <li class="sidebar-item ">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span>YTD</span>
+				                        </a>
+				                    </li>
+				                </ul> #}
 			</li>
 
 
-			<li class="sidebar-title">
-				Transport
+            <li class="sidebar-title">
+                Stock
 
-				<ul>
-					<li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_transport_index' ? 'active' }} ">
-						<a href="{{ path('app_affaire_transport_index') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
-							<span>
-								Liste
-							</span>
-						</a>
-					</li>
+                <ul>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_society_agence_index' ? 'active' }} ">
+                        <a href="{{ path('app_society_agence_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span> Agences</span>
+                        </a>
+                    </li>
 
-				</ul>
-			</li>
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_society_depot_index' ? 'active' }} ">
+                        <a href="{{ path('app_society_depot_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span> Depot</span>
+                        </a>
+                    </li>
 
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_affaire_transport_index' ? 'active' }} ">
+                        <a href="{{ path('app_affaire_transport_index') }}"
+                           class="sidebar-link  ">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span> Liste Transport</span>
+                        </a>
+                    </li>
 
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_transport_windecde_index' ? 'active' }} ">
+                     
+                    </li>
+
+                </ul>
+            </li>
 			<li class="sidebar-title">
 				Analyse
 
 				{# <ul>
-												                    <li class="sidebar-item">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-clock-history"></i>
-												                            <span> Chiffres </span>
-												                        </a>
-												                    </li>
-												                    <li class="sidebar-item">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-stack"></i>
-												                            <span> Objectifs </span>
-												                        </a>
-												                    </li>
-												                    <li class="sidebar-item">
-												                        <a href="#" class="sidebar-link">
-												                            <i class="bi bi-graph-up-arrow"></i>
-												                            <span> Statistiques </span>
-												                        </a>
-												                    </li>
-												                </ul> #}
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-clock-history"></i>
+				                            <span> Chiffres </span>
+				                        </a>
+				                    </li>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-stack"></i>
+				                            <span> Objectifs </span>
+				                        </a>
+				                    </li>
+				                    <li class="sidebar-item">
+				                        <a href="#" class="sidebar-link">
+				                            <i class="bi bi-graph-up-arrow"></i>
+				                            <span> Statistiques </span>
+				                        </a>
+				                    </li>
+				                </ul> #}
 			</li>
 
 
@@ -307,48 +324,7 @@
 							<span>Ajouter</span>
 						</a>
 					</li>
-
-
-				</ul>
-			</li>
-			<li class="sidebar-title">
-				Stock
-				<ul>
-					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_index' ? 'active' }}">
-						<a href="{{ path('app_ticket_index') }}" class="sidebar-link">
-							<i class="bi bi-list-ul"></i>
-							<span>
-								Agence
-							</span>
-						</a>
-					</li>
-					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_new' ? 'active' }}">
-						<a href="{{ path('app_ticket_new') }}" class="sidebar-link">
-							<i class="bi bi-stack"></i>
-							<span>Depot</span>
-						</a>
-					</li>
-					<li class="sidebar-item  {{ app.request.get('_route') == 'app_depot' ? 'active' }}">
-						<a href="{{ path('app_depot') }}" class="sidebar-link">
-							<i class="bi bi-stack"></i>
-							<span>Article</span>
-						</a>
-					</li>
-
-
-				</ul>
-			</li>
-			<li class="sidebar-title">
-				composants
-				<ul>
-					<li class="sidebar-item  {{ app.request.get('_route') == 'app_affaire_type_composant_index' ? 'active' }}">
-						<a href="{{ path('app_affaire_type_composant_index') }}" class="sidebar-link">
-							<i class="bi bi-list-ul"></i>
-							<span>
-								Liste
-							</span>
-						</a>
-					</li>
+				
 
 
 				</ul>
