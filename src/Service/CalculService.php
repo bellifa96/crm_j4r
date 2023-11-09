@@ -42,12 +42,13 @@ class CalculService
 
             $ouvrage = $this->em->getRepository(Ouvrage::class)->find($element['id']);
             if(!empty($ouvrage->getLot())){
-                $ouvrage->getLot()->setPrixDeVenteHT($ouvrage->getLot()->getSommePrixDeVenteHTOuvrages()  + $ouvrage->getLot()->getSommePrixDeVenteHTSousLots());
+                $nouveauDeventeLot = $ouvrage->getLot()->getSommePrixDeVenteHTOuvrages()  + $ouvrage->getLot()->getSommePrixDeVenteHTSousLots();
+                $ouvrage->getLot()->setPrixDeVenteHT($nouveauDeventeLot);
                 $ouvrage->getLot()->setDebourseTotalLot($ouvrage->getLot()->getSommeDebourseTotalOuvrages() + $ouvrage->getLot()->getSommeDebourseTotalSousLots());
 
                 if($ouvrage->getLot()->getDebourseTotalLot() > 0){
                     $ouvrage->getLot()->setMarge(round(
-                        $ouvrage->getLot()->getPrixDeVenteHT()  /
+                        $nouveauDeventeLot /
                         $ouvrage->getLot()->getDebourseTotalLot() ,3));
                 }else{
                     $ouvrage->getLot()->setMarge(round(1.4,3));
