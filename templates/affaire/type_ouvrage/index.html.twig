@@ -204,7 +204,7 @@
 
                     {# affiche un bouton pour chaque type d'ouvrage pour afficher les valeurs dépendantes #}
                     {% for typeOuvrage in typeOuvrages %}
-                        {% if typeOuvrage.code not in ['P','T'] %}
+                        {% if typeOuvrage.code not in ['T'] %}
                             <button type="button" class="btn btn-primary type-ouvrage"
                                     data-id="{{ typeOuvrage.id }}">{{ typeOuvrage.titre }}</button>
                         {% endif %}
