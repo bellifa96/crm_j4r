@@ -415,11 +415,7 @@
 									<span class="partner">
 										{{ messageTicket.user.firstname~" "~ messageTicket.user.lastname }}
 									</span>
-									{% if messageTicket.type == 1 %}
-										info
-									{% else %}
-										probeleme
-									{% endif %}
+									  {{ messageTicket.message }}
 									<span class="time">{{ messageTicket.date|date("d/m/Y H:i:s") }}</span>
 								</div>
 
