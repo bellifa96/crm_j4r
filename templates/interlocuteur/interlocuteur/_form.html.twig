@@ -500,7 +500,6 @@
 
 
     function requestSiret(siret) {
-
         var url = "https://api.insee.fr/entreprises/sirene/V3/siret/" + siret;
 
         var xhr = new XMLHttpRequest();
@@ -515,6 +514,7 @@
 
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
+                    console.log(data);
 
                     const etablissementAdresse = data.etablissement.adresseEtablissement;
 
