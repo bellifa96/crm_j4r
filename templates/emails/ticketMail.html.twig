@@ -1,9 +1,17 @@
 <div style="font-size:15px;">
+{% set serverAddress = app.request_stack.getMasterRequest().getSchemeAndHttpHost() %}
 
 	{% if data.status == 'A traiter' %}
 		<p>le  ticket :
-			{{ data.title }}<br><br>
+			{{ data.title }}<br>
+			<p>Description : </p>
+            
+			{{ data.description }}
+			<br>
 			est bien envoyé
+            <br>
+			voici le lien : <a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
+				{{ data.id }}</a>
 		</p>
 	{% endif %}
 	{% if data.status == 'En cours' and drapo == 0 %}
@@ -12,9 +20,16 @@
 			<br>
 			a bien été pris en compte par
 			{{ data.admin.getFirstname()  }}
-			{{ data.admin.getLastName()  }}
-		</p>
+			{{ data.admin.getLastName()  }} <br>
 
+			<p>Description : </p>
+            
+			{{ data.description }}
+
+		</p>
+          <br>
+			voici le lien : <a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
+				{{ data.id }}</a>
 	{% endif %}
 
 	{% if (data.status == 'En cours' or data.status == 'En confirmation')   and drapo == 1 %}
@@ -22,15 +37,24 @@
 			{{ data.title }}<br>
 
 			{{ data.admin.getFirstname()  }}
-			{{ data.admin.getLastName()  }}
+			{{ data.admin.getLastName()  }}  
+			<p>Description : </p>
+            
+			{{ data.description }}
 			<br>
 			demande les informations :
 			{{ message_information }}
 		</p>
-
+        <br>
+			voici le lien : <a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
+				{{ data.id }}</a>
 	{% endif %}
 	{% if data.status == 'En confirmation' and drapo == 2 %}
 		<p>Votre ticket :{{ data.title }}
+			<br>
+			<p>Description : </p>
+            
+			{{ data.description }}
 			<br>
 			{{ data.admin.getFirstname()  }}
 			{{ data.admin.getLastName()  }}<br>
@@ -39,18 +63,31 @@
 			<a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
 				{{ data.id }}</a>
 		</p>
-
+         <br>
+			voici le lien : <a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
+				{{ data.id }}</a>
 	{% endif %}
 
 	{% if  drapo == 2 %}
-		<p>Votre ticket :{{ data.title }}
-			est Résolu</p>
+		<p>Votre ticket :{{ data.title }} 
+		<p>Description : </p>
+            
+			{{ data.description }} 
+			est Résolu</p> 
 	{% endif %}
 
 	{% if drapo == 3 %}
 		<p>Votre ticket :{{ data.title }} </p>
+		<p>Description : </p>
+            
+			{{ data.description }}
+			<br>
 		<p>	{{ data.creator.getFirstname()  }}
 			{{ data.creator.getLastName()  }} envoyé un message : {{ message_information }} </p>
+
+		<br>
+			voici le lien : <a href="https://dev.crmj4r.fr/ticket/{{data.id}}/assigned" target="_blank">Ticket
+				{{ data.id }}</a>
 	{% endif %}
 	<br>
 
