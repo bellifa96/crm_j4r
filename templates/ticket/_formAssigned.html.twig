@@ -411,13 +411,18 @@
 						{% for messageTicket in message_tickets %}
 
 							<li>
-								<div class='{{ messageTicket.user.id == app.user.id ? "msg you" :"msg him" }}'>
+								<div class='{{ messageTicket.user.id == app.user.id ? "msg you" :"msg him" }}' style="{{ messageTicket.type == 1 ? "color:#00FF6C" :"color:#A51400" }}">
 									<span class="partner">
 										{{ messageTicket.user.firstname~" "~ messageTicket.user.lastname }}
 									</span>
-									{{ messageTicket.message }}
+									{% if messageTicket.type == 1 %}
+										info
+									{% else %}
+										probeleme
+									{% endif %}
 									<span class="time">{{ messageTicket.date|date("d/m/Y H:i:s") }}</span>
 								</div>
+
 							</li>
 						{% endfor %}
 					{% endif %}
@@ -433,3 +438,31 @@
 
 	</div>
 </div>
+<style>
+	/* Add this CSS to your stylesheet or within a <style> tag in your HTML */
+	#metre {
+		/* Set a fixed height for the chatbox */
+		height: 400px; /* Adjust the height as needed */
+		overflow-y: auto; /* Enable vertical scrollbar when content overflows */
+	}
+
+	#metre-ul {
+		/* Set a fixed height for the ul element within the chatbox */
+		max-height: 100%; /* Adjust the height as needed */
+		list-style-type: none; /* Remove default list styles */
+		padding: 0; /* Remove default padding */
+	}
+
+	/* Add this class to style the scrollbar as needed */
+	.chat-list::-webkit-scrollbar {
+		width: 8px; /* Set the width of the scrollbar */
+	}
+
+	.chat-list::-webkit-scrollbar-thumb {
+		background-color: #B4B4B4; /* Set the color of the scrollbar thumb */
+	}
+
+	.chat-list::-webkit-scrollbar-track {
+		background-color: #F0F0F0; /* Set the color of the scrollbar track */
+	}
+</style>

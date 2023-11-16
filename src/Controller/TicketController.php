@@ -361,7 +361,7 @@ class TicketController extends AbstractController
                 $ticket_message->setUser($user);
 
                 $ticket_message->setTicket($ticket);
-                $ticket_message->setType(1);
+                $ticket_message->setType(2);
                 $ticket_message->setDate(new \DateTime());
                 $this->entityManager->persist($ticket_message);
                 $this->entityManager->flush();
