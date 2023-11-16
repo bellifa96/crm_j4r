@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\MessageTicket;
 use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Form\TypeAssignedType;
+use App\Repository\MessageTicketRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use App\Service\EmailService;
@@ -136,7 +138,7 @@ class TicketController extends AbstractController
     /**
      * @Route("/{id}/assigned", name="ticket_assigned", methods={"GET", "POST"})
      */
-    public function ticketAssigned($id, Request $request, TicketRepository $ticketRepository): Response
+    public function ticketAssigned($id, Request $request, TicketRepository $ticketRepository,MessageTicketRepository $messageTicketRepository): Response
     {
 
         try {
@@ -145,6 +147,7 @@ class TicketController extends AbstractController
             }*/
             $issue = "assigned";
             $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+            $message_tickets = $messageTicketRepository->findMessageTicketsByTicket($ticket);
             $userRoles = [];
 
             $search = "ROLE_DEV";
@@ -221,6 +224,7 @@ class TicketController extends AbstractController
                 'commantaires' => null,
                 'form' => $form,
                 'demande_information' => 0,
+                "message_tickets" => $message_tickets, 
                 "affichage" => $affichage // Pass the value here
 
             ]);
@@ -232,7 +236,7 @@ class TicketController extends AbstractController
     /**
      * @Route("/{id}/information", name="ticket_informations", methods={"GET", "POST"})
      */
-    public function ticketInformations($id, Request $request, TicketRepository $ticketRepository): Response
+    public function ticketInformations($id, Request $request, TicketRepository $ticketRepository,MessageTicketRepository $messageTicketRepository): Response
     {
 
         try {
@@ -242,8 +246,10 @@ class TicketController extends AbstractController
 
 
             $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+            $message_tickets = $messageTicketRepository->findMessageTicketsByTicket($ticket);
 
             $search = "ROLE_DEV";
+            $user = null;
             if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
                 $user = $this->security->getUser();
                 $userRoles = $user->getRoles();
@@ -268,6 +274,19 @@ class TicketController extends AbstractController
 
                 $message_information = $form->get('message')->getData();
 
+                $ticket_message = new MessageTicket();
+                $ticket_message->setMessage($message_information);
+                $ticket_message->setUser($user);
+
+                $ticket_message->setTicket($ticket);
+                $ticket_message->setType(1);
+                $ticket_message->setDate(new \DateTime());
+                $this->entityManager->persist($ticket_message);
+                $this->entityManager->flush();
+
+
+
+
 
                 $this->emailServices->sendInformation($ticket->getCreator()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 1);
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
@@ -290,6 +309,7 @@ class TicketController extends AbstractController
                 'title' => 'Demande des informations',
                 'form' => $form,
                 'demande_information' => 1,
+                'message_tickets'=>$message_tickets,
                 "affichage" => $affichage // Pass the value here
             ]);
         } catch (Exception $e) {
@@ -301,7 +321,7 @@ class TicketController extends AbstractController
     /**
      * @Route("/{id}/probleme", name="ticket_probleme", methods={"GET", "POST"})
      */
-    public function ticketprobleme($id, Request $request, TicketRepository $ticketRepository): Response
+    public function ticketprobleme($id, Request $request, TicketRepository $ticketRepository,MessageTicketRepository $messageTicketRepository): Response
     {
         try {
 
@@ -310,6 +330,7 @@ class TicketController extends AbstractController
 
 
             $ticket = $this->entityManager->getRepository(Ticket::class)->findOneBy(['id' => $id]);
+            $message_tickets = $messageTicketRepository->findMessageTicketsByTicket($ticket);
 
             $search = "ROLE_DEV";
             if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -335,7 +356,15 @@ class TicketController extends AbstractController
                 }
 
                 $message_information = $form->get('message')->getData();
+                $ticket_message = new MessageTicket();
+                $ticket_message->setMessage($message_information);
+                $ticket_message->setUser($user);
 
+                $ticket_message->setTicket($ticket);
+                $ticket_message->setType(1);
+                $ticket_message->setDate(new \DateTime());
+                $this->entityManager->persist($ticket_message);
+                $this->entityManager->flush();
                 $this->emailServices->sendMessageRefus($ticket->getAdmin()->getEmail(), $this->emailUser, $ticket, "emails/ticketMail.html.twig", $ticket->getTitle(), $message_information, 3);
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -357,6 +386,8 @@ class TicketController extends AbstractController
                 'title' => 'Envoyer Un Message',
                 'form' => $form,
                 'demande_information' => 1,
+                'message_tickets'=>$message_tickets,
+
                 "affichage" => $affichage // Pass the value here
             ]);
         } catch (Exception $e) {
