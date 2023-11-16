@@ -155,6 +155,20 @@
     .table-autre-ouvrage.datatable tbody td {
         font-size: 12px; /* Vous pouvez ajuster la taille de la police selon vos besoins */
     }
+    .custom-dialog {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    z-index: 999; /* Ensure it's above the dialog */
+}
 
 </style>
 
@@ -362,20 +376,57 @@
         <button class="btn btn-primary profile-button" type="submit">Enregistrer</button>
     </div>
 </div>
+
 {{ form_end(form) }}
+<div id="overlay"></div>
+<div id="customDialog" title="Custom Dialog" class="custom-dialog">
+    <p>
+Il semble que vous ayez dépassé la limite de caractères autorisée. Veuillez réduire la longueur de votre message pour qu'il soit conforme à la limite spécifiée</p>
+</div>
+
 
 <script>
 
+   function showCharacterLimitDialog() {
+            var dialog = $("#customDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "Limite de Caractères Dépassée : Merci de Raccourcir Votre Message", // Set the custom title here
+                width: 'auto', // Set the width to auto
+
+                buttons: {
+                    "Fermer": function() {
+                        $(this).dialog("close");
+                        // Optionally clear the editor content or perform other actions
+                    }
+                },
+                close: function() {
+                    $(this).dialog("option", "position", { my: "center", at: "center", of: window });
+                    $("#overlay").hide();
+                }
+            });
+
+            // Show the overlay
+            $("#overlay").show();
+            dialog.dialog("open");
+        }
+
 $(document).ready(function() {
-    var maxChars = 10000;
+    var maxChars = 100;
 
     $('.trumbowyg-editor').on('keydown', function(e) {
         var text = $(this).text();
 
         if (text.length >= maxChars && e.key.length === 1) {
+          
             e.preventDefault();
+            showCharacterLimitDialog();
+
         }
     });
+     $(window).scroll(function() {
+            $(".custom-dialog").dialog("option", "position", { my: "center", at: "center", of: window });
+        });
 });
     // on sauvegarde l'element selectioné (lot/ouvrage/composant)
     let selectedElement = null;

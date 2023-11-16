@@ -31,7 +31,6 @@ class TypeOuvrageController extends AbstractController
                 $composantRepository->add($composant);
             }
         }
-        dd($typeOuvrageRepository->findAll()[0]->getAttributOuvrages());
         return $this->render('affaire/type_ouvrage/index.html.twig', [
             'ouvrages' => $ouvrages,
             'composants' => $composants,
