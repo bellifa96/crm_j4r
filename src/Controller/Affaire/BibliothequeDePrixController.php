@@ -186,7 +186,6 @@ class BibliothequeDePrixController extends AbstractController
 
         $path = "affaire/bibliothequeDePrix/modal_ouvrage_list.html.twig";
         
-        
         $tps= 0;
         
         $params = [
@@ -199,6 +198,7 @@ class BibliothequeDePrixController extends AbstractController
             'unites'=>$this->unites,
             'metre' =>$ouvrage->getMetres(),
         ];
+       
 
         if (!empty($path)) {
             try {

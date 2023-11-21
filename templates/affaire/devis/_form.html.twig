@@ -425,6 +425,7 @@ $(document).ready(function() {
         }
     });
      $(window).scroll(function() {
+        console.log(window);
             $(".custom-dialog").dialog("option", "position", { my: "center", at: "center", of: window });
         });
 });
@@ -555,6 +556,7 @@ $(document).ready(function() {
     $('body').on('click', '#delete-lot, #delete-ouvrage,.delete-composant', function () {
 
         const element = $(this);
+        console.log(element);
 
         // si on clique sur le bouton delete d'un composant et qu'on a pas de selected element alors on initialise les valeurs de :
         //selectedElementId && selectedElementType
@@ -616,11 +618,12 @@ $(document).ready(function() {
     // contextMenu ouvrage
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu align-items-center">
-                    {#<div class="item-menu dupliquer-element" type="ouvrage"><div class="row align-items-center"><i style="font-size: 1rem" class="bi bi-stickies col-md-3"></i><div style="padding: inherit" class="col-md-9">Dupliquer</div></div></div>#}
+                    <div class="item-menu dupliquer-element" type="ouvrage"><div class="row align-items-center"><i style="font-size: 1rem" class="bi bi-stickies col-md-3"></i><div style="padding: inherit" class="col-md-9">Dupliquer</div></div></div>
                     <div class="item-menu" id="delete-ouvrage"><div class="row align-items-center"><i style="font-size: 1rem; color: #dc3545;" class="bi bi-trash-fill col-md-3"></i><div style="padding: inherit" class="col-md-9">Supprimer</div></div></div>
                 </div>`;
 
         $(this).parent().parent().parent().parent().parent().parent().append(div);
+
     })
 
 
@@ -1539,6 +1542,7 @@ $(document).ready(function() {
     $(document).ready(function () {
         $('body').on('click', '.hide-composants', function () {
             let id = $(this).attr('id');
+            console.log(id);
             var composants = $('#ouvrage-ul-' + id);
 
             if (composants.hasClass('ouvrage-children')) {

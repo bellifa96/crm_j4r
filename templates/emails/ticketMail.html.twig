@@ -4,7 +4,6 @@
 		<p>le  ticket :
 			{{ data.title }}<br>
 			<p>Description : </p>
-            
 			{{ data.description }}
 			<br>
 			est bien envoyé
@@ -52,7 +51,6 @@
 		<p>Votre ticket :{{ data.title }}
 			<br>
 			<p>Description : </p>
-            
 			{{ data.description }}
 			<br>
 			{{ data.admin.getFirstname()  }}
@@ -70,7 +68,6 @@
 	{% if  drapo == 2 %}
 		<p>Votre ticket :{{ data.title }} 
 		<p>Description : </p>
-            
 			{{ data.description }} 
 			est Résolu</p> 
 	{% endif %}
@@ -78,7 +75,6 @@
 	{% if drapo == 3 %}
 		<p>Votre ticket :{{ data.title }} </p>
 		<p>Description : </p>
-            
 			{{ data.description }}
 			<br>
 		<p>	{{ data.creator.getFirstname()  }}
