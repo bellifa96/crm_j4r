@@ -600,7 +600,7 @@ $(document).ready(function() {
 
     })
 
-    // contextMenu lot
+    // contextMenu lot pourqoui vous avez les deux div
     $('body').on('click', '.menu-lot', function () {
         let div = `<div class="context-menu">
                     <div class="item-menu" id="import-ouvrage"><i class="bi bi-reply-all-fill"></i>Importer des ouvrages</div>
@@ -615,7 +615,7 @@ $(document).ready(function() {
         $(this).parent().parent().parent().parent().parent().parent().append(div);
     })
 
-    // contextMenu ouvrage
+    // contextMenu ouvrage // pourqoui vous refactore le code
     $('body').on('click', '.menu-ouvrage', function () {
         let div = `<div class="context-menu align-items-center">
                     <div class="item-menu dupliquer-element" type="ouvrage"><div class="row align-items-center"><i style="font-size: 1rem" class="bi bi-stickies col-md-3"></i><div style="padding: inherit" class="col-md-9">Dupliquer</div></div></div>

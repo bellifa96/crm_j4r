@@ -195,7 +195,7 @@ class BibliothequeDePrixController extends AbstractController
             'ouvrage'=>$ouvrage,
             'tableDePrix'=>$entityManager->getRepository(TableDePrix::class)->findAll(),
             'autresOuvrages'=>$entityManager->getRepository(AutreOuvrage::class)->findAll(),
-            'unites'=>$this->unites,
+            
             'metre' =>$ouvrage->getMetres(),
         ];
        

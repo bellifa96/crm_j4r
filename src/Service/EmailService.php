@@ -24,7 +24,7 @@ class EmailService
 
         foreach ($tos as $to) {
             $email = (new TemplatedEmail())
-                ->from('abellifa@myleasy.com')
+                ->from('no_reply@crmj4r.fr')
                 ->to($to)
                 ->cc('J.rodrigues@j4r.fr', $createur_ticket)
                 //->bcc($createur_ticket)
@@ -60,7 +60,7 @@ class EmailService
         }
 
         $email = (new TemplatedEmail())
-            ->from('abellifa@myleasy.com')
+            ->from('no_reply@crmj4r.fr')
             ->to($to)
             //->cc('J.rodrigues@j4r.fr', $emailUser)
             ->cc($emailUser)
@@ -87,7 +87,7 @@ class EmailService
     {
 
         $email = (new TemplatedEmail())
-            ->from('abellifa@myleasy.com')
+            ->from('no_reply@crmj4r.fr')
             ->to($to)
             //->cc('J.rodrigues@j4r.fr', $emailUser)
             ->cc($emailUser)
@@ -115,7 +115,7 @@ class EmailService
     {
 
         $email = (new TemplatedEmail())
-            ->from('abellifa@myleasy.com')
+            ->from('no_reply@crmj4r.fr')
             ->to($to)
             //->cc('J.rodrigues@j4r.fr', $emailUser)
             ->cc($emailUser)
@@ -143,7 +143,7 @@ class EmailService
     {
 
         $email = (new TemplatedEmail())
-            ->from('abellifa@myleasy.com')
+            ->from('no_reply@crmj4r.fr')
             ->to($to)
             //->cc('J.rodrigues@j4r.fr', $emailUser)
             ->cc($emailUser)
