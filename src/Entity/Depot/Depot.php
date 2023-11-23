@@ -6,7 +6,6 @@ use App\Repository\Depot\DepotRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DepotRepository::class)]
 class Depot
 {
     #[ORM\Id]

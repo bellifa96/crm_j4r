@@ -194,7 +194,7 @@ class DevisController extends AbstractController
         $this->em->persist($ouvrage);
 
         // Création des linéaires et hauteurs
-        $lineaires = [];
+       /* $lineaires = [];
         $hauteurs = [];
         for ($i = 0; $i < 15; $i++) {
             $lineaire = new Metre();
@@ -233,7 +233,7 @@ class DevisController extends AbstractController
                 $metreRepository->save($longueur);
             }
         }
-
+*/
         $typeComposants = $typeComposantRepository->findAll();
         $data = [];
         foreach ($typeComposants as $typeComposant) {
@@ -675,8 +675,8 @@ class DevisController extends AbstractController
             foreach ($ouvrage->getMetres() as $metre) {
                 $metreDupliquer = new Metre();
                 $metreDupliquer->setOuvrage($metre->getOuvrage());
-                $metreDupliquer->setTypeMetre($metre->getTypeMetre());
-                switch ($metre->getTypeMetre()) {
+               // $metreDupliquer->setTypeMetre($metre->getTypeMetre());
+               /* switch ($metre->getTypeMetre()) {
                     case 'hauteur' :
                         $metreDupliquer->setHauteur($metre->getHauteur());
                         break;
@@ -695,7 +695,7 @@ class DevisController extends AbstractController
 
                     default :
                         break;
-                }
+                }*/
             }
 
             foreach ($ouvrage->getComposants() as $composant) {
@@ -829,44 +829,7 @@ class DevisController extends AbstractController
         $elements = $devis->getElements();
         $this->em->persist($ouvrage);
 
-        // Création des linéaires et hauteurs
-        $lineaires = [];
-        $hauteurs = [];
-        for ($i = 0; $i < 15; $i++) {
-            $lineaire = new Metre();
-            $lineaire->setTypeMetre('lineaire');
-            $ouvrage->addMetre($lineaire);
-            $lineaires[] = $lineaire;
-
-            $hauteur = new Metre();
-            $hauteur->setTypeMetre('hauteur');
-            $ouvrage->addMetre($hauteur);
-            if ($i === 0) {
-                $hauteur->setHauteur(1);
-            } elseif ($i === 1) {
-                $hauteur->setHauteur(4.5);
-            } elseif ($i === 2) {
-                $hauteur->setHauteur(2.8);
-            } elseif ($i === 3) {
-                $hauteur->setHauteur(3.8);
-            }
-            $hauteurs[] = $hauteur;
-        }
-
-        foreach ($hauteurs as $hauteur) {
-            foreach ($lineaires as $lineaire) {
-                // Création de la longueur commune
-                $longueur = new Metre();
-
-                $longueur->setTypeMetre('longueur');
-                $longueur->setLongueurLineaire($lineaire);
-                $longueur->setLongueurHauteur($hauteur);
-
-                $metreRepository->save($lineaire);
-                $metreRepository->save($hauteur);
-                $metreRepository->save($longueur);
-            }
-        }
+   
 
 
         $typeComposants = $typeComposantRepository->findAll();
@@ -945,7 +908,7 @@ class DevisController extends AbstractController
         $composant->setCreateur($this->getUser());
         $composant->setStatut('Copie');
         $composant->setSelection(false);
-        $composant->setQuantite(0);
+        $composant->setQuantite(200);
 
         // on recupere tout les elements du devis pour pouvoir les modifier et y ajouter des nouveaux elements
         $elements = $devis->getElements();

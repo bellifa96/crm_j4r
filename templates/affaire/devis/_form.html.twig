@@ -386,7 +386,8 @@ Il semble que vous ayez dépassé la limite de caractères autorisée. Veuillez 
 
 
 <script>
-
+    let quantiteStocke = 0.0;
+    let tabMetre = [];
    function showCharacterLimitDialog() {
             var dialog = $("#customDialog").dialog({
                 autoOpen: false,
@@ -1081,11 +1082,19 @@ $(document).ready(function() {
         let quantite = 0;
         const codeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('code');
         const uniteTypeOuvrage = $('#type_ouvrage_' + currentOuvrageId).find('option:selected').attr('unite');
+        let largeur = document.getElementById("devis_ouvrages_"+currentOuvrageId+"_quantiteModal").value;
+        console.log(largeur);
         if (uniteTypeOuvrage === 'm²') {
-            quantite = calculMetre("m2");
+            quantite = calculMetreNouveau("m2",largeur);
+            quantiteStocke = quantite;
         } else {
-            quantite = calculMetre("m3");
-        }
+            quantite = calculMetreNouveau("m3",largeur);
+            quantiteStocke = quantite;
+
+        } 
+
+        // ajouter 
+
         let debourseOuvrage = 0;
         let quantite2 = parseInt($('.quantite2-modal').val());
         let marge = parseFloat($('#devis_ouvrages_' + currentOuvrageId + '_marge').val().replace(',', '.'));
@@ -1395,13 +1404,17 @@ $(document).ready(function() {
 
             // Créer un objet FormData à partir du formulaire
             const formData = new FormData(form);
+            const metreJson = JSON.stringify(tabMetre);
+
+            formData.append('quantite', quantiteStocke);
+            formData.append('metreJson', metreJson);
 
 
             $('.form-submit-loader').show();
             // Effectuer la requête AJAX en utilisant fetch ou XMLHttpRequest
             fetch('/affaire/attribut/ouvrage/set/' + currentOuvrageId, {
                 method: 'POST',
-                body: formData
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {
@@ -1562,7 +1575,7 @@ $(document).ready(function() {
         if (unite === "ml") {
             $('.hauteur').each(function () {
                 let idHauteur = $(this).attr('id');
-
+                console.log(idHauteur);
                 let sommeLongueur = 0;
                 $('input[hauteur="' + idHauteur + '"]').each(function () {
                     let longueur = parseFloat($(this).val().replace(',', '.'));
@@ -1599,8 +1612,49 @@ $(document).ready(function() {
                 }
             }
         }
-        console.log('quantite : ' + quantite);
+        console.log('quantite 01 : ' + quantite);
         return quantite.toFixed(2);
+    }
+    function calculMetreNouveau(unite,largeur){
+           tabMetre = [];
+           let quantiteCalculer = 0.0;
+          if(unite === "ml"){
+
+          }else {
+               
+                     for (var i = 1;i < 15; i++) {
+                        let ligneValue = document.getElementById("ligne"+i).value;
+                        let quantiteTemp = 0.0;                               
+                       
+
+                        if(ligneValue != ""){
+                             let metre = {i: i , j: 0, value:parseFloat(ligneValue.replace(',', '.'))  };
+                             tabMetre.push(metre);
+                             for (var j = 1 ; j < 15; j++) {
+                              let colonneValue = document.getElementById("colonne_"+j+"_ligne"+i).value;
+                              if(colonneValue != ""){
+                               quantiteTemp+=parseFloat(colonneValue.replace(',', '.'));
+                                let metre = {i: i , j: j, value:parseFloat(colonneValue.replace(',', '.'))  };
+
+                               tabMetre.push(metre);
+                              }
+        
+                            }
+                          quantiteCalculer += (quantiteTemp*parseFloat(ligneValue.replace(',', '.')));
+
+                          
+
+                        }
+
+                    }
+                if(unite === "m3") {
+                   console.log(largeur);
+                   quantiteCalculer *= parseFloat(largeur.replace(',', '.'));
+                }
+                console.log("quantiteCalculer" + quantiteCalculer);
+                console.log(tabMetre);
+          }
+          return quantiteCalculer;
     }
 
 

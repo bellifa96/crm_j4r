@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Articles
 {
     #[ORM\Id]
