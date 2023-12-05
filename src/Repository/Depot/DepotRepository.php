@@ -35,15 +35,11 @@ class DepotRepository extends ServiceEntityRepository
     public function getAllDepot()
     {
 
-        $query = $this->createQueryBuilder('d')
-            ->addSelect('a') 
-            ->leftJoin('d.agence', 'a')
-            ->getQuery();
+        $dql = "SELECT d.iddepot,d.nomdepot FROM App\Entity\Depot\Depot d";
+        $query = $this->_em->createQuery($dql);
+        $result = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        return $result;
 
-        $depot = $query->getResult();
-
-        return $depot;
+        
     }
-
- 
 }

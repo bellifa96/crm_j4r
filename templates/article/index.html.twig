@@ -39,7 +39,7 @@
 			height: 35px;
 			background: #f5f5f5;
 			font-family: 'Poppins', sans-serif;
-			margin-left: 75%;
+			margin-left: 5%;
 
 		}
 	</style>
@@ -47,11 +47,22 @@
 	<div class="example-wrapper">
 		<div class="container">
 			<div class="left">
-				<h2 class="title_article">Depots</h2>
+				<h2 class="title_article">Articles</h2>
 			</div>
 			<div class="right">
+				<select class="basic">
+					<option>Depot</option>
+					{% for depot in depots %}
+
+						<option value="{{ depot.iddepot }}">{{ depot.nomdepot }}</option>
+
+					{% endfor %}
+				</select>
 				<button class="basic">
 					Nouveau
+				</button>
+				<button class="basic">
+					Imprimer
 				</button>
 
 			</div>
@@ -64,16 +75,26 @@
 				<tr class="tr-head">
 					<th>Id</th>
 					<th>Désignation</th>
-					
+					<th>Poids</th>
+					<th>Qte Totale</th>
+					<th>Qte Dispo</th>
+					<th>Qte Sortie</th>
+					<th>Qte Réservée</th>
+					<th>Qte Transit</th>
 				</tr>
 			</thead>
 			<tbody>
 
-				{% for depot in depots %}
+				{% for article in articles %}
 					<tr>
-						<td>{{ depot.iddepot }}</td>
-						<td>{{ depot.nomdepot }}</td>
-					
+						<td>{{ article.article }}</td>
+						<td>{{ article.designation }}</td>
+						<td>{{ article.poids }}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 				{% endfor %}
 

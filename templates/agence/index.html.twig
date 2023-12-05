@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Articles
+	Agence
 {% endblock %}
 
 {% block body %}
@@ -39,7 +39,8 @@
 			height: 35px;
 			background: #f5f5f5;
 			font-family: 'Poppins', sans-serif;
-			margin-left: 75%;
+			margin-left: 70%;
+
 
 		}
 	</style>
@@ -47,13 +48,12 @@
 	<div class="example-wrapper">
 		<div class="container">
 			<div class="left">
-				<h2 class="title_article">Depots</h2>
+				<h2 class="title_article">Agences</h2>
 			</div>
 			<div class="right">
 				<button class="basic">
 					Nouveau
 				</button>
-
 			</div>
 		</div>
 	</div>
@@ -63,17 +63,21 @@
 			<thead>
 				<tr class="tr-head">
 					<th>Id</th>
-					<th>Désignation</th>
-					
+					<th>Nom Agence</th>
+					<th>Adresse Agence</th>
+					<th>Code Postale</th>
+					<th>Ville Agence</th>
 				</tr>
 			</thead>
 			<tbody>
 
-				{% for depot in depots %}
+				{% for agence in agences %}
 					<tr>
-						<td>{{ depot.iddepot }}</td>
-						<td>{{ depot.nomdepot }}</td>
-					
+						<td>{{ agence.agence }}</td>
+						<td>{{ agence.nomagence }}</td>
+						<td>{{ agence.adresseagence }}</td>
+						<td>{{ agence.cpagence }}</td>
+						<td>{{ agence.villeagence }}</td>
 					</tr>
 				{% endfor %}
 

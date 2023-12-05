@@ -200,11 +200,19 @@
                 Stock
 
                 <ul>
-                    <li class="sidebar-item {{ app.request.get('_route') == 'app_society_agence_index' ? 'active' }} ">
-                        <a href="{{ path('app_society_agence_index') }}"
+                    <li class="sidebar-item {{ app.request.get('_route') == 'app_agence' ? 'active' }} ">
+                        <a href="{{ path('app_agence') }}"
                            class="sidebar-link  ">
                             <i class="bi bi-cart-dash-fill"></i>
-                            <span> Agences</span>
+                            <span>Agences</span>
+                        </a>
+                    </li>
+
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_article' ? 'active' }} ">
+                        <a href="{{ path('app_article') }}"
+                           class="sidebar-link">
+                            <i class="bi bi-cart-dash-fill"></i>
+                            <span>Article</span>
                         </a>
                     </li>
 
@@ -212,7 +220,7 @@
                         <a href="{{ path('app_depot') }}"
                            class="sidebar-link  ">
                             <i class="bi bi-cart-dash-fill"></i>
-                            <span> Depot</span>
+                            <span>Depot</span>
                         </a>
                     </li>
 

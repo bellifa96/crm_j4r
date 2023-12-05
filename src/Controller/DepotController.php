@@ -25,37 +25,25 @@ class DepotController extends AbstractController
 {
     private $depotRepository;
 
-    private $depotService;
-
-    private $articleRepository;
-    public function __construct(DepotRepository $depotRepository, DepotService $depotService, ArticleRepository $articleRepository)
+    
+    public function __construct(DepotRepository $depotRepository)
     {
         $this->depotRepository = $depotRepository;
-        $this->depotService = $depotService;
-        $this->articleRepository = $articleRepository;
+       
     }
 
 
     #[Route('/depot', name: 'app_depot')]
     public function index(): Response
     {
+      
         $depots = $this->depotRepository->getAllDepot();
 
-        //$this->depotService->article_layher_parser_file_xsl("Table m_tabArticle.xlsx",$depots);
-
-        if (!empty($depots)) {
-            $firstDepot = $depots[1];
-            $articles = $this->articleRepository->findAllbyIdDepot($firstDepot->getIddepot());
-
-        } else {
-            $articles = array();
-        }
 
         return $this->render('depot/index.html.twig', [
-            'controller_name' => 'DepotController',
-            'title' => 'Dépot',
+            'controller_name' => 'AgenceController',
+            'title' => '',
             'depots' => $depots,
-            'articles'=> $articles,
             'nav' => []
         ]);
     }
