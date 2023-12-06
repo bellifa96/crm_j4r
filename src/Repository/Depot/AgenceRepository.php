@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Article;
 use App\Entity\Depot\Agence;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<Agence>
@@ -22,23 +23,28 @@ class AgenceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Agence::class);
     }
-     
-    
+
+
     /* Utilise la réquete dql pour optimiser la requete  le temps c'est trés important
      ** 
     */
 
     public function findAll()
-    { 
+    {
         $dql = "SELECT a FROM App\Entity\Depot\Agence a";
         $query = $this->_em->createQuery($dql);
         $result = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         return $result;
     }
 
-    public function addAgence(Agence $agence){
-       $this->_em->persist($agence);
-       $this->_em->flush();
-       return true;
+    public function addAgence(Agence $agence)
+    {
+        try {
+            $this->_em->persist($agence);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

@@ -3,25 +3,30 @@
 
 {{ form_start(form) }}
 
+{{ form_start(form) }}
+
 <div class="row">
     <div class="col-md-6">
+        <div class="form-group">
+            {{ form_row(form.codedepot, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.nomdepot, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.adressedepot, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.adressedepot2, {'attr': {'class': 'form-control'}}) }}
+        </div>
         <div class="form-group">
             {{ form_row(form.agence, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_row(form.nomagence, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.cpdepot, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_row(form.adresseagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.adresseagence2, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.cpagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.villeagence, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.villedepot, {'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
 
@@ -47,8 +52,12 @@
         <div class="form-group">
             {{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
         </div>
+        <div class="form-group">
+            {{ form_row(form.codechantier, {'attr': {'class': 'form-control'}}) }}
+        </div>
     </div>
 </div>
 
 <button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
 {{ form_end(form) }}
+

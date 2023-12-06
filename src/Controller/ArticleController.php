@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Depot\Articles;
+use App\Form\ArticleType;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Service\DepotService;
@@ -55,6 +57,38 @@ class ArticleController extends AbstractController
        $id_depot = $request->query->get('selectedDepot');
        $articles = $this->articleRepository->findAllbyIdDepotoptimiser($id_depot);
        return $this->json($articles);
+    }
+
+    #[Route('/edit-article/{id}', name: 'app_article_edit' )]
+    public function editArticle(Articles $article,Request $request)
+    { 
+        $form = $this->createForm(ArticleType::class,$article);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+ 
+        // on verifier la formulaire
+        if($form->isSubmitted() && $form->isValid()){
+            // on stock les  donnes
+           $resulat = $this->articleRepository->add($article);
+           if($resulat){
+              $this->addFlash("success","l'article a été correctement modifiée");
+              return $this->redirectToRoute("app_agence");
+           }else{
+
+           }
+        }
+
+     
+        
+       
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('article/edit.html.twig', [
+            'ticket' => null,
+            'form' => $form->createView(),
+            'title' => 'Modification Article ',
+            'nav' => [['app_agence', 'Articles']]
+        ]);
     }
 
 

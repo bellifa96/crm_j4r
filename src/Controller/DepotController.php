@@ -6,11 +6,13 @@ namespace App\Controller;
 use App\Entity\Depot\Agence;
 use App\Entity\Depot\Articles;
 use App\Entity\Depot\Depot;
+use App\Form\DepotType;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Service\DepotService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,5 +48,68 @@ class DepotController extends AbstractController
             'depots' => $depots,
             'nav' => []
         ]);
+    }
+    /** méthod pour afficher le formulaire et stocker les donées   */
+    #[Route('/add-depot', name: 'app_depot_add')]
+    public function add_agence(Request $request): Response
+    {  
+
+        // on crééer un "nouveau Agence"
+        $Depot = new Depot();
+
+        $form = $this->createForm(DepotType::class,$Depot);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+ 
+        // on verifier la formulaire
+        if($form->isSubmitted() && $form->isValid()){
+            // on stock les  donnes
+           $resulat = $this->depotRepository->add_update_depot($Depot);
+           if($resulat){
+              $this->addFlash("success","Dépot a été correctement créer");
+              return $this->redirectToRoute("app_depot");
+           }else{
+
+           }
+        }
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('depot/new.html.twig', [
+            'ticket' => null,
+            'form' => $form->createView(),
+            'title' => 'Création un Depot',
+            'nav' => [['app_agence', 'Agences']]
+        ]);
+          
+    }
+    #[Route('/edit-depot/{id}', name: 'app_depot_edit')]
+    public function edit_agence(Depot $depot,Request $request): Response
+    {  
+
+
+        $form = $this->createForm(DepotType::class,$depot);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+ 
+        // on verifier la formulaire
+        if($form->isSubmitted() && $form->isValid()){
+            // on stock les  donnes
+           $resulat = $this->depotRepository->add_update_depot($depot);
+           if($resulat){
+              $this->addFlash("success","Dépot a été correctement modifier");
+              return $this->redirectToRoute("app_depot");
+           }else{
+
+           }
+        }
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('depot/edit.html.twig', [
+            'ticket' => null,
+            'form' => $form->createView(),
+            'title' => 'Création un Depot',
+            'nav' => [['app_agence', 'Agences']]
+        ]);
+          
     }
 }

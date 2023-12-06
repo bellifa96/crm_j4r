@@ -50,8 +50,12 @@
 				<h2 class="title_article">Depots</h2>
 			</div>
 			<div class="right">
-				<button class="basic">
-					Nouveau
+				<button class="basic" id="openModalButton">
+					<a href="{{ path('app_depot_add') }}" class="sidebar-link  ">
+						<span>
+							Nouveau
+						</span>
+					</a>
 				</button>
 
 			</div>
@@ -64,7 +68,11 @@
 				<tr class="tr-head">
 					<th>Id</th>
 					<th>Désignation</th>
-					
+					<th>Adresse Agence</th>
+					<th>Code Postale</th>
+					<th>Ville Agence</th>
+					<th>Télephone</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,7 +81,17 @@
 					<tr>
 						<td>{{ depot.iddepot }}</td>
 						<td>{{ depot.nomdepot }}</td>
-					
+						<td>{{ depot.adressedepot }}</td>
+						<td>{{ depot.cpdepot }}</td>
+						<td>{{ depot.contacttel }}</td>
+						<td>{{ depot.villedepot }}</td>
+						<td>
+							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning">
+								<i class="bi bi-pencil-fill"></i>
+								Edit
+							</a>
+						</td>
+
 					</tr>
 				{% endfor %}
 

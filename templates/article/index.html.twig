@@ -53,9 +53,9 @@
 				<select class="basic" id="depotSelect">
 					<option>Depot</option>
 					{% for depot in depots %}
-
-						<option value="{{ depot.iddepot }}">{{ depot.nomdepot }}</option>
-
+						<option value="{{ depot.iddepot }}" {% if loop.first %} selected {% endif %}>
+							{{ depot.nomdepot }}
+						</option>
 					{% endfor %}
 				</select>
 				<button class="basic">
@@ -81,6 +81,8 @@
 					<th>Qte Sortie</th>
 					<th>Qte Réservée</th>
 					<th>Qte Transit</th>
+					<th>Action</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -90,11 +92,17 @@
 						<td>{{ article.article }}</td>
 						<td>{{ article.designation }}</td>
 						<td>{{ article.poids }}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>{{ article.qtetotale }}</td>
+						<td>{{ article.qtedispo }}</td>
+						<td>{{ article.qtesortie }}</td>
+						<td>{{ article.qtereserve }}</td>
+						<td>{{ article.qtetransit }}</td>
+						<td>
+							<a href="{{ path('app_article_edit', {'id': article.idarticles }) }}" class="btn btn-warning">
+								<i class="bi bi-pencil-fill"></i>
+								Edit
+							</a>
+						</td>
 					</tr>
 				{% endfor %}
 
@@ -103,64 +111,61 @@
 	</table>
 </div>
 <script>
-  // cette méthode pour le changement des données sur le tableau.
- // Variable to store the DataTable instance
+function redirect_to_page_edit_article(idarticle) {
+window.location.href = '/edit-article/' + idarticle;
+}
+// cette méthode pour le changement des données sur le tableau.
+// Variable to store the DataTable instance
 // Variable to store the DataTable instance
 var articleTable;
 
 // Function to handle depot selection
 function handleDepotSelection() {
-    var selectedDepot = document.getElementById("depotSelect").value;
+var selectedDepot = document.getElementById("depotSelect").value;
 
-    if ($.fn.DataTable.isDataTable('#articleTable')) {
-        $('#articleTable').DataTable().destroy();
-    }
+if ($.fn.DataTable.isDataTable('#articleTable')) {
+$('#articleTable').DataTable().destroy();
+}
 
-    articleTable = $('#articleTable').DataTable({
-        paging: true,
-    });
+articleTable = $('#articleTable').DataTable({paging: true});
 
-    $.ajax({
-        type: 'GET',
-        url: '/get-article',
-        data: { selectedDepot: selectedDepot },
-        success: function (data) {
-            articleTable.clear().draw();
+$.ajax({
+type: 'GET',
+url: '/get-article',
+data: {
+selectedDepot: selectedDepot
+},
+success: function (data) {
+articleTable.clear().draw();
 
-            // Populate the table with the new data
-            for (var i = 0; i < data.length; i++) {
-                var article = data[i];
-                var newRow = [
-                    article.article,
-                    article.designation,
-                    article.poids,
-                    article.qtetotale,
-                    article.qtedispo,
-                    article.qtesortie,
-                    article.qtereserve,
-                    article.qtetransit
-                ];
-                articleTable.row.add(newRow);
-            }
+// Populate the table with the new data
+for (var i = 0; i < data.length; i++) {
+var article = data[i];
+var newRow = [
+article.article,
+article.designation,
+article.poids,
+article.qtetotale,
+article.qtedispo,
+article.qtesortie,
+article.qtereserve,
+article.qtetransit,
+'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + article.idarticles + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
+];
+articleTable.row.add(newRow);
+}
 
-            articleTable.draw();
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
+articleTable.draw();
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
 }
 
 $(document).ready(function () {
-    $('#depotSelect').on('change', function () {
-        // Call the function to handle depot selection
-        handleDepotSelection();
-    });
+$('#depotSelect').on('change', function () { // Call the function to handle depot selection
+handleDepotSelection();
 });
-
-
-</script>
-
-{% endblock %}
-
-
+});
+</script>{% endblock %}

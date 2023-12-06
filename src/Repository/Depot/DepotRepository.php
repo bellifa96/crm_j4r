@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Depot\Depot;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<Depot>
@@ -35,11 +36,22 @@ class DepotRepository extends ServiceEntityRepository
     public function getAllDepot()
     {
 
-        $dql = "SELECT d.iddepot,d.nomdepot FROM App\Entity\Depot\Depot d";
+        $dql = "SELECT d.iddepot,d.nomdepot,d.adressedepot,d.cpdepot,d.villedepot,d.contacttel FROM App\Entity\Depot\Depot d";
         $query = $this->_em->createQuery($dql);
         $result = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         return $result;
 
         
     }
+    public function add_update_depot(Depot $agence)
+    {
+        try {
+            $this->_em->persist($agence);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
 }

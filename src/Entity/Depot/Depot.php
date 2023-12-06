@@ -246,12 +246,12 @@ class Depot
         return $this;
     }
 
-    public function getIdagence(): ?Agence
+    public function getAgence(): ?Agence
     {
         return $this->agence;
     }
 
-    public function setIdagence(?Agence $agence): static
+    public function setAgence(?Agence $agence): static
     {
         $this->agence = $agence;
 

@@ -33,13 +33,14 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->persist($articles);
 
         $this->_em->flush();
+        return true;
     }
 
     public function findAllbyIdDepot($iddepotId)
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article.idarticles','article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->setParameter('depotId', $iddepotId)
@@ -53,7 +54,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article.idarticles','article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->setParameter('depotId', $iddepotId)
