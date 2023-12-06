@@ -106,7 +106,11 @@
 
 					<div class="page-content col-md-10">
 						{% include 'include/title.html.twig' with {'title': title, 'nav': nav} %}
-
+						{% for flash_message in app.flashes('success') %}
+							<div class="alert alert-success">
+								{{ flash_message }}
+							</div>
+						{% endfor %}
 						{% block body %}
 							{% for type, messages in app.flashes %}
 								{% for message in messages %}

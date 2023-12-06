@@ -6,6 +6,8 @@ use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Service\DepotService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -47,4 +49,16 @@ class ArticleController extends AbstractController
             'nav' => []
         ]);
     }
+    #[Route('/get-article', name: 'app_article_depot', methods:['get'] )]
+    public function getDepotAction(Request $request):JsonResponse
+    { 
+       $id_depot = $request->query->get('selectedDepot');
+       $articles = $this->articleRepository->findAllbyIdDepotoptimiser($id_depot);
+       return $this->json($articles);
+    }
+
+
+
+
+
 }

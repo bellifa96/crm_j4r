@@ -35,4 +35,10 @@ class AgenceRepository extends ServiceEntityRepository
         $result = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         return $result;
     }
+
+    public function addAgence(Agence $agence){
+       $this->_em->persist($agence);
+       $this->_em->flush();
+       return true;
+    }
 }

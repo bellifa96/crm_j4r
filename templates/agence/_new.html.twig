@@ -1,0 +1,20 @@
+{# form pour afficher les formulaire #}
+
+
+{{ form_start(form) }}
+
+{{ form_row(form.agence) }}
+{{ form_row(form.nomagence) }}
+{{ form_row(form.adresseagence) }}
+{{ form_row(form.adresseagence2) }}
+{{ form_row(form.cpagence) }}
+{{ form_row(form.villeagence) }}
+{{ form_row(form.contactnom) }}
+{{ form_row(form.contactprenom) }}
+{{ form_row(form.contacttel) }}
+{{ form_row(form.contactportable) }}
+{{ form_row(form.infoouverture) }}
+{{ form_row(form.contactemail) }}
+{{ form_row(form.commentaires) }}
+<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter")  }}</button>
+{{ form_end(form) }}
