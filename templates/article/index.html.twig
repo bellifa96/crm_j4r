@@ -50,17 +50,19 @@
 				<h2 class="title_article">Articles</h2>
 			</div>
 			<div class="right">
-				<select class="basic" id="depotSelect">
-					<option>Depot</option>
-					{% for depot in depots %}
-						<option value="{{ depot.iddepot }}" {% if loop.first %} selected {% endif %}>
-							{{ depot.nomdepot }}
+				<select class="basic" id="agenceSelect">
+					<option>Agence</option>
+					{% for agence in agences %}
+						<option value="{{ agence.idagence }}">
+							{{ agence.nomagence }}
 						</option>
 					{% endfor %}
 				</select>
-				<button class="basic">
-					Nouveau
-				</button>
+				<select class="basic" id="depotSelect">
+					<option>Depot</option>
+
+				</select>
+
 				<button class="basic" onclick="handleFile()">
 					<input type="file" id="fileInput" accept=".xlsx, .xls">
 				</button>
@@ -111,7 +113,7 @@
 	</table>
 </div>
 <script>
-function redirect_to_page_edit_article(idarticle) {
+	function redirect_to_page_edit_article(idarticle) {
 window.location.href = '/edit-article/' + idarticle;
 }
 // cette méthode pour le changement des données sur le tableau.
@@ -163,9 +165,41 @@ console.error('Error:', error);
 });
 }
 
+function handleAgenceSelection() {
+var selectedAgence = document.getElementById("agenceSelect").value;
+$.ajax({
+type: 'GET',
+url: '/get-depot',
+data: {
+selectedAgence: selectedAgence
+},
+success: function (data) {
+var select = $('#depotSelect');
+select.empty();
+// Clear existing options
+
+// Add a default option
+select.append('<option>Depot</option>');
+
+// Iterate over the data and append options to the select
+$.each(data, function (index, depot) {
+select.append('<option value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
+});
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+
+
+}
+
 $(document).ready(function () {
 $('#depotSelect').on('change', function () { // Call the function to handle depot selection
 handleDepotSelection();
+});
+$('#agenceSelect').on('change', function () { // Call the function to handle depot selection
+handleAgenceSelection();
 });
 });
 </script>{% endblock %}

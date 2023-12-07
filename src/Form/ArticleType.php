@@ -20,37 +20,31 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('article', TextType::class)
-        ->add('designation', TextType::class)
-        ->add('prixvente', TextType::class)
-        ->add('prixloc', TextType::class)
-        ->add('poids', IntegerType::class)
-        ->add('vente', CheckboxType::class)
-        ->add('location', CheckboxType::class)
-        ->add('consommable', CheckboxType::class)
-        ->add('conditionnement', CheckboxType::class)
-        ->add('qtetotale', IntegerType::class)
-        ->add('qtedispo', IntegerType::class)
-        ->add('qtesortie', IntegerType::class)
-        ->add('qtereserve', IntegerType::class)
-        ->add('qtetransit', IntegerType::class)
-        ->add('qtetemp', IntegerType::class)
-        ->add('commentaires', TextareaType::class)
-        ->add('emplacement', TextType::class)
-        ->add('acontroler', CheckboxType::class)
-        ->add('fournisseur', TextType::class)
-        ->add('reffourn', TextType::class)
-        ->add('oldprixv', TextType::class)
-        ->add('oldprixl', TextType::class)
-        ->add('oldpoids', IntegerType::class)
-        ->add('qtehs', IntegerType::class)
-        ->add('qteachat', IntegerType::class)
-        ->add('qteloctheorique', IntegerType::class)
-        ->add('qtelocreelle', IntegerType::class)
-        ->add('depot', EntityType::class, [
-            'class' => 'App\Entity\Depot\Depot',
-            'choice_label' => 'nomdepot', // Adjust based on your Depot entity properties
-        ]);
+            ->add('article', TextType::class, ['label' => 'Article', 'disabled' => true])
+            ->add('designation', TextType::class, ['label' => 'Designation', 'disabled' => true])
+            ->add('prixvente', TextType::class, ['label' => 'Prix de Vente', 'disabled' => true])
+            ->add('prixloc', TextType::class, ['label' => 'Prix de Location', 'disabled' => true])
+            ->add('poids', IntegerType::class, ['label' => 'Poids', 'disabled' => true])
+            ->add('vente', CheckboxType::class, ['label' => 'Vente', 'disabled' => true])
+            ->add('location', CheckboxType::class, ['label' => 'Location', 'disabled' => true])
+            ->add('consommable', CheckboxType::class, ['label' => 'Consommable', 'disabled' => true])
+            ->add('conditionnement', CheckboxType::class, ['label' => 'Conditionnement', 'disabled' => true])
+            ->add('qtetotale', IntegerType::class, ['label' => 'Quantité Totale', 'disabled' => true])
+            ->add('qtedispo', IntegerType::class, ['label' => 'Quantité Disponible', 'disabled' => true])
+            ->add('qtesortie', IntegerType::class, ['label' => 'Quantité Sortie', 'disabled' => true])
+            ->add('qtereserve', IntegerType::class, ['label' => 'Quantité Réservée', 'disabled' => true])
+            ->add('qtetransit', IntegerType::class, ['label' => 'Quantité en Transit', 'disabled' => true])
+            ->add('qtetemp', IntegerType::class, ['label' => 'Quantité Temporaire', 'disabled' => true])
+            ->add('commentaires', TextareaType::class, ['label' => 'Commentaires', 'disabled' => true])
+            ->add('emplacement', TextType::class, ['label' => 'Emplacement', 'disabled' => true])
+            ->add('fournisseur', TextType::class, ['label' => 'Fournisseur', 'disabled' => true])
+            ->add('reffourn', TextType::class, ['label' => 'Référence Fournisseur', 'disabled' => true])
+            ->add('depot', EntityType::class, [
+                'class' => 'App\Entity\Depot\Depot',
+                'choice_label' => 'nomdepot', // Adjust based on your Depot entity properties
+                'label' => 'Dépôt',
+                'disabled' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

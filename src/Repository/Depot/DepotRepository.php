@@ -40,8 +40,6 @@ class DepotRepository extends ServiceEntityRepository
         $query = $this->_em->createQuery($dql);
         $result = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         return $result;
-
-        
     }
     public function add_update_depot(Depot $agence)
     {
@@ -53,5 +51,13 @@ class DepotRepository extends ServiceEntityRepository
             return false;
         }
     }
-
+    public function getDepotsByAgenceId($agenceId)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.iddepot, d.nomdepot,d.adressedepot, d.cpdepot,d.contacttel, d.villedepot') // Select only id and nomdepot fields
+            ->andWhere('d.agence = :agenceId')  // Corrected to provide a condition
+            ->setParameter('agenceId', $agenceId)
+            ->getQuery()
+            ->getResult();
+    }
 }

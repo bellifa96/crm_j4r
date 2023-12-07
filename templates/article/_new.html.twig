@@ -6,98 +6,81 @@
 {{ form_start(form) }}
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.article, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.designation, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.prixvente, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.prixloc, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.poids, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.vente, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.location, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.consommable, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.conditionnement, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtetotale, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtedispo, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtesortie, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtereserve, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtetransit, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtetemp, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
+	<div class="col-md-6">
+		<div class="form-group">
+			{{ form_row(form.article, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.designation, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.prixvente, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.prixloc, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.poids, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-flex-container">
+			<div class="form-group">
+				{{ form_row(form.vente, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.location, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.consommable, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.conditionnement, {'attr': {'class': 'form-control'}}) }}
+			</div>
+		</div>
 
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.emplacement, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.acontroler, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.fournisseur, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.reffourn, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.oldprixv, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.oldprixl, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.oldpoids, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtehs, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qteachat, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qteloctheorique, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.qtelocreelle, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.depot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
+		<div class="form-group">
+			{{ form_row(form.qtetotale, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.qtedispo, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.qtesortie, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.qtereserve, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.qtetransit, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.qtetemp, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+
+	<div class="col-md-6">
+
+		<div class="form-group">
+			{{ form_row(form.emplacement, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.fournisseur, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.reffourn, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+
+		<div class="form-group">
+			{{ form_row(form.depot, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form-group">
+			{{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<button type="button" class="btn btn-light" id="incrementBtn">Regul +</button>
+		<button type="button" class="btn btn-light" id="decrementBtn">Regul -</button>
+	</div>
+
 </div>
 
-<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
+{# <button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button> #}
 {{ form_end(form) }}
-
-

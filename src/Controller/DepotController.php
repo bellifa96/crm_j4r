@@ -7,11 +7,13 @@ use App\Entity\Depot\Agence;
 use App\Entity\Depot\Articles;
 use App\Entity\Depot\Depot;
 use App\Form\DepotType;
+use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Service\DepotService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,11 +28,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepotController extends AbstractController
 {
     private $depotRepository;
+    private $agenceRepository;
 
     
-    public function __construct(DepotRepository $depotRepository)
+    public function __construct(DepotRepository $depotRepository,AgenceRepository $agenceRepository)
     {
         $this->depotRepository = $depotRepository;
+
+        $this->agenceRepository = $agenceRepository;
        
     }
 
@@ -39,13 +44,12 @@ class DepotController extends AbstractController
     public function index(): Response
     {
       
-        $depots = $this->depotRepository->getAllDepot();
-
-
+        $agences = $this->agenceRepository->findAll();
         return $this->render('depot/index.html.twig', [
             'controller_name' => 'AgenceController',
             'title' => '',
-            'depots' => $depots,
+            'depots' => array(),
+            'agences' => $agences,
             'nav' => []
         ]);
     }
@@ -112,4 +116,15 @@ class DepotController extends AbstractController
         ]);
           
     }
+
+    #[Route('/get-depot', name: 'app_depot_json_response', methods:['get'] )]
+    public function getDepotAction(Request $request):JsonResponse
+    { 
+       $id_agence = $request->query->get('selectedAgence');
+       $depot = $this->depotRepository->getDepotsByAgenceId($id_agence);
+       return $this->json($depot);
+    }
+
+
+    
 }

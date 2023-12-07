@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Depot\Articles;
 use App\Form\ArticleType;
+use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Service\DepotService;
@@ -16,14 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {  
 
-    private $depotRepository;
+    private $agenceRepository;
 
     private $depotService;
 
     private $articleRepository;
-    public function __construct(DepotRepository $depotRepository, DepotService $depotService, ArticleRepository $articleRepository)
+    public function __construct(AgenceRepository $agenceRepository, DepotService $depotService, ArticleRepository $articleRepository)
     {
-        $this->depotRepository = $depotRepository;
+        $this->agenceRepository = $agenceRepository;
         $this->depotService = $depotService;
         $this->articleRepository = $articleRepository;
     }
@@ -32,27 +33,23 @@ class ArticleController extends AbstractController
     #[Route('/articles', name: 'app_article')]
     public function index(): Response
     {
-        $depots = $this->depotRepository->getAllDepot();
+        $agences = $this->agenceRepository->findAll();
 
         //$this->depotService->article_layher_parser_file_xsl("Table m_tabArticle.xlsx",$depots);
-        if (!empty($depots)) {
-            $firstDepot = $depots[1];
-            $articles = $this->articleRepository->findAllbyIdDepot($firstDepot["iddepot"]);
-
-        } else {
-            $articles = array();
-        }
+      
+        $articles = array();
+        
 
         return $this->render('article/index.html.twig', [
             'controller_name' => 'DepotController',
-            'title' => 'Dépot',
-            'depots' => $depots,
+            'title' => '',
+            'agences' => $agences,
             'articles'=> $articles,
             'nav' => []
         ]);
     }
-    #[Route('/get-article', name: 'app_article_depot', methods:['get'] )]
-    public function getDepotAction(Request $request):JsonResponse
+    #[Route('/get-article', name: 'app_article_depot')]
+    public function getArticlebyDepot(Request $request):JsonResponse
     { 
        $id_depot = $request->query->get('selectedDepot');
        $articles = $this->articleRepository->findAllbyIdDepotoptimiser($id_depot);
@@ -78,16 +75,13 @@ class ArticleController extends AbstractController
 
            }
         }
-
-     
-        
        
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('article/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Modification Article ',
-            'nav' => [['app_agence', 'Articles']]
+            'title' => 'Modification Article',
+            'nav' => [['app_article', 'Articles']]
         ]);
     }
 

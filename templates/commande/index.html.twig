@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Articles
+	Commandes
 {% endblock %}
 
 {% block body %}
@@ -47,16 +47,20 @@
 	<div class="example-wrapper">
 		<div class="container">
 			<div class="left">
-				<h2 class="title_article">Depots</h2>
+				<h2 class="title_article">Commandes</h2>
 			</div>
 			<div class="right">
-				<select class="basic" id="agenceSelect">
+				<select class="basic" id="agenceSelect">ù
 					<option>Agence</option>
 					{% for agence in agences %}
 						<option value="{{ agence.idagence }}">
 							{{ agence.nomagence }}
 						</option>
 					{% endfor %}
+				</select>
+				<select class="basic" id="depotSelect">
+					<option>Depot</option>
+
 				</select>
 				<button class="basic" id="openModalButton">
 					<a href="{{ path('app_depot_add') }}" class="sidebar-link  ">
@@ -74,48 +78,27 @@
 		<table class="table text-center datatable" id="depotTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
-					<th>Id</th>
-					<th>Désignation</th>
-					<th>Adresse Agence</th>
-					<th>Code Postale</th>
-					<th>Ville Agence</th>
-					<th>Télephone</th>
-					<th>Action</th>
+					<th>Devis</th>
+					<th>Client</th>
+					<th>Chantier</th>
+					<th>Affaire</th>
+					<th>Adress Chantier</th>
+					<th>Ville</th>
+					<th>Date</th>
+					<th>Poids Total</th>
+					<th>Initailes</th>
+					<th>Code ERP</th>
+                    <th>Actions</th>
+
 				</tr>
 			</thead>
-			<tbody>
-
-				{% for depot in depots %}
-					<tr>
-						<td>{{ depot.iddepot }}</td>
-						<td>{{ depot.nomdepot }}</td>
-						<td>{{ depot.adressedepot }}</td>
-						<td>{{ depot.cpdepot }}</td>
-						<td>{{ depot.contacttel }}</td>
-						<td>{{ depot.villedepot }}</td>
-						<td>
-							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning">
-								<i class="bi bi-pencil-fill"></i>
-								Edit
-							</a>
-						</td>
-
-					</tr>
-				{% endfor %}
-
-			</tbody>
+			<tbody></tbody>
 		</tbody>
 	</table>
-	<script>
-		function handleAgenceSelection() {
+
+<script>
+function handleAgenceSelection() {
 var selectedAgence = document.getElementById("agenceSelect").value;
-
-if ($.fn.DataTable.isDataTable('#depotTable')) {
-$('#depotTable').DataTable().destroy();
-}
-
-depotTable = $('#depotTable').DataTable({paging: true});
-
 $.ajax({
 type: 'GET',
 url: '/get-depot',
@@ -123,34 +106,28 @@ data: {
 selectedAgence: selectedAgence
 },
 success: function (data) {
-depotTable.clear().draw();
+var select = $('#depotSelect');
+select.empty();
 
-// Populate the table with the new data
-for (var i = 0; i < data.length; i++) {
-var depot = data[i];
-var newRow = [
-'<td>' + depot.iddepot + '</td>',
-'<td>' + depot.nomdepot + '</td>',
-'<td>' + depot.adressedepot + '</td>',
-'<td>' + depot.cpdepot + '</td>',
-'<td>' + depot.contacttel + '</td>',
-'<td>' + depot.villedepot + '</td>',
-'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
-];
-depotTable.row.add(newRow);
-}
+select.append('<option>Depot</option>');
 
-depotTable.draw();
+$.each(data, function (index, depot) {
+select.append('<option value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
+});
 },
 error: function (error) {
 console.error('Error:', error);
 }
 });
+
+
 }
+
 $(document).ready(function () {
+
 $('#agenceSelect').on('change', function () { // Call the function to handle depot selection
 handleAgenceSelection();
 });
 });
 	</script>
-</div>{% endblock %}
+{% endblock %}
