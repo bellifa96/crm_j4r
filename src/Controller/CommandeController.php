@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Repository\Depot\AgenceRepository;
+use App\Repository\Transport\CdeMatEntRepository;
+use App\Service\CommandeService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,11 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommandeController extends AbstractController
 {
-   private $agenceRepository;
+    private $agenceRepository;
+   
 
-   public function __construct(AgenceRepository $agenceRepository) {
-    $this->agenceRepository = $agenceRepository;
-   }
+    public function __construct(AgenceRepository $agenceRepository,private CommandeService $commandeService,private CdeMatEntRepository $cdeMatEntRepository)
+    {
+        $this->agenceRepository = $agenceRepository;
+    }
 
 
     #[Route('/commande', name: 'app_commande')]
@@ -31,41 +36,27 @@ class CommandeController extends AbstractController
         ]);
     }
 
-     /** méthod pour afficher le formulaire et stocker les donées   */
-     #[Route('/search-commande', name: 'app_commande_search')]
-     public function add_agence(Request $request): Response
-     {  
- 
-         // on crééer un "nouveau Agence"
- 
-         $form = $this->createForm(AgenceType::class);
- 
-         // on traite la requete du formulaire
-         $form->handleRequest($request);
+    /** méthod pour afficher le formulaire et stocker les donées   */
+    #[Route('/search-commande/{id}', name: 'app_commande_search')]
+    public function search_commande_save_update($id,Request $request)
+    {
+        try {
+           $this->commandeService->importationCommandeWindecParIdCommande($id);
+
+        } catch (Exception $e) {
+        }
+    }
+
+      /** méthod pour afficher le formulaire et stocker les donées   */
+      #[Route('/get-commande', name: 'app_command_depot')]
+      public function getCommandeByIdDepot(Request $request)
+      {
+          try {
+            $id_depot = $request->query->get('selectedDepot');
+            $articles = $this->cdeMatEntRepository->listCommandebyIdepot($id_depot);
+            return $this->json($articles);
   
-         // on verifier la formulaire
-         if($form->isSubmitted() && $form->isValid()){
-             // on stock les  donnes
-            $resulat = true;
-            if($resulat){
-               $this->addFlash("success","L'agence a été correctement créer");
-               return $this->redirectToRoute("app_agence");
-            }else{
- 
-            }
-         }
- 
-      
-         
-        
-         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
-         return $this->render('agence/new.html.twig', [
-             'ticket' => null,
-             'form' => $form->createView(),
-             'title' => 'Création une Agence',
-             'nav' => [['app_agence', 'Agences']]
-         ]);
- 
-           
-     }
+          } catch (Exception $e) {
+          }
+      }
 }

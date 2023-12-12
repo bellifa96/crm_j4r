@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
+	<!-- Include Bootstrap JS (and jQuery) -->
+
+
 	<style>
 		.container {
 			display: flex;
@@ -42,6 +45,21 @@
 			margin-left: 5%;
 
 		}
+		.custom-dialog {
+			width: 80%;
+			max-height: 80vh;
+			overflow-y: auto;
+		}
+		#overlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+			z-index: 999; /* Ensure it's above the dialog */
+		}
 	</style>
 
 	<div class="example-wrapper">
@@ -62,20 +80,35 @@
 					<option>Depot</option>
 
 				</select>
-				<button class="basic" id="openModalButton">
-					<a href="{{ path('app_depot_add') }}" class="sidebar-link  ">
-						<span>
-							Nouveau
-						</span>
-					</a>
+				<button class="basic" onclick="showCharacterLimitDialog()">
+					<span>
+						Charger
+					</span>
 				</button>
 
 			</div>
 		</div>
 	</div>
+	<div id="overlay"></div>
+
+	<div id="customDialog" title="Custom Dialog" class="custom-dialog" style="display:none;">
+		<select class="basic" id="agenceSelect">
+			<option>Agence</option>
+			{% for agence in agences %}
+				<option value="{{ agence.idagence }}">
+					{{ agence.nomagence }}
+				</option>
+			{% endfor %}
+		</select>
+		<select class="basic" id="depotSelect">
+			<option>Depot</option>
+
+		</select>
+		<input type="number" max="2">
+	</div>
 
 	<div class="page-block col-lg-12">
-		<table class="table text-center datatable" id="depotTable" style="color: #0E4377;">
+		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
 					<th>Devis</th>
@@ -88,15 +121,43 @@
 					<th>Poids Total</th>
 					<th>Initailes</th>
 					<th>Code ERP</th>
-                    <th>Actions</th>
-
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
 		</tbody>
 	</table>
+</div>
 
 <script>
+	function showCharacterLimitDialog() {
+var dialog = $("#customDialog").dialog({
+autoOpen: false,
+modal: true,
+title: "Charger Les commandes", // Set the custom title here
+width: 'auto', // Set the width to auto
+
+buttons: {
+"Fermer": function () {
+$(this).dialog("close");
+// Optionally clear the editor content or perform other actions
+}
+},
+close: function () {
+$(this).dialog("option", "position", {
+my: "center",
+at: "center",
+of: window
+});
+$("#overlay").hide();
+}
+});
+
+// Show the overlay
+$("#overlay").show();
+dialog.dialog("open");
+}
+
 function handleAgenceSelection() {
 var selectedAgence = document.getElementById("agenceSelect").value;
 $.ajax({
@@ -119,15 +180,69 @@ error: function (error) {
 console.error('Error:', error);
 }
 });
-
-
 }
+
+var commandeTable;
+
+// Function to handle depot selection
+function handleCommandeSelection() {
+var selectedDepot = document.getElementById("depotSelect").value;
+
+if ($.fn.DataTable.isDataTable('#commandeTable')) {
+$('#commandeTable').DataTable().destroy();
+}
+
+commandeTable = $('#commandeTable').DataTable({paging: true});
+
+$.ajax({
+type: 'GET',
+url: '/get-commande',
+data: {
+selectedDepot: selectedDepot
+},
+success: function (data) {
+
+commandeTable.clear().draw();
+console.log(data);
+// Populate the table with the new data
+for (var i = 0; i < data.length; i++) {
+var commande = data[i];
+var newRow = [
+commande.NumDevis,
+commande.NomClient,
+commande.CodeChantier,
+commande.NumAffaire,
+commande.AdresseChantier,
+commande.VilleChantier,
+commande.DateCde,
+commande.PoidsTotMat,
+commande.Initiales,
+commande.CodeChantier,
+'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + commande.id + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
+];
+commandeTable.row.add(newRow);
+}
+
+commandeTable.draw();
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+}
+
 
 $(document).ready(function () {
 
 $('#agenceSelect').on('change', function () { // Call the function to handle depot selection
 handleAgenceSelection();
 });
+
+
+$('#depotSelect').on('change', function () { // Call the function to handle depot selection
+handleCommandeSelection();
 });
-	</script>
-{% endblock %}
+});
+
+</script>
+	{% endblock %}

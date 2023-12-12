@@ -42,7 +42,8 @@ class CdeMatDet
 
     #[ORM\Column]
     private ?int $NumLigne = null;
-
+    #[ORM\Column]
+    private ?int $NumCloud  = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -166,5 +167,19 @@ class CdeMatDet
         $this->NumLigne = $NumLigne;
 
         return $this;
+    }
+    public function getNumCloud(): ?int
+    {
+        return $this->NumCloud;
+    }
+
+    /**
+     * Set the value of NumCloud
+     *
+     * @param int|null $NumCloud
+     */
+    public function setNumCloud(?int $NumCloud): void
+    {
+        $this->NumCloud = $NumCloud;
     }
 }

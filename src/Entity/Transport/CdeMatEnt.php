@@ -115,7 +115,8 @@ class CdeMatEnt
 
     #[ORM\Column(nullable: true)]
     private ?int $NumAgenceLayher = null;
-
+    #[ORM\Column(nullable: true)]
+    private ?int $numCloud = null;
     public function getId(): ?int
     {
         return $this->id;
