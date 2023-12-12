@@ -25,12 +25,11 @@ class CdeMatEntRepository extends ServiceEntityRepository
     public function save(CdeMatEnt $entity, bool $flush = false): void
     {
         try {
-            $this->getEntityManager()->persist($entity);
+            $this->_em->persist($entity);
 
-            if ($flush) {
-                $this->getEntityManager()->flush();
-            }
+            $this->_em->flush();
         } catch (Exception $e) {
+            dd($e->getMessage());
         }
     }
 
@@ -51,6 +50,15 @@ class CdeMatEntRepository extends ServiceEntityRepository
             ->setParameter('Iddepot', $Iddepot)
             ->getQuery()
             ->getResult();
+    }
+
+    public function commandeByNumeroCloud($idCloud)
+    {
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.numCloud = :idCloud')
+        ->setParameter('idCloud', $idCloud)
+        ->getQuery()
+        ->getOneOrNullResult();
     }
 
     //    /**

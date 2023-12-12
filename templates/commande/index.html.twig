@@ -46,10 +46,14 @@
 
 		}
 		.custom-dialog {
-			width: 80%;
-			max-height: 80vh;
-			overflow-y: auto;
+			max-width: 400px;
+			margin: 50px auto;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		}
+
 		#overlay {
 			display: none;
 			position: fixed;
@@ -59,6 +63,89 @@
 			height: 100%;
 			background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
 			z-index: 999; /* Ensure it's above the dialog */
+		}
+		.btnChargerCommande {
+			margin-left: 10px;
+		}
+		@import url('https://fonts.googleapis.com/css?family=Poppins:400, 500, 600, 700 &display=swap');
+
+
+		.alert {
+			background: #28a745;
+			padding: 20px 40px;
+			min-width: 420px;
+			position: absolute;
+			right: 0;
+			top: 10px;
+			border-radius: 4px;
+			border-left: 8px solid #3A8731;
+			overflow: hidden;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.alert.showAlert {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.alert.show {
+			animation: show_slide 1s ease forwards;
+		}
+
+		@keyframes show_slide {
+			0% {
+				transform: translateX(100%);
+			}
+
+			40% {
+				transform: translateX(-10%);
+			}
+
+			80% {
+				transform: translateX(0%);
+			}
+
+			100% {
+				transform: translateX(-10px);
+			}
+		}
+
+		.alert.hide {
+			animation: hide_slide 1s ease forwards;
+		}
+
+		@keyframes hide_slide {
+			0% {
+				transform: translateX(-10px);
+			}
+
+			40% {
+				transform: translateX(0%);
+			}
+
+			80% {
+				transform: translateX(-10%);
+			}
+
+			100% {
+				transform: translateX(100%);
+			}
+		}
+
+		.alert.fa-check-circle {
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #28a745;
+			font-size: 60px;
+		}
+
+		.alert .msg {
+			padding: 0 20px;
+			font-size: 18px;
+			color: white;
 		}
 	</style>
 
@@ -90,21 +177,15 @@
 		</div>
 	</div>
 	<div id="overlay"></div>
-
+	<div class="alert hide">
+		<span class="fas fa-check-circle"></span>
+		<span class="msg">La commande a bien été chargée</span>
+	</div>
 	<div id="customDialog" title="Custom Dialog" class="custom-dialog" style="display:none;">
-		<select class="basic" id="agenceSelect">
-			<option>Agence</option>
-			{% for agence in agences %}
-				<option value="{{ agence.idagence }}">
-					{{ agence.nomagence }}
-				</option>
-			{% endfor %}
-		</select>
-		<select class="basic" id="depotSelect">
-			<option>Depot</option>
-
-		</select>
-		<input type="number" max="2">
+		<div class="divCommande" style="display: flex;">
+			<input type="number" id="idCommande" class="form-control" max="2">
+			<button class="btn btn-primary btnChargerCommande" onclick="chargerCommande()">Charger</button>
+		</div>
 	</div>
 
 	<div class="page-block col-lg-12">
@@ -120,7 +201,7 @@
 					<th>Date</th>
 					<th>Poids Total</th>
 					<th>Initailes</th>
-					<th>Code ERP</th>
+					<th>Code Chantier</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -130,17 +211,17 @@
 </div>
 
 <script>
-	function showCharacterLimitDialog() {
-var dialog = $("#customDialog").dialog({
+var dailog;
+function showCharacterLimitDialog() {
+dialog = $("#customDialog").dialog({
 autoOpen: false,
 modal: true,
 title: "Charger Les commandes", // Set the custom title here
-width: 'auto', // Set the width to auto
-
+width: 750, // Set the width to 160px
 buttons: {
 "Fermer": function () {
 $(this).dialog("close");
-// Optionally clear the editor content or perform other actions
+document.getElementById("idCommande").value = 0;
 }
 },
 close: function () {
@@ -150,6 +231,9 @@ at: "center",
 of: window
 });
 $("#overlay").hide();
+},
+show: {
+closeButton: false
 }
 });
 
@@ -244,5 +328,37 @@ handleCommandeSelection();
 });
 });
 
-</script>
-	{% endblock %}
+function chargerCommande() {
+
+
+let numCloud = document.getElementById("idCommande").value;
+$.ajax({
+type: 'GET',
+url: '/search-commande',
+data: {
+numCloud: numCloud
+},
+success: function (data) {
+console.log(data);
+if (data.code == 200) {
+dialog.dialog("close");
+showFunction();
+document.getElementById("idCommande").value = 0;
+}
+
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+}
+function showFunction() {
+$('.alert').addClass("show");
+$('.alert').removeClass("hide");
+$('.alert').addClass("showAlert");
+setTimeout(function () {
+$('.alert').removeClass("show");
+$('.alert').addClass("hide");
+}, 5000);
+}
+</script>{% endblock %}

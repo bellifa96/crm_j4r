@@ -60,4 +60,9 @@ class DepotRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findOneByCodedepot($chantier)
+    {   
+         return $this->findOneBy(['codedepot' => ($chantier == 20143) ? 2 : 1])->getIddepot();
+    }
+
 }

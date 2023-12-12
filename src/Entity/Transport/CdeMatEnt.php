@@ -510,6 +510,14 @@ class CdeMatEnt
     {
         return $this->NumEchange;
     }
+    public function  setNumCloud(int $Numcloud)
+    {
+         $this->numCloud = $Numcloud;
+    }
+    public function getNumCloud(): ?int
+    {
+        return $this->numCloud;
+    }
 
     public function setNumEchange(int $NumEchange): self
     {
