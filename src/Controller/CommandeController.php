@@ -57,6 +57,9 @@ class CommandeController extends AbstractController
             return $this->json($articles);
   
           } catch (Exception $e) {
+
+            return $this->json([]);
+
           }
       }
 }
