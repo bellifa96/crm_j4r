@@ -184,7 +184,7 @@
 	<div id="customDialog" title="Custom Dialog" class="custom-dialog" style="display:none;">
 		<div class="divCommande" style="display: flex;">
 			<input type="number" id="idCommande" class="form-control" max="2">
-			<button class="btn btn-primary btnChargerCommande" onclick="chargerCommande()">Charger</button>
+			<button class="btn btn-primary btnChargerCommande" onclick="chargerCommande()">Importation</button>
 		</div>
 	</div>
 
@@ -202,6 +202,7 @@
 					<th>Poids Total</th>
 					<th>Initailes</th>
 					<th>Code Chantier</th>
+					<th>Numéro Cloud</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -211,7 +212,7 @@
 </div>
 
 <script>
-var dailog;
+	var dailog;
 function showCharacterLimitDialog() {
 dialog = $("#customDialog").dialog({
 autoOpen: false,
@@ -302,6 +303,7 @@ commande.DateCde,
 commande.PoidsTotMat,
 commande.Initiales,
 commande.CodeChantier,
+commande.numCloud,
 '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + commande.id + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
 ];
 commandeTable.row.add(newRow);

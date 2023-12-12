@@ -5,6 +5,7 @@ namespace App\Repository\Transport;
 use App\Entity\Transport\CdeMatDet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<CdeMatDet>
@@ -23,10 +24,13 @@ class CdeMatDetRepository extends ServiceEntityRepository
 
     public function save(CdeMatDet $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        try {
+            $this->_em->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+            $this->_em->flush();
+
+        } catch (Exception $e) {
+           dd($e->getMessage());
         }
     }
 

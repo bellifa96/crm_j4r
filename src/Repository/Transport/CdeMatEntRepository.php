@@ -22,14 +22,17 @@ class CdeMatEntRepository extends ServiceEntityRepository
         parent::__construct($registry, CdeMatEnt::class);
     }
 
-    public function save(CdeMatEnt $entity, bool $flush = false): void
+    public function save(CdeMatEnt $entity, bool $flush = false): int
     {
         try {
             $this->_em->persist($entity);
 
             $this->_em->flush();
+            return $entity->getId(); 
+
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return -1;
+
         }
     }
 
