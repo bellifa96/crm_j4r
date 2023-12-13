@@ -42,6 +42,18 @@ class CdeMatDetRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function article_by_numCloud_id_typeMat($idCloud,$article,$typeMat)
+    {
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.NumCloud = :idCloud')
+        ->andWhere('c.Article = :article')
+        ->andWhere('c.TypeMat = :typeMat')
+        ->setParameter('idCloud', $idCloud)
+        ->setParameter('article', $article)
+        ->setParameter('typeMat', $typeMat)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
 
 
 }
