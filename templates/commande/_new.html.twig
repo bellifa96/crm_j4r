@@ -1,8 +1,33 @@
 {# form pour afficher les formulaire #}
 
 
-{{ form_start(form) }}
+{# your-form-template.html.twig #}
+{{ form_start(form, {'attr': {'class': 'form'}}) }}
 
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.NumDevis, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.IdClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.NomClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.CodeChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.NumAffaire, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 
+        <!-- Add other fields for the first column -->
+
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.DateCde, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.Initiales, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.IdAgence, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+        {{ form_row(form.Iddepot, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+
+        <!-- Add other fields for the second column -->
+
+    </div>
+</div>
 
 {{ form_end(form) }}

@@ -67,7 +67,6 @@
 		.btnChargerCommande {
 			margin-left: 10px;
 		}
-		
 	</style>
 
 	<div class="example-wrapper">
@@ -90,7 +89,7 @@
 				</select>
 				<button class="basic" onclick="showCharacterLimitDialog()">
 					<span>
-						Charger
+						Importation
 					</span>
 				</button>
 
@@ -130,6 +129,9 @@
 
 <script>
 	var dailog;
+function redirect_to_page_affiche_commande(idarticle) {
+window.location.href = '/edit-commande/' + idarticle;
+}
 function showCharacterLimitDialog() {
 dialog = $("#customDialog").dialog({
 autoOpen: false,
@@ -221,7 +223,7 @@ commande.PoidsTotMat,
 commande.Initiales,
 commande.CodeChantier,
 commande.numCloud,
-'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + commande.id + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
+'<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
 ];
 commandeTable.row.add(newRow);
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Transport\CdeMatEnt;
+use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
@@ -50,7 +52,7 @@ class CommandeController extends AbstractController
                     'code' => 200
                 ];
                 return new JsonResponse($data);
-            }else{
+            } else {
                 $data = [
                     'message' => $reponse,
                     'code' => 500
@@ -73,6 +75,35 @@ class CommandeController extends AbstractController
         } catch (Exception $e) {
 
             return $this->json([]);
+        }
+    }
+
+    /** méthod pour afficher le detail commande */
+    #[Route('/edit-commande/{id}', name: 'edit_commande')]
+    public function affiche_commande(CdeMatEnt $cdeMatEnt, Request $request)
+    {
+        try {
+            $form = $this->createForm(CommandeType::class, $cdeMatEnt);
+
+            // on traite la requete du formulaire
+            $form->handleRequest($request);
+
+            // on verifier la formulaire
+            if ($form->isSubmitted() && $form->isValid()) {
+                // on stock les  donnes
+               
+            }
+
+            // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+            return $this->render('commande/edit.html.twig', [
+                'ticket' => null,
+                'form' => $form->createView(),
+                'title' => 'Modification Commande',
+                'nav' => [['app_commande', 'Commande']]
+            ]);
+        } catch (Exception $e) {
+
+            return $e->getMessage();
         }
     }
 }
