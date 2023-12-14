@@ -2,32 +2,126 @@
 
 
 {# your-form-template.html.twig #}
-{{ form_start(form, {'attr': {'class': 'form'}}) }}
+{{ form_start(form, {'attr': {'class': 'form'}}
+) }}
 
-<div class="row">
-    <div class="col-md-6">
-        {{ form_row(form.NumDevis, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.IdClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.NomClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.CodeChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.NumAffaire, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+	<div class="row form"> <div class="col-md-4">
+		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.IdClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 
-        <!-- Add other fields for the first column -->
+		<!-- Add other fields for the first column -->
 
-    </div>
-    <div class="col-md-6">
-        {{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.DateCde, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.Initiales, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.IdAgence, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-        {{ form_row(form.Iddepot, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.NomClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 
-        <!-- Add other fields for the second column -->
+		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.IdAgence, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 
-    </div>
+
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.Initiales, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.DateCde, {
+           'attr': {'class': '', 'type': 'date'},
+           'label': 'Date du Commande',
+           'label_attr': {'class': 'font-weight-bold'},
+           'disabled': false,
+        }) }}
+
+		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+	</div>
 </div>
 
 {{ form_end(form) }}
+<br>
+<div class="depot-info">
+	<strong>Depot:</strong>
+	{{ depots.nomdepot }}
+</div>
+<div
+	class="container mt-4">
+	<!-- Buttons in separate columns -->
+	<div
+		class="row">
+		<!-- Cancel Button Column -->
+		<div class="col-md-6">
+			<button type="button" class="btn btn-light btn-block">
+				<span class="mr-2">Ajouter</span>
+				<i class="fas fa-plus"></i>
+				<!-- Change the icon here -->
+			</button>
+		</div>
+
+		<!-- Validate Button Column -->
+		<div class="col-md-6">
+			<button type="button" class="btn btn-success btn-block">
+				<span class="mr-2">Valider</span>
+				<i class="fas fa-check"></i>
+			</button>
+		</div>
+	</div>
+</div>
+<br>
+<div class="page-block col-lg-12">
+	{% if depots.codedepot == 1 %}
+		{# do something #}
+
+		<table class="table text-center datatablelayher" id="commandeTable" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>Article</th>
+					<th>Designation</th>
+					<th>Qte Commandées</th>
+					<th>Qte Sorties</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in articles %}
+					<tr>
+						<td>{{ article.Article }}</td>
+						<td>{{ article.Designation }}</td>
+						<td>{{ article.qte }}</td>
+						<td>{{ article.QteSortie }}</td>
+						<td>{{ article.TypeMat }}</td>
+
+					</tr>
+				{% endfor %}
+			</tbody>
+		</tbody>
+	</table>
+
+{% else %}
+	<table class="table text-center datatablelagny" id="commandeTable" style="color: #0E4377;">
+		<thead>
+			<tr class="tr-head">
+				<th>Article</th>
+				<th>Designation</th>
+				<th>Qte Commandées</th>
+				<th>Qte Sorties</th>
+				<th>Qte a Préparer</th>
+				<th>Reste a Sortir</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for article in articles %}
+				<tr>
+					<td>{{ article.Article }}</td>
+					<td>{{ article.Designation }}</td>
+					<td>{{ article.qte }}</td>
+					<td>{{ article.QteSortie }}</td>
+					<td>{{ article.QteSortie }}</td>
+                    <td>{{ article.QteSortie }}</td>
+					<td>{{ article.TypeMat }}</td>
+
+				</tr>
+			{% endfor %}
+		</tbody>
+	</tbody>
+</table>{% endif %}</div>

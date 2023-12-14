@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Transport\CdeMatEnt;
 use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
+use App\Repository\Depot\DepotRepository;
+use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
 use Exception;
@@ -18,9 +20,13 @@ class CommandeController extends AbstractController
 {
     private $agenceRepository;
 
-
-    public function __construct(AgenceRepository $agenceRepository, private CommandeService $commandeService, private CdeMatEntRepository $cdeMatEntRepository)
-    {
+    public function __construct(
+        AgenceRepository $agenceRepository,
+        private CommandeService $commandeService,
+        private CdeMatEntRepository $cdeMatEntRepository,
+        private CdeMatDetRepository $cdeMatDetRepository,
+        private DepotRepository $depotRepository
+    ) {
         $this->agenceRepository = $agenceRepository;
     }
 
@@ -28,14 +34,12 @@ class CommandeController extends AbstractController
     #[Route('/commande', name: 'app_commande')]
     public function index(): Response
     {
-
         $agences = $this->agenceRepository->findAll();
         return $this->render('commande/index.html.twig', [
             'controller_name' => 'CommandeController',
             'title' => '',
             'agences' => $agences,
             'nav' => []
-
         ]);
     }
 
@@ -46,15 +50,21 @@ class CommandeController extends AbstractController
         try {
             $numCloud = $request->query->get('numCloud');
             $reponse = $this->commandeService->importationCommandeWindecParIdCommande($numCloud);
-            if ($reponse == "succes") {
+            if ($reponse == 200) {
                 $data = [
                     'message' => 'La commande a bien été chargée',
                     'code' => 200
                 ];
                 return new JsonResponse($data);
-            } else {
+            } else if($reponse == 500) {
                 $data = [
-                    'message' => $reponse,
+                    'message' => "error sur serveur",
+                    'code' => 500
+                ];
+                return new JsonResponse($data);
+            }else{
+                $data = [
+                    'message' => "La commande est introuvable",
                     'code' => 500
                 ];
                 return new JsonResponse($data);
@@ -82,24 +92,21 @@ class CommandeController extends AbstractController
     #[Route('/edit-commande/{id}', name: 'edit_commande')]
     public function affiche_commande(CdeMatEnt $cdeMatEnt, Request $request)
     {
+        $depots = null;
         try {
+            $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
+            $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
-
-            // on traite la requete du formulaire
             $form->handleRequest($request);
-
-            // on verifier la formulaire
             if ($form->isSubmitted() && $form->isValid()) {
-                // on stock les  donnes
-               
             }
-
-            // on renvoie les donnes les formulaire et peut aussi utiliser Compact
             return $this->render('commande/edit.html.twig', [
                 'ticket' => null,
                 'form' => $form->createView(),
                 'title' => 'Modification Commande',
-                'nav' => [['app_commande', 'Commande']]
+                'nav' => [['app_commande', 'Commande']],
+                'articles' => $articles,
+                'depots' => $depots,
             ]);
         } catch (Exception $e) {
 

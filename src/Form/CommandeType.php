@@ -23,50 +23,50 @@ class CommandeType extends AbstractType
     {
         $builder
             ->add('NumDevis', IntegerType::class, [
-                'label' => 'NumDevis',
+                'label' => 'Num Devis',
                 'disabled' => true,
             ])
             ->add('IdClient', IntegerType::class, [
-                'label' => 'IdClient',
+                'label' => 'Id CLient',
                 'disabled' => true,
             ])
             ->add('NomClient', TextType::class, [
-                'label' => 'NomClient',
+                'label' => 'Nom Client',
                 'disabled' => true,
             ])
             ->add('CodeChantier', IntegerType::class, [
-                'label' => 'CodeChantier',
+                'label' => 'Code Chantier',
                 'disabled' => true,
                 'required' => false,
             ])
             ->add('NumAffaire', TextType::class, [
-                'label' => 'NumAffaire',
+                'label' => 'Numero Affaire',
                 'disabled' => true,
                 'required' => false,
             ])
             ->add('AdresseChantier', TextareaType::class, [
-                'label' => 'AdresseChantier',
+                'label' => 'Adresse Chantier',
                 'disabled' => true,
                 'required' => false,
             ])
             ->add('CpChantier', TextType::class, [
-                'label' => 'CpChantier',
+                'label' => 'Code Chantier',
                 'disabled' => true,
                 'required' => false,
             ])
             ->add('VilleChantier', TextType::class, [
-                'label' => 'VilleChantier',
+                'label' => 'Ville Chantier',
                 'disabled' => true,
                 'required' => false,
             ])
-         
-            ->add('DateCde', DateTimeType::class, [
-                'label' => 'DateCde',
+
+            ->add('DateCde', DateType::class, [
+                'label' => 'Date du Commande',
                 'disabled' => true,
             ])
-         
+
             ->add('PoidsTotMat', IntegerType::class, [
-                'label' => 'PoidsTotMat',
+                'label' => 'Poids Total',
                 'disabled' => true,
             ])
             ->add('Initiales', TextType::class, [
@@ -75,15 +75,10 @@ class CommandeType extends AbstractType
                 'required' => false,
             ])
             ->add('IdAgence', IntegerType::class, [
-                'label' => 'IdAgence',
-                'disabled' => true,
-            ])
-            ->add('Iddepot', IntegerType::class, [
-                'label' => 'Iddepot',
+                'label' => 'Id Agences',
                 'disabled' => true,
             ]);
-           
-            
+          
     }
 
     public function configureOptions(OptionsResolver $resolver): void

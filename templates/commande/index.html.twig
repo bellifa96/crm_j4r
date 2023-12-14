@@ -236,15 +236,14 @@ console.error('Error:', error);
 });
 }
 
-
 $(document).ready(function () {
 
-$('#agenceSelect').on('change', function () { // Call the function to handle depot selection
+$('#agenceSelect').on('change', function () {
 handleAgenceSelection();
 });
 
 
-$('#depotSelect').on('change', function () { // Call the function to handle depot selection
+$('#depotSelect').on('change', function () {
 handleCommandeSelection();
 });
 });
@@ -253,6 +252,7 @@ function chargerCommande() {
 
 
 let numCloud = document.getElementById("idCommande").value;
+if (numCloud != "") {
 $.ajax({
 type: 'GET',
 url: '/search-commande',
@@ -265,6 +265,10 @@ if (data.code == 200) {
 dialog.dialog("close");
 showFunction();
 document.getElementById("idCommande").value = 0;
+} else {
+dialog.dialog("close");
+showError(data.message);
+document.getElementById("idCommande").value = 0;
 }
 
 },
@@ -272,6 +276,12 @@ error: function (error) {
 console.error('Error:', error);
 }
 });
+} else {
+showError("Numéro du cloud est obligatoire");
+dialog.dialog("close");
+
+}
+
 }
 function showFunction() {
 $('.alert').addClass("show");
@@ -280,6 +290,17 @@ $('.alert').addClass("showAlert");
 setTimeout(function () {
 $('.alert').removeClass("show");
 $('.alert').addClass("hide");
+}, 5000);
+}
+
+function showError(message) {
+document.getElementById("msgError").innerHTML = message;
+$('.alertError').addClass("show");
+$('.alertError').removeClass("hide");
+$('.alertError').addClass("showAlert");
+setTimeout(function () {
+$('.alertError').removeClass("show");
+$('.alertError').addClass("hide");
 }, 5000);
 }
 </script>{% endblock %}
