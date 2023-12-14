@@ -6,6 +6,7 @@ namespace App\Repository\Depot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Depot\Articles;
+use App\Entity\Depot\Depot;
 
 /**
  * @extends ServiceEntityRepository<Articles>
@@ -40,7 +41,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles','article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->setParameter('depotId', $iddepotId)
@@ -54,7 +55,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles','article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->setParameter('depotId', $iddepotId)
@@ -65,7 +66,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
 
-   
+
 
     public function addAll($articles)
     {
@@ -77,4 +78,18 @@ class ArticleRepository extends ServiceEntityRepository
 
         $em->flush();
     }
+    public function updateQteSortieById(string $article, int $newQteSortie, Depot $iddepot): void
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->update()
+            ->set('c.qtesortie', 'c.qtesortie + :newQteSortie')
+            ->where('c.article = :article')
+            ->andWhere('c.depot = :iddepot') // Use the correct field name representing the association
+            ->setParameter('newQteSortie', $newQteSortie)
+            ->setParameter('article', $article)
+            ->setParameter('iddepot', $iddepot);
+    
+        $qb->getQuery()->execute();
+    }
+    
 }

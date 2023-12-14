@@ -43,35 +43,14 @@
 	<strong>Depot:</strong>
 	{{ depots.nomdepot }}
 </div>
-<div
-	class="container mt-4">
-	<!-- Buttons in separate columns -->
-	<div
-		class="row">
-		<!-- Cancel Button Column -->
-		<div class="col-md-6">
-			<button type="button" class="btn btn-light btn-block">
-				<span class="mr-2">Ajouter</span>
-				<i class="fas fa-plus"></i>
-				<!-- Change the icon here -->
-			</button>
-		</div>
 
-		<!-- Validate Button Column -->
-		<div class="col-md-6">
-			<button type="button" class="btn btn-success btn-block">
-				<span class="mr-2">Valider</span>
-				<i class="fas fa-check"></i>
-			</button>
-		</div>
-	</div>
-</div>
 <br>
+<input type="hidden" value="{{depots.codedepot}}" id="codedepot"/>
 <div class="page-block col-lg-12">
 	{% if depots.codedepot == 1 %}
 		{# do something #}
 
-		<table class="table text-center datatablelayher" id="commandeTable" style="color: #0E4377;">
+		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
 					<th>Article</th>
@@ -86,8 +65,11 @@
 					<tr>
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
-						<td>{{ article.qte }}</td>
-						<td>{{ article.QteSortie }}</td>
+						<input class="poids" type="hidden" value="{{ article.Poids }}">
+						<input class="iddepot" type="hidden" value="{{ article.id }}">
+
+						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}"/></td>
+						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}"/></td>
 						<td>{{ article.TypeMat }}</td>
 
 					</tr>
@@ -95,9 +77,14 @@
 			</tbody>
 		</tbody>
 	</table>
+	<div class="flex-container">
+		<div class="flex-item" id="poidsqte">0</div>
+		<div class="flex-item" id="poidsqteSortie">0</div>
+	</div>
 
 {% else %}
-	<table class="table text-center datatablelagny" id="commandeTable" style="color: #0E4377;">
+
+	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 		<thead>
 			<tr class="tr-head">
 				<th>Article</th>
@@ -114,14 +101,47 @@
 				<tr>
 					<td>{{ article.Article }}</td>
 					<td>{{ article.Designation }}</td>
-					<td>{{ article.qte }}</td>
-					<td>{{ article.QteSortie }}</td>
-					<td>{{ article.QteSortie }}</td>
-                    <td>{{ article.QteSortie }}</td>
+
+					<input class="poids" type="hidden" value="{{ article.Poids }}">
+					<input class="iddepot" type="hidden" value="{{ article.id }}">
+					<input class="article" type="hidden" value="{{ article.Article }}">
+
+					<td><input type="number" value="{{ article.qte }}" class="inputNumber form-control qte" disabled/></td>
+					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
+					<td><input type="number" value="0" class="inputNumber form-control qtePreparer"/></td>
+					<td><input type="number" value="0" class="inputNumber form-control qtearester"/></td>
 					<td>{{ article.TypeMat }}</td>
 
 				</tr>
 			{% endfor %}
 		</tbody>
 	</tbody>
-</table>{% endif %}</div>
+</table>
+<div class="flex-container">
+	<div class="flex-item" id="poidsqte">0</div>
+	<div class="flex-item" id="poidsqteSortie">0</div>
+	<div class="flex-item" id="poidsqtePreparer">0</div>
+</div>{% endif %}</div>
+<div
+	class="container mt-4">
+	<!-- Buttons in separate columns -->
+	<div
+		class="row">
+		<!-- Cancel Button Column -->
+		<div class="col-md-6">
+			<button type="button" class="btn btn-light btn-block">
+				<span class="mr-2">Ajouter</span>
+				<i class="fas fa-plus"></i>
+				<!-- Change the icon here -->
+			</button>
+		</div>
+
+		<!-- Validate Button Column -->
+		<div class="col-md-6">
+			<button type="button" class="btn btn-success btn-block" onclick="valider()">
+				<span class="mr-2">Valider</span>
+				<i class="fas fa-check"></i>
+			</button>
+		</div>
+	</div>
+</div>

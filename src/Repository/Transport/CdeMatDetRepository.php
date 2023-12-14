@@ -62,4 +62,15 @@ class CdeMatDetRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function updateQteSortieById(int $cdeMatDetId, int $newQteSortie): void
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->update()
+            ->set('c.QteSortie', 'c.QteSortie + :newQteSortie')
+            ->where('c.id = :cdeMatDetId')
+            ->setParameter('newQteSortie', $newQteSortie)
+            ->setParameter('cdeMatDetId', $cdeMatDetId);
+
+        $qb->getQuery()->execute();
+    }
 }

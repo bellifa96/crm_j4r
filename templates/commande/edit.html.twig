@@ -29,22 +29,150 @@
 			border: 1px solid #ddd;
 			margin: 10px;
 			border-radius: 5px;
-			color:black;
-			text-align:center;
+			color: black;
+			text-align: center;
 		}
 		.btn-custom {
-            background-color: #BDBBBA; /* Change this color code to your desired color */
-            border-color: #BDBBBA;
-            color: black; /* Text color */
-        }
+			background-color: #BDBBBA; /* Change this color code to your desired color */
+			border-color: #BDBBBA;
+			color: black; /* Text color */
+		}
 		.btn-custom:hover {
-            background-color: #BDBBBA; /* Change this color code to your desired color */
-            border-color: #BDBBBA;
-            color: black; /* Text color */
-        }
+			background-color: #BDBBBA; /* Change this color code to your desired color */
+			border-color: #BDBBBA;
+			color: black; /* Text color */
+		}
+		.inputNumber {
+			text-align: center;
+		}
+		.flex-container {
+			display: flex;
+			flex-direction: row;
+			width: 65%;
+			margin-left: 19%;
+		}
+
+		.flex-item {
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin: 5px;
+			width: 30%;
+			text-align: center;
+		}
 	</style>
 
 	<div class="back_data_afficher">
 		{% include "commande/_new.html.twig" with {'button_label' : 'Modifier' }  %}
 	</div>
+	<script>
+
+		calculer_poids_article();
+function calculer_poids_article() {
+
+let poidsArticle = document.getElementsByClassName("poids");
+
+calculer_poids_QteCommande(poidsArticle, "qte");
+calculer_poids_QteCommande(poidsArticle, "qteSortie");
+let idDepot = document.getElementById("codedepot").value;
+if (idDepot == 2) {
+calculer_poids_QteCommande(poidsArticle, "qtePreparer");
+calculer_toutes_qte();
+
+}
+}
+function calculer_poids_QteCommande(poidsArticle, qte) {
+let Qte = document.getElementsByClassName(qte);
+
+if (poidsArticle.length === Qte.length) {
+let sum = 0;
+
+for (let i = 0; i < poidsArticle.length; i++) {
+let poidsValue = parseFloat(poidsArticle[i].value);
+let qteValue = parseFloat(Qte[i].value);
+
+if (!isNaN(poidsValue) && !isNaN(qteValue)) {
+sum += poidsValue * qteValue;
+} else {
+console.error("Invalid value for poids or qte at index " + i);
+}
+}
+document.getElementById("poids" + qte).innerHTML = sum;
+} else {
+console.error("Arrays poidsArticle and Qte must have the same length");
+}
+
+}
+
+function calculer_toutes_qte() {
+let qte = document.getElementsByClassName("qte");
+let qteSortie = document.getElementsByClassName("qteSortie");
+let qtePreparer = document.getElementsByClassName("qtePreparer");
+let qtearester = document.getElementsByClassName("qtearester");
+if (qte.length === qteSortie.length && qteSortie.length === qtePreparer.length && qtePreparer.length === qtearester.length) {
+for (let i = 0; i < qte.length; i++) {
+let qteValue = parseFloat(qte[i].value) || 0;
+let qteSortieValue = parseFloat(qteSortie[i].value) || 0;
+let qtePreparerValue = parseFloat(qtePreparer[i].value) || 0;
+let qtearesterValue = qteValue - qteSortieValue - qtePreparerValue;
+qtearester[i].value = qtearesterValue;
+if (qtearesterValue < 0) { // Display an alert
+}
+}
+} else {
+console.error("Arrays qte, qteSortie, qtePreparer, and qtearester must have the same length");
+}
+}
+function valider() {
+let idDepot = document.getElementById("codedepot").value;
+
+let iddepotElements = document.getElementsByClassName("iddepot");
+let qteSortieElements = document.getElementsByClassName("qtePreparer");
+let articles = document.getElementsByClassName("article");
+
+let articleQte = [];
+
+for (let i = 0; i < iddepotElements.length; i++) {
+let iddepotValue = iddepotElements[i].value;
+let qteSortieValue = parseFloat(qteSortieElements[i].value) || 0;
+let articleValue = articles[i].value;
+
+let depotObject = {
+iddepot: iddepotValue,
+qteSortie: qteSortieValue,
+article: articleValue,
+idDepot:idDepot
+
+};
+articleQte.push(depotObject);
+}
+
+$.ajax({
+url: '/update-qte-article', // Replace with your actual backend endpoint
+type: 'POST',
+contentType: 'application/json',
+data: JSON.stringify(
+{articleQte: articleQte}
+),
+success: function (data) {
+
+if (data.code == 200) {
+showFunction(data.message);
+location.reload();
+
+} else {
+showError(data.message);
+}
+
+},
+error: function (error) {
+console.error('Error sending data:', error);
+}
+});
+}
+
+$(".inputNumber").on("change", function () {
+calculer_poids_article();
+});
+	</script>
+
 {% endblock %}

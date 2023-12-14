@@ -56,13 +56,13 @@ class CommandeController extends AbstractController
                     'code' => 200
                 ];
                 return new JsonResponse($data);
-            } else if($reponse == 500) {
+            } else if ($reponse == 500) {
                 $data = [
                     'message' => "error sur serveur",
                     'code' => 500
                 ];
                 return new JsonResponse($data);
-            }else{
+            } else {
                 $data = [
                     'message' => "La commande est introuvable",
                     'code' => 500
@@ -112,5 +112,38 @@ class CommandeController extends AbstractController
 
             return $e->getMessage();
         }
+    }
+
+    /** méthod modifier les qtes articles   */
+    #[Route('/update-qte-article', name: 'app_qte_article')]
+    public function update_qte_article(Request $request)
+    {
+        try {
+            $qtes = json_decode($request->getContent(), true);
+            $reponse = $this->commandeService->update_qte_sortie($qtes);
+            if ($reponse == 200) {
+                $data = [
+                    'message' => 'La quantité a bien été modifier',
+                    'code' => 200
+                ];
+                return new JsonResponse($data);
+            } else if ($reponse == 500) {
+                $data = [
+                    'message' => "error sur serveur",
+                    'code' => 500
+                ];
+                return new JsonResponse($data);
+            } else {
+                $data = [
+                    'message' => "La quantité est introuvable",
+                    'code' => 500
+                ];
+                return new JsonResponse($data);
+            }
+        } catch (Exception $e) {
+
+            return $this->json([]);
+        }
+  
     }
 }

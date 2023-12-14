@@ -182,4 +182,13 @@ class CdeMatDet
     {
         $this->NumCloud = $NumCloud;
     }
+      /**
+     * Update QteSortie by adding a new value to the existing one.
+     *
+     * @param int $newQteSortie The value to add to the existing QteSortie
+     */
+    public function updateQteSortie(int $newQteSortie): void
+    {
+        $this->QteSortie += $newQteSortie;
+    }
 }

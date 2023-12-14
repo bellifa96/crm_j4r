@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Transport\CdeMatDet;
 use App\Entity\Transport\CdeMatEnt;
+use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
@@ -28,7 +29,8 @@ class CommandeService
         ParameterBagInterface $params,
         private CdeMatEntRepository $cdeMatEntRepository,
         private DepotRepository $depotRepository,
-        private CdeMatDetRepository $cdeMatDetRepository
+        private CdeMatDetRepository $cdeMatDetRepository,
+        private ArticleRepository $articleRepository
     ) {
         $this->params = $params;
     }
@@ -44,7 +46,7 @@ class CommandeService
                 return 401;
             }
             $data = json_decode($json);
-            
+
             $codeChantier = $data->m_clAdresse->m_stInformations->sCode_Analytique; //20143 si pour dépôt Lagny
 
             $depot = $this->depotRepository->findOneByCodedepot($codeChantier);
@@ -127,6 +129,32 @@ class CommandeService
         } catch (Exception $e) {
             return 500;
         }
-     
+    }
+
+    public function update_qte_sortie($data)
+    {
+        try{
+            
+            if (isset($data['articleQte']) && is_array($data['articleQte'])) {
+                $depot = $this->depotRepository->findOneByCodedepot1($data['articleQte'][0]["idDepot"]);
+                foreach ($data['articleQte'] as $item) {
+                    $iddepot = $item['iddepot'];
+                    $qteSortie = $item['qteSortie'];
+                    $articles = $item['article'];
+
+                    $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
+                    $this->articleRepository->updateQteSortieById($articles,$qteSortie,$depot);
+                    
+                }
+                 
+            } else {
+               return 401;
+            }
+        }catch(Exception $exception){
+            dd($exception->getMessage());
+           return 500;
+        }
+        return 200;
+       
     }
 }

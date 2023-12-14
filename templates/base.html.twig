@@ -63,7 +63,6 @@
 			}
 
 
-
 			@keyframes show_slide {
 				0% {
 					transform: translateX(100%);
@@ -144,7 +143,6 @@
 			}
 
 
-
 			@keyframes show_slide {
 				0% {
 					transform: translateX(100%);
@@ -199,7 +197,6 @@
 				font-size: 18px;
 				color: white;
 			}
-			
 		</style>
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
@@ -238,7 +235,7 @@
 
 				<div class="alert hide">
 					<span class="fas fa-check-circle"></span>
-					<span class="msg">La commande a bien été chargée..</span>
+					<span class="msg" id="msgSucces">La commande a bien été chargée..</span>
 				</div>
 				<div class="alertError hide">
 					<span class="fas fa-check-circle"></span>
@@ -301,7 +298,29 @@
 </html>
 
 <script>
-	function prixDeVente() {
+	function showFunction(message) {
+document.getElementById("msgSucces").innerHTML = message;
+
+$('.alert').addClass("show");
+$('.alert').removeClass("hide");
+$('.alert').addClass("showAlert");
+setTimeout(function () {
+$('.alert').removeClass("show");
+$('.alert').addClass("hide");
+}, 5000);
+}
+
+function showError(message) {
+document.getElementById("msgError").innerHTML = message;
+$('.alertError').addClass("show");
+$('.alertError').removeClass("hide");
+$('.alertError').addClass("showAlert");
+setTimeout(function () {
+$('.alertError').removeClass("show");
+$('.alertError').addClass("hide");
+}, 5000);
+}
+function prixDeVente() {
 
 
 $('#composant_DUHT').val($('#composant_DUHT').val().replaceAll(',', '.'))
