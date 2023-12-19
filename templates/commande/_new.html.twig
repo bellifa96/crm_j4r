@@ -34,9 +34,34 @@
         }) }}
 
 		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NumErpVente, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.NumErpLocation, {'attr': {'class': 'form-control'}}) }}
+
 	</div>
 </div>
+<div
+	class="container mt-4">
+	<!-- Buttons in separate columns -->
+	<div
+		class="row">
+		<!-- Cancel Button Column -->
+		<div class="col-md-6">
+			<button type="button" class="btn btn-light btn-block">
+				<span class="mr-2">Ajouter</span>
+				<i class="fas fa-plus"></i>
+				<!-- Change the icon here -->
+			</button>
+		</div>
 
+		<!-- Validate Button Column -->
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-success btn-block" onclick="valider()">
+				<span class="mr-2">Valider</span>
+				<i class="fas fa-check"></i>
+			</button>
+		</div>
+	</div>
+</div>
 {{ form_end(form) }}
 <br>
 <div class="depot-info">
@@ -68,8 +93,8 @@
 						<input class="poids" type="hidden" value="{{ article.Poids }}">
 						<input class="iddepot" type="hidden" value="{{ article.id }}">
 
-						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}"/></td>
-						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}"/></td>
+						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}" disabled/></td>
+						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}" disabled/></td>
 						<td>{{ article.TypeMat }}</td>
 
 					</tr>
@@ -106,10 +131,10 @@
 					<input class="iddepot" type="hidden" value="{{ article.id }}">
 					<input class="article" type="hidden" value="{{ article.Article }}">
 
-					<td><input type="number" value="{{ article.qte }}" class="inputNumber form-control qte" disabled/></td>
+					<td><input type="number" value="{{ article.qte }}" class="inputNumber form-control qte" disabled /></td>
 					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
-					<td><input type="number" value="0" class="inputNumber form-control qtePreparer"/></td>
-					<td><input type="number" value="0" class="inputNumber form-control qtearester"/></td>
+					<td><input type="number" value="0" class="inputNumber form-control qtePreparer" zero="0" article="{{ article.id }}"/></td>
+					<td><input type="number" value="0" class="inputNumber form-control qtearester"  id="article{{article.id}}" disabled/></td>
 					<td>{{ article.TypeMat }}</td>
 
 				</tr>
@@ -122,26 +147,3 @@
 	<div class="flex-item" id="poidsqteSortie">0</div>
 	<div class="flex-item" id="poidsqtePreparer">0</div>
 </div>{% endif %}</div>
-<div
-	class="container mt-4">
-	<!-- Buttons in separate columns -->
-	<div
-		class="row">
-		<!-- Cancel Button Column -->
-		<div class="col-md-6">
-			<button type="button" class="btn btn-light btn-block">
-				<span class="mr-2">Ajouter</span>
-				<i class="fas fa-plus"></i>
-				<!-- Change the icon here -->
-			</button>
-		</div>
-
-		<!-- Validate Button Column -->
-		<div class="col-md-6">
-			<button type="button" class="btn btn-success btn-block" onclick="valider()">
-				<span class="mr-2">Valider</span>
-				<i class="fas fa-check"></i>
-			</button>
-		</div>
-	</div>
-</div>

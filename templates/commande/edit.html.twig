@@ -66,8 +66,8 @@
 	</div>
 	<script>
 
-		calculer_poids_article();
-function calculer_poids_article() {
+		calculer_poids_article(0);
+function calculer_poids_article(moinsZeroValue) {
 
 let poidsArticle = document.getElementsByClassName("poids");
 
@@ -76,9 +76,9 @@ calculer_poids_QteCommande(poidsArticle, "qteSortie");
 let idDepot = document.getElementById("codedepot").value;
 if (idDepot == 2) {
 calculer_poids_QteCommande(poidsArticle, "qtePreparer");
-calculer_toutes_qte();
-
+calculer_toutes_qte(moinsZeroValue);
 }
+
 }
 function calculer_poids_QteCommande(poidsArticle, qte) {
 let Qte = document.getElementsByClassName(qte);
@@ -103,7 +103,7 @@ console.error("Arrays poidsArticle and Qte must have the same length");
 
 }
 
-function calculer_toutes_qte() {
+function calculer_toutes_qte(moinsZeroValue) {
 let qte = document.getElementsByClassName("qte");
 let qteSortie = document.getElementsByClassName("qteSortie");
 let qtePreparer = document.getElementsByClassName("qtePreparer");
@@ -114,8 +114,13 @@ let qteValue = parseFloat(qte[i].value) || 0;
 let qteSortieValue = parseFloat(qteSortie[i].value) || 0;
 let qtePreparerValue = parseFloat(qtePreparer[i].value) || 0;
 let qtearesterValue = qteValue - qteSortieValue - qtePreparerValue;
+if((moinsZeroValue == 0 && qtearesterValue >= 0)  || (qtearesterValue < 0 && moinsZeroValue == 1)  ){
 qtearester[i].value = qtearesterValue;
-if (qtearesterValue < 0) { // Display an alert
+}
+if (qtearesterValue > 0) {
+	 // Display an alert
+	 qtearester[i].value = qtearesterValue;
+
 }
 }
 } else {
@@ -140,7 +145,7 @@ let depotObject = {
 iddepot: iddepotValue,
 qteSortie: qteSortieValue,
 article: articleValue,
-idDepot:idDepot
+idDepot: idDepot
 
 };
 articleQte.push(depotObject);
@@ -169,9 +174,23 @@ console.error('Error sending data:', error);
 }
 });
 }
+function verfier_moins_zero() {}
 
 $(".inputNumber").on("change", function () {
-calculer_poids_article();
+var moinsZeroValue = $(this).attr("zero");
+calculer_poids_article(moinsZeroValue);
+var articleId = $(this).attr("article");
+let resAsortir = document.getElementById("article" + articleId);
+if (resAsortir.value == 0) {
+$(this).attr("zero", 1);
+var userChoice = confirm("Attention : Vous sortez plus de matériel que prév ");
+if (userChoice) {
+$(this).attr("zero", 1);
+resAsortir.setAttribute("min", 0);
+} else {
+$(this).attr("zero", 0);
+}
+}
 });
 	</script>
 

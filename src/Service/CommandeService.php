@@ -143,7 +143,7 @@ class CommandeService
                     $articles = $item['article'];
 
                     $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
-                    $this->articleRepository->updateQteSortieById($articles,$qteSortie,$depot);
+                    $this->articleRepository->updateQteReserverById($articles,$qteSortie,$depot);
                     
                 }
                  

@@ -78,11 +78,11 @@ class ArticleRepository extends ServiceEntityRepository
 
         $em->flush();
     }
-    public function updateQteSortieById(string $article, int $newQteSortie, Depot $iddepot): void
+    public function updateQteReserverById(string $article, int $newQteSortie, Depot $iddepot): void
     {
         $qb = $this->createQueryBuilder('c')
             ->update()
-            ->set('c.qtesortie', 'c.qtesortie + :newQteSortie')
+            ->set('c.qtereserve', 'c.qtereserve + :newQteSortie')
             ->where('c.article = :article')
             ->andWhere('c.depot = :iddepot') // Use the correct field name representing the association
             ->setParameter('newQteSortie', $newQteSortie)

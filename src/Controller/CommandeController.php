@@ -99,6 +99,12 @@ class CommandeController extends AbstractController
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
+                if($resulat){
+                   $this->addFlash("success","l'article a été correctement modifiée");
+                }else{
+     
+                }
             }
             return $this->render('commande/edit.html.twig', [
                 'ticket' => null,

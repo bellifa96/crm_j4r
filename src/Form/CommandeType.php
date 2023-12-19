@@ -77,6 +77,12 @@ class CommandeType extends AbstractType
             ->add('IdAgence', IntegerType::class, [
                 'label' => 'Id Agences',
                 'disabled' => true,
+            ])
+            ->add('NumErpVente', IntegerType::class, [
+                'label' => 'Numero Erp Location',
+            ])
+            ->add('NumErpLocation', IntegerType::class, [
+                'label' => 'Numéro Vente Vente',
             ]);
           
     }
