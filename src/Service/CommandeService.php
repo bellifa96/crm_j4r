@@ -144,10 +144,11 @@ class CommandeService
                     $qteSortie = $item['qteSortie'];
                     $articles = $item['article'];
                     $cmdent  = $item['idCdeEnte'];
-
+                    // modifier les articles qui exists déja 
                     if($iddepot != 0){
                         $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
                     }else{
+                         // on créer des articles 
                          $mat  = $item['mat'];
                          $cde_det = new CdeMatDet();
                          $article = $this->articleRepository->findAll_article_bydésignation($depot->getIddepot(),$articles);
@@ -162,7 +163,6 @@ class CommandeService
                          $cde_det->setPoids(0);
                          $cde_det->setNumLigne(0);
                          $cde_det->setNumCloud(0);
-
                          $this->cdeMatDetRepository->save($cde_det);
 
                     }
@@ -176,7 +176,6 @@ class CommandeService
                return 401;
             }
         }catch(Exception $exception){
-            dd($exception->getMessage());
            return 500;
         }
         return 200;

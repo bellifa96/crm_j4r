@@ -85,9 +85,11 @@ class ArticleRepository extends ServiceEntityRepository
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article.idarticles', 'article.prixloc', 'article.prixvente', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
+            ->andWhere('article.prixloc > 0')
+            ->andWhere('article.prixvente > 0')
             ->setParameter('depotId', $iddepotId)
             ->getQuery()
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);

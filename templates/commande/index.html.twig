@@ -75,8 +75,7 @@
 				<h2 class="title_article">Commandes</h2>
 			</div>
 			<div class="right">
-				<select class="basic" id="agenceSelect">ù
-					<option>Agence</option>
+				<select class="basic" id="agenceSelect">
 					{% for agence in agences %}
 						<option value="{{ agence.idagence }}">
 							{{ agence.nomagence }}
@@ -161,7 +160,7 @@ closeButton: false
 $("#overlay").show();
 dialog.dialog("open");
 }
-
+handleAgenceSelection();
 function handleAgenceSelection() {
 var selectedAgence = document.getElementById("agenceSelect").value;
 $.ajax({
