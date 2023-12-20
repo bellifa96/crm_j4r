@@ -116,7 +116,8 @@ class CommandeController extends AbstractController
                 'nav' => [['app_commande', 'Commande']],
                 'articles' => $articles,
                 'depots' => $depots,
-                'articlesbyDepot' =>$articlesbyDepot
+                'articlesbyDepot' =>$articlesbyDepot,
+                'idCdeEnte' => $cdeMatEnt->getId()
             ]);
         } catch (Exception $e) {
 

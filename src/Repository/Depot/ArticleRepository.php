@@ -64,7 +64,22 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $depotsbyid;
     }
+    public function findAll_article_bydésignation($iddepotId, $article)
+    {
 
+        $query = $this->_em->createQueryBuilder()
+            ->select('article.idarticles', 'article.article', 'article.designation')
+            ->from(Articles::class, 'article')
+            ->where('article.depot = :depotId')
+            ->andWhere('article.article = :articleD')
+            ->setParameter('depotId', $iddepotId)
+            ->setParameter('articleD', $article)
+            ->getQuery();
+
+        $articles = $query->getOneOrNullResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+
+        return $articles;
+    }
 
     public function findAllbyIdDepotoptimiser($iddepotId)
     {
@@ -103,8 +118,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('newQteSortie', $newQteSortie)
             ->setParameter('article', $article)
             ->setParameter('iddepot', $iddepot);
-    
+
         $qb->getQuery()->execute();
     }
-    
 }

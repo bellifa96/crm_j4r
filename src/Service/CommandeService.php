@@ -138,12 +138,37 @@ class CommandeService
             if (isset($data['articleQte']) && is_array($data['articleQte'])) {
                 $depot = $this->depotRepository->findOneByCodedepot1($data['articleQte'][0]["idDepot"]);
                 foreach ($data['articleQte'] as $item) {
+
                     $iddepot = $item['iddepot'];
+                    
                     $qteSortie = $item['qteSortie'];
                     $articles = $item['article'];
+                    $cmdent  = $item['idCdeEnte'];
 
-                    $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
+                    if($iddepot != 0){
+                        $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
+                    }else{
+                         $mat  = $item['mat'];
+                         $cde_det = new CdeMatDet();
+                         $article = $this->articleRepository->findAll_article_bydésignation($depot->getIddepot(),$articles);
+                         $cde_det->setArticle($article["article"]);
+                         $cde_det->setDesignation($article["designation"]);
+                         $cde_det->setTypeMat($mat);
+                         $cde_det->setQteSortie($qteSortie);
+                         $cde_det->setIdCdeMatEnt($cmdent);
+                         $cde_det->setNumDevis(0);
+                         $cde_det->setCodeChantier(1000);
+                         $cde_det->setQte(0);
+                         $cde_det->setPoids(0);
+                         $cde_det->setNumLigne(0);
+                         $cde_det->setNumCloud(0);
+
+                         $this->cdeMatDetRepository->save($cde_det);
+
+                    }
                     $this->articleRepository->updateQteReserverById($articles,$qteSortie,$depot);
+
+                 
                     
                 }
                  

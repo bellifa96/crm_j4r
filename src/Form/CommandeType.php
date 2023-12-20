@@ -65,7 +65,7 @@ class CommandeType extends AbstractType
                 'disabled' => true,
             ])
 
-            ->add('PoidsTotMat', IntegerType::class, [
+            ->add('PoidsTotMat', TextType::class, [
                 'label' => 'Poids Total',
                 'disabled' => true,
             ])

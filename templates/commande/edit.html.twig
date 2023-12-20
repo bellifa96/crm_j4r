@@ -66,7 +66,8 @@
 	</div>
 	<script>
 
-		calculer_poids_article(0);
+		calculer_poids_article(1);
+
 function calculer_poids_article(moinsZeroValue) {
 
 let poidsArticle = document.getElementsByClassName("poids");
@@ -114,12 +115,11 @@ let qteValue = parseFloat(qte[i].value) || 0;
 let qteSortieValue = parseFloat(qteSortie[i].value) || 0;
 let qtePreparerValue = parseFloat(qtePreparer[i].value) || 0;
 let qtearesterValue = qteValue - qteSortieValue - qtePreparerValue;
-if((moinsZeroValue == 0 && qtearesterValue >= 0)  || (qtearesterValue < 0 && moinsZeroValue == 1)  ){
+if ((moinsZeroValue == 0 && qtearesterValue >= 0) || (qtearesterValue < 0 && moinsZeroValue == 1)) {
 qtearester[i].value = qtearesterValue;
 }
-if (qtearesterValue > 0) {
-	 // Display an alert
-	 qtearester[i].value = qtearesterValue;
+if (qtearesterValue > 0) { // Display an alert
+qtearester[i].value = qtearesterValue;
 
 }
 }
@@ -133,20 +133,23 @@ let idDepot = document.getElementById("codedepot").value;
 let iddepotElements = document.getElementsByClassName("iddepot");
 let qteSortieElements = document.getElementsByClassName("qtePreparer");
 let articles = document.getElementsByClassName("article");
-
+let mats = document.getElementsByClassName("mat");
+let idCdeEnte = document.getElementById("cmdCodeEntre").value;
 let articleQte = [];
 
-for (let i = 0; i < iddepotElements.length; i++) {
+for (let i = 0; i < qteSortieElements.length; i++) {
 let iddepotValue = iddepotElements[i].value;
 let qteSortieValue = parseFloat(qteSortieElements[i].value) || 0;
 let articleValue = articles[i].value;
+let matValue = mats[i].value;
 
 let depotObject = {
 iddepot: iddepotValue,
 qteSortie: qteSortieValue,
 article: articleValue,
-idDepot: idDepot
-
+idDepot: idDepot,
+mat: matValue,
+idCdeEnte: idCdeEnte
 };
 articleQte.push(depotObject);
 }
@@ -162,7 +165,7 @@ success: function (data) {
 
 if (data.code == 200) {
 showFunction(data.message);
-location.reload();
+
 
 } else {
 showError(data.message);
@@ -178,6 +181,7 @@ function verfier_moins_zero() {}
 
 $(".inputNumber").on("change", function () {
 var moinsZeroValue = $(this).attr("zero");
+console.log("res");
 calculer_poids_article(moinsZeroValue);
 var articleId = $(this).attr("article");
 let resAsortir = document.getElementById("article" + articleId);
