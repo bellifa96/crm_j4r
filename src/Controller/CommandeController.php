@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Transport\CdeMatEnt;
 use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
+use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
@@ -25,7 +26,8 @@ class CommandeController extends AbstractController
         private CommandeService $commandeService,
         private CdeMatEntRepository $cdeMatEntRepository,
         private CdeMatDetRepository $cdeMatDetRepository,
-        private DepotRepository $depotRepository
+        private DepotRepository $depotRepository,
+        private ArticleRepository $articleRepository
     ) {
         $this->agenceRepository = $agenceRepository;
     }
@@ -95,6 +97,7 @@ class CommandeController extends AbstractController
         $depots = null;
         try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
+            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot());
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
@@ -113,6 +116,7 @@ class CommandeController extends AbstractController
                 'nav' => [['app_commande', 'Commande']],
                 'articles' => $articles,
                 'depots' => $depots,
+                'articlesbyDepot' =>$articlesbyDepot
             ]);
         } catch (Exception $e) {
 

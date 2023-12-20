@@ -183,7 +183,7 @@ var articleId = $(this).attr("article");
 let resAsortir = document.getElementById("article" + articleId);
 if (resAsortir.value == 0) {
 $(this).attr("zero", 1);
-var userChoice = confirm("Attention : Vous sortez plus de matériel que prév ");
+var userChoice = confirm("Attention : Vous sortez plus de matériel que préveu ");
 if (userChoice) {
 $(this).attr("zero", 1);
 resAsortir.setAttribute("min", 0);
