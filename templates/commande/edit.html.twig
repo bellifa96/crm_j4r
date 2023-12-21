@@ -97,7 +97,7 @@ sum += poidsValue * qteValue;
 console.error("Invalid value for poids or qte at index " + i);
 }
 }
-document.getElementById("poids" + qte).innerHTML = sum;
+document.getElementById("poids" + qte).innerHTML = sum.toFixed(2);
 } else {
 console.error("Arrays poidsArticle and Qte must have the same length");
 }
@@ -165,8 +165,7 @@ success: function (data) {
 
 if (data.code == 200) {
 showFunction(data.message);
-
-
+window.location.href = "/edit-commande/"+idCdeEnte;
 } else {
 showError(data.message);
 }
@@ -181,13 +180,12 @@ function verfier_moins_zero() {}
 
 $(".inputNumber").on("change", function () {
 var moinsZeroValue = $(this).attr("zero");
-console.log("res");
 calculer_poids_article(moinsZeroValue);
 var articleId = $(this).attr("article");
 let resAsortir = document.getElementById("article" + articleId);
 if (resAsortir.value == 0) {
 $(this).attr("zero", 1);
-var userChoice = confirm("Attention : Vous sortez plus de matériel que préveu ");
+var userChoice = confirm("Attention : Vous sortez plus de matériel que prévu ");
 if (userChoice) {
 $(this).attr("zero", 1);
 resAsortir.setAttribute("min", 0);

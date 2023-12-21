@@ -72,5 +72,8 @@ class CdeMatDetRepository extends ServiceEntityRepository
             ->setParameter('cdeMatDetId', $cdeMatDetId);
 
         $qb->getQuery()->execute();
+        
+        $this->getEntityManager()->flush();
+
     }
 }

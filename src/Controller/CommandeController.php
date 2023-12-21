@@ -27,7 +27,7 @@ class CommandeController extends AbstractController
         private CdeMatEntRepository $cdeMatEntRepository,
         private CdeMatDetRepository $cdeMatDetRepository,
         private DepotRepository $depotRepository,
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
     ) {
         $this->agenceRepository = $agenceRepository;
     }
@@ -97,7 +97,7 @@ class CommandeController extends AbstractController
         $depots = null;
         try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
-            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot());
+            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(),"L");
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
@@ -156,5 +156,21 @@ class CommandeController extends AbstractController
             return $this->json([]);
         }
   
+    }
+
+    /** méthod pour récuperer les articles vente ou location   */
+    #[Route('/get-article-type', name: 'app_command_article_type')]
+    public function getArticlebyType(Request $request)
+    {
+        try {
+            $type = $request->query->get('type');
+            $depot = $this->depotRepository->findOneByCodedepot(20143);
+            $articles = $this->articleRepository->findAll_article_désignation_byIdDepot($depot,$type);
+    
+            return $this->json($articles);
+        } catch (Exception $e) {
+
+            return $this->json([]);
+        }
     }
 }

@@ -51,24 +51,38 @@ class ArticleRepository extends ServiceEntityRepository
         return $depotsbyid;
     }
 
-    public function findAll_article_désignation_byIdDepot($iddepotId)
+    public function findAll_article_désignation_byIdDepot($iddepotId,$type="L")
     {
 
-        $depotsbyid = $this->_em->createQueryBuilder()
+        if($type==1){
+            $depotsbyid = $this->_em->createQueryBuilder()
             ->select('article.idarticles', 'article.article', 'article.designation')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
+            ->andWhere('article.location = 1')
             ->setParameter('depotId', $iddepotId)
             ->getQuery()
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        }else{
+            $depotsbyid = $this->_em->createQueryBuilder()
+            ->select('article.idarticles', 'article.article', 'article.designation')
+            ->from(Articles::class, 'article')
+            ->where('article.depot = :depotId')
+            ->andWhere('article.vente = 1')
+            ->setParameter('depotId', $iddepotId)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        }
+    
 
         return $depotsbyid;
     }
+    
     public function findAll_article_bydésignation($iddepotId, $article)
     {
 
         $query = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation')
+            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->andWhere('article.article = :articleD')
@@ -88,8 +102,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->select('article.idarticles', 'article.prixloc', 'article.prixvente', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
-            ->andWhere('article.prixloc > 0')
-            ->andWhere('article.prixvente > 0')
             ->setParameter('depotId', $iddepotId)
             ->getQuery()
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);

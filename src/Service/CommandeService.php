@@ -160,7 +160,7 @@ class CommandeService
                          $cde_det->setNumDevis(0);
                          $cde_det->setCodeChantier(1000);
                          $cde_det->setQte(0);
-                         $cde_det->setPoids(0);
+                         $cde_det->setPoids($article["poids"]);
                          $cde_det->setNumLigne(0);
                          $cde_det->setNumCloud(0);
                          $this->cdeMatDetRepository->save($cde_det);

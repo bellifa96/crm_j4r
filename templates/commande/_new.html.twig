@@ -49,7 +49,6 @@
 		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.IdAgence, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
 
 
 	</div>
@@ -256,6 +255,60 @@ var newRow = $('<tr>' + '<td>' + articleToAdd.Article + '</td>' + '<td>' + artic
 myDataTable.row.add(newRow).draw();
 closeModal();
 } else {
-alert('Article déja exits sur la table');
+alert('Article déja exitant sur la table');
 }
-}</script>
+}
+
+$("#selectOption").change(function () {
+var selectedValue = $(this).val();
+var typeArticle = 1;
+
+console.log("Selected Value: " + selectedValue);
+
+if (selectedValue == "V") {
+typeArticle = 2;
+} else {
+typeArticle = 1;
+}
+
+
+if ($.fn.DataTable.isDataTable('#commandeAjouter')) {
+$('#commandeAjouter').DataTable().destroy();
+}
+
+commandeAjouter = $('#commandeAjouter').DataTable({paging: true});
+console.log(commandeAjouter);
+$.ajax({
+type: 'GET',
+url: '/get-article-type',
+data: {
+type: typeArticle
+},
+success: function (data) {
+console.log(data);
+commandeAjouter.clear().draw();
+
+// Populate the table with the new data
+for (var i = 0; i < data.length; i++) {
+var article = data[i];
+var newRow = [article.article, article.designation, article.idarticles];
+var $newRow = $('<tr>').on('dblclick', function () {
+    test(article.designation, article.article);
+});
+
+// Add td elements to the new row
+for (var j = 0; j < newRow.length; j++) {
+$newRow.append('<td>' + newRow[j] + '</td>');
+}
+
+
+// Append the new row to the DataTable
+commandeAjouter.row.add($newRow);
+}
+commandeAjouter.draw();
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+});</script>
