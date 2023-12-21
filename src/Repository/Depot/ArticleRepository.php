@@ -134,5 +134,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('iddepot', $iddepot);
 
         $qb->getQuery()->execute();
+        $this->getEntityManager()->flush();
+
     }
 }

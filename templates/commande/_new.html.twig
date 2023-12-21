@@ -292,9 +292,8 @@ commandeAjouter.clear().draw();
 for (var i = 0; i < data.length; i++) {
 var article = data[i];
 var newRow = [article.article, article.designation, article.idarticles];
-var $newRow = $('<tr>').on('dblclick', function () {
-    test(article.designation, article.article);
-});
+
+var $newRow = $('<tr>').on('dblclick', createDblClickHandler(newRow));
 
 // Add td elements to the new row
 for (var j = 0; j < newRow.length; j++) {
@@ -311,4 +310,9 @@ error: function (error) {
 console.error('Error:', error);
 }
 });
-});</script>
+});
+function createDblClickHandler(article) {
+return function () {
+test(article[1], article[0]);
+};
+}</script>

@@ -165,7 +165,7 @@ success: function (data) {
 
 if (data.code == 200) {
 showFunction(data.message);
-window.location.href = "/edit-commande/"+idCdeEnte;
+location.reload();
 } else {
 showError(data.message);
 }
