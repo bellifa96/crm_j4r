@@ -22,9 +22,12 @@ class  EtatTransportRepository extends ServiceEntityRepository
         parent::__construct($registry, Etatstransport::class);
     }
 
-    public function getEtatTransportBy_id()
+    public function getALLbybnsnumBon($numBon)
     {
-       
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.numbon = :numBon')
+            ->setParameter('numBon', $numBon)
+            ->getQuery()
+            ->getResult();
     }
-  
 }

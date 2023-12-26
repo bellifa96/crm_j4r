@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Depot\Etatsencours;
+use App\Entity\Depot\Etatstransport;
 use App\Repository\Depot\BonsdetailstempRepository;
 use App\Repository\Depot\EtatEnCoursRepository;
+use App\Repository\Depot\EtatTransportRepository;
 use App\Service\BonLayherService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,8 @@ class BonLayherController extends AbstractController
         private EtatEnCoursRepository $etatEncoursRepository,
         private BonLayherService $bonLayherService,
         private EntityManagerInterface $entityManager,
-        private BonsdetailstempRepository $bonsdetailstempRepository
+        private BonsdetailstempRepository $bonsdetailstempRepository,
+        private EtatTransportRepository $etatTransportRepository
     ) {
     }
 
@@ -45,25 +48,35 @@ class BonLayherController extends AbstractController
             $date_du = $request->query->get('datedu');
             $date_au = $request->query->get('dateau');
 
-            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du,$date_au);
 
-            return $this->json($response);
+            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du, $date_au);
+
+            $data = [
+                'bonLayher' => $response,
+            ];
+
+            return $this->json($data);
         } catch (Exception $e) {
             dd($e->getMessage());
             return $this->json([]);
         }
     }
 
-    
+
     #[Route('/get-article-bon', name: 'app_bon_layher_article_num')]
     public function getArticleBonLayher(Request $request)
     {
         try {
             $numBonlayher = $request->query->get('numBonlayher');
+            $LayherTransport = $this->etatTransportRepository->getALLbybnsnumBon($numBonlayher);
 
             $res = $this->bonsdetailstempRepository->getArticlebyNumero($numBonlayher);
-        
-            return $this->json($res);
+            $data = [
+                'article' => $res,
+                'layherTransport' => $LayherTransport
+            ];
+
+            return $this->json($data);
         } catch (Exception $e) {
             dd($e->getMessage());
             return $this->json([]);

@@ -75,51 +75,51 @@
 </div>
 
 <div class="row form">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="Consignes" class="font-weight-bold">Consignes</label>
-            <input type="text" id="Consignes" name="Consignes" class="form-control" value="Champs Vide">
-        </div>
-        <div class="form-group">
-            <label for="HeurePense1" class="font-weight-bold">Heure Pensé 1</label>
-            <input type="text" id="HeurePense1" name="HeurePense1" class="form-control" value="09:30">
-        </div>
-        <div class="form-group">
-            <label for="HeurePense2" class="font-weight-bold">Heure Pensé 2</label>
-            <input type="text" id="HeurePense2" name="HeurePense2" class="form-control" value="09:30">
-        </div>
-        <!-- Add similar blocks for other fields in the first column -->
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="NTicket" class="font-weight-bold">N ticket</label>
-            <input type="text" id="NTicket" name="NTicket" class="form-control" value="27478">
-        </div>
-        <div class="form-group">
-            <label for="PoidsPense1" class="font-weight-bold">Poids Pensé 1</label>
-            <input type="text" id="PoidsPense1" name="PoidsPense1" class="form-control" value="11600">
-        </div>
-        <div class="form-group">
-            <label for="PoidsPense2" class="font-weight-bold">Poids Pensé 2</label>
-            <input type="text" id="PoidsPense2" name="PoidsPense2" class="form-control" value="11600">
-        </div>
-        <!-- Add similar blocks for other fields in the second column -->
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="Arrive" class="font-weight-bold">Arrivé</label>
-            <input type="text" id="Arrive" name="Arrive" class="form-control" value="09:29">
-        </div>
-        <div class="form-group">
-            <label for="NBascule1" class="font-weight-bold">N bascule 1</label>
-            <input type="text" id="NBascule1" name="NBascule1" class="form-control" value="47 963">
-        </div>
-        <div class="form-group">
-            <label for="NBascule2" class="font-weight-bold">N bascule 2</label>
-            <input type="text" id="NBascule2" name="NBascule2" class="form-control" value="47 963">
-        </div>
-        <!-- Add similar blocks for other fields in the third column -->
-    </div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label for="Consignes" class="font-weight-bold">Consignes</label>
+			<input type="text" id="Consignes" name="Consignes" class="form-control" value="Champs Vide">
+		</div>
+		<div class="form-group">
+			<label for="HeurePense1" class="font-weight-bold">Heure Pensé 1</label>
+			<input type="text" id="HeurePense1" name="HeurePense1" class="form-control" value="09:30">
+		</div>
+		<div class="form-group">
+			<label for="HeurePense2" class="font-weight-bold">Heure Pensé 2</label>
+			<input type="text" id="HeurePense2" name="HeurePense2" class="form-control" value="09:30">
+		</div>
+		<!-- Add similar blocks for other fields in the first column -->
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label for="NTicket" class="font-weight-bold">N ticket</label>
+			<input type="text" id="NTicket" name="NTicket" class="form-control" value="27478">
+		</div>
+		<div class="form-group">
+			<label for="PoidsPense1" class="font-weight-bold">Poids Pensé 1</label>
+			<input type="text" id="PoidsPense1" name="PoidsPense1" class="form-control" value="11600">
+		</div>
+		<div class="form-group">
+			<label for="PoidsPense2" class="font-weight-bold">Poids Pensé 2</label>
+			<input type="text" id="PoidsPense2" name="PoidsPense2" class="form-control" value="11600">
+		</div>
+		<!-- Add similar blocks for other fields in the second column -->
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label for="Arrive" class="font-weight-bold">Arrivé</label>
+			<input type="text" id="Arrive" name="Arrive" class="form-control" value="09:29">
+		</div>
+		<div class="form-group">
+			<label for="NBascule1" class="font-weight-bold">N bascule 1</label>
+			<input type="text" id="NBascule1" name="NBascule1" class="form-control" value="47 963">
+		</div>
+		<div class="form-group">
+			<label for="NBascule2" class="font-weight-bold">N bascule 2</label>
+			<input type="text" id="NBascule2" name="NBascule2" class="form-control" value="47 963">
+		</div>
+		<!-- Add similar blocks for other fields in the third column -->
+	</div>
 </div>
 
 <script>
@@ -156,8 +156,8 @@ data: {
 datedu: DateDu,
 dateau: DateAu
 },
-success: function (data) {
-
+success: function (res) {
+var data = res.bonLayher;
 var select = $('#bonlayher');
 select.empty();
 console.log(data);
@@ -184,7 +184,8 @@ url: "/get-article-bon",
 data: {
 numBonlayher: selectedValue
 },
-success: function (data) {
+success: function (res) {
+var data = res.article;
 var ArticleBonTable;
 if ($.fn.DataTable.isDataTable('#ArticleBonTable')) {
 $('#ArticleBonTable').DataTable().destroy();
@@ -192,7 +193,7 @@ $('#ArticleBonTable').DataTable().destroy();
 
 ArticleBonTable = $('#ArticleBonTable').DataTable({paging: true});
 ArticleBonTable.clear().draw();
-console.log(data);
+console.log(res);
 // Populate the table with the new data
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
@@ -209,4 +210,7 @@ console.log(error);
 
 });
 });
+function setDataTransport(transportBonLayher) {
+
+}
 </script>{% endblock %}
