@@ -234,6 +234,14 @@
 						</a>
 					</li>
 
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_bon_layher' ? 'active' }} ">
+						<a href="{{ path('app_bon_layher') }}" class="sidebar-link  ">
+							<i class="bi bi-cart-dash-fill"></i>
+							<span>
+								Bon Layher</span>
+						</a>
+					</li>
+
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_transport_windecde_index' ? 'active' }} "></li>
 
 				</ul>

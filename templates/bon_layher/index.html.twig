@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Commandes
+{% endblock %}
+
+
+{% block body %}
+	<style>
+		.form {
+			margin-left: 15%;
+			width: 70%;
+		}
+	</style>
+	<div class="row form">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="NumAffaire" class="font-weight-bold">Num Affaire</label>
+				<select id="NumAffaire" name="NumAffaire" class="form-select" disabled>
+					{% for affaire in affaires %}
+						<option value="{{affaire.id}}" {% if affaire.numaffaire == '1000X5B' %} selected {% endif %}>{{affaire.numaffaire}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="NomClient" class="font-weight-bold">Nom</label>
+				<input type="text" id="NomClient" name="NomClient" class="form-control" value="J4R Echafaudages/CH. GROUPE {{ 'now'|date('Y') }} ">
+			</div>
+			<!-- Add similar blocks for other fields in the first column -->
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="DateDu" class="font-weight-bold">DU</label>
+				<input type="date" id="DateDu" name="DateDu" class="form-control" value="">
+			</div>
+
+			<div class="form-group">
+				<label for="DetailChantier" class="font-weight-bold">Detail</label>
+				<input type="text" id="DetailChantier" name="DetailChantier" class="form-control" value="CHANTIERS GROUPE {{ 'now'|date('Y') }}">
+			</div>
+			<!-- Add similar blocks for other fields in the second column -->
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label for="DateAu" class="font-weight-bold">Au</label>
+				<input type="date" id="DateAu" name="DateAu" class="form-control" value="">
+			</div>
+			<div class="form-group">
+				<label for="NumBon" class="font-weight-bold">Num Bon</label>
+				<select id="NumBon" name="NumBon" class="form-select">
+					<option value=""></option>
+					<!-- Add options dynamically if needed -->
+				</select>
+			</div>
+			<!-- Add similar blocks for other fields in the third column -->
+		</div>
+	</div>
+	<div
+		class="page-block form col-lg-12">
+		{# do something #}
+
+		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>Code Article</th>
+					<th>Designation</th>
+					<th>Qte</th>
+					<th>Poids</th>
+
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</tbody>
+	</table>
+</div>
+<script>
+	document.getElementById('DateDu').addEventListener('change', function () {
+var minDateDu = this.value;
+document.getElementById('DateAu').min = minDateDu;
+});
+document.getElementById('DateAu').addEventListener('change', function () {
+var minDateDu = this.value;
+document.getElementById('DateDu').max = minDateDu;
+});
+function getCurrentDate() {
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+var yyyy = today.getFullYear();
+return yyyy + '-' + mm + '-' + dd;
+}
+
+// Set the initial value of DateDu and DateAu to the current date
+document.getElementById('DateDu').value = getCurrentDate();
+document.getElementById('DateAu').value = getCurrentDate();
+
+function getBonLayher() {
+let DateDu = document.getElementById('DateDu').value;
+let DateAu = document.getElementById('DateAu').value;
+$.ajax({
+type: "POST",
+url: "/get-bon-layher",
+data: {
+    datedu : DateDu,
+    dateau : DateAu
+},
+success: function (response) { 
+
+},
+error: function (error) {
+console.log(error);
+}
+});
+
+
+}
+</script>{% endblock %}
