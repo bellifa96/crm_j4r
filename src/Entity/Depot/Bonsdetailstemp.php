@@ -23,7 +23,7 @@ class Bonsdetailstemp
 
     private $numbon;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'datetime')]
 
     private $datemvt;
 
