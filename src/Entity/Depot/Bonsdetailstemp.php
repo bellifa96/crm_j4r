@@ -23,7 +23,7 @@ class Bonsdetailstemp
 
     private $numbon;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'string')]
 
     private $datemvt;
 
@@ -81,7 +81,7 @@ class Bonsdetailstemp
         return $this;
     }
 
-    public function getNumbon(): ?int
+        public function getNumbon(): ?int
     {
         return $this->numbon;
     }
