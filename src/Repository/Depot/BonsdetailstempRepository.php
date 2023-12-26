@@ -24,10 +24,8 @@ class BonsdetailstempRepository extends ServiceEntityRepository
 
     public function findByDateRange($startDate, $endDate)
     {
-        
 
         $res = $this->createQueryBuilder('b')
-            ->setMaxResults(10) // Limit the result to 10 records
             ->groupBy('b.numbon')
             ->getQuery()
             ->getResult();

@@ -164,7 +164,7 @@ console.log(data);
 
 
 $.each(data, function (index, bon) {
-select.append('<option   value="' + bon.numbon + '">' + bon.numbon + "-" + bon.typebon + "-" + DateDu + '</option>');
+select.append('<option   value="' + bon.numbon + '">' + bon.numbon + "-" + bon.typebon + "-" + bon.datemvt + '</option>');
 });
 },
 error: function (error) {
