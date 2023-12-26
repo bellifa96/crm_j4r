@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Depot\Etatsencours;
+use App\Repository\Depot\BonsdetailstempRepository;
 use App\Repository\Depot\EtatEnCoursRepository;
+use App\Service\BonLayherService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +18,9 @@ class BonLayherController extends AbstractController
 
     public function __construct(
         private EtatEnCoursRepository $etatEncoursRepository,
+        private BonLayherService $bonLayherService,
+        private EntityManagerInterface $entityManager,
+        private BonsdetailstempRepository $bonsdetailstempRepository
     ) {
     }
 
@@ -39,9 +45,27 @@ class BonLayherController extends AbstractController
             $date_du = $request->query->get('datedu');
             $date_au = $request->query->get('dateau');
 
-            return $this->json([]);
-        } catch (Exception $e) {
+            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du,$date_au);
 
+            return $this->json($response);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return $this->json([]);
+        }
+    }
+
+    
+    #[Route('/get-article-bon', name: 'app_bon_layher_article_num')]
+    public function getArticleBonLayher(Request $request)
+    {
+        try {
+            $numBonlayher = $request->query->get('numBonlayher');
+
+            $res = $this->bonsdetailstempRepository->getArticlebyNumero($numBonlayher);
+        
+            return $this->json($res);
+        } catch (Exception $e) {
+            dd($e->getMessage());
             return $this->json([]);
         }
     }
