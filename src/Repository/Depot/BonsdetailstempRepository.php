@@ -24,34 +24,18 @@ class BonsdetailstempRepository extends ServiceEntityRepository
 
     public function findByDateRange($startDate, $endDate)
     {
-        $startDateString = '10/12/2023';
-        $endDateString = '30/12/2023';
+        
 
-        $startDate = \DateTime::createFromFormat('d/m/Y', $startDateString);
-        $endDate = \DateTime::createFromFormat('d/m/Y', $endDateString);
+        $res = $this->createQueryBuilder('b')
+            ->setMaxResults(10) // Limit the result to 10 records
+            ->groupBy('b.numbon')
+            ->getQuery()
+            ->getResult();
 
-        // Check if date objects were created successfully
-        if ($startDate instanceof \DateTime && $endDate instanceof \DateTime) {
-            $formattedStartDate = $startDate->format('Y-m-d');
-            $formattedEndDate = $endDate->format('Y-m-d');
-
-            $query = $this->createQueryBuilder('b')
-                ->where('b.datemvt BETWEEN :start_date AND :end_date')
-                ->setParameter('start_date', $formattedStartDate)
-                ->setParameter('end_date', $formattedEndDate)
-                ->getQuery();
-
-            $results = $query->getResult();
-            
-           return $results;
-            // Handle $results as needed
-        } else {
-            // Handle error if date objects couldn't be created
-            echo "Error creating DateTime objects";
-        }
+        return $res;
     }
-    public function getArticlebyNumero($numbon)
-    {
+    public function getArticlebyNumero($numbon){
         return $this->findBy(['numbon' => $numbon]);
+
     }
 }
