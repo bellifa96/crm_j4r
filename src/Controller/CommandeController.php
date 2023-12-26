@@ -97,16 +97,15 @@ class CommandeController extends AbstractController
         $depots = null;
         try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
-            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(),"L");
+            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(), 1);
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
-                if($resulat){
-                   $this->addFlash("success","l'article a été correctement modifiée");
-                }else{
-     
+                if ($resulat) {
+                    $this->addFlash("success", "l'article a été correctement modifiée");
+                } else {
                 }
             }
             return $this->render('commande/edit.html.twig', [
@@ -116,7 +115,7 @@ class CommandeController extends AbstractController
                 'nav' => [['app_commande', 'Commande']],
                 'articles' => $articles,
                 'depots' => $depots,
-                'articlesbyDepot' =>$articlesbyDepot,
+                'articlesbyDepot' => $articlesbyDepot,
                 'idCdeEnte' => $cdeMatEnt->getId()
             ]);
         } catch (Exception $e) {
@@ -155,7 +154,6 @@ class CommandeController extends AbstractController
 
             return $this->json([]);
         }
-  
     }
 
     /** méthod pour récuperer les articles vente ou location   */
@@ -165,11 +163,64 @@ class CommandeController extends AbstractController
         try {
             $type = $request->query->get('type');
             $depot = $this->depotRepository->findOneByCodedepot(20143);
-            $articles = $this->articleRepository->findAll_article_désignation_byIdDepot($depot,$type);
-    
+            $articles = $this->articleRepository->findAll_article_désignation_byIdDepot($depot, $type);
+
             return $this->json($articles);
         } catch (Exception $e) {
 
+            return $this->json([]);
+        }
+    }
+    /** méthod pour ajouter    */
+    #[Route('/add-commande', name: 'app_new_commande')]
+    public function add_commande(Request $request)
+    {
+        try {
+            $depot = $request->query->get('depot');
+            $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($depot, 1);
+            $cdeMatEnt = new CdeMatEnt();
+            $depots = $this->depotRepository->findOneByIdDepot($depot);
+
+            $form = $this->createForm(CommandeType::class, $cdeMatEnt);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+            }
+            return $this->render('commande/new.html.twig', [
+                'ticket' => null,
+                'form' => $form->createView(),
+                'title' => 'Modification Commande',
+                'nav' => [['app_commande', 'Commande']],
+                'articles' => null,
+                'depots' => $depots,
+                'articlesbyDepot' => $articlesbyDepot,
+                'idCdeEnte' => 0
+            ]);
+        } catch (Exception $e) {
+
+            return $e->getMessage();
+        }
+    }
+
+    /** méthod pour récuperer les articles vente ou location   */
+    #[Route('/save-cde-ent', name: 'app_command_article_type_save')]
+    public function save_cde_ent(Request $request)
+    {
+        try {
+            $requestData = json_decode($request->getContent(), true);
+
+            // Access articleQte if present
+            $urlEncodedString = $requestData['formData'] ?? [];
+            $depot = $requestData['depot'] ?? [];
+            parse_str($urlEncodedString, $formData);
+
+
+
+            $articleQteArray = $requestData["articleQte"];
+            $resultat = $this->commandeService->save($formData, $articleQteArray, $depot);
+
+            return $this->json($resultat);
+        } catch (Exception $e) {
+            dd($e->getMessage());
             return $this->json([]);
         }
     }

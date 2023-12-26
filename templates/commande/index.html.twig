@@ -38,11 +38,11 @@
 			margin-left: 10%;
 		}
 		.basic {
-			width: 200px;
+			width: 160px;
 			height: 35px;
 			background: #f5f5f5;
 			font-family: 'Poppins', sans-serif;
-			margin-left: 5%;
+			margin-left: 3%;
 
 		}
 		.custom-dialog {
@@ -65,7 +65,6 @@
 			z-index: 999; /* Ensure it's above the dialog */
 		}
 		.btnChargerCommande {
-			margin-left: 10px;
 		}
 	</style>
 
@@ -89,6 +88,12 @@
 				<button class="basic" onclick="showCharacterLimitDialog()">
 					<span>
 						Importation
+					</span>
+				</button>
+
+				<button class="basic" id="creer">
+					<span>
+						Créer
 					</span>
 				</button>
 
@@ -176,7 +181,7 @@ select.empty();
 select.append('<option>Depot</option>');
 
 $.each(data, function (index, depot) {
-select.append('<option value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
+select.append('<option code="'+depot.codedepot+'" value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
 });
 },
 error: function (error) {
@@ -190,6 +195,14 @@ var commandeTable;
 // Function to handle depot selection
 function handleCommandeSelection() {
 var selectedDepot = document.getElementById("depotSelect").value;
+var selectedOption = document.getElementById("depotSelect").options[document.getElementById("depotSelect").selectedIndex];
+var codedepotValue = selectedOption.getAttribute("code");
+if(codedepotValue != 1){
+document.getElementById("creer").style.display = "block";
+}else{
+document.getElementById("creer").style.display = "none";
+
+}
 
 if ($.fn.DataTable.isDataTable('#commandeTable')) {
 $('#commandeTable').DataTable().destroy();
@@ -302,4 +315,19 @@ $('.alertError').removeClass("show");
 $('.alertError').addClass("hide");
 }, 5000);
 }
+
+$(document).ready(function() {
+    // Attach a click event to your button
+    $("#creer").on("click", function() {
+        var depot = document.getElementById("depotSelect").value;
+        
+        var redirectUrl = "/add-commande?depot=" +depot;
+
+       
+        window.location.href = redirectUrl;
+    });
+});
+
+
+
 </script>{% endblock %}

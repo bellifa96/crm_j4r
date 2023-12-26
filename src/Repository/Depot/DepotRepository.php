@@ -54,7 +54,7 @@ class DepotRepository extends ServiceEntityRepository
     public function getDepotsByAgenceId($agenceId)
     {
         return $this->createQueryBuilder('d')
-            ->select('d.iddepot, d.nomdepot,d.adressedepot, d.cpdepot,d.contacttel, d.villedepot') // Select only id and nomdepot fields
+            ->select('d.iddepot, d.nomdepot,d.adressedepot, d.cpdepot,d.contacttel, d.villedepot,d.codedepot') // Select only id and nomdepot fields
             ->andWhere('d.agence = :agenceId')  // Corrected to provide a condition
             ->setParameter('agenceId', $agenceId)
             ->getQuery()

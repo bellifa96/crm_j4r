@@ -133,52 +133,121 @@ class CommandeService
 
     public function update_qte_sortie($data)
     {
-        try{
-            
+        try {
+
             if (isset($data['articleQte']) && is_array($data['articleQte'])) {
                 $depot = $this->depotRepository->findOneByCodedepot1($data['articleQte'][0]["idDepot"]);
                 foreach ($data['articleQte'] as $item) {
 
                     $iddepot = $item['iddepot'];
-                    
+
                     $qteSortie = $item['qteSortie'];
                     $articles = $item['article'];
                     $cmdent  = $item['idCdeEnte'];
                     // modifier les articles qui exists déja 
-                    if($iddepot != 0){
-                        $this->cdeMatDetRepository->updateQteSortieById($iddepot,$qteSortie);
-                    }else{
-                         // on créer des articles 
-                         $mat  = $item['mat'];
-                         $cde_det = new CdeMatDet();
-                         $article = $this->articleRepository->findAll_article_bydésignation($depot->getIddepot(),$articles);
-                         $cde_det->setArticle($article["article"]);
-                         $cde_det->setDesignation($article["designation"]);
-                         $cde_det->setTypeMat($mat);
-                         $cde_det->setQteSortie($qteSortie);
-                         $cde_det->setIdCdeMatEnt($cmdent);
-                         $cde_det->setNumDevis(0);
-                         $cde_det->setCodeChantier(1000);
-                         $cde_det->setQte(0);
-                         $cde_det->setPoids($article["poids"]);
-                         $cde_det->setNumLigne(0);
-                         $cde_det->setNumCloud(0);
-                         $this->cdeMatDetRepository->save($cde_det);
-
+                    if ($iddepot != 0) {
+                        $this->cdeMatDetRepository->updateQteSortieById($iddepot, $qteSortie);
+                    } else {
+                        // on créer des articles 
+                        $mat  = $item['mat'];
+                        $cde_det = new CdeMatDet();
+                        $article = $this->articleRepository->findAll_article_bydésignation($depot->getIddepot(), $articles);
+                        $cde_det->setArticle($article["article"]);
+                        $cde_det->setDesignation($article["designation"]);
+                        $cde_det->setTypeMat($mat);
+                        $cde_det->setQteSortie($qteSortie);
+                        $cde_det->setIdCdeMatEnt($cmdent);
+                        $cde_det->setNumDevis(0);
+                        $cde_det->setCodeChantier(1000);
+                        $cde_det->setQte(0);
+                        $cde_det->setPoids($article["poids"]);
+                        $cde_det->setNumLigne(0);
+                        $cde_det->setNumCloud(0);
+                        $this->cdeMatDetRepository->save($cde_det);
                     }
-                    $this->articleRepository->updateQteReserverById($articles,$qteSortie,$depot);
-
-                 
-                    
+                    $this->articleRepository->updateQteReserverById($articles, $qteSortie, $depot);
                 }
-                 
             } else {
-               return 401;
+                return 401;
             }
-        }catch(Exception $exception){
-           return 500;
+        } catch (Exception $exception) {
+            return 500;
         }
         return 200;
-       
+    }
+
+    public function save($formData,$article,$iddepot)
+    {
+
+        try {
+            $depot = $this->depotRepository->findOneByCodedepot1($iddepot)->getIddepot();
+
+            $commande = new CdeMatEnt();
+            $commande->setNumDevis($formData['commande']['NumDevis'] ?? 0);
+            $commande->setIdClient($formData['commande']['IdClient'] ?? 0);
+            $commande->setNomClient($formData['commande']['NomClient'] ?? '');
+            $commande->setCodeChantier($formData['commande']['CodeChantier'] ?? 0);
+            $commande->setNumAffaire($formData['commande']['NumAffaire'] ?? '');
+            $commande->setAdresseChantier($formData['commande']['AdresseChantier'] ?? '');
+            $commande->setCpChantier($formData['commande']['CpChantier'] ?? '');
+            $commande->setVilleChantier($formData['commande']['VilleChantier'] ?? '');
+            $commande->setInitiales($formData['commande']['Initiales'] ?? '');
+            // Access nested DateCde values
+            $dateCdeYear = $formData['commande']['DateCde']['year'] ?? null;
+            $dateCdeMonth = $formData['commande']['DateCde']['month'] ?? null;
+            $dateCdeDay = $formData['commande']['DateCde']['day'] ?? null;
+
+            // Check if all parts of the date are present before constructing the DateTime object
+            if ($dateCdeYear && $dateCdeMonth && $dateCdeDay) {
+                $commande->setDateCde(new \DateTime("$dateCdeYear-$dateCdeMonth-$dateCdeDay"));
+            }
+    
+            $commande->setPoidsTotMat($formData['commande']['PoidsTotMat'] ?? '0.00');
+            $commande->setNumErpVente($formData['commande']['NumErpVente'] ?? '0');
+            $commande->setNumErpLocation($formData['commande']['NumErpLocation'] ?? '0');
+            $commande->setIddepot($depot);
+
+            $idCde = $this->cdeMatEntRepository->save($commande);
+
+            $this->save_cde_det($article,$idCde,$depot);
+            return 1;
+     
+        } catch (Exception $e) {
+             dd($e->getMessage());
+            return -1;
+        }
+    }
+
+    public function save_cde_det($data,$id,$depot){
+        try{
+            if (isset($data) && is_array($data)) {
+                foreach ($data as $item) {
+
+                    
+                    $qteSortie = $item["qteSortie"];
+                    $articles = $item["article"];
+                    // modifier les articles qui exists déja 
+               
+                        // on créer des articles 
+                        $mat  = $item["mat"];
+                        $cde_det = new CdeMatDet();
+                        $article = $this->articleRepository->findAll_article_bydésignation($depot, $articles);
+                        $cde_det->setArticle($article["article"]);
+                        $cde_det->setDesignation($article["designation"]);
+                        $cde_det->setTypeMat($mat);
+                        $cde_det->setQteSortie($qteSortie);
+                        $cde_det->setIdCdeMatEnt($id);
+                        $cde_det->setNumDevis(0);
+                        $cde_det->setCodeChantier(1000);
+                        $cde_det->setQte(0);
+                        $cde_det->setPoids($article["poids"]);
+                        $cde_det->setNumLigne(0);
+                        $cde_det->setNumCloud(0);
+                        $this->cdeMatDetRepository->save($cde_det);
+                    }
+                }
+        }catch(Exception $e){
+           dd($e->getMessage());
+        }
     }
 }

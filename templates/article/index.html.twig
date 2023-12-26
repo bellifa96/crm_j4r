@@ -53,7 +53,7 @@
 				<select class="basic" id="agenceSelect">
 					<option>Agence</option>
 					{% for agence in agences %}
-						<option value="{{ agence.idagence }}">
+						<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
 							{{ agence.nomagence }}
 						</option>
 					{% endfor %}
@@ -168,7 +168,7 @@ console.error('Error:', error);
 }
 });
 }
-
+handleAgenceSelection();
 function handleAgenceSelection() {
 var selectedAgence = document.getElementById("agenceSelect").value;
 $.ajax({

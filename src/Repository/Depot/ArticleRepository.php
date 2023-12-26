@@ -51,7 +51,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $depotsbyid;
     }
 
-    public function findAll_article_désignation_byIdDepot($iddepotId,$type="L")
+    public function findAll_article_désignation_byIdDepot($iddepotId,$type=1)
     {
 
         if($type==1){

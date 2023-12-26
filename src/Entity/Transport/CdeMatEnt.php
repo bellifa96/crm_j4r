@@ -15,108 +15,146 @@ class CdeMatEnt
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $NumDevis = null;
+    private ?int $NumDevis = 0;
 
     #[ORM\Column]
-    private ?int $IdClient = null;
+    private ?int $IdClient = 0;
 
     #[ORM\Column(length: 255)]
-    private ?string $NomClient = null;
+    private ?string $NomClient = '';
 
     #[ORM\Column(nullable: true)]
-    private ?int $CodeChantier = null;
+    private ?int $CodeChantier = 0;
 
-    #[ORM\Column(length: 20, nullable: true)]
-    private ?string $NumAffaire = null;
+    #[ORM\Column(length: 20)]
+    private ?string $NumAffaire = '';
 
-    #[ORM\Column(length: 500, nullable: true)]
-    private ?string $AdresseChantier = null;
+    #[ORM\Column(length: 500)]
+    private ?string $AdresseChantier = '';
 
-    #[ORM\Column(length: 10, nullable: true)]
-    private ?string $CpChantier = null;
+    #[ORM\Column(length: 10)]
+    private ?string $CpChantier = '';
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $VilleChantier = null;
+    #[ORM\Column(length: 50)]
+    private ?string $VilleChantier = '';
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Commentaires = null;
+    #[ORM\Column(length: 255)]
+    private ?string $Commentaires = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateCde = null;
 
     #[ORM\Column(length: 8)]
-    private ?string $DateCdeInv = null;
+    private ?string $DateCdeInv = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $PoidsTotMat = null;
+    private ?string $PoidsTotMat = '0.00';
 
-    #[ORM\Column(length: 5, nullable: true)]
-    private ?string $Initiales = null;
-
-    #[ORM\Column]
-    private ?int $IdAgence = null;
+    #[ORM\Column(length: 5)]
+    private ?string $Initiales = '';
 
     #[ORM\Column]
-    private ?int $Iddepot = null;
+    private ?int $IdAgence = 0;
 
     #[ORM\Column]
-    private ?bool $ValidationLayher = null;
+    private ?int $Iddepot = 0;
 
     #[ORM\Column]
-    private ?bool $ValidationJ4R = null;
-
-    #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $NumErpLocation = null;
-
-    #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $NumErpVente = null;
+    private ?bool $ValidationLayher = false;
 
     #[ORM\Column]
-    private ?bool $CdeValide = null;
+    private ?bool $ValidationJ4R = false;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?string $NumErpLocation = '0';
+
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?string $NumErpVente = '0';
+
+    #[ORM\Column]
+    private ?bool $CdeValide = false;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateEnlevDem = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $DateEnlevDemInv = null;
+    #[ORM\Column(length: 8)]
+    private ?string $DateEnlevDemInv = '';
 
-    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureEnlevDem = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $HeureEnlevDemTxt = null;
+    #[ORM\Column(length: 8)]
+    private ?string $HeureEnlevDemTxt = '';
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateEnlevReel = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $DateenlevReelInv = null;
+    #[ORM\Column(length: 8)]
+    private ?string $DateenlevReelInv = '';
 
-    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureEnlevReel = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $HeureEnlevReelTxt = null;
+    #[ORM\Column(length: 8)]
+    private ?string $HeureEnlevReelTxt = '';
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateLiv = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $DateLivInv = null;
+    #[ORM\Column(length: 8)]
+    private ?string $DateLivInv = '';
 
-    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureLiv = null;
 
-    #[ORM\Column(length: 8, nullable: true)]
-    private ?string $HeureLivTxt = null;
+    #[ORM\Column(length: 8)]
+    private ?string $HeureLivTxt = '';
 
     #[ORM\Column]
-    private ?int $NumEchange = null;
+    private ?int $NumEchange = 0;
 
     #[ORM\Column(nullable: true)]
     private ?int $NumAgenceLayher = null;
+
     #[ORM\Column(nullable: true)]
     private ?int $numCloud = null;
+
+    #[ORM\Column(length: 8)]
+    private ?string $Commentaires1 = '';
+
+    #[ORM\Column(length: 8)]
+    private ?string $Commentaires2 = '';
+
+    public function __construct() {
+        if ($this->DateCde === null) {
+            $this->DateCde = new \DateTime();
+        }
+
+        if ($this->HeureEnlevDem === null) {
+            $this->HeureEnlevDem = new \DateTime();
+        }
+        
+        if ($this->DateEnlevDem === null) {
+            $this->DateEnlevDem = new \DateTime();
+        }
+
+        if ($this->DateEnlevReel === null) {
+            $this->DateEnlevReel = new \DateTime();
+        }
+
+        if ($this->HeureEnlevReel === null) {
+            $this->HeureEnlevReel = new \DateTime();
+        }
+
+        if ($this->DateLiv === null) {
+            $this->DateLiv = new \DateTime();
+        }
+
+        if ($this->HeureLiv === null) {
+            $this->HeureLiv = new \DateTime();
+        }
+    }
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -512,7 +550,7 @@ class CdeMatEnt
     }
     public function  setNumCloud(int $Numcloud)
     {
-         $this->numCloud = $Numcloud;
+        $this->numCloud = $Numcloud;
     }
     public function getNumCloud(): ?int
     {
@@ -534,6 +572,52 @@ class CdeMatEnt
     public function setNumAgenceLayher(?int $NumAgenceLayher): self
     {
         $this->NumAgenceLayher = $NumAgenceLayher;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Commentaires1
+     *
+     * @return string|null
+     */
+    public function getCommentaires1(): ?string
+    {
+        return $this->Commentaires1;
+    }
+
+    /**
+     * Set the value of Commentaires1
+     *
+     * @param string|null $Commentaires1
+     * @return self
+     */
+    public function setCommentaires1(?string $Commentaires1): self
+    {
+        $this->Commentaires1 = $Commentaires1;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Commentaires2
+     *
+     * @return string|null
+     */
+    public function getCommentaires2(): ?string
+    {
+        return $this->Commentaires2;
+    }
+
+    /**
+     * Set the value of Commentaires2
+     *
+     * @param string|null $Commentaires2
+     * @return self
+     */
+    public function setCommentaires2(?string $Commentaires2): self
+    {
+        $this->Commentaires2 = $Commentaires2;
 
         return $this;
     }

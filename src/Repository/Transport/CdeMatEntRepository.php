@@ -26,11 +26,11 @@ class CdeMatEntRepository extends ServiceEntityRepository
     {
         try {
             $this->_em->persist($entity);
-
             $this->_em->flush();
             return $entity->getId(); 
 
         } catch (Exception $e) {
+            dd($e->getMessage());
             return -1;
 
         }

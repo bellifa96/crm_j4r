@@ -1,4 +1,6 @@
-{# form pour afficher les formulaire #}
+{{ form_start(form, {'attr': {'class': 'form'}}
+) }}
+
 <style>
 	/* Styles for the modal and overlay */
 	#myModal {
@@ -27,33 +29,40 @@
 		background-color: rgba(0, 0, 0, 0.5);
 		z-index: 0;
 	}
+	.depot-info {
+		background-color: #f0f0f0;
+		padding: 10px;
+		border: 1px solid #ddd;
+		margin: 10px;
+		border-radius: 5px;
+		color: black;
+		text-align: center;
+	}
 </style>
 
-{# your-form-template.html.twig #}
-{{ form_start(form, {'attr': {'class': 'form'}}
-) }}
+{{ form_start(form, {'method': 'POST', 'attr': {'class': 'form'}}) }}
 
 <div class="row form">
 	<div class="col-md-4">
-		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.IdClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.IdClient, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control'}}) }}
 
 		<!-- Add other fields for the first column -->
 
 	</div>
 	<div class="col-md-4">
-		{{ form_row(form.NomClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NomClient, {'attr': {'class': 'form-control'}}) }}
 
-		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control'}}) }}
 
 
 	</div>
 	<div class="col-md-4">
-		{{ form_row(form.Initiales, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.Initiales, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.DateCde, {
            'attr': {'class': '', 'type': 'date'},
            'label': 'Date du Commande',
@@ -61,7 +70,7 @@
            'disabled': false,
         }) }}
 
-		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.NumErpVente, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.NumErpLocation, {'attr': {'class': 'form-control'}}) }}
 
@@ -73,19 +82,20 @@
 	<div
 		class="row">
 		<!-- Cancel Button Column -->
-		{% if depots.codedepot != 1 %}
-			<div class="col-md-6">
-				<button type="button" id="ajouter" onclick="openModal()" class="btn btn-light btn-block">
-					<span class="mr-2">Ajouter</span>
-					<i class="fas fa-plus"></i>
-					<!-- Change the icon here -->
-				</button>
-			</div>
-		{% endif %}
+
+		<div class="col-md-6">
+			<button type="button" id="ajouter" onclick="openModal()" class="btn btn-light btn-block">
+				<span class="mr-2">Article</span>
+				<i class="fas fa-plus"></i>
+				<!-- Change the icon here -->
+			</button>
+
+		</div>
+
 
 		<!-- Validate Button Column -->
 		<div class="col-md-6">
-			<button type="submit" class="btn btn-success btn-block" {% if depots.codedepot == 2 %} onclick="valider()" {% endif %}>
+			<button type="submit" class="btn btn-success btn-block">
 				<span class="mr-2">Valider</span>
 				<i class="fas fa-check"></i>
 			</button>
@@ -93,7 +103,9 @@
 
 	</div>
 </div>
-{{ form_end(form) }}
+
+{{ form_end(form, {'attr': {'class': 'form'}}
+) }}
 <br>
 <div class="depot-info">
 	<strong>Depot:</strong>
@@ -102,84 +114,23 @@
 
 <br>
 <input type="hidden" value="{{depots.codedepot}}" id="codedepot"/>
-<input type="hidden" value="{{idCdeEnte}}" id="cmdCodeEntre"/>
-
-<div class="page-block col-lg-12">
-	{% if depots.codedepot == 1 %}
-		{# do something #}
-
-		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
-			<thead>
-				<tr class="tr-head">
-					<th>Article</th>
-					<th>Designation</th>
-					<th>Qte Commandées</th>
-					<th>Qte Sorties</th>
-					<th>Type</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for article in articles %}
-					<tr>
-						<td>{{ article.Article }}</td>
-						<td>{{ article.Designation }}</td>
-						<input class="poids" type="hidden" value="{{ article.Poids }}">
-						<input class="iddepot" type="hidden" value="{{ article.id }}">
-
-						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}" disabled/></td>
-						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}" disabled/></td>
-						<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</tbody>
-	</table>
-	<div class="flex-container">
-		<div class="flex-item" id="poidsqte">0</div>
-		<div class="flex-item" id="poidsqteSortie">0</div>
-	</div>
-
-{% else %}
-
-	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
-		<thead>
-			<tr class="tr-head">
-				<th>Article</th>
-				<th>Designation</th>
-				<th>Qte Commandées</th>
-				<th>Qte Sorties</th>
-				<th>Qte a Préparer</th>
-				<th>Reste a Sortir</th>
-				<th>Type</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for article in articles %}
-				<tr>
-
-					<td>{{ article.Article }}</td>
-					<td>{{ article.Designation }}</td>
-
-					<input class="poids" type="hidden" value="{{ article.Poids }}">
-					<input class="iddepot" type="hidden" value="{{ article.id }}">
-					<input class="article" type="hidden" value="{{ article.Article }}">
-
-					<td><input type="number" value="{{ article.qte }}" class="inputNumber form-control qte" disabled/></td>
-					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
-					<td><input type="number" value="0" class="inputNumber form-control qtePreparer" zero="0" article="{{ article.id }}"/></td>
-					<td><input type="number" value="0" class="inputNumber form-control qtearester" id="article{{article.id}}" disabled/></td>
-					<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
-
-				</tr>
-			{% endfor %}
-		</tbody>
-	</tbody>
-</table>
-<div class="flex-container">
-	<div class="flex-item" id="poidsqte">0</div>
-	<div class="flex-item" id="poidsqteSortie">0</div>
-	<div class="flex-item" id="poidsqtePreparer">0</div>
-</div>{% endif %}<!-- The Modal --><div id="myModal">
+<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+	<thead>
+		<tr class="tr-head">
+			<th>Article</th>
+			<th>Designation</th>
+			<th>Qte Commandées</th>
+			<th>Qte Sorties</th>
+			<th>Qte a Préparer</th>
+			<th>Reste a Sortir</th>
+			<th>Type</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</tbody></table><div class="flex-container">
+<div class="flex-item" id="poidsqte">0</div>
+<div class="flex-item" id="poidsqteSortie">0</div>
+<div class="flex-item" id="poidsqtePreparer">0</div></div><div id="myModal">
 <span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
 <div class="container mt-2">
 	<label for="selectOption">Select:</label>
@@ -208,22 +159,17 @@
 		{% endfor %}
 
 	</tbody>
-</tbody></table></div><!-- The Overlay --><div id="overlay"></div>
-<script>
-function openModal() {
+</tbody></table></div><!-- The Overlay --><div id="overlay"></div><script>let articleQte = [];
 
+function openModal() {
 document.getElementById("myModal").style.display = "block";
 document.getElementById("overlay").style.display = "block";
 }
 
 function closeModal() {
-
-
 document.getElementById("myModal").style.display = "none";
 document.getElementById("overlay").style.display = "none";
-
 }
-
 function test(designation, article) {
 var articleToAdd = {
 Article: article,
@@ -261,6 +207,60 @@ closeModal();
 alert('Article déja exitant sur la table');
 }
 }
+
+$(document).ready(function () {
+$('.form').submit(function (event) {
+event.preventDefault();
+articleQte = [];
+valider();
+
+let formData = {
+articleQte: articleQte,
+formData: $(this).serialize(),
+depot: document.getElementById("codedepot").value
+};
+
+$.ajax({
+type: "POST",
+url: "/save-cde-ent",
+data: JSON.stringify(formData),
+success: function (response) { // Handle the success response
+window.location.href = "/commande";
+},
+error: function (error) {
+console.log(error);
+}
+});
+});
+});
+
+
+function valider() {
+let idDepot = document.getElementById("codedepot").value;
+
+let iddepotElements = document.getElementsByClassName("iddepot");
+let qteSortieElements = document.getElementsByClassName("qtePreparer");
+let articles = document.getElementsByClassName("article");
+let mats = document.getElementsByClassName("mat");
+
+
+for (let i = 0; i < qteSortieElements.length; i++) {
+let iddepotValue = iddepotElements[i].value;
+let qteSortieValue = parseFloat(qteSortieElements[i].value) || 0;
+let articleValue = articles[i].value;
+let matValue = mats[i].value;
+
+let depotObject = {
+iddepot: iddepotValue,
+qteSortie: qteSortieValue,
+article: articleValue,
+idDepot: idDepot,
+mat: matValue
+};
+articleQte.push(depotObject);
+}
+}
+
 
 $("#selectOption").change(function () {
 var selectedValue = $(this).val();
@@ -314,6 +314,8 @@ console.error('Error:', error);
 }
 });
 });
+
+
 function createDblClickHandler(article) {
 return function () {
 test(article[1], article[0]);
