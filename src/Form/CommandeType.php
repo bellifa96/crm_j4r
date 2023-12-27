@@ -50,7 +50,7 @@ class CommandeType extends AbstractType
                 'required' => false,
             ])
             ->add('CpChantier', TextType::class, [
-                'label' => 'Code Postal',
+                'label' => 'Code Chantier',
                 
                 'required' => false,
             ])

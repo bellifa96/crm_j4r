@@ -1,0 +1,139 @@
+{# form pour afficher les formulaire #}
+
+
+{{ form_start(form) }}
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.societe, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.prenom, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.adresse, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.adresse2, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.cp, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.ville, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.tel, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.portable, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.rcs, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.rcstxt, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.ape, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.dombancaire, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.codebanque, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.codeguichet, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.numcompte, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.clefrib, {'attr': {'class': 'form-control'}}) }}
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.coderech, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.datemodifinv, {'attr': {'class': 'form-control'}}) }}
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.tauxhoraire, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.tauxtour, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		{{ form_row(form.tauxjour, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.tauxdemijour, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.tauxtonne, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+
+<div class="row">
+
+	<div class="col-md-4">
+		{{ form_row(form.iban, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="row">
+
+	<div class="col-md-4">
+		{{ form_row(form.actif, {'attr': {'class': 'form-check-input'}}) }}
+	</div>
+	<div class="col-md-4">
+		{{ form_row(form.occasionnel, {'attr': {'class': 'form-check-input'}}) }}
+	</div>
+</div>
+
+
+<div class="text-center mt-4">
+	<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
+	<button type="button" class="btn btn-secondary ml-2">Annuler</button>
+</div>
+
+<div class="text-center mt-4">
+	<button type="button" class="btn btn-info">Chauffeurs</button>
+	<button type="button" class="btn btn-success ml-2">Camions</button>
+</div>
+
+
+{{ form_end(form) }}

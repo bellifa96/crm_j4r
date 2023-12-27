@@ -12,6 +12,6 @@
 	</style>
 
 	<div class="back_data_afficher">
-		{{ include('commande/_add.html.twig') }}
+		{% include "transporteur/_new.html.twig" with {'button_label' : 'Valider' }  %}
 	</div>
 {% endblock %}
