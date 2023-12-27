@@ -64,8 +64,7 @@
 			background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
 			z-index: 999; /* Ensure it's above the dialog */
 		}
-		.btnChargerCommande {
-		}
+		.btnChargerCommande {}
 	</style>
 
 	<div class="example-wrapper">
@@ -88,25 +87,30 @@
 					<th>Tel</th>
 					<th>Portable</th>
 					<th>Email</th>
+					<th>Action</th>
+
 				</tr>
 			</thead>
 			<tbody>
-            {% for trsp in transporteurs %}
-				<tr>
-					<td>{{ trsp.societe }}</td>
-					<td>{{ trsp.adresse }}</td>
-					<td>{{ trsp.cp }}</td>
-					<td>{{ trsp.ville }}</td>
-					<td>{{ trsp.tel }}</td>
-					<td>{{ trsp.portable }}</td>
-					<td>{{ trsp.email }}</td>
+				{% for trsp in transporteurs %}
+					<tr>
+						<td>{{ trsp.societe }}</td>
+						<td>{{ trsp.adresse }}</td>
+						<td>{{ trsp.cp }}</td>
+						<td>{{ trsp.ville }}</td>
+						<td>{{ trsp.tel }}</td>
+						<td>{{ trsp.portable }}</td>
+						<td>{{ trsp.email }}</td>
+						<td>
+							<a href="{{ path('app_edit_transporteur', {'id': trsp.idtransporteur }) }}" class="btn btn-warning">
+								<i class="bi bi-pencil-fill"></i>
+								Edit
+							</a>
+						</td>
 
-				</tr>
-			{% endfor %}
-            </tbody>
+					</tr>
+				{% endfor %}
+			</tbody>
 		</tbody>
 	</table>
-</div>
-
-{% endblock %}
-
+</div>{% endblock %}

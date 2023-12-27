@@ -26,7 +26,7 @@ class BonLayherService
         $this->params = $params;
     }
 
-    public function getBonLayherEntreDeuxDate($datedu, $date_au)
+    public function getBonLayherEntreDeuxDate($datedu, $date_au,$numaffaire)
     {
         $dateduObj = DateTime::createFromFormat('Y-m-d', $datedu);
         $dateAuObj = DateTime::createFromFormat('Y-m-d', $date_au);
@@ -35,7 +35,7 @@ class BonLayherService
             throw new Exception('Invalid date format');
         }
 
-        $bons = $this->bonsdetailstempRepository->findByDateRange($datedu, $date_au);
+        $bons = $this->bonsdetailstempRepository->findByDateRange($numaffaire);
 
         $filteredBons = array_filter($bons, function ($bon) use ($dateduObj, $dateAuObj) {
             $bonDate = DateTime::createFromFormat('d/m/Y', $bon->getDatemvt());

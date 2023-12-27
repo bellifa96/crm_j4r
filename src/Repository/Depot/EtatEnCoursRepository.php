@@ -34,5 +34,20 @@ class EtatEnCoursRepository extends ServiceEntityRepository
 
     return $etatsencours;
     }
+
+    public function findById($id)
+    {
+        $etatsencours = $this->_em->createQueryBuilder()
+        ->select('etatsencours.nom')
+        ->from(Etatsencours::class, 'etatsencours')
+        ->where('etatsencours.actif = :actif')
+        ->andWhere('etatsencours.id = :id')
+        ->setParameter('actif', 1)
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+
+    return $etatsencours;
+    }
   
 }
