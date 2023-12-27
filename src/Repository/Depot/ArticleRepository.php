@@ -56,7 +56,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         if($type==1){
             $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation')
+            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->andWhere('article.location = 1')
@@ -65,7 +65,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         }else{
             $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation')
+            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->andWhere('article.vente = 1')

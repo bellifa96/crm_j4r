@@ -22,18 +22,20 @@ class BonsdetailstempRepository extends ServiceEntityRepository
         parent::__construct($registry, Bonsdetailstemp::class);
     }
 
-    public function findByDateRange($startDate, $endDate)
+    public function findByDateRange($numaffaire)
     {
 
         $res = $this->createQueryBuilder('b')
+            ->where('b.numaffaire = :numaffaire')
+            ->setParameter('numaffaire', $numaffaire)
             ->groupBy('b.numbon')
             ->getQuery()
             ->getResult();
 
         return $res;
     }
-    public function getArticlebyNumero($numbon){
+    public function getArticlebyNumero($numbon)
+    {
         return $this->findBy(['numbon' => $numbon]);
-
     }
 }

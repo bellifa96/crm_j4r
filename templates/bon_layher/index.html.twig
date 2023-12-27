@@ -16,9 +16,9 @@
 		<div class="col-md-4">
 			<div class="form-group">
 				<label for="NumAffaire" class="font-weight-bold">Num Affaire</label>
-				<select id="NumAffaire" name="NumAffaire" class="form-select" disabled>
+				<select id="NumAffaire" name="NumAffaire" class="form-select" >
 					{% for affaire in affaires %}
-						<option value="{{affaire.id}}" {% if affaire.numaffaire == '1000X5B' %} selected {% endif %}>{{affaire.numaffaire}}</option>
+						<option value="{{affaire.id}}"  {% if affaire.numaffaire == '1000X5B' %} selected {% endif %}>{{affaire.numaffaire}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -88,6 +88,15 @@
 			<label for="HeurePense2" class="font-weight-bold">Heure Pensé 2</label>
 			<input type="text" id="HeurePense2" name="HeurePense2" class="form-control" value="09:30">
 		</div>
+		<div class="form-group">
+			<label for="HeurePense2" class="font-weight-bold">Immatriculation</label>
+			<input type="text" id="immatriculation" name="immatriculation" class="form-control" value="09:30">
+		</div>
+		<div class="form-group">
+			<label for="HeurePense2" class="font-weight-bold">Chauffeur</label>
+			<input type="text" id="chauffeur" name="chauffeur" class="form-control" value="09:30">
+		</div>
+		
 		<!-- Add similar blocks for other fields in the first column -->
 	</div>
 	<div class="col-md-4">
@@ -102,6 +111,14 @@
 		<div class="form-group">
 			<label for="PoidsPense2" class="font-weight-bold">Poids Pensé 2</label>
 			<input type="text" id="PoidsPense2" name="PoidsPense2" class="form-control" value="11600">
+		</div>
+		<div class="form-group">
+			<label for="PoidsPense2" class="font-weight-bold">Transporteur</label>
+			<input type="text" id="transporteur" name="transporteur" class="form-control" value="11600">
+		</div>
+		<div class="form-group">
+			<label for="PoidsPense2" class="font-weight-bold">Poids mesuré</label>
+			<input type="text" id="poids_mesure" name="poids_mesure" class="form-control" value="11600">
 		</div>
 		<!-- Add similar blocks for other fields in the second column -->
 	</div>
@@ -149,12 +166,14 @@ document.getElementById('DateAu').value = getCurrentDate();
 function getBonLayher() {
 let DateDu = document.getElementById('DateDu').value;
 let DateAu = document.getElementById('DateAu').value;
+let numaffaire = getContenuSelected();
 $.ajax({
 type: "GET",
 url: "/get-bon-layher",
 data: {
 datedu: DateDu,
-dateau: DateAu
+dateau: DateAu,
+numaffaire:numaffaire
 },
 success: function (res) {
 var data = res.bonLayher;
@@ -162,7 +181,7 @@ var select = $('#bonlayher');
 select.empty();
 console.log(data);
 
-
+select.append("<option></option>")
 $.each(data, function (index, bon) {
 select.append('<option   value="' + bon.numbon + '">' + bon.numbon + "-" + bon.typebon + "-" + bon.datemvt + '</option>');
 });
@@ -186,6 +205,7 @@ numBonlayher: selectedValue
 },
 success: function (res) {
 var data = res.article;
+setDataTransport(res.layherTransport)
 var ArticleBonTable;
 if ($.fn.DataTable.isDataTable('#ArticleBonTable')) {
 $('#ArticleBonTable').DataTable().destroy();
@@ -209,8 +229,55 @@ console.log(error);
 });
 
 });
+$('#NumAffaire').on('change', function () { // Retrieve the selected value
+var selectedValue = $(this).val();
+
+$.ajax({
+type: "GET",
+url: "/affaire-information",
+data: {
+numaffaire: selectedValue
+},
+success: function (res) {
+	document.getElementById("NomClient").value =res[0].nom
+},
+error: function (error) {
+console.log(error);
+}
+});
+
+});
+
 });
 function setDataTransport(transportBonLayher) {
+document.getElementById('Consignes').value = transportBonLayher[0].consignes;
+document.getElementById('HeurePense1').value = transportBonLayher[0].heurePesee1
+document.getElementById('HeurePense2').value = transportBonLayher[0].heurePesee2
 
+document.getElementById('NTicket').value = transportBonLayher[0].numTicket
+document.getElementById('PoidsPense1').value = transportBonLayher[0].poidsPesee1
+document.getElementById('PoidsPense2').value = transportBonLayher[0].poidsPesee2
+
+document.getElementById('Arrive').value = transportBonLayher[0].arrivee
+document.getElementById('NBascule1').value = transportBonLayher[0].basculePesee1
+document.getElementById('NBascule2').value = transportBonLayher[0].basculePesee2
+
+
+document.getElementById('transporteur').value = transportBonLayher[0].nomTransporteur
+document.getElementById('poids_mesure').value = transportBonLayher[0].poidsMesure1
+document.getElementById('chauffeur').value = transportBonLayher[0].nomChauffeur
+document.getElementById('immatriculation').value = transportBonLayher[0].immatriculation
+
+}
+
+function getContenuSelected(){
+	 var selectElement = document.getElementById("NumAffaire");
+
+    // Get the selected value
+    var selectedValue = selectElement.value;
+
+    // Get the selected text content
+    var selectedText = selectElement.options[selectElement.selectedIndex].text;
+	return selectedText;
 }
 </script>{% endblock %}

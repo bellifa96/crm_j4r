@@ -41,15 +41,28 @@ class BonLayherController extends AbstractController
         ]);
     }
 
+    #[Route('/affaire-information', name: 'affaire_information')]
+    public function affaire_information(Request $request): Response
+    {
+        try {
+            $numaffaire = $request->query->get('numaffaire');
+            $response = $this->etatEncoursRepository->findById($numaffaire);
+            return $this->json($response);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return $this->json([]);
+        }
+    }
+
     #[Route('/get-bon-layher', name: 'app_bon_layher_get_entre_deux_date')]
     public function getBonLayherEntreDeuxDate(Request $request)
     {
         try {
             $date_du = $request->query->get('datedu');
             $date_au = $request->query->get('dateau');
+            $numaffaire = $request->query->get('numaffaire');
 
-
-            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du, $date_au);
+            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du, $date_au,$numaffaire);
 
             $data = [
                 'bonLayher' => $response,
