@@ -131,50 +131,100 @@
 </div>
 
 <div class="text-center mt-4">
-	<button type="button" class="btn btn-info">Chauffeurs</button>
-	<button type="button" class="btn btn-success ml-2" onclick="openModal()">Camions</button>
+	<button type="button" class="btn btn-info" onclick="openModal(2)">Chauffeurs</button>
+	<button type="button" class="btn btn-success ml-2" onclick="openModal(1)">Camions</button>
 </div>
 
 <div id="myModal">
-<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
+	<span onclick="closeModal()" style="cursor: pointer; float: right; color: #333; font-size: 18px; font-weight: bold;">&times;</span>
+	<div id="camions">
+		<button type="button" class="btn btn-primary" id="ajouterButton">Camions +
+		</button>
 
-<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
-	<thead>
-		<tr class="tr-head">
-			<th>immatriculation</th>
-			<th>tonnagemax</th>
-			<th>Longueur Fleche</th>
-			<th>Date Verifier</th>
+		<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>immatriculation</th>
+					<th>tonnagemax</th>
+					<th>Longueur Fleche</th>
+					<th>Date Verifier</th>
+					<th>Action</th>
 
-		</tr>
+				</tr>
 
 
-	</thead>
-	<tbody>
-	
-	{% for camion in camions %}
-			<tr >
-				<td>{{ camion.immatriculation }}</td>
-				<td>{{ camion.tonnagemax }}</td>
-				<td>{{ camion.longueurfleche }}</td>
-				<td>{{ camion.longueurfleche }}</td>
+			</thead>
+			<tbody>
+
+				{% for camion in camions %}
+					<tr>
+						<td>{{ camion.immatriculation }}</td>
+						<td>{{ camion.tonnagemax }}</td>
+						<td>{{ camion.longueurfleche }}</td>
+						<td>{{ camion.dateverifgrue ? camion.dateverifgrue|date('Y-m-d H:i:s') : '' }}</td>
+						<td>
+							<a class="btn btn-warning">
+								<i class="bi bi-pencil-fill"></i>
+								Edit
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</tbody>
+	</table>
+</div>
+<div id="chauffeurs">
+	<button type="button" class="btn btn-primary" id="ajouterButton">Chauffeurs +
+	</button>
+
+	<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
+		<thead>
+			<tr class="tr-head">
+
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>Portable</th>
+				<th>Email</th>
+				<th>Actions</th>
 
 			</tr>
-		{% endfor %}
+
+
+		</thead>
+		<tbody>
+
+			{% for ch in chauffeurs %}
+				<tr>
+					<td>{{ ch.nom }}</td>
+					<td>{{ ch.prenom }}</td>
+					<td>{{ ch.portable }}</td>
+					<td>{{ ch.email }}</td>
+					<td>
+						<a class="btn btn-warning">
+							<i class="bi bi-pencil-fill"></i>
+							Edit
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
 	</tbody>
-</tbody></table>
-</div>
-
-{{ form_end(form) }}
-<script>
-
-function openModal() {
+</table></div></div>{{ form_end(form) }}<script>function openModal(table_show) {
 document.getElementById("myModal").style.display = "block";
 document.getElementById("overlay").style.display = "block";
+if (table_show == 1) {
+document.getElementById("camions").style.display = "block";
+document.getElementById("chauffeurs").style.display = "none";
+
+} else {
+document.getElementById("camions").style.display = "none";
+document.getElementById("chauffeurs").style.display = "block";
+}
+
 }
 
 function closeModal() {
 document.getElementById("myModal").style.display = "none";
 document.getElementById("overlay").style.display = "none";
-}
-</script>
+}</script>
