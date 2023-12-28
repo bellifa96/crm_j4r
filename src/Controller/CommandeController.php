@@ -97,11 +97,17 @@ class CommandeController extends AbstractController
         $depots = null;
         try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
+
             $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(), 1);
+
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
+
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
+            
             if ($form->isSubmitted() && $form->isValid()) {
+
+
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");
@@ -109,7 +115,6 @@ class CommandeController extends AbstractController
                 }
             }
             return $this->render('commande/edit.html.twig', [
-                'ticket' => null,
                 'form' => $form->createView(),
                 'title' => 'Modification Commande',
                 'nav' => [['app_commande', 'Commande']],
@@ -119,7 +124,7 @@ class CommandeController extends AbstractController
                 'idCdeEnte' => $cdeMatEnt->getId()
             ]);
         } catch (Exception $e) {
-
+               dd($e->getMessage());
             return $e->getMessage();
         }
     }

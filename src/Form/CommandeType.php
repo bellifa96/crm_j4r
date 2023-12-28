@@ -24,7 +24,8 @@ class CommandeType extends AbstractType
         $builder
             ->add('NumDevis', IntegerType::class, [
                 'label' => 'Num Devis',
-                
+                'required' => false, // Ensure this field is not required
+
             ])
             ->add('IdClient', IntegerType::class, [
                 'label' => 'Id CLient',

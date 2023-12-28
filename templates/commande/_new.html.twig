@@ -35,25 +35,25 @@
 
 <div class="row form">
 	<div class="col-md-4">
-		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.IdClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.IdClient, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control'}}) }}
 
 		<!-- Add other fields for the first column -->
 
 	</div>
 	<div class="col-md-4">
-		{{ form_row(form.NomClient, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.NomClient, {'attr': {'class': 'form-control'}}) }}
 
-		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
-		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control'}}) }}
+		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control'}}) }}
 
 
 	</div>
 	<div class="col-md-4">
-		{{ form_row(form.Initiales, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.Initiales, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.DateCde, {
            'attr': {'class': '', 'type': 'date'},
            'label': 'Date du Commande',
@@ -61,7 +61,7 @@
            'disabled': false,
         }) }}
 
-		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control', 'disabled': 'disabled'}}) }}
+		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.NumErpVente, {'attr': {'class': 'form-control'}}) }}
 		{{ form_row(form.NumErpLocation, {'attr': {'class': 'form-control'}}) }}
 
