@@ -1,74 +1,114 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Depot;
 
+use App\Repository\Depot\CamionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Camions
- *
- * @ORM\Table(name="camions")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CamionRepository::class)]
 class Camions
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="IdCamion", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'bigint')]
     private $idcamion;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="IdTransporteur", type="integer", nullable=false)
-     */
+    #[ORM\Column(type: 'integer')]
     private $idtransporteur;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Immatriculation", type="string", length=20, nullable=false)
-     */
+    #[ORM\Column(type: 'string')]
     private $immatriculation;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="TonnageMax", type="decimal", precision=10, scale=2, nullable=false)
-     */
+    #[ORM\Column(type: 'string')]
+
     private $tonnagemax;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="TypeGrue", type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(type: 'string')]
     private $typegrue;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="LongueurFleche", type="decimal", precision=10, scale=2, nullable=false)
-     */
+    #[ORM\Column(type: 'decimal')]
     private $longueurfleche;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateVerifGrue", type="date", nullable=false)
-     */
+    #[ORM\Column(type: 'date')]
     private $dateverifgrue;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="Actif", type="boolean", nullable=false)
-     */
+    #[ORM\Column(type: 'boolean')]
     private $actif;
+    public function getIdtransporteur()
+    {
+        return $this->idtransporteur;
+    }
+
+    public function setIdtransporteur($idtransporteur)
+    {
+        $this->idtransporteur = $idtransporteur;
+    }
+
+    // Getter and Setter for $immatriculation
+    public function getImmatriculation()
+    {
+        return $this->immatriculation;
+    }
+
+    public function setImmatriculation($immatriculation)
+    {
+        $this->immatriculation = $immatriculation;
+    }
+
+    // Getter and Setter for $tonnagemax
+    public function getTonnagemax()
+    {
+        return $this->tonnagemax;
+    }
+
+    public function setTonnagemax($tonnagemax)
+    {
+        $this->tonnagemax = $tonnagemax;
+    }
+
+    // Getter and Setter for $typegrue
+    public function getTypegrue()
+    {
+        return $this->typegrue;
+    }
+
+    public function setTypegrue($typegrue)
+    {
+        $this->typegrue = $typegrue;
+    }
+
+    // Getter and Setter for $longueurfleche
+    public function getLongueurfleche()
+    {
+        return $this->longueurfleche;
+    }
+
+    public function setLongueurfleche($longueurfleche)
+    {
+        $this->longueurfleche = $longueurfleche;
+    }
+
+    // Getter and Setter for $dateverifgrue
+    public function getDateverifgrue()
+    {
+        return $this->dateverifgrue;
+    }
+
+    public function setDateverifgrue($dateverifgrue)
+    {
+        $this->dateverifgrue = $dateverifgrue;
+    }
+
+    // Getter and Setter for $actif
+    public function getActif()
+    {
+        return $this->actif;
+    }
+
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+    }
 
 
 }

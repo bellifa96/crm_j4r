@@ -123,7 +123,7 @@
 		{{ form_row(form.occasionnel, {'attr': {'class': 'form-check-input'}}) }}
 	</div>
 </div>
-
+<div id="overlay"></div>
 
 <div class="text-center mt-4">
 	<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
@@ -132,8 +132,49 @@
 
 <div class="text-center mt-4">
 	<button type="button" class="btn btn-info">Chauffeurs</button>
-	<button type="button" class="btn btn-success ml-2">Camions</button>
+	<button type="button" class="btn btn-success ml-2" onclick="openModal()">Camions</button>
 </div>
 
+<div id="myModal">
+<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
+
+<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
+	<thead>
+		<tr class="tr-head">
+			<th>immatriculation</th>
+			<th>tonnagemax</th>
+			<th>Longueur Fleche</th>
+			<th>Date Verifier</th>
+
+		</tr>
+
+
+	</thead>
+	<tbody>
+	
+	{% for camion in camions %}
+			<tr >
+				<td>{{ camion.immatriculation }}</td>
+				<td>{{ camion.tonnagemax }}</td>
+				<td>{{ camion.longueurfleche }}</td>
+				<td>{{ camion.longueurfleche }}</td>
+
+			</tr>
+		{% endfor %}
+	</tbody>
+</tbody></table>
+</div>
 
 {{ form_end(form) }}
+<script>
+
+function openModal() {
+document.getElementById("myModal").style.display = "block";
+document.getElementById("overlay").style.display = "block";
+}
+
+function closeModal() {
+document.getElementById("myModal").style.display = "none";
+document.getElementById("overlay").style.display = "none";
+}
+</script>

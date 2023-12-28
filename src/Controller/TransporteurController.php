@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Depot\Transporteur;
 use App\Form\Affaire\TransportType;
 use App\Form\TransporteurType;
+use App\Repository\Depot\CamionRepository;
 use App\Repository\Depot\TransporteurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransporteurController extends AbstractController
 {
 
-    public function __construct(private TransporteurRepository $transporteurRepository)
+    public function __construct(private TransporteurRepository $transporteurRepository, private CamionRepository $camionRepository)
     {
     }
 
@@ -30,33 +31,33 @@ class TransporteurController extends AbstractController
         ]);
     }
     #[Route('/edit-transporteur/{id}', name: 'app_edit_transporteur')]
-    public function edit_agence(Transporteur $tresp,Request $request): Response
-    {  
+    public function edit_agence(Transporteur $tresp, Request $request): Response
+    {
 
-        // on crééer un "nouveau Agence"
 
-        $form = $this->createForm(TransporteurType::class,$tresp);
+        $camions = $this->camionRepository->findCamionsByIdTransporteur($tresp->getIdtransporteur());
+
+        $form = $this->createForm(TransporteurType::class, $tresp);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
- 
+
         // on verifier la formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             // on stock les  donnes
-          
+
         }
 
-     
-        
-       
+
+
+
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('transporteur/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
             'title' => 'Edit ',
+            'camions' => $camions,
             'nav' => [['app_agence', 'Agences']]
         ]);
-
-          
     }
 }
