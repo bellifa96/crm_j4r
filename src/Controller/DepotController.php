@@ -47,7 +47,7 @@ class DepotController extends AbstractController
         $agences = $this->agenceRepository->findAll();
         return $this->render('depot/index.html.twig', [
             'controller_name' => 'AgenceController',
-            'title' => '',
+            'title' => 'Dépot',
             'depots' => array(),
             'agences' => $agences,
             'nav' => []
@@ -81,8 +81,8 @@ class DepotController extends AbstractController
         return $this->render('depot/new.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Création un Depot',
-            'nav' => [['app_agence', 'Agences']]
+            'title' => 'Création un Dépot',
+            'nav' => [['app_depot', 'Dépot']]
         ]);
           
     }
@@ -111,7 +111,7 @@ class DepotController extends AbstractController
         return $this->render('depot/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Création un Depot',
+            'title' => 'Modification Dépot',
             'nav' => [['app_agence', 'Agences']]
         ]);
           

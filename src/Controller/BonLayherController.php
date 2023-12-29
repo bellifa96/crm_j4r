@@ -35,7 +35,7 @@ class BonLayherController extends AbstractController
         $numaffaire = $this->etatEncoursRepository->getALLEtatEncoursbyactif();
         return $this->render('bon_layher/index.html.twig', [
             'controller_name' => 'BonLayherController',
-            'title' => '',
+            'title' => 'Bons Layher',
             'affaires' => $numaffaire,
             'nav' => []
         ]);

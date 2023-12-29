@@ -64,11 +64,11 @@ class TransporteurController extends AbstractController
         return $this->render('transporteur/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => '',
+            'title' => 'Détails du transporteur',
             'camions' => $camions,
             'chauffeurs' => $chauffeurs,
             'id' => $tresp->getIdtransporteur(),
-            'nav' => [['app_transporteur', 'Transporteur']]
+            'nav' => [['app_transporteur', 'Transporteurs']]
         ]);
     }
 
@@ -102,7 +102,7 @@ class TransporteurController extends AbstractController
         return $this->render('transporteur/addChauffeur.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => '',
+            'title' => 'Ajouter Chauffeurs',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);
@@ -137,7 +137,7 @@ class TransporteurController extends AbstractController
         return $this->render('transporteur/addChauffeur.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => '',
+            'title' => 'Modifier Chauffeur',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);
@@ -171,10 +171,10 @@ class TransporteurController extends AbstractController
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
-        return $this->render('transporteur/addChauffeur.html.twig', [
+        return $this->render('transporteur/addCamions.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => '',
+            'title' => 'Ajouter Camion',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);
@@ -205,10 +205,10 @@ class TransporteurController extends AbstractController
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
-        return $this->render('transporteur/addChauffeur.html.twig', [
+        return $this->render('transporteur/addCamions.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => '',
+            'title' => 'Modifier Camion',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);

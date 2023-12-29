@@ -39,7 +39,7 @@ class CommandeController extends AbstractController
         $agences = $this->agenceRepository->findAll();
         return $this->render('commande/index.html.twig', [
             'controller_name' => 'CommandeController',
-            'title' => '',
+            'title' => 'Commandes',
             'agences' => $agences,
             'nav' => []
         ]);

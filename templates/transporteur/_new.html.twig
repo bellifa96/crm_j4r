@@ -1,223 +1,364 @@
 {# form pour afficher les formulaire #}
 
+<style>
+	.hidden {
+		display: none;
+	}
 
+	.hidden:target {
+		display: block;
+	}
+</style>
 {{ form_start(form) }}
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.societe, {'attr': {'class': 'form-control'}}) }}
+
+<div class="container mt-5">
+	<div class="text-center mt-4">
+		<a href="#chauffeursDiv" class="btn btn-info">Chauffeurs</a>
+		<a href="#camionsDiv" class="btn btn-success ml-2">Camions</a>
 	</div>
-	<div class="col-md-4">
-		{{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.prenom, {'attr': {'class': 'form-control'}}) }}
+
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							societe
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.societe,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							nom
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.nom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							prenom
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.prenom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							adresse
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresse,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							adresse (Suit)
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresse2,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Code Postale
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.cp,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							ville
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tel
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tel,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Portable
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.portable,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							rcs
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.rcs,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							rcstxt
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.rcstxt,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							ape
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.ape,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+
+						<div class="col-md-3 text-end label">
+							iban
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.iban,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+				</div>
+
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							dombancaire
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.dombancaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							codebanque
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.codebanque,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							codeguichet
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.codeguichet,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							numcompte
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.numcompte,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							clefrib
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.clefrib,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							coderech
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.coderech,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							datemodifinv
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.datemodifinv,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							email
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.email,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxhoraire
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxhoraire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxtour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxtour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxjour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxjour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxdemijour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxdemijour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxtonne
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxtonne,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label"></div>
+						<div class="col-md-9">
+							{{ form_widget(form.actif,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label"></div>
+						<div class="col-md-9">
+							{{ form_widget(form.occasionnel,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center mt-4">
+			<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
+			<button type="button" class="btn btn-secondary ml-2">Annuler</button>
+		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.adresse, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.adresse2, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.cp, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.ville, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.tel, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.portable, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.rcs, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.rcstxt, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.ape, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.dombancaire, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.codebanque, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.codeguichet, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.numcompte, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.clefrib, {'attr': {'class': 'form-control'}}) }}
-	</div>
-
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.coderech, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.datemodifinv, {'attr': {'class': 'form-control'}}) }}
-	</div>
-
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.tauxhoraire, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.tauxtour, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-4">
-		{{ form_row(form.tauxjour, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.tauxdemijour, {'attr': {'class': 'form-control'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.tauxtonne, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-
-<div class="row">
-
-	<div class="col-md-4">
-		{{ form_row(form.iban, {'attr': {'class': 'form-control'}}) }}
-	</div>
-</div>
-
-<div class="row">
-
-	<div class="col-md-4">
-		{{ form_row(form.actif, {'attr': {'class': 'form-check-input'}}) }}
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.occasionnel, {'attr': {'class': 'form-check-input'}}) }}
-	</div>
-</div>
 <div id="overlay"></div>
 
-<div class="text-center mt-4">
-	<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
-	<button type="button" class="btn btn-secondary ml-2">Annuler</button>
-</div>
 
-<div class="text-center mt-4">
-	<button type="button" class="btn btn-info" onclick="openModal(2)">Chauffeurs</button>
-	<button type="button" class="btn btn-success ml-2" onclick="openModal(1)">Camions</button>
-</div>
+<div id="camionsDiv" class="hidden">
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<button type="button" class="btn btn-primary" id="ajouterButton">
+				<a href="{{ path('add_camions', {'id': id }) }}" class="">
+					<span style="font-weight: bold; font-size: 14px; color: white;">Camions +</span>
+				</a>
+			</button>
+			<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
+				<thead>
+					<tr class="tr-head">
+						<th>immatriculation</th>
+						<th>tonnagemax</th>
+						<th>Longueur Fleche</th>
+						<th>Date Verifier</th>
+						<th>Action</th>
 
-<div id="myModal">
-	<span onclick="closeModal()" style="cursor: pointer; float: right; color: #333; font-size: 18px; font-weight: bold;">&times;</span>
-	<div id="camions">
-		<button type="button" class="btn btn-primary" id="ajouterButton">
-			<a href="{{ path('add_camions', {'id': id }) }}" class="">
-				<i class="bi bi-add"></i>
-				Camions +
-			</a>
-		</button>
-		<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
-			<thead>
-				<tr class="tr-head">
-					<th>immatriculation</th>
-					<th>tonnagemax</th>
-					<th>Longueur Fleche</th>
-					<th>Date Verifier</th>
-					<th>Action</th>
-
-				</tr>
-
-
-			</thead>
-			<tbody>
-
-				{% for camion in camions %}
-					<tr>
-						<td>{{ camion.immatriculation }}</td>
-						<td>{{ camion.tonnagemax }}</td>
-						<td>{{ camion.longueurfleche }}</td>
-						<td>{{ camion.dateverifgrue ? camion.dateverifgrue|date('Y-m-d H:i:s') : '' }}</td>
-						<td>
-							<a href="{{ path('edit_camions', {'id': camion.idcamion }) }}" class="btn btn-warning">
-								<i class="bi bi-pencil-fill"></i>
-								Edit
-							</a>
-						</td>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</tbody>
-	</table>
+
+
+				</thead>
+				<tbody>
+
+					{% for camion in camions %}
+						<tr>
+							<td>{{ camion.immatriculation }}</td>
+							<td>{{ camion.tonnagemax }}</td>
+							<td>{{ camion.longueurfleche }}</td>
+							<td>{{ camion.dateverifgrue ? camion.dateverifgrue|date('Y-m-d') : '' }}</td>
+							<td>
+								<a href="{{ path('edit_camions', {'id': camion.idcamion }) }}" class=" small-button btn btn-warning">
+									Modifier
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
-<div id="chauffeurs">
-	<button type="button" class="btn btn-primary" id="ajouterButton">
-		<a href="{{ path('add_chauffeurs', {'id': id }) }}" class="">
-			<i class="bi bi-add"></i>
-			Chauffeurs +
-		</a>
-	</button>
+<div id="chauffeursDiv" class="hidden">
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<button type="button" class="btn btn-primary" id="ajouterButton">
+				<a href="{{ path('add_chauffeurs', {'id': id }) }}" class="">
+					<span style="font-weight: bold; font-size: 14px; color: white;">Chauffeurs + </span>
+				</a>
+			</button>
 
-	<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
-		<thead>
-			<tr class="tr-head">
+			<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
+				<thead>
+					<tr class="tr-head">
 
-				<th>Nom</th>
-				<th>Prenom</th>
-				<th>Portable</th>
-				<th>Email</th>
-				<th>Actions</th>
-			</tr>
+						<th>Nom</th>
+						<th>Prenom</th>
+						<th>Portable</th>
+						<th>Email</th>
+						<th>Actions</th>
+					</tr>
 
 
-		</thead>
-		<tbody>
+				</thead>
+				<tbody>
 
-			{% for ch in chauffeurs %}
-				<tr>
-					<td>{{ ch.nom }}</td>
-					<td>{{ ch.prenom }}</td>
-					<td>{{ ch.portable }}</td>
-					<td>{{ ch.email }}</td>
-					<td>
-						<a href="{{ path('edit_chauffeurs', {'id': ch.idchauffeur }) }}" class="btn btn-warning">
-							<i class="bi bi-pencil-fill"></i>
-							Edit
-						</a>
-					</td>
+					{% for ch in chauffeurs %}
+						<tr>
+							<td>{{ ch.nom }}</td>
+							<td>{{ ch.prenom }}</td>
+							<td>{{ ch.portable }}</td>
+							<td>{{ ch.email }}</td>
+							<td>
+								<a href="{{ path('edit_chauffeurs', {'id': ch.idchauffeur }) }}" class="small-button btn btn-warning">
+									Modifier
+								</a>
+							</td>
 
-				</tr>
-			{% endfor %}
-		</tbody>
-	</tbody>
-</table></div></div>{{ form_end(form) }}<script>function openModal(table_show) {
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+	</div>
+</div></div></div>{{ form_end(form) }}<script>function openModal(table_show) {
 document.getElementById("myModal").style.display = "block";
 document.getElementById("overlay").style.display = "block";
 if (table_show == 1) {

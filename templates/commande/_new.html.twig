@@ -30,43 +30,131 @@
 </style>
 
 {# your-form-template.html.twig #}
-{{ form_start(form, {'attr': {'class': 'form'}}
+{{ form_start(form, {'attr': {'class': ''}}
 ) }}
 
-<div class="row form">
-	<div class="col-md-4">
-		{{ form_row(form.NumDevis, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.IdClient, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.CodeChantier, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.NumAffaire, {'attr': {'class': 'form-control'}}) }}
-
-		<!-- Add other fields for the first column -->
-
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.NomClient, {'attr': {'class': 'form-control'}}) }}
-
-		{{ form_row(form.AdresseChantier, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.CpChantier, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.VilleChantier, {'attr': {'class': 'form-control'}}) }}
+<div class="container mt-5">
 
 
-	</div>
-	<div class="col-md-4">
-		{{ form_row(form.Initiales, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.DateCde, {
-           'attr': {'class': '', 'type': 'date'},
-           'label': 'Date du Commande',
-           'label_attr': {'class': 'font-weight-bold'},
-           'disabled': false,
-        }) }}
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							NumDevis
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.NumDevis,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Client
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.IdClient,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							CodeChantier
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.CodeChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							NumAffaire
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.NumAffaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							NomClient
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.NomClient,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							AdresseChantier
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.AdresseChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Code Postale
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.CpChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Ville
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.VilleChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Initiales
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.Initiales,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							DateCde
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-4 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							PoidsTotMat
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.PoidsTotMat,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							NumErpVente
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.NumErpVente,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							NumErpLocation
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.NumErpLocation,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+				</div>
 
-		{{ form_row(form.PoidsTotMat, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.NumErpVente, {'attr': {'class': 'form-control'}}) }}
-		{{ form_row(form.NumErpLocation, {'attr': {'class': 'form-control'}}) }}
 
+			</div>
+		</div>
 	</div>
 </div>
+
+
 <div
 	class="container mt-4">
 	<!-- Buttons in separate columns -->
@@ -115,6 +203,7 @@
 					<th>Designation</th>
 					<th>Qte Commandées</th>
 					<th>Qte Sorties</th>
+					<th>Poids</th>
 					<th>Type</th>
 				</tr>
 			</thead>
@@ -123,11 +212,11 @@
 					<tr>
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
-						<input class="poids" type="hidden" value="{{ article.Poids }}">
 						<input class="iddepot" type="hidden" value="{{ article.id }}">
 
 						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}" disabled/></td>
 						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}" disabled/></td>
+						<td><input class="mat form-control" disabled value="{{ article.Poids }}"/></td>
 						<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
 					</tr>
 				{% endfor %}
@@ -140,7 +229,11 @@
 	</div>
 
 {% else %}
-
+	<div class="flex-container">
+		<div class="flex-item" id="poidsqte">0</div>
+		<div class="flex-item" id="poidsqteSortie">0</div>
+		<div class="flex-item" id="poidsqtePreparer">0</div>
+	</div>
 	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 		<thead>
 			<tr class="tr-head">
@@ -150,6 +243,7 @@
 				<th>Qte Sorties</th>
 				<th>Qte a Préparer</th>
 				<th>Reste a Sortir</th>
+				<th>poids</th>
 				<th>Type</th>
 			</tr>
 		</thead>
@@ -160,7 +254,6 @@
 					<td>{{ article.Article }}</td>
 					<td>{{ article.Designation }}</td>
 
-					<input class="poids" type="text" value="{{ article.Poids }}">
 					<input class="iddepot" type="hidden" value="{{ article.id }}">
 					<input class="article" type="hidden" value="{{ article.Article }}">
 
@@ -168,18 +261,14 @@
 					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtePreparer" zero="0" article="{{ article.id }}"/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtearester" id="article{{article.id}}" disabled/></td>
+					<td><input class="mat form-control" disabled value="{{ article.Poids }}"/></td>
 					<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
 
 				</tr>
 			{% endfor %}
 		</tbody>
 	</tbody>
-</table>
-<div class="flex-container">
-	<div class="flex-item" id="poidsqte">0</div>
-	<div class="flex-item" id="poidsqteSortie">0</div>
-	<div class="flex-item" id="poidsqtePreparer">0</div>
-</div>{% endif %}<!-- The Modal --><div id="myModal">
+</table>{% endif %}<!-- The Modal --><div id="myModal">
 <span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
 <div class="container mt-2">
 	<label for="selectOption">Select:</label>
@@ -208,9 +297,7 @@
 		{% endfor %}
 
 	</tbody>
-</tbody></table></div><!-- The Overlay --><div id="overlay"></div>
-<script>
-function openModal() {
+</tbody></table></div><!-- The Overlay --><div id="overlay"></div><script>function openModal() {
 
 document.getElementById("myModal").style.display = "block";
 document.getElementById("overlay").style.display = "block";

@@ -13,7 +13,8 @@
 		<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link
@@ -58,6 +59,9 @@
 			.alert.showAlert {
 				opacity: 1;
 				pointer-events: auto;
+			}
+			.small-button {
+				font-size: 12px;
 			}
 
 			.alert.show {
@@ -241,16 +245,6 @@
 
 			<div class="container-main">
 
-				<header class="row header-row">
-					<div class="logo col-md-2">
-						<a href="{{ path('app_home') }}"><img id="company-logo" src="{{ asset('uploads/logo/j4r_logo.png') }}" alt="Logo" srcset=""></a>
-						<hr>
-
-					</div>
-					<div class="col-md-10 row"></div>
-
-					<nav class="col-lg-10"></nav>
-				</header>
 
 				<div class="alert hide">
 					<span class="fas fa-check-circle"></span>
@@ -263,6 +257,13 @@
 				<div class="row">
 
 					<div class="col-md-2" id="nav-main">
+						<header class="row header-row" style="margin-left:20%">
+							<div class="logo col-md-2">
+								<a href="{{ path('app_home') }}"><img id="company-logo" src="{{ asset('uploads/logo/j4r_logo.png') }}" alt="Logo" srcset=""></a>
+
+							</div>
+
+						</header>
 						<div class="nav-user">
 							<ul class="clearfix nav-user-i">
 								<li class="col-md-4">

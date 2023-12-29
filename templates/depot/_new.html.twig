@@ -3,60 +3,150 @@
 
 {{ form_start(form) }}
 
+<div class="container mt-5">
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.codedepot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.nomdepot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.adressedepot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.adressedepot2, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.agence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.cpdepot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.villedepot, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.contactnom, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactprenom, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contacttel, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactportable, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.infoouverture, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactemail, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.codechantier, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
-</div>
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Code Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.codedepot,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
 
-<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
-{{ form_end(form) }}
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Nom Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.nomdepot,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Adress Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.adressedepot,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
 
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Adress Dépot suit
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.adressedepot2,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Agence
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.agence,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Code Postal
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.cpdepot,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Ville
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.villedepot,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Nom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactnom,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Prénom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactprenom,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Tél
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contacttel,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Portable
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactportable,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Ouverture
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.infoouverture,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Email Contact
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactemail,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Commentaires
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.commentaires,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Code Chantier
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.codechantier,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
+
+		</div>
+	</div>
+
+
+	{{ form_end(form) }}

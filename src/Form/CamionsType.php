@@ -30,7 +30,7 @@ class CamionsType extends AbstractType
         ->add('immatriculation', TextType::class)
         ->add('tonnagemax', TextType::class)
         ->add('typegrue', TextType::class)
-        ->add('dateverifgrue', DateType::class)
+        ->add('dateverifgrue')
         ->add('actif', CheckboxType::class, [
             'required' => false, // Allow it to be unchecked
         ]);

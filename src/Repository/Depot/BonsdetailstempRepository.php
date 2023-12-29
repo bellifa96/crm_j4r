@@ -28,6 +28,8 @@ class BonsdetailstempRepository extends ServiceEntityRepository
         $res = $this->createQueryBuilder('b')
             ->where('b.numaffaire = :numaffaire')
             ->setParameter('numaffaire', $numaffaire)
+            ->orderBy('b.datemvt', 'ASC') // Add this line for ascending order
+
             ->groupBy('b.numbon')
             ->getQuery()
             ->getResult();

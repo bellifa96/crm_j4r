@@ -31,6 +31,7 @@ class DepotType extends AbstractType
             ])
             ->add('adressedepot2', TextType::class, [
                 'label' => 'Adresse Depot (suite)',
+                'required'=>false
             ])
             ->add('cpdepot', TextType::class, [
                 'label' => 'Code Postal Depot',
@@ -46,9 +47,12 @@ class DepotType extends AbstractType
             ])
             ->add('contacttel', TextType::class, [
                 'label' => 'Téléphone du Contact',
+                'required'=>false
             ])
             ->add('contactportable', TextType::class, [
                 'label' => 'Portable du Contact',
+                'required'=>false
+
             ])
             ->add('infoouverture', TextType::class, [
                 'label' => 'Informations sur l\'Ouverture',
@@ -58,6 +62,8 @@ class DepotType extends AbstractType
             ])
             ->add('commentaires', TextareaType::class, [
                 'label' => 'Commentaires',
+                'required'=>false
+
             ])
             ->add('codechantier', IntegerType::class, [
                 'label' => 'Code Chantier',
