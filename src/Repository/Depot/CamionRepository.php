@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Depot\Articles;
 use App\Entity\Depot\Camions;
 use App\Entity\Depot\Depot;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<Camions>
@@ -38,5 +39,16 @@ class CamionRepository extends ServiceEntityRepository
             ->setParameter('idTransporteur', $idTransporteur)
             ->getQuery()
             ->getResult();
+    }
+    public function addCamions(Camions $camions)
+    {
+        try {
+            $this->_em->persist($camions);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return false;
+        }
     }
 }

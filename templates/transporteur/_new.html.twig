@@ -138,9 +138,12 @@
 <div id="myModal">
 	<span onclick="closeModal()" style="cursor: pointer; float: right; color: #333; font-size: 18px; font-weight: bold;">&times;</span>
 	<div id="camions">
-		<button type="button" class="btn btn-primary" id="ajouterButton">Camions +
+		<button type="button" class="btn btn-primary" id="ajouterButton">
+			<a href="{{ path('add_camions', {'id': id }) }}" class="">
+				<i class="bi bi-add"></i>
+				Camions +
+			</a>
 		</button>
-
 		<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
@@ -163,7 +166,7 @@
 						<td>{{ camion.longueurfleche }}</td>
 						<td>{{ camion.dateverifgrue ? camion.dateverifgrue|date('Y-m-d H:i:s') : '' }}</td>
 						<td>
-							<a class="btn btn-warning">
+							<a href="{{ path('edit_camions', {'id': camion.idcamion }) }}" class="btn btn-warning">
 								<i class="bi bi-pencil-fill"></i>
 								Edit
 							</a>
@@ -175,7 +178,11 @@
 	</table>
 </div>
 <div id="chauffeurs">
-	<button type="button" class="btn btn-primary" id="ajouterButton">Chauffeurs +
+	<button type="button" class="btn btn-primary" id="ajouterButton">
+		<a href="{{ path('add_chauffeurs', {'id': id }) }}" class="">
+			<i class="bi bi-add"></i>
+			Chauffeurs +
+		</a>
 	</button>
 
 	<table class="table text-center datatable" id="commandeAjouter" style="color: #0E4377;">
@@ -187,7 +194,6 @@
 				<th>Portable</th>
 				<th>Email</th>
 				<th>Actions</th>
-
 			</tr>
 
 
@@ -201,11 +207,12 @@
 					<td>{{ ch.portable }}</td>
 					<td>{{ ch.email }}</td>
 					<td>
-						<a class="btn btn-warning">
+						<a href="{{ path('edit_chauffeurs', {'id': ch.idchauffeur }) }}" class="btn btn-warning">
 							<i class="bi bi-pencil-fill"></i>
 							Edit
 						</a>
 					</td>
+
 				</tr>
 			{% endfor %}
 		</tbody>

@@ -27,13 +27,26 @@ class Camions
     private $typegrue;
 
     #[ORM\Column(type: 'decimal')]
-    private $longueurfleche;
+    private $longueurfleche = 0.0;
 
     #[ORM\Column(type: 'date')]
     private $dateverifgrue;
 
     #[ORM\Column(type: 'boolean')]
     private $actif;
+
+
+
+    public function getIdcamion()
+    {
+        return $this->idcamion;
+    }
+
+    public function setIdcamion($idcamion)
+    {
+        $this->idcamion = $idcamion;
+    }
+
     public function getIdtransporteur()
     {
         return $this->idtransporteur;
@@ -109,6 +122,4 @@ class Camions
     {
         $this->actif = $actif;
     }
-
-
 }

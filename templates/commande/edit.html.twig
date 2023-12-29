@@ -66,26 +66,36 @@
 	</div>
 	<script>
 
-		calculer_poids_article(1);
+		calculer_poids_article(1,false);
 
-function calculer_poids_article(moinsZeroValue) {
-
+function calculer_poids_article(moinsZeroValue,drap=true) {
+let sumqtepre=0;
+let sumqteSortie=0;
 let poidsArticle = document.getElementsByClassName("poids");
 
 calculer_poids_QteCommande(poidsArticle, "qte");
-calculer_poids_QteCommande(poidsArticle, "qteSortie");
+sumqteSortie = calculer_poids_QteCommande(poidsArticle, "qteSortie");
 let idDepot = document.getElementById("codedepot").value;
 if (idDepot == 2) {
-calculer_poids_QteCommande(poidsArticle, "qtePreparer");
+sumqtepre = calculer_poids_QteCommande(poidsArticle, "qtePreparer");
 calculer_toutes_qte(moinsZeroValue);
+
 }
+if(drap == true){
+$(document).ready(function () { 
+$("#commande_PoidsTotMat").val(sumqteSortie+sumqtepre);
+});
+}else{
+
+}
+
 
 }
 function calculer_poids_QteCommande(poidsArticle, qte) {
 let Qte = document.getElementsByClassName(qte);
-
-if (poidsArticle.length === Qte.length) {
 let sum = 0;
+if (poidsArticle.length === Qte.length) {
+
 
 for (let i = 0; i < poidsArticle.length; i++) {
 let poidsValue = parseFloat(poidsArticle[i].value);
@@ -101,6 +111,8 @@ document.getElementById("poids" + qte).innerHTML = sum.toFixed(2);
 } else {
 console.error("Arrays poidsArticle and Qte must have the same length");
 }
+
+return sum;
 
 }
 

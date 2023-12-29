@@ -199,6 +199,23 @@
 				font-size: 18px;
 				color: white;
 			}
+			.sidebar-item {
+				position: relative;
+			}
+
+			.sidebar-item .dropdown-menu {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0;
+				background-color: #fff;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+				z-index: 1000;
+			}
+
+			.sidebar-item:hover .dropdown-menu {
+				display: block;
+			}
 		</style>
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
@@ -247,17 +264,11 @@
 
 					<div class="col-md-2" id="nav-main">
 						<div class="nav-user">
-
 							<ul class="clearfix nav-user-i">
-								<li class=" col-md-4">
-									<a id="leaspect" style="cursor: pointer;">
-										<i class="bi bi-search"></i>
-									</a>
-								</li>
 								<li class="col-md-4">
 									<a href="{{ path('app_user_show',{'id':app.user.id}) }}">
 										{% if app.user.photo is defined and app.user.photo is not empty %}
-											<img style="height: 50px; width: 50px;border-radius: 50%;" src="{{ asset('../uploads/photo/' ~ app.user.photo) }}" alt=""/>
+											<img style="height: 50px; width: 50px; border-radius: 50%;" src="{{ asset('../uploads/photo/' ~ app.user.photo) }}" alt=""/>
 										{% else %}
 											<i class="bi bi-person-circle"></i>
 										{% endif %}
@@ -270,7 +281,6 @@
 								</li>
 							</ul>
 						</div>
-
 						{% include 'nav.html.twig' %}
 					</div>
 

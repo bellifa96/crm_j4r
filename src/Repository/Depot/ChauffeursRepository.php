@@ -6,6 +6,7 @@ namespace App\Repository\Depot;
 use App\Entity\Depot\Chauffeurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<Chauffeurs>
@@ -27,15 +28,26 @@ class ChauffeursRepository extends ServiceEntityRepository
         $etatsencours = $this->_em->createQueryBuilder()
         ->select('ch')
         ->from(Chauffeurs::class, 'ch')
-        ->where('ch.actif = :actif')
         ->andWhere('ch.idtransporteur = :idTransporteur')
         ->setParameter('idTransporteur', $idTransporteur)
-        ->setParameter('actif', 1)
         ->getQuery()
         ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
 
     return $etatsencours;
     }
+
+    public function addChauffeur(Chauffeurs $chauffeurs)
+    {
+        try {
+            $this->_em->persist($chauffeurs);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
 
 
   
