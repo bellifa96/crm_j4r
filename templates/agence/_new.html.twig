@@ -1,54 +1,206 @@
 {# form pour afficher les formulaire #}
 
+<style>
+
+
+	.label {
+		font-weight: bold;
+	}
+
+	.button-label {
+		display: inline-block;
+		padding: 0.5em 2em;
+		margin: 0.5em;
+		cursor: pointer;
+		color: #0E4377;
+		border-radius: 0.25em;
+		background: #efefef;
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+		transition: 0.3s;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.button-label h1 {
+		font-size: 1.1em;
+		font-family: "Lato", sans-serif;
+		margin: 0;
+		font-weight: bold;
+	}
+
+	.button-label:hover {
+		background: #d6d6d6;
+		color: #0E4377;
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+	}
+
+	.button-label:active {
+		transform: translateY(2px);
+		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+	}
+
+	@media(max-width: 40em) {
+		.button-label {
+			padding: 0 1em 3px;
+			margin: 0.25em;
+		}
+	}
+
+	#societe:checked + .button-label {
+		background: #0e4377;
+		color: #efefef;
+	}
+
+	#societe:checked + .button-label:hover {
+		background: #0e4377;
+		color: #e2e2e2;
+	}
+
+	#personne:checked + .button-label {
+		background: #0e4377;
+		color: #efefef;
+	}
+
+	#personne:checked + .button-label:hover {
+		background: #0e4377;
+		color: #e2e2e2;
+	}
+
+
+	.hidden {
+		display: none;
+	}
+</style>
 
 {{ form_start(form) }}
+<div class="container mt-5">
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.agence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.nomagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.adresseagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.adresseagence2, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.cpagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.villeagence, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="form-group">
-            {{ form_row(form.contactnom, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactprenom, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contacttel, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactportable, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.infoouverture, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.contactemail, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
-</div>
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
 
-<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
-{{ form_end(form) }}
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Agence
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.agence,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Nom
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.nomagence,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Adress
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresseagence,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Adress suit
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresseagence2,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Code Postal
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.cpagence,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Ville
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.villeagence,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Nom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactnom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Prénom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactprenom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Tél
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contacttel,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Portable
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactportable,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Ouverture
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.infoouverture,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Email
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.contactemail,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Commentaires
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.commentaires,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-auto">
+			<button type="submit" class="btn btn-info">Enregistrer</button>
+		</div>
+	</div>
+
+	{{ form_end(form) }}

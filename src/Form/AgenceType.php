@@ -29,7 +29,9 @@ class AgenceType extends AbstractType
                 'label' => 'Adresse 1'
             ])
             ->add('adresseagence2', TextType::class, options: [
-                'label' => 'Adresse 2'
+                'label' => 'Adresse 2',
+                'required' => false
+
             ])
             ->add('cpagence', TextType::class, options: [
                 'label' => 'Code Postal'
