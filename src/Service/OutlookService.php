@@ -4,6 +4,10 @@ namespace App\Service;
 
 use Exception;
 
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
+use Microsoft\Kiota\Authentication\Oauth\ClientCredentialContext;
+use Microsoft\Graph\GraphServiceClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
@@ -30,7 +34,8 @@ class OutlookService
             // Get the JSON response
             $data = $response->toArray();
 
-            return $data;
+            // Process the response data as needed
+            dd($data);
         } catch (ExceptionInterface $e) {
             // Handle exceptions
             echo 'Error: ' . $e->getMessage();
