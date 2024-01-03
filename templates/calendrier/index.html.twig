@@ -164,7 +164,7 @@
 </div>
 <div id="myModal">
 	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
-	<form>
+	<div>
 		<div class="form-group">
 			<label for="subject">Subject</label>
 			<input type="text" class="form-control form-control-sm-2 societe-input" id="subject" value="Meeting with Client">
@@ -174,22 +174,22 @@
 		<div class="form-row">
 			<div class="form-group col-md-6">
 				<label for="startDateTime">Start Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time"  />
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time"/>
 			</div>
 
 			<div class="form-group col-md-6">
 				<label for="endDateTime">End Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time" />
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="location">Location</label>
-			<input type="text" class="form-control form-control-sm-2 societe-input" id="location" value="Conference Room 123" >
+			<input type="text" class="form-control form-control-sm-2 societe-input" id="location" value="Conference Room 123">
 		</div>
 
-		<button type="button" class="btn btn-primary">Enregistre</button>
-	</form>
+		<button type="button" class="btn btn-primary" onclick="retrieveFormData()">Enregistre</button>
+	</div>
 </div><!-- The Overlay --><div id="overlay"></div>
 
 <script>
@@ -242,7 +242,6 @@ $('#eventTable').DataTable().destroy();
 eventTable = $('#eventTable').DataTable({paging: true});
 eventTable.clear().draw();
 let dt = data.value;
-console.log(dt);
 // Populate the table with the new data
 for (var i = 0; i < dt.length; i++) {
 var event = dt[i];
@@ -285,5 +284,38 @@ return "<div class='type ram'>RAMASSAGE</div>"
 return "<div></div>"
 
 }
+}
+function retrieveFormData() {
+
+var subject = document.getElementById('subject').value;
+var startDate = document.getElementById('meeting-time-start').value;
+var endDate = document.getElementById('meeting-time-end').value;
+var location = document.getElementById('location').value;
+
+console.log('Subject:', subject);
+console.log('Start Date and Time:', startDate);
+console.log('End Date and Time:', endDate);
+console.log('Location:', location);
+
+$.ajax({
+type: "POST",
+url: "/event-save",
+data: {
+subject: subject,
+startDate: startDate,
+endDate: endDate,
+location: location
+},
+success: function (data) {
+if (data == 201) {
+window.location.reload();
+}
+},
+error: function (error) {
+console.log(error);
+}
+});
+
+
 }
 </script>{% endblock %}

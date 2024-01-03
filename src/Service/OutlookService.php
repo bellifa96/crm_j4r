@@ -58,53 +58,43 @@ class OutlookService
             echo 'Error: ' . $e->getMessage();
         }
     }
-    public function addEvents($event)
+    public function addEvents($sujet, $date_debut, $date_fin, $location)
     {
-        $calendarId = 'AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGD4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=';
 
-        $graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/calendars/' . rawurlencode($calendarId) . '/events';
+        $graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/calendars/AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=/events';
 
-        try {
-            // Create an HTTP client instance
-            $httpClient = HttpClient::create();
 
-            // Make the POST request to create an event
-            $response = $httpClient->request('POST', $graphApiEndpoint, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->accessToken,
-                    'Content-Type' => 'application/json',
+        // Create an HTTP client instance
+
+        // Make the POST request to create an event
+        $response = $this->client->request('POST', $graphApiEndpoint, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'subject' => $sujet,
+                'start' => [
+                    'dateTime' => $date_debut,
+                    'timeZone' => 'UTC',
                 ],
-                'json' => [
-                    'subject' => 'Meeting with Client',
-                    'body' => [
-                        'content' => 'Discuss upcoming transportation plans',
-                        'contentType' => 'HTML',
-                    ],
-                    'start' => [
-                        'dateTime' => '2024-01-02T14:00:00',
-                        'timeZone' => 'UTC',
-                    ],
-                    'end' => [
-                        'dateTime' => '2024-01-02T15:00:00',
-                        'timeZone' => 'UTC',
-                    ],
-                    'location' => [
-                        'displayName' => 'Conference Room 123',
-                    ],
+                'end' => [
+                    'dateTime' => $date_fin,
+                    'timeZone' => 'UTC',
                 ],
-            ]);
+            ],
+        ]);
 
-            // Get the JSON response
-            $data = $response->toArray();
+        // Check the response status
+        if ($response->getStatusCode() === 201) {
+            // Event created successfully
+            return $response->getStatusCode();
+        } else {
+            // Handle error
 
-            // Process the response data as needed
-            var_dump($data);
-        } catch (HttpExceptionInterface $e) {
-            // Handle HTTP exceptions
-            echo 'HTTP Exception: ' . $e->getMessage();
-        } catch (\Exception $e) {
-            // Handle other exceptions
-            echo 'Exception: ' . $e->getMessage();
+            return $response->getStatusCode();
+            // Optionally, you can also print the response content for debugging purposes
+            // echo $response->getContent();
         }
     }
 }

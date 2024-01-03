@@ -40,4 +40,22 @@ class CalendrierController extends AbstractController
             return $this->json([]);
         }
     }
+    
+    #[Route('/event-save', name: 'app_event_date_save')]
+    public function save_event(Request $request): Response
+    {
+        try {
+            $startDate = $request->request->get('startDate');
+
+            $endDate = $request->request->get('endDate');
+            $subject = $request->request->get("subject");
+            $location = $request->request->get('location');
+
+            $response = $this->outlookService->addEvents($subject,$startDate, $endDate,$location);
+            return $this->json($response);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return $this->json([]);
+        }
+    }
 }
