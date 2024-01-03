@@ -211,7 +211,6 @@ data: {
 numBonlayher: selectedValue
 },
 success: function (res) {
-getBonLayher();
 var data = res.article;
 setDataTransport(res.layherTransport)
 var ArticleBonTable;
@@ -239,6 +238,7 @@ console.log(error);
 });
 $('#NumAffaire').on('change', function () { // Retrieve the selected value
 var selectedValue = $(this).val();
+getBonLayher();
 
 $.ajax({
 type: "GET",
