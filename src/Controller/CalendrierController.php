@@ -33,11 +33,7 @@ class CalendrierController extends AbstractController
         try {
             $date_du = $request->query->get('datedu');
             $date_au = $request->query->get('dateau');
-
             $response = $this->outlookService->getCalendarEvents($date_du, $date_au);
-
-            
-
             return $this->json($response);
         } catch (Exception $e) {
             dd($e->getMessage());
