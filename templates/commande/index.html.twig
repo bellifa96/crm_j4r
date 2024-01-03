@@ -64,7 +64,7 @@
 			background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
 			z-index: 999; /* Ensure it's above the dialog */
 		}
-			.right {
+		.right {
 			flex: 2; /* Takes up available space on the right */
 			margin-left: 20px; /* Add margin for spacing between left and right */
 			display: flex;
@@ -76,8 +76,18 @@
 
 	<div class="example-wrapper">
 		<div class="container">
-		
+
 			<div class="right">
+
+				<div class="form-group">
+					<label for="DateAu" class="font-weight-bold">Au</label>
+					<input type="date" id="DateAu" name="DateAu" class="form-control form-control-sm-2 societe-input required" value="">
+				</div>
+				<div class="form-group">
+					<label for="DateDu" class="font-weight-bold">DU</label>
+					<input type="date" id="DateDu" name="DateDu" class="form-control form-control-sm-2 societe-input required" value="">
+				</div>
+
 				<select class="basic" id="agenceSelect">
 					{% for agence in agences %}
 						<option value="{{ agence.idagence }}">

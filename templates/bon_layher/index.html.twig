@@ -148,11 +148,10 @@
 <div class="row form"></div>
 
 <script>
-	document.getElementById('DateDu').addEventListener('change', function () {
+document.getElementById('DateDu').addEventListener('change', function () {
 var minDateDu = this.value;
 document.getElementById('DateAu').min = minDateDu;
 getBonLayher();
-
 });
 document.getElementById('DateAu').addEventListener('change', function () {
 var minDateDu = this.value;
