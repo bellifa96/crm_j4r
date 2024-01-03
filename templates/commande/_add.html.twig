@@ -201,6 +201,11 @@
 
 	<br>
 	<input type="hidden" value="{{depots.codedepot}}" id="codedepot"/>
+	<div class="flex-container">
+		<div class="flex-item" id="poidsqte">0</div>
+		<div class="flex-item" id="poidsqteSortie">0</div>
+		<div class="flex-item" id="poidsqtePreparer">0</div>
+	</div>
 	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 		<thead>
 			<tr class="tr-head">
@@ -209,6 +214,7 @@
 				<th>Qte Commandées</th>
 				<th>Qte Sorties</th>
 				<th>Qte a Préparer</th>
+				<th>Poids</th>
 				<th>Reste a Sortir</th>
 				<th>Type</th>
 			</tr>
@@ -216,11 +222,7 @@
 		<tbody></tbody>
 	</tbody>
 </table>
-<div class="flex-container">
-	<div class="flex-item" id="poidsqte">0</div>
-	<div class="flex-item" id="poidsqteSortie">0</div>
-	<div class="flex-item" id="poidsqtePreparer">0</div>
-</div>
+
 <div id="myModal">
 	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
 	<div class="container mt-2">
@@ -253,12 +255,7 @@
 
 		</tbody>
 	</tbody>
-</table>
-<div class="flex-container">
-	<div class="flex-item" id="poidsqte">0</div>
-	<div class="flex-item" id="poidsqteSortie">0</div>
-	<div class="flex-item" id="poidsqtePreparer">0</div>
-</div></div><!-- The Overlay --><div id="overlay"></div><script>
+</table></div><!-- The Overlay --><div id="overlay"></div><script>
 let articleQte = [];
 
 function openModal() {
@@ -300,7 +297,7 @@ return true;
 
 
 if (! articleExists) { // If the article does not exist, add the new row
-var newRow = $('<tr>' + '<td>' + articleToAdd.Article + '</td>' + '<td>' + articleToAdd.Designation + '</td>' + '<input class="article" type="hidden" value="' + articleToAdd.Article + '" /><input class="poids" type="hidden" value="' + articleToAdd.poids + '" /><input class="iddepot" type="hidden" value="0"> <td><input type="number" value="' + articleToAdd.Qte + '" class="inputNumber form-control qte" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QteSortie + '" class="inputNumber form-control qteSortie" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QtePreparer + '" class="inputNumber form-control qtePreparer" onchange="calculer_poids()" zero="1" article=""/></td>' + '<td><input type="number" value="' + articleToAdd.QteARester + '" class="inputNumber form-control qtearester" disabled/></td>' + '<td><input class="mat form-control " disabled value="' + articleToAdd.TypeMat + '"/></td>' + '</tr>');
+var newRow = $('<tr>' + '<td>' + articleToAdd.Article + '</td>' + '<td>' + articleToAdd.Designation + '</td>' + '<input class="article" type="hidden" value="' + articleToAdd.Article + '" /><input class="iddepot" type="hidden" value="0"> <td><input type="number" value="' + articleToAdd.Qte + '" class="inputNumber form-control qte" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QteSortie + '" class="inputNumber form-control qteSortie" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QtePreparer + '" class="inputNumber form-control qtePreparer" onchange="calculer_poids()" zero="1" article=""/></td> <td><input class="form-control  poids" type="text" value="' + articleToAdd.poids + '"  disabled /> </td>' + '<td><input type="number" value="' + articleToAdd.QteARester + '" class="inputNumber form-control qtearester" disabled/></td>' + '<td><input class="mat form-control " disabled value="' + articleToAdd.TypeMat + '"/></td>' + '</tr>');
 
 myDataTable.row.add(newRow).draw();
 calculer_poids();
