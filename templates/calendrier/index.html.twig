@@ -166,47 +166,54 @@
 	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
 	<form id="eventForm" enctype="multipart/form-data">
 		<div class="form-group col-md-6">
-			<label for="subject">Subject:</label>
-			<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
+			<div class="col-md-12 row mt-3">
+				<label for="subject">Sujet:</label>
+				<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
+			</div>
+			<div class="col-md-12 row mt-3">
+				<label for="meeting-time-start">Start Date:</label>
+				<input type="datetime-local" id="meeting-time-start" name="startDate" class="form-control form-control-sm-2 societe-input required" required>
+			</div>
+			<div class="col-md-12 row mt-3">
+				<label for="meeting-time-end">End Date:</label>
+				<input type="datetime-local" id="meeting-time-end" name="endDate" class="form-control form-control-sm-2 societe-input required" required>
+			</div>
+			<div class="col-md-12 row mt-3">
+				<label for="location">Localisatio:</label>
+				<input type="text" id="location" name="location" class="form-control form-control-sm-2 societe-input required" required>
+			</div>
 		</div>
-		<div class="form-group col-md-6">
-			<label for="meeting-time-start">Start Date:</label>
-			<input type="datetime-local" id="meeting-time-start" name="startDate" class="form-control form-control-sm-2 societe-input required" required>
-		</div>
-		<div class="form-group col-md-6">
-			<label for="meeting-time-end">End Date:</label>
-			<input type="datetime-local" id="meeting-time-end" name="endDate" class="form-control form-control-sm-2 societe-input required" required>
-		</div>
-		<div class="form-group col-md-6">
-			<label for="location">Location:</label>
-			<input type="text" id="location" name="location" class="form-control form-control-sm-2 societe-input required" required>
-		</div>
-		<div class="form-group col-md-6">
-			<label for="file">Attachment:</label>
-			<input type="file" id="file" name="attachment" class="form-control form-control-sm-2 societe-input required" accept=".pdf, .doc, .docx">
-		</div>
-		<div class="form-group col-md-6">
-			<label for="endDateTime">Transporteur</label>
-			<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
-				{% for transport in transports %}
-					<option value="{{ transport.societe }}">{{ transport.societe }}</option>
-				{% endfor %}
-			</select>
-		</div>
-		<div class="form-group col-md-6">
-			<label for="endDateTime">Type Transport</label>
-			<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
-				<option value="LIV">LIV (LIVRAISON)</option>
-				<option value="RAM">RAM Ramasse</option>
-				<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
-				<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
-				<option value="ROT">ROT (Rotation)</option>
+		<div class="col-md-6">
 
-			</select>
-			<br>
-			<button type="button" class="form-control form-control-sm-2 societe-input required" id="submitBtn">Create Event</button>
+			<div class="col-md-12 row mt-3">
+				<label for="file">Pièce jointe</label>
+				<input type="file" id="file" name="attachment" class="form-control form-control-sm-2 societe-input required" accept=".pdf, .doc, .docx">
+			</div>
+			<div class="col-md-12 row mt-3">
+				<label for="endDateTime">Transporteur</label>
+				<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
+					{% for transport in transports %}
+						<option value="{{ transport.societe }}">{{ transport.societe }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-md-12 row mt-3">
+				<label for="endDateTime">Type Transport</label>
+				<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
+					<option value="LIV">LIV (LIVRAISON)</option>
+					<option value="RAM">RAM Ramasse</option>
+					<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
+					<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
+					<option value="ROT">ROT (Rotation)</option>
 
+				</select>
+
+				<br>
+				<button type="button" class="form-control form-control-sm-2 societe-input required" id="submitBtn">Create Event</button>
+
+			</div>
 		</div>
+
 	</form>
 
 </div><!-- The Overlay --><div id="overlay"></div>
@@ -267,16 +274,32 @@ var startDateTime = new Date(event.start.dateTime);
 var endDateTime = new Date(event.end.dateTime);
 
 // Format the start and end hours
-var startHour = startDateTime.getHours() + 1 + ":" + (
+var options = {
+weekday: 'long',
+year: 'numeric',
+month: 'long',
+day: 'numeric',
+hour: 'numeric',
+minute: 'numeric',
+hour12: false
+};
+
+// Format the start and end hours
+var startHour = (startDateTime.getHours() + 1) + ":" + (
 startDateTime.getMinutes() < 10 ? '0' : ''
 ) + startDateTime.getMinutes();
-var endHour = endDateTime.getHours() + 1 + ":" + (
+var endHour = (endDateTime.getHours() + 1) + ":" + (
 endDateTime.getMinutes() < 10 ? '0' : ''
 ) + endDateTime.getMinutes();
 
+// Add one hour
+var oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+startDateTime.setTime(startDateTime.getTime() + oneHour);
+endDateTime.setTime(endDateTime.getTime() + oneHour);
+
 // Format the start date with the added start hour
-var formattedStartDate = startDateTime.toISOString().slice(0, 10) + ' ' + startHour;
-var formattedEndDate = endDateTime.toISOString().slice(0, 10) + ' ' + endHour;
+var formattedStartDate = startDateTime.toLocaleString('fr-FR', options).replace(/\u200E/g, '') + ' ';
+var formattedEndDate = endDateTime.toLocaleString('fr-FR', options).replace(/\u200E/g, '') + ' ';
 
 var newRow = [
 event.subject, formattedStartDate, formattedEndDate, getTypeEvent(event.subject)

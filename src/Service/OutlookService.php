@@ -65,6 +65,11 @@ class OutlookService
         $attachmentContent = file_get_contents($attachmentPath);
 
 
+        if ($attachmentContent === false) {
+            throw new Exception("Failed to read file content");
+        }
+
+
         // Create an HTTP client instance
 
         // Make the POST request to create an event
