@@ -126,13 +126,13 @@
 				<div class="col-md-4 ">
 					<div class="form-group">
 						<label for="DateDu" class="font-weight-bold">DU</label>
-						<input type="date" id="DateDu" name="DateDu" class="form-control form-control-sm-2 societe-input required" value="">
+						<input type="date" id="DateDu" name="DateDu" class="form-control form-control-sm-2 societe-input required" value="{{ 'now'|date('Y-m-d') }}">
 					</div>
 				</div>
 				<div class="col-md-4 ">
 					<div class="form-group">
 						<label for="DateAu" class="font-weight-bold">Au</label>
-						<input type="date" id="DateAu" name="DateAu" class="form-control form-control-sm-2 societe-input required" value="">
+						<input type="date" id="DateAu" name="DateAu" class="form-control form-control-sm-2 societe-input required" value="{{ 'now'|date('Y-m-d') }}">
 					</div>
 
 				</div>
@@ -174,12 +174,12 @@
 		<div class="form-row">
 			<div class="form-group col-md-6">
 				<label for="startDateTime">Start Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time"/>
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time" value="{{ 'now'|date('Y-m-d\\TH:i') }}">
 			</div>
 
 			<div class="form-group col-md-6">
 				<label for="endDateTime">End Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time"/>
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time" value="{{ 'now'|date('Y-m-d\\TH:i') }}"/>
 			</div>
 		</div>
 
@@ -193,7 +193,8 @@
 </div><!-- The Overlay --><div id="overlay"></div>
 
 <script>
-	function openModal() {
+	getEvent();
+function openModal() {
 
 document.getElementById("myModal").style.display = "block";
 document.getElementById("overlay").style.display = "block";
@@ -223,9 +224,6 @@ function getEvent() {
 let DateDu = document.getElementById('DateDu').value;
 let DateAu = document.getElementById('DateAu').value;
 
-console.log(DateAu);
-console.log(DateDu);
-
 $.ajax({
 type: "GET",
 url: "/event-date",
@@ -241,12 +239,24 @@ $('#eventTable').DataTable().destroy();
 
 eventTable = $('#eventTable').DataTable({paging: true});
 eventTable.clear().draw();
+console.log(data)
 let dt = data.value;
 // Populate the table with the new data
 for (var i = 0; i < dt.length; i++) {
 var event = dt[i];
+var startDateTime = new Date(event.start.dateTime);
+var endDateTime = new Date(event.end.dateTime);
+
+// Format the start and end hours
+var startHour = startDateTime.getHours() + 1 + ":" + (startDateTime.getMinutes() < 10 ? '0' : '') + startDateTime.getMinutes();
+var endHour = endDateTime.getHours()+ 1 + ":" + (endDateTime.getMinutes() < 10 ? '0' : '') + endDateTime.getMinutes();
+
+// Format the start date with the added start hour
+var formattedStartDate = startDateTime.toISOString().slice(0, 10) + ' ' + startHour;
+var formattedEndDate = endDateTime.toISOString().slice(0, 10) + ' ' + endHour;
+
 var newRow = [
-event.subject, event.start.dateTime, event.end.dateTime, getTypeEvent(event.subject)
+event.subject, formattedStartDate, formattedEndDate, getTypeEvent(event.subject)
 ];
 eventTable.row.add(newRow);
 }
