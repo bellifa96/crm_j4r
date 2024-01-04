@@ -119,7 +119,8 @@ class BonLayherController extends AbstractController
             ResponseHeaderBag::DISPOSITION_INLINE,
             basename($filePath)
         );
+        $response->send();
 
-        return $response;
+        
     }
 }
