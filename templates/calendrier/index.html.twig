@@ -166,27 +166,50 @@
 	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
 	<div>
 		<div class="form-group">
-			<label for="subject">Subject</label>
-			<input type="text" class="form-control form-control-sm-2 societe-input" id="subject" value="Meeting with Client">
+			<label for="subject">sujet</label>
+			<input type="text" class="form-control form-control-sm-2 societe-input" id="subject" value="sujet">
+		</div>
+		<div class="form-group">
+			<label for="subject">chantier</label>
+			<input type="text" class="form-control form-control-sm-2 societe-input" id="chantier" value="chantier">
 		</div>
 
 
 		<div class="form-row">
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<label for="startDateTime">Start Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time" value="{{ 'now'|date('Y-m-d\\TH:i') }}">
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time-start" value="{{ 'now'|date('Y-m-d\\TH:i') }}">
 			</div>
 
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<label for="endDateTime">End Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time" value="{{ 'now'|date('Y-m-d\\TH:i') }}"/>
+				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time-end" value="{{ 'now'|date('Y-m-d\\TH:i') }}"/>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="endDateTime">Transporteur</label>
+				<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
+					{% for transport in transports %}
+						<option value="{{ transport.societe }}">{{ transport.societe }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="endDateTime">Type Transport</label>
+				<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
+					<option value="LIV">LIV (LIVRAISON)</option>
+					<option value="RAM">RAM Ramasse</option>
+					<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
+					<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
+					<option value="ROT">ROT (Rotation)</option>
+
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="location">Location</label>
+				<input type="text" class="form-control form-control-sm-2 societe-input" id="location" value="Conference Room 123">
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label for="location">Location</label>
-			<input type="text" class="form-control form-control-sm-2 societe-input" id="location" value="Conference Room 123">
-		</div>
 
 		<button type="button" class="btn btn-primary" onclick="retrieveFormData()">Enregistre</button>
 	</div>
@@ -248,8 +271,12 @@ var startDateTime = new Date(event.start.dateTime);
 var endDateTime = new Date(event.end.dateTime);
 
 // Format the start and end hours
-var startHour = startDateTime.getHours() + 1 + ":" + (startDateTime.getMinutes() < 10 ? '0' : '') + startDateTime.getMinutes();
-var endHour = endDateTime.getHours()+ 1 + ":" + (endDateTime.getMinutes() < 10 ? '0' : '') + endDateTime.getMinutes();
+var startHour = startDateTime.getHours() + 1 + ":" + (
+startDateTime.getMinutes() < 10 ? '0' : ''
+) + startDateTime.getMinutes();
+var endHour = endDateTime.getHours() + 1 + ":" + (
+endDateTime.getMinutes() < 10 ? '0' : ''
+) + endDateTime.getMinutes();
 
 // Format the start date with the added start hour
 var formattedStartDate = startDateTime.toISOString().slice(0, 10) + ' ' + startHour;
@@ -301,17 +328,16 @@ var subject = document.getElementById('subject').value;
 var startDate = document.getElementById('meeting-time-start').value;
 var endDate = document.getElementById('meeting-time-end').value;
 var location = document.getElementById('location').value;
+var chantier = document.getElementById('chantier').value;
+var transporteur = document.getElementById('transports').value;
+var type = document.getElementById('type').value;
 
-console.log('Subject:', subject);
-console.log('Start Date and Time:', startDate);
-console.log('End Date and Time:', endDate);
-console.log('Location:', location);
 
 $.ajax({
 type: "POST",
 url: "/event-save",
 data: {
-subject: subject,
+subject: type+" - "+subject+" - "+transporteur,
 startDate: startDate,
 endDate: endDate,
 location: location
