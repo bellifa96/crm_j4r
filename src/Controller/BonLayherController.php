@@ -9,10 +9,13 @@ use App\Repository\Depot\EtatEnCoursRepository;
 use App\Repository\Depot\EtatTransportRepository;
 use App\Service\BonLayherService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BonLayherController extends AbstractController
@@ -62,7 +65,7 @@ class BonLayherController extends AbstractController
             $date_au = $request->query->get('dateau');
             $numaffaire = $request->query->get('numaffaire');
 
-            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du, $date_au,$numaffaire);
+            $response = $this->bonLayherService->getBonLayherEntreDeuxDate($date_du, $date_au, $numaffaire);
 
             $data = [
                 'bonLayher' => $response,
@@ -94,5 +97,27 @@ class BonLayherController extends AbstractController
             dd($e->getMessage());
             return $this->json([]);
         }
+    }
+
+    #[Route('/get-pdf', name: 'app_bon_layher_pdf')]
+    public function readPdfFile()
+    {
+        $filePath = '/var/www/vhosts/crmj4r.fr/tesseract/RecupBonsLayher/100057A-AVIS-20230412-228326.pdf';
+
+        // Check if the file exists
+        if (!file_exists($filePath)) {
+            throw $this->createNotFoundException('File not found');
+        }
+
+        // Create a BinaryFileResponse
+        $response = new BinaryFileResponse($filePath);
+
+        // Set the headers to force download or inline display in the browser
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            basename($filePath)
+        );
+
+        return $response;
     }
 }
