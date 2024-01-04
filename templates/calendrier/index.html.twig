@@ -164,55 +164,51 @@
 </div>
 <div id="myModal">
 	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
-	<div>
-		<div class="form-group">
-			<label for="subject">sujet</label>
-			<input type="text" class="form-control form-control-sm-2 societe-input" id="subject" value="sujet">
+	<form id="eventForm" enctype="multipart/form-data">
+		<div class="form-group col-md-6">
+			<label for="subject">Subject:</label>
+			<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
 		</div>
-		<div class="form-group">
-			<label for="subject">chantier</label>
-			<input type="text" class="form-control form-control-sm-2 societe-input" id="chantier" value="chantier">
+		<div class="form-group col-md-6">
+			<label for="meeting-time-start">Start Date:</label>
+			<input type="datetime-local" id="meeting-time-start" name="startDate" class="form-control form-control-sm-2 societe-input required" required>
 		</div>
-
-
-		<div class="form-row">
-			<div class="form-group col-md-4">
-				<label for="startDateTime">Start Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-start" name="meeting-time-start" value="{{ 'now'|date('Y-m-d\\TH:i') }}">
-			</div>
-
-			<div class="form-group col-md-4">
-				<label for="endDateTime">End Date and Time</label>
-				<input type="datetime-local" class="form-control form-control-sm-2 societe-input" id="meeting-time-end" name="meeting-time-end" value="{{ 'now'|date('Y-m-d\\TH:i') }}"/>
-			</div>
-			<div class="form-group col-md-4">
-				<label for="endDateTime">Transporteur</label>
-				<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
-					{% for transport in transports %}
-						<option value="{{ transport.societe }}">{{ transport.societe }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="endDateTime">Type Transport</label>
-				<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
-					<option value="LIV">LIV (LIVRAISON)</option>
-					<option value="RAM">RAM Ramasse</option>
-					<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
-					<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
-					<option value="ROT">ROT (Rotation)</option>
-
-				</select>
-			</div>
-			<div class="form-group col-md-6">
-				<label for="location">Location</label>
-				<input type="text" class="form-control form-control-sm-2 societe-input" id="location" value="Conference Room 123">
-			</div>
+		<div class="form-group col-md-6">
+			<label for="meeting-time-end">End Date:</label>
+			<input type="datetime-local" id="meeting-time-end" name="endDate" class="form-control form-control-sm-2 societe-input required" required>
 		</div>
+		<div class="form-group col-md-6">
+			<label for="location">Location:</label>
+			<input type="text" id="location" name="location" class="form-control form-control-sm-2 societe-input required" required>
+		</div>
+		<div class="form-group col-md-6">
+			<label for="file">Attachment:</label>
+			<input type="file" id="file" name="attachment" class="form-control form-control-sm-2 societe-input required" accept=".pdf, .doc, .docx">
+		</div>
+		<div class="form-group col-md-6">
+			<label for="endDateTime">Transporteur</label>
+			<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
+				{% for transport in transports %}
+					<option value="{{ transport.societe }}">{{ transport.societe }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="form-group col-md-6">
+			<label for="endDateTime">Type Transport</label>
+			<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
+				<option value="LIV">LIV (LIVRAISON)</option>
+				<option value="RAM">RAM Ramasse</option>
+				<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
+				<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
+				<option value="ROT">ROT (Rotation)</option>
 
+			</select>
+			<br>
+			<button type="button" class="form-control form-control-sm-2 societe-input required" id="submitBtn">Create Event</button>
 
-		<button type="button" class="btn btn-primary" onclick="retrieveFormData()">Enregistre</button>
-	</div>
+		</div>
+	</form>
+
 </div><!-- The Overlay --><div id="overlay"></div>
 
 <script>
@@ -323,8 +319,9 @@ return "<div></div>"
 }
 }
 function retrieveFormData() {
-
-var subject = document.getElementById('subject').value;
+var d = $('#file')[0].files[0];
+console.log(d);
+/*var subject = document.getElementById('subject').value;
 var startDate = document.getElementById('meeting-time-start').value;
 var endDate = document.getElementById('meeting-time-end').value;
 var location = document.getElementById('location').value;
@@ -333,11 +330,12 @@ var transporteur = document.getElementById('transports').value;
 var type = document.getElementById('type').value;
 
 
+
 $.ajax({
 type: "POST",
 url: "/event-save",
 data: {
-subject: type+" - "+subject+" - "+transporteur,
+subject: type + " - " + subject + " - " + transporteur,
 startDate: startDate,
 endDate: endDate,
 location: location
@@ -352,6 +350,46 @@ console.log(error);
 }
 });
 
-
+*/
 }
+$(document).ready(function () {
+$('#submitBtn').on('click', function () { // Retrieve form values using document.getElementById
+var type = document.getElementById('type').value;
+var subject = document.getElementById('subject').value;
+var startDate = document.getElementById('meeting-time-start').value;
+var endDate = document.getElementById('meeting-time-end').value;
+var location = document.getElementById('location').value;
+var transporteur = document.getElementById('transports').value;
+
+// Check if a file is selected before trying to access its properties
+var fileInput = $('#file')[0];
+var attachmentFile = fileInput.files.length > 0 ? fileInput.files[0] : null;
+console.log(fileInput);
+
+// Create FormData object to handle file uploads
+var formData = new FormData();
+formData.append('subject', type + " - " + subject + " - " + transporteur);
+formData.append('startDate', startDate);
+formData.append('endDate', endDate);
+formData.append('location', location);
+formData.append('attachment', attachmentFile);
+
+$.ajax({
+type: "POST",
+url: "/event-save",
+data: formData,
+processData: false,
+contentType: false,
+success: function (data) {
+if (data == 201) {
+window.location.reload();
+}
+},
+error: function (error) {
+console.log(error);
+}
+});
+
+});
+});
 </script>{% endblock %}

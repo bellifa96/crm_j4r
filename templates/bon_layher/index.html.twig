@@ -73,8 +73,14 @@
 		</tbody>
 	</table>
 </div>
+
 <div class="col-md-8 m-auto page-block mt-4">
 	<div class="societe">
+		<div style="text-align: center; margin-top: 20px;">
+			<button style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+				Download PDF
+			</button>
+		</div>
 		<div class="row">
 			<div class="col-md-12 row mt-3"></div>
 			<div class="col-md-4">
@@ -146,7 +152,7 @@
 <div class="row form"></div>
 
 <script>
-document.getElementById('DateDu').addEventListener('change', function () {
+	document.getElementById('DateDu').addEventListener('change', function () {
 var minDateDu = this.value;
 document.getElementById('DateAu').min = minDateDu;
 getBonLayher();
@@ -285,5 +291,8 @@ var selectedValue = selectElement.value;
 // Get the selected text content
 var selectedText = selectElement.options[selectElement.selectedIndex].text;
 return selectedText;
+}
+function pdfDowlound(){
+	
 }
 </script>{% endblock %}

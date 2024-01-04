@@ -56,8 +56,10 @@ class CalendrierController extends AbstractController
             $endDate = $request->request->get('endDate');
             $subject = $request->request->get("subject");
             $location = $request->request->get('location');
+            $attachmentFile = $request->files->get('attachment');
 
-            $response = $this->outlookService->addEvents($subject, $startDate, $endDate, $location);
+
+            $response = $this->outlookService->addEvents($subject, $startDate, $endDate, $location,$attachmentFile);
             return $this->json($response);
         } catch (Exception $e) {
             dd($e->getMessage());

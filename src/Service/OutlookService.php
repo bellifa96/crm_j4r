@@ -57,10 +57,12 @@ class OutlookService
             echo 'Error: ' . $e->getMessage();
         }
     }
-    public function addEvents($sujet, $date_debut, $date_fin, $location)
+    public function addEvents($sujet, $date_debut, $date_fin, $location, $attachmentPath)
     {
 
         $graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/calendars/AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=/events';
+
+        $attachmentContent = file_get_contents($attachmentPath);
 
 
         // Create an HTTP client instance
@@ -81,6 +83,21 @@ class OutlookService
                     'dateTime' => $date_fin,
                     'timeZone' => 'UTC',
                 ],
+                'categories' => ['Affreter'], // Add the etiquette as a category
+
+                'location' => [
+                    'displayName' => $location,
+                ],
+                'attachments' => [
+                    [
+                        '@odata.type' => '#microsoft.graph.fileAttachment',
+                        'name' => "lll",
+                        'contentBytes' => base64_encode($attachmentContent),
+                    ],
+                    // Add more attachments as needed
+                ],
+
+
             ],
         ]);
 
@@ -90,7 +107,6 @@ class OutlookService
             return $response->getStatusCode();
         } else {
             // Handle error
-
             return $response->getStatusCode();
             // Optionally, you can also print the response content for debugging purposes
             // echo $response->getContent();
