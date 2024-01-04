@@ -18,7 +18,7 @@
 				<label for="NumAffaire" class="font-weight-bold">Num Affaire</label>
 				<select id="NumAffaire" name="NumAffaire" class="form-control form-control-sm-2 societe-input required">
 					{% for affaire in affaires %}
-						<option value="{{affaire.id}}" {% if affaire.numaffaire == '1000X5B' %} selected {% endif %}>{{affaire.numaffaire}}</option>
+						<option value="{{affaire.id}}" {% if affaire.numaffaire == '10017WX' %} selected {% endif %}>{{affaire.numaffaire}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -310,7 +310,10 @@ cleanedDate = cleanedDate[2]+cleanedDate[1]+cleanedDate[0];
 
 let chaine = selectedTextNumAffaire+"-"+type+"-"+cleanedDate+"-"+code;
 
-window.location.href = "/get-pdf?pdfrecherche"+chaine;
+var url = "/get-pdf?pdfrecherche=" + chaine;
+
+// Open the URL in a new tab or window
+window.open(url, '_blank');
 
 
 
