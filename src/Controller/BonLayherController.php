@@ -100,9 +100,11 @@ class BonLayherController extends AbstractController
     }
 
     #[Route('/get-pdf', name: 'app_bon_layher_pdf')]
-    public function readPdfFile()
+    public function readPdfFile(Request $request)
     {
-        $filePath = '/var/www/vhosts/crmj4r.fr/tesseract/RecupBonsLayher/100057A-AVIS-20230412-228326.pdf';
+        $rechercher = $request->query->get('pdfrecherche');
+
+        $filePath = '/var/www/vhosts/crmj4r.fr/tesseract/RecupBonsLayher/'.$rechercher.'.pdf';
 
         // Check if the file exists
         if (!file_exists($filePath)) {

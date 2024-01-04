@@ -77,7 +77,7 @@
 <div class="col-md-8 m-auto page-block mt-4">
 	<div class="societe">
 		<div style="text-align: center; margin-top: 20px;">
-			<button style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+			<button style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;" onclick="pdfDowlound()">
 				Download PDF
 			</button>
 		</div>
@@ -203,7 +203,6 @@ console.log(error);
 });
 }
 
-
 $(document).ready(function () { // Attach the onchange event handler to the 'bonlayher' select element
 $('#bonlayher').on('change', function () { // Retrieve the selected value
 var selectedValue = $(this).val();
@@ -292,7 +291,37 @@ var selectedValue = selectElement.value;
 var selectedText = selectElement.options[selectElement.selectedIndex].text;
 return selectedText;
 }
-function pdfDowlound(){
-	
+function pdfDowlound() {
+let NumAffaire = document.getElementById("NumAffaire");
+var selectedIndexNumAffaire = NumAffaire.selectedIndex;
+var selectedTextNumAffaire = NumAffaire.options[selectedIndexNumAffaire].text;
+
+var selectElement = document.getElementById("bonlayher");
+var selectedIndex = selectElement.selectedIndex;
+var selectedText = selectElement.options[selectedIndex].text;
+let splitResult = selectedText.split("-");
+let code = splitResult[0];
+let type = splitResult[1];
+let date = splitResult[2];
+console.log(date);
+let cleanedDate = date.replace(/\//g, "");
+
+let chaine = selectedTextNumAffaire+"-"+type+"-"+cleanedDate+"-"+code;
+
+$.ajax({
+type: "GET",
+url: "/get-pdf",
+data: {
+pdfrecherche: chaine
+},
+success: function (res) {
+document.getElementById("NomClient").value = res[0].nom
+},
+error: function (error) {
+console.log(error);
+}
+});
+
+
 }
 </script>{% endblock %}
