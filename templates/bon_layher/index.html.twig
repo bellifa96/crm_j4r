@@ -304,7 +304,8 @@ let code = splitResult[0];
 let type = splitResult[1];
 let date = splitResult[2];
 console.log(date);
-let cleanedDate = date.replace(/\//g, "");
+let cleanedDate = date.split("/");
+cleanedDate = cleanedDate[2]+cleanedDate[1]+cleanedDate[0];
 
 let chaine = selectedTextNumAffaire+"-"+type+"-"+cleanedDate+"-"+code;
 
