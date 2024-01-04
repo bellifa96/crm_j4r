@@ -307,21 +307,13 @@ console.log(date);
 let cleanedDate = date.split("/");
 cleanedDate = cleanedDate[2]+cleanedDate[1]+cleanedDate[0];
 
+
 let chaine = selectedTextNumAffaire+"-"+type+"-"+cleanedDate+"-"+code;
 
-$.ajax({
-type: "GET",
-url: "/get-pdf",
-data: {
-pdfrecherche: chaine
-},
-success: function (res) {
-document.getElementById("NomClient").value = res[0].nom
-},
-error: function (error) {
-console.log(error);
-}
-});
+window.location.href = "/get-pdf?pdfrecherche"+chaine;
+
+
+
 
 
 }
