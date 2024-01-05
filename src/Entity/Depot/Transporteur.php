@@ -96,7 +96,7 @@ class Transporteur
 
     private $tauxtonne;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'decimal')]
 
     private $tauxprefere;
 
@@ -308,9 +308,9 @@ class Transporteur
         return $this->datemodif;
     }
 
-    public function setDatemodif($datemodif)
+    public function setDatemodif()
     {
-        $this->datemodif = $datemodif;
+        $this->datemodif = new \DateTime();
     }
 
     public function getDatemodifinv()

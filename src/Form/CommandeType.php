@@ -67,6 +67,12 @@ class CommandeType extends AbstractType
                 'html5' => true, // Enable HTML5 date and time input
                 'required' => false, // Set to true if the field is required
             ])
+            ->add('DateEnlevDem',DateType::class, [
+                'label' => 'Date Enlevement Dem',
+                'widget' => 'single_text', // Use 'single_text' widget for a simple text input
+                'html5' => true, // Enable HTML5 date and time input
+                'required' => false, // Set to true if the field is required
+            ])
 
             ->add('PoidsTotMat', TextType::class, [
                 'label' => 'Poids Total',

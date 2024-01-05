@@ -65,6 +65,7 @@
 					<th>Code Article</th>
 					<th>Designation</th>
 					<th>Qte</th>
+					<th>Poids Unitaire</th>
 					<th>Poids</th>
 
 				</tr>
@@ -227,7 +228,14 @@ console.log(res);
 // Populate the table with the new data
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
-var newRow = [commande.codearticle, commande.designation, commande.qte, commande.poids,];
+let poidsUnitaire = (commande.poids / commande.qte).toFixed(2);
+var newRow = [
+commande.codearticle,
+commande.designation,
+commande.qte,
+poidsUnitaire,
+commande.poids,
+];
 ArticleBonTable.row.add(newRow);
 }
 

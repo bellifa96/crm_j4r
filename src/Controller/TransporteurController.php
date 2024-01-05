@@ -53,6 +53,7 @@ class TransporteurController extends AbstractController
 
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            $tresp->setDatemodif();
             $this->transporteurRepository->addTransporteur($tresp);
             return $this->redirectToRoute("app_transporteur");
         }

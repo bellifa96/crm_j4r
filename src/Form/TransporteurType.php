@@ -8,7 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 class TransporteurType extends AbstractType
 {
@@ -34,7 +36,12 @@ class TransporteurType extends AbstractType
         ->add('clefrib', TextType::class, ['label' => 'Clé RIB', 'required' => false])
         ->add('actif', CheckboxType::class, ['label' => 'Actif', 'required' => false])
         ->add('coderech', TextType::class, ['label' => 'Code recherche', 'required' => false])
-        ->add('datemodifinv', TextType::class, ['label' => 'Date modification inventaire', 'required' => false])
+        ->add('datemodif',DateType::class, [
+            'label' => 'Date de vérification de la grue',
+            'widget' => 'single_text', // Use 'single_text' widget for a simple text input
+            'html5' => true, // Enable HTML5 date and time input
+            'required' => false, // Set to true if the field is required
+        ])
         ->add('occasionnel', CheckboxType::class, ['label' => 'Occasionnel', 'required' => false])
         ->add('email', EmailType::class, ['label' => 'Email', 'required' => false])
         ->add('tauxhoraire', NumberType::class, ['label' => 'Taux horaire', 'required' => false])
@@ -42,7 +49,9 @@ class TransporteurType extends AbstractType
         ->add('tauxjour', NumberType::class, ['label' => 'Taux jour', 'required' => false])
         ->add('tauxdemijour', NumberType::class, ['label' => 'Taux demi-jour', 'required' => false])
         ->add('tauxtonne', NumberType::class, ['label' => 'Taux tonne', 'required' => false])
-        ->add('iban', TextType::class, ['label' => 'IBAN', 'required' => false]);
+        ->add('iban', TextType::class, ['label' => 'IBAN', 'required' => false])
+        ->add('tauxprefere', NumberType::class, ['label' => 'IBAN', 'required' => false]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
