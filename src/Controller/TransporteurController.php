@@ -53,8 +53,8 @@ class TransporteurController extends AbstractController
 
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
-            // on stock les  donnes
-
+            $this->transporteurRepository->addTransporteur($tresp);
+            return $this->redirectToRoute("app_transporteur");
         }
 
 

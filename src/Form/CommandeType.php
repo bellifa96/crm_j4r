@@ -61,9 +61,11 @@ class CommandeType extends AbstractType
                 'required' => false,
             ])
 
-            ->add('DateCde', DateType::class, [
-                'label' => 'Date du Commande',
-                
+            ->add('DateCde',DateType::class, [
+                'label' => 'Date de vérification de la grue',
+                'widget' => 'single_text', // Use 'single_text' widget for a simple text input
+                'html5' => true, // Enable HTML5 date and time input
+                'required' => false, // Set to true if the field is required
             ])
 
             ->add('PoidsTotMat', TextType::class, [
@@ -75,7 +77,16 @@ class CommandeType extends AbstractType
                 
                 'required' => false,
             ])
-           
+         
+            ->add('Commentaires1', TextType::class, [
+                'label' => 'Commentaires1',
+                
+                'required' => false,
+            ])
+            ->add('Commentaires2', TextType::class, [
+                'label' => 'Commentaires2',
+                'required' => false,
+            ])
             ->add('NumErpVente', IntegerType::class, [
                 'label' => 'Numero Erp Location',
             ])

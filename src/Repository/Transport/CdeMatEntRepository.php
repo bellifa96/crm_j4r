@@ -27,12 +27,10 @@ class CdeMatEntRepository extends ServiceEntityRepository
         try {
             $this->_em->persist($entity);
             $this->_em->flush();
-            return $entity->getId(); 
-
+            return $entity->getId();
         } catch (Exception $e) {
             dd($e->getMessage());
             return -1;
-
         }
     }
 
@@ -51,6 +49,7 @@ class CdeMatEntRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.Iddepot = :Iddepot')
             ->setParameter('Iddepot', $Iddepot)
+            ->orderBy('c.DateCde', 'ASC') // Adding the ORDER BY clause
             ->getQuery()
             ->getResult();
     }
@@ -58,10 +57,10 @@ class CdeMatEntRepository extends ServiceEntityRepository
     public function commandeByNumeroCloud($idCloud)
     {
         return $this->createQueryBuilder('c')
-        ->andWhere('c.numCloud = :idCloud')
-        ->setParameter('idCloud', $idCloud)
-        ->getQuery()
-        ->getOneOrNullResult();
+            ->andWhere('c.numCloud = :idCloud')
+            ->setParameter('idCloud', $idCloud)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**

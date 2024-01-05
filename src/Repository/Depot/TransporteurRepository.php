@@ -7,6 +7,7 @@ use App\Entity\Depot\Etatstransport;
 use App\Entity\Depot\Transporteur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @extends ServiceEntityRepository<Transporteur>
@@ -28,5 +29,15 @@ class  TransporteurRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->getQuery()
             ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    }
+
+    public function addTransporteur($transporteur){
+        try {
+            $this->_em->persist($transporteur);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
+    }
 }
