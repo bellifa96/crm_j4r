@@ -45,10 +45,12 @@ class DepotController extends AbstractController
     {
       
         $agences = $this->agenceRepository->findAll();
+        $depot = $this->depotRepository->getDepotsByAgenceId($agences[0]["idagence"]);
+
         return $this->render('depot/index.html.twig', [
             'controller_name' => 'AgenceController',
             'title' => 'Dépot',
-            'depots' => array(),
+            'depots' => $depot,
             'agences' => $agences,
             'nav' => []
         ]);

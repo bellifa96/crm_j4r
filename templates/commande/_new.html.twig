@@ -42,7 +42,7 @@
 				<div class="col-md-6">
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							NumDevis
+							Numéro Devis
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.NumDevis,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -58,7 +58,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							CodeChantier
+							Code Chantier
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.CodeChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -66,7 +66,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							NumAffaire
+							Numéro Affaire
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.NumAffaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -74,7 +74,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							NomClient
+							Nom Client
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.NomClient,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -82,7 +82,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							AdresseChantier
+							Adresse Chantier
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.AdresseChantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -116,7 +116,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							DateCde
+							Date Cde
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-4 societe-input required"}}) }}
@@ -132,7 +132,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							NumErpVente
+							Num Erp Vente
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.NumErpVente,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -140,7 +140,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							NumErpLocation
+							Num Erp Location
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.NumErpLocation,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -212,12 +212,13 @@
 					<tr>
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
+						<td>{{article.qte}}</td>
+						<td>{{  article.QteSortie }}</td>
+						<td>{{ article.Poids}}</td>
+						<td>{{ article.TypeMat}}</td>
 						<input class="iddepot" type="hidden" value="{{ article.id }}">
 
-						<td><input class="inputNumber form-control qte" type="number" value="{{ article.qte }}" disabled/></td>
-						<td><input class="inputNumber form-control qteSortie" type="number" value="{{ article.QteSortie }}" disabled/></td>
-						<td><input class="mat form-control" disabled value="{{ article.Poids }}"/></td>
-						<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
+
 					</tr>
 				{% endfor %}
 			</tbody>

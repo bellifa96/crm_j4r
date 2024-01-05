@@ -173,8 +173,8 @@ return yyyy + '-' + mm + '-' + dd;
 // Set the initial value of DateDu and DateAu to the current date
 document.getElementById('DateDu').value = getCurrentDate();
 document.getElementById('DateAu').value = getCurrentDate();
-
 function getBonLayher() {
+vider();
 let DateDu = document.getElementById('DateDu').value;
 let DateAu = document.getElementById('DateAu').value;
 let numaffaire = getContenuSelected();
@@ -239,7 +239,8 @@ console.log(error);
 });
 
 });
-$('#NumAffaire').on('change', function () { // Retrieve the selected value
+$('#NumAffaire').on('change', function () {
+vider(); // Retrieve the selected value
 var selectedValue = $(this).val();
 getBonLayher();
 
@@ -305,10 +306,10 @@ let type = splitResult[1];
 let date = splitResult[2];
 console.log(date);
 let cleanedDate = date.split("/");
-cleanedDate = cleanedDate[2]+cleanedDate[1]+cleanedDate[0];
+cleanedDate = cleanedDate[2] + cleanedDate[1] + cleanedDate[0];
 
 
-let chaine = selectedTextNumAffaire+"-"+type+"-"+cleanedDate+"-"+code;
+let chaine = selectedTextNumAffaire + "-" + type + "-" + cleanedDate + "-" + code;
 
 var url = "/get-pdf?pdfrecherche=" + chaine;
 
@@ -316,8 +317,31 @@ var url = "/get-pdf?pdfrecherche=" + chaine;
 window.open(url, '_blank');
 
 
+}
 
+function vider() {
+var ArticleBonTable;
+if ($.fn.DataTable.isDataTable('#ArticleBonTable')) {
+$('#ArticleBonTable').DataTable().destroy();
+}
 
+ArticleBonTable = $('#ArticleBonTable').DataTable({paging: true});
+ArticleBonTable.clear().draw();
+
+// Set values for specific fields
+document.getElementById('Consignes').value = "";
+document.getElementById('HeurePense1').value = "";
+document.getElementById('HeurePense2').value = "";
+document.getElementById('NTicket').value = "";
+document.getElementById('PoidsPense1').value = "";
+document.getElementById('PoidsPense2').value = "";
+document.getElementById('Arrive').value = "";
+document.getElementById('NBascule1').value = "";
+document.getElementById('NBascule2').value = "";
+document.getElementById('transporteur').value = "";
+document.getElementById('poids_mesure').value = "";
+document.getElementById('chauffeur').value = "";
+document.getElementById('immatriculation').value = "";
 
 }
 </script>{% endblock %}

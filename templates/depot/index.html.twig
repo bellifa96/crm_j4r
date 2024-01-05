@@ -56,7 +56,7 @@
 				<select class="basic" id="agenceSelect">
 					<option>Agence</option>
 					{% for agence in agences %}
-						<option value="{{ agence.idagence }}">
+						<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
 							{{ agence.nomagence }}
 						</option>
 					{% endfor %}
@@ -97,9 +97,8 @@
 						<td>{{ depot.contacttel }}</td>
 						<td>{{ depot.villedepot }}</td>
 						<td>
-							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning">
-								<i class="bi bi-pencil-fill"></i>
-								Edit
+							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning" style="font-size: 10px;">
+								Modifier
 							</a>
 						</td>
 
@@ -141,7 +140,7 @@ var newRow = [
 '<td>' + depot.cpdepot + '</td>',
 '<td>' + depot.villedepot + '</td>',
 '<td>' + depot.contacttel + '</td>',
-'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"><i class="bi bi-pencil-fill"></i></button>'
+'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"style="font-size: 10px;">Modifier</button>'
 ];
 depotTable.row.add(newRow);
 }
