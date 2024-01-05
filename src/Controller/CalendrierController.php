@@ -26,7 +26,7 @@ class CalendrierController extends AbstractController
         $transports = $this->transporteurRepository->findAll();
         return $this->render('calendrier/index.html.twig', [
             'controller_name' => 'CalendrierController',
-            'title' => 'Mouvements',
+            'title' => 'Planning transports ',
             'transports' => $transports,
             'nav' => []
         ]);
