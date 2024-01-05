@@ -36,7 +36,7 @@ class OutlookService
         $startDateTime = $start . 'T00:00:00';
         $endDateTime = $end . 'T23:59:59';
 
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/calendars('$calendarId')/calendarView?startDateTime=$startDateTime&endDateTime=$endDateTime&\$select=subject,start,end&\$orderby=start/dateTime&\$top=3000";
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/calendars('$calendarId')/calendarView?startDateTime=$startDateTime&endDateTime=$endDateTime&\$select=subject,start,end,location&\$orderby=start/dateTime&\$top=3000";
 
         try {
             // Make the GET request to the Microsoft Graph API
