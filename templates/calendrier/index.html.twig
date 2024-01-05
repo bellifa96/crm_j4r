@@ -156,6 +156,7 @@
 					<th>Start</th>
 					<th>End</th>
 					<th>Localisation</th>
+					<th>Etat</th>
 					<th>Type</th>
 				</tr>
 			</thead>
@@ -302,12 +303,12 @@ endDateTime.setTime(endDateTime.getTime() + oneHour);
 // Format the start date with the added start hour
 var formattedStartDate = startDateTime.toLocaleString('fr-FR', options).replace(/\u200E/g, '') + ' ';
 var formattedEndDate = endDateTime.toLocaleString('fr-FR', options).replace(/\u200E/g, '') + ' ';
-console.log(event.location);
 var newRow = [
 event.subject,
 formattedStartDate,
 formattedEndDate,
 event.location.displayName,
+event.categories[0] || "",
 getTypeEvent(event.subject)
 ];
 eventTable.row.add(newRow);
