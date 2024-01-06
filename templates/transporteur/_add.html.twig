@@ -1,0 +1,276 @@
+{# form pour afficher les formulaire #}
+
+<style>
+	.hidden {
+		display: none;
+	}
+
+	.hidden:target {
+		display: block;
+	}
+</style>
+{{ form_start(form) }}
+
+<div class="container mt-5">
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							societe
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.societe,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							nom
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.nom,{'attr':{"class":"form-control form-control-sm-2 societe-input "}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							prenom
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.prenom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							adresse
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresse,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							adresse (Suit)
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresse2,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Code Postale
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.cp,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							ville
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tel
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tel,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Portable
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.portable,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							rcs
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.rcs,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							rcstxt
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.rcstxt,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							ape
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.ape,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+
+						<div class="col-md-3 text-end label">
+							iban
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.iban,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+				</div>
+
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							dombancaire
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.dombancaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							codebanque
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.codebanque,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							codeguichet
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.codeguichet,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							numcompte
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.numcompte,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							clefrib
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.clefrib,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							coderech
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.coderech,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							date modification
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.datemodif,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							email
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.email,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxhoraire
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxhoraire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxtour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxtour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxjour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxjour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxdemijour
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxdemijour,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							Taux Prefere
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxprefere,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							tauxtonne
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.tauxtonne,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label"></div>
+						<div class="col-md-9">
+							{{ form_widget(form.actif,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label"></div>
+						<div class="col-md-9">
+							{{ form_widget(form.occasionnel,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center mt-4">
+			<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
+			<button type="button" class="btn btn-secondary ml-2">Annuler</button>
+		</div>
+	</div>
+</div>
+
+{{ form_end(form) }}

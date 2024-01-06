@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Commandes
+	Bon layher
 {% endblock %}
 
 
@@ -10,6 +10,19 @@
 		.form {
 			margin-left: 15%;
 			width: 70%;
+		}
+		.poids_to {
+			border: 2px solid #3498db; /* Border style and color */
+			border-radius: 5px; /* Border radius for rounded corners */
+			padding: 10px; /* Padding for some space inside the div */
+			margin: 10px; /* Margin to create space around the div */
+			display: inline-block; /* Keep the div inline */
+		}
+
+		/* Style for the span inside the div */
+		.poids_to span {
+			font-weight: bold; /* Make the text bold */
+			color: #2c3e50; /* Text color */
 		}
 	</style>
 	<div class="row form">
@@ -58,6 +71,12 @@
 	<div
 		class="page-block form col-lg-12">
 		{# do something #}
+
+		<div class="poids_to">
+			Poids Total :
+			<span id="poids_total">0.0</span>
+		</div>
+
 
 		<table class="table text-center datatable" id="ArticleBonTable" style="color: #0E4377;">
 			<thead>
@@ -215,6 +234,7 @@ data: {
 numBonlayher: selectedValue
 },
 success: function (res) {
+document.getElementById("poids_total").innerHTML = res.poids;
 var data = res.article;
 setDataTransport(res.layherTransport)
 var ArticleBonTable;
@@ -350,6 +370,7 @@ document.getElementById('transporteur').value = "";
 document.getElementById('poids_mesure').value = "";
 document.getElementById('chauffeur').value = "";
 document.getElementById('immatriculation').value = "";
+document.getElementById("poids_total").innerHTML = "0.0";
 
 }
 </script>{% endblock %}

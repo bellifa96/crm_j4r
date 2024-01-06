@@ -36,7 +36,7 @@ class TransporteurController extends AbstractController
             'controller_name' => 'TransporteurController',
             'transporteurs' => $transport,
             'title' => 'Transporteur',
-            'nav' => []
+            'nav' => [['app_create_transporteur', 'Créer']]
         ]);
     }
     #[Route('/edit-transporteur/{id}', name: 'app_edit_transporteur')]
@@ -53,7 +53,7 @@ class TransporteurController extends AbstractController
 
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
-            $tresp->setDatemodif();
+            $tresp->setDatemodif(null);
             $this->transporteurRepository->addTransporteur($tresp);
             return $this->redirectToRoute("app_transporteur");
         }
@@ -69,6 +69,34 @@ class TransporteurController extends AbstractController
             'camions' => $camions,
             'chauffeurs' => $chauffeurs,
             'id' => $tresp->getIdtransporteur(),
+            'nav' => [['app_transporteur', 'Transporteurs']]
+        ]);
+    }
+
+    #[Route('/create-transporteur', name: 'app_create_transporteur')]
+    public function create_transporteur(Request $request): Response
+    {
+  
+         $tresp = new Transporteur();
+
+        $form = $this->createForm(TransporteurType::class, $tresp);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+
+        // on verifier la formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->transporteurRepository->addTransporteur($tresp);
+            return $this->redirectToRoute("app_transporteur");
+        }
+
+
+
+
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('transporteur/add.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Création du transporteur',
             'nav' => [['app_transporteur', 'Transporteurs']]
         ]);
     }

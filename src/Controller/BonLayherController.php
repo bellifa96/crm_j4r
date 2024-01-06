@@ -87,9 +87,15 @@ class BonLayherController extends AbstractController
             $LayherTransport = $this->etatTransportRepository->getALLbybnsnumBon($numBonlayher);
 
             $res = $this->bonsdetailstempRepository->getArticlebyNumero($numBonlayher);
+            $sumPoids = 0.0;
+
+            foreach ($res as $bonsDetails) {
+                $sumPoids += $bonsDetails->getPoids(); // Assuming there's a getter method for "poids" property
+            }
             $data = [
                 'article' => $res,
-                'layherTransport' => $LayherTransport
+                'layherTransport' => $LayherTransport,
+                'poids' => $sumPoids
             ];
 
             return $this->json($data);
@@ -104,7 +110,7 @@ class BonLayherController extends AbstractController
     {
         $rechercher = $request->query->get('pdfrecherche');
 
-        $filePath = '/var/www/vhosts/crmj4r.fr/tesseract/RecupBonsLayher/'.$rechercher.'.pdf';
+        $filePath = '/var/www/vhosts/crmj4r.fr/tesseract/RecupBonsLayher/' . $rechercher . '.pdf';
 
         // Check if the file exists
         if (!file_exists($filePath)) {

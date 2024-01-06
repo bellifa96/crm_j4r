@@ -33,64 +33,64 @@ class Transporteur
     private $ville;
 
     #[ORM\Column(type: 'string')]
-    private $tel;
+    private $tel="";
 
     #[ORM\Column(type: 'string')]
-    private $portable;
+    private $portable="";
 
     #[ORM\Column(type: 'string')]
-    private $rcs;
+    private $rcs="";
 
     #[ORM\Column(type: 'string')]
-    private $rcstxt;
+    private $rcstxt="";
 
     #[ORM\Column(type: 'string')]
-    private $ape;
+    private $ape="";
     
     #[ORM\Column(type: 'string')]
-    private $dombancaire;
+    private $dombancaire="";
 
     #[ORM\Column(type: 'string')]
-    private $codebanque;
+    private $codebanque="";
 
     #[ORM\Column(type: 'string')]
-    private $codeguichet;
+    private $codeguichet="";
 
     #[ORM\Column(type: 'string')]
-    private $numcompte;
+    private $numcompte="";
 
     #[ORM\Column(type: 'string')]
-    private $clefrib;
+    private $clefrib="";
 
     #[ORM\Column(type: 'boolean')]
-    private $actif;
+    private $actif=false;
 
     #[ORM\Column(type: 'string')]
-    private $coderech;
+    private $coderech="";
 
     #[ORM\Column(type: 'datetime')]
     private $datemodif;
 
     #[ORM\Column(type: 'string')]
-    private $datemodifinv;
+    private $datemodifinv="";
 
     #[ORM\Column(type: 'boolean')]
-    private $occasionnel;
+    private $occasionnel=false;
 
     #[ORM\Column(type: 'string')]
-    private $email;
+    private $email="";
 
     #[ORM\Column(type: 'decimal')]
-    private $tauxhoraire;
+    private $tauxhoraire=0.0;
 
     #[ORM\Column(type: 'decimal')]
-    private $tauxtour;
+    private $tauxtour=0.0;
 
     #[ORM\Column(type: 'decimal')]
-    private $tauxjour;
+    private $tauxjour=0.0;
 
     #[ORM\Column(type: 'decimal')]
-    private $tauxdemijour;
+    private $tauxdemijour=0.0;
 
     #[ORM\Column(type: 'decimal')]
 
@@ -308,7 +308,7 @@ class Transporteur
         return $this->datemodif;
     }
 
-    public function setDatemodif()
+    public function setDatemodif($date)
     {
         $this->datemodif = new \DateTime();
     }
