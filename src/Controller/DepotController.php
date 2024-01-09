@@ -114,7 +114,7 @@ class DepotController extends AbstractController
             'ticket' => null,
             'form' => $form->createView(),
             'title' => 'Modification Dépot',
-            'nav' => [['app_agence', 'Agences']]
+            'nav' => [['app_depot', 'Dépot']]
         ]);
           
     }
