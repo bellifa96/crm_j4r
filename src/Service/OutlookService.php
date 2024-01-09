@@ -57,7 +57,7 @@ class OutlookService
             echo 'Error: ' . $e->getMessage();
         }
     }
-    public function addEvents($sujet, $date_debut, $date_fin, $location, $attachmentPath)
+    public function addEvents($sujet, $date_debut, $date_fin, $location, $attachmentPath,$categories)
     {
 
         $graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/calendars/AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=/events';
@@ -88,7 +88,7 @@ class OutlookService
                     'dateTime' => $date_fin,
                     'timeZone' => 'UTC',
                 ],
-                'categories' => ['Affreter'], // Add the etiquette as a category
+                'categories' => [$categories], // Add the etiquette as a category
 
                 'location' => [
                     'displayName' => $location,

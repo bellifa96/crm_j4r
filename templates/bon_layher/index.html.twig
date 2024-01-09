@@ -234,7 +234,7 @@ data: {
 numBonlayher: selectedValue
 },
 success: function (res) {
-document.getElementById("poids_total").innerHTML = res.poids;
+document.getElementById("poids_total").innerHTML = res.poids.toFixed(2);
 var data = res.article;
 setDataTransport(res.layherTransport)
 var ArticleBonTable;

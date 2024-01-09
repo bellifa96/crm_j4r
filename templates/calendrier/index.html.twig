@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Commandes
+	Plannig Transport
 {% endblock %}
 
 {% block body %}
@@ -117,6 +117,18 @@
 			background-color: rgba(0, 0, 0, 0.5);
 			z-index: 0;
 		}
+		.sortir {
+			font-size: 24px;
+			color: #ff0000; /* Red color, you can change this to your preferred color */
+			cursor: pointer;
+			float: right;
+			margin-top: 10px;
+			/* Add any other styling you prefer */
+		}
+
+		.sortir:hover {
+			color: #990000; /* Darker red color on hover, change as needed */
+		}
 	</style>
 
 	<div class="example-wrapper">
@@ -155,7 +167,6 @@
 					<th>Titre</th>
 					<th>Start</th>
 					<th>End</th>
-					<th>Localisation</th>
 					<th>Etat</th>
 					<th>Type</th>
 				</tr>
@@ -165,55 +176,73 @@
 	</table>
 </div>
 <div id="myModal">
-	<span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
+	<span onclick="closeModal()" class="sortir">&times;</span>
 	<form id="eventForm" enctype="multipart/form-data">
-		<div class="form-group col-md-6">
-			<div class="col-md-12 row mt-3">
-				<label for="subject">Sujet:</label>
-				<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
-			</div>
-			<div class="col-md-12 row mt-3">
-				<label for="meeting-time-start">Start Date:</label>
-				<input type="datetime-local" id="meeting-time-start" name="startDate" class="form-control form-control-sm-2 societe-input required" required>
-			</div>
-			<div class="col-md-12 row mt-3">
-				<label for="meeting-time-end">End Date:</label>
-				<input type="datetime-local" id="meeting-time-end" name="endDate" class="form-control form-control-sm-2 societe-input required" required>
-			</div>
-			<div class="col-md-12 row mt-3">
-				<label for="location">Localisation:</label>
-				<input type="text" id="location" name="location" class="form-control form-control-sm-2 societe-input required" required>
-			</div>
-		</div>
-		<div class="col-md-6">
+		<div class="col-md-11 m-auto page-block mt-4">
+			<div class="societe">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-12 row mt-3">
+							<label for="subject">Sujet:</label>
+							<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="meeting-time-start">Start Date:</label>
+							<input type="datetime-local" id="meeting-time-start" name="startDate" class="form-control form-control-sm-2 societe-input required" required>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="meeting-time-end">End Date:</label>
+							<input type="datetime-local" id="meeting-time-end" name="endDate" class="form-control form-control-sm-2 societe-input required" required>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="location">Localisation:</label>
+							<input type="text" id="location" name="location" class="form-control form-control-sm-2 societe-input required" required>
+						</div>
+					</div>
+					<div class="col-md-6">
 
-			<div class="col-md-12 row mt-3">
-				<label for="file">Pièce jointe</label>
-				<input type="file" id="file" name="attachment" class="form-control form-control-sm-2 societe-input required" accept=".pdf, .doc, .docx">
-			</div>
-			<div class="col-md-12 row mt-3">
-				<label for="endDateTime">Transporteur</label>
-				<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
-					{% for transport in transports %}
-						<option value="{{ transport.societe }}">{{ transport.societe }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			<div class="col-md-12 row mt-3">
-				<label for="endDateTime">Type Transport</label>
-				<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
-					<option value="LIV">LIV (LIVRAISON)</option>
-					<option value="RAM">RAM Ramasse</option>
-					<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
-					<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
-					<option value="ROT">ROT (Rotation)</option>
+						<div class="col-md-12 row mt-3">
+							<label for="file">Pièce jointe</label>
+							<input type="file" id="file" name="attachment" class="form-control form-control-sm-2 societe-input required" accept=".pdf, .doc, .docx">
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="endDateTime">categories</label>
+							<select name="categories" class="form-control form-control-sm-2 societe-input" id="categories">
+								<option value="Affreter">Affreter</option>
+								<option value="Absent">Absent</option>
+								<option value="Ajourner">Ajourner</option>
+								<option value="Attente affretement">Attente affretement</option>
+								<option value="IBM validé" selected>IBM validé</option>
+								<option value="Livré">Livré</option>
 
-				</select>
+							</select>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="endDateTime">Transporteur</label>
+							<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
+								{% for transport in transports %}
+									<option value="{{ transport.societe }}">{{ transport.societe }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<label for="endDateTime">Type Transport</label>
+							<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">
+								<option value="LIV">LIV (LIVRAISON)</option>
+								<option value="RAM">RAM Ramasse</option>
+								<option value="RAM TS">RAM TS (Rammasse toute sauf palettes)</option>
+								<option value="RAM TY">RAM TY (rammasse Tout y compris palettes)</option>
+								<option value="ROT">ROT (Rotation)</option>
 
-				<br>
-				<br>
-				<button type="button" class="form-control form-control-sm-2 societe-input required" id="submitBtn">Créer Evénements</button>
+							</select>
 
+							<br>
+							<br>
+							<button type="button" class="form-control form-control-sm-2 societe-input required" id="submitBtn">Créer Evénements</button>
+
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -307,7 +336,6 @@ var newRow = [
 event.subject,
 formattedStartDate,
 formattedEndDate,
-event.location.displayName,
 event.categories[0] || "",
 getTypeEvent(event.subject)
 ];
@@ -384,12 +412,14 @@ console.log(error);
 }
 $(document).ready(function () {
 $('#submitBtn').on('click', function () { // Retrieve form values using document.getElementById
+document.getElementById("submitBtn").disabled = true;
 var type = document.getElementById('type').value;
 var subject = document.getElementById('subject').value;
 var startDate = document.getElementById('meeting-time-start').value;
 var endDate = document.getElementById('meeting-time-end').value;
 var location = document.getElementById('location').value;
 var transporteur = document.getElementById('transports').value;
+var categories = document.getElementById('categories').value;
 
 // Check if a file is selected before trying to access its properties
 var fileInput = $('#file')[0];
@@ -402,6 +432,7 @@ formData.append('subject', type + " - " + subject + " - " + transporteur);
 formData.append('startDate', startDate);
 formData.append('endDate', endDate);
 formData.append('location', location);
+formData.append('categories', categories);
 formData.append('attachment', attachmentFile);
 
 $.ajax({
