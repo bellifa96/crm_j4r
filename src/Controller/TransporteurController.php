@@ -131,7 +131,7 @@ class TransporteurController extends AbstractController
         return $this->render('transporteur/addChauffeur.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Ajouter Chauffeurs',
+            'title' => 'Ajouter un Chauffeur',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);
@@ -203,7 +203,7 @@ class TransporteurController extends AbstractController
         return $this->render('transporteur/addCamions.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Ajouter Camion',
+            'title' => 'Ajouter un Camion',
             'transport' => $transport,
             'nav' => [['app_transporteur', 'Transporteur']]
         ]);

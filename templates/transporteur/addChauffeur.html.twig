@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter Agence
+{% block title %}{{title}}
 {% endblock %}
 
 {% block body %}
@@ -49,7 +49,7 @@
 
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									idtransporteur
+									Transporteur
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.idtransporteur,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -57,7 +57,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									nom
+									Nom
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.nom,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -65,7 +65,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									email
+									Email
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.email,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -78,7 +78,7 @@
 
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									prenom
+									Prénom
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.prenom,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
@@ -86,7 +86,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									portable
+									Portable
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.portable,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}

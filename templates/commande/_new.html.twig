@@ -220,7 +220,10 @@
 <div class="page-block col-lg-12">
 	{% if depots.codedepot == 1 %}
 		{# do something #}
-
+		<div class="flex-container">
+			<div class="flex-item" id="poidsqte">0</div>
+			<div class="flex-item" id="poidsqteSortie">0</div>
+		</div>
 		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
@@ -237,9 +240,9 @@
 					<tr>
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
-						<td>{{article.qte}}</td>
+						<td class="qte" >{{article.qte}}</td>
 						<td>{{  article.QteSortie }}</td>
-						<td>{{ article.Poids}}</td>
+						<td class="poids" >{{ article.Poids}}</td>
 						<td>{{ article.TypeMat}}</td>
 						<input class="iddepot" type="hidden" value="{{ article.id }}">
 
@@ -249,16 +252,13 @@
 			</tbody>
 		</tbody>
 	</table>
-	<div class="flex-container">
-		<div class="flex-item" id="poidsqte">0</div>
-		<div class="flex-item" id="poidsqteSortie">0</div>
-	</div>
+
 
 {% else %}
 	<div class="flex-container">
-		<div class="flex-item" id="poidsqte">0</div>
 		<div class="flex-item" id="poidsqteSortie">0</div>
 		<div class="flex-item" id="poidsqtePreparer">0</div>
+		<div class="flex-item" id="poidsqtearester">0</div>
 	</div>
 	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 		<thead>
@@ -287,7 +287,7 @@
 					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtePreparer" zero="0" article="{{ article.id }}"/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtearester" id="article{{article.id}}" disabled/></td>
-					<td><input class="mat form-control" disabled value="{{ article.Poids }}"/></td>
+					<td><input class="mat poids form-control" disabled value="{{ article.Poids }}"/></td>
 					<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
 
 				</tr>

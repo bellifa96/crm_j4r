@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter Agence
+{% block title %}{{title}}
 {% endblock %}
 
 {% block body %}
@@ -49,7 +49,7 @@
 
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									idtransporteur
+									Transporteur
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.idtransporteur,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -57,7 +57,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									immatriculation
+									Immatriculation
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.immatriculation,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -65,7 +65,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									tonnagemax
+									Tonnage max
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.tonnagemax,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -78,7 +78,7 @@
 
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									typegrue
+									Type grue
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.typegrue,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
@@ -86,7 +86,7 @@
 							</div>
 							<div class="col-md-12 row mt-3">
 								<div class="col-md-3 text-end label">
-									dateverifgrue
+									Date Verification grue
 								</div>
 								<div class="col-md-9">
 									{{ form_widget(form.dateverifgrue,{'attr':{"class":"form-control form-control-sm-6 societe-input"}}) }}

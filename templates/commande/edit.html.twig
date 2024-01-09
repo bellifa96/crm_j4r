@@ -66,11 +66,11 @@
 	</div>
 	<script>
 
-		calculer_poids_article(1,false);
+		// calculer_poids_article(1,false);
 
-function calculer_poids_article(moinsZeroValue,drap=true) {
-let sumqtepre=0;
-let sumqteSortie=0;
+function calculer_poids_article(moinsZeroValue, drap = true) {
+let sumqtepre = 0;
+let sumqteSortie = 0;
 let poidsArticle = document.getElementsByClassName("poids");
 
 calculer_poids_QteCommande(poidsArticle, "qte");
@@ -81,13 +81,11 @@ sumqtepre = calculer_poids_QteCommande(poidsArticle, "qtePreparer");
 calculer_toutes_qte(moinsZeroValue);
 
 }
-if(drap == true){
-$(document).ready(function () { 
-$("#commande_PoidsTotMat").val(sumqteSortie+sumqtepre);
+if (drap == true) {
+$(document).ready(function () {
+$("#commande_PoidsTotMat").val(sumqteSortie + sumqtepre);
 });
-}else{
-
-}
+} else {}
 
 
 }
@@ -190,7 +188,7 @@ console.error('Error sending data:', error);
 }
 function verfier_moins_zero() {}
 
-$(".inputNumber").on("change", function () {
+/*$(".inputNumber").on("change", function () {
 var moinsZeroValue = $(this).attr("zero");
 calculer_poids_article(moinsZeroValue);
 var articleId = $(this).attr("article");
@@ -205,7 +203,54 @@ resAsortir.setAttribute("min", 0);
 $(this).attr("zero", 0);
 }
 }
+});*/
+let codedepot = document.getElementById("codedepot").value;
+if (codedepot == 2) {
+init();
+} else {
+initLayher();
+}
+function initLayher() {
+let poidsArticle = document.getElementsByClassName("poids");
+let qte = document.getElementsByClassName("qte");
+let sum = 0;
+for (let i = 0; i < qte.length; i++) {
+let qteValue = parseFloat(qte[i].innerHTML) || 0;
+let poidsArticleValue = parseFloat(poidsArticle[i].innerHTML) || 0;
+ sum += qteValue * poidsArticleValue;
+}
+document.getElementById("poidsqte").innerHTML = sum;
+$("#commande_PoidsTotMat").val(sum);
+
+}
+function init() {
+let poidsArticle = document.getElementsByClassName("poids");
+let sumQte = calculer_poids_QteCommande(poidsArticle, "qteSortie");
+$("#commande_PoidsTotMat").val(sumQte);
+
+initResterSortir();
+let sum = calculer_poids_QteCommande(poidsArticle, "qtearester");
+
+}
+function initResterSortir() {
+let qtearester = document.getElementsByClassName("qtearester");
+let qteSortie = document.getElementsByClassName("qteSortie");
+for (let i = 0; i < qtearester.length; i++) {
+let qtearesterValue = parseFloat(qteSortie[i].value) || 0;
+let result = qtearesterValue * (-1);
+qtearester[i].value = result;
+}
+
+}
+
+$(".qtePreparer").on("change", function () {
+let poidsArticle = document.getElementsByClassName("poids");
+calculer_poids_QteCommande(poidsArticle, "qtePreparer");
+let sumpoidsqteSortie = parseFloat(document.getElementById("poidsqteSortie").innerHTML) || 0;
+let poidsqtePreparer = parseFloat(document.getElementById("poidsqtePreparer").innerHTML) || 0;
+$("#commande_PoidsTotMat").val(poidsqtePreparer + sumpoidsqteSortie);
 });
+
 	</script>
 
 {% endblock %}

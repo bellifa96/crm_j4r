@@ -29,8 +29,8 @@ class CamionsType extends AbstractType
 
             ])
             ->add('immatriculation', TextType::class, ['label' => 'immatriculation', 'required' => true])
-            ->add('tonnagemax', TextType::class, ['label' => 'immatriculation', 'required' => true])
-            ->add('typegrue', TextType::class, ['label' => 'immatriculation', 'required' => true])
+            ->add('tonnagemax', TextType::class, ['label' => 'immatriculation', 'required' => false])
+            ->add('typegrue', TextType::class, ['label' => 'immatriculation', 'required' => false])
             ->add('dateverifgrue', DateType::class, [
                 'label' => 'Date de vérification de la grue',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
