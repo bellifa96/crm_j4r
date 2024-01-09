@@ -105,7 +105,7 @@ class BonLayherController extends AbstractController
         }
     }
 
-    #[Route('/get-pdf', name: 'app_bon_layher_pdf')]
+    #[Route('/bon-layher', name: 'app_bon_layher_pdf')]
     public function readPdfFile(Request $request)
     {
         $rechercher = $request->query->get('pdfrecherche');
