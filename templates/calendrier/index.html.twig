@@ -169,6 +169,7 @@
 					<th>End</th>
 					<th>Etat</th>
 					<th>Type</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -337,7 +338,8 @@ event.subject,
 formattedStartDate,
 formattedEndDate,
 event.categories[0] || "",
-getTypeEvent(event.subject)
+getTypeEvent(event.subject),
+'<td><a href="" class="btn btn-warning"  style="font-size: 10px;">Modifier</a></td>'
 ];
 eventTable.row.add(newRow);
 }
