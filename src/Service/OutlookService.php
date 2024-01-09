@@ -62,12 +62,13 @@ class OutlookService
 
         $graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/calendars/AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=/events';
 
-        $attachmentContent = file_get_contents($attachmentPath);
-
+        $attachmentContent = @file_get_contents($attachmentPath);
+        dd($attachmentContent);
 
         if ($attachmentContent === false) {
-            throw new Exception("Failed to read file content");
+            throw new Exception("Failed to read file content: " . error_get_last()['message']);
         }
+    
 
 
         // Create an HTTP client instance
@@ -98,6 +99,7 @@ class OutlookService
                         '@odata.type' => '#microsoft.graph.fileAttachment',
                         'name' => "lll",
                         'contentBytes' => base64_encode($attachmentContent),
+                        'contentType' => 'application/pdf',
                     ],
                     // Add more attachments as needed
                 ],
@@ -116,5 +118,8 @@ class OutlookService
             // Optionally, you can also print the response content for debugging purposes
             // echo $response->getContent();
         }
+    }
+    public function update(){
+       
     }
 }
