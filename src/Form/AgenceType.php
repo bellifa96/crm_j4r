@@ -62,10 +62,7 @@ class AgenceType extends AbstractType
                 'label' => 'Contact portable',
                 'required' => false
             ])
-            ->add('infoouverture', TextType::class, options: [
-                'label' => 'info ouverture',
-                'required' => false
-            ])
+            
             ->add('contactemail', EmailType::class, options: [
                 'label' => 'Contact Email',
                 'required' => false

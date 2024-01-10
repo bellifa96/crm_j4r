@@ -54,7 +54,6 @@
 
 			<div class="right">
 				<select class="basic" id="agenceSelect">
-					<option>Agence</option>
 					{% for agence in agences %}
 						<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
 							{{ agence.nomagence }}
@@ -77,7 +76,7 @@
 		<table class="table text-center datatable" id="depotTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
-					<th>Id</th>
+					<th>Code</th>
 					<th>Désignation</th>
 					<th>Adresse Agence</th>
 					<th>Code Postale</th>
@@ -90,7 +89,7 @@
 
 				{% for depot in depots %}
 					<tr>
-						<td>{{ depot.iddepot }}</td>
+						<td>{{ depot.codedepot }}</td>
 						<td>{{ depot.nomdepot }}</td>
 						<td>{{ depot.adressedepot }}</td>
 						<td>{{ depot.cpdepot }}</td>

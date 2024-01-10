@@ -54,7 +54,9 @@ class AgenceController extends AbstractController
  
         // on verifier la formulaire
         if($form->isSubmitted() && $form->isValid()){
-            // on stock les  donnes
+            $ouverture = $request->request->get('ouverture');
+            $fermeture = $request->request->get('fermeture');
+            $agence->setInfoouverture($ouverture . 'H ' .$fermeture .'H');
            $resulat = $this->agenceRepository->addAgence($agence);
            if($resulat){
               $this->addFlash("success","L'agence a été correctement créer");
