@@ -38,12 +38,18 @@ class DepotType extends AbstractType
             ])
             ->add('villedepot', TextType::class, [
                 'label' => 'Ville Depot',
+                'required'=>false
+
             ])
             ->add('contactnom', TextType::class, [
                 'label' => 'Nom du Contact',
+                'required'=>false
+
             ])
             ->add('contactprenom', TextType::class, [
                 'label' => 'Prenom du Contact',
+                'required'=>false
+
             ])
             ->add('contacttel', TextType::class, [
                 'label' => 'Téléphone du Contact',
@@ -57,6 +63,8 @@ class DepotType extends AbstractType
           
             ->add('contactemail', EmailType::class, [
                 'label' => 'Email du Contact',
+                'required'=>false
+
             ])
             ->add('commentaires', TextareaType::class, [
                 'label' => 'Commentaires',
@@ -65,6 +73,8 @@ class DepotType extends AbstractType
             ])
             ->add('codechantier', IntegerType::class, [
                 'label' => 'Code Chantier',
+                'required'=>false
+
             ])
             ->add('agence', EntityType::class, [
                 'class' => Agence::class,
