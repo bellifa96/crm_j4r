@@ -99,7 +99,6 @@
 					{% endfor %}
 				</select>
 				<select class="basic" id="depotSelect">
-					<option>Depot</option>
 
 				</select>
 				<button class="basic" onclick="showCharacterLimitDialog()">
@@ -195,11 +194,12 @@ success: function (data) {
 var select = $('#depotSelect');
 select.empty();
 
-select.append('<option>Depot</option>');
 
 $.each(data, function (index, depot) {
 select.append('<option code="' + depot.codedepot + '" value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
+
 });
+handleCommandeSelection();
 },
 error: function (error) {
 console.error('Error:', error);

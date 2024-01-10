@@ -184,6 +184,14 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="col-md-12 row mt-3">
+							<label for="endDateTime">Transporteur</label>
+							<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
+								{% for transport in transports %}
+									<option value="{{ transport.societe }}">{{ transport.societe }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-12 row mt-3">
 							<label for="subject">Sujet:</label>
 							<input type="text" id="subject" name="subject" class="form-control form-control-sm-2 societe-input required" required>
 						</div>
@@ -218,14 +226,7 @@
 
 							</select>
 						</div>
-						<div class="col-md-12 row mt-3">
-							<label for="endDateTime">Transporteur</label>
-							<select name="transports" class="form-control form-control-sm-2 societe-input" id="transports">
-								{% for transport in transports %}
-									<option value="{{ transport.societe }}">{{ transport.societe }}</option>
-								{% endfor %}
-							</select>
-						</div>
+
 						<div class="col-md-12 row mt-3">
 							<label for="endDateTime">Type Transport</label>
 							<select name="transports" class="form-control form-control-sm-2 societe-input" id="type">

@@ -124,7 +124,7 @@ class TransporteurController extends AbstractController
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             $this->chauffeursRepository->addChauffeur($chauffeurs);
-            return $this->redirectToRoute("app_transporteur");
+            return $this->redirectToRoute("app_edit_transporteur", ['id' => $id]);
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
@@ -159,7 +159,7 @@ class TransporteurController extends AbstractController
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             $this->chauffeursRepository->addChauffeur($chauffeurs);
-            return $this->redirectToRoute("app_transporteur");
+            return $this->redirectToRoute("app_edit_transporteur", ['id' => $chauffeurs->getIdtransporteur()]);
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
@@ -196,7 +196,7 @@ class TransporteurController extends AbstractController
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             $this->camionRepository->addCamions($camions);
-            return $this->redirectToRoute("app_transporteur");
+            return $this->redirectToRoute("app_edit_transporteur", ['id' => $id]);
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
@@ -230,7 +230,7 @@ class TransporteurController extends AbstractController
         // on verifier la formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             $this->camionRepository->addCamions($camions);
-            return $this->redirectToRoute("app_transporteur");
+            return $this->redirectToRoute("app_edit_transporteur", ['id' => $camions->getIdtransporteur()]);
         }
 
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact

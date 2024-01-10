@@ -200,6 +200,9 @@ select.empty();
 $.each(data, function (index, depot) {
 select.append('<option value="' + depot.iddepot + '">' + depot.nomdepot + '</option>');
 });
+
+handleDepotSelection();
+
 },
 error: function (error) {
 console.error('Error:', error);
