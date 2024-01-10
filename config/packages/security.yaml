@@ -7,6 +7,7 @@ security:
     ROLE_COMMERCIAL: ['ROLE_COMMERCIAL','ROLE_USER']
     ROLE_USER: [ 'ROLE_USER' ]
     ROLE_DEV: ['ROLE_DEV']
+    ROLE_DEPOT: ['ROLE_DEPOT']
 
 
 

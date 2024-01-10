@@ -247,6 +247,7 @@ class UserType extends AbstractType
                         'Commercial'=>'ROLE_COMMERCIAL',
                         'J4R' => 'ROLE_USER',
                         'DEV' => 'ROLE_DEV',
+                        'DEPOT' => 'ROLE_DEPOT',
 
                     ],
                     'multiple' => true,

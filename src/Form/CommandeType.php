@@ -95,9 +95,13 @@ class CommandeType extends AbstractType
             ])
             ->add('NumErpVente', IntegerType::class, [
                 'label' => 'Numero Erp Location',
+                'required' => false, // Ensure this field is not required
+
             ])
             ->add('NumErpLocation', IntegerType::class, [
                 'label' => 'Numéro Vente Vente',
+                'required' => false, // Ensure this field is not required
+
             ]);
           
     }
