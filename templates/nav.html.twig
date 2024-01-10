@@ -103,18 +103,18 @@
 						</li>
 
 						{# <li class="sidebar-item ">
-																																                        <a href="#" class="sidebar-link">
-																																                            <i class="bi bi-stack"></i>
-																																                            <span>Taches</span>
-																																                        </a>
-																																                    </li>
-																																
-																																                    <li class="sidebar-item ">
-																																                        <a href="#" class="sidebar-link">
-																																                            <i class="bi bi-bar-chart-line"></i>
-																																                            <span>Forecast</span>
-																																                        </a>
-																																                    </li> #}
+																																												                        <a href="#" class="sidebar-link">
+																																												                            <i class="bi bi-stack"></i>
+																																												                            <span>Taches</span>
+																																												                        </a>
+																																												                    </li>
+																																												
+																																												                    <li class="sidebar-item ">
+																																												                        <a href="#" class="sidebar-link">
+																																												                            <i class="bi bi-bar-chart-line"></i>
+																																												                            <span>Forecast</span>
+																																												                        </a>
+																																												                    </li> #}
 					</ul>
 				</li>
 
@@ -157,45 +157,45 @@
 						</li>
 
 						{# <li class="sidebar-item ">
-																																	                        <a href="#" class="sidebar-link">
-																																	                            <i class="bi bi-stack"></i>
-																																	                            <span>Taches</span>
-																																	                        </a>
-																																	                    </li>
-																																	
-																																	                    <li class="sidebar-item ">
-																																	                        <a href="#" class="sidebar-link">
-																																	                            <i class="bi bi-bar-chart-line"></i>
-																																	                            <span>Forecast</span>
-																																	                        </a>
-																																	                    </li> #}
+																																													                        <a href="#" class="sidebar-link">
+																																													                            <i class="bi bi-stack"></i>
+																																													                            <span>Taches</span>
+																																													                        </a>
+																																													                    </li>
+																																													
+																																													                    <li class="sidebar-item ">
+																																													                        <a href="#" class="sidebar-link">
+																																													                            <i class="bi bi-bar-chart-line"></i>
+																																													                            <span>Forecast</span>
+																																													                        </a>
+																																													                    </li> #}
 					</ul>
 				</li>
 
 				<li class="sidebar-title">
 					Chantier
 					{# <ul>
-																										                    <li class="sidebar-item">
-																										                        <a href="#" class="sidebar-link">
-																										                            <i class="bi bi-list-ul"></i>
-																										                            <span> Liste </span>
-																										                        </a>
-																										                    </li>
-																										
-																										                    <li class="sidebar-item ">
-																										                        <a href="#" class="sidebar-link">
-																										                            <i class="bi bi-stack"></i>
-																										                            <span>Taches</span>
-																										                        </a>
-																										                    </li>
-																										
-																										                    <li class="sidebar-item ">
-																										                        <a href="#" class="sidebar-link">
-																										                            <i class="bi bi-stack"></i>
-																										                            <span>YTD</span>
-																										                        </a>
-																										                    </li>
-																										                </ul> #}
+																																				                    <li class="sidebar-item">
+																																				                        <a href="#" class="sidebar-link">
+																																				                            <i class="bi bi-list-ul"></i>
+																																				                            <span> Liste </span>
+																																				                        </a>
+																																				                    </li>
+																																				
+																																				                    <li class="sidebar-item ">
+																																				                        <a href="#" class="sidebar-link">
+																																				                            <i class="bi bi-stack"></i>
+																																				                            <span>Taches</span>
+																																				                        </a>
+																																				                    </li>
+																																				
+																																				                    <li class="sidebar-item ">
+																																				                        <a href="#" class="sidebar-link">
+																																				                            <i class="bi bi-stack"></i>
+																																				                            <span>YTD</span>
+																																				                        </a>
+																																				                    </li>
+																																				                </ul> #}
 				</li>
 			{% endif %}
 
@@ -203,28 +203,34 @@
 				Stock
 
 				<ul>
+					<li class="sidebar-item ">
+						<a href="" class="sidebar-link">
+							<i class="bi bi-bar-chart-line"></i>
+							<span>Table de bord</span>
+						</a>
+					</li>
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_agence' ? 'active' }} ">
 						<a href="{{ path('app_agence') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-building"></i>
 							<span>Agences</span>
 						</a>
 					</li>
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_depot' ? 'active' }} ">
 						<a href="{{ path('app_depot') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-house"></i>
 							<span>Depot
 							</span>
 						</a>
 					</li>
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_article' ? 'active' }} ">
 						<a href="{{ path('app_article') }}" class="sidebar-link">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-cart-dash"></i>
 							<span>Articles</span>
 						</a>
 					</li>
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_commande' ? 'active' }} ">
 						<a href="{{ path('app_commande') }}" class="sidebar-link">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-box-seam"></i>
 							<span>Commandes</span>
 						</a>
 					</li>
@@ -232,7 +238,7 @@
 
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_transporteur' ? 'active' }} ">
 						<a href="{{ path('app_transporteur') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-truck"></i>
 							<span>
 								Transporteur</span>
 						</a>
@@ -240,7 +246,7 @@
 
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_bon_layher' ? 'active' }} ">
 						<a href="{{ path('app_bon_layher') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-arrow-left-right"></i>
 							<span>
 								Bon Layher</span>
 						</a>
@@ -248,7 +254,7 @@
 
 					<li class="sidebar-item {{ app.request.get('_route') == 'app_calendrier' ? '' }} ">
 						<a href="{{ path('app_calendrier') }}" class="sidebar-link  ">
-							<i class="bi bi-cart-dash-fill"></i>
+							<i class="bi bi-calendar"></i>
 							<span>
 								Calendrier</span>
 						</a>
@@ -263,7 +269,7 @@
 				<ul>
 					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_index' ? 'active' }}">
 						<a href="{{ path('app_ticket_index') }}" class="sidebar-link">
-							<i class="bi bi-list-ul"></i>
+							<i class="bi bi-ticket"></i>
 							<span>
 								Liste
 							</span>
@@ -271,7 +277,7 @@
 					</li>
 					<li class="sidebar-item  {{ app.request.get('_route') == 'app_ticket_new' ? 'active' }}">
 						<a href="{{ path('app_ticket_new') }}" class="sidebar-link">
-							<i class="bi bi-stack"></i>
+							<i class="bi bi-plus-circle"></i>
 							<span>Ajouter</span>
 						</a>
 					</li>
@@ -285,25 +291,25 @@
 					Analyse
 
 					{# <ul>
-																									                    <li class="sidebar-item">
-																									                        <a href="#" class="sidebar-link">
-																									                            <i class="bi bi-clock-history"></i>
-																									                            <span> Chiffres </span>
-																									                        </a>
-																									                    </li>
-																									                    <li class="sidebar-item">
-																									                        <a href="#" class="sidebar-link">
-																									                            <i class="bi bi-stack"></i>
-																									                            <span> Objectifs </span>
-																									                        </a>
-																									                    </li>
-																									                    <li class="sidebar-item">
-																									                        <a href="#" class="sidebar-link">
-																									                            <i class="bi bi-graph-up-arrow"></i>
-																									                            <span> Statistiques </span>
-																									                        </a>
-																									                    </li>
-																									                </ul> #}
+																																			                    <li class="sidebar-item">
+																																			                        <a href="#" class="sidebar-link">
+																																			                            <i class="bi bi-clock-history"></i>
+																																			                            <span> Chiffres </span>
+																																			                        </a>
+																																			                    </li>
+																																			                    <li class="sidebar-item">
+																																			                        <a href="#" class="sidebar-link">
+																																			                            <i class="bi bi-stack"></i>
+																																			                            <span> Objectifs </span>
+																																			                        </a>
+																																			                    </li>
+																																			                    <li class="sidebar-item">
+																																			                        <a href="#" class="sidebar-link">
+																																			                            <i class="bi bi-graph-up-arrow"></i>
+																																			                            <span> Statistiques </span>
+																																			                        </a>
+																																			                    </li>
+																																			                </ul> #}
 				</li>
 
 
