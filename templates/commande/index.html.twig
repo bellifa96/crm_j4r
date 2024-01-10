@@ -222,47 +222,44 @@ document.getElementById("creer").style.display = "none";
 }
 
 if ($.fn.DataTable.isDataTable('#commandeTable')) {
-$('#commandeTable').DataTable().destroy();
+    $('#commandeTable').DataTable().destroy();
 }
 
-commandeTable = $('#commandeTable').DataTable({paging: true});
+commandeTable = $('#commandeTable').DataTable({paging: true,order: [] });
 
 $.ajax({
-type: 'GET',
-url: '/get-commande',
-data: {
-selectedDepot: selectedDepot
-},
-success: function (data) {
+    type: 'GET',
+    url: '/get-commande',
+    data: {
+        selectedDepot: selectedDepot
+    },
+    success: function (data) {
+        commandeTable.clear().draw();
+        console.log(data);
 
-commandeTable.clear().draw();
-console.log(data);
-// Populate the table with the new data
-for (var i = 0; i < data.length; i++) {
-var commande = data[i];
-var newRow = [
-commande.NumDevis,
-commande.NomClient,
-commande.CodeChantier,
-commande.NumAffaire,
-commande.AdresseChantier,
-commande.VilleChantier,
-new Date(commande.DateCde).toLocaleDateString(), // Format the date
-commande.PoidsTotMat,
-commande.Initiales,
-commande.CodeChantier,
-commande.numCloud,
-'<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"style="font-size: 10px;">Modifier</button>'
-];
-commandeTable.row.add(newRow);
-}
+        for (var i = 0; i < data.length; i++) {
+            var commande = data[i];
+            var newRow = [
+                commande.NumDevis,
+                commande.NomClient,
+                commande.CodeChantier,
+                commande.NumAffaire,
+                commande.AdresseChantier,
+                commande.VilleChantier,
+                new Date(commande.DateCde).toLocaleDateString(),
+                commande.PoidsTotMat,
+                commande.Initiales,
+                commande.CodeChantier,
+                commande.numCloud,
+                '<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 10px;">Modifier</button>'
+            ];
+            commandeTable.row.add(newRow);
+        }
 
-commandeTable.draw();
-},
-error: function (error) {
-console.error('Error:', error);
-}
+        commandeTable.draw();
+    }
 });
+
 }
 
 $(document).ready(function () {
