@@ -45,7 +45,8 @@ class AgenceController extends AbstractController
 
         // on crééer un "nouveau Agence"
         $agence = new Agence();
-
+        $agences = $this->agenceRepository->findAll();
+        $agence->setAgence(count($agences)+1);
         $form = $this->createForm(AgenceType::class,$agence);
 
         // on traite la requete du formulaire
@@ -59,7 +60,6 @@ class AgenceController extends AbstractController
               $this->addFlash("success","L'agence a été correctement créer");
               return $this->redirectToRoute("app_agence");
            }else{
-
            }
         }
 

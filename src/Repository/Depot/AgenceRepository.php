@@ -44,6 +44,7 @@ class AgenceRepository extends ServiceEntityRepository
             $this->_em->flush();
             return true;
         } catch (Exception $e) {
+            dd($e->getMessage());
             return false;
         }
     }

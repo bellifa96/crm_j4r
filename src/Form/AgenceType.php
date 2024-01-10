@@ -20,13 +20,18 @@ class AgenceType extends AbstractType
     {
         $builder
             ->add('agence', IntegerType::class, options: [
-                'label' => 'Agence'
-            ])
+                'label' => 'Agence',
+                'disabled' => true
+                ])
             ->add('nomagence', TextType::class, options: [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => true
+
             ])
             ->add('adresseagence', TextType::class, options: [
-                'label' => 'Adresse 1'
+                'label' => 'Adresse 1',
+                'required' => false
+
             ])
             ->add('adresseagence2', TextType::class, options: [
                 'label' => 'Adresse 2',
@@ -34,31 +39,40 @@ class AgenceType extends AbstractType
 
             ])
             ->add('cpagence', TextType::class, options: [
-                'label' => 'Code Postal'
+                'label' => 'Code Postal',
+                'required' => false
             ])
             ->add('villeagence', TextType::class, options: [
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'required' => false
             ])
             ->add('contactnom', TextType::class, options: [
-                'label' => 'Contact Nom'
+                'label' => 'Contact Nom',
+                'required' => false
             ])
             ->add('contactprenom', TextType::class, options: [
-                'label' => 'Contact Prénom'
+                'label' => 'Contact Prénom',
+                'required' => false
             ])
             ->add('contacttel', TextType::class, options: [
-                'label' => 'Contact Tel'
+                'label' => 'Contact Tel',
+                'required' => false
             ])
             ->add('contactportable', TextType::class, options: [
-                'label' => 'Contact portable'
+                'label' => 'Contact portable',
+                'required' => false
             ])
             ->add('infoouverture', TextType::class, options: [
-                'label' => 'info ouverture'
+                'label' => 'info ouverture',
+                'required' => false
             ])
             ->add('contactemail', EmailType::class, options: [
-                'label' => 'Contact Email'
+                'label' => 'Contact Email',
+                'required' => false
             ])
             ->add('commentaires', TextareaType::class, options: [
-                'label' => 'Commentaires'
+                'label' => 'Commentaires',
+                'required' => false
             ]);
     }
 
