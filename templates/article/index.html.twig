@@ -42,31 +42,43 @@
 			margin-left: 5%;
 
 		}
+		.title{
+			color:black;
+		}
 	</style>
 
 	<div class="example-wrapper">
 		<div class="container">
 			<div class="left">
-				<h2 class="title_article">Articles</h2>
+				<h2 class="title_article">Stock articles</h2>
 			</div>
 			<div class="right">
-				<select class="basic" id="agenceSelect">
-					<option>Agence</option>
-					{% for agence in agences %}
-						<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
-							{{ agence.nomagence }}
-						</option>
-					{% endfor %}
-				</select>
-				<select class="basic" id="depotSelect">
-					<option>Depot</option>
 
-				</select>
+				<div class="col-md-9">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4">
+							<div class="col-md-4 text-end label">
+								<span class="title">Agence</span>
+							</div>
+							<select id="agenceSelect" class="form-control form-control-sm-2 societe-input">
+								{% for agence in agences %}
+									<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
+										{{ agence.nomagence }}
+									</option>
+								{% endfor %}
+							</select>
 
-				<button class="basic" onclick="handleFile()">
-					<input type="file" id="fileInput" accept=".xlsx, .xls">
-				</button>
+						</div>
+						<div class="col-md-4">
+							<div class="col-md-4 text-end label">
+								<span class="title">Dépot</span>
+							</div>
+							<select class="form-control form-control-sm-2 societe-input" id="depotSelect"></select>
 
+
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -183,7 +195,6 @@ select.empty();
 // Clear existing options
 
 // Add a default option
-select.append('<option>Depot</option>');
 
 // Iterate over the data and append options to the select
 $.each(data, function (index, depot) {
