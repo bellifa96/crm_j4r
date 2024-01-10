@@ -54,9 +54,7 @@ class DepotType extends AbstractType
                 'required'=>false
 
             ])
-            ->add('infoouverture', TextType::class, [
-                'label' => 'Informations sur l\'Ouverture',
-            ])
+          
             ->add('contactemail', EmailType::class, [
                 'label' => 'Email du Contact',
             ])

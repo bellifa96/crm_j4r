@@ -19,14 +19,13 @@ class AgenceController extends AbstractController
     public function __construct(AgenceRepository $agenceRepository)
     {
         $this->agenceRepository = $agenceRepository;
-  
     }
 
 
 
     #[Route('/agence', name: 'app_agence')]
     public function index(): Response
-    {  
+    {
 
         $agences = $this->agenceRepository->findAll();
         return $this->render('agence/index.html.twig', [
@@ -35,85 +34,88 @@ class AgenceController extends AbstractController
             'agences' => $agences,
             'nav' => []
         ]);
-
-          
     }
     /** méthod pour afficher le formulaire et stocker les donées   */
     #[Route('/add-agence', name: 'app_agence_add_agence')]
     public function add_agence(Request $request): Response
-    {  
+    {
 
         // on crééer un "nouveau Agence"
         $agence = new Agence();
         $agences = $this->agenceRepository->findAll();
-        $agence->setAgence(count($agences)+1);
-        $form = $this->createForm(AgenceType::class,$agence);
+        $agence->setAgence(count($agences) + 1);
+        $form = $this->createForm(AgenceType::class, $agence);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
- 
+
         // on verifier la formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $ouverture = $request->request->get('ouverture');
             $fermeture = $request->request->get('fermeture');
-            $agence->setInfoouverture($ouverture . 'H ' .$fermeture .'H');
-           $resulat = $this->agenceRepository->addAgence($agence);
-           if($resulat){
-              $this->addFlash("success","L'agence a été correctement créer");
-              return $this->redirectToRoute("app_agence");
-           }else{
-           }
+            $agence->setInfoouverture($ouverture . '-' . $fermeture . '');
+            $resulat = $this->agenceRepository->addAgence($agence);
+            if ($resulat) {
+                $this->addFlash("success", "L'agence a été correctement créer");
+                return $this->redirectToRoute("app_agence");
+            } else {
+            }
         }
 
-     
-        
-       
+
+
+
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('agence/new.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
             'title' => 'Création une Agence',
+            'ouverture' => '08:00',
+            'fermeture' => '18:00',
             'nav' => [['app_agence', 'Agences']]
         ]);
-
-          
     }
     #[Route('/edit-agence/{id}', name: 'app_agence_edit_agence')]
-    public function edit_agence(Agence $agence,Request $request): Response
-    {  
+    public function edit_agence(Agence $agence, Request $request): Response
+    {
 
         // on crééer un "nouveau Agence"
+      
 
-        $form = $this->createForm(AgenceType::class,$agence);
+        // Split the string into opening and closing times
+        list($ouverture, $fermeture) = explode('-', $agence->getInfoouverture());
+
+        // Output the results
+
+        $form = $this->createForm(AgenceType::class, $agence);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
- 
-        // on verifier la formulaire
-        if($form->isSubmitted() && $form->isValid()){
-            // on stock les  donnes
-           $resulat = $this->agenceRepository->addAgence($agence);
-           if($resulat){
-              $this->addFlash("success","L'agence a été correctement modifiée");
-              return $this->redirectToRoute("app_agence");
-           }else{
 
-           }
+        // on verifier la formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ouverture = $request->request->get('ouverture');
+            $fermeture = $request->request->get('fermeture');
+            $agence->setInfoouverture($ouverture . '-' . $fermeture . '');
+            $resulat = $this->agenceRepository->addAgence($agence);
+            if ($resulat) {
+                $this->addFlash("success", "L'agence a été correctement modifiée");
+                return $this->redirectToRoute("app_agence");
+            } else {
+            }
         }
 
-     
-        
-       
+
+
+
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('agence/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Création une Agence',
+            'title' => 'Modification une Agence',
+            'ouverture' => $ouverture,
+            'fermeture' => $fermeture,
             'nav' => [['app_agence', 'Agences']]
         ]);
-
-          
     }
-
-
 }

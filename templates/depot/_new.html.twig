@@ -111,8 +111,13 @@
 						<div class="col-md-4 text-end label">
 							Ouverture
 						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.infoouverture,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						<div class="col-md-4">
+							<input type="time" id="ouverture" class="form-control form-control-sm-2 societe-input" name="ouverture" value="{{ ouverture }}">
+
+						</div>
+						<div class="col-md-4">
+							<input type="time" id="fermeture" class="form-control form-control-sm-2 societe-input" name="fermeture" value="{{ fermeture }}">
+
 						</div>
 					</div>
 
@@ -147,6 +152,47 @@
 
 		</div>
 	</div>
+<script>
+	$(document).ready(function () {
+    // Target the phone number input by its ID
+    var contactTelInput = $('#depot_contacttel');
+    var agence_contactportable = $('#depot_contactportable');
 
+    // Attach an event listener to format the input on every keyup
+    contactTelInput.on('keyup', function () {
+        var inputValue = $(this).val();
+
+        // Limit the input to a maximum of 10 characters
+        if (inputValue.length > 13) {
+            inputValue = inputValue.substr(0, 14);
+        }
+
+        // Implement your JavaScript logic to format the input with dots
+        // For example: 0661258050 -> 06.61.25.80.50
+        console.log(inputValue);
+        var formattedValue = inputValue.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1.$2.$3.$4.$5');
+
+        // Update the input with the formatted and truncated value
+        $(this).val(formattedValue);
+    });
+	 agence_contactportable.on('keyup', function () {
+        var inputValue = $(this).val();
+
+        // Limit the input to a maximum of 10 characters
+        if (inputValue.length > 13) {
+            inputValue = inputValue.substr(0, 14);
+        }
+
+        // Implement your JavaScript logic to format the input with dots
+        // For example: 0661258050 -> 06.61.25.80.50
+        console.log(inputValue);
+        var formattedValue = inputValue.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1.$2.$3.$4.$5');
+
+        // Update the input with the formatted and truncated value
+        $(this).val(formattedValue);
+    });
+});
+
+	</script>
 
 	{{ form_end(form) }}

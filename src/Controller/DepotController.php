@@ -70,8 +70,10 @@ class DepotController extends AbstractController
  
         // on verifier la formulaire
         if($form->isSubmitted() && $form->isValid()){
-            // on stock les  donnes
-           $resulat = $this->depotRepository->add_update_depot($Depot);
+            $ouverture = $request->request->get('ouverture');
+            $fermeture = $request->request->get('fermeture');
+            $Depot->setInfoouverture($ouverture . '-' . $fermeture . '');
+            $resulat = $this->depotRepository->add_update_depot($Depot);
            if($resulat){
               $this->addFlash("success","Dépot a été correctement créer");
               return $this->redirectToRoute("app_depot");
@@ -84,6 +86,8 @@ class DepotController extends AbstractController
             'ticket' => null,
             'form' => $form->createView(),
             'title' => 'Création un Dépot',
+            'ouverture' => '08:00',
+            'fermeture' => '18:00',
             'nav' => [['app_depot', 'Dépot']]
         ]);
           
@@ -93,6 +97,7 @@ class DepotController extends AbstractController
     {  
 
 
+        list($ouverture, $fermeture) = explode('-', $depot->getInfoouverture());
         $form = $this->createForm(DepotType::class,$depot);
 
         // on traite la requete du formulaire
@@ -100,7 +105,9 @@ class DepotController extends AbstractController
  
         // on verifier la formulaire
         if($form->isSubmitted() && $form->isValid()){
-            // on stock les  donnes
+            $ouverture = $request->request->get('ouverture');
+            $fermeture = $request->request->get('fermeture');
+            $depot->setInfoouverture($ouverture . '-' . $fermeture . '');
            $resulat = $this->depotRepository->add_update_depot($depot);
            if($resulat){
               $this->addFlash("success","Dépot a été correctement modifier");
@@ -113,7 +120,9 @@ class DepotController extends AbstractController
         return $this->render('depot/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Modification Dépot',
+            'title' => 'Modification Dépot',            
+            'ouverture' => $ouverture,
+            'fermeture' => $fermeture,
             'nav' => [['app_depot', 'Dépot']]
         ]);
           
