@@ -203,8 +203,8 @@
 				Stock
 
 				<ul>
-					<li class="sidebar-item ">
-						<a href="" class="sidebar-link">
+					<li class="sidebar-item  {{ app.request.get('_route') == 'app_dashboard' ? 'active' }} ">
+						<a href="{{ path('app_dashboard') }}" class="sidebar-link  ">
 							<i class="bi bi-bar-chart-line"></i>
 							<span>Table de bord</span>
 						</a>
