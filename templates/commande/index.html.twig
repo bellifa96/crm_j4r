@@ -78,18 +78,15 @@
 		<div class="container">
 
 			<div class="right">
-    
-	            <!--
-				<div class="form-group">
-					<label for="DateAu" class="font-weight-bold">Au</label>
-					<input type="date" id="DateAu" name="DateAu" class="form-control form-control-sm-2 societe-input required" value="">
-				</div>
-				<div class="form-group">
-					<label for="DateDu" class="font-weight-bold">DU</label>
-					<input type="date" id="DateDu" name="DateDu" class="form-control form-control-sm-2 societe-input required" value="">
-				</div>
 
-				-->
+					<div class="form-group mt-3">
+						<input type="date" id="DateDu" name="DateDu" class="form-control form-control-sm-2 societe-input required ml-2" value="{{ 'now'|date('Y-m-d') }}">
+					</div>
+					<div class="form-group mt-3">
+						<input type="date" id="DateAu" name="DateAu" class="form-control form-control-sm-2 societe-input required ml-2" value="{{ 'now'|date('Y-m-d') }}">
+					</div>
+				
+
 
 				<select class="basic" id="agenceSelect">
 					{% for agence in agences %}
@@ -98,9 +95,7 @@
 						</option>
 					{% endfor %}
 				</select>
-				<select class="basic" id="depotSelect">
-
-				</select>
+				<select class="basic" id="depotSelect"></select>
 				<button class="basic" onclick="showCharacterLimitDialog()">
 					<span>
 						Importation
@@ -148,6 +143,18 @@
 </div>
 
 <script>
+document.getElementById('DateDu').addEventListener('change', function () {
+var minDateDu = this.value;
+
+document.getElementById('DateAu').min = minDateDu;
+getEvent();
+
+});
+document.getElementById('DateAu').addEventListener('change', function () {
+var minDateDu = this.value;
+document.getElementById('DateDu').max = minDateDu;
+getEvent();
+});
 	var dailog;
 function redirect_to_page_affiche_commande(idarticle) {
 window.location.href = '/edit-commande/' + idarticle;
@@ -222,42 +229,42 @@ document.getElementById("creer").style.display = "none";
 }
 
 if ($.fn.DataTable.isDataTable('#commandeTable')) {
-    $('#commandeTable').DataTable().destroy();
+$('#commandeTable').DataTable().destroy();
 }
 
-commandeTable = $('#commandeTable').DataTable({paging: true,order: [] });
+commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 
 $.ajax({
-    type: 'GET',
-    url: '/get-commande',
-    data: {
-        selectedDepot: selectedDepot
-    },
-    success: function (data) {
-        commandeTable.clear().draw();
-        console.log(data);
+type: 'GET',
+url: '/get-commande',
+data: {
+selectedDepot: selectedDepot
+},
+success: function (data) {
+commandeTable.clear().draw();
+console.log(data);
 
-        for (var i = 0; i < data.length; i++) {
-            var commande = data[i];
-            var newRow = [
-                commande.NumDevis,
-                commande.NomClient,
-                commande.CodeChantier,
-                commande.NumAffaire,
-                commande.AdresseChantier,
-                commande.VilleChantier,
-                new Date(commande.DateCde).toLocaleDateString(),
-                commande.PoidsTotMat,
-                commande.Initiales,
-                commande.CodeChantier,
-                commande.numCloud,
-                '<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 10px;">Modifier</button>'
-            ];
-            commandeTable.row.add(newRow);
-        }
+for (var i = 0; i < data.length; i++) {
+var commande = data[i];
+var newRow = [
+commande.NumDevis,
+commande.NomClient,
+commande.CodeChantier,
+commande.NumAffaire,
+commande.AdresseChantier,
+commande.VilleChantier,
+new Date(commande.DateCde).toLocaleDateString(),
+commande.PoidsTotMat,
+commande.Initiales,
+commande.CodeChantier,
+commande.numCloud,
+'<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 10px;">Modifier</button>'
+];
+commandeTable.row.add(newRow);
+}
 
-        commandeTable.draw();
-    }
+commandeTable.draw();
+}
 });
 
 }

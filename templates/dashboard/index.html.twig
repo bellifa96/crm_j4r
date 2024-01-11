@@ -115,7 +115,18 @@
   }
 }
 
-
+body {
+  margin: 0;
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+  color: var(--bs-body-color);
+  text-align: var(--bs-body-text-align);
+  background-color: var(--bs-body-bg);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 
 hr {
   margin: 1rem 0;
@@ -770,6 +781,7 @@ progress {
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * .5);
   padding-left: calc(var(--bs-gutter-x) * .5);
+  margin-top: var(--bs-gutter-y);
 }
 
 .col {
@@ -27931,6 +27943,7 @@ pre[class*="language-"] {
   }
 }
 
+/*# sourceMappingURL=dashboard-free.css.map */
 </style>
 
 	<div class="container-fluid py-4">
@@ -27994,13 +28007,14 @@ pre[class*="language-"] {
 							<i class="bi bi-building"></i>
 						</div>
 						<div class="text-end pt-1">
-							<p class="text-sm mb-0 text-capitalize">Agences</p>
-							<h4 class="mb-0">0</h4>
+							<p class="text-sm mb-0 text-capitalize">ECJ</p>
+              
 						</div>
 					</div>
 					<hr class="dark horizontal my-0">
 					<div class="card-footer p-3">
-			
+			              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Poids Total :</span> 300kg <span class="text-success text-sm font-weight-bolder">Total HT :</span> 300k  </p>
+
 					</div>
 				</div>
 			</div>
