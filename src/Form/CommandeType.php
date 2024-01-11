@@ -29,45 +29,45 @@ class CommandeType extends AbstractType
             ])
             ->add('IdClient', IntegerType::class, [
                 'label' => 'Id CLient',
-                
+
             ])
             ->add('NomClient', TextType::class, [
                 'label' => 'Nom Client',
-                
+
             ])
             ->add('CodeChantier', IntegerType::class, [
                 'label' => 'Code Chantier',
-                
+
                 'required' => false,
             ])
             ->add('NumAffaire', TextType::class, [
                 'label' => 'Numero Affaire',
-                
+
                 'required' => false,
             ])
             ->add('AdresseChantier', TextareaType::class, [
                 'label' => 'Adresse Chantier',
-                
+
                 'required' => false,
             ])
             ->add('CpChantier', TextType::class, [
                 'label' => 'Code Chantier',
-                
+
                 'required' => false,
             ])
             ->add('VilleChantier', TextType::class, [
                 'label' => 'Ville Chantier',
-                
+
                 'required' => false,
             ])
 
-            ->add('DateCde',DateType::class, [
+            ->add('DateCde', DateType::class, [
                 'label' => 'Date de vérification de la grue',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
                 'html5' => true, // Enable HTML5 date and time input
                 'required' => false, // Set to true if the field is required
             ])
-            ->add('DateEnlevDem',DateType::class, [
+            ->add('DateEnlevDem', DateType::class, [
                 'label' => 'Date Enlevement Dem',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
                 'html5' => true, // Enable HTML5 date and time input
@@ -76,17 +76,17 @@ class CommandeType extends AbstractType
 
             ->add('PoidsTotMat', TextType::class, [
                 'label' => 'Poids Total',
-                
+
             ])
             ->add('Initiales', TextType::class, [
                 'label' => 'Initiales',
-                
+
                 'required' => false,
             ])
-         
+
             ->add('Commentaires1', TextType::class, [
                 'label' => 'Commentaires1',
-                
+
                 'required' => false,
             ])
             ->add('Commentaires2', TextType::class, [
@@ -107,8 +107,22 @@ class CommandeType extends AbstractType
                 'label' => 'Numéro Vente Vente',
                 'required' => false, // Ensure this field is not required
 
+            ])
+            ->add('NumEchange', IntegerType::class, [
+                'label' => 'Numéro Vente Vente',
+                'required' => false, // Ensure this field is not required
+
+            ])
+            ->add('HeureEnlevDem', TimeType::class, [
+                'label' => 'Numéro Vente Vente',
+                'required' => false, // Ensure this field is not required
+                'widget' => 'single_text', // This ensures that it's rendered as a single input rather than separate dropdowns
+                'attr' => [
+                    'class' => 'form-control form-control-sm-2 societe-input',
+                    // Add any other attributes you need for styling or functionality
+                ],
+
             ]);
-          
     }
 
     public function configureOptions(OptionsResolver $resolver): void
