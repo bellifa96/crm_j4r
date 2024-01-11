@@ -96,11 +96,11 @@
 					{% endfor %}
 				</select>
 				<select class="basic" id="depotSelect"></select>
-				<button class="basic" onclick="showCharacterLimitDialog()">
+				<!--<button class="basic" onclick="showCharacterLimitDialog()">
 					<span>
 						Importation
 					</span>
-				</button>
+				</button>-->
 
 				<button class="basic" id="creer" style="display:none;">
 					<span>
@@ -145,15 +145,12 @@
 <script>
 document.getElementById('DateDu').addEventListener('change', function () {
 var minDateDu = this.value;
-
 document.getElementById('DateAu').min = minDateDu;
-getEvent();
-
 });
 document.getElementById('DateAu').addEventListener('change', function () {
 var minDateDu = this.value;
 document.getElementById('DateDu').max = minDateDu;
-getEvent();
+
 });
 	var dailog;
 function redirect_to_page_affiche_commande(idarticle) {

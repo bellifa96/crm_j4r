@@ -91,7 +91,7 @@
 
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							Commantaires 1
+							Consignes 1
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.Commentaires1,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -99,10 +99,19 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							Commentaires 2
+							Consignes 2
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.Commentaires2,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							nom conducteur
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.Commentaires,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 						</div>
 					</div>
 				</div>
@@ -149,7 +158,7 @@
 					</div>
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							Poids Totale 
+							Poids Total
 						</div>
 						<div class="col-md-9">
 							{{ form_widget(form.PoidsTotMat,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -287,7 +296,7 @@
 					<td><input type="number" value="{{ article.QteSortie }}" class="inputNumber form-control qteSortie" disabled/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtePreparer" zero="0" article="{{ article.id }}"/></td>
 					<td><input type="number" value="0" class="inputNumber form-control qtearester" id="article{{article.id}}" disabled/></td>
-					<td><input class="mat poids form-control" disabled value="{{ article.Poids }}"/></td>
+					<td><input class="poids form-control" disabled value="{{ article.Poids }}"/></td>
 					<td><input class="mat form-control" disabled value="{{ article.TypeMat }}"/></td>
 
 				</tr>
@@ -380,8 +389,8 @@ return true;
 
 if (! articleExists) { // If the article does not exist, add the new row
 
-var newRow = $('<tr>' + '<td>' + articleToAdd.Article + '</td>' + '<td>' + articleToAdd.Designation + '</td>' + '<input class="article" type="hidden" value="' + articleToAdd.Article + '" /><input class="iddepot" type="hidden" value="0"> <td><input type="number" value="' + articleToAdd.Qte + '" class="inputNumber form-control qte" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QteSortie + '" class="inputNumber form-control qteSortie" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QtePreparer + '" class="inputNumber form-control qtePreparer" zero="1" article=""/></td> <td><input class="form-control" type="text" value="' + articleToAdd.QteARester + '"  disabled /> </td>' + '<td><input  value="' + articleToAdd.poids + '" class="mat poids form-control" disabled/></td>' + '<td><input class="mat form-control " disabled value="' + articleToAdd.TypeMat + '"/></td>' + '</tr>');
-myDataTable.row.add(newRow).draw();
+var newRow = $('<tr>' + '<td>' + articleToAdd.Article + '</td>' + '<td>' + articleToAdd.Designation + '</td>' + '<input class="article" type="hidden" value="' + articleToAdd.Article + '" /><input class="iddepot" type="hidden" value="0"> <td><input type="number" value="' + articleToAdd.Qte + '" class="inputNumber form-control qte" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QteSortie + '" class="inputNumber form-control qteSortie" disabled/></td>' + '<td><input type="number" value="' + articleToAdd.QtePreparer + '" class="inputNumber form-control qtePreparer" zero="1" article=""/></td> <td><input class="form-control" type="text" value="' + articleToAdd.QteARester + '"  disabled /> </td>' + '<td><input  value="' + articleToAdd.poids + '" class="poids form-control" disabled/></td>' + '<td><input class="mat form-control " disabled value="' + articleToAdd.TypeMat + '"/></td>' + '</tr>');
+myDataTable.row.add(newRow).draw(false);
 closeModal();
 } else {
 alert('Article déja exitant sur la table');
@@ -420,7 +429,7 @@ commandeAjouter.clear().draw();
 // Populate the table with the new data
 for (var i = 0; i < data.length; i++) {
 var article = data[i];
-var newRow = [article.article, article.designation, article.poids,article.idarticles];
+var newRow = [article.article, article.designation, article.poids, article.idarticles];
 
 var $newRow = $('<tr>').on('dblclick', createDblClickHandler(newRow));
 
@@ -442,6 +451,6 @@ console.error('Error:', error);
 });
 function createDblClickHandler(article) {
 return function () {
-test(article[1], article[0],article[2]);
+test(article[1], article[0], article[2]);
 };
 }</script>

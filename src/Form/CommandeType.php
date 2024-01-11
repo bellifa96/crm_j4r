@@ -98,6 +98,11 @@ class CommandeType extends AbstractType
                 'required' => false, // Ensure this field is not required
 
             ])
+            ->add('Commentaires', TextType::class, [
+                'label' => 'Nom Conducteur',
+                'required' => false, // Ensure this field is not required
+
+            ])
             ->add('NumErpLocation', IntegerType::class, [
                 'label' => 'Numéro Vente Vente',
                 'required' => false, // Ensure this field is not required
