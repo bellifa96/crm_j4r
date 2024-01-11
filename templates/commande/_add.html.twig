@@ -84,6 +84,14 @@
 						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
+								Numéro Echange
+							</div>
+							<div class="col-md-9">
+								{{ form_widget(form.NumEchange,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<div class="col-md-3 text-end label">
 								Nom Client
 							</div>
 							<div class="col-md-9">
@@ -100,7 +108,7 @@
 						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
-								Commantaires 1
+								Consignes 1
 							</div>
 							<div class="col-md-9">
 								{{ form_widget(form.Commentaires1,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -108,7 +116,7 @@
 						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
-								Commentaires 2
+								Consignes 2
 							</div>
 							<div class="col-md-9">
 								{{ form_widget(form.Commentaires2,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -116,6 +124,14 @@
 						</div>
 					</div>
 					<div class="col-md-6">
+						<div class="col-md-12 row mt-3">
+							<div class="col-md-3 text-end label">
+								Nom Conducteur
+							</div>
+							<div class="col-md-9">
+								{{ form_widget(form.Commentaires,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
 								Code Postale
@@ -145,20 +161,23 @@
 								Date Commande
 							</div>
 							<div class="col-md-9">
-								{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-4 societe-input required"}}) }}
+								{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 							</div>
 						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
-								Date Enlevement 
+								Date Enlevement
 							</div>
-							<div class="col-md-9">
-								{{ form_widget(form.DateEnlevDem,{'attr':{"class":"form-control form-control-sm-4 societe-input required"}}) }}
+							<div class="col-md-4">
+								{{ form_widget(form.DateEnlevDem,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+							<div class="col-md-4">
+								{{ form_widget(form.HeureEnlevDem,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 							</div>
 						</div>
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
-								Poids Totale 
+								Poids Totale
 							</div>
 							<div class="col-md-9">
 								{{ form_widget(form.PoidsTotMat,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -459,9 +478,12 @@ let qtePreparerValue = parseFloat(qtePreparer[i].value) || 0;
 
 // Calculate and add to the total
 total += poidsValue * qtePreparerValue;
+
+// Round the number to two decimal places
+total = Math.round(total * 100) / 100;
 console.log(qtePreparerValue + "-" + poidsValue)
 }
-console.log("Total: " + total);
+console.log("Total: 01 " + total);
 document.getElementById("poidsqtePreparer").innerHTML = total;
 $(document).ready(function () { // Update the value of the input field with the specified ID
 $("#commande_PoidsTotMat").val(total);

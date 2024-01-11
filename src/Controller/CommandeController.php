@@ -193,7 +193,7 @@ class CommandeController extends AbstractController
             return $this->render('commande/new.html.twig', [
                 'ticket' => null,
                 'form' => $form->createView(),
-                'title' => 'Modification Commande',
+                'title' => 'Création Commande',
                 'nav' => [['app_commande', 'Commande']],
                 'articles' => null,
                 'depots' => $depots,

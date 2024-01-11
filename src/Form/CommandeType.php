@@ -109,7 +109,7 @@ class CommandeType extends AbstractType
 
             ])
             ->add('NumEchange', IntegerType::class, [
-                'label' => 'Numéro Vente Vente',
+                'label' => 'Numéro Echange',
                 'required' => false, // Ensure this field is not required
 
             ])
