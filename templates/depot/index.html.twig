@@ -76,12 +76,14 @@
 		<table class="table text-center datatable" id="depotTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
-					<th>Code</th>
+					<th>Code Dépot</th>
 					<th>Désignation</th>
 					<th>Adresse Agence</th>
 					<th>Code Postale</th>
 					<th>Ville Agence</th>
 					<th>Télephone</th>
+					<th>Portable</th>
+
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -93,8 +95,10 @@
 						<td>{{ depot.nomdepot }}</td>
 						<td>{{ depot.adressedepot }}</td>
 						<td>{{ depot.cpdepot }}</td>
-						<td>{{ depot.contacttel }}</td>
 						<td>{{ depot.villedepot }}</td>
+						<td>{{ depot.contacttel }}</td>
+						<td>{{ depot.contactportable }}</td>
+
 						<td>
 							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning" style="font-size: 10px;">
 								Modifier
@@ -139,6 +143,7 @@ var newRow = [
 '<td>' + depot.cpdepot + '</td>',
 '<td>' + depot.villedepot + '</td>',
 '<td>' + depot.contacttel + '</td>',
+'<td>' + depot.contactportable + '</td>',
 '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"style="font-size: 10px;">Modifier</button>'
 ];
 depotTable.row.add(newRow);
