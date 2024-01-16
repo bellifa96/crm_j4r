@@ -242,9 +242,11 @@ class CommandeController extends AbstractController
     #[Route('/pdf-commande/{id}', name: 'app_pdf_generer')]
     public function generer_pdf(CdeMatEnt $cdeMatEnt, Request $request)
     {
-        try {
-            $header = $this->environment->render('commande/headerpdf.html.twig');
-            $body = $this->environment->render('commande/bodypdf.html.twig');
+        try{
+            $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
+
+
+            $header = $this->environment->render('commande/headerpdf.html.twig',['cdeMat' => $cdeMatEnt,'articles' => $articles ]);
 
             $this->pdfService->generateTemplate($header);
 

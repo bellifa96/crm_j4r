@@ -52,30 +52,66 @@
 	</style>
 
 
+	<strong>
+		<u>Poids Total :
+			{{ cdeMat.PoidsTotMat }}
+			kg
+		</u>
+	</strong>
 	<table>
 		<tr>
 			<th>Nom client</th>
-			<td colspan="4" >John Doe</td>
+			<td colspan="7">{{cdeMat.NomClient}}</td>
 		</tr>
 		<tr>
 			<th>Adresse du chantier</th>
-			<td colspan="4" >123 Rue de la Construction</td>
+			<td colspan="7">{{cdeMat.AdresseChantier}}</td>
 		</tr>
 		<tr>
 			<th>Instructions</th>
-			<td  colspan="4" >Veillez à utiliser des matériaux de haute qualité.</td>
+			<td colspan="7"></td>
 		</tr>
 		<tr>
 			<th>Commentaires</th>
-			<td colspan="4" >Très satisfait du travail effectué.</td>
+			<td colspan="7">{{cdeMat.NomClient}}</td>
 		</tr>
 		<!-- Nouvelle ligne avec 5 colonnes -->
 		<tr>
-			<th>Autre donnée 1</th>
-			<td>...</td>
-			<th>Autre donnée 2</th>
-			<td>...</td>
-			<th>Autre donnée 3</th>
-			<td>...</td>
+			<th>N de plan</th>
+			<td>{{cdeMat.NomClient}}</td>
+			<th>N de devis</th>
+			<td>{{cdeMat.NumDevis}}</td>
+			<th>Code Analytique</th>
+			<td></td>
+			<th>Initiales</th>
+			<td>{{cdeMat.Initiales}}</td>
 		</tr>
 	</table>
+
+	<strong>
+		<u>MATERIEL :</u>
+	</strong>
+
+	<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+		<thead>
+			<tr class="tr-head">
+				<th>Article/EAN</th>
+				<th>Designation</th>
+				<th>Quantité</th>
+				<th>Poids Total</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for article in articles %}
+				<tr>
+					<td>{{ article.article }}</td>
+					<td>{{ article.designation }}</td>
+					<td>{{ article.QteSortie }}</td>
+					<td>{{ (article.QteSortie * article.poids)|number_format(2, '.', ',') }}</td>
+					<td>{{ article.TypeMat }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</tbody>
+</table></div>
