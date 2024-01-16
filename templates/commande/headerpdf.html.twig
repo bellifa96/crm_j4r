@@ -25,10 +25,57 @@
 				<span>Edition du
 					{{ "now"|date("d/m/Y H:i:s") }}</span>
 				<br>
-				
 
 
-				</div>
 			</div>
-
 		</div>
+
+	</div>
+
+	<style>
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px auto;
+		}
+
+		th,
+		td {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+	</style>
+
+
+	<table>
+		<tr>
+			<th>Nom client</th>
+			<td colspan="4" >John Doe</td>
+		</tr>
+		<tr>
+			<th>Adresse du chantier</th>
+			<td colspan="4" >123 Rue de la Construction</td>
+		</tr>
+		<tr>
+			<th>Instructions</th>
+			<td  colspan="4" >Veillez à utiliser des matériaux de haute qualité.</td>
+		</tr>
+		<tr>
+			<th>Commentaires</th>
+			<td colspan="4" >Très satisfait du travail effectué.</td>
+		</tr>
+		<!-- Nouvelle ligne avec 5 colonnes -->
+		<tr>
+			<th>Autre donnée 1</th>
+			<td>...</td>
+			<th>Autre donnée 2</th>
+			<td>...</td>
+			<th>Autre donnée 3</th>
+			<td>...</td>
+		</tr>
+	</table>

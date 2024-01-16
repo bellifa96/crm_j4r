@@ -244,7 +244,10 @@ class CommandeController extends AbstractController
     {
         try {
             $header = $this->environment->render('commande/headerpdf.html.twig');
+            $body = $this->environment->render('commande/bodypdf.html.twig');
+
             $this->pdfService->generateTemplate($header);
+
             $pdf = $this->pdfService->generatePdf("ss");
 
             $response = new Response($pdf);

@@ -78,7 +78,7 @@ class CalendrierController extends AbstractController
             $clientSecret = 'ezX8Q~PugbS.9Kv-BCj0dhnU6tlQ8Rb8Dq6BHat5';
             $tenantId = 'e97cf803-6d49-448d-9192-e8c3674a21e8'; //Locataire J4R uniquement
             $scope = 'https://graph.microsoft.com/Calendars.ReadWrite';
-            $redirectUri = 'http://dev.crmj4r.fr/sites/articles/TestApiOutlook2.php';
+            $redirectUri = 'http://dev.crmj4r.fr//sites/articles/TestApiOutlook2.php';
             $authorizationUrl = 'https://login.microsoftonline.com/' . $tenantId . '/oauth2/v2.0/authorize'; // URL d'autorisation
 
             //Étape 1 : Obtenez le code d'autorisation en redirigeant l'utilisateur vers l'URL d'autorisation
