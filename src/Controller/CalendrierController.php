@@ -103,7 +103,7 @@ class CalendrierController extends AbstractController
         }
     }
     #[Route('/save-token', name: 'save_token')]
-    public function save_token(Request $request): Response
+    public function save_token(Request $request)
     {
         try {
 
