@@ -122,7 +122,7 @@ if ($.fn.DataTable.isDataTable('#depotTable')) {
 $('#depotTable').DataTable().destroy();
 }
 
-depotTable = $('#depotTable').DataTable({paging: true});
+depotTable = $('#depotTable').DataTable({paging: true, order: []});
 
 $.ajax({
 type: 'GET',

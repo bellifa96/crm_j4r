@@ -135,6 +135,7 @@
 					<th>Code Chantier</th>
 					<th>Numéro Cloud</th>
 					<th>Actions</th>
+					
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -155,6 +156,9 @@ document.getElementById('DateDu').max = minDateDu;
 	var dailog;
 function redirect_to_page_affiche_commande(idarticle) {
 window.location.href = '/edit-commande/' + idarticle;
+}
+function pdf(idarticle) {
+window.location.href = '/pdf-commande/' + idarticle;
 }
 function showCharacterLimitDialog() {
 dialog = $("#customDialog").dialog({
@@ -220,6 +224,7 @@ var selectedOption = document.getElementById("depotSelect").options[document.get
 var codedepotValue = selectedOption.getAttribute("code");
 if (codedepotValue != 1) {
 document.getElementById("creer").style.display = "block";
+
 } else {
 document.getElementById("creer").style.display = "none";
 
@@ -239,10 +244,16 @@ selectedDepot: selectedDepot
 },
 success: function (data) {
 commandeTable.clear().draw();
-console.log(data);
 
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
+console.log(commande);
+let action = '';
+
+if (codedepotValue != 1) {
+action += '<i class="bi bi-file-pdf-fill" onclick="pdf(' + commande.id + ')" style="font-size: 15px"  style="font-size: 15px; margin"></i>';
+}
+action +='<i class="bi bi-pen" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 15px"></i>';
 var newRow = [
 commande.NumDevis,
 commande.NomClient,
@@ -255,7 +266,7 @@ commande.PoidsTotMat,
 commande.Initiales,
 commande.CodeChantier,
 commande.numCloud,
-'<button class="btn btn-warning" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 10px;">Modifier</button>'
+action
 ];
 commandeTable.row.add(newRow);
 }

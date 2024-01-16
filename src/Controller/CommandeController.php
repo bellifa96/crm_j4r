@@ -10,12 +10,15 @@ use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
+use App\Service\PdfService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class CommandeController extends AbstractController
 {
@@ -28,6 +31,8 @@ class CommandeController extends AbstractController
         private CdeMatDetRepository $cdeMatDetRepository,
         private DepotRepository $depotRepository,
         private ArticleRepository $articleRepository,
+        private PdfService $pdfService,
+        private Environment $environment
     ) {
         $this->agenceRepository = $agenceRepository;
     }
@@ -104,7 +109,7 @@ class CommandeController extends AbstractController
 
             $form = $this->createForm(CommandeType::class, $cdeMatEnt);
             $form->handleRequest($request);
-            
+
             if ($form->isSubmitted() && $form->isValid()) {
 
 
@@ -124,7 +129,7 @@ class CommandeController extends AbstractController
                 'idCdeEnte' => $cdeMatEnt->getId()
             ]);
         } catch (Exception $e) {
-               dd($e->getMessage());
+            dd($e->getMessage());
             return $e->getMessage();
         }
     }
@@ -223,7 +228,33 @@ class CommandeController extends AbstractController
             $articleQteArray = $requestData["articleQte"];
             $resultat = $this->commandeService->save($formData, $articleQteArray, $depot);
 
+
+
+
             return $this->json($resultat);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return $this->json([]);
+        }
+    }
+
+    /** méthod pour récuperer les articles vente ou location   */
+    #[Route('/pdf-commande/{id}', name: 'app_pdf_generer')]
+    public function generer_pdf(CdeMatEnt $cdeMatEnt, Request $request)
+    {
+        try {
+            $header = $this->environment->render('commande/headerpdf.html.twig');
+            $this->pdfService->generateTemplate($header);
+            $pdf = $this->pdfService->generatePdf("ss");
+
+            $response = new Response($pdf);
+            $disposition = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_INLINE,
+                  'ss.pdf'
+            );
+            $response->headers->set('Content-Disposition', $disposition);
+
+            return $response;
         } catch (Exception $e) {
             dd($e->getMessage());
             return $this->json([]);
