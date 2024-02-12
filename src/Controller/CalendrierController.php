@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\Depot\ParamAgenceRepository;
 use App\Repository\Depot\TransporteurRepository;
+use App\Service\DepotService;
 use App\Service\OutlookService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +18,8 @@ class CalendrierController extends AbstractController
 
     public function __construct(
         private OutlookService $outlookService,
-        private TransporteurRepository $transporteurRepository
+        private TransporteurRepository $transporteurRepository,
+        private ParamAgenceRepository $paramAgenceRepository
     ) {
     }
 
@@ -32,6 +35,8 @@ class CalendrierController extends AbstractController
         ]);
     }
 
+    
+  
     #[Route('/event-date', name: 'app_event_date')]
     public function getEventByDate(Request $request): Response
     {

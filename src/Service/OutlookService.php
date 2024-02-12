@@ -2,6 +2,7 @@
 // src/Service/OutlookService.php
 namespace App\Service;
 
+use App\Repository\Depot\ParamAgenceRepository;
 use Exception;
 
 use Symfony\Component\HttpClient\HttpClient;
@@ -13,11 +14,18 @@ class OutlookService
     private $graph;
     private $client;
     private $accessToken;
+    private $userId ; //depot@j4r.fr
 
-    public function __construct(private string $clientId, private string $clientSecret, private string $tenantId)
+
+
+
+    public function __construct(private string $clientId, private string $clientSecret, 
+    private string $tenantId,
+    private ParamAgenceRepository $paramAgenceRepository)
     {
         $this->client = HttpClient::create();
-        $this->accessToken = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6IkhfVkphbDZzNk9yc1pldjlDdWZGVlE1VUltbldpUDkzTEVtUnZQVFJBMnciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lOTdjZjgwMy02ZDQ5LTQ0OGQtOTE5Mi1lOGMzNjc0YTIxZTgvIiwiaWF0IjoxNzA1NDEyNjU0LCJuYmYiOjE3MDU0MTI2NTQsImV4cCI6MTcwNTQxNjY5NSwiYWNjdCI6MCwiYWNyIjoiMSIsImFjcnMiOlsidXJuOnVzZXI6cmVnaXN0ZXJzZWN1cml0eWluZm8iXSwiYWlvIjoiQVZRQXEvOFZBQUFBc1MxaWVUdnRYdzR6UmZHcEFaL3lqVWRteFU1MUlzZThjMXBLcm5kOUNTbHczeUc5eTVtSEc1aTIrZlBWdm8rU29RUS81ajFrcDVCbkk4bE9RUGRoamM4TTRoek5WeEw0LzVONmxRWEJFaGc9IiwiYW1yIjpbInB3ZCIsIm1mYSJdLCJhcHBfZGlzcGxheW5hbWUiOiJHcmFwaCBVc2VyIEF1dGggVHV0b3JpYWwiLCJhcHBpZCI6IjJmYmZiOWEyLTlmOTQtNDNmMS1hNjFlLWE5MTBiYmExOGY1NyIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiRWwgTWFtb3VuaSIsImdpdmVuX25hbWUiOiJTYWxhaCBFZGRpbmUiLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIxOTMuMjUzLjI0OC4xNjIiLCJuYW1lIjoiU2FsYWggRWRkaW5lIEVsIE1hbW91bmkiLCJvaWQiOiI3OWZhMDVlYi01OGM5LTRjOWItOGMwNS1kYWE0ZWVkN2M4YTAiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDJGNUIyM0FCNiIsInJoIjoiMC5BVEVBQV9oODZVbHRqVVNSa3VqRFowb2g2QU1BQUFBQUFBQUF3QUFBQUFBQUFBQXhBR00uIiwic2NwIjoiQ2FsZW5kYXJzLlJlYWRXcml0ZSBwcm9maWxlIG9wZW5pZCBlbWFpbCIsInNpZ25pbl9zdGF0ZSI6WyJrbXNpIl0sInN1YiI6InJaX1lXLV9iSVp4WnZvQ3g0Zkh5dThSbVlIY1hJOHZfWW1WY3ZmRTZLSnMiLCJ0ZW5hbnRfcmVnaW9uX3Njb3BlIjoiRVUiLCJ0aWQiOiJlOTdjZjgwMy02ZDQ5LTQ0OGQtOTE5Mi1lOGMzNjc0YTIxZTgiLCJ1bmlxdWVfbmFtZSI6InMuZWxtYW1vdW5pQGo0ci5mciIsInVwbiI6InMuZWxtYW1vdW5pQGo0ci5mciIsInV0aSI6IksxT1BEQWlRc0U2NWxJV3RYRGlMQUEiLCJ2ZXIiOiIxLjAiLCJ4bXNfc3QiOnsic3ViIjoiT3Q3bjNuVjBMZ19ZZ011aVNHSEZEUldfaDA3cG50SXY4dlhwVTNHMG9BSSJ9LCJ4bXNfdGNkdCI6MTU0NTE0MzEzMSwieG1zX3RkYnIiOiJFVSJ9.2wTKadzdwggKob7vbzk1VpjrkVI-aTTxOmPTmoKO6-bLnGwpcx9DzId-1ujmHRVu3Afq9dSJ2XSHVwjGXpDADDJvNMNHUpQ3uhT7ZQuog2hKpc5tpEX-Opnkt4F14STuBNnv6Jq2537H-s_IRTbgbyAZaD05bIHg9uQMdw1k0CRLZpj7X9aN9ivLkennrRN4vVXwUVCv5eWCk4PLmlvOR08xNMVU3VbY4NJGmQorIinExJ5fAxXX0eNoFUYVUs676ArMUYCQGgA9s7gY3Dn3KfLbK4JgyqDXXxxfhp2h4LCTo-Ea-d6cveCuzStmggvw10ulAPZDktCkoS7sqiiJpw';
+        $this->accessToken = '';
+        $this->userId = "64b4f5f5-6741-4d7c-873c-0cdc64eff509";
     }
     private function getAccessToken()
     {
@@ -32,11 +40,14 @@ class OutlookService
 
     public function getCalendarEvents($start, $end)
     {
+          
+        $this->accessToken = $this->paramAgenceRepository->getTokens();
+
         $calendarId = 'AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=';
         $startDateTime = $start . 'T00:00:00';
         $endDateTime = $end . 'T23:59:59';
 
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/calendars('$calendarId')/calendarView?startDateTime=$startDateTime&endDateTime=$endDateTime&\$select=subject,start,end,location,categories&\$orderby=start/dateTime&\$top=3000";
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/calendars/".$calendarId."/calendarview?startDateTime=$startDateTime&endDateTime=$endDateTime&\$select=subject,start,end,location,categories&\$orderby=start/dateTime&\$top=3000";
 
         try {
             // Make the GET request to the Microsoft Graph API
