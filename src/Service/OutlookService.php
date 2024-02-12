@@ -43,12 +43,11 @@ class OutlookService
           
         $this->accessToken = $this->paramAgenceRepository->getTokens();
 
-        $calendarId = 'AAMkADYzNmY1OWI1LWNmODctNDIwZS1hOGQ4LTM0MGRlNjdiZGYxMQBGAAAAAACGUiwjDrEAS5YH-q03p8iNBwCEynMLzVc4SLl5zEvxLDFlAAAAAAEGAACEynMLzVc4SLl5zEvxLDFlAAA7Ae9_AAA=';
+        $calendarId = 'AAMkADU3MDRkNmI4LTM1NTUtNGNmMS1hMzEwLTBjOTYxMjU2M2ViMwAuAAAAAAAhabwJHj2dQbJDtMwJcRmzAQAK7FnT_2tgTaAsVzxSi0cLAACc8k4LAAA=';
         $startDateTime = $start . 'T00:00:00';
         $endDateTime = $end . 'T23:59:59';
 
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/calendars/".$calendarId."/calendarview?startDateTime=$startDateTime&endDateTime=$endDateTime&\$select=subject,start,end,location,categories&\$orderby=start/dateTime&\$top=3000";
-
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/calendars/".$calendarId."/calendarview?startDateTime=".$startDateTime."&endDateTime=".$endDateTime."&\$select=subject,start,end,location,categories&\$orderby=start/dateTime&\$top=3000";
         try {
             // Make the GET request to the Microsoft Graph API
             $response = $this->client->request('GET', $graphApiEndpoint, [
