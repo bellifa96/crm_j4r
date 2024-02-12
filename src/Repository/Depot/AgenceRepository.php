@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Article;
 use App\Entity\Depot\Agence;
+use App\Entity\Depot\Mouvements;
 use Exception;
 
 /**
@@ -47,6 +48,43 @@ class AgenceRepository extends ServiceEntityRepository
             dd($e->getMessage());
             return false;
         }
+    }
+
+    public function getAgenceById(int $id): ?Agence
+    {
+        // Retrieve the Agence entity by its ID
+        try{
+            $agence = $this->_em->getRepository(Agence::class)->find($id);
+
+            return $agence;
+        }catch(Exception $e){
+             return null;
+        }
+       
+    }
+
+    public function deleteAgenceById(Agence $agence)
+    {
+        if ($agence) {
+            // Remove the entity
+            $this->_em->remove($agence);
+            // Commit the changes to the database
+            $this->_em->flush();
+            return 200;
+        } else {
+            return 500;
+        }
+    }
+
+    public function getMouvementsByAgence(Agence $agence): array
+    {
+        // Retrieve all Mouvements associated with the provided Agence
+        
+
+
+        $mouvements = $this->_em->getRepository(Mouvements::class)->findBy(['idagence' => $agence]);
+
+        return $mouvements;
     }
    
 }

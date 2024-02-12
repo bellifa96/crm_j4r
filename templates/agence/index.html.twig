@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Agence
+    Agence
+    
 {% endblock %}
 
 {% block body %}
-	<style>
+    <style>
 		.container {
 			display: flex;
 			align-items: center;
@@ -45,60 +46,127 @@
 		}
 	</style>
 
-	<div class="example-wrapper">
-		<div class="container">
-			<div class="left">
-				<h2 class="title_article">Agences</h2>
-			</div>
-			<div class="right">
-				<button class="basic" id="openModalButton">
-					<a href="{{ path('app_agence_add_agence') }}" class="sidebar-link  ">
-						<span>
-							Nouveau
-						</span>
-					</a>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div id="popupFormContainer"></div>
+    <div class="example-wrapper">
+        <div class="container">
+            <div class="left">
+                <h2 class="title_article">
+                    Agences
+                </h2>
+            </div>
+            <div class="right">
+                <button class="basic" id="openModalButton">
+                    <a href="{{ path('app_agence_add_agence') }}" class="sidebar-link  ">
+                        <span>
+                            Nouveau
+                            						
+                        </span>
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="popupFormContainer"></div>
 
-	<div class="page-block col-lg-12">
-		<table class="table text-center datatable" style="color: #0E4377;">
-			<thead>
-				<tr class="tr-head">
-					<th>Id</th>
-					<th>Nom Agence</th>
-					<th>Adresse Agence</th>
-					<th>Code Postale</th>
-					<th>Ville Agence</th>
-					<th>Télephone</th>
-					<th>Portable</th>
-					<th>Action</th>
+    <div class="page-block col-lg-12">
+        <table class="table text-center datatable" style="color: #0E4377;">
+            <thead>
+                <tr class="tr-head">
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Nom Agence
+                    </th>
+                    <th>
+                        Adresse Agence
+                    </th>
+                    <th>
+                        Code Postale
+                    </th>
+                    <th>
+                        Ville Agence
+                    </th>
+                    <th>
+                        Télephone
+                    </th>
+                    <th>
+                        Portable
+                    </th>
+                    <th>
+                        Action
+                    </th>
 
-				</tr>
-			</thead>
-			<tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-				{% for agence in agences %}
-					<tr>
-						<td>{{ agence.agence }}</td>
-						<td>{{ agence.nomagence }}</td>
-						<td>{{ agence.adresseagence }}</td>
-						<td>{{ agence.cpagence }}</td>
-						<td>{{ agence.villeagence }}</td>
-						<td>{{ agence.contacttel }}</td>
-						<td>{{ agence.contactportable }}</td>
-						<td>
-							<a href="{{ path('app_agence_edit_agence', {'id': agence.idagence }) }}" class="btn btn-warning" style="font-size: 10px;">
-								Modifier
-							</a>
-						</td>
+                {% for agence in agences %}
+                    <tr>
+                        <td>
+                            {{ agence.agence }}
+                        </td>
+                        <td>
+                            {{ agence.nomagence }}
+                        </td>
+                        <td>
+                            {{ agence.adresseagence }}
+                        </td>
+                        <td>
+                            {{ agence.cpagence }}
+                        </td>
+                        <td>
+                            {{ agence.villeagence }}
+                        </td>
+                        <td>
+                            {{ agence.contacttel }}
+                        </td>
+                        <td>
+                            {{ agence.contactportable }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_agence_edit_agence', {'id': agence.idagence }) }}" class="btn btn-warning" style="font-size: 10px;">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            {% if isAdmin %}
+							<a href="#" onclick="showConfirmation('{{ agence.nomagence|trim|replace({'\n': ''}) }}', {{ agence.idagence }})" class="btn btn-danger" style="font-size: 10px;">
+						<i class="bi bi-trash3-fill"></i>
+                                </a>
+                            {% endif %}
 
-					</tr>
-				{% endfor %}
+                        </td>
 
-			</tbody>
-		</tbody>
-	</table>
-</div>{% endblock %}
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </tbody>
+    </table>
+</div>
+<script>
+        function showConfirmation(agence,id) {
+			console.log(id);
+            var result = confirm("Confirmez-vous la suppression de cette agence "+agence + " ?");
+
+            if (result) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/delete_agence',
+					data: {
+					   id: id
+					}, 
+					success: function (data) {
+						console.log(data);
+						if(data.code == 200){
+							location.reload();
+						}else{
+							alert(data.msg)
+						}
+					},
+					error: function (error) {}
+					});
+            } else {
+                // User clicked Cancel or closed the dialog
+                // Perform actions when the user clicks Cancel or closes the dialog
+            }
+        }
+    </script>{% endblock %}

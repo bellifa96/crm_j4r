@@ -6,6 +6,7 @@ namespace App\Repository\Depot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Depot\Depot;
+use App\Entity\Depot\Mouvements;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
@@ -77,6 +78,27 @@ class DepotRepository extends ServiceEntityRepository
     public function findOneByIdDepot($id_depot)
     {   
          return $this->findOneBy(['iddepot' => $id_depot]);
+    }
+
+    public function getMouvementsByDepot(Depot $depot): array
+    {
+        // Retrieve all Mouvements associated with the provided Agence
+        $mouvements = $this->_em->getRepository(Mouvements::class)->findBy(['iddepot' => $depot]);
+
+        return $mouvements;
+    }
+
+    public function deleteDepotById(Depot $depot)
+    {
+        if ($depot) {
+            // Remove the entity
+            $this->_em->remove($depot);
+            // Commit the changes to the database
+            $this->_em->flush();
+            return 200;
+        } else {
+            return 500;
+        }
     }
 
 }

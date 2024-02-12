@@ -16,6 +16,7 @@ class Agence
     public function __construct()
     {
         $this->depots = new ArrayCollection();
+        $this->mouvements = new ArrayCollection();
     }
 
 
@@ -72,6 +73,9 @@ class Agence
     #[ORM\OneToMany(targetEntity: Depot::class, mappedBy: 'agences')]
     private Collection $depots;
 
+    #[ORM\OneToMany(targetEntity: Mouvements::class, mappedBy: "idagence")]
+    private $mouvements;
+
     public function getIdagence(): ?string
     {
         return $this->idagence;
@@ -85,6 +89,14 @@ class Agence
     public function getAgence(): ?int
     {
         return $this->agence;
+    }
+
+    /**
+     * @return Collection|Mouvements[]
+     */
+    public function getMouvements(): Collection
+    {
+        return $this->mouvements;
     }
 
     public function setAgence(?int $agence): static

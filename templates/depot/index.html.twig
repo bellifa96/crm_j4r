@@ -101,8 +101,13 @@
 
 						<td>
 							<a href="{{ path('app_depot_edit', {'id': depot.iddepot }) }}" class="btn btn-warning" style="font-size: 10px;">
-								Modifier
+								<i class="bi bi-pencil"></i>
 							</a>
+							{% if isAdmin  %}
+							<a href="#" onclick="showConfirmation('{{ depot.nomdepot|trim|replace({'\n': ''}) }}', {{ depot.iddepot }})" class="btn btn-danger" style="font-size: 10px;">
+                              <i class="bi bi-trash3-fill"></i>
+							</a>
+							{% endif %}
 						</td>
 
 					</tr>
@@ -134,8 +139,16 @@ success: function (data) {
 depotTable.clear().draw();
 
 // Populate the table with the new data
-for (var i = 0; i < data.length; i++) {
-var depot = data[i];
+
+
+for (var i = 0; i < data.depot.length; i++) {
+var depot = data.depot[i];
+
+let btn = '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"style="font-size: 10px;"><i class="bi bi-pencil"></i></button>';
+if(data.isAdmin == true){
+ btn = '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')" style="font-size: 10px;"><i class="bi bi-pencil"></i></button> <a href="#" class="btn btn-danger" onclick="showConfirmation(\'' + depot.nomdepot + '\', ' + depot.codedepot + ')"  style="font-size: 10px;"><i class="bi bi-trash3-fill"></i></a>';
+}
+
 var newRow = [
 '<td>' + depot.codedepot  + '</td>',
 '<td>' + depot.nomdepot + '</td>',
@@ -144,7 +157,7 @@ var newRow = [
 '<td>' + depot.villedepot + '</td>',
 '<td>' + depot.contacttel + '</td>',
 '<td>' + depot.contactportable + '</td>',
-'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"style="font-size: 10px;">Modifier</button>'
+btn
 ];
 depotTable.row.add(newRow);
 }
@@ -161,5 +174,32 @@ $('#agenceSelect').on('change', function () { // Call the function to handle dep
 handleAgenceSelection();
 });
 });
+function showConfirmation(agence,id) {
+	console.log(id);
+	var result = confirm("Confirmez-vous la suppression de cette Dépot "+agence + " ?");
+
+	if (result) {
+		$.ajax({
+			type: 'GET',
+			url: '/delete_depot',
+			data: {
+			   id: id
+			}, 
+			success: function (data) {
+				console.log(data);
+				if(data.code == 200){
+					location.reload();
+				}else{
+					alert(data.msg)
+				}
+			},
+			error: function (error) {}
+			});
+	} else {
+		// User clicked Cancel or closed the dialog
+		// Perform actions when the user clicks Cancel or closes the dialog
+	}
+}
+
 	</script>
 </div>{% endblock %}

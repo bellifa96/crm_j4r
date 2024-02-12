@@ -10,6 +10,7 @@ use App\Form\DepotType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
+use App\Repository\Depot\MouvementsRepository;
 use App\Service\DepotService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Controller Depot Inject Service (DepotService) et Repository ($ArticleRepositoy)
@@ -41,17 +43,32 @@ class DepotController extends AbstractController
 
 
     #[Route('/depot', name: 'app_depot')]
-    public function index(): Response
+    public function index(Security $security): Response
     {
       
         $agences = $this->agenceRepository->findAll();
         $depot = $this->depotRepository->getDepotsByAgenceId($agences[0]["idagence"]);
+        $user = $security->getUser();
 
+        $admin = false;
+
+        // Check if user is authenticated
+        if ($user) {
+            // Get user roles
+            $roles = $user->getRoles();
+            if (in_array("ROLE_ADMIN", $roles)) {
+                $admin = true;
+            } else {
+                $admin = false;
+            }
+        }
         return $this->render('depot/index.html.twig', [
             'controller_name' => 'AgenceController',
             'title' => 'Dépot',
             'depots' => $depot,
             'agences' => $agences,
+            'isAdmin' => $admin,
+
             'nav' => []
         ]);
     }
@@ -129,12 +146,75 @@ class DepotController extends AbstractController
     }
 
     #[Route('/get-depot', name: 'app_depot_json_response', methods:['get'] )]
-    public function getDepotAction(Request $request):JsonResponse
+    public function getDepotAction(Request $request,Security $security):JsonResponse
     { 
-       $id_agence = $request->query->get('selectedAgence');
-       $depot = $this->depotRepository->getDepotsByAgenceId($id_agence);
-       return $this->json($depot);
+        $id_agence = $request->query->get('selectedAgence');
+        $depot = $this->depotRepository->getDepotsByAgenceId($id_agence);
+        $user = $security->getUser();
+
+        $admin = false;
+
+        // Check if user is authenticated
+        if ($user) {
+            // Get user roles
+            $roles = $user->getRoles();
+            if (in_array("ROLE_ADMIN", $roles)) {
+                $admin = true;
+            } else {
+                $admin = false;
+            }
+        }
+        
+        $data = [
+            'depot' => $depot,
+            'isAdmin' => $admin,
+        ];
+        
+        return new JsonResponse($data);
     }
+
+    #[Route('/delete_depot', name: 'delete_agence')]
+    public function delete_depot(Request $request,MouvementsRepository $mouvementsRepository)
+    {
+       
+        $idagence = $request->query->get('id');
+
+        $depot = $this->depotRepository->findOneByIdDepot($idagence);
+        if($depot != null){
+            $mouvements = $this->depotRepository->getMouvementsByDepot($depot);
+            $code = 205;
+            if(sizeof($mouvements) == 0){
+                $code =  $this->depotRepository->deleteDepotById($depot);
+
+                if($code  == 500 ){
+                    $response = [
+                        'code' => $code,
+                        'msg' => "error",
+                    ];
+                    return new JsonResponse($response);
+                }
+            }else {
+                
+            }
+
+            $response = [
+                'code' => $code,
+                'msg' => "il existe des mouvements",
+            ];
+            return new JsonResponse($response);
+
+
+        }else{
+            $response = [
+                'code' => 500,
+                'msg' => "agence n'exist pas",
+            ];
+    
+            return new JsonResponse($response);
+        }
+     
+    }
+
 
 
     

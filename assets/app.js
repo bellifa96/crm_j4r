@@ -37,6 +37,7 @@ import * as bootstrap from "bootstrap";
 import 'datatables.net';
 import 'datatables.net-bs5'
 import './datatable_custom';
+import './bootstrap-confirm-delete.js';
 
 
 global.$ = global.jQuery = $;

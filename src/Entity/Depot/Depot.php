@@ -3,6 +3,8 @@
 namespace App\Entity\Depot;
 
 use App\Repository\Depot\DepotRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -72,6 +74,27 @@ class Depot
     #[ORM\ManyToOne(targetEntity:Agence::class, inversedBy: 'depots')]
     #[ORM\JoinColumn(name:'idagence', referencedColumnName:'idagence')]
     private Agence $agence;
+
+
+    #[ORM\OneToMany(targetEntity: Mouvements::class, mappedBy: "idagence")]
+    private $mouvements;
+
+   
+
+
+
+
+    public function __construct()
+    {
+        $this->mouvements = new ArrayCollection();
+    }
+    /**
+    * @return Collection|Mouvements[]
+    */
+    public function getMouvements(): Collection
+    {
+        return $this->mouvements;
+    }
 
     public function getIddepot(): ?string
     {

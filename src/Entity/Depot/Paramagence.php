@@ -6,6 +6,7 @@ use App\Repository\Depot\ParamAgenceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParamAgenceRepository::class)]
+#[ORM\Table(name: "ParamAgence")]
 
 class Paramagence
 {
