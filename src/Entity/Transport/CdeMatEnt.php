@@ -125,6 +125,30 @@ class CdeMatEnt
     #[ORM\Column(length: 8)]
     private ?string $Commentaires2 = '';
 
+    #[ORM\Column]
+    private ?int $Actif = 0;
+
+    #[ORM\Column(length: 8)]
+    private ?string $Motif = '';
+
+
+    public function getActif(): ?int {
+        return $this->Actif;
+    }
+
+    public function setActif(?int $Actif): void {
+        $this->Actif = $Actif;
+    }
+
+    // Getter and Setter for Motif
+    public function getMotif(): ?string {
+        return $this->Motif;
+    }
+
+    public function setMotif(?string $Motif) {
+        $this->Motif = $Motif;
+    }
+
     public function __construct() {
         if ($this->DateCde === null) {
             $this->DateCde = new \DateTime();

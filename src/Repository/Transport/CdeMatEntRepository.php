@@ -45,13 +45,15 @@ class CdeMatEntRepository extends ServiceEntityRepository
 
 
     public function listCommandebyIdepot($Iddepot)
-    {
-        return $this->createQueryBuilder('c')
+    { 
+        
+        $data =  $this->createQueryBuilder('c')
             ->andWhere('c.Iddepot = :Iddepot')
             ->setParameter('Iddepot', $Iddepot)
-            ->orderBy('c.DateCde', 'DESC') // Adding the ORDER BY clause
             ->getQuery()
             ->getResult();
+        dd($data);
+        return $data;
     }
 
     public function commandeByNumeroCloud($idCloud)
