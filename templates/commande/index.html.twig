@@ -232,6 +232,7 @@ document.getElementById("creer").style.display = "block";
 document.getElementById("creer").style.display = "none";
 
 }
+$('#commandeTable').DataTable().destroy();
 
 if ($.fn.DataTable.isDataTable('#commandeTable')) {
 $('#commandeTable').DataTable().destroy();
