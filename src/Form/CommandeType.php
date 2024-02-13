@@ -25,7 +25,6 @@ class CommandeType extends AbstractType
             ->add('NumDevis', IntegerType::class, [
                 'label' => 'Num Devis',
                 'required' => false, // Ensure this field is not required
-                
 
             ])
             ->add('IdClient', IntegerType::class, [

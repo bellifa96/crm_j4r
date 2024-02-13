@@ -111,7 +111,7 @@ class CommandeController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                dd($cdeMatEnt);
+                 
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");
@@ -280,4 +280,35 @@ class CommandeController extends AbstractController
                return $this->json([]);
            }
        }
+
+
+       // affichage les commande Annuler 
+       #[Route('/commande_annuler', name: 'commande_annuler_affichage')]
+       public function affichage_commande_annuler(): Response
+       {
+           $agences = $this->agenceRepository->findAll();
+           return $this->render('commande/annuler_affichage.html.twig', [
+               'controller_name' => 'CommandeController',
+               'title' => 'Commandes Annuler',
+               'agences' => $agences,
+               'nav' => [['app_commande', 'Commande']],
+            ]);
+       }
+   
+       // getCommande  Annuler
+       #[Route('/get-commande-annuler', name: 'app_command_annuler_affichage')]
+       public function getCommandeAnnuler(Request $request)
+       {
+           try {
+               $id_depot = $request->query->get('selectedDepot');
+               $articles = $this->cdeMatEntRepository->listCommandebyIdDepotAnnuler($id_depot);
+               return $this->json($articles);
+           } catch (Exception $e) {
+   
+               return $this->json([]);
+           }
+       }
+       // fin  traitement Commande 
+
+
 }

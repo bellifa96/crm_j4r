@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Commandes
+	Commandes Annuler
 {% endblock %}
 
 {% block body %}
@@ -96,11 +96,7 @@
 					{% endfor %}
 				</select>
 				<select class="basic" id="depotSelect"></select>
-				 <button onclick="redirect_to_page_affiche_commande_annuler()" class="basic" style="background-color: #ccc; color: #333; border: 1px solid #333; padding: 5px 10px;">
-                     <span>
-                       Commande Annulé
-                    </span>
-                </button> 
+				
 
 				<button class="basic" id="creer" style="display:none;">
 					<span>
@@ -133,6 +129,8 @@
 					<th>Initiales</th>
 					<th>Code Chantier</th>
 					<th>Numéro Cloud</th>
+                    <th>Motif</th>
+
 					<th>Actions</th>
 					
 				</tr>
@@ -146,16 +144,10 @@
 let idCommandeActual = -1;
 
 	var dailog;
-
-	function redirect_to_page_affiche_commande_annuler() {
-		window.location.href = '/commande_annuler/' ;
-		}	
 function redirect_to_page_affiche_commande(idarticle) {
 window.location.href = '/edit-commande/' + idarticle;
 }
-function pdf(idarticle) {
-window.location.href = '/pdf-commande/' + idarticle;
-}
+
 function showCharacterLimitDialog() {
 dialog = $("#customDialog").dialog({
 autoOpen: false,
@@ -217,18 +209,7 @@ console.error('Error:', error);
 
 var commandeTable;
 
-$(document).ready(function () {
-    // Vérifiez si DataTable est déjà initialisé sur la table
-    if (!$.fn.DataTable.isDataTable('#commandeTable')) {
-        // Si DataTable n'est pas déjà initialisé, initialisez-le
-        commandeTable = $('#commandeTable').DataTable({
-            paging: true,
-            order: []
-        });
-    }
 
-    // Reste de votre code...
-});
 
 // Function to handle depot selection
 function handleCommandeSelection() {
@@ -252,7 +233,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 
 $.ajax({
 type: 'GET',
-url: '/get-commande',
+url: '/get-commande-annuler',
 data: {
 selectedDepot: selectedDepot
 },
@@ -273,9 +254,11 @@ console.log(commande);
 let action = '';
 
 if (codedepotValue != 1) {
-action += '<button class="btn btn-warning" style="font-size: 10px;"><i class="bi bi-file-pdf-fill" onclick="pdf(' + commande.id + ')" margin"></i></button> <button class="btn btn-secondary" style="font-size: 10px;" onclick="archive(' + commande.id + ')"><i class="bi bi-archive"  ></i></button>';
+action += '<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button>';
+}else{
+action +='<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button>';
+
 }
-action +='<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button> <button class="btn btn-secondary" style="font-size: 10px;" onclick="archive(' + commande.id + ')"><i class="bi bi-archive" ></i></button>';
 var newRow = [
 commande.NumDevis,
 commande.NomClient,
@@ -287,6 +270,7 @@ commande.PoidsTotMat,
 commande.Initiales,
 commande.CodeChantier,
 commande.numCloud,
+commande.Motif,
 action
 ];
 commandeTable.row.add(newRow);
@@ -310,65 +294,9 @@ handleCommandeSelection();
 });
 });
 
-function archiveCommande() {
- 
-console.log(idCommandeActual);
 
-let motif = document.getElementById("motif").value;
 
-console.log("motif" + motif);
-if (motif != "") {
-$.ajax({
-type: 'GET',
-url: '/annuler-commande',
-data: {
-motif: motif,
-idCommande: idCommandeActual
-},
-success: function (data) {
-console.log(data);
-if (data == 200) {
-dialog.dialog("close");
 
-document.getElementById("motif").value = "";
-window.location.reload();
-} else {
-dialog.dialog("close");
-document.getElementById("motif").value = "";
-}
-
-},
-error: function (error) {
-console.error('Error:', error);
-}
-});
-} else {
-showError("Motif est obligatoire");
-dialog.dialog("close");
-
-}
-
-}
-function showFunction() {
-$('.alert').addClass("show");
-$('.alert').removeClass("hide");
-$('.alert').addClass("showAlert");
-setTimeout(function () {
-$('.alert').removeClass("show");
-$('.alert').addClass("hide");
-}, 5000);
-}
-
-function showError(message) {
-document.getElementById("msgError").innerHTML = message;
-$('.alertError').addClass("show");
-$('.alertError').removeClass("hide");
-$('.alertError').addClass("showAlert");
-setTimeout(function () {
-$('.alertError').removeClass("show");
-$('.alertError').addClass("hide");
-}, 5000);
-}
 
 $(document).ready(function () { // Attach a click event to your button
 $("#creer").on("click", function () {
