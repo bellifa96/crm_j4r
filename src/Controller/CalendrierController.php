@@ -36,7 +36,7 @@ class CalendrierController extends AbstractController
     }
 
     
-  
+    // get Evenement entre deux Date
     #[Route('/event-date', name: 'app_event_date')]
     public function getEventByDate(Request $request): Response
     {
@@ -74,7 +74,7 @@ class CalendrierController extends AbstractController
         }
     }
 
-
+    /*
     #[Route('/token', name: 'token')]
     public function token(Request $request): Response
     {
@@ -144,5 +144,5 @@ class CalendrierController extends AbstractController
             dd($e->getMessage());
             return $this->json([]);
         }
-    }
+    }*/
 }

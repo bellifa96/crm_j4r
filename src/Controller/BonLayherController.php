@@ -79,6 +79,9 @@ class BonLayherController extends AbstractController
     }
 
 
+    /**
+     * get Articles Bon Layher et retourner poids Total Calculer de toutes les articles et  LayherTransport ces infos du transport check  Etatstransport pour voir les champs
+     */
     #[Route('/get-article-bon', name: 'app_bon_layher_article_num')]
     public function getArticleBonLayher(Request $request)
     {
@@ -104,7 +107,9 @@ class BonLayherController extends AbstractController
             return $this->json([]);
         }
     }
-
+    /**
+     * pour ouvrir le fichier du bonLayher
+     */
     #[Route('/bon-layher', name: 'app_bon_layher_pdf')]
     public function readPdfFile(Request $request)
     {

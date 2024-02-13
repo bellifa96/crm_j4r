@@ -8,41 +8,36 @@ use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
-
+/* OutlookService cette class pour communiquer avec microsoft 350 (Calendrier,SharePoint  .... )
+**/
 class OutlookService
 {
-    private $graph;
     private $client;
     private $accessToken;
     private $userId ; //depot@j4r.fr
 
 
 
-
-    public function __construct(private string $clientId, private string $clientSecret, 
-    private string $tenantId,
+    // injecter ParamAgenceRepository pour récuperer le token qui stocker sur Paramgence Table
+    public function __construct(
     private ParamAgenceRepository $paramAgenceRepository)
     {
         $this->client = HttpClient::create();
         $this->accessToken = '';
         $this->userId = "64b4f5f5-6741-4d7c-873c-0cdc64eff509";
     }
-    private function getAccessToken()
-    {
-        // Implement OAuth 2.0 authentication to get an access token.
-        // Use the league/oauth2-client or a similar library for handling OAuth.
-        // Return the access token obtained from the authentication process.
 
-        // Mocked access token for demonstration purposes.
-
-    }
+ 
 
 
+    /* cette methode pour recuperer les calendarEvents entre deux date
+    */
     public function getCalendarEvents($start, $end)
     {
-          
+        // récuperer token
         $this->accessToken = $this->paramAgenceRepository->getTokens();
-
+   
+        // id Calendar sur microsodt
         $calendarId = 'AAMkADU3MDRkNmI4LTM1NTUtNGNmMS1hMzEwLTBjOTYxMjU2M2ViMwAuAAAAAAAhabwJHj2dQbJDtMwJcRmzAQAK7FnT_2tgTaAsVzxSi0cLAACc8k4LAAA=';
         $startDateTime = $start . 'T00:00:00';
         $endDateTime = $end . 'T23:59:59';
@@ -64,7 +59,7 @@ class OutlookService
             return $data;
         } catch (ExceptionInterface $e) {
             // Handle exceptions
-            echo 'Error: ' . $e->getMessage();
+            return null;
         }
     }
     public function addEvents($sujet, $date_debut, $date_fin, $location, $attachmentPath,$categories)

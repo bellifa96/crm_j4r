@@ -15,6 +15,10 @@ use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * AgenceController Inject Agence Repository pour communiquer avec Base donnes directement parceque on a pas logiquer metier
+ * 
+ */
 class AgenceController extends AbstractController
 {
 
@@ -27,7 +31,9 @@ class AgenceController extends AbstractController
     }
 
 
-
+    /**
+     *  cette methode retourner la lister des agence et check user connecter si admin on donne la permission du supprission
+     */
     #[Route('/agence', name: 'app_agence')]
     public function index(Security $security): Response
     {
@@ -48,7 +54,7 @@ class AgenceController extends AbstractController
                 $admin = false;
             }
         }
-        
+
         return $this->render('agence/index.html.twig', [
             'controller_name' => 'AgenceController',
             'title' => '',
@@ -102,7 +108,7 @@ class AgenceController extends AbstractController
     {
 
         // on crééer un "nouveau Agence"
-      
+
 
         // Split the string into opening and closing times
         list($ouverture, $fermeture) = explode('-', $agence->getInfoouverture());
@@ -140,28 +146,30 @@ class AgenceController extends AbstractController
             'nav' => [['app_agence', 'Agences']]
         ]);
     }
-
+    
+    /**
+     * cette method supprimer la agence si y pas des mouvement dans la table retourner JSON AVEC CODE 200 sinon un code et msg
+     */
     #[Route('/delete_agence', name: 'delete_agence')]
-    public function delete_agence(Request $request,MouvementsRepository $mouvementsRepository)
+    public function delete_agence(Request $request, MouvementsRepository $mouvementsRepository)
     {
-       
+
         $idagence = $request->query->get('id');
 
         $agence = $this->agenceRepository->getAgenceById($idagence);
-        if($agence != null){
+        if ($agence != null) {
             $mouvements = $this->agenceRepository->getMouvementsByAgence($agence);
             $code = 205;
-            if(sizeof($mouvements) == 0){
-               $code =  $this->agenceRepository->deleteAgenceById($agence);
-                if($code  == 500 ){
+            if (sizeof($mouvements) == 0) {
+                $code =  $this->agenceRepository->deleteAgenceById($agence);
+                if ($code  == 500) {
                     $response = [
                         'code' => $code,
                         'msg' => "error",
                     ];
                     return new JsonResponse($response);
                 }
-            }else {
-                
+            } else {
             }
 
             $response = [
@@ -169,22 +177,13 @@ class AgenceController extends AbstractController
                 'msg' => "suppression impossible  car il existe des mouvements",
             ];
             return new JsonResponse($response);
-
-
-        }else{
+        } else {
             $response = [
                 'code' => 500,
                 'msg' => "agence n'exist pas",
             ];
-    
+
             return new JsonResponse($response);
         }
-
-
-
-        
-     
     }
-
-
 }

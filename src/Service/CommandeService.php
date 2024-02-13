@@ -35,7 +35,8 @@ class CommandeService
         $this->params = $params;
     }
 
-    // service qui fait importation commande windec soit save soit update sur databases on persist commande et les articles
+    /* service qui fait importation commande windec soit save soit update sur databases on persist commande et les articles
+     **/
 
     public function importationCommandeWindecParIdCommande($numCloud): int
     {

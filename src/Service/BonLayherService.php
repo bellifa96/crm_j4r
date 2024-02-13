@@ -18,14 +18,17 @@ class BonLayherService
 {
     private $params;
 
-    private $articlesRepository;
 
-
+    // injecter les BonsDetailsTempRepository pour communiquer avec DAO(Base de donnée)
     public function __construct(ParameterBagInterface $params, private BonsdetailstempRepository $bonsdetailstempRepository)
     {
         $this->params = $params;
     }
+  
 
+
+    // get bonLayherEntre deux Date avec numero d'affaire
+    // array_filter utilisation pour garder la performance
     public function getBonLayherEntreDeuxDate($datedu, $date_au,$numaffaire)
     {
         $dateduObj = DateTime::createFromFormat('Y-m-d', $datedu);

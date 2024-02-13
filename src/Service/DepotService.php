@@ -27,15 +27,20 @@ class DepotService
         $this->articlesRepository = $articlesRepository;
     }
 
+    /* cette fonction qui récuperer les articles depuis fichier xsl
+    ***
+    */
+
     public function article_layher_parser_file_xsl($file, $depots)
     {
+        // recuperer le fichier xsl
         $fileData = $this->params->get('kernel.project_dir') . '/public/data/' . $file;
         $spreadsheet = IOFactory::load($fileData);
         $feuille = $spreadsheet->getActiveSheet();
         $donnees = $feuille->toArray();
 
         $articles = []; // Tableau pour stocker les articles
-
+        // lire fichier
         foreach ($donnees as $ligne) {
             $articleData = [
                 'Article' => '',
@@ -67,6 +72,7 @@ class DepotService
         }
 
         $insertData = [];
+        // stocker les articles pour toutes dépots
         foreach ($depots as $depot) {
             $agence = $depot->getIdagence();
             foreach ($articles as $articleData) {
