@@ -62,6 +62,35 @@ class OutlookService
             return null;
         }
     }
+
+        // modifier IBM Validé 
+     public function changeEvent_To_IBMValid($events_id){
+        $this->accessToken = $this->paramAgenceRepository->getTokens();
+        $updatedEventData = array(
+            "subject" => "IBM validé"
+        );
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/events/".$events_id;
+        $response = $this->client->request('PATCH', $graphApiEndpoint, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $updatedEventData, // Send updated event data as JSON payload
+
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            // Event updated successfully
+            return true;
+        } else {
+            // Error updating event
+            return false;
+        }
+
+     }
+
+
+
     public function addEvents($sujet, $date_debut, $date_fin, $location, $attachmentPath,$categories)
     {
 
