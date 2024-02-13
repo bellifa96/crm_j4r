@@ -111,8 +111,7 @@ class CommandeController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
-
+                dd($cdeMatEnt);
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");
@@ -266,7 +265,7 @@ class CommandeController extends AbstractController
         }
     }
 
-       /** méthod pour récuperer les articles vente ou location   */
+       /** méthod pour annuler la commande on persist motif  */
        #[Route('/annuler-commande', name: 'annuler_commande')]
        public function annuler_commande(Request $request)
        {
