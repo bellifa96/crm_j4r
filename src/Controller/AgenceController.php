@@ -166,7 +166,7 @@ class AgenceController extends AbstractController
 
             $response = [
                 'code' => $code,
-                'msg' => "il existe des mouvements",
+                'msg' => "suppression impossible  car il existe des mouvements",
             ];
             return new JsonResponse($response);
 

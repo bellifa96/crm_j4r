@@ -173,7 +173,7 @@ class DepotController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/delete_depot', name: 'delete_agence')]
+    #[Route('/delete_depot', name: 'delete_depot')]
     public function delete_depot(Request $request,MouvementsRepository $mouvementsRepository)
     {
        
@@ -199,7 +199,7 @@ class DepotController extends AbstractController
 
             $response = [
                 'code' => $code,
-                'msg' => "il existe des mouvements",
+                'msg' => "suppression impossible  car il existe des mouvements",
             ];
             return new JsonResponse($response);
 
