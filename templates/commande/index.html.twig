@@ -247,7 +247,15 @@ selectedDepot: selectedDepot
 },
 success: function (data) {
 commandeTable.clear().draw();
-
+var options = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  hour12: false // Use 24-hour format
+};
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
 console.log(commande);
@@ -263,7 +271,7 @@ commande.NomClient,
 commande.NumAffaire,
 commande.AdresseChantier,
 commande.VilleChantier,
-new Date(commande.DateCde).toLocaleDateString(),
+new Date(commande.DateCde).toLocaleString('fr-FR', options),
 commande.PoidsTotMat,
 commande.Initiales,
 commande.CodeChantier,

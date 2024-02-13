@@ -41,8 +41,8 @@ class CdeMatEnt
     #[ORM\Column(length: 255)]
     private ?string $Commentaires = '';
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $DateCde = null;
+    #[ORM\Column(type: "datetime")]
+    private  $DateCde = null;
 
     #[ORM\Column(length: 8)]
     private ?string $DateCdeInv = '';
@@ -295,12 +295,12 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getDateCde(): ?\DateTimeInterface
+    public function getDateCde()
     {
         return $this->DateCde;
     }
 
-    public function setDateCde(\DateTimeInterface $DateCde): self
+    public function setDateCde($DateCde): self
     {
         $this->DateCde = $DateCde;
 

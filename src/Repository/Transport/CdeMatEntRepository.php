@@ -49,11 +49,12 @@ class CdeMatEntRepository extends ServiceEntityRepository
         
         $data =  $this->createQueryBuilder('c')
             ->andWhere('c.Iddepot = :Iddepot')
+            ->andWhere('c.Actif = true')
+
             ->setParameter('Iddepot', $Iddepot)
-            ->orderBy('c.DateCde', 'DESC') // Adding the ORDER BY clause
+            ->orderBy('c.DateCde', 'ASC') // Adding the ORDER BY clause
             ->getQuery()
             ->getResult();
-        dd($data);
         return $data;
     }
 
