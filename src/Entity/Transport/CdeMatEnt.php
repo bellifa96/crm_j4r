@@ -125,27 +125,30 @@ class CdeMatEnt
     #[ORM\Column(length: 8)]
     private ?string $Commentaires2 = '';
 
-    #[ORM\Column]
-    private ?int $Actif = 0;
+    #[ORM\Column(type:"boolean")]
+    private  $Actif ;
 
-    #[ORM\Column(length: 8)]
-    private ?string $Motif = '';
+    #[ORM\Column(type:"string" ,length: 1500)]
+    private  $Motif;
+
+    
+ 
 
 
-    public function getActif(): ?int {
+    public function getActif() {
         return $this->Actif;
     }
 
-    public function setActif(?int $Actif): void {
+    public function setActif($Actif): void {
         $this->Actif = $Actif;
     }
 
     // Getter and Setter for Motif
-    public function getMotif(): ?string {
+    public function getMotif() {
         return $this->Motif;
     }
 
-    public function setMotif(?string $Motif) {
+    public function setMotif( $Motif) {
         $this->Motif = $Motif;
     }
 
