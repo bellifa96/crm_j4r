@@ -17,34 +17,26 @@ Requirements
 Lancer Application
 ------------
 
-There are 3 different ways of installing this project depending on your needs:
-
-**Etape 1.** [Download Symfony CLI][4] and use the `symfony` binary installed
+**Etape 1.** [Compiler les ressources ][4] on a utilisé `webpack encore`
 on your computer to run this command:
 
 ```bash
-$ symfony new --demo my_project
+
+$ npm encore dev
+
 ```
 
-**Option 2.** [Download Composer][6] and use the `composer` binary installed
-on your computer to run these commands:
+**Etape 2.** [Download Composer][6] and use the `composer` 
+La commande composer init est utilisée pour créer un fichier composer.json qui est le fichier de configuration principal pour un projet PHP géré par Composer. Voici comment vous pouvez utiliser cette commande :
 
 ```bash
 # you can create a new project based on the Symfony Demo project...
-$ composer create-project symfony/symfony-demo my_project
+$ composer init
 
-# ...or you can clone the code repository and install its dependencies
-$ git clone https://github.com/symfony/demo.git my_project
-$ cd my_project/
-$ composer install
+
+
 ```
 
-**Option 3.** Click the following button to deploy this project on Platform.sh,
-the official Symfony PaaS, so you can try it without installing anything locally:
-
-<p align="center">
-<a href="https://console.platform.sh/projects/create-project?template=https://raw.githubusercontent.com/symfonycorp/platformsh-symfony-template-metadata/main/symfony-demo.template.yaml&utm_content=symfonycorp&utm_source=github&utm_medium=button&utm_campaign=deploy_on_platform"><img src="https://platform.sh/images/deploy/lg-blue.svg" alt="Deploy on Platform.sh" width="180px" /></a>
-</p>
 
 Usage
 -----
@@ -60,19 +52,3 @@ $ symfony server:start
 ```
 
 
-Tests
------
-
-Execute this command to run tests:
-
-```bash
-$ cd my_project/
-$ ./bin/phpunit
-```
-
-[1]: https://symfony.com/doc/current/best_practices.html
-[2]: https://symfony.com/doc/current/setup.html#technical-requirements
-[3]: https://symfony.com/doc/current/setup/web_server_configuration.html
-[4]: https://symfony.com/download
-[5]: https://symfony.com/book
-[6]: https://getcomposer.org/
