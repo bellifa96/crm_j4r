@@ -66,6 +66,30 @@ class CdeMatEntRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function annuler_commande($motif,$idCommande){
+        try{
+            $commande = $this->_em->getRepository(CdeMatEnt::class)->find($idCommande);
+
+            if (!$commande) {
+                throw $this->createNotFoundException(
+                    'No commande found for id '.$idCommande
+                );
+            }
+        
+            // Set the motif
+            $commande->setMotif($motif);
+        
+            // Change the actif status
+            $commande->setActif(false);
+        
+            // Persist the changes
+            $this->_em->flush();
+            return 200;
+        }catch(Exception $e){
+              return 500;
+        }
+      
+    }
 
     //    /**
     //     * @return CdeMatEnt[] Returns an array of CdeMatEnt objects

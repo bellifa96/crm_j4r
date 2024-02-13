@@ -265,4 +265,20 @@ class CommandeController extends AbstractController
             return $this->json([]);
         }
     }
+
+       /** méthod pour récuperer les articles vente ou location   */
+       #[Route('/annuler-commande', name: 'annuler_commande')]
+       public function annuler_commande(Request $request)
+       {
+           try {
+               $motif = $request->query->get('motif');
+               $idCommande = $request->query->get('idCommande');
+               $res = $this->cdeMatEntRepository->annuler_commande($motif,$idCommande);
+                
+               return new Response($res); // Assuming $res is a string or something that can be directly returned as a response
+            } catch (Exception $e) {
+   
+               return $this->json([]);
+           }
+       }
 }

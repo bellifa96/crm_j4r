@@ -25,6 +25,7 @@ class CommandeType extends AbstractType
             ->add('NumDevis', IntegerType::class, [
                 'label' => 'Num Devis',
                 'required' => false, // Ensure this field is not required
+                
 
             ])
             ->add('IdClient', IntegerType::class, [
@@ -61,7 +62,7 @@ class CommandeType extends AbstractType
                 'required' => false,
             ])
 
-            ->add('DateCde', DateType::class, [
+            ->add('DateCde', DateTimeType::class, [
                 'label' => 'Date de vérification de la grue',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
                 'html5' => true, // Enable HTML5 date and time input

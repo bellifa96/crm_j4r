@@ -114,8 +114,8 @@
 	<div id="overlay"></div>
 	<div id="customDialog" title="Custom Dialog" class="custom-dialog" style="display:none;">
 		<div class="divCommande" style="display: flex;">
-			<input type="number" id="idCommande" class="form-control" max="2">
-			<button class="btn btn-primary btnChargerCommande" onclick="chargerCommande()">Importation</button>
+			<input type="text" id="motif" class="form-control">
+			<button class="btn btn-primary btnChargerCommande" onclick="archiveCommande()">Archive</button>
 		</div>
 	</div>
 
@@ -143,6 +143,7 @@
 </div>
 
 <script>
+let idCommandeActual = -1;
 document.getElementById('DateDu').addEventListener('change', function () {
 var minDateDu = this.value;
 document.getElementById('DateAu').min = minDateDu;
@@ -168,7 +169,7 @@ width: 750, // Set the width to 160px
 buttons: {
 "Fermer": function () {
 $(this).dialog("close");
-document.getElementById("idCommande").value = 0;
+document.getElementById("motif").value = "";
 }
 },
 close: function () {
@@ -220,6 +221,19 @@ console.error('Error:', error);
 
 var commandeTable;
 
+$(document).ready(function () {
+    // Vérifiez si DataTable est déjà initialisé sur la table
+    if (!$.fn.DataTable.isDataTable('#commandeTable')) {
+        // Si DataTable n'est pas déjà initialisé, initialisez-le
+        commandeTable = $('#commandeTable').DataTable({
+            paging: true,
+            order: []
+        });
+    }
+
+    // Reste de votre code...
+});
+
 // Function to handle depot selection
 function handleCommandeSelection() {
 var selectedDepot = document.getElementById("depotSelect").value;
@@ -263,9 +277,9 @@ console.log(commande);
 let action = '';
 
 if (codedepotValue != 1) {
-action += '<i class="bi bi-file-pdf-fill" onclick="pdf(' + commande.id + ')" style="font-size: 15px"  style="font-size: 15px; margin"></i>';
+action += '<button class="btn btn-warning" style="font-size: 10px;"><i class="bi bi-file-pdf-fill" onclick="pdf(' + commande.id + ')" margin"></i></button> <button class="btn btn-secondary" style="font-size: 10px;"><i class="bi bi-archive" onclick="archive(' + commande.id + ')" ></i></button>';
 }
-action +='<i class="bi bi-pen" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" style="font-size: 15px"></i>';
+action +='<button class="btn btn-warning" style="font-size: 10px;"><i class="bi bi-pen" onclick="redirect_to_page_affiche_commande(' + commande.id + ')" ></i></button> <button class="btn btn-secondary" style="font-size: 10px;"><i class="bi bi-archive" onclick="archive(' + commande.id + ')" ></i></button>';
 var newRow = [
 commande.NumDevis,
 commande.NomClient,
@@ -300,27 +314,31 @@ handleCommandeSelection();
 });
 });
 
-function chargerCommande() {
+function archiveCommande() {
+ 
+console.log(idCommandeActual);
 
+let motif = document.getElementById("motif").value;
 
-let numCloud = document.getElementById("idCommande").value;
-if (numCloud != "") {
+console.log("motif" + motif);
+if (motif != "") {
 $.ajax({
 type: 'GET',
-url: '/search-commande',
+url: '/annuler-commande',
 data: {
-numCloud: numCloud
+motif: motif,
+idCommande: idCommandeActual
 },
 success: function (data) {
 console.log(data);
-if (data.code == 200) {
+if (data == 200) {
 dialog.dialog("close");
-showFunction();
-document.getElementById("idCommande").value = 0;
+
+document.getElementById("motif").value = "";
+window.location.reload();
 } else {
 dialog.dialog("close");
-showError(data.message);
-document.getElementById("idCommande").value = 0;
+document.getElementById("motif").value = "";
 }
 
 },
@@ -329,7 +347,7 @@ console.error('Error:', error);
 }
 });
 } else {
-showError("Numéro du cloud est obligatoire");
+showError("Motif est obligatoire");
 dialog.dialog("close");
 
 }
@@ -366,4 +384,34 @@ var redirectUrl = "/add-commande?depot=" + depot;
 window.location.href = redirectUrl;
 });
 });
+function archive(id){
+	idCommandeActual = id;
+dialog = $("#customDialog").dialog({
+autoOpen: false,
+modal: true,
+title: "Annuler la commande", // Set the custom title here
+width: 750, // Set the width to 160px
+buttons: {
+"Fermer": function () {
+$(this).dialog("close");
+document.getElementById("motif").value = 0;
+}
+},
+close: function () {
+$(this).dialog("option", "position", {
+my: "center",
+at: "center",
+of: window
+});
+$("#overlay").hide();
+},
+show: {
+closeButton: false
+}
+});
+
+// Show the overlay
+$("#overlay").show();
+dialog.dialog("open");
+}
 </script>{% endblock %}
