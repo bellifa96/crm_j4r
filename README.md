@@ -1,10 +1,11 @@
-Symfony Demo Application
+CRM J4R 
 ========================
 
 The "Symfony Demo Application" is a reference application created to show how
 to develop applications following the [Symfony Best Practices][1].
 
-You can also learn about these practices in [the official Symfony Book][5].
+
+L'application que nous avons développée repose sur une architecture à trois niveaux, également connue sous le nom d'architecture trois tiers. Ce modèle est composé de trois couches distinctes : la couche d'accès aux données (DAO), la couche métier (Business), et la couche de présentation. La couche DAO est responsable de l'accès aux données et de la manipulation de celles-ci au sein de la base de données. Elle offre une interface pour exécuter des requêtes et des opérations sur les données, tout en maintenant la séparation entre la logique métier et la logique d'accès aux données. La couche métier contient la logique métier de l'application. Elle traite les règles métier, effectue les calculs nécessaires et coordonne les interactions entre les différentes entités de l'application. Enfin, la couche de présentation est chargée de l'interface utilisateur. Elle gère l'affichage des données à l'utilisateur final et reçoit les entrées de celui-ci
 
 Requirements
 ------------
@@ -13,12 +14,12 @@ Requirements
   * PDO-SQLite PHP extension enabled;
   * and the [usual Symfony application requirements][2].
 
-Installation
+Lancer Application
 ------------
 
 There are 3 different ways of installing this project depending on your needs:
 
-**Option 1.** [Download Symfony CLI][4] and use the `symfony` binary installed
+**Etape 1.** [Download Symfony CLI][4] and use the `symfony` binary installed
 on your computer to run this command:
 
 ```bash
@@ -55,20 +56,9 @@ There's no need to configure anything before running the application. There are
 
 ```bash
 $ cd my_project/
-$ symfony serve
+$ symfony server:start  
 ```
 
-Then access the application in your browser at the given URL (<https://localhost:8000> by default).
-
-**Option 2.** Use a web server like Nginx or Apache to run the application
-(read the documentation about [configuring a web server for Symfony][3]).
-
-On your local machine, you can run this command to use the built-in PHP web server:
-
-```bash
-$ cd my_project/
-$ php -S localhost:8000 -t public/
-```
 
 Tests
 -----
