@@ -52,7 +52,7 @@ class CdeMatEntRepository extends ServiceEntityRepository
             ->andWhere('c.Actif = true')
 
             ->setParameter('Iddepot', $Iddepot)
-            ->orderBy('c.DateCde', 'ASC') // Adding the ORDER BY clause
+            ->orderBy('c.DateCde', 'DESC') // Adding the ORDER BY clause
             ->getQuery()
             ->getResult();
         return $data;
