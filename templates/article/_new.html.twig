@@ -3,84 +3,236 @@
 
 {{ form_start(form) }}
 
-{{ form_start(form) }}
+<div class="col-md-11 m-auto page-block mt-4">
+	<div class="societe">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						Article
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.article, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
 
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group">
-			{{ form_row(form.article, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.designation, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.prixvente, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.prixloc, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.poids, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-flex-container">
-			<div class="form-group">
-				{{ form_row(form.vente, {'attr': {'class': 'form-control'}}) }}
+					</div>
+				</div>
 			</div>
-			<div class="form-group">
-				{{ form_row(form.location, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="form-group">
-				{{ form_row(form.consommable, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="form-group">
-				{{ form_row(form.conditionnement, {'attr': {'class': 'form-control'}}) }}
-			</div>
-		</div>
 
-		<div class="form-group">
-			{{ form_row(form.qtetotale, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.qtedispo, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.qtesortie, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.qtereserve, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.qtetransit, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.qtetemp, {'attr': {'class': 'form-control'}}) }}
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						designation
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.designation, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						prixvente
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.prixvente, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						prixloc
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.prixloc, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						poids
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.poids, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						vente
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.vente, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+					<div class="col-md-3 text-end label">
+						location
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.location, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+					<div class="col-md-3 text-end label">
+						consommable
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.consommable, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+					<div class="col-md-3 text-end label">
+						conditionnement
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.conditionnement, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6"></div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						qtetotale
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.qtetotale, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						qtedispo
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.qtedispo, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						qtesortie
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.qtesortie, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						qtereserve
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						qtetransit
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.qtetransit, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						emplacement
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.emplacement, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						fournisseur
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						reffourn
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.reffourn, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						depot
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.depot, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						commentaires
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.commentaires, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+
+					<div class="col-md-9">
+						<button type="button" class="btn btn-light" id="incrementBtn">Regul +</button>
+						<button type="button" class="btn btn-light" id="decrementBtn">Regul -</button>
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
-
-	<div class="col-md-6">
-
-		<div class="form-group">
-			{{ form_row(form.emplacement, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.fournisseur, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.reffourn, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-
-		<div class="form-group">
-			{{ form_row(form.depot, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group">
-			{{ form_row(form.commentaires, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<button type="button" class="btn btn-light" id="incrementBtn">Regul +</button>
-		<button type="button" class="btn btn-light" id="decrementBtn">Regul -</button>
-	</div>
+	<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
 
 </div>
 
-<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
+
 {{ form_end(form) }}

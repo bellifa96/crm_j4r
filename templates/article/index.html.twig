@@ -112,9 +112,8 @@
 						<td>{{ article.qtereserve }}</td>
 						<td>{{ article.qtetransit }}</td>
 						<td>
-							<a href="{{ path('app_article_edit', {'id': article.idarticles }) }}" class="btn btn-warning">
+							<a href="{{ path('app_article_edit', {'id': article.idarticles }) }}" class="btn btn-warning" style="font-size:15px">
 								<i class="bi bi-pencil-fill"></i>
-								Edit
 							</a>
 						</td>
 					</tr>
@@ -166,7 +165,7 @@ article.qtedispo,
 article.qtesortie,
 article.qtereserve,
 article.qtetransit,
-'<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + article.idarticles + ')"><i class="bi bi-pencil-fill"></i>Edit</button>'
+'<a class="btn btn-warning" onclick="redirect_to_page_edit_article(' + article.idarticles + ')"><i class="bi bi-pencil-fill" style="font-size:10px" ></i></a>'
 ];
 articleTable.row.add(newRow);
 }

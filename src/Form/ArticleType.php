@@ -34,7 +34,6 @@ class ArticleType extends AbstractType
             ->add('qtesortie', IntegerType::class, ['label' => 'Quantité Sortie', 'disabled' => true])
             ->add('qtereserve', IntegerType::class, ['label' => 'Quantité Réservée', 'disabled' => true])
             ->add('qtetransit', IntegerType::class, ['label' => 'Quantité en Transit', 'disabled' => true])
-            ->add('qtetemp', IntegerType::class, ['label' => 'Quantité Temporaire', 'disabled' => true])
             ->add('commentaires', TextareaType::class, ['label' => 'Commentaires', 'disabled' => true])
             ->add('emplacement', TextType::class, ['label' => 'Emplacement', 'disabled' => true])
             ->add('fournisseur', TextType::class, ['label' => 'Fournisseur', 'disabled' => true])
