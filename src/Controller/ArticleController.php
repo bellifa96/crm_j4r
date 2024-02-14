@@ -7,6 +7,7 @@ use App\Form\ArticleType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
+use App\Repository\Depot\EtatEnCoursRepository;
 use App\Service\DepotService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,7 +23,9 @@ class ArticleController extends AbstractController
     private $depotService;
 
     private $articleRepository;
-    public function __construct(AgenceRepository $agenceRepository, DepotService $depotService, ArticleRepository $articleRepository)
+    public function __construct(AgenceRepository $agenceRepository, DepotService $depotService, ArticleRepository $articleRepository,
+    private EtatEnCoursRepository $etatEncoursRepository
+    )
     {
         $this->agenceRepository = $agenceRepository;
         $this->depotService = $depotService;
@@ -70,17 +73,21 @@ class ArticleController extends AbstractController
            $resulat = $this->articleRepository->add($article);
            if($resulat){
               $this->addFlash("success","l'article a été correctement modifiée");
-              return $this->redirectToRoute("app_agence");
+              return $this->redirectToRoute("app_article");
            }else{
 
            }
         }
-       
+        // on Recupere les affaires
+        $numaffaire = $this->etatEncoursRepository->getALLEtatEncoursbyactif();
+
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('article/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
             'title' => 'Modification Article',
+            'affaires' => $numaffaire,
+
             'nav' => [['app_article', 'Articles']]
         ]);
     }

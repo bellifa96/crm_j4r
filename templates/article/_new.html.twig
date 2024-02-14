@@ -2,7 +2,6 @@
 
 
 {{ form_start(form) }}
-
 <div class="col-md-11 m-auto page-block mt-4">
 	<div class="societe">
 		<div class="row">
@@ -221,9 +220,7 @@
 				<div class="col-md-12 row mt-3">
 
 					<div class="col-md-9">
-						<button type="button" class="btn btn-light" id="incrementBtn">Regul +</button>
-						<button type="button" class="btn btn-light" id="decrementBtn">Regul -</button>
-
+						<a href="#regulDiv" class="btn btn-success ml-2">Regul</a>
 					</div>
 				</div>
 			</div>
@@ -233,6 +230,81 @@
 	<button type="submit" class="btn btn-primary">{{ button_label|default("Ajouter") }}</button>
 
 </div>
+<style>
+	.hidden {
+		display: none;
+	}
+
+	.hidden:target {
+		display: block;
+	}
+</style>
+<div id="regulDiv" class="hidden">
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row form">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Num Affaire</label>
+						<select id="NumAffaire" name="NumAffaire" class="form-control form-control-sm-2 societe-input">
+							{% for affaire in affaires %}
+								<option value="{{affaire.id}}" {% if affaire.numaffaire == '10017WX' %} selected {% endif %}>{{affaire.numaffaire}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+
+					<div class="form-group">
+						<label for="DateDu" class="font-weight-bold">Date</label>
+						<input type="date" id="date" name="date" class="form-control form-control-sm-2 societe-input" value="{{ "now"|date("d-m-Y") }}">
+					</div>
+
+					<!-- Add similar blocks for other fields in the first column -->
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Type Regul</label>
+						<select id="typeRegul" name="typeRegul" class="form-control form-control-sm-2 societe-input">
+							<option value="1">Regul +</option>
+							<option value="2">Regul -</option>
+							<option value="3">Pertes sur chantier</option>
+							<option value="4">Pertes dans stock</option>
+							<option value="5">Vol sur chantier</option>
+							<option value="6">Vol sur dépôt</option>
+							<option value="7">Matériel HS chantier</option>
+							<option value="8">Matériel HS Dépôt</option>
+							<option value="9">Gains sur chantier</option>
+							<option value="10">Gains dépôt</option>
+						</select>
+					</div>
+
+					<div class="form-group" id="codeChantier" style="display:none;">
+						<label for="codeChantier" class="font-weight-bold">Code Chantier</label>
+						<input type="text" id="codeChantierInput" name="codeChantierInput" value="" class="form-control form-control-sm-2 societe-input required">
+					</div>
+					<!-- Add similar blocks for other fields in the second column -->
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Motif</label>
+						<textarea id="motif" name="motif" class="form-control form-control-sm-2 societe-input required"></textarea>
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Quantité</label>
+						<input type="number" id="quantité" name="quantité" value="0" class="form-control form-control-sm-2 societe-input required">
+					</div>
+
+
+
+					<!-- Add similar blocks for other fields in the third column -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{# voir la logique js du regul sur le fichier article/edit.html.twig #}
 
 
 {{ form_end(form) }}

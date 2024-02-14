@@ -22,4 +22,25 @@
 	<div class="back_data_afficher">
 		{% include "article/_new.html.twig" with {'button_label' : 'Modifier' }  %}
 	</div>
+
+	<script>
+		// check type Regul pour afficher
+$(document).ready(function () {
+$("#typeRegul").change(function () {
+var selectedValue = $(this).val();
+if (selectedValue == 3 || selectedValue == 5 || selectedValue == 7 || selectedValue == 9) {
+$("#codeChantier").show();
+} else {
+$("#codeChantier").hide();
+}
+});
+});
+
+// valider la formulaire du regul et stocker l'evenement
+
+// calculer la quantité
+
+
+//
+	</script>
 {% endblock %}
