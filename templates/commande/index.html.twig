@@ -258,17 +258,21 @@ selectedDepot: selectedDepot
 },
 success: function (data) {
 commandeTable.clear().draw();
+
 var options = {
   year: 'numeric',
   month: 'numeric',
   day: 'numeric',
   hour: 'numeric',
   minute: 'numeric',
-  second: 'numeric',
-  hour12: false, // Use 24-hour format
-  timeZoneName: 'short' // Display the time zone abbreviation
-
+  hour12: false // Use 24-hour format
 };
+
+var dateTimeString = '2024-02-13T17:00:08+01:00'; // Example datetime string
+var dateTime = new Date(dateTimeString);
+var formattedDateTime = new Intl.DateTimeFormat('fr-FR', options).format(dateTime);
+
+console.log(formattedDateTime);
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
 
