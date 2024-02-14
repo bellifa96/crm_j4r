@@ -8,10 +8,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						Article
+						{{ form_label(form.article) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.article, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.article, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -20,10 +21,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						designation
+						{{ form_label(form.designation) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.designation, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.designation, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -32,23 +34,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						prixvente
+						{{ form_label(form.prixvente) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.prixvente, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
-
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-md-6">
-				<div class="col-md-12 row mt-3">
-					<div class="col-md-3 text-end label">
-						prixloc
-					</div>
-					<div class="col-md-9">
-						{{ form_widget(form.prixloc, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.prixvente, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -58,10 +48,25 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						poids
+						{{ form_label(form.prixloc) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.poids, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.prixloc, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						{{ form_label(form.poids) }}
+
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.poids, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -70,31 +75,35 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						vente
+						{{ form_label(form.vente) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.vente, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.vente, {'attr': {'class': 'form-control form-control-sm-2 societe-input'}}) }}
 
 					</div>
 					<div class="col-md-3 text-end label">
-						location
+						{{ form_label(form.location) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.location, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.location, {'attr': {'class': 'form-control form-control-sm-2 societe-input'}}) }}
 
 					</div>
 					<div class="col-md-3 text-end label">
-						consommable
+						{{ form_label(form.consommable) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.consommable, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.consommable, {'attr': {'class': 'form-control form-control-sm-2 societe-input'}}) }}
 
 					</div>
 					<div class="col-md-3 text-end label">
-						conditionnement
+						{{ form_label(form.conditionnement) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.conditionnement, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.conditionnement, {'attr': {'class': 'form-control form-control-sm-2 societe-input'}}) }}
 
 					</div>
 				</div>
@@ -105,10 +114,10 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						qtetotale
+						{{ form_label(form.qtetotale) }}
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.qtetotale, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.qtetotale, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -116,10 +125,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						qtedispo
+						{{ form_label(form.qtedispo) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.qtedispo, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.qtedispo, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -128,10 +138,10 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						qtesortie
+						{{ form_label(form.qtesortie) }}
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.qtesortie, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.qtesortie, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -141,10 +151,10 @@
 				<div class="col-md-6">
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							qtereserve
+							{{ form_label(form.qtereserve) }}
 						</div>
 						<div class="col-md-9">
-							{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+							{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 						</div>
 					</div>
@@ -154,10 +164,10 @@
 				<div class="col-md-6">
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							qte Transit
+							{{ form_label(form.qtetransit) }}
 						</div>
 						<div class="col-md-9">
-							{{ form_widget(form.qtetransit, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+							{{ form_widget(form.qtetransit, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 						</div>
 					</div>
@@ -167,10 +177,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						Emplacement
+						{{ form_label(form.emplacement) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.emplacement, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.emplacement, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -178,10 +189,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						fournisseur
+						{{ form_label(form.fournisseur) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -189,10 +201,10 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						Réf fournisseur
+						{{ form_label(form.reffourn) }}
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.reffourn, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.reffourn, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -200,10 +212,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						depot
+						{{ form_label(form.depot) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.depot, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.depot, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -211,10 +224,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						commentaires
+						{{ form_label(form.commentaires) }}
+
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.commentaires, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+						{{ form_widget(form.commentaires, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -270,32 +284,35 @@
 						<select id="typeRegul" name="typeRegul" class="form-control form-control-sm-2 societe-input">
 							<option value="1">Regul +</option>
 							<option value="2">Regul -</option>
-							<option value="3">Pertes sur chantier</option>
+							{% if show == false %}
+								<option value="3">Pertes sur chantier</option>
+								<option value="5">Vol sur chantier</option>
+								<option value="7">Matériel HS chantier</option>
+								<option value="9">Gains sur chantier</option>
+							{% endif %}
+
 							<option value="4">Pertes dans stock</option>
-							<option value="5">Vol sur chantier</option>
 							<option value="6">Vol sur dépôt</option>
-							<option value="7">Matériel HS chantier</option>
 							<option value="8">Matériel HS Dépôt</option>
-							<option value="9">Gains sur chantier</option>
 							<option value="10">Gains dépôt</option>
 						</select>
 					</div>
 
 					<div class="form-group" id="codeChantier" style="display:none;">
 						<label for="codeChantier" class="font-weight-bold">Code Chantier</label>
-						<input type="text" id="codeChantierInput" name="codeChantierInput" value="" class="form-control form-control-sm-2 societe-input required">
+						<input type="text" id="codeChantierInput" name="codeChantierInput" value="" class="form-control form-control-sm-2 societe-input ">
 					</div>
 					<!-- Add similar blocks for other fields in the second column -->
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Motif</label>
-						<textarea id="motif" name="motif" class="form-control form-control-sm-2 societe-input required"></textarea>
+						<textarea id="motif" name="motif" class="form-control form-control-sm-2 societe-input "></textarea>
 					</div>
 
 					<div class="form-group" id="qte">
 						<label for="codeChantier" class="font-weight-bold">Quantité</label>
-						<input type="number" id="quantité" name="quantité" value="0" class="form-control form-control-sm-2 societe-input required">
+						<input type="number" id="quantité" name="quantité" value="0" class="form-control form-control-sm-2 societe-input ">
 					</div>
 
 

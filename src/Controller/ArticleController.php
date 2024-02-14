@@ -64,15 +64,18 @@ class ArticleController extends AbstractController
     #[Route('/edit-article/{id}', name: 'app_article_edit')]
     public function editArticle(Articles $article, Request $request)
     {
-        $form = $this->createForm(ArticleType::class, $article);
+        
 
 
         // contraint sur affichage des champs chaque type du depot
-
         $show = true;
         if ($article->getDepot()->getCodedepot() == 1) {
             $show = false;
         }
+
+        $form = $this->createForm(ArticleType::class, $article , [
+            'show' => $show, // Pass the Doctrine service to the form
+        ]);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
