@@ -190,6 +190,7 @@ data: {
 selectedAgence: selectedAgence
 },
 success: function (data) {
+data = data.depot;
 var select = $('#depotSelect');
 select.empty();
 // Clear existing options
