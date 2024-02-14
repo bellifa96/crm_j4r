@@ -136,35 +136,38 @@
 					</div>
 				</div>
 			</div>
+			{% if show == true %}
 
-			<div class="col-md-6">
-				<div class="col-md-12 row mt-3">
-					<div class="col-md-3 text-end label">
-						qtereserve
-					</div>
-					<div class="col-md-9">
-						{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							qtereserve
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
 
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-md-6">
-				<div class="col-md-12 row mt-3">
-					<div class="col-md-3 text-end label">
-						qtetransit
-					</div>
-					<div class="col-md-9">
-						{{ form_widget(form.qtetransit, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
-
+						</div>
 					</div>
 				</div>
-			</div>
+
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							qte Transit
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.qtetransit, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
+
+						</div>
+					</div>
+				</div>
+			{% endif %}
+
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						emplacement
+						Emplacement
 					</div>
 					<div class="col-md-9">
 						{{ form_widget(form.emplacement, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
@@ -186,7 +189,7 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						reffourn
+						Réf fournisseur
 					</div>
 					<div class="col-md-9">
 						{{ form_widget(form.reffourn, {'attr': {'class': 'form-control form-control-sm-2 societe-input required'}}) }}
@@ -294,7 +297,6 @@
 						<label for="codeChantier" class="font-weight-bold">Quantité</label>
 						<input type="number" id="quantité" name="quantité" value="0" class="form-control form-control-sm-2 societe-input required">
 					</div>
-
 
 
 					<!-- Add similar blocks for other fields in the third column -->
