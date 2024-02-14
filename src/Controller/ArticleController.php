@@ -42,7 +42,7 @@ class ArticleController extends AbstractController
 
         return $this->render('article/index.html.twig', [
             'controller_name' => 'DepotController',
-            'title' => '',
+            'title' => 'Stock articles',
             'agences' => $agences,
             'articles'=> $articles,
             'nav' => []
