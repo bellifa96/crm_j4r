@@ -265,11 +265,13 @@ var options = {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-  hour12: false // Use 24-hour format
+  hour12: false, // Use 24-hour format
+  timeZoneName: 'short' // Display the time zone abbreviation
+
 };
 for (var i = 0; i < data.length; i++) {
 var commande = data[i];
-console.log(commande);
+
 let action = '';
 
 if (codedepotValue != 1) {
