@@ -131,7 +131,17 @@ class CdeMatEnt
     #[ORM\Column(type:"string" ,length: 1500)]
     private  $Motif;
 
-    
+    #[ORM\Column(type:"string")]
+    private $Idcalendar;
+
+
+    public function getIdCalendar() {
+        return $this->Idcalendar;
+    }
+
+    public function setIdCalendar($Idcalendar) {
+        $this->Idcalendar = $Idcalendar;
+    }
  
 
 

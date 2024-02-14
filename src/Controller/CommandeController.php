@@ -10,6 +10,7 @@ use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
+use App\Service\OutlookService;
 use App\Service\PdfService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +33,9 @@ class CommandeController extends AbstractController
         private DepotRepository $depotRepository,
         private ArticleRepository $articleRepository,
         private PdfService $pdfService,
-        private Environment $environment
+        private Environment $environment,
+        private OutlookService $outlookService
+
     ) {
         $this->agenceRepository = $agenceRepository;
     }
@@ -111,8 +114,12 @@ class CommandeController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                 
+                
+               
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
+                if (($cdeMatEnt->getNumErpLocation() != null  || $cdeMatEnt->getNumErpVente() != null) && $cdeMatEnt->getIdCalendar() != null){
+                    $res =  $this->outlookService->changeEvent_To_IBMValid($cdeMatEnt->getIdCalendar());
+                }
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");
                 } else {

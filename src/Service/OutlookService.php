@@ -66,8 +66,9 @@ class OutlookService
         // modifier IBM Validé 
      public function changeEvent_To_IBMValid($events_id){
         $this->accessToken = $this->paramAgenceRepository->getTokens();
+        $categories = "IBM validé";
         $updatedEventData = array(
-            "subject" => "IBM validé"
+            'categories' => [$categories], // Add the etiquette as a category
         );
         $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/events/".$events_id;
         $response = $this->client->request('PATCH', $graphApiEndpoint, [
