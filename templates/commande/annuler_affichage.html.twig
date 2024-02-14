@@ -98,11 +98,6 @@
 				<select class="basic" id="depotSelect"></select>
 				
 
-				<button class="basic" id="creer" style="display:none;">
-					<span>
-						Créer
-					</span>
-				</button>
 
 			</div>
 		</div>
@@ -216,13 +211,7 @@ function handleCommandeSelection() {
 var selectedDepot = document.getElementById("depotSelect").value;
 var selectedOption = document.getElementById("depotSelect").options[document.getElementById("depotSelect").selectedIndex];
 var codedepotValue = selectedOption.getAttribute("code");
-if (codedepotValue != 1) {
-document.getElementById("creer").style.display = "block";
 
-} else {
-document.getElementById("creer").style.display = "none";
-
-}
 $('#commandeTable').DataTable().destroy();
 
 if ($.fn.DataTable.isDataTable('#commandeTable')) {
@@ -299,14 +288,7 @@ handleCommandeSelection();
 
 
 $(document).ready(function () { // Attach a click event to your button
-$("#creer").on("click", function () {
-var depot = document.getElementById("depotSelect").value;
 
-var redirectUrl = "/add-commande?depot=" + depot;
-
-
-window.location.href = redirectUrl;
-});
 });
 function archive(id){
 	idCommandeActual = id;

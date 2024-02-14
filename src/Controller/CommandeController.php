@@ -296,7 +296,7 @@ class CommandeController extends AbstractController
            $agences = $this->agenceRepository->findAll();
            return $this->render('commande/annuler_affichage.html.twig', [
                'controller_name' => 'CommandeController',
-               'title' => 'Commandes Annuler',
+               'title' => 'Commandes Annulées',
                'agences' => $agences,
                'nav' => [['app_commande', 'Commande']],
             ]);
