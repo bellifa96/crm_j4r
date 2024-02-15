@@ -67,7 +67,7 @@ class ArticleController extends AbstractController
         
 
 
-        // contraint sur affichage des champs chaque type du depot
+        // contraint sur affichage des champs chaque type du depot depot codeDEPOT = 1 = layher
         $show = true;
         if ($article->getDepot()->getCodedepot() == 1) {
             $show = false;

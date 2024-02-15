@@ -47,11 +47,11 @@ class ArticleType extends AbstractType
                 'label' => 'Dépôt',
                 'disabled' => true,
             ]);
-            // affichage ca depand le depot choisi 
+            // affichage ca depand le depot choisi lagny = 2
             if ($this->show) {
                 $builder->add('qtetransit', IntegerType::class, ['label' => 'Quantité en Transit', 'disabled' => true])
                 ->add('qtereserve', IntegerType::class, ['label' => 'Quantité Réservée', 'disabled' => true])
-                ->add('qtetotale', IntegerType::class, ['label' => 'Quantité Totale', 'disabled' => false]);
+                ->add('qtetotale', IntegerType::class, ['label' => 'Seuil de réassort', 'disabled' => false]);
 
             }else{
                 $builder->add('qtetotale', IntegerType::class, ['label' => 'Quantité Totale', 'disabled' => true]);

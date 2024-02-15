@@ -123,13 +123,14 @@
 				</div>
 			</div>
 			<div class="col-md-6">
+
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						{{ form_label(form.qtedispo) }}
+						{{ form_label(form.depot) }}
 
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.qtedispo, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+						{{ form_widget(form.depot, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -149,12 +150,14 @@
 			{% if show == true %}
 
 				<div class="col-md-6">
+
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							{{ form_label(form.qtereserve) }}
+							{{ form_label(form.fournisseur) }}
+
 						</div>
 						<div class="col-md-9">
-							{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+							{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 						</div>
 					</div>
@@ -189,11 +192,10 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						{{ form_label(form.fournisseur) }}
-
+						{{ form_label(form.qtereserve) }}
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+						{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -212,11 +214,11 @@
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
-						{{ form_label(form.depot) }}
+						<span class="bold-text">{{ form_label(form.qtedispo) }}</span>
 
 					</div>
 					<div class="col-md-9">
-						{{ form_widget(form.depot, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+						{{ form_widget(form.qtedispo, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
 					</div>
 				</div>
@@ -291,8 +293,8 @@
 								<option value="9">Gains sur chantier</option>
 							{% endif %}
 
-							<option value="4">Pertes dans stock</option>
-							<option value="6">Vol sur dépôt</option>
+							<option value="4">Pertes  stock</option>
+							<option value="6">Vol  dépôt</option>
 							<option value="8">Matériel HS Dépôt</option>
 							<option value="10">Gains dépôt</option>
 						</select>
