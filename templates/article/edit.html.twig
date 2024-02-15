@@ -18,16 +18,16 @@
 			margin-right: 10px; /* Optional: Add some spacing between form elements */
 		}
 		.bold-text {
-            font-weight: bold;
-        }
+			font-weight: bold;
+		}
 	</style>
+<div class="back_data_afficher">
+<input style="display:none;" type="number" id="idArticle" value="{{article}}" />
+	{% include "article/_new.html.twig" with {'button_label' : 'Modifier' }  %}
+</div>
 
-	<div class="back_data_afficher">
-		{% include "article/_new.html.twig" with {'button_label' : 'Modifier' }  %}
-	</div>
-
-	<script>
-		// check type Regul pour afficher
+<script>
+	// check type Regul pour afficher
 $(document).ready(function () {
 $("#typeRegul").change(function () {
 var selectedValue = $(this).val();
@@ -39,11 +39,83 @@ $("#codeChantier").hide();
 });
 });
 
+
 // valider la formulaire du regul et stocker l'evenement
+$(document).ready(function () {
+$("#addMouvement").click(function () { // Get the values of the input fields
+var numAffaire = $("#NumAffaire").val();
+var date = $("#date").val();
+var typeRegul = $("#typeRegul").val();
+var codeChantierInput = $("#codeChantierInput").val();
+var motif = $("#motif").val();
+var quantite = $("#quantité").val();
+var idArticle = $("#idArticle").val();
+var depot = $("#article_depot").val();
+
+// Do something with the values (for example, display them in the console)
+console.log("Num Affaire: " + numAffaire);
+console.log("Date: " + date);
+console.log("Type Regul: " + typeRegul);
+console.log("Code Chantier: " + codeChantierInput);
+console.log("Motif: " + motif);
+console.log("Quantité: " + quantite);
+console.log("idArticle: " + idArticle);
+
+
+   // Perform validation
+   if (numAffaire === "" || date === "" || typeRegul === "" || quantite === "" || idArticle === "") {
+	alert("Entrez toutes les champs");
+	return; // Exit the function if validation fails
+}
+
+// Validation for specific fields if needed
+if (isNaN(quantite) || quantite == 0) {
+	alert("Quantite ne doit pas egale a 0 ");
+	return;
+}
+
+
+// Create JSON object with the data
+
+var jsonData = {
+numAffaire: numAffaire,
+date: date,
+typeRegul: typeRegul,
+codeChantierInput: codeChantierInput,
+motif: motif,
+quantite: quantite,
+idArticle: idArticle,
+depot:depot
+
+};
+ajouterMouvement(jsonData);
+// You can then proceed to send these values to the server using AJAX or perform any other action as needed.
+});
+});
+// add Mouvement requete jquery
+function ajouterMouvement(jsonData) {
+
+$.ajax({
+type: "POST",
+url: "/mouvements",
+contentType: "application/json",
+data: JSON.stringify(jsonData),
+success: function (response) { // Handle success response
+if(response == 200){
+console.log("Success:", response);
+location.reload();
+}
+
+},
+error: function (xhr, status, error) { // Handle error response
+console.error("Error:", error);
+}
+});
+}
+
 
 // calculer la quantité
 
 
 //
-	</script>
-{% endblock %}
+</script>{% endblock %}

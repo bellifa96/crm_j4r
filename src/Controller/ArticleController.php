@@ -64,7 +64,7 @@ class ArticleController extends AbstractController
     #[Route('/edit-article/{id}', name: 'app_article_edit')]
     public function editArticle(Articles $article, Request $request)
     {
-        
+
 
 
         // contraint sur affichage des champs chaque type du depot depot codeDEPOT = 1 = layher
@@ -73,7 +73,7 @@ class ArticleController extends AbstractController
             $show = false;
         }
 
-        $form = $this->createForm(ArticleType::class, $article , [
+        $form = $this->createForm(ArticleType::class, $article, [
             'show' => $show, // Pass the Doctrine service to the form
         ]);
 
@@ -100,7 +100,7 @@ class ArticleController extends AbstractController
             'title' => 'Modification Article',
             'affaires' => $numaffaire,
             'show' => $show,
-
+            'article' => $article->getIdarticles(),
             'nav' => [['app_article', 'Articles']]
         ]);
     }

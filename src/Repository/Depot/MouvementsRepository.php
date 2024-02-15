@@ -25,7 +25,14 @@ class MouvementsRepository extends ServiceEntityRepository
 
         $this->em = $entityManager;
     }
+ 
+    public function add(Mouvements $mouvements)
+    {
+        $this->_em->persist($mouvements);
 
+        $this->_em->flush();
+        return true;
+    }
 
     /*
     * cette methode pour récuperer toute les depots

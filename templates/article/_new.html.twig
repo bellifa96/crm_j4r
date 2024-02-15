@@ -261,6 +261,11 @@
 		display: block;
 	}
 </style>
+
+{# voir la logique js du regul sur le fichier article/edit.html.twig #}
+
+
+{{ form_end(form) }}
 <div id="regulDiv" class="hidden">
 	<div class="col-md-11 m-auto page-block mt-4">
 		<div class="societe">
@@ -270,7 +275,7 @@
 						<label for="NumAffaire" class="font-weight-bold">Num Affaire</label>
 						<select id="NumAffaire" name="NumAffaire" class="form-control form-control-sm-2 societe-input">
 							{% for affaire in affaires %}
-								<option value="{{affaire.id}}" {% if affaire.numaffaire == '10017WX' %} selected {% endif %}>{{affaire.numaffaire}}</option>
+								<option value="{{affaire.numaffaire}}" {% if affaire.numaffaire == '10017WX' %} selected {% endif %}>{{affaire.numaffaire}}</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -278,7 +283,7 @@
 
 					<div class="form-group">
 						<label for="DateDu" class="font-weight-bold">Date</label>
-						<input type="date" id="date" name="date" class="form-control form-control-sm-2 societe-input" value="{{ "now"|date("d-m-Y") }}">
+						<input type="date" id="date" name="date" class="form-control form-control-sm-2 societe-input" value="{{ "now"|date("d/m/Y") }}">
 					</div>
 
 					<!-- Add similar blocks for other fields in the first column -->
@@ -324,11 +329,7 @@
 					<!-- Add similar blocks for other fields in the third column -->
 				</div>
 			</div>
+			<button class="btn btn-light" id="addMouvement">Ajouter</button>
 		</div>
 	</div>
 </div>
-
-{# voir la logique js du regul sur le fichier article/edit.html.twig #}
-
-
-{{ form_end(form) }}

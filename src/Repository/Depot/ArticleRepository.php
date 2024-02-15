@@ -36,6 +36,7 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->flush();
         return true;
     }
+    
 
     public function findAllbyIdDepot($iddepotId)
     {
@@ -50,6 +51,21 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $depotsbyid;
     }
+
+    public function findArticleByIdArticle($article)
+    {
+
+        $articles = $this->_em->createQueryBuilder()
+            ->select("article")
+            ->from(Articles::class, 'article')
+            ->where('article.idarticles = :idarticles')
+            ->setParameter('idarticles', $article)
+            ->getQuery()
+            ->getResult();
+
+        return $articles;
+    }
+
 
     public function findAll_article_désignation_byIdDepot($iddepotId,$type=1)
     {

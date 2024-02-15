@@ -7,26 +7,23 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MouvementsRepository::class)]
 #[ORM\Table(name: "Mouvements")]
-
 class Mouvements
 {
     #[ORM\Id]
-    #[ORM\Column(name: "IdMouvements", type: "bigint")]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    private $IdMouvements;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'bigint')]
+    private $idmouvements;
 
     #[ORM\Column(type: 'string')]
-
     private $article;
 
     #[ORM\Column(type: 'string')]
-
     private $commentaires;
 
-    #[ORM\Column(type: 'boolean')]
-
+    #[ORM\Column(type: 'integer')]
     private $sens;
 
+    
     #[ORM\Column(type: 'integer')]
 
     private $numdevis;
@@ -47,29 +44,33 @@ class Mouvements
     private $qteloclayher;
 
     #[ORM\Column(type: 'string')]
+
     private $numbonlayher;
 
     #[ORM\Column(type: 'string')]
+
     private $typemouvlayher;
 
     #[ORM\Column(type: 'integer')]
 
     private $numerp;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
+
     private $datemouvlayher;
 
     #[ORM\Column(type: 'string')]
+
     private $datemouvlayherinv;
 
     #[ORM\Column(type: 'integer')]
     private $qtelocj4r;
 
     #[ORM\Column(type: 'string')]
+
     private $numbonj4r;
 
     #[ORM\Column(type: 'integer')]
-
     private $typemouvj4r;
 
     #[ORM\Column(type: 'date')]
@@ -77,6 +78,7 @@ class Mouvements
     private $datemouvj4r;
 
     #[ORM\Column(type: 'string')]
+
     private $datemouvj4rinv;
 
     #[ORM\Column(type: 'boolean')]
@@ -88,11 +90,9 @@ class Mouvements
     private $prixvente;
 
     #[ORM\Column(type: 'decimal')]
-
     private $prixloc;
 
     #[ORM\Column(type: 'string')]
-
     private $numboncamion;
 
     #[ORM\Column(type: 'date')]
@@ -103,25 +103,17 @@ class Mouvements
 
     private $datemouvinv;
 
-    #[ORM\ManyToOne(targetEntity: Depot::class, inversedBy: 'depotMouvement')]
-    #[ORM\JoinColumn(nullable: false, name: "iddepot", referencedColumnName: "iddepot")]
-    private $iddepot;
-    
-    #[ORM\ManyToOne(targetEntity: Agence::class, inversedBy: 'agencebyMouvement')]
-    #[ORM\JoinColumn(nullable: false, name: "idagence", referencedColumnName: "idagence")]
+    #[ORM\ManyToOne(targetEntity:Agence::class, inversedBy: 'agences')]
+    #[ORM\JoinColumn(name:'idagence', referencedColumnName:'idagence')]
     private $idagence;
 
+    #[ORM\ManyToOne(targetEntity:Depot::class, inversedBy: 'depots')]
+    #[ORM\JoinColumn(name:'iddepot', referencedColumnName:'iddepot')]
+    private $iddepot;
 
     public function getIdmouvements(): ?int
     {
-        return $this->IdMouvements;
-    }
-
-    public function setIdmouvements(int $idmouvements): self
-    {
-        $this->IdMouvements = $idmouvements;
-
-        return $this;
+        return $this->idmouvements;
     }
 
     public function getArticle(): ?string
@@ -148,12 +140,12 @@ class Mouvements
         return $this;
     }
 
-    public function getSens(): ?bool
+    public function getSens(): ?int
     {
         return $this->sens;
     }
 
-    public function setSens(bool $sens): self
+    public function setSens(int $sens): self
     {
         $this->sens = $sens;
 
@@ -412,6 +404,18 @@ class Mouvements
         return $this;
     }
 
+    public function getIdagence(): ?Agence
+    {
+        return $this->idagence;
+    }
+
+    public function setIdagence(?Agence $idagence): self
+    {
+        $this->idagence = $idagence;
+
+        return $this;
+    }
+
     public function getIddepot(): ?Depot
     {
         return $this->iddepot;
@@ -424,15 +428,5 @@ class Mouvements
         return $this;
     }
 
-    public function getIdagence(): ?Agence
-    {
-        return $this->idagence;
-    }
 
-    public function setIdagence(?Agence $idagence): self
-    {
-        $this->idagence = $idagence;
-
-        return $this;
-    }
 }
