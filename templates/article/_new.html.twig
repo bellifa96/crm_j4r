@@ -147,23 +147,23 @@
 					</div>
 				</div>
 			</div>
-			{% if show == true %}
 
-				<div class="col-md-6">
 
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-3 text-end label">
-							{{ form_label(form.fournisseur) }}
+			<div class="col-md-6">
 
-						</div>
-						<div class="col-md-9">
-							{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+				<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						{{ form_label(form.fournisseur) }}
 
-						</div>
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.fournisseur, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+
 					</div>
 				</div>
+			</div>
 
-
+			{% if show == true %}
 				<div class="col-md-6">
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
@@ -189,17 +189,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="col-md-12 row mt-3">
-					<div class="col-md-3 text-end label">
-						{{ form_label(form.qtereserve) }}
-					</div>
-					<div class="col-md-9">
-						{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
+			{% if show == true %}
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-3 text-end label">
+							{{ form_label(form.qtereserve) }}
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.qtereserve, {'attr': {'class': 'form-control form-control-sm-2 societe-input '}}) }}
 
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
+
 			<div class="col-md-6">
 				<div class="col-md-12 row mt-3">
 					<div class="col-md-3 text-end label">
