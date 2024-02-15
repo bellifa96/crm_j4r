@@ -37,7 +37,7 @@ class MouvementsController extends AbstractController
                 break;
                 // Add more cases as needed
             case 2:
-                $code = $this->mouvementsService->regulLayerPlus($data);
+                $code = $this->mouvementsService->regulMoinsDepot($data);
                 break;
         }
 
