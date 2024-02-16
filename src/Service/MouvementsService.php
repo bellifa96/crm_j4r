@@ -26,7 +26,7 @@ class MouvementsService
 
     public function regulPlusDepot($data)
     {
-        if ($data["depot"]  == 11) {
+        if ($data["depot"]  == 1) {
             return $this->regulLayerPlus($data);
         } else {
             return  $this->regulLagnyPlus($data);

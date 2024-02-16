@@ -22,6 +22,12 @@
 		}
 	</style>
 <div class="back_data_afficher">
+{% if show == false %}
+<input type="number" value="1" id="iddepots" />
+{% endif %}
+{% if show == true %}
+<input type="number" value="2" id="iddepots" />
+{% endif %}
 <input style="display:none;" type="number" id="idArticle" value="{{article}}" />
 	{% include "article/_new.html.twig" with {'button_label' : 'Modifier' }  %}
 </div>
@@ -50,7 +56,7 @@ var codeChantierInput = $("#codeChantierInput").val();
 var motif = $("#motif").val();
 var quantite = $("#quantité").val();
 var idArticle = $("#idArticle").val();
-var depot = $("#article_depot").val();
+var depot = $("#iddepots").val();
 
 // Do something with the values (for example, display them in the console)
 console.log("Num Affaire: " + numAffaire);
