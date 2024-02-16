@@ -255,10 +255,14 @@ class MouvementsService
                 ->setIndice(0)
                 ->setCodechantier($article->getDepot()->getCodechantier());
 
-            $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), 10, 20);
+                $res = $this->depotRepository->getDepotsByAgenceId_CodeChantier($article->getIdagence(),1);
+
+                $idDepotLayher = $res[0]["iddepot"];
+    
+    
+                $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), $idDepotLayher, $article->getQtetotale() - $data["quantite"]);
 
             // Update article quantity enlever quantite sur layher
-            $article->setQtetotale($article->getQtetotale() - $data["quantite"]);
 
             $article->setQtedispo($article->getQtedispo() - $data["quantite"]);
 
