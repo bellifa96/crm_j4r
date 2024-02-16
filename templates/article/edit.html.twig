@@ -23,10 +23,10 @@
 	</style>
 <div class="back_data_afficher">
 {% if show == false %}
-<input type="number" value="1" id="iddepots" />
+<input type="number" value="1" id="iddepots" style="display:none;" />
 {% endif %}
 {% if show == true %}
-<input type="number" value="2" id="iddepots" />
+<input type="number" value="2" id="iddepots" style="display:none;" />
 {% endif %}
 <input style="display:none;" type="number" id="idArticle" value="{{article}}" />
 	{% include "article/_new.html.twig" with {'button_label' : 'Modifier' }  %}
