@@ -36,7 +36,7 @@ class ArticleRepository extends ServiceEntityRepository
         $this->_em->flush();
         return true;
     }
-    
+
 
     public function findAllbyIdDepot($iddepotId)
     {
@@ -67,33 +67,33 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
 
-    public function findAll_article_désignation_byIdDepot($iddepotId,$type=1)
+    public function findAll_article_désignation_byIdDepot($iddepotId, $type = 1)
     {
 
-        if($type==1){
+        if ($type == 1) {
             $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
-            ->from(Articles::class, 'article')
-            ->where('article.depot = :depotId')
-            ->andWhere('article.location = 1')
-            ->setParameter('depotId', $iddepotId)
-            ->getQuery()
-            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
-        }else{
+                ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
+                ->from(Articles::class, 'article')
+                ->where('article.depot = :depotId')
+                ->andWhere('article.location = 1')
+                ->setParameter('depotId', $iddepotId)
+                ->getQuery()
+                ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+        } else {
             $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
-            ->from(Articles::class, 'article')
-            ->where('article.depot = :depotId')
-            ->andWhere('article.vente = 1')
-            ->setParameter('depotId', $iddepotId)
-            ->getQuery()
-            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+                ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids')
+                ->from(Articles::class, 'article')
+                ->where('article.depot = :depotId')
+                ->andWhere('article.vente = 1')
+                ->setParameter('depotId', $iddepotId)
+                ->getQuery()
+                ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
         }
-    
+
 
         return $depotsbyid;
     }
-    
+
     public function findAll_article_bydésignation($iddepotId, $article)
     {
 
@@ -151,6 +151,21 @@ class ArticleRepository extends ServiceEntityRepository
 
         $qb->getQuery()->execute();
         $this->getEntityManager()->flush();
+    }
 
+    public function updateQteTotaleLayher($idAgence, $iddepot, $newValue)
+    {
+         $queryBuilder = $this->createQueryBuilder('article');
+        $queryBuilder->update()
+            ->set('article.qtetotale', $newValue)
+            ->where('article.idagence = :idagence')
+            ->andWhere('article.depot = :iddepot')
+            ->setParameter('iddepot', $iddepot)
+            ->setParameter('idagence', $idAgence);
+
+        $query = $queryBuilder->getQuery();
+        $result = $query->execute();
+    
+        return $result;
     }
 }

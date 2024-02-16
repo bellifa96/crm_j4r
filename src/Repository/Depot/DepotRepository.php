@@ -100,5 +100,16 @@ class DepotRepository extends ServiceEntityRepository
             return 500;
         }
     }
+    public function getDepotsByAgenceId_CodeChantier($agenceId,$codeChantier)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.iddepot') // Select only id and nomdepot fields
+            ->andWhere('d.agence = :agenceId')  // Corrected to provide a condition
+            ->andWhere('d.codechantier = :codechantier')  // Corrected to provide a condition
+            ->setParameter('codechantier', $codeChantier)
+            ->setParameter('agenceId', $agenceId)
+            ->getQuery()
+            ->getResult();
+    }
 
 }

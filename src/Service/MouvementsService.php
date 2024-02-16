@@ -2,8 +2,10 @@
 // src/Service/OutlookService.php
 namespace App\Service;
 
+use App\Controller\DepotController;
 use App\Entity\Depot\Mouvements;
 use App\Repository\Depot\ArticleRepository;
+use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\MouvementsRepository;
 use App\Repository\Depot\ParamAgenceRepository;
 use Exception;
@@ -17,7 +19,7 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 class MouvementsService
 {
 
-    public function __construct(private ArticleRepository $articleRepository, private MouvementsRepository $mouvementsRepositroy)
+    public function __construct(private ArticleRepository $articleRepository, private MouvementsRepository $mouvementsRepositroy,private DepotRepository $depotRepository)
     {
     }
 
@@ -91,7 +93,7 @@ class MouvementsService
             // Set additional properties
             $mouvement
                 ->setMvtvalide(true)
-                ->setTypemouvj4r(6)
+                ->setTypemouvj4r(5)
                 ->setNumdevis(0)
                 ->setIndice(0)
                 ->setCodechantier($article->getDepot()->getCodechantier());
@@ -172,8 +174,16 @@ class MouvementsService
                 ->setCodechantier($article->getDepot()->getCodechantier());
 
 
-            // Update article quantity
-            $article->setQtetotale($article->getQtetotale() + $data["quantite"]);
+            $res = $this->depotRepository->getDepotsByAgenceId_CodeChantier($article->getIdagence(),1);
+
+            $idDepotLayher = $res[0]["iddepot"];
+
+
+            $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), $idDepotLayher, $article->getQtetotale() + $data["quantite"]);
+
+            // Update article quantity quatite autre depote 
+
+
             $article->setQtedispo($article->getQtedispo() + $data["quantite"]);
 
 
@@ -245,9 +255,11 @@ class MouvementsService
                 ->setIndice(0)
                 ->setCodechantier($article->getDepot()->getCodechantier());
 
+            $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), 10, 20);
 
-            // Update article quantity
+            // Update article quantity enlever quantite sur layher
             $article->setQtetotale($article->getQtetotale() - $data["quantite"]);
+
             $article->setQtedispo($article->getQtedispo() - $data["quantite"]);
 
 
