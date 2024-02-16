@@ -37,10 +37,10 @@ class ArticleType extends AbstractType
             ->add('conditionnement', CheckboxType::class, ['required' => false])
             ->add('qtedispo', IntegerType::class, ['label' => 'Quantité Disponible', 'disabled' => true])
             ->add('qtesortie', IntegerType::class, ['label' => 'Quantité Sortie', 'disabled' => true])
-            ->add('commentaires', TextareaType::class, ['label' => 'Commentaires'])
-            ->add('emplacement', TextType::class, ['label' => 'Emplacement'])
+            ->add('commentaires', TextareaType::class, ['label' => 'Commentaires','required' => false])
+            ->add('emplacement', TextType::class, ['label' => 'Emplacement','required' => false])
             ->add('fournisseur', TextType::class, ['label' => 'Fournisseur', 'disabled' => true])
-            ->add('reffourn', TextType::class, ['label' => 'Référence Fournisseur'])
+            ->add('reffourn', TextType::class, ['label' => 'Référence Fournisseur','required' => false])
             ->add('depot', EntityType::class, [
                 'class' => 'App\Entity\Depot\Depot',
                 'choice_label' => 'nomdepot', // Adjust based on your Depot entity properties
