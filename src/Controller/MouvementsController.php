@@ -39,6 +39,21 @@ class MouvementsController extends AbstractController
             case 2:
                 $code = $this->mouvementsService->regulMoinsDepot($data);
                 break;
+            case 3:
+                $code = $this->mouvementsService->pertes_chantier($data);
+                break;
+            case 5:
+                $code = $this->mouvementsService->vol_chantier($data);
+                break;
+            case 7:
+                $code = $this->mouvementsService->materiel_HS_chantier($data);
+                break;
+            case 9:
+                $code = $this->mouvementsService->gains_chantier($data);
+                break;
+            case 10:
+                $code = $this->mouvementsService->gains_depot($data);
+                break;
         }
 
         return $this->json($code);

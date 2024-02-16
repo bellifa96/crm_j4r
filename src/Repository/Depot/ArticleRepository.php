@@ -153,15 +153,32 @@ class ArticleRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function updateQteTotaleLayher($idAgence, $iddepot, $newValue)
+    public function updateQteTotaleLayherPlus($idAgence, $iddepot, $newValue)
     {
          $queryBuilder = $this->createQueryBuilder('article');
         $queryBuilder->update()
-            ->set('article.qtetotale', $newValue)
+             ->set('article.qtetotale', 'article.qtetotale + :newValue')
             ->where('article.idagence = :idagence')
             ->andWhere('article.depot = :iddepot')
             ->setParameter('iddepot', $iddepot)
-            ->setParameter('idagence', $idAgence);
+            ->setParameter('idagence', $idAgence)
+            ->setParameter('newValue', $newValue);
+
+        $query = $queryBuilder->getQuery();
+        $result = $query->execute();
+    
+        return $result;
+    }
+    public function updateQteTotaleLayherMoins($idAgence, $iddepot, $newValue)
+    {
+         $queryBuilder = $this->createQueryBuilder('article');
+        $queryBuilder->update()
+             ->set('article.qtetotale', 'article.qtetotale - :newValue')
+            ->where('article.idagence = :idagence')
+            ->andWhere('article.depot = :iddepot')
+            ->setParameter('iddepot', $iddepot)
+            ->setParameter('idagence', $idAgence)
+            ->setParameter('newValue', $newValue);
 
         $query = $queryBuilder->getQuery();
         $result = $query->execute();

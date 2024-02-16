@@ -179,7 +179,7 @@ class MouvementsService
             $idDepotLayher = $res[0]["iddepot"];
 
 
-            $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), $idDepotLayher, $article->getQtetotale() + $data["quantite"]);
+            $this->articleRepository->updateQteTotaleLayherPlus($article->getIdagence(), $idDepotLayher, $data["quantite"]);
 
             // Update article quantity quatite autre depote 
 
@@ -260,7 +260,7 @@ class MouvementsService
                 $idDepotLayher = $res[0]["iddepot"];
     
     
-                $this->articleRepository->updateQteTotaleLayher($article->getIdagence(), $idDepotLayher, $article->getQtetotale() - $data["quantite"]);
+                $this->articleRepository->updateQteTotaleLayherMoins($article->getIdagence(), $idDepotLayher,$data["quantite"]);
 
             // Update article quantity enlever quantite sur layher
 
@@ -355,4 +355,44 @@ class MouvementsService
             return 500;
         }
     }
+
+    public function pertes_chantier($data){
+
+    }
+    public function pertes_stock_layher($data){
+        
+    }
+    public function pertes_stock_lagny($data){
+        
+    }
+
+    public function vol_chantier($data){
+        
+    }
+    public function vol_depot_layher($data){
+        
+    }
+    public function vol_depot_lagny($data){
+        
+    }
+
+    public function materiel_HS_chantier($data){
+        
+    }
+    public function materiel_HS_depot_layher($data){
+        
+    }
+    public function materiel_HS_depot_lagny($data){
+        
+    }
+    public function gains_chantier($data){
+        
+    }
+
+    public function gains_depot($data){
+        
+    }
+
+
+
 }
