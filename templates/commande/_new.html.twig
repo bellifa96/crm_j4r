@@ -245,7 +245,7 @@
 		{# do something #}
 		<div class="flex-container">
 			<div class="flex-item" id="poidsqte">0</div>
-			<div class="flex-item" id="poidsqteSortie">0</div>
+			<div class="flex-item" id="poidsqteSortie">01</div>
 		</div>
 		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
@@ -264,7 +264,7 @@
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
 						<td class="qte">{{article.qte}}</td>
-						<td>{{  article.QteSortie }}</td>
+						<td class="qteSortie">{{  article.QteSortie }}</td>
 						<td class="poids">{{ article.Poids}}</td>
 						<td>{{ article.TypeMat}}</td>
 						<input class="iddepot" type="hidden" value="{{ article.id }}">

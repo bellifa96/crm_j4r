@@ -15,6 +15,7 @@ use App\Service\PdfService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -122,8 +123,10 @@ class CommandeController extends AbstractController
                 }
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");
+                    return new RedirectResponse($this->generateUrl('app_commande'));
                 } else {
                 }
+
             }
             return $this->render('commande/edit.html.twig', [
                 'form' => $form->createView(),

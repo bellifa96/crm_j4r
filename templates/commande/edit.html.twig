@@ -218,15 +218,23 @@ initLayher();
 function initLayher() {
 let poidsArticle = document.getElementsByClassName("poids");
 let qte = document.getElementsByClassName("qte");
+let qteSortie = document.getElementsByClassName("qteSortie");
+
 let sum = 0;
+let sumpoidsqteSortie = 0;
 for (let i = 0; i < qte.length; i++) {
 let qteValue = parseFloat(qte[i].innerHTML) || 0;
+let qteSortieValue = parseFloat(qteSortie[i].innerHTML) || 0;
+
 let poidsArticleValue = parseFloat(poidsArticle[i].innerHTML) || 0;
  sum += qteValue * poidsArticleValue;
+ sumpoidsqteSortie += poidsArticleValue * qteSortieValue ;
 }
  sum = Math.round(sum * 100) / 100;
+ sumpoidsqteSortie = Math.round(sumpoidsqteSortie * 100) / 100;
 
 document.getElementById("poidsqte").innerHTML = sum;
+document.getElementById("poidsqteSortie").innerHTML = sumpoidsqteSortie;
 $("#commande_PoidsTotMat").val(sum);
 
 }
