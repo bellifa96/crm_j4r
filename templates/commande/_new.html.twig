@@ -244,8 +244,9 @@
 	{% if depots.codedepot == 1 %}
 		{# do something #}
 		<div class="flex-container">
-			<div class="flex-item" id="poidsqte">0</div>
-			<div class="flex-item" id="poidsqteSortie">01</div>
+		    
+			<div style="flex-direction:row; width:40%"><div>Poids Liste</div><div class="flex-item" id="poidsqte">0</div></div>
+			<div style="flex-direction:row; width:40%"><div>Poids Réel</div><div class="flex-item" id="poidsqteSortie">01</div></div>
 		</div>
 		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>

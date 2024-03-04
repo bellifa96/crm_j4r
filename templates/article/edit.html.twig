@@ -26,6 +26,7 @@
 <input type="number" value="1" id="iddepots" style="display:none;" />
 {% endif %}
 {% if show == true %}
+
 <input type="number" value="2" id="iddepots" style="display:none;" />
 {% endif %}
 <input style="display:none;" type="number" id="idArticle" value="{{article}}" />
@@ -33,6 +34,7 @@
 </div>
 
 <script>
+	//depot == 2 lagny and depot == 1 layyher
 	// check type Regul pour afficher
 let drapoCodeChantier = 0;
 $(document).ready(function () {
@@ -45,8 +47,37 @@ drapoCodeChantier = 1;
 $("#codeChantier").hide();
 drapoCodeChantier = 0;
 }
+var depot = $("#iddepots").val();
+if(depot  == 1){
+	value = $("#article_qtetotale").val();
+	if(value < 0){
+		if (selectedValue == 1 || selectedValue == 9 || selectedValue == 10) {
+			$("#addMouvement").show();
+
+		}else{
+			$("#addMouvement").hide();
+
+		}
+
+    }
+
+}else if(depot == 2){
+	value = $("#article_qtedispo").val();
+	if(value < 0){
+		if (selectedValue == 1 || selectedValue == 9 || selectedValue == 10) {
+			$("#addMouvement").show();
+
+		}else{
+			$("#addMouvement").hide();
+
+		}
+
+    }
+}
 });
 });
+
+
 
 
 // valider la formulaire du regul et stocker l'evenement
@@ -59,7 +90,7 @@ var motif = $("#motif").val();
 var quantite = $("#quantité").val();
 var idArticle = $("#idArticle").val();
 var depot = $("#iddepots").val();
-var codeChantierInput = -1;
+var codeChantierInput = 0;
 if(drapoCodeChantier == 1){
 var codeChantierInput = $("#codeChantierInput").val();
 console.log("Code Chantier: " + codeChantierInput);
