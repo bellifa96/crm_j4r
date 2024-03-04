@@ -6,6 +6,7 @@ use App\Entity\Depot\Articles;
 use App\Form\ArticleType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
+use App\Repository\Depot\ChantiersRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\EtatEnCoursRepository;
 use App\Service\DepotService;
@@ -27,7 +28,8 @@ class ArticleController extends AbstractController
         AgenceRepository $agenceRepository,
         DepotService $depotService,
         ArticleRepository $articleRepository,
-        private EtatEnCoursRepository $etatEncoursRepository
+        private EtatEnCoursRepository $etatEncoursRepository,
+        private ChantiersRepository $chantiersRepository
     ) {
         $this->agenceRepository = $agenceRepository;
         $this->depotService = $depotService;
@@ -65,6 +67,9 @@ class ArticleController extends AbstractController
     public function editArticle(Articles $article, Request $request)
     {
 
+        // récuperer chantier 
+
+        $chantiers_by_agence = $this->chantiersRepository->getAllChantiersbyAgence($article->getIdagence());
 
 
         // contraint sur affichage des champs chaque type du depot depot codeDEPOT = 1 = layher
@@ -100,6 +105,7 @@ class ArticleController extends AbstractController
             'title' => 'Modification Article',
             'affaires' => $numaffaire,
             'show' => $show,
+            'chantiers' => $chantiers_by_agence,
             'article' => $article->getIdarticles(),
             'nav' => [['app_article', 'Articles']]
         ]);

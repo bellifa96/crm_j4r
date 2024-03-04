@@ -18,6 +18,7 @@ class Agence
         $this->depots = new ArrayCollection();
         $this->mouvements = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->chantiers = new ArrayCollection();
 
     }
 
@@ -80,6 +81,8 @@ class Agence
 
     #[ORM\OneToMany(targetEntity: Articles::class, mappedBy: "idarticles")]
     private $articles;
+    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: "idarticles")]
+    private $chantiers;
     
      /**
      * @return Collection|Mouvements[]
@@ -89,6 +92,15 @@ class Agence
     {
         return $this->articles;
     }
+
+     /**
+     * @return Collection|Chantiers[]
+     */
+
+     public function getChantiers(): Collection
+     {
+         return $this->chantiers;
+     }
     
 
     public function getIdagence(): ?string
