@@ -63,6 +63,7 @@ class MouvementsController extends AbstractController
             case 8:
                 $code = $this->mouvementsService->materail_hs_depot($data);
                 break;
+            
         }
 
         return $this->json($code);

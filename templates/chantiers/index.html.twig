@@ -105,6 +105,9 @@
 					<th>IdChantiers</th>
 					<th>Nom Chantier</th>
 					<th>Ville</th>
+					<th>Etat</th>
+					<th>Adresse</th>
+
 					<th>Actions</th>
 
 				</tr>
@@ -118,6 +121,9 @@
 						<td>{{ ch.idchantier }}</td>
 						<td>{{ ch.nomchantier }}</td>
 						<td>{{ ch.ville }}</td>
+						<td>{{ ch.Etat }}</td>
+						<td>{{ ch.Adresse }}</td>
+
 						<td>
 							<a href="{{ path('app_article_edit', {'id': ch.idchantier }) }}" class="btn btn-warning" style="font-size:11px">
 								<i class="bi bi-pencil-fill"></i>

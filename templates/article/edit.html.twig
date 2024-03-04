@@ -34,13 +34,16 @@
 
 <script>
 	// check type Regul pour afficher
+let drapoCodeChantier = 0;
 $(document).ready(function () {
 $("#typeRegul").change(function () {
 var selectedValue = $(this).val();
 if (selectedValue == 3 || selectedValue == 5 || selectedValue == 7 || selectedValue == 9) {
 $("#codeChantier").show();
+drapoCodeChantier = 1;
 } else {
 $("#codeChantier").hide();
+drapoCodeChantier = 0;
 }
 });
 });
@@ -52,11 +55,16 @@ $("#addMouvement").click(function () { // Get the values of the input fields
 var numAffaire = $("#NumAffaire").val();
 var date = $("#date").val();
 var typeRegul = $("#typeRegul").val();
-var codeChantierInput = $("#codeChantierInput").val();
 var motif = $("#motif").val();
 var quantite = $("#quantité").val();
 var idArticle = $("#idArticle").val();
 var depot = $("#iddepots").val();
+var codeChantierInput = -1;
+if(drapoCodeChantier == 1){
+var codeChantierInput = $("#codeChantierInput").val();
+console.log("Code Chantier: " + codeChantierInput);
+
+}
 
 // Do something with the values (for example, display them in the console)
 console.log("Num Affaire: " + numAffaire);
@@ -79,6 +87,11 @@ if (isNaN(quantite) || quantite == 0) {
 	alert("Quantite ne doit pas egale a 0 ");
 	return;
 }
+if ( codeChantierInput == -1) {
+	alert("il faut entrez code chantier ");
+	return;
+}
+
 
 
 // Create JSON object with the data

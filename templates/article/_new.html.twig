@@ -307,10 +307,26 @@
 							<option value="10">Gains dépôt</option>
 						</select>
 					</div>
+					<div id="codeChantier" style="display:none;">
 
-					<div class="form-group" id="codeChantier" style="display:none;">
-						<label for="codeChantier" class="font-weight-bold">Code Chantier</label>
-						<input type="text" id="codeChantierInput" name="codeChantierInput" value="" class="form-control form-control-sm-2 societe-input ">
+						<div class="form-group">
+							<label for="searchInput" class="font-weight-bold">Search</label>
+							<input type="text" id="searchInput" class="form-control form-control-sm-2" placeholder="Search Chantier">
+						</div>
+						<div class="form-group">
+							<label for="" class="font-weight-bold">Code Chantier</label>
+							<select id="codeChantierInput" class="form-control form-control-sm-2 societe-input">
+							<option value="-1">
+						     </option>
+								{% for ch in chantiers %}
+									<option value="{{ ch.idchantier }}">{{ ch.numchantier }}
+										-
+										{{ ch.client }}
+										-
+										{{ ch.ville }}</option>
+								{% endfor %}
+							</select>
+						</div>
 					</div>
 					<!-- Add similar blocks for other fields in the second column -->
 				</div>
@@ -327,10 +343,20 @@
 
 
 					<!-- Add similar blocks for other fields in the third column -->
-					
+
 				</div>
 			</div>
 			<button class="btn btn-light" id="addMouvement">Ajouter</button>
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function () {
+$("#searchInput").on("keyup", function () {
+var value = $(this).val().toLowerCase();
+$("#codeChantier option").filter(function () {
+$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+});
+});
+});
+</script>

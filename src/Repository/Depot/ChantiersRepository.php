@@ -26,7 +26,7 @@ class ChantiersRepository extends ServiceEntityRepository
 
     public function getAllChantiersbyAgence($idagence){
         return $this->createQueryBuilder('d')
-        ->select('d.idchantier, d.nomchantier,d.numchantier') // Select only id and nomdepot fields
+        ->select('d.idchantier, d.nomchantier,d.numchantier,d.ville,d.client') // Select only id and nomdepot fields
         ->andWhere('d.idagence = :agenceId')  // Corrected to provide a condition
         ->setParameter('agenceId', $idagence)
         ->getQuery()
