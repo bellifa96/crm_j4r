@@ -50,7 +50,7 @@ drapoCodeChantier = 0;
 var depot = $("#iddepots").val();
 if(depot  == 1){
 	value = $("#article_qtetotale").val();
-	if(value < 0){
+	if(value <= 0){
 		if (selectedValue == 1 || selectedValue == 9 || selectedValue == 10) {
 			$("#addMouvement").show();
 
@@ -63,7 +63,7 @@ if(depot  == 1){
 
 }else if(depot == 2){
 	value = $("#article_qtedispo").val();
-	if(value < 0){
+	if(value <= 0){
 		if (selectedValue == 1 || selectedValue == 9 || selectedValue == 10) {
 			$("#addMouvement").show();
 
