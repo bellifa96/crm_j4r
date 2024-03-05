@@ -3,6 +3,7 @@
 
 namespace App\Repository\Depot;
 
+use App\Entity\Depot\Articles;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Depot\Depot;
@@ -62,22 +63,22 @@ class DepotRepository extends ServiceEntityRepository
             ->getResult();
     }
     public function findOneByCodedepot($chantier)
-    {   
-         return $this->findOneBy(['codedepot' => ($chantier == 20143) ? 2 : 1])->getIddepot();
+    {
+        return $this->findOneBy(['codedepot' => ($chantier == 20143) ? 2 : 1])->getIddepot();
     }
     public function findOneByidDepotCode($chantier)
-    {   
-         return $this->findOneBy(['codedepot' => ($chantier == 20143) ? 2 : 1]);
+    {
+        return $this->findOneBy(['codedepot' => ($chantier == 20143) ? 2 : 1]);
     }
 
     public function findOneByCodedepot1($codeDepot)
-    {   
-         return $this->findOneBy(['codedepot' => $codeDepot]);
+    {
+        return $this->findOneBy(['codedepot' => $codeDepot]);
     }
 
     public function findOneByIdDepot($id_depot)
-    {   
-         return $this->findOneBy(['iddepot' => $id_depot]);
+    {
+        return $this->findOneBy(['iddepot' => $id_depot]);
     }
 
     public function getMouvementsByDepot(Depot $depot): array
@@ -91,8 +92,17 @@ class DepotRepository extends ServiceEntityRepository
     public function deleteDepotById(Depot $depot)
     {
         if ($depot) {
-            // Remove the entity
+
+            $articles = $this->_em->getRepository(Articles::class)->findBy(['depot' => $depot->getIddepot(), 'idagence' => $depot->getAgence()->getIdagence()]);
+
+            foreach ($articles as $article) {
+                $this->_em->remove($article);
+            }
+
+            // Now, remove the depot itself
             $this->_em->remove($depot);
+
+            // Remove the entity
             // Commit the changes to the database
             $this->_em->flush();
             return 200;
@@ -100,7 +110,7 @@ class DepotRepository extends ServiceEntityRepository
             return 500;
         }
     }
-    public function getDepotsByAgenceId_CodeChantier($agenceId,$codeChantier)
+    public function getDepotsByAgenceId_CodeChantier($agenceId, $codeChantier)
     {
         return $this->createQueryBuilder('d')
             ->select('d.iddepot') // Select only id and nomdepot fields
@@ -111,5 +121,4 @@ class DepotRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

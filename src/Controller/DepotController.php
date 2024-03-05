@@ -13,6 +13,7 @@ use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\MouvementsRepository;
 use App\Service\DepotService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class DepotController extends AbstractController
     private $agenceRepository;
 
 
-    public function __construct(DepotRepository $depotRepository, AgenceRepository $agenceRepository)
+    public function __construct(DepotRepository $depotRepository, AgenceRepository $agenceRepository, private EntityManagerInterface $entityManager, private ArticleRepository $articleRepository)
     {
         $this->depotRepository = $depotRepository;
 
@@ -91,6 +92,7 @@ class DepotController extends AbstractController
             $Depot->setInfoouverture($ouverture . '-' . $fermeture . '');
             $resulat = $this->depotRepository->add_update_depot($Depot);
             if ($resulat) {
+                $this->duplicate_article_by_depot_layher_nouveau_agence_created($Depot->getAgence(),$Depot);
                 $this->addFlash("success", "Dépot a été correctement créer");
                 return $this->redirectToRoute("app_depot");
             } else {
@@ -210,6 +212,64 @@ class DepotController extends AbstractController
             ];
 
             return new JsonResponse($response);
+        }
+    }
+    public function duplicate_article_by_depot_layher_nouveau_agence_created($agence, $depot)
+    {
+        $this->entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
+
+        $depotlayher_agence_pricinpale = $this->agenceRepository->getAgenceByAgence();
+        if ($depotlayher_agence_pricinpale == null) {
+            return null;
+        }
+        $articles = $this->articleRepository->findAllbyIdDepot($depotlayher_agence_pricinpale);
+        if ($articles == null) {
+            return null;
+        }
+
+        $batchSize = 500; // Determine the best batch size for your environment
+        
+        try {
+            foreach ($articles as $index => $arti) {
+                $article = new Articles();
+                $article->setArticle($arti["article"]);
+                $article->setDesignation($arti["designation"]);
+                $article->setPoids($arti["poids"]);
+                $article->setQtedispo(0);
+                $article->setQteachat(0);
+                $article->setQtereserve(0);
+                $article->setQtehs(0);
+                $article->setQtetransit(0);
+                $article->setDateachat($arti["dateachat"]);
+                $article->setDateachatinv($arti["dateachatinv"]);
+                $article->setFournisseur($arti["reffourn"]);
+                
+                $article->setOldprixl($arti["oldprixl"]);
+                $article->setOldprixv($arti["oldprixv"]);
+                $article->setOldpoids($arti["oldpoids"]);
+                $article->setQteloctheorique($arti["qteloctheorique"]);
+                $article->setQteloctheorique($arti["qtelocreelle"]);
+
+
+                $article->setVente($arti["vente"]);
+                $article->setLocation($arti["location"]);
+                $article->setConsommable($arti["consommable"]);
+                $article->setConditionnement($arti["conditionnement"]);
+                // a optimisser
+                $article->setIdagence($agence);
+                $article->setDepot($depot);
+                $this->articleRepository->add($article, false); // Pass false to prevent flushing
+                if (($index + 1) % $batchSize === 0) {
+                    $this->entityManager->flush(); // Flush in batches
+                    $this->entityManager->clear(Articles::class);
+                }
+            }
+            $this->entityManager->flush(); // Flush in batches
+            $this->entityManager->clear(); // Detach all entities from the EntityManager
+            return true;
+        } catch (Exception $e) {
+            dd($e);
+            return null;
         }
     }
 }

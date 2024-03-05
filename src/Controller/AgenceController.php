@@ -206,9 +206,9 @@ class AgenceController extends AbstractController
         $depot_layher->setCodedepot(1);
         $depot_layher->setAgence($agence);
         $depot_layher->setNomdepot("LAYHER");
+        $depot_layher->setCodechantier(1);
 
         $res = $this->depotRepository->add_update_depot($depot_layher);
-
         if ($res) {
             return $depot_layher;
         } else {
@@ -241,6 +241,16 @@ class AgenceController extends AbstractController
                 $article->setQtereserve(0);
                 $article->setQtehs(0);
                 $article->setQtetransit(0);
+                $article->setDateachat($arti["dateachat"]);
+                $article->setDateachatinv($arti["dateachatinv"]);
+                $article->setFournisseur($arti["reffourn"]);
+                
+                $article->setOldprixl($arti["oldprixl"]);
+                $article->setOldprixv($arti["oldprixv"]);
+                $article->setOldpoids($arti["oldpoids"]);
+                $article->setQteloctheorique($arti["qteloctheorique"]);
+                $article->setQteloctheorique($arti["qtelocreelle"]);
+
 
                 $article->setVente($arti["vente"]);
                 $article->setLocation($arti["location"]);
@@ -253,7 +263,6 @@ class AgenceController extends AbstractController
                 if (($index + 1) % $batchSize === 0) {
                     $this->entityManager->flush(); // Flush in batches
                     $this->entityManager->clear(Articles::class);
-
                 }
             }
             $this->entityManager->flush(); // Flush in batches
