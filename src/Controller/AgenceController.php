@@ -228,7 +228,7 @@ class AgenceController extends AbstractController
             return null;
         }
 
-        $batchSize = 200; // Determine the best batch size for your environment
+        $batchSize = 400; // Determine the best batch size for your environment
         
         try {
             foreach ($articles as $index => $arti) {
