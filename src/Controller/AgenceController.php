@@ -202,11 +202,24 @@ class AgenceController extends AbstractController
     // creation une agence il faut créer une depot layher 
     public function creer_depot_layher($agence)
     {
+
+        $depot = $this->agenceRepository->getAgenceByAgence();
         $depot_layher = new Depot();
         $depot_layher->setCodedepot(1);
         $depot_layher->setAgence($agence);
         $depot_layher->setNomdepot("LAYHER");
         $depot_layher->setCodechantier(1);
+        $depot_layher->setCommentaires($depot->getCommentaires());
+        $depot_layher->setVilledepot($depot->getVilledepot());
+        $depot_layher->setCpdepot($depot->getCpdepot());
+        $depot_layher->setAdressedepot($depot->getAdressedepot());
+        $depot_layher->setContactemail($depot->getContactemail());
+        $depot_layher->setContacttel($depot->getContacttel());
+        $depot_layher->setAdressedepot($depot->getAdressedepot());
+        $depot_layher->setContactportable($depot->getContactportable());
+        $depot_layher->setContactportable($depot->getContactportable());
+        $depot_layher->setInfoouverture($depot->getInfoouverture());
+
 
         $res = $this->depotRepository->add_update_depot($depot_layher);
         if ($res) {

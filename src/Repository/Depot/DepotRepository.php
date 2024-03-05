@@ -80,6 +80,10 @@ class DepotRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['iddepot' => $id_depot]);
     }
+    public function findOneByCodeDepotAndIDAgence($id_agence)
+    {
+        return $this->findOneBy(['agence' => $id_agence, 'codedepot' => 1]);
+    }
 
     public function getMouvementsByDepot(Depot $depot): array
     {
