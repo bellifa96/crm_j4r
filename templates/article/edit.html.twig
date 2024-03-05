@@ -36,6 +36,7 @@
 <script>
 	//depot == 2 lagny and depot == 1 layyher
 	// check type Regul pour afficher
+	// pour afficher le code chantier 
 let drapoCodeChantier = 0;
 $(document).ready(function () {
 $("#typeRegul").change(function () {
@@ -47,6 +48,7 @@ drapoCodeChantier = 1;
 $("#codeChantier").hide();
 drapoCodeChantier = 0;
 }
+// pour evitez utilisateur de modifier la quantite si la qauntite <= 0
 var depot = $("#iddepots").val();
 if(depot  == 1){
 	value = $("#article_qtetotale").val();
@@ -80,7 +82,7 @@ if(depot  == 1){
 
 
 
-// valider la formulaire du regul et stocker l'evenement
+// valider la formulaire du regul et stocker mouvement
 $(document).ready(function () {
 $("#addMouvement").click(function () { // Get the values of the input fields
 var numAffaire = $("#NumAffaire").val();
@@ -98,13 +100,7 @@ console.log("Code Chantier: " + codeChantierInput);
 }
 
 // Do something with the values (for example, display them in the console)
-console.log("Num Affaire: " + numAffaire);
-console.log("Date: " + date);
-console.log("Type Regul: " + typeRegul);
-console.log("Code Chantier: " + codeChantierInput);
-console.log("Motif: " + motif);
-console.log("Quantité: " + quantite);
-console.log("idArticle: " + idArticle);
+
 
 
    // Perform validation
@@ -144,7 +140,6 @@ ajouterMouvement(jsonData);
 });
 // add Mouvement requete jquery
 function ajouterMouvement(jsonData) {
-
 $.ajax({
 type: "POST",
 url: "/mouvements",
@@ -155,7 +150,6 @@ if(response == 200){
 console.log("Success:", response);
 location.reload();
 }
-
 },
 error: function (xhr, status, error) { // Handle error response
 console.error("Error:", error);
@@ -163,10 +157,5 @@ console.error("Error:", error);
 });
 }
 
-
-// calculer la quantité
-
-
-//
 </script>
 {% endblock %}
