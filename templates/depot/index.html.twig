@@ -146,7 +146,7 @@ var depot = data.depot[i];
 
 let btn = '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')"style="font-size: 10px;"><i class="bi bi-pencil"></i></button>';
 if(data.isAdmin == true){
- btn = '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')" style="font-size: 10px;"><i class="bi bi-pencil"></i></button> <a href="#" class="btn btn-danger" onclick="showConfirmation(\'' + depot.nomdepot + '\', ' + depot.codedepot + ')"  style="font-size: 10px;"><i class="bi bi-trash3-fill"></i></a>';
+ btn = '<button class="btn btn-warning" onclick="redirect_to_page_edit_article(' + depot.iddepot + ')" style="font-size: 10px;"><i class="bi bi-pencil"></i></button> <a href="#" class="btn btn-danger" onclick="showConfirmation(\'' + depot.nomdepot + '\', ' + depot.iddepot + ')"  style="font-size: 10px;"><i class="bi bi-trash3-fill"></i></a>';
 }
 
 var newRow = [
@@ -174,9 +174,9 @@ $('#agenceSelect').on('change', function () { // Call the function to handle dep
 handleAgenceSelection();
 });
 });
-function showConfirmation(agence,id) {
+function showConfirmation(depot,id) {
 	console.log(id);
-	var result = confirm("Confirmez-vous la suppression de ce Dépot "+agence + " ?");
+	var result = confirm("Confirmez-vous la suppression de ce Dépot "+depot + " ?");
 
 	if (result) {
 		$.ajax({

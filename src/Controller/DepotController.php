@@ -32,20 +32,19 @@ class DepotController extends AbstractController
     private $depotRepository;
     private $agenceRepository;
 
-    
-    public function __construct(DepotRepository $depotRepository,AgenceRepository $agenceRepository)
+
+    public function __construct(DepotRepository $depotRepository, AgenceRepository $agenceRepository)
     {
         $this->depotRepository = $depotRepository;
 
         $this->agenceRepository = $agenceRepository;
-       
     }
 
 
     #[Route('/depot', name: 'app_depot')]
     public function index(Security $security): Response
     {
-      
+
         $agences = $this->agenceRepository->findAll();
         $depot = $this->depotRepository->getDepotsByAgenceId($agences[0]["idagence"]);
         $user = $security->getUser();
@@ -75,28 +74,27 @@ class DepotController extends AbstractController
     /** méthod pour afficher le formulaire et stocker les donées   */
     #[Route('/add-depot', name: 'app_depot_add')]
     public function add_agence(Request $request): Response
-    {  
+    {
 
         // on crééer un "nouveau Agence"
         $Depot = new Depot();
 
-        $form = $this->createForm(DepotType::class,$Depot);
+        $form = $this->createForm(DepotType::class, $Depot);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
- 
+
         // on verifier la formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $ouverture = $request->request->get('ouverture');
             $fermeture = $request->request->get('fermeture');
             $Depot->setInfoouverture($ouverture . '-' . $fermeture . '');
             $resulat = $this->depotRepository->add_update_depot($Depot);
-           if($resulat){
-              $this->addFlash("success","Dépot a été correctement créer");
-              return $this->redirectToRoute("app_depot");
-           }else{
-
-           }
+            if ($resulat) {
+                $this->addFlash("success", "Dépot a été correctement créer");
+                return $this->redirectToRoute("app_depot");
+            } else {
+            }
         }
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('depot/new.html.twig', [
@@ -107,47 +105,51 @@ class DepotController extends AbstractController
             'fermeture' => '18:00',
             'nav' => [['app_depot', 'Dépot']]
         ]);
-          
     }
     #[Route('/edit-depot/{id}', name: 'app_depot_edit')]
-    public function edit_agence(Depot $depot,Request $request): Response
-    {  
+    public function edit_agence(Depot $depot, Request $request): Response
+    {
 
 
-        list($ouverture, $fermeture) = explode('-', $depot->getInfoouverture());
-        $form = $this->createForm(DepotType::class,$depot);
+        $infoouverture = $depot->getInfoouverture();
+        $ouverture = "" ;
+        $fermeture = "";
+        // Checking if $infoouverture is not null
+        if ($infoouverture !== "") {
+            list($ouverture, $fermeture) = explode('-', $infoouverture);
+        } else {
+        }
+        $form = $this->createForm(DepotType::class, $depot);
 
         // on traite la requete du formulaire
         $form->handleRequest($request);
- 
+
         // on verifier la formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $ouverture = $request->request->get('ouverture');
             $fermeture = $request->request->get('fermeture');
             $depot->setInfoouverture($ouverture . '-' . $fermeture . '');
-           $resulat = $this->depotRepository->add_update_depot($depot);
-           if($resulat){
-              $this->addFlash("success","Dépot a été correctement modifier");
-              return $this->redirectToRoute("app_depot");
-           }else{
-
-           }
+            $resulat = $this->depotRepository->add_update_depot($depot);
+            if ($resulat) {
+                $this->addFlash("success", "Dépot a été correctement modifier");
+                return $this->redirectToRoute("app_depot");
+            } else {
+            }
         }
         // on renvoie les donnes les formulaire et peut aussi utiliser Compact
         return $this->render('depot/edit.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Modification Dépot',            
+            'title' => 'Modification Dépot',
             'ouverture' => $ouverture,
             'fermeture' => $fermeture,
             'nav' => [['app_depot', 'Dépot']]
         ]);
-          
     }
 
-    #[Route('/get-depot', name: 'app_depot_json_response', methods:['get'] )]
-    public function getDepotAction(Request $request,Security $security):JsonResponse
-    { 
+    #[Route('/get-depot', name: 'app_depot_json_response', methods: ['get'])]
+    public function getDepotAction(Request $request, Security $security): JsonResponse
+    {
         $id_agence = $request->query->get('selectedAgence');
         $depot = $this->depotRepository->getDepotsByAgenceId($id_agence);
         $user = $security->getUser();
@@ -164,37 +166,36 @@ class DepotController extends AbstractController
                 $admin = false;
             }
         }
-        
+
         $data = [
             'depot' => $depot,
             'isAdmin' => $admin,
         ];
-        
+
         return new JsonResponse($data);
     }
 
     #[Route('/delete_depot', name: 'delete_depot')]
-    public function delete_depot(Request $request,MouvementsRepository $mouvementsRepository)
+    public function delete_depot(Request $request, MouvementsRepository $mouvementsRepository)
     {
-       
-        $idagence = $request->query->get('id');
 
-        $depot = $this->depotRepository->findOneByIdDepot($idagence);
-        if($depot != null){
+        $iddepot = $request->query->get('id');
+
+        $depot = $this->depotRepository->findOneByIdDepot($iddepot);
+        if ($depot != null) {
             $mouvements = $this->depotRepository->getMouvementsByDepot($depot);
             $code = 205;
-            if(sizeof($mouvements) == 0){
+            if (sizeof($mouvements) == 0) {
                 $code =  $this->depotRepository->deleteDepotById($depot);
 
-                if($code  == 500 ){
+                if ($code  == 500) {
                     $response = [
                         'code' => $code,
                         'msg' => "error",
                     ];
                     return new JsonResponse($response);
                 }
-            }else {
-                
+            } else {
             }
 
             $response = [
@@ -202,20 +203,13 @@ class DepotController extends AbstractController
                 'msg' => "suppression impossible  car il existe des mouvements",
             ];
             return new JsonResponse($response);
-
-
-        }else{
+        } else {
             $response = [
                 'code' => 500,
-                'msg' => "agence n'exist pas",
+                'msg' => "depot n'exist pas",
             ];
-    
+
             return new JsonResponse($response);
         }
-     
     }
-
-
-
-    
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Article;
 use App\Entity\Depot\Agence;
+use App\Entity\Depot\Depot;
 use App\Entity\Depot\Mouvements;
 use Exception;
 
@@ -53,25 +54,35 @@ class AgenceRepository extends ServiceEntityRepository
     public function getAgenceById(int $id): ?Agence
     {
         // Retrieve the Agence entity by its ID
-        try{
+        try {
             $agence = $this->_em->getRepository(Agence::class)->find($id);
 
             return $agence;
-        }catch(Exception $e){
-             return null;
+        } catch (Exception $e) {
+            return null;
         }
-       
     }
 
     public function deleteAgenceById(Agence $agence)
     {
-        if ($agence) {
-            // Remove the entity
-            $this->_em->remove($agence);
-            // Commit the changes to the database
-            $this->_em->flush();
-            return 200;
-        } else {
+        try {
+            if ($agence) {
+                // Remove the entity
+                $depots = $this->_em->getRepository(Depot::class)->findBy(['agence' => $agence->getIdagence()]);
+
+                // Remove each depot
+                foreach ($depots as $depot) {
+                    $this->_em->remove($depot);
+                }
+                $this->_em->remove($agence);
+                // Commit the changes to the database
+                $this->_em->flush();
+                return 200;
+            } else {
+                return 500;
+            }
+        } catch (Exception $exception) {
+            dd($exception);
             return 500;
         }
     }
@@ -79,12 +90,27 @@ class AgenceRepository extends ServiceEntityRepository
     public function getMouvementsByAgence(Agence $agence): array
     {
         // Retrieve all Mouvements associated with the provided Agence
-        
-
 
         $mouvements = $this->_em->getRepository(Mouvements::class)->findBy(['idagence' => $agence]);
 
         return $mouvements;
     }
-   
+    public function getAgenceByAgence()
+    {
+        // Retrieve all Mouvements associated with the provided Agence
+        try{
+            $agencebyID   =$this->_em->getRepository(Agence::class)->findOneBy([
+                'agence' => 1,
+            ]);
+            $depot = $this->_em->getRepository(Depot::class)->findOneBy([
+                'agence' => $agencebyID->getIdagence() ,
+                'codedepot' => 1,
+            ]);
+    
+            return $depot;
+        }catch(Exception $e){
+             return null;
+        }
+       
+    }
 }

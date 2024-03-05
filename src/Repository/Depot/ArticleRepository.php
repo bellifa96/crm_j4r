@@ -29,20 +29,21 @@ class ArticleRepository extends ServiceEntityRepository
     {
     }
     // add Articles 
-    public function add(Articles $articles)
+    public function add(Articles $article, $flush = true)
     {
-        $this->_em->persist($articles);
-
-        $this->_em->flush();
-        return true;
+        $this->_em->persist($article);
+        if ($flush) {
+            $this->_em->flush();
+            // Optionally, you can clear the EntityManager to free memory
+            $this->_em->clear();
+        }
     }
-
 
     public function findAllbyIdDepot($iddepotId)
     {
 
         $depotsbyid = $this->_em->createQueryBuilder()
-            ->select('article.idarticles', 'article.article', 'article.designation', 'article.poids', 'article.qtetotale', 'article.qtedispo', 'article.qtesortie', 'article.qtereserve', 'article.qtetransit')
+            ->select('article')
             ->from(Articles::class, 'article')
             ->where('article.depot = :depotId')
             ->setParameter('depotId', $iddepotId)
@@ -155,9 +156,9 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function updateQteTotaleLayherPlus($idAgence, $iddepot, $newValue)
     {
-         $queryBuilder = $this->createQueryBuilder('article');
+        $queryBuilder = $this->createQueryBuilder('article');
         $queryBuilder->update()
-             ->set('article.qtetotale', 'article.qtetotale + :newValue')
+            ->set('article.qtetotale', 'article.qtetotale + :newValue')
             ->where('article.idagence = :idagence')
             ->andWhere('article.depot = :iddepot')
             ->setParameter('iddepot', $iddepot)
@@ -166,14 +167,14 @@ class ArticleRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
         $result = $query->execute();
-    
+
         return $result;
     }
     public function updateQteTotaleLayherMoins($idAgence, $iddepot, $newValue)
     {
-         $queryBuilder = $this->createQueryBuilder('article');
+        $queryBuilder = $this->createQueryBuilder('article');
         $queryBuilder->update()
-             ->set('article.qtetotale', 'article.qtetotale - :newValue')
+            ->set('article.qtetotale', 'article.qtetotale - :newValue')
             ->where('article.idagence = :idagence')
             ->andWhere('article.depot = :iddepot')
             ->setParameter('iddepot', $iddepot)
@@ -182,7 +183,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
         $result = $query->execute();
-    
+
         return $result;
     }
 }

@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Depot\Agence;
+use App\Entity\Depot\Articles;
+use App\Entity\Depot\Depot;
 use App\Entity\Depot\Mouvements;
 use App\Form\AgenceType;
 use App\Repository\Depot\AgenceRepository;
+use App\Repository\Depot\ArticleRepository;
+use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\MouvementsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -25,7 +30,7 @@ class AgenceController extends AbstractController
     private $agenceRepository;
 
 
-    public function __construct(AgenceRepository $agenceRepository)
+    public function __construct(AgenceRepository $agenceRepository, private DepotRepository $depotRepository, private EntityManagerInterface $entityManager, private ArticleRepository $articleRepository)
     {
         $this->agenceRepository = $agenceRepository;
     }
@@ -83,8 +88,16 @@ class AgenceController extends AbstractController
             $fermeture = $request->request->get('fermeture');
             $agence->setInfoouverture($ouverture . '-' . $fermeture . '');
             $resulat = $this->agenceRepository->addAgence($agence);
+            $this->entityManager->flush(); // Flush in batches
+
             if ($resulat) {
-                $this->addFlash("success", "L'agence a été correctement créer");
+                $depot = $this->creer_depot_layher($agence);
+                $this->entityManager->flush(); // Flush in batches
+
+                if ($depot != null) {
+                    $resInsertArticle =  $this->duplicate_article_by_depot_layher_nouveau_agence_created($agence, $depot);
+                } else {
+                }
                 return $this->redirectToRoute("app_agence");
             } else {
             }
@@ -146,7 +159,7 @@ class AgenceController extends AbstractController
             'nav' => [['app_agence', 'Agences']]
         ]);
     }
-    
+
     /**
      * cette method supprimer la agence si y pas des mouvement dans la table retourner JSON AVEC CODE 200 sinon un code et msg
      */
@@ -184,6 +197,71 @@ class AgenceController extends AbstractController
             ];
 
             return new JsonResponse($response);
+        }
+    }
+    // creation une agence il faut créer une depot layher 
+    public function creer_depot_layher($agence)
+    {
+        $depot_layher = new Depot();
+        $depot_layher->setCodedepot(1);
+        $depot_layher->setAgence($agence);
+        $depot_layher->setNomdepot("LAYHER");
+
+        $res = $this->depotRepository->add_update_depot($depot_layher);
+
+        if ($res) {
+            return $depot_layher;
+        } else {
+            return null;
+        }
+    }
+    public function duplicate_article_by_depot_layher_nouveau_agence_created($agence, $depot)
+    {
+        $this->entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
+
+        $depotlayher_agence_pricinpale = $this->agenceRepository->getAgenceByAgence();
+        if ($depotlayher_agence_pricinpale == null) {
+            return null;
+        }
+        $articles = $this->articleRepository->findAllbyIdDepot($depotlayher_agence_pricinpale);
+        if ($articles == null) {
+            return null;
+        }
+
+        $batchSize = 200; // Determine the best batch size for your environment
+        
+        try {
+            foreach ($articles as $index => $arti) {
+                $article = new Articles();
+                $article->setArticle($arti["article"]);
+                $article->setDesignation($arti["designation"]);
+                $article->setPoids($arti["poids"]);
+                $article->setQtedispo(0);
+                $article->setQteachat(0);
+                $article->setQtereserve(0);
+                $article->setQtehs(0);
+                $article->setQtetransit(0);
+
+                $article->setVente($arti["vente"]);
+
+
+                $article->setLocation($arti["location"]);
+                $article->setConsommable($arti["consommable"]);
+                $article->setConsommable($arti["conditionnement"]);
+
+                $article->setIdagence($agence);
+                $article->setDepot($depot);
+                $this->articleRepository->add($article, false); // Pass false to prevent flushing
+                if (($index + 1) % $batchSize === 0) {
+                    $this->entityManager->flush(); // Flush in batches
+                }
+            }
+            $this->entityManager->flush(); // Flush in batches
+            $this->entityManager->clear(); // Detach all entities from the EntityManager
+            return true;
+        } catch (Exception $e) {
+            dd($e);
+            return null;
         }
     }
 }

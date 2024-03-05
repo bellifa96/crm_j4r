@@ -75,7 +75,7 @@ class Articles
 
     private $dateachat;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'string')]
 
     private $dateachatinv = '';
 
