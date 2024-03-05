@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Article;
 use App\Entity\Depot\Agence;
+use App\Entity\Depot\Articles;
 use App\Entity\Depot\Depot;
 use App\Entity\Depot\Mouvements;
 use Exception;
@@ -67,22 +68,34 @@ class AgenceRepository extends ServiceEntityRepository
     {
         try {
             if ($agence) {
-                // Remove the entity
+                // First, remove articles associated with each depot in the agence
                 $depots = $this->_em->getRepository(Depot::class)->findBy(['agence' => $agence->getIdagence()]);
-
-                // Remove each depot
+                
                 foreach ($depots as $depot) {
+                    // Assuming you have a method to get articles by depot (and possibly agence if needed)
+                    $articles = $this->_em->getRepository(Articles::class)->findBy(['depot' => $depot->getIddepot(), 'idagence' => $agence->getIdagence()]);
+                    
+                    foreach ($articles as $article) {
+                        $this->_em->remove($article);
+                    }
+    
+                    // Now, remove the depot itself
                     $this->_em->remove($depot);
                 }
+    
+                // After all depots (and their articles) have been removed, remove the agence
                 $this->_em->remove($agence);
+                
                 // Commit the changes to the database
                 $this->_em->flush();
+                
                 return 200;
             } else {
                 return 500;
             }
         } catch (Exception $exception) {
-            dd($exception);
+            // Consider logging the exception details for debugging
+            dd($exception); // Debugging only, remove or replace with logging in production
             return 500;
         }
     }

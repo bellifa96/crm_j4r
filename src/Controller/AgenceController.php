@@ -243,11 +243,9 @@ class AgenceController extends AbstractController
                 $article->setQtetransit(0);
 
                 $article->setVente($arti["vente"]);
-
-
                 $article->setLocation($arti["location"]);
                 $article->setConsommable($arti["consommable"]);
-                $article->setConsommable($arti["conditionnement"]);
+                $article->setConditionnement($arti["conditionnement"]);
                 // a optimisser
                 $article->setIdagence($agence);
                 $article->setDepot($depot);

@@ -83,6 +83,8 @@ class Agence
     private $articles;
     #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: "idarticles")]
     private $chantiers;
+
+   
     
      /**
      * @return Collection|Mouvements[]
