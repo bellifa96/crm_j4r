@@ -228,7 +228,7 @@ class AgenceController extends AbstractController
             return null;
         }
 
-        $batchSize = 400; // Determine the best batch size for your environment
+        $batchSize = 500; // Determine the best batch size for your environment
         
         try {
             foreach ($articles as $index => $arti) {
@@ -248,12 +248,14 @@ class AgenceController extends AbstractController
                 $article->setLocation($arti["location"]);
                 $article->setConsommable($arti["consommable"]);
                 $article->setConsommable($arti["conditionnement"]);
-
+                // a optimisser
                 $article->setIdagence($agence);
                 $article->setDepot($depot);
                 $this->articleRepository->add($article, false); // Pass false to prevent flushing
                 if (($index + 1) % $batchSize === 0) {
                     $this->entityManager->flush(); // Flush in batches
+                    $this->entityManager->clear(Articles::class);
+
                 }
             }
             $this->entityManager->flush(); // Flush in batches
