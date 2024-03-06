@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Depot\Chantiers;
+use App\Form\ChantierType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ChantiersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,4 +36,35 @@ class ChantiersController extends AbstractController
             'nav' => []
         ]);
     }
+    #[Route('/edit-chantier/{id}', name: 'edit_chantiers')]
+    public function edit_chantier(Chantiers $chantier, Request $request): Response
+    {
+
+
+       
+        $form = $this->createForm(ChantierType::class, $chantier);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+
+        // on verifier la formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $resulat = $this->chantiersRepository->add_update_depot($chantier);
+            if ($resulat) {
+                $this->addFlash("success", "Dépot a été correctement modifier");
+                return $this->redirectToRoute("app_chantiers");
+            } else {
+            }
+        }
+
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('chantiers/new.html.twig', [
+            'ticket' => null,
+            'form' => $form->createView(),
+            'title' => 'Modifier Chantiers',
+            'nav' => [['app_chantiers', 'Chantiers']]
+        ]);
+    }
+
+
 }

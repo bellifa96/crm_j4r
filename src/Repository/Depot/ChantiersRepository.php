@@ -4,13 +4,12 @@
 namespace App\Repository\Depot;
 
 use App\Entity\Depot\Chantiers;
-use App\Entity\Depot\Chauffeurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 /**
- * @extends ServiceEntityRepository<Chauffeurs>
+ * @extends ServiceEntityRepository<Chantiers>
  *
  * Depot Repository c'est la partie DAO dans la couche trois Tiers pour la communication avec la base de donne -> couche service -> couche web (Controller)
  */
@@ -39,7 +38,17 @@ class ChantiersRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
-
+    
+    public function add_update_depot(Chantiers $agence)
+    {
+        try {
+            $this->_em->persist($agence);
+            $this->_em->flush();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
    
 
  

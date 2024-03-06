@@ -1,0 +1,123 @@
+{{ form_start(form) }}
+<div class="container mt-5">
+
+
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Code Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.datedebfin,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Nom Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.numchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Adresse Dépot
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.etat,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Agence
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.idagence,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+				
+
+				</div>
+
+				<div class="col-md-6">
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Nom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.demarrage,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Prénom
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.titulaire,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Tél
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Contact Portable
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.cp,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							Email Contact
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.client,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							nomchantier
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.nomchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							voie
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.voie,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-4 text-end label">
+							adresse
+						</div>
+						<div class="col-md-8">
+							{{ form_widget(form.adresse,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
+
+		</div>
+	</div>
+</div>
+
+{{ form_end(form) }}
