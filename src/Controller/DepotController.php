@@ -63,7 +63,7 @@ class DepotController extends AbstractController
             }
         }
         return $this->render('depot/index.html.twig', [
-            'controller_name' => 'AgenceController',
+            'controller_name' => 'DepotController',
             'title' => 'Dépot',
             'depots' => $depot,
             'agences' => $agences,
