@@ -69,7 +69,7 @@ class DepotController extends AbstractController
             'agences' => $agences,
             'isAdmin' => $admin,
 
-            'nav' => []
+            'nav' => [['app_depot_add', 'Création un Dépot']]
         ]);
     }
     /** méthod pour afficher le formulaire et stocker les donées   */

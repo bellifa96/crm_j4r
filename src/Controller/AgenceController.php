@@ -62,10 +62,10 @@ class AgenceController extends AbstractController
 
         return $this->render('agence/index.html.twig', [
             'controller_name' => 'AgenceController',
-            'title' => '',
+            'title' => 'Agence',
             'agences' => $agences,
             'isAdmin' => $admin,
-            'nav' => []
+            'nav' => [['app_agence_add_agence', 'Création une Agence']]
         ]);
     }
     /** méthod pour afficher le formulaire et stocker les donées   */
