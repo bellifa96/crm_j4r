@@ -214,6 +214,7 @@ class DepotController extends AbstractController
             return new JsonResponse($response);
         }
     }
+    // lors du création d'un depot o, dupliquer les articles layher toutes utilisant les approches optimzation
     public function duplicate_article_by_depot_layher_nouveau_agence_created($agence, $depot)
     {
         $this->entityManager->getConnection()->getConfiguration()->setSQLLogger(null);

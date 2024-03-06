@@ -36,6 +36,7 @@ class ChantiersController extends AbstractController
             'nav' => []
         ]);
     }
+    // modifier chantiers
     #[Route('/edit-chantier/{id}', name: 'edit_chantiers')]
     public function edit_chantier(Chantiers $chantier, Request $request): Response
     {

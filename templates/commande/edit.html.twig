@@ -84,7 +84,7 @@ calculer_toutes_qte(moinsZeroValue);
 if (drap == true) {
 $(document).ready(function () {
 
-	let totalPoids = Math.round((sumqteSortie + sumqtepre) * 100) / 100;
+let totalPoids = Math.round((sumqteSortie + sumqtepre) * 100) / 100;
 
 $("#commande_PoidsTotMat").val(totalPoids);
 });
@@ -227,21 +227,24 @@ let qteValue = parseFloat(qte[i].innerHTML) || 0;
 let qteSortieValue = parseFloat(qteSortie[i].innerHTML) || 0;
 
 let poidsArticleValue = parseFloat(poidsArticle[i].innerHTML) || 0;
- sum += qteValue * poidsArticleValue;
- sumpoidsqteSortie += poidsArticleValue * qteSortieValue ;
+sum += qteValue * poidsArticleValue;
+sumpoidsqteSortie += poidsArticleValue * qteSortieValue;
 }
- sum = Math.round(sum * 100) / 100;
- sumpoidsqteSortie = Math.round(sumpoidsqteSortie * 100) / 100;
+sum = Math.round(sum * 100) / 100;
+sumpoidsqteSortie = Math.round(sumpoidsqteSortie * 100) / 100;
 
 document.getElementById("poidsqte").innerHTML = sum;
 document.getElementById("poidsqteSortie").innerHTML = sumpoidsqteSortie;
+if (sumpoidsqteSortie != 0) {
+document.getElementById("affecter_transport").style.display = "none";
+}
 $("#commande_PoidsTotMat").val(sum);
 
 }
 function init() {
 let poidsArticle = document.getElementsByClassName("poids");
 let sumQte = calculer_poids_QteCommande(poidsArticle, "qteSortie");
- sumQte = Math.round(sumQte * 100) / 100;
+sumQte = Math.round(sumQte * 100) / 100;
 
 $("#commande_PoidsTotMat").val(sumQte);
 
@@ -265,7 +268,7 @@ let poidsArticle = document.getElementsByClassName("poids");
 calculer_poids_QteCommande(poidsArticle, "qtePreparer");
 let sumpoidsqteSortie = parseFloat(document.getElementById("poidsqteSortie").innerHTML) || 0;
 let poidsqtePreparer = parseFloat(document.getElementById("poidsqtePreparer").innerHTML) || 0;
- let sumQte = Math.round((poidsqtePreparer + sumpoidsqteSortie) * 100) / 100;
+let sumQte = Math.round((poidsqtePreparer + sumpoidsqteSortie) * 100) / 100;
 
 $("#commande_PoidsTotMat").val(sumQte);
 });
