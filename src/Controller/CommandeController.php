@@ -7,6 +7,7 @@ use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
 use App\Repository\Depot\DepotRepository;
+use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
@@ -35,7 +36,9 @@ class CommandeController extends AbstractController
         private ArticleRepository $articleRepository,
         private PdfService $pdfService,
         private Environment $environment,
-        private OutlookService $outlookService
+        private OutlookService $outlookService,
+        private TransporteurRepository $transporteurRepository
+
 
     ) {
         $this->agenceRepository = $agenceRepository;
@@ -105,6 +108,8 @@ class CommandeController extends AbstractController
     {
         $depots = null;
         try {
+            $transport = $this->transporteurRepository->findAll();
+
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
 
             $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(), 1);
@@ -134,6 +139,7 @@ class CommandeController extends AbstractController
                 'nav' => [['app_commande', 'Commande']],
                 'articles' => $articles,
                 'depots' => $depots,
+                'transporteurs' => $transport,
                 'articlesbyDepot' => $articlesbyDepot,
                 'idCdeEnte' => $cdeMatEnt->getId()
             ]);
@@ -190,6 +196,16 @@ class CommandeController extends AbstractController
             return $this->json([]);
         }
     }
+
+    #[Route('/commandes/transporteurs', name: 'api_transporteurs')]
+    public function list_transorteur(): JsonResponse
+    {
+        $transporteurs = $this->transporteurRepository->findAll();
+
+
+        return $this->json($transporteurs);
+    }
+
     /** méthod pour ajouter    */
     #[Route('/add-commande', name: 'app_new_commande')]
     public function add_commande(Request $request)

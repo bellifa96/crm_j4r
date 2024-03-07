@@ -27,6 +27,9 @@
 		background-color: rgba(0, 0, 0, 0.5);
 		z-index: 0;
 	}
+	.text-danger {
+    color: red;
+}
 </style>
 
 {# your-form-template.html.twig #}
@@ -227,12 +230,16 @@
 			</button>
 		</div>
 		<div class="col-md-6" id="affecter_transport">
-			<button type="submit" class="btn btn-success btn-block" {% if depots.codedepot == 2 %} onclick="" {% endif %}>
+			<div id="affectation_btn" class="btn btn-success btn-block" {% if depots.codedepot == 2 %} onclick="" {% endif %}>
 				<span class="mr-2">Affecter Transport</span>
 				<i class="fas fa-check"></i>
-			</button>
+			</div>
 		</div>
 	</div>
+</div>
+<div id="affectation_transport" style="display:none;">
+	{% include "commande/_affecter_transport.html.twig" %}
+
 </div>
 {{ form_end(form) }}
 <br>
@@ -268,11 +275,13 @@
 					<th>Qte Sorties</th>
 					<th>Poids</th>
 					<th>Type</th>
+					<th>Alert</th>
+
 				</tr>
 			</thead>
 			<tbody>
 				{% for article in articles %}
-					<tr>
+					<tr class="{{ article.qte < article.QteSortie and article.QteSortie != 0 ? 'text-danger' : '' }}">
 						<td>{{ article.Article }}</td>
 						<td>{{ article.Designation }}</td>
 						<td class="qte">{{article.qte}}</td>
@@ -280,8 +289,13 @@
 						<td class="poids">{{ article.Poids}}</td>
 						<td>{{ article.TypeMat}}</td>
 						<input class="iddepot" type="hidden" value="{{ article.id }}">
-
-
+						<td>
+							{% if article.qte < article.QteSortie and article.QteSortie != 0 %}
+								<i class="fas fa-exclamation-triangle text-danger"></i>
+							{% else %}
+								<i class="fas fa-check text-success"></i>
+							{% endif %}
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -479,4 +493,8 @@ function createDblClickHandler(article) {
 return function () {
 test(article[1], article[0], article[2]);
 };
-}</script>
+}
+
+
+
+</script>
