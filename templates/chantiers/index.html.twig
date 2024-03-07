@@ -102,7 +102,9 @@
 		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
-					<th>IdChantiers</th>
+					<th>Code Chantier</th>
+					<th>Client</th>
+
 					<th>Nom Chantier</th>
 					<th>Ville</th>
 					<th>Etat</th>
@@ -118,7 +120,9 @@
 
 				{% for ch in chantiers %}
 					<tr>
-						<td>{{ ch.idchantier }}</td>
+						<td>{{ ch.numchantier }}</td>
+						<td>{{ ch.client }}</td>
+
 						<td>{{ ch.nomchantier }}</td>
 						<td>{{ ch.ville }}</td>
 						<td>{{ ch.Etat }}</td>
