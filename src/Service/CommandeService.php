@@ -207,6 +207,7 @@ class CommandeService
             $commande->setNumErpVente($formData['commande']['NumErpVente'] ?? '0');
             $commande->setNumErpLocation($formData['commande']['NumErpLocation'] ?? '0');
             $commande->setIddepot($depot);
+            $commande->setActif(true);
 
             $idCde = $this->cdeMatEntRepository->save($commande);
 

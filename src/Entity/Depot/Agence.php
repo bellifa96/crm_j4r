@@ -73,7 +73,7 @@ class Agence
 
     private $commentaires = '';
 
-    #[ORM\OneToMany(targetEntity: Depot::class, mappedBy: 'agences')]
+    #[ORM\OneToMany(targetEntity: Depot::class, mappedBy: 'agence')]
     private Collection $depots;
 
     #[ORM\OneToMany(targetEntity: Mouvements::class, mappedBy: "idagence")]

@@ -72,7 +72,7 @@ class Depot
     private $codechantier = '0';
 
     #[ORM\ManyToOne(targetEntity:Agence::class, inversedBy: 'depots')]
-    #[ORM\JoinColumn(name:'idagence', referencedColumnName:'idagence')]
+    #[ORM\JoinColumn(name:'IDAgence', referencedColumnName:'idagence')]
     private Agence $agence;
 
 

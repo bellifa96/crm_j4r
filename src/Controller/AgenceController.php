@@ -122,7 +122,6 @@ class AgenceController extends AbstractController
 
         // on crééer un "nouveau Agence"
 
-
         // Split the string into opening and closing times
         list($ouverture, $fermeture) = explode('-', $agence->getInfoouverture());
 
