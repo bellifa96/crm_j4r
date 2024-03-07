@@ -10,55 +10,64 @@
 								<option value="{{trs.idtransporteur}}">{{trs.societe}}</option>
 							{% endfor %}
 						</select>
-					
-				</div>
 
-
-				<div class="form-group" style="display:flex;">
-					<div class="col-md-3 text-end label">
-						Date
-					</div>
-					<div class="col-md-4">
-
-						<input type="date" id="date" name="date" class="form-control form-control-sm-2 societe-input" value="{{ "now"|date("d/m/Y") }}">
 					</div>
 
-					<div class="col-md-4">
 
-						<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure">
+					<div class="form-group" style="display:flex;">
+						<div class="col-md-3 text-end label">
+						Type Enlevement
+						</div>
+						<div class="col-md-4">
+
+							<select name="type_enlevement" id="type_enlevement" class="form-control form-control-sm-2 societe-input">
+								<option value="5" seleted></option>
+								<option value="1">A journéé</option>
+								<option value="2">A la semaine</option>
+								<option value="3">A partir</option>
+								<option value="4">Imperatif</option>
+							</select>
+						</div>
+
+						<div class="col-md-4">
+
+							<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure" value="{{ cdeEnteHeure }}">
+
+						</div>
+
 					</div>
 
+					<!-- Add similar blocks for other fields in the first column -->
 				</div>
 
-				<!-- Add similar blocks for other fields in the first column -->
-			</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Type Tarification</label>
+						<select name="taux" id="tauxSelect" class="form-control form-control-sm-2 societe-input">
+							<option value="5" seleted>Taux Tonne</option>
+							<option value="1">Taux Horaire</option>
+							<option value="2">Taux Tour</option>
+							<option value="3">Taux Jour</option>
+							<option value="4">Taux Demi Jour</option>
+						</select>
+					</div>
 
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="codeChantier" class="font-weight-bold">Type Tarification</label>
-					<select name="taux" id="tauxSelect" class="form-control form-control-sm-2 societe-input">
-						<option value="5" seleted>Taux Tonne</option>
-						<option value="1">Taux Horaire</option>
-						<option value="2">Taux Tour</option>
-						<option value="3">Taux Jour</option>
-						<option value="4">Taux Demi Jour</option>
-					</select>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Tarification</label>
+						<input type="number" id="tarification" name="tarification" value="42" class="form-control form-control-sm-2 societe-input ">
+					</div>
+
+
+					<!-- Add similar blocks for other fields in the third column -->
+					<div class="btn btn-light" id="save_affectation">Affecter</div>
+					<div class="btn btn-light" id="fermer">Fermer</div>
+
 				</div>
-
-				<div class="form-group" id="qte">
-					<label for="codeChantier" class="font-weight-bold">Tarification</label>
-					<input type="number" id="tarification" name="tarification" value="42" class="form-control form-control-sm-2 societe-input ">
-				</div>
-
-
-				<!-- Add similar blocks for other fields in the third column -->
-				<div class="btn btn-light" id="save_affectation">Affecter</div>
-				<div class="btn btn-light" id="fermer">Fermer</div>
-
 			</div>
 		</div>
 	</div>
-</div></div></div><script>$(document).ready(function () {
+</div></div><script>
+$(document).ready(function () {
 $("#fermer").click(function () {
 $("#affectation_transport").hide(); // Cache l'élément avec l'ID 'affectation_transport'
 });
@@ -69,73 +78,112 @@ $("#affectation_transport").show(); // afficher l'élément avec l'ID 'affectati
 });
 // event listner sur select transporteur
 
-$('#transporteur').change(function() {
-	// Récupère l'ID sélectionné
-	var selectedId = $(this).val();
-	
-	// Récupère les données des transporteurs depuis localStorage
-	var transporteurs = JSON.parse(localStorage.getItem('transporteurs')) || [];
+$('#transporteur').change(function () { // Récupère l'ID sélectionné
+var selectedId = $(this).val();
 
-	// Recherche si l'ID sélectionné est dans les données stockées
-	var transporteurTrouve = transporteurs.find(function(trs) {
-		return trs.idtransporteur.toString() === selectedId;
-	});
+// Récupère les données des transporteurs depuis localStorage
+var transporteurs = JSON.parse(localStorage.getItem('transporteurs')) || [];
 
-	// Comparaison et action en fonction de la correspondance
-	if (transporteurTrouve) {
-		// Vous pouvez ici accéder à d'autres propriétés comme transporteurTrouve.tauxprefere
-		
-		// Exemple d'action: mettre à jour un autre champ avec le taux préféré
-		$('#tauxPrefere').val(transporteurTrouve.tauxprefere);
-		$('#tauxSelect').val(transporteurTrouve.tauxprefere);
-		var tauxPrefere = transporteurTrouve.tauxprefere;
+// Recherche si l'ID sélectionné est dans les données stockées
+var transporteurTrouve = transporteurs.find(function (trs) {
+return trs.idtransporteur.toString() === selectedId;
+});
 
-		switch(tauxPrefere) {
-			case "1":
-				// Logique spécifique au cas 1
-				$('#tarification').val(transporteurTrouve.tauxhoraire);
-				break;
-			case "2":
-				// Logique spécifique au cas 2
-				$('#tarification').val(transporteurTrouve.tauxtour);
-				break;
-			case "3":
-				// Logique spécifique au cas 3
-				$('#tarification').val(transporteurTrouve.tauxjour);
-				break;
-			case "4":
-				// Logique spécifique au cas 4
-				$('#tarification').val(transporteurTrouve.tauxdemijour);
-				break;
-			case "5":
-				// Logique spécifique au cas 5
-				$('#tarification').val(transporteurTrouve.tauxtonne);
-				break;
-			default:
-				console.log('Aucun taux préféré spécifié ou valeur non reconnue.');
-			
-		}
+// Comparaison et action en fonction de la correspondance
+if (transporteurTrouve) {
+// Vous pouvez ici accéder à d'autres propriétés comme transporteurTrouve.tauxprefere
+
+// Exemple d'action: mettre à jour un autre champ avec le taux préféré
+$('#tauxPrefere').val(transporteurTrouve.tauxprefere);
+$('#tauxSelect').val(transporteurTrouve.tauxprefere);
+var tauxPrefere = transporteurTrouve.tauxprefere;
+
+switch (tauxPrefere) {
+case "1":
+// Logique spécifique au cas 1
+$('#tarification').val(transporteurTrouve.tauxhoraire);
+break;
+case "2":
+// Logique spécifique au cas 2
+$('#tarification').val(transporteurTrouve.tauxtour);
+break;
+case "3":
+// Logique spécifique au cas 3
+$('#tarification').val(transporteurTrouve.tauxjour);
+break;
+case "4":
+// Logique spécifique au cas 4
+$('#tarification').val(transporteurTrouve.tauxdemijour);
+break;
+case "5":
+// Logique spécifique au cas 5
+$('#tarification').val(transporteurTrouve.tauxtonne);
+break;
+default:
+console.log('Aucun taux préféré spécifié ou valeur non reconnue.');
+
+}
 
 
-	} else {
-		console.log("Aucun transporteur correspondant trouvé dans localStorage.");
-	}
+} else {
+console.log("Aucun transporteur correspondant trouvé dans localStorage.");
+}
 });
 // fin evennt select
 
-}); 
-  // o, stocker les donnes sur localStorage les donnes des tranporteurs 
-	$(document).ready(function() {
-		// Vérifie si les données ne sont pas déjà stockées
-		if (!localStorage.getItem('transporteurs')) {
-			$.getJSON('/commandes/transporteurs', function(data) {
-				localStorage.setItem('transporteurs', JSON.stringify(data));
-			});
-		}
-	
-		// Exemple de récupération et utilisation des données
-		const transporteurs = JSON.parse(localStorage.getItem('transporteurs'));
-		console.log(transporteurs); // Utilisez les données comme nécessaire
-	});
+// button affection
+$("#save_affectation").click(function () { // Initialisation d'un drapeau pour vérifier la validité des champs
+let isValid = true;
 
-</script>
+// Vérifie si le transporteur est sélectionné
+if ($("#transporteur").val() === "") {
+alert("Veuillez sélectionner un transporteur.");
+isValid = false;
+}
+
+// Vérifie si la date est remplie
+if ($("#date").val() === "") {
+alert("Veuillez sélectionner une date.");
+isValid = false;
+}
+
+// Vérifie si l'heure est remplie
+if ($("#heure").val() === "") {
+alert("Veuillez sélectionner une heure.");
+isValid = false;
+}
+
+// Vérifie si un type de tarification est sélectionné
+if ($("#tauxSelect").val() === "") {
+alert("Veuillez sélectionner un type de tarification.");
+isValid = false;
+}
+
+// Vérifie si la tarification est remplie
+if ($("#tarification").val() === "") {
+alert("Veuillez entrer une tarification.");
+isValid = false;
+}
+
+// Si tous les champs sont valides, procéder avec l'action
+if (isValid) { // Logique pour sauvegarder ou soumettre les informations
+console.log("Tous les champs sont valides. Procédure d'affectation...");
+// Ici, vous pouvez par exemple soumettre le formulaire
+// $("#monFormulaire").submit();
+}
+});
+
+
+});
+// o, stocker les donnes sur localStorage les donnes des tranporteurs
+$(document).ready(function () { // Vérifie si les données ne sont pas déjà stockées
+if (!localStorage.getItem('transporteurs')) {
+$.getJSON('/commandes/transporteurs', function (data) {
+localStorage.setItem('transporteurs', JSON.stringify(data));
+});
+}
+
+// Exemple de récupération et utilisation des données
+const transporteurs = JSON.parse(localStorage.getItem('transporteurs'));
+console.log(transporteurs); // Utilisez les données comme nécessaire
+});</script>
