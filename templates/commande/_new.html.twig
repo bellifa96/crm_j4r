@@ -30,6 +30,15 @@
 	.text-danger {
     color: red;
 }
+.custom-message {
+    background-color: #cce5ff; /* Light blue background */
+    border-color: #b8daff; /* Light blue border */
+    color: #004085; /* Dark blue text */
+    padding: 10px; /* Padding around the content */
+    border: 1px solid transparent; /* Transparent border */
+    border-radius: .25rem; /* Rounded corners */
+	text-align:center;
+}
 </style>
 
 {# your-form-template.html.twig #}
@@ -229,13 +238,21 @@
 				<i class="fas fa-check"></i>
 			</button>
 		</div>
-		<div class="col-md-6" id="affecter_transport" {% if transport != null %} style="display:none;" {% endif %}>
+		{% if transport == null %}
+		<div class="col-md-6" id="affecter_transport">
 			<div id="affectation_btn" class="btn btn-success btn-block">
 				<span class="mr-2">Affecter Transport</span>
 				<i class="fas fa-check"></i>
 			</div>
 		</div>
-		
+     	{% else %}
+		 <div class="col-md-6" class="">
+		   <div id="affectation_message" class="custom-message">
+		  <span class="mr-2">La commande a était bien Affecter</span>
+		       <i class="fas fa-check"></i>
+	        </div>
+		</div>
+	    {% endif %}
 	</div>
 </div>
 <div id="affectation_transport" style="display:none;">
