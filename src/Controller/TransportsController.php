@@ -7,6 +7,7 @@ use App\Entity\Depot\Transporteur;
 use App\Repository\Affaire\TransportRepository;
 use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatEntRepository;
+use App\Service\OutlookService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +22,9 @@ class TransportsController extends AbstractController
     public function __construct(
         private CdeMatEntRepository $cdeMatEntRepository,
         private TransporteurRepository $transporteurRepository,
-        private TransportRepository $transportRepository
+        private TransportRepository $transportRepository,
+        private OutlookService $outlookService,
+
 
     ) {
     }
@@ -73,11 +76,9 @@ class TransportsController extends AbstractController
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
             $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
-
             $this->transportRepository->add($transpots);
-
-
-            return new JsonResponse(['message' => 'Transport affecté avec succès.'], JsonResponse::HTTP_OK);
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar());
+            return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
             dd($e->getMessage());

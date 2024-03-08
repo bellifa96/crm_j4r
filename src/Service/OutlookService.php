@@ -89,6 +89,34 @@ class OutlookService
         }
 
      }
+     // modifier Affrete aprés affectation transport
+
+     public function change_to_affreter($events_id){
+        $this->accessToken = $this->paramAgenceRepository->getTokens();
+        $categories = "Affreter";
+        $updatedEventData = array(
+            'categories' => [$categories], // Add the etiquette as a category
+        );
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/".$this->userId."/events/".$events_id;
+        $response = $this->client->request('PATCH', $graphApiEndpoint, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => $updatedEventData, // Send updated event data as JSON payload
+
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            // Event updated successfully
+            return true;
+        } else {
+            
+            return false;
+        }
+
+     }
+
 
 
 
