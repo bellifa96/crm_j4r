@@ -1,20 +1,128 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TransportsController!{% endblock %}
+{% block title %}
+	Transports
+
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%; /* Set your desired width */
+			padding: 10px;
+		}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		.left {
+			flex: 1; /* Takes up available space on the left */
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/crm/src/Controller/TransportsController.php'|file_link(0) }}">src/Controller/TransportsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/crm/templates/transports/index.html.twig'|file_link(0) }}">templates/transports/index.html.twig</a></code></li>
-    </ul>
+		}
+
+		.right {
+			flex: 2; /* Takes up available space on the right */
+			margin-left: 20px; /* Add margin for spacing between left and right */
+		}
+
+		select {
+			width: 20%;
+			padding: 5px;
+		}
+		.title_article {
+			font-family: 'Poppins', sans-serif;
+			color: black;
+			font-size: 30px;
+			margin-left: 10%;
+		}
+		.basic {
+			width: 200px;
+			height: 35px;
+			background: #f5f5f5;
+			font-family: 'Poppins', sans-serif;
+			margin-left: 70%;
+
+
+		}
+	</style>
+
+	<div class="example-wrapper"></div>
+	<div id="popupFormContainer"></div>
+
+	<div class="page-block col-lg-12">
+		<table class="table text-center datatable" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>
+						Date Enlevements
+					</th>
+					<th>
+						Numero ERP Locations
+					</th>
+					<th>
+						num chantiers
+					</th>
+					<th>
+						Adress Chantiers
+					</th>
+					<th>
+						Transporteur
+					</th>
+					<th>
+						Type
+					</th>
+					<th>
+						Action
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for transport in transports %}
+					<tr>
+
+						<td>
+							{{ transport.idcde.DateEnlevReel|date("Y-m-d") }}
+						</td>
+						<td>
+							{{ transport.idcde.NumErpLocation }}
+						</td>
+						<td>
+							{{ transport.idcde.CodeChantier }}
+						</td>
+						<td>
+							{{ transport.idcde.AdresseChantier }}
+						</td>
+						<td>
+							{{ transport.idtransporteur.societe }}
+						</td>
+						<td>
+							{% if transport.sens == 1 %}
+                                Livraison
+                            {% elseif transport.sens == 2 %}
+								Rotation
+							{% elseif transport.sens == 3 %}
+								Output if sens is 3
+							{% else %}
+								Output if sens is none of the specified values
+							{% endif %}
+						</td>
+						<td>
+							<a href="" class="btn btn-warning" style="font-size: 10px;">
+								<i class="bi bi-pencil"></i>
+							</a>
+							<a href="#" onclick="" class="btn btn-danger" style="font-size: 10px;">
+								<i class="bi bi-trash3-fill"></i>
+							</a>
+
+						</td>
+
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</tbody>
+	</table>
 </div>
-{% endblock %}
+<script></script>{% endblock %}

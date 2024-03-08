@@ -1,88 +1,127 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Transport index{% endblock %}
-
-{% block body %}
-    <h1>Transport index</h1>
-
-    <div class="row" style="overflow: auto;">
-
-
-        <table class="table datatable table-responsive">
-            <thead>
-            <tr class="tr-head">
-                <th>id</th>
-                <th>Code J4R</th>
-                <th>Code Layher</th>
-                <th>N°Commande</th>
-                <th>ERP</th>
-                <th>Statut</th>
-                <th>CDT Travaux</th>
-                <th>Adresse chantier</th>
-                <th>Poids Commandé</th>
-                <th>Heure prévue</th>
-                <th>Heure d'arrivé Layher</th>
-                <th>Nbr d'heure prévues</th>
-                <th>Nbr d'heure passée</th>
-                <th>Type TRSP</th>
-                <th>TypeDeVehicule</th>
-                <th>TonnageCommandé</th>
-                <th>TonnagePrepare</th>
-                <th>TonnageLivre</th>
-                <th>Base de prix</th>
-                <th>Prix</th>
-                <th>MontantDeLaCourse</th>
-                <th>AdresseEnlevement</th>
-                <th>Date D'enlèvement Demandée</th>
-                <th>InstructionEnlevementConducteur</th>
-                <th>AdresseLivraison</th>
-                <th>DateLivraisonDemande</th>
-                <th>ReferenceLivraison</th>
-                <th>InstructionLivraisonConducteur</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for transport in transports %}
-                <tr>
-                    <td><a href="{{ path('app_affaire_transport_show',{'id':transport.id}) }}">{{ transport.id }}</a>
-                    </td>
-                    <td>{{ transport.codeChantierJ4R }}</td>
-                    <td>{{ transport.codeChantierLayher }}</td>
-                    <td>{{ transport.id }}</td>
-                    <td>{{ transport.codeERP }}</td>
-                    <td>{{ transport.statut }}</td>
-                    <td>{{ transport.chantier.createur.firstname~" "~transport.chantier.createur.telephoneMobile }}</td>
-                    <td>{{ transport.typeDeVehicule }}</td>
-                    <td>{{ transport.tonnageCommande }}</td>
-                    <td>{{ transport.tonnagePrepare }}</td>
-                    <td>{{ transport.tonnageLivre }}</td>
-                    <td>{{ transport.prix['type'] }}</td>
-                    <td>{{ transport.prix['montant'] }}</td>
-                    <td>{{ transport.montantDeLaCourse }}</td>
-                    <td>{{ transport.adresseEnlevement }}</td>
-                    <td>{{ transport.dateDEnlevementDemande~" "~transport.heureLivraison|date('H:i') }}</td>
-                    <td>{{ transport.instructionEnlevementConducteur }}</td>
-                    <td>{{ transport.adresseLivraison }}</td>
-                    <td>{{ transport.dateLivraisonDemande }}</td>
-                    <td>{{ transport.referenceLivraison }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                    <td>{{ transport.instructionLivraisonConducteur }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="28">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-    </div>
-    <a href="{{ path('app_affaire_transport_new') }}">Create new</a>
+{% block title %}
+	Transports
 
 {% endblock %}
+
+{% block body %}
+	<style>
+		.container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%; /* Set your desired width */
+			padding: 10px;
+		}
+
+		.left {
+			flex: 1; /* Takes up available space on the left */
+
+		}
+
+		.right {
+			flex: 2; /* Takes up available space on the right */
+			margin-left: 20px; /* Add margin for spacing between left and right */
+		}
+
+		select {
+			width: 20%;
+			padding: 5px;
+		}
+		.title_article {
+			font-family: 'Poppins', sans-serif;
+			color: black;
+			font-size: 30px;
+			margin-left: 10%;
+		}
+		.basic {
+			width: 200px;
+			height: 35px;
+			background: #f5f5f5;
+			font-family: 'Poppins', sans-serif;
+			margin-left: 70%;
+
+
+		}
+	</style>
+
+	<div class="example-wrapper"></div>
+	<div id="popupFormContainer"></div>
+
+	<div class="page-block col-lg-12">
+		<table class="table text-center datatable" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>
+						Id
+					</th>
+					<th>
+						Nom Agence
+					</th>
+					<th>
+						Adresse Agence
+					</th>
+					<th>
+						Code Postale
+					</th>
+					<th>
+						Ville Agence
+					</th>
+					<th>
+						Télephone
+					</th>
+					<th>
+						Portable
+					</th>
+					<th>
+						Action
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for transport in transports %}
+					<tr>
+						<td>
+							{{ transport.agence }}
+						</td>
+						<td>
+							{{ transport.nomagence }}
+						</td>
+						<td>
+							{{ transport.adresseagence }}
+						</td>
+						<td>
+							{{ transport.cpagence }}
+						</td>
+						<td>
+							{{ transport.villeagence }}
+						</td>
+						<td>
+							{{ transport.contacttel }}
+						</td>
+						<td>
+							{{ transport.contactportable }}
+						</td>
+						<td>
+							<a href="" class="btn btn-warning" style="font-size: 10px;">
+								<i class="bi bi-pencil"></i>
+							</a>
+							{% if isAdmin %}
+								<a href="#" onclick="" class="btn btn-danger" style="font-size: 10px;">
+									<i class="bi bi-trash3-fill"></i>
+								</a>
+							{% endif %}
+
+						</td>
+
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</tbody>
+	</table>
+</div>
+<script></script>{% endblock %}

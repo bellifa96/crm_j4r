@@ -29,8 +29,12 @@ class TransportsController extends AbstractController
     #[Route('/transports', name: 'app_transports')]
     public function index(): Response
     {
+        $transports = $this->transportRepository->findAll();
         return $this->render('transports/index.html.twig', [
             'controller_name' => 'TransportsController',
+            'title' => 'Transports',
+            'transports' => $transports,
+            'nav' => []
         ]);
     }
 
