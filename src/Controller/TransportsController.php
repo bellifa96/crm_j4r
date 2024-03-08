@@ -77,7 +77,7 @@ class TransportsController extends AbstractController
             $transpots->setObservation($observation);
             $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar());
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete());
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
