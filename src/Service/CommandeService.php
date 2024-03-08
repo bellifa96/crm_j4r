@@ -30,7 +30,8 @@ class CommandeService
         private CdeMatEntRepository $cdeMatEntRepository,
         private DepotRepository $depotRepository,
         private CdeMatDetRepository $cdeMatDetRepository,
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
+        private OutlookService $outlookService,
     ) {
         $this->params = $params;
     }
@@ -210,7 +211,6 @@ class CommandeService
             $commande->setActif(true);
 
             $idCde = $this->cdeMatEntRepository->save($commande);
-
             $this->save_cde_det($article,$idCde,$depot);
             return 1;
      
