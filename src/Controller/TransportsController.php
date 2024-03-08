@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
 
 class TransportsController extends AbstractController
 {
@@ -61,8 +62,17 @@ class TransportsController extends AbstractController
             $transpots->setHeuredep($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
+            $dateSaisie = new DateTime();
+
+            // Formater la date en français
+            $dateSaisieFormatee = $dateSaisie->format('d/m/Y H:i:s');
+            
+            // Définir la date formatée dans votre objet Transports
+            $transpots->setDatesaisie($dateSaisieFormatee);
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
+            $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
+
             $this->transportRepository->add($transpots);
 
 
