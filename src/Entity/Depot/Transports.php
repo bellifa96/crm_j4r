@@ -6,6 +6,8 @@ use App\Entity\Depot\Camions;
 use App\Entity\Depot\Chauffeurs;
 use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Affaire\TransportRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -135,6 +137,12 @@ class Transports
     #[ORM\ManyToOne(targetEntity:Chauffeurs::class)]
     #[ORM\JoinColumn(name:'idchauffeur', referencedColumnName:'idchauffeur')]
     private $idchauffeur;
+
+
+    
+
+
+    
 
     public function getIdtransport(): ?int
     {

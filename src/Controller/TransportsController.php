@@ -62,13 +62,10 @@ class TransportsController extends AbstractController
             $transpots->setHeuredep($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
-            $dateSaisie = new DateTime();
 
-            // Formater la date en français
-            $dateSaisieFormatee = $dateSaisie->format('d/m/Y H:i:s');
             
             // Définir la date formatée dans votre objet Transports
-            $transpots->setDatesaisie($dateSaisieFormatee);
+            $transpots->setDatesaisie(new DateTime());
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
             $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());

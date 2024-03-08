@@ -21,7 +21,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Twig\Environment;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class CommandeController extends AbstractController
 {
@@ -90,14 +92,24 @@ class CommandeController extends AbstractController
 
     /** méthod pour afficher le formulaire et stocker les donées   */
     #[Route('/get-commande', name: 'app_command_depot')]
-    public function getCommandeByIdDepot(Request $request)
+    public function getCommandeByIdDepot(Request $request, SerializerInterface $serializer)
     {
         try {
             $id_depot = $request->query->get('selectedDepot');
-            $articles = $this->cdeMatEntRepository->listCommandebyIdepot($id_depot);
-            return $this->json($articles);
+        
+            return $this->json(
+                json_decode(
+                    $serializer->serialize(
+                        $this->cdeMatEntRepository->listCommandebyIdepot($id_depot),
+                        'json',
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['transports']]
+                    ),
+                    JSON_OBJECT_AS_ARRAY
+                )
+            );
+    
         } catch (Exception $e) {
-
+            dd($e->getMessage());
             return $this->json([]);
         }
     }
@@ -142,7 +154,8 @@ class CommandeController extends AbstractController
                 'transporteurs' => $transport,
                 'articlesbyDepot' => $articlesbyDepot,
                 'idCdeEnte' => $cdeMatEnt->getId(),
-                'cdeEnteHeure' => $cdeMatEnt->getHeureEnlevDem()->format('H:i')
+                'cdeEnteHeure' => $cdeMatEnt->getHeureEnlevDem()->format('H:i'),
+                'transport' => $cdeMatEnt->getTransports()[0]
             ]);
         } catch (Exception $e) {
             dd($e->getMessage());

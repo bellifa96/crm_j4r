@@ -2,9 +2,13 @@
 
 namespace App\Entity\Transport;
 
+use App\Entity\Depot\Transports;
 use App\Repository\Transport\CdeMatEntRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CdeMatEntRepository::class)]
 class CdeMatEnt
@@ -133,7 +137,10 @@ class CdeMatEnt
 
     #[ORM\Column(type:"string")]
     private $Idcalendar;
+    #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'idcde')]
+    #[Groups(['cde_mat_ent'])]
 
+    private $transports;
 
     public function getIdCalendar() {
         return $this->Idcalendar;
@@ -141,6 +148,14 @@ class CdeMatEnt
 
     public function setIdCalendar($Idcalendar) {
         $this->Idcalendar = $Idcalendar;
+    }
+
+    /**
+     * @return Collection|Transports[]
+     */
+    public function getTransports(): Collection
+    {
+        return $this->transports;
     }
  
 
@@ -163,6 +178,8 @@ class CdeMatEnt
     }
 
     public function __construct() {
+        $this->transports = new ArrayCollection();
+
         if ($this->DateCde === null) {
             $this->DateCde = new \DateTime();
         }

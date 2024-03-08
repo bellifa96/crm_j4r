@@ -229,12 +229,13 @@
 				<i class="fas fa-check"></i>
 			</button>
 		</div>
-		<div class="col-md-6" id="affecter_transport">
-			<div id="affectation_btn" class="btn btn-success btn-block" {% if depots.codedepot == 2 %} onclick="" {% endif %}>
+		<div class="col-md-6" id="affecter_transport" {% if transport != null %} style="display:none;" {% endif %}>
+			<div id="affectation_btn" class="btn btn-success btn-block">
 				<span class="mr-2">Affecter Transport</span>
 				<i class="fas fa-check"></i>
 			</div>
 		</div>
+		
 	</div>
 </div>
 <div id="affectation_transport" style="display:none;">
