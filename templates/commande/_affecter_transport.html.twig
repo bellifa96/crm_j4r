@@ -12,16 +12,22 @@
 						</select>
 
 					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Observations</label>
+						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50"></textarea>
+
+
+					</div>
 
 
 					<div class="form-group" style="display:flex;">
 						<div class="col-md-3 text-end label">
-						Type Enlevement
+							Type Enlevement
 						</div>
 						<div class="col-md-4">
 
 							<select name="type_enlevement" id="type_enlevement" class="form-control form-control-sm-2 societe-input">
-								<option value="5" seleted></option>
+								<option value="0" seleted></option>
 								<option value="1">A journéé</option>
 								<option value="2">A la semaine</option>
 								<option value="3">A partir</option>
@@ -132,8 +138,10 @@ console.log("Aucun transporteur correspondant trouvé dans localStorage.");
 // fin evennt select
 
 // button affection
-$("#save_affectation").click(function () { // Initialisation d'un drapeau pour vérifier la validité des champs
+$("#save_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
 let isValid = true;
+e.preventDefault();
+// Empêche le comportement par défaut du formulaire
 
 // Vérifie si le transporteur est sélectionné
 if ($("#transporteur").val() === "") {
@@ -167,9 +175,51 @@ isValid = false;
 
 // Si tous les champs sont valides, procéder avec l'action
 if (isValid) { // Logique pour sauvegarder ou soumettre les informations
-console.log("Tous les champs sont valides. Procédure d'affectation...");
-// Ici, vous pouvez par exemple soumettre le formulaire
-// $("#monFormulaire").submit();
+var transporteur = $("#transporteur").val();
+var typeEnlevement = $("#type_enlevement").val();
+var heure = $("#heure").val();
+var taux = $("#tauxSelect").val();
+var tarification = $("#tarification").val();
+var cmdCodeEntre = $("#cmdCodeEntre").val();
+var observation = $("#observation").val();
+
+// Création de l'objet de données à envoyer
+var data = {
+transporteur: transporteur,
+type_enlevement: typeEnlevement,
+heure: heure,
+taux: taux,
+tarification: tarification,
+cmdCodeEntre: cmdCodeEntre,
+observation: observation
+
+};
+
+// Envoi de la requête AJAX
+$.ajax({
+type: "POST",
+url: "/affectation", // Remplacez par l'URL de votre point de terminaison
+data: data,
+success: function (response) {
+console.log(response.message);
+// Traitez la réponse du serveur ici
+
+// Afficher une boîte d'alerte avec deux choix
+var confirmation = confirm("Message de confirmation : " + response.message);
+
+// Vérifier la réponse de l'utilisateur
+if (confirmation) {
+	location.reload();
+
+} else {
+// L'utilisateur a cliqué sur le bouton "Annuler" ou a fermé la boîte d'alerte
+// Faire quelque chose en conséquence
+}
+},
+error: function (xhr, status, error) {
+console.error("Erreur lors de l'envoi de la requête: ", error);
+}
+});
 }
 });
 

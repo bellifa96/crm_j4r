@@ -64,7 +64,6 @@ class CdeMatEntRepository extends ServiceEntityRepository
         $data =  $this->createQueryBuilder('c')
             ->andWhere('c.Iddepot = :Iddepot')
             ->andWhere('c.Actif = false')
-
             ->setParameter('Iddepot', $Iddepot)
             ->orderBy('c.DateCde', 'DESC') // Adding the ORDER BY clause
             ->getQuery()
@@ -103,6 +102,21 @@ class CdeMatEntRepository extends ServiceEntityRepository
               return 500;
         }
       
+    }
+    public function findCdeById($id)
+    {
+        try {
+            return $this->createQueryBuilder('d')
+            ->select('d') // Select only id and nomdepot fields
+            ->andWhere('d.id  = :id')  // Corrected to provide a condition
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult(); // Use getOneOrNullResult() instead of getResult()
+        } catch (Exception $e) {
+            // Gérer ou journaliser l'exception selon vos besoins
+            dd($e->getMessage()); // dd est pour "dump and die", utilisé ici à des fins de débogage
+            return null;
+        }
     }
 
     //    /**

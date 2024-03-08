@@ -101,6 +101,10 @@ class Transporteur
     private $tauxprefere;
 
     #[ORM\Column(type: 'string')]
+
+
+    
+
     private $iban;
 
     public function getIdtransporteur()

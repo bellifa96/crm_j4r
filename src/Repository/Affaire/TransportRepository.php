@@ -2,12 +2,12 @@
 
 namespace App\Repository\Affaire;
 
-use App\Entity\Affaire\Transport;
+use App\Entity\Depot\Transports;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Transport>
+ * @extends ServiceEntityRepository<Transports>
  *
  * @method Transport|null find($id, $lockMode = null, $lockVersion = null)
  * @method Transport|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,19 +18,17 @@ class TransportRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Transport::class);
+        parent::__construct($registry, Transports::class);
     }
 
-    public function add(Transport $entity, bool $flush = false): void
+    public function add(Transports $entity): void
     {
         $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
-    public function remove(Transport $entity, bool $flush = false): void
+    public function remove(Transports $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,28 +37,28 @@ class TransportRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Transport[] Returns an array of Transport objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Transport[] Returns an array of Transport objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Transport
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Transport
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

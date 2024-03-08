@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Depot;
 
 use App\Entity\Depot\Camions;
 use App\Entity\Depot\Chauffeurs;
@@ -18,8 +18,7 @@ class Transports
     #[ORM\Column(type: 'bigint')]
     private $idtransport;
 
-    #[ORM\Column(type: 'date')]
-    private $datetrans = 'NULL';
+    
 
     #[ORM\Column(type: 'integer')]
     private $sens = '0';
@@ -82,7 +81,7 @@ class Transports
 
     #[ORM\Column(type: 'date')]
 
-    private $datesaisie = 'NULL';
+    private $datesaisie;
 
     #[ORM\Column(type: 'integer')]
 
@@ -115,6 +114,9 @@ class Transports
 
     private $envoiannulemail = '0';
 
+    #[ORM\Column(type: 'integer')]
+    private $typeEnlevement = '0';
+
  
     #[ORM\ManyToOne(targetEntity:CdeMatEnt::class)]
     #[ORM\JoinColumn(name:'idcde', referencedColumnName:'id')]
@@ -122,16 +124,16 @@ class Transports
 
     
     #[ORM\ManyToOne(targetEntity:Camions::class)]
-    #[ORM\JoinColumn(name:'idcamion', referencedColumnName:'IdCamion')]
+    #[ORM\JoinColumn(name:'idcamion', referencedColumnName:'idcamion')]
     private $idcamion;
 
-    #[ORM\ManyToOne(targetEntity:Camions::class)]
-    #[ORM\JoinColumn(name:'idcamion', referencedColumnName:'IdCamion')]
+    #[ORM\ManyToOne(targetEntity:Transporteur::class)]
+    #[ORM\JoinColumn(name:'idtransporteur', referencedColumnName:'idtransporteur')]
     private $idtransporteur;
 
    
     #[ORM\ManyToOne(targetEntity:Chauffeurs::class)]
-    #[ORM\JoinColumn(name:'idchauffeur', referencedColumnName:'IdChauffeur')]
+    #[ORM\JoinColumn(name:'idchauffeur', referencedColumnName:'idchauffeur')]
     private $idchauffeur;
 
     public function getIdtransport(): ?int
@@ -139,17 +141,7 @@ class Transports
         return $this->idtransport;
     }
 
-    public function getDatetrans()
-    {
-        return $this->datetrans;
-    }
-
-    public function setDatetrans(?\DateTimeInterface $datetrans): self
-    {
-        $this->datetrans = $datetrans;
-        return $this;
-    }
-
+   
     public function getSens(): ?int
     {
         return $this->sens;
@@ -317,12 +309,12 @@ class Transports
         return $this;
     }
 
-    public function getIdtransporteur(): ?Camions
+    public function getIdtransporteur(): ?Transporteur
     {
         return $this->idtransporteur;
     }
 
-    public function setIdtransporteur(?Camions $idtransporteur): self
+    public function setIdtransporteur(?Transporteur $idtransporteur): self
     {
         $this->idtransporteur = $idtransporteur;
         return $this;
@@ -338,6 +330,100 @@ class Transports
         $this->idchauffeur = $idchauffeur;
         return $this;
     }
+  
+    public function getHeuredep2(): ?string {
+        return $this->heuredep2;
+    }
 
+    public function setHeuredep2(?string $heuredep2): void {
+        $this->heuredep2 = $heuredep2;
+    }
+
+    public function getHeurearr2(): ?string {
+        return $this->heurearr2;
+    }
+
+    public function setHeurearr2(?string $heurearr2): void {
+        $this->heurearr2 = $heurearr2;
+    }
+
+    public function getDatesaisie() {
+        return $this->datesaisie;
+    }
+
+    public function setDatesaisie($datesaisie): void {
+        $this->datesaisie = $datesaisie;
+    }
+
+    public function getTauxPrefere(): ?string {
+        return $this->tauxPrefere;
+    }
+
+    public function setTauxPrefere(?string $tauxPrefere): void {
+        $this->tauxPrefere = $tauxPrefere;
+    }
+
+    public function getMontant(): ?string {
+        return $this->montant;
+    }
+
+    public function setMontant(?string $montant): void {
+        $this->montant = $montant;
+    }
+
+    public function getLitige(): ?string {
+        return $this->litige;
+    }
+
+    public function setLitige(?string $litige): void {
+        $this->litige = $litige;
+    }
+
+    public function getMotiflitige(): ?string {
+        return $this->motiflitige;
+    }
+
+    public function setMotiflitige(?string $motiflitige): void {
+        $this->motiflitige = $motiflitige;
+    }
+
+    public function getAnnulationtrans(): ?string {
+        return $this->annulationtrans;
+    }
+
+    public function setAnnulationtrans(?string $annulationtrans): void {
+        $this->annulationtrans = $annulationtrans;
+    }
+
+    public function getMotifannulation(): ?string {
+        return $this->motifannulation;
+    }
+
+    public function setMotifannulation(?string $motifannulation): void {
+        $this->motifannulation = $motifannulation;
+    }
+
+    public function getGroupagecamion(): ?string {
+        return $this->groupagecamion;
+    }
+
+    public function setGroupagecamion(?string $groupagecamion): void {
+        $this->groupagecamion = $groupagecamion;
+    }
+
+    public function getEnvoiannulemail(): ?string {
+        return $this->envoiannulemail;
+    }
+
+    public function setEnvoiannulemail(?string $envoiannulemail): void {
+        $this->envoiannulemail = $envoiannulemail;
+    }
+    public function getTypeEnlevement(): ?int {
+        return $this->typeEnlevement;
+    }
+
+    public function setTypeEnlevement(?int $typeEnlevement): void {
+        $this->typeEnlevement = $typeEnlevement;
+    }
 
 }
