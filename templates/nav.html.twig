@@ -275,6 +275,13 @@
 								Calendrier</span>
 						</a>
 					</li>
+					<li class="sidebar-item {{ app.request.get('_route') == 'app_calendrier' ? '' }} ">
+						<a href="{{ path('app_calendrier') }}" class="sidebar-link  ">
+							<i class="bi bi-truck-flatbed"></i>
+							<span>
+								Transports</span>
+						</a>
+					</li>
 
 
 				</ul>
