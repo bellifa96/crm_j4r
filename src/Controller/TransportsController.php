@@ -86,4 +86,15 @@ class TransportsController extends AbstractController
         }
     
     }
+    #[Route('/edit-transport-liv/{id}', name: 'edit_transport_liv')]
+    public function edit_transport(Transports $transports): Response
+    {
+        dd($transports->getIdcde()->getInitiales());
+        return $this->render('transports/index.html.twig', [
+            'controller_name' => 'TransportsController',
+            'title' => 'Transports',
+            'transports' => $transports,
+            'nav' => []
+        ]);
+    }
 }
