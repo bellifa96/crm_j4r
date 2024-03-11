@@ -113,9 +113,26 @@ class OutlookService
             return false;
         }
 
+        $parties = explode("-", $sujet);
+
+        // Récupère le dernier élément du tableau
+        $numero = trim(end($parties));
+
+        // Vérifie si le numéro contient "No"
+        if (strpos($numero, "No") !== false) { // Utilisez "!== false" pour une comparaison stricte
+            $parties[] = "ESG";
+        } else {
+            $parties[count($parties) - 1] = "Quanka";
+
+             // Ajoutez "ESG" au tableau des parties
+        }
+
+        // Rejoint les parties en utilisant le délimiteur "-"
+        $sujet = implode("-", $parties);
+
 
         // Étape 2: Ajouter un mot au sujet
-        $updatedSubject = $sujet . " " . $additionalWord;
+        $updatedSubject = $sujet;
 
         // Étape 3: Mettre à jour l'événement avec le nouveau sujet
         $categories = "Affreter";
