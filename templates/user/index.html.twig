@@ -28,10 +28,10 @@
 								<h4 class="title">Utilisateurs</h4>
 							</div>
 							{#
-														                            <div class="col-sm-7 col-xs-12 text-end">
-														                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-user"></i> CRM </a>
-														                            </div>
-														                            #}
+																					                            <div class="col-sm-7 col-xs-12 text-end">
+																					                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-user"></i> CRM </a>
+																					                            </div>
+																					                            #}
 						</div>
 					</div>
 					<div class="panel-body table-responsive">
@@ -115,7 +115,12 @@
 													<span class="data-element bg-blue ">
 														<b>DEV</b>
 													</span>
+												{% elseif role == "ROLE_CONDUCTURE_TRAVEAUX" %}
+													<span class="data-element bg-blue ">
+														<b>Conducture du traveaux</b>
+													</span>
 												{% endif %}
+
 											{% endfor %}
 										</td>
 										{% if "ROLE_ADMIN" in app.user.roles or "ROLE_SUPER_ADMIN" in app.user.roles %}

@@ -27,8 +27,8 @@ class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class)
-            ->add('emailPerso', EmailType::class,[
-                'required'=>false,
+            ->add('emailPerso', EmailType::class, [
+                'required' => false,
             ])
             ->add('telephone')
             ->add('linkedin')
@@ -59,7 +59,7 @@ class UserType extends AbstractType
                         ->orderBy('s.nom', 'ASC');
                 },
                 'choice_label' => function (Entite $enite) {
-                    return $enite->getNom()." - ".$enite->getAdresse1().", ".$enite->getCodePostal()." ".$enite->getVille();
+                    return $enite->getNom() . " - " . $enite->getAdresse1() . ", " . $enite->getCodePostal() . " " . $enite->getVille();
                 },
                 'required' => false,
                 'placeholder' => 'Choisir une adresse pro',
@@ -239,16 +239,19 @@ class UserType extends AbstractType
                     'class' => 'societe-form  required'
                 ]
             ])
-            ->add('roles', ChoiceType::class, array(
+            ->add(
+                'roles',
+                ChoiceType::class,
+                array(
                     'choices' => [
                         'Super admin' => 'ROLE_SUPER_ADMIN',
                         'Admin' => 'ROLE_ADMIN',
-                        'Manageur'=>'ROLE_MANAGER',
-                        'Commercial'=>'ROLE_COMMERCIAL',
+                        'Manageur' => 'ROLE_MANAGER',
+                        'Commercial' => 'ROLE_COMMERCIAL',
                         'J4R' => 'ROLE_USER',
                         'DEV' => 'ROLE_DEV',
                         'DEPOT' => 'ROLE_DEPOT',
-
+                        'Conducture' => 'ROLE_CONDUCTURE_TRAVEAUX'
                     ],
                     'multiple' => true,
                     'expanded' => true,
@@ -263,7 +266,6 @@ class UserType extends AbstractType
                 'first_options' => ['label' => ""],
                 'second_options' => ['label' => ""],
             ]);
-
         }
     }
 
