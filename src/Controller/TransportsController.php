@@ -91,11 +91,10 @@ class TransportsController extends AbstractController
         
         $transporteurs = $this->transporteurRepository->findAll();
        
-        dd($transports);
-        return $this->render('transports/index.html.twig', [
+        return $this->render('transports/form.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Transports',
-            'transports' => $transports,
+            'transport' => $transports,
             'transporteurs' => $transporteurs,
             'nav' => []
         ]);
