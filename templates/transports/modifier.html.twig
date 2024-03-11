@@ -67,7 +67,8 @@
 
 
 					<!-- Add similar blocks for other fields in the third column -->
-					<div class="btn btn-light" id="modifier_affectation">Modifier</div>
+					<div class="btn btn-light" id="save_affectation">Affecter</div>
+					<div class="btn btn-light" id="fermer">Fermer</div>
 
 				</div>
 			</div>
@@ -75,8 +76,10 @@
 	</div>
 </div></div><script>
 $(document).ready(function () {
-
-$("#modifier_affectation").click(function () {});
+$("#fermer").click(function () {
+$("#affectation_transport").hide(); // Cache l'élément avec l'ID 'affectation_transport'
+});
+$("#save_affectation").click(function () {});
 
 $("#affectation_btn").click(function () {
 $("#affectation_transport").show(); // afficher l'élément avec l'ID 'affectation_transport'
@@ -137,7 +140,7 @@ console.log("Aucun transporteur correspondant trouvé dans localStorage.");
 // fin evennt select
 
 // button affection
-$("#modifier_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
+$("#save_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
 let isValid = true;
 e.preventDefault();
 // Empêche le comportement par défaut du formulaire

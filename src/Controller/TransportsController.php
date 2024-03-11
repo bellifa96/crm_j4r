@@ -99,4 +99,51 @@ class TransportsController extends AbstractController
             'nav' => []
         ]);
     }
+
+    #[Route('/affectation-modifier', name: 'app_affectation_modifier')]
+    public function affectation_transport_commande_modifier(Request $request):JsonResponse {
+        try {
+            $transporteurId = $request->request->get('transporteur');
+            $typeEnlevement = $request->request->get('type_enlevement');
+            $heure = $request->request->get('heure');
+            $taux = $request->request->get('taux');
+            $tarification = $request->request->get('tarification');
+            $cmdCodeEntre = $request->request->get('cmdCodeEntre');
+            $observation = $request->request->get('observation');
+            $idtransport = $request->request->get('idtransport');
+
+            $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
+            $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
+    
+            // Check if any of the required parameters are null, throw an exception if so
+            if ($transporteurObject === null || $commandeEntObject === null) {
+                return new JsonResponse(['message' => 'Transporteur or Commande object not found.'], JsonResponse::HTTP_CONFLICT);
+
+            }
+    
+            $transpots = $this->transportRepository->getById($idtransport);
+            $transpots->setIdtransporteur($transporteurObject);
+            $transpots->setMontant($tarification);
+            $transpots->setSens(1);
+            $transpots->setNumchantierdep(1);
+            $transpots->setHeuredep($heure);
+            $transpots->setTypeEnlevement($typeEnlevement);
+            $transpots->setTauxPrefere($taux);
+
+            
+            // Définir la date formatée dans votre objet Transports
+            $transpots->setDatesaisie(new DateTime());
+            $transpots->setIdcde($commandeEntObject);
+            $transpots->setObservation($observation);
+            $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
+            $this->transportRepository->add($transpots);
+           // $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete());
+            return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
+        } catch (\Exception $e) {
+            // Log the exception or handle it according to your needs
+            dd($e->getMessage());
+            return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    
+    }
 }

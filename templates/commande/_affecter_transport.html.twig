@@ -6,15 +6,31 @@
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Transporteur</label>
 						<select id="transporteur" name="transporteur" class="form-control form-control-sm-2 societe-input">
-							{% for trs in transporteurs %}
-								<option value="{{trs.idtransporteur}}">{{trs.societe}}</option>
-							{% endfor %}
+							{% if transport is defined %}
+								{% for trs in transporteurs %}
+									<option value="{{ trs.idtransporteur }}" {% if transport.getIdtransporteur() is defined and trs.idtransporteur == transport.getIdtransporteur().getIdtransporteur() %} selected {% endif %}>{{ trs.societe }}</option>
+								{% endfor %}
+							{% else %}
+								<option value="" selected>Sélectionner un transport</option>
+								{% for trs in transporteurs %}
+									<option value="{{ trs.idtransporteur }}">{{ trs.societe }}</option>
+								{% endfor %}
+							{% endif %}
 						</select>
 
+
 					</div>
+					{% if transport is not null %}
+					 <input type="hidden" id="idtransport" class="form-control form-control-sm-2 societe-input" name="idtransport" value="{{ transport.getIdtransport() }}">
+
+				    {% endif %}
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Observations</label>
-						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50"></textarea>
+						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50">
+							{% if transport is not null %}
+								{{ transport.getObservation() is not null ? transport.getObservation() : '' }}
+							{% endif %}
+						</textarea>
 
 
 					</div>
@@ -27,12 +43,21 @@
 						<div class="col-md-4">
 
 							<select name="type_enlevement" id="type_enlevement" class="form-control form-control-sm-2 societe-input">
-								<option value="0" seleted></option>
-								<option value="1">A journéé</option>
-								<option value="2">A la semaine</option>
-								<option value="3">A partir</option>
-								<option value="4">Imperatif</option>
+								{% if transport is not null %}
+									<option value="0" {% if transport.getTypeEnlevement() == "0" %} selected {% endif %}></option>
+									<option value="1" {% if transport.getTypeEnlevement() == "1" %} selected {% endif %}>En journée</option>
+									<option value="2" {% if transport.getTypeEnlevement() == "2" %} selected {% endif %}>A la suite</option>
+									<option value="3" {% if transport.getTypeEnlevement() == "3" %} selected {% endif %}>A partir de</option>
+									<option value="4" {% if transport.getTypeEnlevement() == "4" %} selected {% endif %}>Impératif à</option>
+								{% else %}
+									<option value="" selected disabled>Sélectionnez une option</option>
+									<option value="1">En journée</option>
+									<option value="2">A la suite</option>
+									<option value="3">A partir de</option>
+									<option value="4">Impératif à</option>
+								{% endif %}
 							</select>
+
 						</div>
 
 						<div class="col-md-4">
@@ -50,23 +75,39 @@
 					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Type Tarification</label>
 						<select name="taux" id="tauxSelect" class="form-control form-control-sm-2 societe-input">
-							<option value="5" seleted>Taux Tonne</option>
-							<option value="1">Taux Horaire</option>
-							<option value="2">Taux Tour</option>
-							<option value="3">Taux Jour</option>
-							<option value="4">Taux Demi Jour</option>
+							{% if transport is not null %}
+								<option value="5" {% if transport.getTauxPrefere() == "5" %} selected {% endif %}>Taux Tonne</option>
+								<option value="1" {% if transport.getTauxPrefere() == "1" %} selected {% endif %}>Taux Horaire</option>
+								<option value="2" {% if transport.getTauxPrefere() == "2" %} selected {% endif %}>Taux Tour</option>
+								<option value="3" {% if transport.getTauxPrefere() == "3" %} selected {% endif %}>Taux Jour</option>
+								<option value="4" {% if transport.getTauxPrefere() == "4" %} selected {% endif %}>Taux Demi Jour</option>
+							{% else %}
+								<option value="" selected disabled>Sélectionnez un taux</option>
+								<option value="5">Taux Tonne</option>
+								<option value="1">Taux Horaire</option>
+								<option value="2">Taux Tour</option>
+								<option value="3">Taux Jour</option>
+								<option value="4">Taux Demi Jour</option>
+							{% endif %}
 						</select>
+
 					</div>
 
 					<div class="form-group" id="qte">
 						<label for="codeChantier" class="font-weight-bold">Tarification</label>
-						<input type="number" id="tarification" name="tarification" value="42" class="form-control form-control-sm-2 societe-input ">
+						<input type="number" id="tarification" name="tarification" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getMontant() }}" {% endif %}>
 					</div>
 
 
 					<!-- Add similar blocks for other fields in the third column -->
-					<div class="btn btn-light" id="save_affectation">Affecter</div>
-					<div class="btn btn-light" id="fermer">Fermer</div>
+
+					{% if transport is not null %}
+						<div class="btn btn-light" id="modifier_affectation">Modifier</div>
+						<div class="btn btn-light" id="fermer">Fermer</div>
+					{% else %}
+						<div class="btn btn-light" id="save_affectation">Affecter</div>
+						<div class="btn btn-light" id="fermer">Fermer</div>
+					{% endif %}
 
 				</div>
 			</div>
@@ -209,7 +250,97 @@ var confirmation = confirm("Message de confirmation : " + response.message);
 
 // Vérifier la réponse de l'utilisateur
 if (confirmation) {
-	location.reload();
+location.reload();
+
+} else {
+// L'utilisateur a cliqué sur le bouton "Annuler" ou a fermé la boîte d'alerte
+// Faire quelque chose en conséquence
+}
+},
+error: function (xhr, status, error) {
+console.error("Erreur lors de l'envoi de la requête: ", error);
+}
+});
+}
+});
+
+
+// button affection
+$("#modifier_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
+let isValid = true;
+e.preventDefault();
+// Empêche le comportement par défaut du formulaire
+
+// Vérifie si le transporteur est sélectionné
+if ($("#transporteur").val() === "") {
+alert("Veuillez sélectionner un transporteur.");
+isValid = false;
+}
+
+// Vérifie si la date est remplie
+if ($("#date").val() === "") {
+alert("Veuillez sélectionner une date.");
+isValid = false;
+}
+
+// Vérifie si l'heure est remplie
+if ($("#heure").val() === "") {
+alert("Veuillez sélectionner une heure.");
+isValid = false;
+}
+
+// Vérifie si un type de tarification est sélectionné
+if ($("#tauxSelect").val() === "") {
+alert("Veuillez sélectionner un type de tarification.");
+isValid = false;
+}
+
+// Vérifie si la tarification est remplie
+if ($("#tarification").val() === "") {
+alert("Veuillez entrer une tarification.");
+isValid = false;
+}
+
+
+
+// Si tous les champs sont valides, procéder avec l'action
+if (isValid) { // Logique pour sauvegarder ou soumettre les informations
+var transporteur = $("#transporteur").val();
+var typeEnlevement = $("#type_enlevement").val();
+var heure = $("#heure").val();
+var taux = $("#tauxSelect").val();
+var tarification = $("#tarification").val();
+var cmdCodeEntre = $("#cmdCodeEntre").val();
+var observation = $("#observation").val();
+var idtransport = $("#idtransport").val();
+// Création de l'objet de données à envoyer
+var data = {
+transporteur: transporteur,
+type_enlevement: typeEnlevement,
+heure: heure,
+taux: taux,
+tarification: tarification,
+cmdCodeEntre: cmdCodeEntre,
+observation: observation,
+idtransport: idtransport
+
+};
+
+// Envoi de la requête AJAX
+$.ajax({
+type: "POST",
+url: "/affectation-modifier", // Remplacez par l'URL de votre point de terminaison
+data: data,
+success: function (response) {
+console.log(response.message);
+// Traitez la réponse du serveur ici
+
+// Afficher une boîte d'alerte avec deux choix
+var confirmation = confirm("Message de confirmation : " + response.message);
+
+// Vérifier la réponse de l'utilisateur
+if (confirmation) {
+location.reload();
 
 } else {
 // L'utilisateur a cliqué sur le bouton "Annuler" ou a fermé la boîte d'alerte

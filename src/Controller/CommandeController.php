@@ -145,7 +145,12 @@ class CommandeController extends AbstractController
                 }
 
             }
-            
+            $cdeEnteHeure = null;
+            if($cdeMatEnt->getTransports()[0] == null){
+                $cdeEnteHeure = $cdeMatEnt->getHeureEnlevDem()->format('H:i');
+            }else{
+                $cdeEnteHeure = $cdeMatEnt->getTransports()[0]->getHeuredep();
+            }
             return $this->render('commande/edit.html.twig', [
                 'form' => $form->createView(),
                 'title' => 'Modification Commande',
@@ -155,7 +160,7 @@ class CommandeController extends AbstractController
                 'transporteurs' => $transport,
                 'articlesbyDepot' => $articlesbyDepot,
                 'idCdeEnte' => $cdeMatEnt->getId(),
-                'cdeEnteHeure' => $cdeMatEnt->getHeureEnlevDem()->format('H:i'),
+                'cdeEnteHeure' => $cdeEnteHeure,
                 'transport' => $cdeMatEnt->getTransports()[0]
             ]);
         } catch (Exception $e) {
