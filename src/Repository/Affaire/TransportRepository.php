@@ -36,6 +36,10 @@ class TransportRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function getById(int $id): ?Transports
+    {
+        return $this->find($id);
+    }
 
     //    /**
     //     * @return Transport[] Returns an array of Transport objects

@@ -25,7 +25,6 @@ class TransportsController extends AbstractController
         private TransportRepository $transportRepository,
         private OutlookService $outlookService,
 
-
     ) {
     }
 
@@ -89,11 +88,15 @@ class TransportsController extends AbstractController
     #[Route('/edit-transport-liv/{id}', name: 'edit_transport_liv')]
     public function edit_transport(Transports $transports): Response
     {
-        dd($transports->getIdcde()->getInitiales());
+        
+        $transporteurs = $this->transporteurRepository->findAll();
+       
+        dd($transports);
         return $this->render('transports/index.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Transports',
             'transports' => $transports,
+            'transporteurs' => $transporteurs,
             'nav' => []
         ]);
     }
