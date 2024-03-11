@@ -120,9 +120,9 @@ class OutlookService
 
         // Vérifie si le numéro contient "No"
         if (strpos($numero, "No") !== false) { // Utilisez "!== false" pour une comparaison stricte
-            $parties[] = "ESG";
+            $parties[] = $additionalWord;
         } else {
-            $parties[count($parties) - 1] = "Quanka";
+            $parties[count($parties) - 1] = $additionalWord;
 
              // Ajoutez "ESG" au tableau des parties
         }
