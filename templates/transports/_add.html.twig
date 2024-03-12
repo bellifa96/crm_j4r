@@ -1,0 +1,314 @@
+<div class="container mt-5">
+	<div class="col-md-11 m-auto page-block mt-4">
+		<div class="societe">
+			<div class="row form">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">ERP</label>
+						<input type="number" id="erp" class="form-control form-control-sm-2 societe-input" name="erp"/>
+
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">devis</label>
+						<input type="number" id="devis" class="form-control form-control-sm-2 societe-input" name="devis"/>
+
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Chantier J4R</label>
+						<input type="number" id="chantier_j4r" class="form-control form-control-sm-2 societe-input" name="chantier_j4r"/>
+
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">No Affaire</label>
+						<input type="number" id="no_affaire" class="form-control form-control-sm-2 societe-input" name="no_affaire"/>
+
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Transporteur</label>
+						<select id="transporteur" name="transporteur" class="form-control form-control-sm-2 societe-input">
+							{% for trs in transporteurs %}
+								<option value="{{ trs.idtransporteur }}">{{ trs.societe }}</option>
+							{% endfor %}
+						</select>
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Observations</label>
+						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50"></textarea>
+
+
+					</div>
+
+
+					<div class="form-group" style="display:flex;">
+						<div class="col-md-3 text-end label">
+							Type Enlevement
+						</div>
+						<div class="col-md-4">
+
+							<select name="type_enlevement" id="type_enlevement" class="form-control form-control-sm-2 societe-input">
+								<option value="0"></option>
+								<option value="1">En journée</option>
+								<option value="2">A la suite</option>
+								<option value="3">A partir de</option>
+								<option value="4">Impératif à</option>
+							</select>
+
+						</div>
+
+						<div class="col-md-4">
+
+							<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure">
+
+						</div>
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Immatriculation</label>
+						<input type="number" id="immatriculation" class="form-control form-control-sm-2 societe-input" name="immatriculation"/>
+
+					</div>
+
+
+					<!-- Add similar blocks for other fields in the first column -->
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Date transport</label>
+						<input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" name="date_transport"/>
+
+					</div>
+					<div class="form-group">
+						<label for="NumAffaire" class="font-weight-bold">Initiateur</label>
+						<input type="text" id="initiateur" class="form-control form-control-sm-2 societe-input" name="initiateur"/>
+					</div>
+
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Type</label>
+						<select name="type" id="type" class="form-control form-control-sm-2 societe-input"></select>
+
+					</div>
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Type Tarification</label>
+						<select name="taux" id="tauxSelect" class="form-control form-control-sm-2 societe-input">
+							<option value="5">Taux Tonne</option>
+							<option value="1">Taux Horaire</option>
+							<option value="2">Taux Tour</option>
+							<option value="3">Taux Jour</option>
+							<option value="4">Taux Demi Jour</option>
+						</select>
+
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Tarification</label>
+						<input type="number" id="tarification" name="tarification" class="form-control form-control-sm-2 societe-input ">
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Heure Enlévement prévu</label>
+						<input type="time" id="heure_enlev_prevu" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Heure Enlévement Réel</label>
+						<input type="time" id="heure_enlev_reel" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Heure Arrivée prévu</label>
+						<input type="time" id="heure_arrive_prevu" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Heure Arrivée Réelle</label>
+						<input type="time" id="heure_arrive_reel" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+
+
+					<!-- Add similar blocks for other fields in the first column -->
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Poids Cde</label>
+						<input type="number" id="poids_cde" name="poids_cde" class="form-control form-control-sm-2 societe-input ">
+
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Poids Bon</label>
+						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Poids Balance</label>
+						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Départ</label>
+						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Arrivée</label>
+						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Arrivée</label>
+						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
+					</div>
+                    <div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">Prix transport</label>
+						<input type="number" id="prix_transport" name="prix_transport" class="form-control form-control-sm-2 societe-input ">
+
+					</div>
+					<!-- Add similar blocks for other fields in the third column -->
+					<div class="btn btn-light" id="save_affectation">Ajouter</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div><script>
+$(document).ready(function () {
+$("#fermer").click(function () {
+$("#affectation_transport").hide(); // Cache l'élément avec l'ID 'affectation_transport'
+});
+$("#save_affectation").click(function () {});
+
+$("#affectation_btn").click(function () {
+$("#affectation_transport").show(); // afficher l'élément avec l'ID 'affectation_transport'
+});
+// event listner sur select transporteur
+
+$('#transporteur').change(function () { // Récupère l'ID sélectionné
+var selectedId = $(this).val();
+
+// Récupère les données des transporteurs depuis localStorage
+var transporteurs = JSON.parse(localStorage.getItem('transporteurs')) || [];
+
+// Recherche si l'ID sélectionné est dans les données stockées
+var transporteurTrouve = transporteurs.find(function (trs) {
+return trs.idtransporteur.toString() === selectedId;
+});
+
+// Comparaison et action en fonction de la correspondance
+if (transporteurTrouve) {
+// Vous pouvez ici accéder à d'autres propriétés comme transporteurTrouve.tauxprefere
+
+// Exemple d'action: mettre à jour un autre champ avec le taux préféré
+$('#tauxPrefere').val(transporteurTrouve.tauxprefere);
+$('#tauxSelect').val(transporteurTrouve.tauxprefere);
+var tauxPrefere = transporteurTrouve.tauxprefere;
+
+switch (tauxPrefere) {
+case "1":
+// Logique spécifique au cas 1
+$('#tarification').val(transporteurTrouve.tauxhoraire);
+break;
+case "2":
+// Logique spécifique au cas 2
+$('#tarification').val(transporteurTrouve.tauxtour);
+break;
+case "3":
+// Logique spécifique au cas 3
+$('#tarification').val(transporteurTrouve.tauxjour);
+break;
+case "4":
+// Logique spécifique au cas 4
+$('#tarification').val(transporteurTrouve.tauxdemijour);
+break;
+case "5":
+// Logique spécifique au cas 5
+$('#tarification').val(transporteurTrouve.tauxtonne);
+break;
+default:
+console.log('Aucun taux préféré spécifié ou valeur non reconnue.');
+
+}
+
+
+} else {
+console.log("Aucun transporteur correspondant trouvé dans localStorage.");
+}
+});
+// fin evennt select
+
+// button affection
+$("#save_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
+let isValid = true;
+e.preventDefault();
+// Empêche le comportement par défaut du formulaire
+
+// Vérifie si le transporteur est sélectionné
+if ($("#transporteur").val() === "") {
+alert("Veuillez sélectionner un transporteur.");
+isValid = false;
+}
+
+// Vérifie si la date est remplie
+if ($("#date").val() === "") {
+alert("Veuillez sélectionner une date.");
+isValid = false;
+}
+
+// Vérifie si l'heure est remplie
+if ($("#heure").val() === "") {
+alert("Veuillez sélectionner une heure.");
+isValid = false;
+}
+
+// Vérifie si un type de tarification est sélectionné
+if ($("#tauxSelect").val() === "") {
+alert("Veuillez sélectionner un type de tarification.");
+isValid = false;
+}
+
+// Vérifie si la tarification est remplie
+if ($("#tarification").val() === "") {
+alert("Veuillez entrer une tarification.");
+isValid = false;
+}
+
+// Si tous les champs sont valides, procéder avec l'action
+if (isValid) { // Logique pour sauvegarder ou soumettre les informations
+var transporteur = $("#transporteur").val();
+var typeEnlevement = $("#type_enlevement").val();
+var heure = $("#heure").val();
+var taux = $("#tauxSelect").val();
+var tarification = $("#tarification").val();
+var cmdCodeEntre = $("#cmdCodeEntre").val();
+var observation = $("#observation").val();
+
+// Création de l'objet de données à envoyer
+var data = {
+transporteur: transporteur,
+type_enlevement: typeEnlevement,
+heure: heure,
+taux: taux,
+tarification: tarification,
+cmdCodeEntre: cmdCodeEntre,
+observation: observation
+
+};
+
+// Envoi de la requête AJAX
+
+}
+});
+
+
+});
+// o, stocker les donnes sur localStorage les donnes des tranporteurs
+$(document).ready(function () { // Vérifie si les données ne sont pas déjà stockées
+if (!localStorage.getItem('transporteurs')) {
+$.getJSON('/commandes/transporteurs', function (data) {
+localStorage.setItem('transporteurs', JSON.stringify(data));
+});
+}
+
+// Exemple de récupération et utilisation des données
+const transporteurs = JSON.parse(localStorage.getItem('transporteurs'));
+console.log(transporteurs); // Utilisez les données comme nécessaire
+});</script>

@@ -36,7 +36,7 @@ class TransportsController extends AbstractController
             'controller_name' => 'TransportsController',
             'title' => 'Transports',
             'transports' => $transports,
-            'nav' => []
+            'nav' => [['edit_transport_liv_new', 'Création un Transport']]
         ]);
     }
 
@@ -144,44 +144,19 @@ class TransportsController extends AbstractController
             return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    #[Route('/test', name: 'edit_transport_liv_test')]
-    public function test(): Response
+
+    #[Route('/transports/new', name: 'edit_transport_liv_new')]
+    public function new_transports(): Response
     {
-        $texte = "LIV - J4R DEPOT - Lagny sur marne -No : 889815663-KARL";
 
-        // Divise la chaîne en utilisant le délimiteur "-"
-        $parties = explode("-", $texte);
-
-        // Récupère le dernier élément du tableau
-        $numero = trim(end($parties));
-
-        // Vérifie si le numéro contient "No"
-        if (strpos($numero, "No") !== false) { // Utilisez "!== false" pour une comparaison stricte
-            $parties[] = "ESG";
-        } else {
-            $parties[count($parties) - 1] = "Quanka";
-
-             // Ajoutez "ESG" au tableau des parties
-        }
-
-        // Rejoint les parties en utilisant le délimiteur "-"
-        $texte_reconstruit = implode("-", $parties);
-
-        echo $texte_reconstruit;
-
-
-
-        // Vérifie si le tableau a au moins 4 parties
-
-
-        dd("s");
         $transporteurs = $this->transporteurRepository->findAll();
 
-        return $this->render('transports/form.html.twig', [
+        return $this->render('transports/new.html.twig', [
             'controller_name' => 'TransportsController',
-            'title' => 'Transports',
+            'title' => 'Ajouter Transport',
             'transporteurs' => $transporteurs,
             'nav' => []
         ]);
     }
+
 }
