@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Depot\Transports;
 use App\Entity\Depot\Transporteur;
 use App\Repository\Affaire\TransportRepository;
+use App\Repository\Depot\ChantiersRepository;
 use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\OutlookService;
@@ -24,6 +25,7 @@ class TransportsController extends AbstractController
         private TransporteurRepository $transporteurRepository,
         private TransportRepository $transportRepository,
         private OutlookService $outlookService,
+        private ChantiersRepository $chantiersRepository
 
     ) {
     }
@@ -150,13 +152,59 @@ class TransportsController extends AbstractController
     {
 
         $transporteurs = $this->transporteurRepository->findAll();
+        $chantiers_by_agence = $this->chantiersRepository->getAllChantiers();
 
         return $this->render('transports/new.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Ajouter Transport',
             'transporteurs' => $transporteurs,
+            'chantiers' => $chantiers_by_agence ,
             'nav' => []
         ]);
+    }
+
+    #[Route('/ajouter/transport', name: 'app_transport_add')]
+    public function add(Request $request): JsonResponse
+    {
+        try {
+            $transporteurId = $request->request->get('transporteur');
+            $typeEnlevement = $request->request->get('type_enlevement');
+            $heure = $request->request->get('heure');
+            $taux = $request->request->get('taux');
+            $tarification = $request->request->get('tarification');
+            $cmdCodeEntre = $request->request->get('cmdCodeEntre');
+            $observation = $request->request->get('observation');
+            $sens = $request->request->get('sens');
+            $idchantier = $request->request->get('idchantier');
+            $date_transport = $request->request->get('date_transport');
+
+            $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
+           
+            // Check if any of the required parameters are null, throw an exception if so
+            if ($transporteurObject === null) {
+                return new JsonResponse(['message' => 'Transporteur  object not found.'], JsonResponse::HTTP_CONFLICT);
+            }
+
+            $transpots = new Transports();
+            $transpots->setIdtransporteur($transporteurObject);
+            $transpots->setMontant($tarification);
+            $transpots->setSens($sens);
+            $transpots->setNumchantierdep($idchantier);
+        
+            $transpots->setHeuredep($heure);
+            $transpots->setTypeEnlevement($typeEnlevement);
+            $transpots->setTauxPrefere($taux);
+
+
+            // Définir la date formatée dans votre objet Transports
+            $transpots->setObservation($observation);
+            $this->transportRepository->add($transpots);
+            return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
+        } catch (\Exception $e) {
+            // Log the exception or handle it according to your needs
+            dd($e->getMessage());
+            return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

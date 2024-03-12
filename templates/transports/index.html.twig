@@ -65,7 +65,7 @@
 					<th>
 						Adresse Chantiers
 					</th>
-                    <th>
+					<th>
 						Client
 					</th>
 					<th>
@@ -86,27 +86,48 @@
 					<tr>
 
 						<td>
-							{{ transport.idcde.DateEnlevReel|date("Y-m-d") }}
+							{% if transport.idcde is null %}
+								null
+							{% else %}
+								{{ transport.idcde.DateEnlevReel|date("Y-m-d")|default('Date not available') }}
+							{% endif %}
 						</td>
 						<td>
-							{{ transport.idcde.NumErpLocation }}
+							{% if transport.idcde is null %}
+								null
+							{% else %}
+								{{ transport.idcde.NumErpLocation|default('Number not available') }}
+							{% endif %}
 						</td>
 						<td>
-							{{ transport.idcde.CodeChantier }}
+							{% if transport.idcde is null %}
+								null
+							{% else %}
+								{{ transport.idcde.CodeChantier|default('Code not available') }}
+							{% endif %}
 						</td>
 						<td>
-							{{ transport.idcde.AdresseChantier }}
+							{% if transport.idcde is null %}
+								null
+							{% else %}
+								{{ transport.idcde.AdresseChantier|default('Address not available') }}
+							{% endif %}
 						</td>
-                        <td>
-							{{ transport.idcde.NomClient }}
+						<td>
+							{% if transport.idcde is null %}
+								null
+							{% else %}
+								{{ transport.idcde.NomClient|default('Client name not available') }}
+							{% endif %}
 						</td>
+
 						<td>
 							{{ transport.idtransporteur.societe }}
 						</td>
 						<td>
 							{% if transport.sens == 1 %}
-                                Livraison
-                            {% elseif transport.sens == 2 %}
+								Livraison
+							{% elseif transport.sens == 2 %}
 								Rotation
 							{% elseif transport.sens == 3 %}
 								Output if sens is 3
@@ -116,9 +137,9 @@
 						</td>
 						<td>
 							<a href="{{ path('edit_transport_liv', {'id': transport.getIdtransport() }) }}" class="btn btn-warning" style="font-size: 10px;">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-						
+								<i class="bi bi-pencil"></i>
+							</a>
+
 
 						</td>
 

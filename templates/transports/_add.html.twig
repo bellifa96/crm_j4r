@@ -1,3 +1,8 @@
+<link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
+<style>
+	
+</style>
 <div class="container mt-5">
 	<div class="col-md-11 m-auto page-block mt-4">
 		<div class="societe">
@@ -17,7 +22,11 @@
 					</div>
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Chantier J4R</label>
-						<input type="number" id="chantier_j4r" class="form-control form-control-sm-2 societe-input" name="chantier_j4r"/>
+						<select id="chantier" name="chantier" class="form-control form-control-sm-2 societe-input">
+							{% for ch in chantiers %}
+								<option value="{{ ch.idchantier }}">{{ ch.nomchantier }}</option>
+							{% endfor %}
+						</select>
 
 
 					</div>
@@ -89,7 +98,12 @@
 
 					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Type</label>
-						<select name="type" id="type" class="form-control form-control-sm-2 societe-input"></select>
+						<select name="sens" id="sens" class="form-control form-control-sm-2 societe-input">
+							<option value="1">Livraison</option>
+							<option value="2">Ramasse</option>
+							<option value="3">Rotation</option>
+							<option value="4">Transfert</option>
+						</select>
 
 					</div>
 					<div class="form-group">
@@ -158,24 +172,35 @@
 						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Arrivée</label>
 						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
 					</div>
-                    <div class="form-group">
+					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Prix transport</label>
 						<input type="number" id="prix_transport" name="prix_transport" class="form-control form-control-sm-2 societe-input ">
 
 					</div>
 					<!-- Add similar blocks for other fields in the third column -->
-					<div class="btn btn-light" id="save_affectation">Ajouter</div>
+					<div class="btn btn-light" id="ajouter_transport">Ajouter</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
 </div></div><script>
+let idchantier = -1;
+$(document).ready(function () {
+$('#chantier').select2({
+theme: "classic", width: 'resolve' // This helps with styling and width issues
+});
+});
+$('#chantier').on('change', function() {
+    var selectedOption = $(this).find('option:selected');
+     idchantier = selectedOption.val();
+    console.log("Selected idchantier:", idchantier);
+});
 $(document).ready(function () {
 $("#fermer").click(function () {
 $("#affectation_transport").hide(); // Cache l'élément avec l'ID 'affectation_transport'
 });
-$("#save_affectation").click(function () {});
+$("#ajouter_transport").click(function () {});
 
 $("#affectation_btn").click(function () {
 $("#affectation_transport").show(); // afficher l'élément avec l'ID 'affectation_transport'
@@ -236,15 +261,25 @@ console.log("Aucun transporteur correspondant trouvé dans localStorage.");
 // fin evennt select
 
 // button affection
-$("#save_affectation").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
+$("#ajouter_transport").click(function (e) { // Initialisation d'un drapeau pour vérifier la validité des champs
 let isValid = true;
+
 e.preventDefault();
 // Empêche le comportement par défaut du formulaire
-
+console.log($("#chantier").val())
 // Vérifie si le transporteur est sélectionné
 if ($("#transporteur").val() === "") {
 alert("Veuillez sélectionner un transporteur.");
 isValid = false;
+}
+if ($("#date_transport").val() === "") {
+alert("Veuillez sélectionner une date transport.");
+isValid = false;
+}
+
+if(idchantier == -1){
+    alert("Veuillez sélectionner un chantier.");
+    isValid = false;
 }
 
 // Vérifie si la date est remplie
@@ -264,6 +299,10 @@ if ($("#tauxSelect").val() === "") {
 alert("Veuillez sélectionner un type de tarification.");
 isValid = false;
 }
+if ($("#sens").val() === "") {
+alert("Veuillez sélectionner un type du transport");
+isValid = false;
+}
 
 // Vérifie si la tarification est remplie
 if ($("#tarification").val() === "") {
@@ -278,8 +317,9 @@ var typeEnlevement = $("#type_enlevement").val();
 var heure = $("#heure").val();
 var taux = $("#tauxSelect").val();
 var tarification = $("#tarification").val();
-var cmdCodeEntre = $("#cmdCodeEntre").val();
 var observation = $("#observation").val();
+var date_transport = $("#date_transport").val();
+var sens = $("#sens").val();
 
 // Création de l'objet de données à envoyer
 var data = {
@@ -288,13 +328,39 @@ type_enlevement: typeEnlevement,
 heure: heure,
 taux: taux,
 tarification: tarification,
-cmdCodeEntre: cmdCodeEntre,
-observation: observation
+observation: observation,
+idchantier:idchantier,
+date_transport:date_transport,
+sens:sens
 
 };
+console.log(data);
 
 // Envoi de la requête AJAX
+$.ajax({
+type: "POST",
+url: "/ajouter/transport", // Remplacez par l'URL de votre point de terminaison
+data: data,
+success: function (response) {
+console.log(response.message);
+// Traitez la réponse du serveur ici
 
+// Afficher une boîte d'alerte avec deux choix
+var confirmation = confirm("Message de confirmation : " + response.message);
+
+// Vérifier la réponse de l'utilisateur
+if (confirmation) {
+location.reload();
+
+} else {
+// L'utilisateur a cliqué sur le bouton "Annuler" ou a fermé la boîte d'alerte
+// Faire quelque chose en conséquence
+}
+},
+error: function (xhr, status, error) {
+console.error("Erreur lors de l'envoi de la requête: ", error);
+}
+});
 }
 });
 
