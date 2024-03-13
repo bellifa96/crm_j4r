@@ -26,9 +26,9 @@ class CustomSerializer
                 'chantier' => [
                     'id' => $chantier->getIdChantier(),
                     'name' => $chantier->getNomChantier(),
-                    'adresse' => $chantier->getAdresse(),
-                    'ville' => $chantier->getVille(),
-                    'codechantier' => $chantier->getNumChantier(),
+                    'adresse' => $commande->getAdresseChantier(),
+                    'ville' => $commande->getVilleChantier(),
+                    'codechantier' => $commande->getCodeChantier(),
 
                     // Include other necessary properties of Chantier as needed
                 ],
