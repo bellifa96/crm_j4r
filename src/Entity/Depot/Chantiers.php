@@ -5,6 +5,20 @@ namespace App\Entity\Depot;
 use App\Repository\Depot\ChantiersRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * 
+ * Etat Chantiers : 	
+ *  0 = A démarrer 
+ * 1 = En attente OS  
+ * 	2 = En cours 
+ * 	3 = Terminé 
+ * 	4 = Annulé 
+ * 	5 = A relancer 
+ * 6 = Ne pas facturer 
+ * 7 = Non réalisé 
+ */
+
+
 #[ORM\Entity(repositoryClass: ChantiersRepository::class)]
 
 class Chantiers
@@ -16,28 +30,12 @@ class Chantiers
 
     #[ORM\Column(type: 'integer')]
 
-  
 
-    private $numligne;
-
-    #[ORM\Column(type: 'string')]
-
-    private $datedebfin;
-
-    #[ORM\Column(type: 'integer')]
     private $numchantier;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'integer')]
 
     private $etat;
-
-    #[ORM\Column(type: 'string')]
-
-    private $demarrage;
-
-    #[ORM\Column(type: 'string')]
-
-    private $titulaire;
 
     #[ORM\Column(type: 'string')]
 
@@ -59,8 +57,8 @@ class Chantiers
     #[ORM\Column(type: 'string')]
     private $adresse;
 
-    #[ORM\ManyToOne(targetEntity:Agence::class, inversedBy: 'chantiers')]
-    #[ORM\JoinColumn(name:'idagence', referencedColumnName:'idagence')]
+    #[ORM\ManyToOne(targetEntity: Agence::class, inversedBy: 'chantiers')]
+    #[ORM\JoinColumn(name: 'idagence', referencedColumnName: 'idagence')]
     private $idagence;
 
     public function getIdChantier(): ?int
@@ -73,25 +71,7 @@ class Chantiers
         $this->idchantier = $idchantier;
     }
 
-    public function getNumLigne(): ?int
-    {
-        return $this->numligne;
-    }
-
-    public function setNumLigne(int $numligne): void
-    {
-        $this->numligne = $numligne;
-    }
-
-    public function getDateDebFin(): ?string
-    {
-        return $this->datedebfin;
-    }
-
-    public function setDateDebFin(string $datedebfin): void
-    {
-        $this->datedebfin = $datedebfin;
-    }
+   
 
     public function getNumChantier(): ?int
     {
@@ -111,26 +91,6 @@ class Chantiers
     public function setEtat(string $etat): void
     {
         $this->etat = $etat;
-    }
-
-    public function getDemarrage(): ?string
-    {
-        return $this->demarrage;
-    }
-
-    public function setDemarrage(string $demarrage): void
-    {
-        $this->demarrage = $demarrage;
-    }
-
-    public function getTitulaire(): ?string
-    {
-        return $this->titulaire;
-    }
-
-    public function setTitulaire(string $titulaire): void
-    {
-        $this->titulaire = $titulaire;
     }
 
     public function getVille(): ?string
