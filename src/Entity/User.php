@@ -9,6 +9,7 @@ use App\Entity\Affaire\Transport;
 use App\Entity\Conversation\Message;
 use App\Entity\Entite\Entite;
 use App\Entity\Ged\Fichier;
+use App\Entity\Transport\CdeMatEnt;
 use App\Entity\User\Poste;
 
 use App\Entity\User\Service;
@@ -150,6 +151,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Devis::class, mappedBy: 'referent')]
     private Collection $devis;
+
+    #[ORM\OneToMany(targetEntity: CdeMatEnt::class, mappedBy: 'id_chantier')]
+
+    private  $commandes;
+
+   
+
+    public function getCommandes()
+    {
+        return $this->commandes;
+    }
+
+    // Setter method for the commandes property
+    public function setCommandes( $commandes): void
+    {
+        $this->commandes = $commandes;
+    }
 
 
     public function __construct()

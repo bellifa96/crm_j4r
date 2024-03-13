@@ -11,6 +11,7 @@ use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Service\CommandeService;
+use App\Service\CustomSerializer;
 use App\Service\OutlookService;
 use App\Service\PdfService;
 use Exception;
@@ -39,7 +40,8 @@ class CommandeController extends AbstractController
         private PdfService $pdfService,
         private Environment $environment,
         private OutlookService $outlookService,
-        private TransporteurRepository $transporteurRepository
+        private TransporteurRepository $transporteurRepository,
+        private CustomSerializer $customSerializer
 
 
     ) {
@@ -96,20 +98,12 @@ class CommandeController extends AbstractController
     {
         try {
             $id_depot = $request->query->get('selectedDepot');
-        
-            return $this->json(
-                json_decode(
-                    $serializer->serialize(
-                        $this->cdeMatEntRepository->listCommandebyIdepot($id_depot),
-                        'json',
-                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['transports']]
-                    ),
-                    JSON_OBJECT_AS_ARRAY
-                )
-            );
-    
+            $data = $this->cdeMatEntRepository->listCommandebyIdepot($id_depot);
+
+            $serializedData = $this->customSerializer->serializeCommandes($data);
+            return new JsonResponse($serializedData);
         } catch (Exception $e) {
-            dd($e->getMessage());
+            dd($e);
             return $this->json([]);
         }
     }
@@ -120,6 +114,7 @@ class CommandeController extends AbstractController
     {
         $depots = null;
         try {
+
             $transport = $this->transporteurRepository->findAll();
 
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
@@ -132,10 +127,10 @@ class CommandeController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                
-               
+
+
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
-                if (($cdeMatEnt->getNumErpLocation() != null  || $cdeMatEnt->getNumErpVente() != null) && $cdeMatEnt->getIdCalendar() != null){
+                if (($cdeMatEnt->getNumErpLocation() != null  || $cdeMatEnt->getNumErpVente() != null) && $cdeMatEnt->getIdCalendar() != null) {
                     $res =  $this->outlookService->changeEvent_To_IBMValid($cdeMatEnt->getIdCalendar());
                 }
                 if ($resulat) {
@@ -143,12 +138,11 @@ class CommandeController extends AbstractController
                     return new RedirectResponse($this->generateUrl('app_commande'));
                 } else {
                 }
-
             }
             $cdeEnteHeure = null;
-            if($cdeMatEnt->getTransports()[0] == null){
+            if ($cdeMatEnt->getTransports()[0] == null) {
                 $cdeEnteHeure = $cdeMatEnt->getHeureEnlevDem()->format('H:i');
-            }else{
+            } else {
                 $cdeEnteHeure = $cdeMatEnt->getTransports()[0]->getHeuredep();
             }
             return $this->render('commande/edit.html.twig', [
@@ -287,11 +281,11 @@ class CommandeController extends AbstractController
     #[Route('/pdf-commande/{id}', name: 'app_pdf_generer')]
     public function generer_pdf(CdeMatEnt $cdeMatEnt, Request $request)
     {
-        try{
+        try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
 
 
-            $header = $this->environment->render('commande/headerpdf.html.twig',['cdeMat' => $cdeMatEnt,'articles' => $articles ]);
+            $header = $this->environment->render('commande/headerpdf.html.twig', ['cdeMat' => $cdeMatEnt, 'articles' => $articles]);
 
             $this->pdfService->generateTemplate($header);
 
@@ -300,7 +294,7 @@ class CommandeController extends AbstractController
             $response = new Response($pdf);
             $disposition = $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_INLINE,
-                  'ss.pdf'
+                'ss.pdf'
             );
             $response->headers->set('Content-Disposition', $disposition);
 
@@ -311,50 +305,50 @@ class CommandeController extends AbstractController
         }
     }
 
-       /** méthod pour annuler la commande on persist motif  */
-       #[Route('/annuler-commande', name: 'annuler_commande')]
-       public function annuler_commande(Request $request)
-       {
-           try {
-               $motif = $request->query->get('motif');
-               $idCommande = $request->query->get('idCommande');
-               $res = $this->cdeMatEntRepository->annuler_commande($motif,$idCommande);
-                
-               return new Response($res); // Assuming $res is a string or something that can be directly returned as a response
-            } catch (Exception $e) {
-   
-               return $this->json([]);
-           }
-       }
+    /** méthod pour annuler la commande on persist motif  */
+    #[Route('/annuler-commande', name: 'annuler_commande')]
+    public function annuler_commande(Request $request)
+    {
+        try {
+            $motif = $request->query->get('motif');
+            $idCommande = $request->query->get('idCommande');
+            $res = $this->cdeMatEntRepository->annuler_commande($motif, $idCommande);
+
+            return new Response($res); // Assuming $res is a string or something that can be directly returned as a response
+        } catch (Exception $e) {
+
+            return $this->json([]);
+        }
+    }
 
 
-       // affichage les commande Annuler 
-       #[Route('/commande_annuler', name: 'commande_annuler_affichage')]
-       public function affichage_commande_annuler(): Response
-       {
-           $agences = $this->agenceRepository->findAll();
-           return $this->render('commande/annuler_affichage.html.twig', [
-               'controller_name' => 'CommandeController',
-               'title' => 'Commandes Annulées',
-               'agences' => $agences,
-               'nav' => [['app_commande', 'Commande']],
-            ]);
-       }
-   
-       // getCommande  Annuler
-       #[Route('/get-commande-annuler', name: 'app_command_annuler_affichage')]
-       public function getCommandeAnnuler(Request $request)
-       {
-           try {
-               $id_depot = $request->query->get('selectedDepot');
-               $articles = $this->cdeMatEntRepository->listCommandebyIdDepotAnnuler($id_depot);
-               return $this->json($articles);
-           } catch (Exception $e) {
-   
-               return $this->json([]);
-           }
-       }
-       // fin  traitement Commande 
+    // affichage les commande Annuler 
+    #[Route('/commande_annuler', name: 'commande_annuler_affichage')]
+    public function affichage_commande_annuler(): Response
+    {
+        $agences = $this->agenceRepository->findAll();
+        return $this->render('commande/annuler_affichage.html.twig', [
+            'controller_name' => 'CommandeController',
+            'title' => 'Commandes Annulées',
+            'agences' => $agences,
+            'nav' => [['app_commande', 'Commande']],
+        ]);
+    }
+
+    // getCommande  Annuler
+    #[Route('/get-commande-annuler', name: 'app_command_annuler_affichage')]
+    public function getCommandeAnnuler(Request $request)
+    {
+        try {
+            $id_depot = $request->query->get('selectedDepot');
+            $articles = $this->cdeMatEntRepository->listCommandebyIdDepotAnnuler($id_depot);
+            return $this->json($articles);
+        } catch (Exception $e) {
+
+            return $this->json([]);
+        }
+    }
+    // fin  traitement Commande 
 
 
 }

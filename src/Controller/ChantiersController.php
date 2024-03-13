@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Psr\Log\LoggerInterface;
 
 #[Route('/chantier')]
 class ChantiersController extends AbstractController
@@ -17,7 +18,8 @@ class ChantiersController extends AbstractController
 
     public function __construct(
       private ChantiersRepository $chantiersRepository
-      ,private AgenceRepository $agenceRepository
+      ,private AgenceRepository $agenceRepository,
+      private LoggerInterface $logger
     ) {
     }
 
@@ -25,6 +27,7 @@ class ChantiersController extends AbstractController
     #[Route('/', name: 'app_chantiers')]
     public function index(): Response
     { 
+        $this->logger->info('List Chantiers');
         $chantiers = $this->chantiersRepository->getAllChantiers();
         $agences = $this->agenceRepository->findAll();
 

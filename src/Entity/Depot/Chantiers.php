@@ -2,8 +2,13 @@
 
 namespace App\Entity\Depot;
 
+use App\Entity\Transport\CdeMatDet;
+use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Depot\ChantiersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * 
@@ -26,6 +31,8 @@ class Chantiers
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'bigint')]
+    #[Groups(['chantier', 'commande'])]
+
     private $idchantier;
 
     #[ORM\Column(type: 'integer')]
@@ -61,6 +68,27 @@ class Chantiers
     #[ORM\JoinColumn(name: 'idagence', referencedColumnName: 'idagence')]
     private $idagence;
 
+    #[ORM\OneToMany(targetEntity: CdeMatEnt::class, mappedBy: 'id_chantier')]
+
+    private  $commandes;
+
+    public function __construct()
+    {
+       
+
+    }
+
+    public function getCommandes()
+    {
+        return $this->commandes;
+    }
+
+    // Setter method for the commandes property
+    public function setCommandes( $commandes): void
+    {
+        $this->commandes = $commandes;
+    }
+
     public function getIdChantier(): ?int
     {
         return $this->idchantier;
@@ -71,7 +99,7 @@ class Chantiers
         $this->idchantier = $idchantier;
     }
 
-   
+
 
     public function getNumChantier(): ?int
     {
@@ -161,5 +189,8 @@ class Chantiers
     public function setIdAgence(?Agence $idagence): void
     {
         $this->idagence = $idagence;
+    }
+    public function __toString() {
+        return $this->nomchantier;
     }
 }

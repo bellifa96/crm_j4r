@@ -2,7 +2,9 @@
 
 namespace App\Entity\Transport;
 
+use App\Entity\Depot\Chantiers;
 use App\Entity\Depot\Transports;
+use App\Entity\User;
 use App\Repository\Transport\CdeMatEntRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -129,24 +131,81 @@ class CdeMatEnt
     #[ORM\Column(length: 8)]
     private ?string $Commentaires2 = '';
 
-    #[ORM\Column(type:"boolean")]
-    private  $Actif ;
+    #[ORM\Column(type: "boolean")]
+    private  $Actif;
 
-    #[ORM\Column(type:"string" ,length: 1500)]
+    #[ORM\Column(type: "string", length: 1500)]
     private  $Motif;
 
-    #[ORM\Column(type:"string")]
+    #[ORM\Column(type: "string")]
     private $Idcalendar;
+
     #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'idcde')]
     #[Groups(['cde_mat_ent'])]
 
     private $transports;
 
-    public function getIdCalendar() {
+
+    #[ORM\ManyToOne(targetEntity: Chantiers::class, inversedBy: 'commandes')]
+    #[ORM\JoinColumn(name: 'id_chantier', referencedColumnName: 'idchantier')]
+    private $id_chantier;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commandes')]
+    #[ORM\JoinColumn(name: 'id_conducteur', referencedColumnName: 'id')]
+    private $id_conducteur ;
+
+  /**
+     * Get the value of conducteur
+     *
+     * @return User|null
+     */
+    public function getConducteur(): ?User
+    {
+        return $this->id_conducteur;
+    }
+
+    /**
+     * Set the value of conducteur
+     *
+     * @param User|null $conducteur
+     * @return self
+     */
+    public function setConducteur(?User $conducteur): self
+    {
+        $this->id_conducteur = $conducteur;
+
+        return $this;
+    }
+
+
+
+    public function getChantier(): ?Chantiers // Assurez-vous que le type est correct
+    {
+        return $this->id_chantier;
+    }
+
+    // Setter pour $chantier
+    public function setChantier(?Chantiers $chantier): self // Utilisez le bon type d'objet
+    {
+        $this->id_chantier = $chantier;
+
+        return $this;
+    }
+
+    // Getter pour $conducteur
+   
+
+    // Setter pour $conducteur
+  
+
+
+    public function getIdCalendar()
+    {
         return $this->Idcalendar;
     }
 
-    public function setIdCalendar($Idcalendar) {
+    public function setIdCalendar($Idcalendar)
+    {
         $this->Idcalendar = $Idcalendar;
     }
 
@@ -157,27 +216,32 @@ class CdeMatEnt
     {
         return $this->transports;
     }
- 
 
 
-    public function getActif() {
+
+    public function getActif()
+    {
         return $this->Actif;
     }
 
-    public function setActif($Actif): void {
+    public function setActif($Actif): void
+    {
         $this->Actif = $Actif;
     }
 
     // Getter and Setter for Motif
-    public function getMotif() {
+    public function getMotif()
+    {
         return $this->Motif;
     }
 
-    public function setMotif( $Motif) {
+    public function setMotif($Motif)
+    {
         $this->Motif = $Motif;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->transports = new ArrayCollection();
 
         if ($this->DateCde === null) {
@@ -187,7 +251,7 @@ class CdeMatEnt
         if ($this->HeureEnlevDem === null) {
             $this->HeureEnlevDem = new \DateTime();
         }
-        
+
         if ($this->DateEnlevDem === null) {
             $this->DateEnlevDem = new \DateTime();
         }
@@ -208,7 +272,7 @@ class CdeMatEnt
             $this->HeureLiv = new \DateTime();
         }
     }
-  
+
     public function getId(): ?int
     {
         return $this->id;
