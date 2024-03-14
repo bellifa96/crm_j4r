@@ -158,7 +158,8 @@ class CommandeController extends AbstractController
                 'articlesbyDepot' => $articlesbyDepot,
                 'idCdeEnte' => $cdeMatEnt->getId(),
                 'cdeEnteHeure' => $cdeEnteHeure,
-                'transport' => $cdeMatEnt->getTransports()[0]
+                'transport' => $cdeMatEnt->getTransports()[0],
+                'commande' =>$cdeMatEnt
             ]);
         } catch (Exception $e) {
             dd($e->getMessage());

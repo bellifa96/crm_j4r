@@ -24,20 +24,9 @@ class CommandeType extends AbstractType
         $builder
          
            
-            ->add('NomClient', TextType::class, [
-                'label' => 'Nom Client',
-
-            ])
-         
-            ->add('NumAffaire', TextType::class, [
-                'label' => 'Numero Affaire',
-
-                'required' => false,
-            ])
           
          
-           
-
+        
             ->add('DateCde', DateTimeType::class, [
                 'label' => 'Date de vérification de la grue',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
@@ -71,21 +60,13 @@ class CommandeType extends AbstractType
                 'required' => false, // Ensure this field is not required
 
             ])
-            ->add('Commentaires', TextType::class, [
-                'label' => 'Nom Conducteur',
-                'required' => false, // Ensure this field is not required
-
-            ])
+           
             ->add('NumErpLocation', IntegerType::class, [
                 'label' => 'Numéro Vente Vente',
                 'required' => false, // Ensure this field is not required
 
             ])
-            ->add('NumEchange', IntegerType::class, [
-                'label' => 'Numéro Echange',
-                'required' => false, // Ensure this field is not required
-
-            ])
+         
             ->add('HeureEnlevDem', TimeType::class, [
                 'label' => 'Numéro Vente Vente',
                 'required' => false, // Ensure this field is not required
