@@ -100,6 +100,7 @@ class CommandeController extends AbstractController
     {
         try {
             $id_depot = $request->query->get('selectedDepot');
+            
             $data = $this->cdeMatEntRepository->listCommandebyIdepot($id_depot);
 
             $serializedData = $this->customSerializer->serializeCommandes($data);

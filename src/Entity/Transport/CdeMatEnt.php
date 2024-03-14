@@ -20,29 +20,19 @@ class CdeMatEnt
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $NumDevis = 0;
 
-    #[ORM\Column]
-    private ?int $IdClient = 0;
+
+
 
     #[ORM\Column(length: 255)]
     private ?string $NomClient = '';
 
-    #[ORM\Column(nullable: true)]
-    private ?int $CodeChantier = 0;
+
 
     #[ORM\Column(length: 20)]
     private ?string $NumAffaire = '';
 
-    #[ORM\Column(length: 500)]
-    private ?string $AdresseChantier = '';
 
-    #[ORM\Column(length: 10)]
-    private ?string $CpChantier = '';
-
-    #[ORM\Column(length: 50)]
-    private ?string $VilleChantier = '';
 
     #[ORM\Column(length: 255)]
     private ?string $Commentaires = '';
@@ -50,14 +40,12 @@ class CdeMatEnt
     #[ORM\Column(type: "datetime")]
     private  $DateCde = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $DateCdeInv = '';
+
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $PoidsTotMat = '0.00';
 
-    #[ORM\Column(length: 5)]
-    private ?string $Initiales = '';
+
 
     #[ORM\Column]
     private ?int $IdAgence = 0;
@@ -65,11 +53,7 @@ class CdeMatEnt
     #[ORM\Column]
     private ?int $Iddepot = 0;
 
-    #[ORM\Column]
-    private ?bool $ValidationLayher = false;
 
-    #[ORM\Column]
-    private ?bool $ValidationJ4R = false;
 
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $NumErpLocation = '0';
@@ -77,53 +61,40 @@ class CdeMatEnt
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $NumErpVente = '0';
 
-    #[ORM\Column]
-    private ?bool $CdeValide = false;
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateEnlevDem = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $DateEnlevDemInv = '';
+
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureEnlevDem = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $HeureEnlevDemTxt = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateEnlevReel = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $DateenlevReelInv = '';
+
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureEnlevReel = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $HeureEnlevReelTxt = '';
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $DateLiv = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $DateLivInv = '';
+
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $HeureLiv = null;
 
-    #[ORM\Column(length: 8)]
-    private ?string $HeureLivTxt = '';
 
     #[ORM\Column]
     private ?int $NumEchange = 0;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $NumAgenceLayher = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $numCloud = null;
 
     #[ORM\Column(length: 8)]
     private ?string $Commentaires1 = '';
@@ -142,7 +113,6 @@ class CdeMatEnt
 
     #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'idcde')]
     #[Groups(['cde_mat_ent'])]
-
     private $transports;
 
 
@@ -152,9 +122,9 @@ class CdeMatEnt
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commandes')]
     #[ORM\JoinColumn(name: 'id_conducteur', referencedColumnName: 'id')]
-    private $id_conducteur ;
+    private $id_conducteur;
 
-  /**
+    /**
      * Get the value of conducteur
      *
      * @return User|null
@@ -193,10 +163,10 @@ class CdeMatEnt
     }
 
     // Getter pour $conducteur
-   
+
 
     // Setter pour $conducteur
-  
+
 
 
     public function getIdCalendar()
@@ -278,29 +248,7 @@ class CdeMatEnt
         return $this->id;
     }
 
-    public function getNumDevis(): ?int
-    {
-        return $this->NumDevis;
-    }
 
-    public function setNumDevis(int $NumDevis): self
-    {
-        $this->NumDevis = $NumDevis;
-
-        return $this;
-    }
-
-    public function getIdClient(): ?int
-    {
-        return $this->IdClient;
-    }
-
-    public function setIdClient(int $IdClient): self
-    {
-        $this->IdClient = $IdClient;
-
-        return $this;
-    }
 
     public function getNomClient(): ?string
     {
@@ -314,17 +262,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getCodeChantier(): ?int
-    {
-        return $this->CodeChantier;
-    }
 
-    public function setCodeChantier(?int $CodeChantier): self
-    {
-        $this->CodeChantier = $CodeChantier;
-
-        return $this;
-    }
 
     public function getNumAffaire(): ?string
     {
@@ -338,41 +276,11 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getAdresseChantier(): ?string
-    {
-        return $this->AdresseChantier;
-    }
 
-    public function setAdresseChantier(?string $AdresseChantier): self
-    {
-        $this->AdresseChantier = $AdresseChantier;
 
-        return $this;
-    }
 
-    public function getCpChantier(): ?string
-    {
-        return $this->CpChantier;
-    }
 
-    public function setCpChantier(?string $CpChantier): self
-    {
-        $this->CpChantier = $CpChantier;
 
-        return $this;
-    }
-
-    public function getVilleChantier(): ?string
-    {
-        return $this->VilleChantier;
-    }
-
-    public function setVilleChantier(?string $VilleChantier): self
-    {
-        $this->VilleChantier = $VilleChantier;
-
-        return $this;
-    }
 
     public function getCommentaires(): ?string
     {
@@ -398,17 +306,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getDateCdeInv(): ?string
-    {
-        return $this->DateCdeInv;
-    }
 
-    public function setDateCdeInv(string $DateCdeInv): self
-    {
-        $this->DateCdeInv = $DateCdeInv;
-
-        return $this;
-    }
 
     public function getPoidsTotMat(): ?string
     {
@@ -422,17 +320,6 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getInitiales(): ?string
-    {
-        return $this->Initiales;
-    }
-
-    public function setInitiales(?string $Initiales): self
-    {
-        $this->Initiales = $Initiales;
-
-        return $this;
-    }
 
     public function getIdAgence(): ?int
     {
@@ -458,29 +345,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function isValidationLayher(): ?bool
-    {
-        return $this->ValidationLayher;
-    }
 
-    public function setValidationLayher(bool $ValidationLayher): self
-    {
-        $this->ValidationLayher = $ValidationLayher;
-
-        return $this;
-    }
-
-    public function isValidationJ4R(): ?bool
-    {
-        return $this->ValidationJ4R;
-    }
-
-    public function setValidationJ4R(bool $ValidationJ4R): self
-    {
-        $this->ValidationJ4R = $ValidationJ4R;
-
-        return $this;
-    }
 
     public function getNumErpLocation(): ?string
     {
@@ -506,17 +371,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function isCdeValide(): ?bool
-    {
-        return $this->CdeValide;
-    }
-
-    public function setCdeValide(bool $CdeValide): self
-    {
-        $this->CdeValide = $CdeValide;
-
-        return $this;
-    }
+   
 
     public function getDateEnlevDem(): ?\DateTimeInterface
     {
@@ -530,17 +385,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getDateEnlevDemInv(): ?string
-    {
-        return $this->DateEnlevDemInv;
-    }
 
-    public function setDateEnlevDemInv(?string $DateEnlevDemInv): self
-    {
-        $this->DateEnlevDemInv = $DateEnlevDemInv;
-
-        return $this;
-    }
 
     public function getHeureEnlevDem(): ?\DateTimeInterface
     {
@@ -554,17 +399,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getHeureEnlevDemTxt(): ?string
-    {
-        return $this->HeureEnlevDemTxt;
-    }
 
-    public function setHeureEnlevDemTxt(?string $HeureEnlevDemTxt): self
-    {
-        $this->HeureEnlevDemTxt = $HeureEnlevDemTxt;
-
-        return $this;
-    }
 
     public function getDateEnlevReel(): ?\DateTimeInterface
     {
@@ -578,17 +413,6 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getDateenlevReelInv(): ?string
-    {
-        return $this->DateenlevReelInv;
-    }
-
-    public function setDateenlevReelInv(?string $DateenlevReelInv): self
-    {
-        $this->DateenlevReelInv = $DateenlevReelInv;
-
-        return $this;
-    }
 
     public function getHeureEnlevReel(): ?\DateTimeInterface
     {
@@ -602,17 +426,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getHeureEnlevReelTxt(): ?string
-    {
-        return $this->HeureEnlevReelTxt;
-    }
 
-    public function setHeureEnlevReelTxt(?string $HeureEnlevReelTxt): self
-    {
-        $this->HeureEnlevReelTxt = $HeureEnlevReelTxt;
-
-        return $this;
-    }
 
     public function getDateLiv(): ?\DateTimeInterface
     {
@@ -626,17 +440,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getDateLivInv(): ?string
-    {
-        return $this->DateLivInv;
-    }
 
-    public function setDateLivInv(?string $DateLivInv): self
-    {
-        $this->DateLivInv = $DateLivInv;
-
-        return $this;
-    }
 
     public function getHeureLiv(): ?\DateTimeInterface
     {
@@ -650,30 +454,12 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getHeureLivTxt(): ?string
-    {
-        return $this->HeureLivTxt;
-    }
-
-    public function setHeureLivTxt(?string $HeureLivTxt): self
-    {
-        $this->HeureLivTxt = $HeureLivTxt;
-
-        return $this;
-    }
 
     public function getNumEchange(): ?int
     {
         return $this->NumEchange;
     }
-    public function  setNumCloud(int $Numcloud)
-    {
-        $this->numCloud = $Numcloud;
-    }
-    public function getNumCloud(): ?int
-    {
-        return $this->numCloud;
-    }
+
 
     public function setNumEchange(int $NumEchange): self
     {
@@ -682,17 +468,7 @@ class CdeMatEnt
         return $this;
     }
 
-    public function getNumAgenceLayher(): ?int
-    {
-        return $this->NumAgenceLayher;
-    }
 
-    public function setNumAgenceLayher(?int $NumAgenceLayher): self
-    {
-        $this->NumAgenceLayher = $NumAgenceLayher;
-
-        return $this;
-    }
 
     /**
      * Get the value of Commentaires1

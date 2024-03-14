@@ -46,7 +46,6 @@ class CdeMatEntRepository extends ServiceEntityRepository
 
     public function listCommandebyIdepot($Iddepot)
     { 
-        
         $data =  $this->createQueryBuilder('c')
             ->andWhere('c.Iddepot = :Iddepot')
             ->andWhere('c.Actif = true')
@@ -55,6 +54,7 @@ class CdeMatEntRepository extends ServiceEntityRepository
             ->orderBy('c.DateCde', 'DESC') // Adding the ORDER BY clause
             ->getQuery()
             ->getResult();
+           
         return $data;
     }
 

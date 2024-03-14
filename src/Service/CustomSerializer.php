@@ -19,7 +19,7 @@ class CustomSerializer
                 'id' => $commande->getId(),
                 'date' => $commande->getDateCde(),
                 'poids' => $commande->getPoidsTotMat(),
-                'initiales' => $commande->getInitiales(),
+                'initiales' => $conducteur->getFirstname() . ' ' . $conducteur->getLastname(),
                 'erplocations' => $commande->getNumErpLocation(),
                 'motif' => $commande->getMotif(),
 
@@ -27,9 +27,9 @@ class CustomSerializer
                 'chantier' => [
                     'id' => $chantier->getIdChantier(),
                     'name' => $chantier->getNomChantier(),
-                    'adresse' => $commande->getAdresseChantier(),
-                    'ville' => $commande->getVilleChantier(),
-                    'codechantier' => $commande->getCodeChantier(),
+                    'adresse' => $chantier->getAdresse(),
+                    'ville' => $chantier->getVille(),
+                    'codechantier' => $commande->getChantier()->getNumChantier(),
 
                     // Include other necessary properties of Chantier as needed
                 ],
