@@ -103,14 +103,14 @@
 							{% if transport.idcde is null %}
 								null
 							{% else %}
-								{{ transport.idcde.CodeChantier|default('Code not available') }}
+								{{ transport.idcde.getChantier().getNumChantier() |default('Code not available') }}
 							{% endif %}
 						</td>
 						<td>
 							{% if transport.idcde is null %}
 								null
 							{% else %}
-								{{ transport.idcde.AdresseChantier|default('Address not available') }}
+								{{ transport.idcde.getChantier().getAdresse()|default('Address not available') }}
 							{% endif %}
 						</td>
 						<td>

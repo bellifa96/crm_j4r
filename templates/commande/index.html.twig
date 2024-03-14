@@ -275,9 +275,9 @@ let action = '';
 
 if (codedepotValue != 1) {
 action += '<button class="btn btn-warning" style="font-size: 10px;"><i class="bi bi-file-pdf-fill" onclick="pdf(' + commande.id + ')" margin"></i></button> <button class="btn btn-secondary" style="font-size: 10px;" onclick="archive(' + commande.id + ')"><i class="bi bi-archive"  ></i></button>';
-}else{
-action += '<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button> <button class="btn btn-secondary" style="font-size: 10px;" onclick="archive(' + commande.id + ')"><i class="bi bi-archive" ></i></button>';
 }
+action += '<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button> <button class="btn btn-secondary" style="font-size: 10px;" onclick="archive(' + commande.id + ')"><i class="bi bi-archive" ></i></button>';
+
 
 lienversconducteur = "<a href='/commande_conducteur/"+commande.conducteur.id+" '>" + commande.initiales + "</a>";
 lienverscommandebychantiers = "<a href='/commande_chantiers/"+commande.chantier.id+" '>" + commande.chantier.codechantier + "</a>";

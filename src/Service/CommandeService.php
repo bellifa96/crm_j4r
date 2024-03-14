@@ -185,15 +185,6 @@ class CommandeService
             $depot = $this->depotRepository->findOneByCodedepot1($iddepot)->getIddepot();
 
             $commande = new CdeMatEnt();
-            $commande->setNumDevis($formData['commande']['NumDevis'] ?? 0);
-            $commande->setIdClient($formData['commande']['IdClient'] ?? 0);
-            $commande->setNomClient($formData['commande']['NomClient'] ?? '');
-            $commande->setCodeChantier($formData['commande']['CodeChantier'] ?? 0);
-            $commande->setNumAffaire($formData['commande']['NumAffaire'] ?? '');
-            $commande->setAdresseChantier($formData['commande']['AdresseChantier'] ?? '');
-            $commande->setCpChantier($formData['commande']['CpChantier'] ?? '');
-            $commande->setVilleChantier($formData['commande']['VilleChantier'] ?? '');
-            $commande->setInitiales($formData['commande']['Initiales'] ?? '');
             // Access nested DateCde values
             $dateCdeYear = $formData['commande']['DateCde']['year'] ?? null;
             $dateCdeMonth = $formData['commande']['DateCde']['month'] ?? null;
