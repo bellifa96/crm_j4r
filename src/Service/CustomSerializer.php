@@ -21,7 +21,7 @@ class CustomSerializer
                 'poids' => $commande->getPoidsTotMat(),
                 'initiales' => $commande->getInitiales(),
                 'erplocations' => $commande->getNumErpLocation(),
-                'codechantier' => $commande->getCodeChantier(),
+                'motif' => $commande->getMotif(),
 
                 // Include other necessary properties of Commande
                 'chantier' => [

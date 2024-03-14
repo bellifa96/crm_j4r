@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Depot\Chantiers;
 use App\Entity\Transport\CdeMatEnt;
+use App\Entity\User;
 use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
@@ -341,8 +343,10 @@ class CommandeController extends AbstractController
     {
         try {
             $id_depot = $request->query->get('selectedDepot');
-            $articles = $this->cdeMatEntRepository->listCommandebyIdDepotAnnuler($id_depot);
-            return $this->json($articles);
+            $commandes = $this->cdeMatEntRepository->listCommandebyIdDepotAnnuler($id_depot);
+
+            $serializedData = $this->customSerializer->serializeCommandes($commandes);
+            return new JsonResponse($serializedData);
         } catch (Exception $e) {
 
             return $this->json([]);
@@ -350,5 +354,67 @@ class CommandeController extends AbstractController
     }
     // fin  traitement Commande 
 
+    // get Commande par conducteur traveaux
+    #[Route('/commande_conducteur/{id}', name: 'commande_conducteur_traveaux')]
+    public function commande_conducteur_travaux(User $user = null): Response // Assuming parameter conversion
+    {
+        // Check if the User exists
+        if (!$user) {
+            throw $this->createNotFoundException('No user found for id ');
+        }
+        $commandes = $user->getCommandes();
+        $commandesArray = $commandes->toArray();
 
+        usort($commandesArray, function($a, $b) {
+            $dateA = $a->getDateCde();
+            $dateB = $b->getDateCde();
+        
+            if ($dateA == $dateB) {
+                return 0;
+            }
+            return ($dateA > $dateB) ? -1 : 1;
+        });
+    
+        // Handle User with No Commandes
+       
+        // Valid case: User exists and has commandes
+        return $this->render('chantiers/show_conducteur.html.twig', [
+            'title' => 'Commandes par Conducteur de Travaux',
+            'nav' => [],
+            'commandes' => $commandes, // Pass commandes to the view
+            'user' => $user, // Optionally pass the user to the view if needed
+        ]);
+    }
+
+      // get Commande par Chantiers
+      #[Route('/commande_chantiers/{id}', name: 'commande_chantiers')]
+      public function commande_chantiers(Chantiers $chantiers = null): Response // Assuming parameter conversion
+      {
+          // Check if the User exists
+          if (!$chantiers) {
+              throw $this->createNotFoundException('No user found for id ');
+          }
+          $commandes = $chantiers->getCommandes();
+          $commandesArray = $commandes->toArray();
+  
+          usort($commandesArray, function($a, $b) {
+              $dateA = $a->getDateCde();
+              $dateB = $b->getDateCde();
+          
+              if ($dateA == $dateB) {
+                  return 0;
+              }
+              return ($dateA > $dateB) ? -1 : 1;
+          });
+      
+          // Handle User with No Commandes
+         
+          // Valid case: User exists and has commandes
+          return $this->render('chantiers/show_commandes_chantiers.html.twig', [
+              'title' => 'Commandes par Chantiers',
+              'nav' => [],
+              'commandes' => $commandesArray, // Pass commandes to the view
+              'chantiers' => $chantiers, // Optionally pass the user to the view if needed
+          ]);
+      }
 }

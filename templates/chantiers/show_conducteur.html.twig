@@ -1,0 +1,275 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block body %}
+	<script>
+
+		if (!$.fn.DataTable.isDataTable('#commandeTable')) {
+commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
+}
+	</script>
+
+	<style>
+
+
+		.table-ged >:not(caption) > * > * {
+			padding: 0;
+		}
+
+		.labels {
+			color: #0d4377;
+		}
+
+		.d-block {
+			color: #0d4377;
+			font-weight: bold;
+		}
+
+
+		.nav-item > .active {
+			font-weight: bold;
+		}
+
+		.bg-blue {
+			font-size: 0.75rem !important;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			height: calc(1em + 0.375rem + 2px) !important;
+			padding: 0 0.25rem !important;
+			background: rgba(14, 67, 119, 0.1);
+			border-radius: 5px !important;
+			white-space: nowrap;
+		}
+
+		.nav-tabs .nav-link {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+			color: #0E4377;
+			width: 100%;
+			border-right: 1px solid #0E4377;
+		}
+
+
+		.nav-tabs .nav-link.active {
+			background-color: #fff;
+			border-color: #0e4377 #0e4377 #0e4377;
+			color: #495057;
+		}
+
+		body .nav-tabs li button {
+			display: block;
+			padding: 5px 30px;
+		}
+
+		body .nav-tabs li .active {
+			background-color: #0E4377 !important;
+			color: white !important;
+		}
+
+		.nav-item .nav-link:hover {
+			background: #0E4377;
+			color: white !important;
+			border-color: #0E4377;
+			font-weight: 700;
+		}
+
+		.nav-tabs {
+			border: 1px solid #0E4377;
+			border-bottom: 5px solid #0E4377;
+		}
+
+		.lien-societe:hover {
+			background-color: #0e4377;
+			color: #fff;
+			border-radius: 50px;
+			padding: 5px;
+		}
+		.buttonCreation {
+			floa
+		}
+	</style>
+
+
+	<!-- PAGE DISPLAY -->
+	<div class="col-lg-12 page-block page-block-margin-bottom">
+
+		<div class="row mt-2">
+
+
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-3 font-weight-bold text-end">
+						<span class="d-block">Rôles</span>
+					</div>
+					<div class="col-md-6">
+						<span class="data-element bg-blue ">
+							<b>conducteur travaux</b>
+						</span>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-3 font-weight-bold text-end">
+						<span class="d-block">Nom
+						</span>
+					</div>
+					<div class="col-md-6 bg-blue pr-1">
+						<span class="data-element">{{ user.getFirstname() }}
+							{{ user.getLastname() }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-3 font-weight-bold text-end">
+						<span class="d-block"></span>
+					</div>
+					<div class="col-md-6 bg-blue pr-1">
+						<span class="data-element"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-3 font-weight-bold text-end">
+						<span class="d-block">Adresse</span>
+					</div>
+					<div class="col-md-6 bg-blue pr-1">
+						<span class="data-element">{{ user.getAdresse1() }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-3 font-weight-bold text-end">
+						<span class="d-block">Téléphone</span>
+					</div>
+					<div class="col-md-6 bg-blue pr-1">
+						<span class="data-element">{{ user.getTelephone() }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div class="col-md-12 page-block mt-4">
+
+
+		<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+			<li class="col nav-item" role="presentation">
+				<button class="nav-link " id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="true">
+					Commandes
+				</button>
+			</li>
+
+			<li class="col nav-item" role="presentation">
+				<button class="nav-link " id="comptabilite-tab" data-bs-toggle="tab" data-bs-target="#comptabilite" type="button" role="tab" aria-controls="comptabilite" aria-selected="false">
+					Chantiers
+				</button>
+			</li>
+
+		</ul>
+
+
+		<div
+			class="tab-content mt-4" id="myTabContent">
+
+			<!-- Contact -->
+			<div class="tab-pane fade " id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+
+				<div class="row justify-content-end mt-4 mb-2">
+					<a href="" class=" col-md-auto btn btn-info p-1">
+						Contact +
+					</a>
+				</div>
+
+				<div class="col-md-12">
+					<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+						<thead>
+							<tr class="tr-head">
+								<th>Adresse Chantier</th>
+								<th>Ville</th>
+								<th>Date</th>
+								<th>Poids Total</th>
+								<th>Conducteur de travaux</th>
+								<th>Code Chantier</th>
+								<th>Numéro ERP</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for commande in commandes %}
+								<tr>
+									<td>{{ commande.getChantier().getAdresse() }}</td>
+									<td>{{ commande.getChantier().getVille() }}</td>
+									<td>{{ commande.getDateCde()|date('d/m/Y H:i:s') }}</td>
+									<td>{{ commande.getPoidsTotMat() }}</td>
+									<td>{{ user.getPseudo() }}</td>
+									<td>{{ commande.getChantier().getNumchantier() }}</td>
+									<td>{{ commande.getNumErpLocation() }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+			<!-- Demandes -->
+			<div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
+
+				<div class="row justify-content-end mt-4 mb-2">
+					<a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
+						Créer une Demande
+					</a>
+				</div>
+				<div class="col-md-12 m-auto mt-4">
+
+					<table class="table datatable">
+						<thead>
+							<tr class="tr-head text-center">
+								<th>N°</th>
+								<th>NomChantier</th>
+								<th>Type de préstation</th>
+								<th>Documents souhaités</th>
+								<th>Client</th>
+								<th>Maitre d'Ouvrage</th>
+								<th>Intermédiaire</th>
+								<th>Ville</th>
+								<th>CodePostal</th>
+								<th>Pays</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+
+			</div>
+
+
+			<!-- Comptabilité -->
+
+
+			<!-- Ged -->
+
+
+		</div>
+
+	</div>
+
+	<script></script>
+{% endblock %}

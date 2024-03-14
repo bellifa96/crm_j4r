@@ -152,7 +152,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Devis::class, mappedBy: 'referent')]
     private Collection $devis;
 
-    #[ORM\OneToMany(targetEntity: CdeMatEnt::class, mappedBy: 'id_chantier')]
+    #[ORM\OneToMany(targetEntity: CdeMatEnt::class, mappedBy: 'id_conducteur')]
 
     private  $commandes;
 

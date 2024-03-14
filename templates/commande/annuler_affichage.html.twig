@@ -114,16 +114,12 @@ Commandes Annulées
 		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 			<thead>
 				<tr class="tr-head">
-					<th>Devis</th>
-					<th>Client</th>
-					<th>Affaire</th>
 					<th>Adress Chantier</th>
 					<th>Ville</th>
 					<th>Date</th>
 					<th>Poids Total</th>
 					<th>Initiales</th>
 					<th>Code Chantier</th>
-					<th>Numéro Cloud</th>
                     <th>Motif</th>
 
 					<th>Actions</th>
@@ -249,17 +245,13 @@ action +='<button class="btn btn-warning" style="font-size: 10px;" onclick="redi
 
 }
 var newRow = [
-commande.NumDevis,
-commande.NomClient,
-commande.NumAffaire,
-commande.AdresseChantier,
-commande.VilleChantier,
-new Date(commande.DateCde).toLocaleString('fr-FR', {timeZone: 'Europe/Paris', ...options}),
-commande.PoidsTotMat,
-commande.Initiales,
-commande.CodeChantier,
-commande.numCloud,
-commande.Motif,
+commande.chantier.adresse,
+commande.chantier.ville,
+new Date(commande.date.date).toLocaleString('fr-FR', {timeZone: 'Europe/Paris', ...options}),
+commande.poids,
+commande.initiales,
+commande.chantier.codechantier,
+commande.motif,
 action
 ];
 commandeTable.row.add(newRow);
