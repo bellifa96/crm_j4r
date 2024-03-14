@@ -22,44 +22,21 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('NumDevis', IntegerType::class, [
-                'label' => 'Num Devis',
-                'required' => false, // Ensure this field is not required
-
-            ])
-            ->add('IdClient', IntegerType::class, [
-                'label' => 'Id CLient',
-
-            ])
+         
+           
             ->add('NomClient', TextType::class, [
                 'label' => 'Nom Client',
 
             ])
-            ->add('CodeChantier', IntegerType::class, [
-                'label' => 'Code Chantier',
-
-                'required' => false,
-            ])
+         
             ->add('NumAffaire', TextType::class, [
                 'label' => 'Numero Affaire',
 
                 'required' => false,
             ])
-            ->add('AdresseChantier', TextareaType::class, [
-                'label' => 'Adresse Chantier',
-
-                'required' => false,
-            ])
-            ->add('CpChantier', TextType::class, [
-                'label' => 'Code Chantier',
-
-                'required' => false,
-            ])
-            ->add('VilleChantier', TextType::class, [
-                'label' => 'Ville Chantier',
-
-                'required' => false,
-            ])
+          
+         
+           
 
             ->add('DateCde', DateTimeType::class, [
                 'label' => 'Date de vérification de la grue',
@@ -78,11 +55,7 @@ class CommandeType extends AbstractType
                 'label' => 'Poids Total',
 
             ])
-            ->add('Initiales', TextType::class, [
-                'label' => 'Initiales',
-
-                'required' => false,
-            ])
+          
 
             ->add('Commentaires1', TextType::class, [
                 'label' => 'Commentaires1',

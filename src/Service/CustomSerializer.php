@@ -22,6 +22,7 @@ class CustomSerializer
                 'initiales' => $conducteur->getFirstname() . ' ' . $conducteur->getLastname(),
                 'erplocations' => $commande->getNumErpLocation(),
                 'motif' => $commande->getMotif(),
+                'echange' => $commande->getNumEchange(),
 
                 // Include other necessary properties of Commande
                 'chantier' => [
