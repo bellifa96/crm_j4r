@@ -61,14 +61,18 @@ class TransportsController extends AbstractController
             if ($transporteurObject === null || $commandeEntObject === null) {
                 return new JsonResponse(['message' => 'Transporteur or Commande object not found.'], JsonResponse::HTTP_CONFLICT);
             }
-
             $transpots = new Transports();
+
+            if($typeEnlevement != ""){
+                $transpots->setTypeEnlevement($typeEnlevement);
+
+            }
+
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setSens(1);
             $transpots->setNumchantierdep(1);
             $transpots->setHeuredep($heure);
-            $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
 
 

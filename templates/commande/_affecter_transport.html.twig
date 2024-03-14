@@ -26,11 +26,7 @@
 				    {% endif %}
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Observations</label>
-						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50">
-							{% if transport is not null %}
-								{{ transport.getObservation() is not null ? transport.getObservation() : '' }}
-							{% endif %}
-						</textarea>
+						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50">{% if transport is not null %}{{ transport.getObservation() is not null ? transport.getObservation() : '' }}{% endif %}</textarea>
 
 
 					</div>
@@ -50,7 +46,7 @@
 									<option value="3" {% if transport.getTypeEnlevement() == "3" %} selected {% endif %}>A partir de</option>
 									<option value="4" {% if transport.getTypeEnlevement() == "4" %} selected {% endif %}>Impératif à</option>
 								{% else %}
-									<option value="" selected disabled>Sélectionnez une option</option>
+									<option value="0" selected></option>
 									<option value="1">En journée</option>
 									<option value="2">A la suite</option>
 									<option value="3">A partir de</option>

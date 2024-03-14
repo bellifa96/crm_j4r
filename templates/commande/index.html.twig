@@ -240,7 +240,10 @@ if ($.fn.DataTable.isDataTable('#commandeTable')) {
 $('#commandeTable').DataTable().destroy();
 }
 
-commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
+if (!$.fn.DataTable.isDataTable('#commandeTable')) {
+    commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
+}
+
 
 $.ajax({
 type: 'GET',
