@@ -72,6 +72,31 @@
 
 		}
 		.btnChargerCommande {}
+		/* Couleurs pour les différents états */
+		.etat-0 {
+			background-color: #ff0000;
+		} /* A démarrer */
+		.etat-1 {
+			background-color: #ffa500;
+		} /* En attente OS */
+		.etat-2 {
+			background-color: #ffff00;
+		} /* En cours */
+		.etat-3 {
+			background-color: #008000;
+		} /* Terminé */
+		.etat-4 {
+			background-color: #808080;
+		} /* Annulé */
+		.etat-5 {
+			background-color: #ff00ff;
+		} /* A relancer */
+		.etat-6 {
+			background-color: #0000ff;
+		} /* Ne pas facturer */
+		.etat-7 {
+			background-color: #808000;
+		} /* Non réalisé */
 	</style>
 
 	<div class="example-wrapper">
@@ -125,7 +150,30 @@
 
 						<td>{{ ch.nomchantier }}</td>
 						<td>{{ ch.ville }}</td>
-						<td>{{ ch.Etat }}</td>
+						<td class="etat-{{ ch.Etat }}">
+							{% set etatText %}
+							{% if ch.Etat == 0 %}
+								A démarrer
+							{% elseif ch.Etat == 1 %}
+								En attente OS
+							{% elseif ch.Etat == 2 %}
+								En cours
+							{% elseif ch.Etat == 3 %}
+								Terminé
+							{% elseif ch.Etat == 4 %}
+								Annulé
+							{% elseif ch.Etat == 5 %}
+								A relancer
+							{% elseif ch.Etat == 6 %}
+								Ne pas facturer
+							{% elseif ch.Etat == 7 %}
+								Non réalisé
+							{% else %}
+								Unknown State
+							{% endif %}
+							{% endset %}
+							{{ etatText }}
+						</td>
 						<td>{{ ch.Adresse }}</td>
 
 						<td>
@@ -139,4 +187,28 @@
 			</tbody>
 		</tbody>
 	</table>
-</div>{% endblock %}
+</div>
+<script>
+	function getEtatText(etat) {
+switch (etat) {
+case 0:
+return "A démarrer";
+case 1:
+return "En attente OS";
+case 2:
+return "En cours";
+case 3:
+return "Terminé";
+case 4:
+return "Annulé";
+case 5:
+return "A relancer";
+case 6:
+return "Ne pas facturer";
+case 7:
+return "Non réalisé";
+default:
+return "État inconnu";
+}
+}
+</script>{% endblock %}
