@@ -132,10 +132,10 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block"></span>
+						<span class="d-block">Code Postale</span>
 					</div>
 					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element"></span>
+						<span class="data-element">{{ chantiers.getCp() }}</span>
 					</div>
 				</div>
 			</div>
@@ -192,25 +192,19 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 					<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 						<thead>
 							<tr class="tr-head">
-								<th>Adresse Chantier</th>
-								<th>Ville</th>
 								<th>Date</th>
 								<th>Poids Total</th>
 								<th>Conducteur de travaux</th>
-								<th>Code Chantier</th>
 								<th>Numéro ERP</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for commande in commandes %}
 								<tr>
-									<td>{{ commande.getChantier().getAdresse() }}</td>
-									<td>{{ commande.getChantier().getVille() }}</td>
 									<td>{{ commande.getDateCde()|date('d/m/Y H:i:s') }}</td>
 									<td>{{ commande.getPoidsTotMat() }}</td>
 									<td>{{ commande.getConducteur().getFirstname() }}
 										{{ commande.getConducteur().getLastname() }}</td>
-									<td>{{ commande.getChantier().getNumchantier() }}</td>
 									<td>{{ commande.getNumErpLocation() }}</td>
 								</tr>
 							{% endfor %}
