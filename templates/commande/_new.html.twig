@@ -139,6 +139,7 @@ data: {
 chantier: selectedChantierId
 },
 success: function (data) {
+	
 	$('#commande_adresse_chantier').val(data[0].adresse)
 },
 error: function (error) {

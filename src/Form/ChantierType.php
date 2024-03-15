@@ -20,11 +20,8 @@ class ChantierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('datedebfin')
             ->add('numchantier')
             ->add('etat')
-            ->add('demarrage')
-            ->add('titulaire')
             ->add('ville')
             ->add('cp')
             ->add('client')
