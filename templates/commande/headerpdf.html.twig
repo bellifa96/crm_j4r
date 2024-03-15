@@ -73,18 +73,18 @@
 		</tr>
 		<tr>
 			<th>Commentaires</th>
-			<td colspan="7">{{cdeMat.NomClient}}</td>
+			<td colspan="7">{{cdeMat.getCommentaires1()}} \ {{cdeMat.getCommentaires2()}}</td>
 		</tr>
 		<!-- Nouvelle ligne avec 5 colonnes -->
 		<tr>
 			<th>N de plan</th>
 			<td>{{cdeMat.NomClient}}</td>
 			<th>N de devis</th>
-			<td>{{cdeMat.NumDevis}}</td>
+			<td></td>
 			<th>Code Analytique</th>
 			<td></td>
 			<th>Initiales</th>
-			<td>{{cdeMat.Initiales}}</td>
+			<td>{{cdeMat.getConducteur().getFirstName()}}  {{cdeMat.getConducteur().getLastName()}}</td>
 		</tr>
 	</table>
 

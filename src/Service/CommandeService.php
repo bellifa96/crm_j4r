@@ -5,9 +5,11 @@ namespace App\Service;
 use App\Entity\Transport\CdeMatDet;
 use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Depot\ArticleRepository;
+use App\Repository\Depot\ChantiersRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
+use App\Repository\UserRepository;
 use Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -31,6 +33,9 @@ class CommandeService
         private DepotRepository $depotRepository,
         private CdeMatDetRepository $cdeMatDetRepository,
         private ArticleRepository $articleRepository,
+        private ChantiersRepository $chantiersRepository,
+        private UserRepository $userRepository,
+
         private OutlookService $outlookService,
     ) {
         $this->params = $params;
@@ -178,69 +183,82 @@ class CommandeService
         return 200;
     }
 
-    public function save($formData,$article,$iddepot)
+    public function save($formData, $article, $iddepot)
     {
 
         try {
             $depot = $this->depotRepository->findOneByCodedepot1($iddepot)->getIddepot();
-
+            $chantier = $this->chantiersRepository->findByIdChantier($formData['commande']['chantier']);
+            $condecteur = $this->userRepository->findByIdUser($formData['commande']['conducteur']);
             $commande = new CdeMatEnt();
             // Access nested DateCde values
-            $dateCdeYear = $formData['commande']['DateCde']['year'] ?? null;
-            $dateCdeMonth = $formData['commande']['DateCde']['month'] ?? null;
-            $dateCdeDay = $formData['commande']['DateCde']['day'] ?? null;
+            $commande->setDateCde(new \DateTime()); // This sets the date and time to the current date and time
 
-            // Check if all parts of the date are present before constructing the DateTime object
-            if ($dateCdeYear && $dateCdeMonth && $dateCdeDay) {
-                $commande->setDateCde(new \DateTime("$dateCdeYear-$dateCdeMonth-$dateCdeDay"));
-            }
-    
+            $dateEnlev = $formData['commande']['DateEnlevDem']; // Assuming $dateEnlev holds the date string
+
+            // Convert the date string to a timestamp
+            $timestamp = strtotime($dateEnlev);
+
+            // Format the timestamp to display the date in a different format
+            $dateObject = new  \DateTime($dateEnlev);
+            $commande->setDateEnlevDem($dateObject);
+
+            $timeString = $formData['commande']['HeureEnlevDem']; // Assuming $timeString holds the time string
+
+            // Create a DateTime object using the time string
+            $timeObject = \DateTime::createFromFormat('H:i', $timeString);
+            $commande->setHeureEnlevDem($timeObject);
+            $commande->setChantier($chantier);
+            $commande->setConducteur($condecteur);
+
             $commande->setPoidsTotMat($formData['commande']['PoidsTotMat'] ?? '0.00');
-            $commande->setNumErpVente($formData['commande']['NumErpVente'] ?? '0');
-            $commande->setNumErpLocation($formData['commande']['NumErpLocation'] ?? '0');
+
             $commande->setIddepot($depot);
             $commande->setActif(true);
-
+            $commande->setAdresseChantier($formData['commande']['adresse_chantier']);
+            $commande->setCommentaires1($formData['commande']['Commentaires1']);
+            $commande->setCommentaires2($formData['commande']['Commentaires2']);
+            $commande->setNumEchange($formData['commande']['NumEchange']);
             $idCde = $this->cdeMatEntRepository->save($commande);
-            $this->save_cde_det($article,$idCde,$depot);
+            $this->save_cde_det($article, $idCde, $depot);
             return 1;
-     
         } catch (Exception $e) {
-             dd($e->getMessage());
+            dd($e->getMessage());
             return -1;
         }
     }
 
-    public function save_cde_det($data,$id,$depot){
-        try{
+    public function save_cde_det($data, $id, $depot)
+    {
+        try {
             if (isset($data) && is_array($data)) {
                 foreach ($data as $item) {
 
-                    
+
                     $qteSortie = $item["qteSortie"];
                     $articles = $item["article"];
                     // modifier les articles qui exists déja 
-               
-                        // on créer des articles 
-                        $mat  = $item["mat"];
-                        $cde_det = new CdeMatDet();
-                        $article = $this->articleRepository->findAll_article_bydésignation($depot, $articles);
-                        $cde_det->setArticle($article["article"]);
-                        $cde_det->setDesignation($article["designation"]);
-                        $cde_det->setTypeMat($mat);
-                        $cde_det->setQteSortie($qteSortie);
-                        $cde_det->setIdCdeMatEnt($id);
-                        $cde_det->setNumDevis(0);
-                        $cde_det->setCodeChantier(1000);
-                        $cde_det->setQte(0);
-                        $cde_det->setPoids($article["poids"]);
-                        $cde_det->setNumLigne(0);
-                        $cde_det->setNumCloud(0);
-                        $this->cdeMatDetRepository->save($cde_det);
-                    }
+
+                    // on créer des articles 
+                    $mat  = $item["mat"];
+                    $cde_det = new CdeMatDet();
+                    $article = $this->articleRepository->findAll_article_bydésignation($depot, $articles);
+                    $cde_det->setArticle($article["article"]);
+                    $cde_det->setDesignation($article["designation"]);
+                    $cde_det->setTypeMat($mat);
+                    $cde_det->setQteSortie($qteSortie);
+                    $cde_det->setIdCdeMatEnt($id);
+                    $cde_det->setNumDevis(0);
+                    $cde_det->setCodeChantier(1000);
+                    $cde_det->setQte(0);
+                    $cde_det->setPoids($article["poids"]);
+                    $cde_det->setNumLigne(0);
+                    $cde_det->setNumCloud(0);
+                    $this->cdeMatDetRepository->save($cde_det);
                 }
-        }catch(Exception $e){
-           dd($e->getMessage());
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
         }
     }
 }

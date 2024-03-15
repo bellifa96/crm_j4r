@@ -13,6 +13,7 @@ use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
+use App\Repository\UserRepository;
 use App\Service\CommandeService;
 use App\Service\CustomSerializer;
 use App\Service\OutlookService;
@@ -28,7 +29,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Twig\Environment;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-
+/**
+ * 
+ * show true lagny 
+ * false layher
+ */
 class CommandeController extends AbstractController
 {
     private $agenceRepository;
@@ -45,7 +50,8 @@ class CommandeController extends AbstractController
         private OutlookService $outlookService,
         private TransporteurRepository $transporteurRepository,
         private CustomSerializer $customSerializer,
-        private ChantiersRepository $chantiersRepository
+        private ChantiersRepository $chantiersRepository,
+        private UserRepository $userRepository
 
 
 
@@ -132,7 +138,9 @@ class CommandeController extends AbstractController
 
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
 
-            $form = $this->createForm(CommandeType::class, $cdeMatEnt);
+            $form = $this->createForm(CommandeType::class, $cdeMatEnt,[
+                'show' => true, // Pass the Doctrine service to the form
+            ]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -241,7 +249,9 @@ class CommandeController extends AbstractController
             $cdeMatEnt = new CdeMatEnt();
             $depots = $this->depotRepository->findOneByIdDepot($depot);
 
-            $form = $this->createForm(CommandeType::class, $cdeMatEnt);
+            $form = $this->createForm(CommandeType::class, $cdeMatEnt,[
+                'show' => false, // Pass the Doctrine service to the form
+            ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
             }
@@ -253,7 +263,9 @@ class CommandeController extends AbstractController
                 'articles' => null,
                 'depots' => $depots,
                 'articlesbyDepot' => $articlesbyDepot,
-                'idCdeEnte' => 0
+                'idCdeEnte' => 0,
+                'show' => 0
+
             ]);
         } catch (Exception $e) {
 
@@ -275,7 +287,9 @@ class CommandeController extends AbstractController
 
 
 
+
             $articleQteArray = $requestData["articleQte"];
+
             $resultat = $this->commandeService->save($formData, $articleQteArray, $depot);
 
 

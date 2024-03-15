@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Depot\Chantiers;
 use App\Entity\Transport\CdeMatDet;
 use App\Entity\Transport\CdeMatEnt;
+use App\Entity\User;
 use App\Repository\Depot\ChantiersRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;  // Make sure to import EntityType
 use Symfony\Component\Form\AbstractType;
@@ -20,17 +22,15 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DecimalType;
-
+// false lagny
 class CommandeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $this->show = $options['show'];
+
+
         $builder
-         
-           
-          
-         
-        
             
             ->add('DateEnlevDem', DateType::class, [
                 'label' => 'Date Enlevement Dem',
@@ -63,17 +63,7 @@ class CommandeType extends AbstractType
                 'label' => 'Commentaires2',
                 'required' => false,
             ])
-            ->add('NumErpVente', IntegerType::class, [
-                'label' => 'Numero Erp Location',
-                'required' => false, // Ensure this field is not required
-
-            ])
-           
-            ->add('NumErpLocation', IntegerType::class, [
-                'label' => 'Numéro Vente Vente',
-                'required' => false, // Ensure this field is not required
-
-            ])
+          
             ->add('chantier', EntityType::class, [
                 'class' => Chantiers::class,
                 'query_builder' => function (ChantiersRepository $er): QueryBuilder {
@@ -93,12 +83,42 @@ class CommandeType extends AbstractType
                 ],
 
             ]);
+            if($this->show == false){
+                $builder ->add('NumEchange', IntegerType::class, [
+                    'label' => 'Numero Echange',
+                    'required' => false, // Ensure this field is not required
+    
+                ])
+                ->add('conducteur', EntityType::class, [
+                    'class' => User::class,
+                    'query_builder' => function (UserRepository $er): QueryBuilder {
+                        return $er->createQueryBuilder('u')->where('u.roles LIKE :role')
+                        ->setParameter('role', '%ROLE_CONDUCTURE_TRAVEAUX%');
+                    },
+                    'choice_label' => 'firstname',
+                    'label' => 'nomchantier',
+                ]);
+            }else{
+                 $builder ->add('NumErpVente', IntegerType::class, [
+                    'label' => 'Numero Erp Location',
+                    'required' => false, // Ensure this field is not required
+    
+                ])
+               
+                ->add('NumErpLocation', IntegerType::class, [
+                    'label' => 'Numéro Vente Vente',
+                    'required' => false, // Ensure this field is not required
+    
+                ]);
+            }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => CdeMatEnt::class,
+            'show' => true, // Set the target entity class
+
         ]);
     }
 }

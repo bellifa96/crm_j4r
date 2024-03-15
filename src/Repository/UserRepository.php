@@ -131,4 +131,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $emails;
     }
+    public function getEmailsForRoleConducteurTraveaux()
+    {
+        $userRepository = $this->entityManager->getRepository(User::class);
+
+        // Create a query to get users with a role that contains "ROLE_CONDUCTURE_TRAVEAUX"
+        $query = $userRepository->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_CONDUCTURE_TRAVEAUX%')
+            ->getQuery();
+
+        // Execute the query and get the results
+       
+
+        // Extract email addresses from the user entities
+       
+
+        return $query;
+    }
+
+    public function findByIdUser($id)
+    {
+       return  $this->_em->createQueryBuilder()
+        ->select('ch')
+        ->from(User::class, 'ch')
+        ->andWhere('ch.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+    }
+
+ 
 }

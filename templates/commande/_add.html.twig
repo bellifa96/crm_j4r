@@ -46,31 +46,28 @@
 <script>
 
 	$(document).ready(function () {
-		$('#commande_chantier').select2({
-			theme: "classic",
-			width: 'resolve' // This helps with styling and width issues
-		}).on('change', function() {
-			// Your onchange action goes herepCha
-			var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
-			$.ajax({
+$('#commande_chantier').select2({
+theme: "classic", width: 'resolve' // This helps with styling and width issues
+}).on('change', function () { // Your onchange action goes herepCha
+var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+$.ajax({
 type: 'GET',
 url: '/chantier/get-chantier-adresse',
 data: {
 chantier: selectedChantierId
 },
 success: function (data) {
-	
-	$('#commande_adresse_chantier').val(data[0].adresse)
+
+$('#commande_adresse_chantier').val(data[0].adresse)
 },
 error: function (error) {
 console.error('Error:', error);
 }
 });
-		});
-		
+});
 
 
-		});
+});
 </script>
 <div class="row">
 	<div class="container mt-5">
@@ -90,10 +87,17 @@ console.error('Error:', error);
 								{{ form_widget(form.chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 							</div>
 						</div>
-
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
-						 	 Numéro Affaire
+								Conducteur
+							</div>
+							<div class="col-md-9">
+								{{ form_widget(form.conducteur,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+						</div>
+						<div class="col-md-12 row mt-3">
+							<div class="col-md-3 text-end label">
+								Numéro Affaire
 							</div>
 							<div class="col-md-9">
 								{{ form_widget(form.NumAffaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
@@ -110,7 +114,6 @@ console.error('Error:', error);
 						</div>
 
 
-						
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
 								Consignes 2
@@ -142,35 +145,52 @@ console.error('Error:', error);
 								{{ form_widget(form.PoidsTotMat,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 							</div>
 						</div>
-						<div class="col-md-12 row mt-3">
-							<div class="col-md-3 text-end label">
-								Num Erp Vente
+						{% if show == true %}
+
+							<div class="col-md-12 row mt-3">
+								<div class="col-md-3 text-end label">
+									Num Erp Vente
+								</div>
+								<div class="col-md-9">
+									{{ form_widget(form.NumErpVente,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+								</div>
 							</div>
-							<div class="col-md-9">
-								{{ form_widget(form.NumErpVente,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							<div class="col-md-12 row mt-3">
+								<div class="col-md-3 text-end label">
+									Num Erp Location
+								</div>
+								<div class="col-md-9">
+									{{ form_widget(form.NumErpLocation,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+								</div>
 							</div>
-						</div>
-						<div class="col-md-12 row mt-3">
-							<div class="col-md-3 text-end label">
-								Num Erp Location
+						{% endif %}
+
+						{% if show == false %}
+							<div class="col-md-12 row mt-3">
+								<div class="col-md-3 text-end label">
+									Numero Echange
+								</div>
+								<div class="col-md-9">
+									{{ form_widget(form.NumEchange,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+								</div>
 							</div>
-							<div class="col-md-9">
-								{{ form_widget(form.NumErpLocation,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
-							</div>
-						</div>
+
+						{% endif %}
+
+
 					</div>
 
 					<div class="col-md-12 row mt-3">
-					<div class="col-md-3 text-end label">
-						Adresse
-					</div>
-					<div class="col-md-9">
-						{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						<div class="col-md-3 text-end label">
+							Adresse
+						</div>
+						<div class="col-md-9">
+							{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
 					</div>
 				</div>
-				</div>
-		
-			  
+
+
 			</div>
 		</div>
 	</div>
