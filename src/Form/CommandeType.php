@@ -79,7 +79,7 @@ class CommandeType extends AbstractType
                 'query_builder' => function (ChantiersRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('u');
                 },
-                'choice_label' => 'nomchantier',
+                'choice_label' => 'numchantier',
                 'label' => 'nomchantier',
             ])
          

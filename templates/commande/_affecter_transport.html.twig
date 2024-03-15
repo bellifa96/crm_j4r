@@ -7,6 +7,7 @@
 						<label for="NumAffaire" class="font-weight-bold">Transporteur</label>
 						<select id="transporteur" name="transporteur" class="form-control form-control-sm-2 societe-input">
 							{% if transport is defined %}
+						        <option value="" >Sélectionner un transport</option>
 								{% for trs in transporteurs %}
 									<option value="{{ trs.idtransporteur }}" {% if transport.getIdtransporteur() is defined and trs.idtransporteur == transport.getIdtransporteur().getIdtransporteur() %} selected {% endif %}>{{ trs.societe }}</option>
 								{% endfor %}
