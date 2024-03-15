@@ -128,6 +128,7 @@ body .nav-tabs li .active {
 	<div class="col-md-11 m-auto page-block mt-4">
 		<div class="societe">
 			<div class="row">
+
 				<div class="col-md-6">
 				
 					<div class="col-md-12 row mt-3">
@@ -187,14 +188,7 @@ body .nav-tabs li .active {
 		
 						</div>
 					</div>
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-2 text-end label">
-						       Adresse Chantier
-						</div>
-						<div class="col-md-10">
-						{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
-						</div>
-					</div>
+					
 				</div>
 				<div class="col-md-6">
 					<div class="col-md-12 row mt-3">
@@ -258,7 +252,17 @@ body .nav-tabs li .active {
 					</div>
 
 				</div>
-			
+
+				<div class="col-md-12">
+				<div class="col-md-12 row mt-3">
+						<div class="col-md-2 text-end label">
+						       Adresse Chantier
+						</div>
+						<div class="col-md-10">
+						{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+						</div>
+					</div>
+			     </div>
 
 
 			</div>
