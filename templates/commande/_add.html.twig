@@ -41,7 +41,37 @@
 </style>
 
 {{ form_start(form, {'method': 'POST', 'attr': {'class': 'form'}}) }}
+<link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
+<script>
 
+	$(document).ready(function () {
+		$('#commande_chantier').select2({
+			theme: "classic",
+			width: 'resolve' // This helps with styling and width issues
+		}).on('change', function() {
+			// Your onchange action goes herepCha
+			var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+			$.ajax({
+type: 'GET',
+url: '/chantier/get-chantier-adresse',
+data: {
+chantier: selectedChantierId
+},
+success: function (data) {
+	
+	$('#commande_adresse_chantier').val(data[0].adresse)
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+		});
+		
+
+
+		});
+</script>
 <div class="row">
 	<div class="container mt-5">
 
@@ -50,13 +80,26 @@
 			<div class="societe">
 				<div class="row">
 					<div class="col-md-6">
-					
-						
-						
-						
-					
-						
-						
+
+
+						<div class="col-md-12 row mt-3">
+							<div class="col-md-3 text-end label">
+								Chantiers
+							</div>
+							<div class="col-md-9">
+								{{ form_widget(form.chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+						</div>
+
+						<div class="col-md-12 row mt-3">
+							<div class="col-md-3 text-end label">
+						 	 Numéro Affaire
+							</div>
+							<div class="col-md-9">
+								{{ form_widget(form.NumAffaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+							</div>
+						</div>
+
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
 								Consignes 1
@@ -65,6 +108,9 @@
 								{{ form_widget(form.Commentaires1,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 							</div>
 						</div>
+
+
+						
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
 								Consignes 2
@@ -75,17 +121,8 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						
-						
-						
-						<div class="col-md-12 row mt-3">
-							<div class="col-md-3 text-end label">
-								Date Commande
-							</div>
-							<div class="col-md-9">
-								{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
-							</div>
-						</div>
+
+
 						<div class="col-md-12 row mt-3">
 							<div class="col-md-3 text-end label">
 								Date Enlevement
@@ -123,8 +160,17 @@
 						</div>
 					</div>
 
-
+					<div class="col-md-12 row mt-3">
+					<div class="col-md-3 text-end label">
+						Adresse
+					</div>
+					<div class="col-md-9">
+						{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
+					</div>
 				</div>
+				</div>
+		
+			  
 			</div>
 		</div>
 	</div>
