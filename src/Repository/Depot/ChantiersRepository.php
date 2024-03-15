@@ -49,6 +49,17 @@ class ChantiersRepository extends ServiceEntityRepository
             return false;
         }
     }
+    public function findById($id)
+    {
+       return  $this->_em->createQueryBuilder()
+        ->select('ch.adresse')
+        ->from(Chantiers::class, 'ch')
+        ->andWhere('ch.idchantier = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+
+    }
    
 
  

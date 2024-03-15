@@ -6,6 +6,7 @@ use App\Entity\Depot\Chantiers;
 use App\Form\ChantierType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ChantiersRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,6 +70,22 @@ class ChantiersController extends AbstractController
             'nav' => [['app_chantiers', 'Chantiers']]
         ]);
     }
+
+    #[Route('/get-chantier-adresse', name: 'get_chantiers_address')]
+    public function chantier_par_id_address(Request $request)
+    {
+        try {
+            $chantier = $request->query->get('chantier');
+            $chantiers = $this->chantiersRepository->findById($chantier);
+          
+           
+            return $this->json($chantiers);
+        } catch (Exception $e) {
+
+            return $this->json([]);
+        }
+    }
+
 
 
 }

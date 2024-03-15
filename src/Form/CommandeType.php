@@ -2,8 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Depot\Chantiers;
 use App\Entity\Transport\CdeMatDet;
 use App\Entity\Transport\CdeMatEnt;
+use App\Repository\Depot\ChantiersRepository;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;  // Make sure to import EntityType
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -69,6 +73,14 @@ class CommandeType extends AbstractType
                 'label' => 'Numéro Vente Vente',
                 'required' => false, // Ensure this field is not required
 
+            ])
+            ->add('chantier', EntityType::class, [
+                'class' => Chantiers::class,
+                'query_builder' => function (ChantiersRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('u');
+                },
+                'choice_label' => 'nomchantier',
+                'label' => 'nomchantier',
             ])
          
             ->add('HeureEnlevDem', TimeType::class, [

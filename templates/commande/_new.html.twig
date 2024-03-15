@@ -121,7 +121,36 @@ body .nav-tabs li .active {
 {# your-form-template.html.twig #}
 {{ form_start(form, {'attr': {'class': ''}}
 ) }}
+<link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
+<script>
 
+	$(document).ready(function () {
+		$('#commande_chantier').select2({
+			theme: "classic",
+			width: 'resolve' // This helps with styling and width issues
+		}).on('change', function() {
+			// Your onchange action goes herepCha
+			var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+			$.ajax({
+type: 'GET',
+url: '/chantier/get-chantier-adresse',
+data: {
+chantier: selectedChantierId
+},
+success: function (data) {
+	$('#commande_adresse_chantier').val(data[0].adresse)
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+		});
+		
+
+
+		});
+</script>
 <div class="container mt-5">
 
 
@@ -146,9 +175,8 @@ body .nav-tabs li .active {
 							Code Chantier
 						</div>
 						<div class="col-md-9">
-						<div class="col-md-12 bg-blue pr-1">
-						<span class="data-element">{{ commande.getChantier().getNumchantier() }}</span>
-					</div>
+						{{ form_widget(form.chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required "}}) }}
+
 						</div>
 					</div>
 					<div class="col-md-12 row mt-3">

@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\CommandeType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ArticleRepository;
+use App\Repository\Depot\ChantiersRepository;
 use App\Repository\Depot\DepotRepository;
 use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatDetRepository;
@@ -43,7 +44,9 @@ class CommandeController extends AbstractController
         private Environment $environment,
         private OutlookService $outlookService,
         private TransporteurRepository $transporteurRepository,
-        private CustomSerializer $customSerializer
+        private CustomSerializer $customSerializer,
+        private ChantiersRepository $chantiersRepository
+
 
 
     ) {
@@ -117,6 +120,9 @@ class CommandeController extends AbstractController
     {
         $depots = null;
         try {
+            $chantiers_by_agence = $this->chantiersRepository->getAllChantiers();
+
+            $serializedChantiers = json_encode($chantiers_by_agence);
 
             $transport = $this->transporteurRepository->findAll();
 
@@ -159,7 +165,8 @@ class CommandeController extends AbstractController
                 'idCdeEnte' => $cdeMatEnt->getId(),
                 'cdeEnteHeure' => $cdeEnteHeure,
                 'transport' => $cdeMatEnt->getTransports()[0],
-                'commande' =>$cdeMatEnt
+                'commande' =>$cdeMatEnt,
+                'serializedChantiers' => $serializedChantiers
             ]);
         } catch (Exception $e) {
             dd($e->getMessage());
