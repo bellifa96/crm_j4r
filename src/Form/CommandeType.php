@@ -27,12 +27,7 @@ class CommandeType extends AbstractType
           
          
         
-            ->add('DateCde', DateTimeType::class, [
-                'label' => 'Date de vérification de la grue',
-                'widget' => 'single_text', // Use 'single_text' widget for a simple text input
-                'html5' => true, // Enable HTML5 date and time input
-                'required' => false, // Set to true if the field is required
-            ])
+            
             ->add('DateEnlevDem', DateType::class, [
                 'label' => 'Date Enlevement Dem',
                 'widget' => 'single_text', // Use 'single_text' widget for a simple text input
@@ -42,6 +37,15 @@ class CommandeType extends AbstractType
 
             ->add('PoidsTotMat', TextType::class, [
                 'label' => 'Poids Total',
+
+            ])
+            ->add('adresse_chantier', TextType::class, [
+                'label' => 'Adresse Chantier',
+
+            ])
+          
+            ->add('NumAffaire', TextType::class, [
+                'label' => 'Numéro Affaire',
 
             ])
           

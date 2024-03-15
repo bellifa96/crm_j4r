@@ -111,6 +111,9 @@ class CdeMatEnt
     #[ORM\Column(type: "string")]
     private $Idcalendar;
 
+    #[ORM\Column(type: "string")]
+    private $adresse_chantier;
+
     #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'idcde')]
     #[Groups(['cde_mat_ent'])]
     private $transports;
@@ -261,6 +264,19 @@ class CdeMatEnt
 
         return $this;
     }
+
+    public function getAdresseChantier(): ?string
+    {
+        return $this->adresse_chantier;
+    }
+
+    public function setAdresseChantier(string $adresse): self
+    {
+        $this->adresse_chantier = $adresse;
+
+        return $this;
+    }
+
 
 
 

@@ -155,9 +155,7 @@ body .nav-tabs li .active {
 							Numéro Affaire
 						</div>
 						<div class="col-md-9">
-						<div class="col-md-12 bg-blue pr-1">
-					     <span class="data-element">{{ commande.getNumAffaire() }}</span>
-				        </div>
+							{{ form_widget(form.NumAffaire,{'attr':{"class":"form-control form-control-sm-2 societe-input required "}}) }}
 						</div>
 					</div>
 					
@@ -184,10 +182,17 @@ body .nav-tabs li .active {
 						<div class="col-md-3 text-end label">
 							Nom conducteur
 						</div>
-						<div class="col-md-9">
-						<div class="col-md-6 bg-blue pr-1">
+						<div class="col-md-9 bg-blue pr-1">
 					         <span class="data-element">{{ commande.getConducteur().getFirstname() }} {{ commande.getConducteur().getLastname() }}  </span>
-				        </div>
+		
+						</div>
+					</div>
+					<div class="col-md-12 row mt-3">
+						<div class="col-md-2 text-end label">
+						       Adresse Chantier
+						</div>
+						<div class="col-md-10">
+						{{ form_widget(form.adresse_chantier,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 						</div>
 					</div>
 				</div>
@@ -208,11 +213,12 @@ body .nav-tabs li .active {
 					
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
-							Date Cde
+							Date Commande
 						</div>
-						<div class="col-md-9">
-							{{ form_widget(form.DateCde,{'attr':{"class":"form-control form-control-sm-2 societe-input required "}}) }}
-						</div>
+						<div class="col-md-8 bg-blue pr-1">
+						<span class="data-element">{{ commande.getDateCde() | date('Y-m-d H:i:s') }}</span>
+				         	</div>
+						
 
 					</div>
 					<div class="col-md-12 row mt-3">
