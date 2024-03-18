@@ -146,12 +146,12 @@
 
 						<td>{{ ch.nomchantier }}</td>
 						<td>{{ ch.ville }}</td>
-						
+
 						<td id="{{ ch.numchantier }}">
 							<select id="conducteur{{ ch.numchantier }}-1" name="conducteur" class="form-control form-control-sm-2 societe-input conducteur">
 								{% for con in conducteur %}
-									<option value="{{ con.id }}">{{ con.getFirstname }}
-										{{ con.getLastName }}</option>
+									<option value="{{ con.id }}">{{ con.pseudo }}
+										</option>
 								{% endfor %}
 							</select>
 							<i class="bi bi-plus-lg" onclick="addconducteur({{ ch.numchantier }})"></i>
@@ -160,9 +160,9 @@
 						</td>
 
 						<td>
-							<a href="{{ path('edit_chantiers', {'id': ch.idchantier }) }}" class="btn btn-warning" style="font-size:11px">
-								<i class="bi bi-pencil-fill"></i>
-							</a>
+							<div class="btn btn-light" style="font-size:11px">
+								<i class="bi bi-plus-lg"></i>
+							</div>
 						</td>
 
 					</tr>
@@ -172,62 +172,59 @@
 	</table>
 </div>
 <script>
-	function getEtatText(etat) {
-switch (etat) {
-case 0:
-return "A démarrer";
-case 1:
-return "En attente OS";
-case 2:
-return "En cours";
-case 3:
-return "Terminé";
-case 4:
-return "Annulé";
-case 5:
-return "A relancer";
-case 6:
-return "Ne pas facturer";
-case 7:
-return "Non réalisé";
-default:
-return "État inconnu";
-}
-}
-
-$(document).ready(function () {
-
-});
-let selectionsParChantier = {};
-
-function addconducteur(numChantier) {
-    // Ciblez le bon TD en utilisant l'ID de chantier
-    var td = document.getElementById(numChantier);
+    $(document).ready(function () {});
     
-    // Créez un nouvel élément SELECT
-    var newSelect = document.createElement('select');
-    newSelect.setAttribute('name', 'conducteur');
-    newSelect.setAttribute('class', 'form-control form-control-sm-2 societe-input conducteur');
-    newSelect.id = 'conducteur' + numChantier + '-' + (td.querySelectorAll('.conducteur').length + 1);
-
-    // Copiez les options depuis le premier SELECT dans le TD
-    var options = td.querySelector('.conducteur').innerHTML;
-    newSelect.innerHTML = options;
-
-    // Créez une icône de suppression pour le nouvel élément SELECT
-    var removeIcon = document.createElement('i');
-    removeIcon.className = 'bi bi-x-lg'; // Assurez-vous que les classes pour l'icône soient correctes et que vous avez inclus Bootstrap Icons
-    removeIcon.style.cursor = 'pointer'; // Rendez l'icône cliquable
-    removeIcon.onclick = function() {
-        newSelect.remove();
-        removeIcon.remove();
-    };
-
-    // Ajoutez le nouvel élément SELECT et l'icône de suppression dans le TD
-    td.appendChild(newSelect);
-    td.appendChild(removeIcon);
-}
-
-
-
-</script>{% endblock %}
+    function addconducteur(numChantier) {
+        var td = document.getElementById(numChantier);
+        var selectsExistants = td.querySelectorAll('.conducteur');
+    
+        // Récupération de toutes les options disponibles
+        var optionsDisponibles = Array.from(selectsExistants[0].options).map(option => ({
+            value: option.value,
+            text: option.text,
+            selected: false
+        }));
+    
+        // Marquer les options déjà sélectionnées comme non disponibles
+        selectsExistants.forEach(select => {
+            var selectedOption = select.options[select.selectedIndex].value;
+            optionsDisponibles.forEach(option => {
+                if (option.value === selectedOption) {
+                    option.selected = true;
+                }
+            });
+        });
+    
+        // Filtrer pour n'avoir que les options non sélectionnées
+        var optionsNonSelectionnees = optionsDisponibles.filter(option => !option.selected);
+    
+        // S'il ne reste plus d'options à sélectionner, ne rien faire
+        if (optionsNonSelectionnees.length === 0) return;
+    
+        // Créer un nouvel élément SELECT avec les options non sélectionnées
+        var newSelect = document.createElement('select');
+        newSelect.setAttribute('name', 'conducteur');
+        newSelect.setAttribute('class', 'form-control form-control-sm-2 societe-input conducteur');
+        newSelect.id = 'conducteur' + numChantier + '-' + (selectsExistants.length + 1);
+    
+        // Ajouter uniquement les options non sélectionnées
+        optionsNonSelectionnees.forEach(option => {
+            var newOption = new Option(option.text, option.value);
+            newSelect.add(newOption);
+        });
+    
+        // Créez une icône de suppression pour le nouvel élément SELECT
+        var removeIcon = document.createElement('i');
+        removeIcon.className = 'bi bi-x-lg';
+        removeIcon.style.cursor = 'pointer';
+        removeIcon.onclick = function () {
+            newSelect.remove();
+            removeIcon.remove();
+        };
+    
+        // Ajouter le nouvel élément SELECT et l'icône de suppression dans le TD
+        td.appendChild(newSelect);
+        td.appendChild(removeIcon);
+    }
+    </script>
+    {% endblock %}

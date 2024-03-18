@@ -93,6 +93,7 @@ class ChantiersController extends AbstractController
     {
         $this->logger->info('List Chantiers');
         $chantiers = $this->chantiersRepository->getAllChantiersEncours();
+
         $agences = $this->agenceRepository->findAll();
         $conducteur_travaux = $this->userRepository->getEmailsForRoleConducteurTraveaux()->getResult();
         return $this->render('chantiers/affectation.html.twig', [
