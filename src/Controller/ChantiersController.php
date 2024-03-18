@@ -6,6 +6,7 @@ use App\Entity\Depot\Chantiers;
 use App\Form\ChantierType;
 use App\Repository\Depot\AgenceRepository;
 use App\Repository\Depot\ChantiersRepository;
+use App\Repository\UserRepository;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,19 +16,20 @@ use Psr\Log\LoggerInterface;
 
 #[Route('/chantier')]
 class ChantiersController extends AbstractController
-{  
+{
 
     public function __construct(
-      private ChantiersRepository $chantiersRepository
-      ,private AgenceRepository $agenceRepository,
-      private LoggerInterface $logger
+        private ChantiersRepository $chantiersRepository,
+        private AgenceRepository $agenceRepository,
+        private LoggerInterface $logger,
+        private UserRepository $userRepository
     ) {
     }
 
 
     #[Route('/', name: 'app_chantiers')]
     public function index(): Response
-    { 
+    {
         $this->logger->info('List Chantiers');
         $chantiers = $this->chantiersRepository->getAllChantiers();
         $agences = $this->agenceRepository->findAll();
@@ -46,7 +48,7 @@ class ChantiersController extends AbstractController
     {
 
 
-       
+
         $form = $this->createForm(ChantierType::class, $chantier);
 
         // on traite la requete du formulaire
@@ -77,8 +79,8 @@ class ChantiersController extends AbstractController
         try {
             $chantier = $request->query->get('chantier');
             $chantiers = $this->chantiersRepository->findById($chantier);
-          
-           
+
+
             return $this->json($chantiers);
         } catch (Exception $e) {
 
@@ -86,6 +88,20 @@ class ChantiersController extends AbstractController
         }
     }
 
-
-
+    #[Route('/affectation-chantiers', name: 'affectation_chantier')]
+    public function affectation_chantiers(Request $request)
+    {
+        $this->logger->info('List Chantiers');
+        $chantiers = $this->chantiersRepository->getAllChantiersEncours();
+        $agences = $this->agenceRepository->findAll();
+        $conducteur_travaux = $this->userRepository->getEmailsForRoleConducteurTraveaux()->getResult();
+        return $this->render('chantiers/affectation.html.twig', [
+            'controller_name' => 'CommandeController',
+            'title' => 'Chantiers',
+            'agences' => $agences,
+            'chantiers' => $chantiers,
+            'conducteur' =>$conducteur_travaux,
+            'nav' => []
+        ]);
+    }
 }

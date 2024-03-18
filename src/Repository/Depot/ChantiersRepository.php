@@ -38,6 +38,15 @@ class ChantiersRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+    public function getAllChantiersEncours(){
+        return $this->createQueryBuilder('d')
+            ->select('d') // Sélectionnez uniquement les champs que vous avez besoin
+            ->where('d.etat = :etat')
+            ->setParameter('etat', 2)
+            ->getQuery()
+            ->getResult();
+    }
+    
     
     public function add_update_depot(Chantiers $agence)
     {

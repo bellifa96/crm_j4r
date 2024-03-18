@@ -1,0 +1,233 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Commandes
+{% endblock %}
+
+{% block body %}
+	<!-- Include Bootstrap JS (and jQuery) -->
+
+	<style>
+		.container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%; /* Set your desired width */
+			padding: 10px;
+		}
+
+		.left {
+			flex: 1; /* Takes up available space on the left */
+
+		}
+
+		.right {
+			flex: 2; /* Takes up available space on the right */
+			margin-left: 20px; /* Add margin for spacing between left and right */
+		}
+
+		select {
+			width: 20%;
+			padding: 5px;
+		}
+		.title_article {
+			font-family: 'Poppins', sans-serif;
+			color: black;
+			font-size: 30px;
+			margin-left: 10%;
+		}
+		.basic {
+			width: 160px;
+			height: 35px;
+			background: #f5f5f5;
+			font-family: 'Poppins', sans-serif;
+			margin-left: 2%;
+
+		}
+		.custom-dialog {
+			max-width: 400px;
+			margin: 50px auto;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		#overlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+			z-index: 999; /* Ensure it's above the dialog */
+		}
+		.right {
+			flex: 2; /* Takes up available space on the right */
+			margin-left: 20px; /* Add margin for spacing between left and right */
+			display: flex;
+			justify-content: flex-end;
+
+		}
+		.btnChargerCommande {}
+		/* Couleurs pour les différents états */
+		.etat-0 {
+			background-color: #ff0000;
+		} /* A démarrer */
+		.etat-1 {
+			background-color: #ffa500;
+		} /* En attente OS */
+		.etat-2 {
+			background-color: #ffff00;
+		} /* En cours */
+		.etat-3 {
+			background-color: #008000;
+		} /* Terminé */
+		.etat-4 {
+			background-color: #808080;
+		} /* Annulé */
+		.etat-5 {
+			background-color: #ff00ff;
+		} /* A relancer */
+		.etat-6 {
+			background-color: #0000ff;
+		} /* Ne pas facturer */
+		.etat-7 {
+			background-color: #808000;
+		} /* Non réalisé */
+	</style>
+
+	<div class="example-wrapper">
+		<div class="container">
+
+			<div class="col-md-4">
+
+				<select id="agenceSelect" class="form-control form-control-sm-2 societe-input">
+					{% for agence in agences %}
+						<option value="{{ agence.idagence }}" {% if loop.first %} selected {% endif %}>
+							{{ agence.nomagence }}
+						</option>
+					{% endfor %}
+				</select>
+
+			</div>
+		</div>
+	</div>
+	<div id="overlay"></div>
+	<div id="customDialog" title="Custom Dialog" class="custom-dialog" style="display:none;">
+		<div class="divCommande" style="display: flex;">
+			<textarea id="motif" class="form-control"></textarea>
+			<button class="btn btn-primary btnChargerCommande" onclick="archiveCommande()" style="margin-left:15px">Suppression</button>
+		</div>
+	</div>
+
+	<div class="page-block col-lg-12">
+		<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+			<thead>
+				<tr class="tr-head">
+					<th>Code Chantier</th>
+
+					<th>Nom Chantier</th>
+					<th>Ville</th>
+					<th>Conducteur</th>
+
+					<th>Actions</th>
+
+				</tr>
+
+
+			</thead>
+			<tbody>
+
+				{% for ch in chantiers %}
+					<tr>
+						<td>{{ ch.numchantier }}</td>
+
+						<td>{{ ch.nomchantier }}</td>
+						<td>{{ ch.ville }}</td>
+						
+						<td id="{{ ch.numchantier }}">
+							<select id="conducteur{{ ch.numchantier }}-1" name="conducteur" class="form-control form-control-sm-2 societe-input conducteur">
+								{% for con in conducteur %}
+									<option value="{{ con.id }}">{{ con.getFirstname }}
+										{{ con.getLastName }}</option>
+								{% endfor %}
+							</select>
+							<i class="bi bi-plus-lg" onclick="addconducteur({{ ch.numchantier }})"></i>
+
+
+						</td>
+
+						<td>
+							<a href="{{ path('edit_chantiers', {'id': ch.idchantier }) }}" class="btn btn-warning" style="font-size:11px">
+								<i class="bi bi-pencil-fill"></i>
+							</a>
+						</td>
+
+					</tr>
+				{% endfor %}
+			</tbody>
+		</tbody>
+	</table>
+</div>
+<script>
+	function getEtatText(etat) {
+switch (etat) {
+case 0:
+return "A démarrer";
+case 1:
+return "En attente OS";
+case 2:
+return "En cours";
+case 3:
+return "Terminé";
+case 4:
+return "Annulé";
+case 5:
+return "A relancer";
+case 6:
+return "Ne pas facturer";
+case 7:
+return "Non réalisé";
+default:
+return "État inconnu";
+}
+}
+
+$(document).ready(function () {
+
+});
+let selectionsParChantier = {};
+
+function addconducteur(numChantier) {
+    // Ciblez le bon TD en utilisant l'ID de chantier
+    var td = document.getElementById(numChantier);
+    
+    // Créez un nouvel élément SELECT
+    var newSelect = document.createElement('select');
+    newSelect.setAttribute('name', 'conducteur');
+    newSelect.setAttribute('class', 'form-control form-control-sm-2 societe-input conducteur');
+    newSelect.id = 'conducteur' + numChantier + '-' + (td.querySelectorAll('.conducteur').length + 1);
+
+    // Copiez les options depuis le premier SELECT dans le TD
+    var options = td.querySelector('.conducteur').innerHTML;
+    newSelect.innerHTML = options;
+
+    // Créez une icône de suppression pour le nouvel élément SELECT
+    var removeIcon = document.createElement('i');
+    removeIcon.className = 'bi bi-x-lg'; // Assurez-vous que les classes pour l'icône soient correctes et que vous avez inclus Bootstrap Icons
+    removeIcon.style.cursor = 'pointer'; // Rendez l'icône cliquable
+    removeIcon.onclick = function() {
+        newSelect.remove();
+        removeIcon.remove();
+    };
+
+    // Ajoutez le nouvel élément SELECT et l'icône de suppression dans le TD
+    td.appendChild(newSelect);
+    td.appendChild(removeIcon);
+}
+
+
+
+</script>{% endblock %}
