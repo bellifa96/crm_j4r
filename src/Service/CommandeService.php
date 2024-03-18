@@ -212,13 +212,15 @@ class CommandeService
             $commande->setConducteur($condecteur);
 
             $commande->setPoidsTotMat($formData['commande']['PoidsTotMat'] ?? '0.00');
-
+    
             $commande->setIddepot($depot);
             $commande->setActif(true);
             $commande->setAdresseChantier($formData['commande']['adresse_chantier']);
             $commande->setCommentaires1($formData['commande']['Commentaires1']);
             $commande->setCommentaires2($formData['commande']['Commentaires2']);
             $commande->setNumEchange($formData['commande']['NumEchange']);
+            $commande->setNumAffaire($formData['commande']['NumAffaire']);
+
             $idCde = $this->cdeMatEntRepository->save($commande);
             $this->save_cde_det($article, $idCde, $depot);
             return 1;
