@@ -125,6 +125,7 @@ class CommandeController extends AbstractController
     public function affiche_commande(CdeMatEnt $cdeMatEnt, Request $request)
     {
         $depots = null;
+        $show = false;
         try {
             $chantiers_by_agence = $this->chantiersRepository->getAllChantiers();
 
@@ -137,9 +138,12 @@ class CommandeController extends AbstractController
             $articlesbyDepot = $this->articleRepository->findAll_article_désignation_byIdDepot($cdeMatEnt->getIddepot(), 1);
 
             $depots = $this->depotRepository->findOneByIdDepot($cdeMatEnt->getIddepot());
+            if($depots->getCodedepot() == 1){
+                $show = true;
+            }
 
             $form = $this->createForm(CommandeType::class, $cdeMatEnt,[
-                'show' => true, // Pass the Doctrine service to the form
+                'show' => $show, // Pass the Doctrine service to the form
             ]);
             $form->handleRequest($request);
 
@@ -174,7 +178,8 @@ class CommandeController extends AbstractController
                 'cdeEnteHeure' => $cdeEnteHeure,
                 'transport' => $cdeMatEnt->getTransports()[0],
                 'commande' =>$cdeMatEnt,
-                'serializedChantiers' => $serializedChantiers
+                'serializedChantiers' => $serializedChantiers,
+                'show' => $show
             ]);
         } catch (Exception $e) {
             dd($e->getMessage());

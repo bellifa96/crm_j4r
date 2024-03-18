@@ -207,7 +207,7 @@ console.error('Error:', error);
 							{{ form_widget(form.Commentaires2,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 						</div>
 					</div>
-
+					{% if show == true %}
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
 							Nom conducteur
@@ -217,9 +217,21 @@ console.error('Error:', error);
 		
 						</div>
 					</div>
+				   {% endif %}
+				   {% if show == false %}
+				   <div class="col-md-12 row mt-3">
+					 <div class="col-md-3 text-end label">
+					   Conducteur
+					 </div>
+					 <div class="col-md-9">
+					   {{ form_widget(form.conducteur,{'attr':{"class":"form-control form-control-sm-2 societe-input required "}}) }}
+					</div>
+				   </div>
+				   {% endif %}
 					
 				</div>
 				<div class="col-md-6">
+				{% if show == true %}
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
 							Num Echange
@@ -231,6 +243,19 @@ console.error('Error:', error);
 							
 						</div>
 					</div>
+				{% endif %}
+				{% if show == false %}
+				<div class="col-md-12 row mt-3">
+				  <div class="col-md-3 text-end label">
+					Numéro Echange
+				  </div>
+				  <div class="col-md-9">
+					{{ form_widget(form.NumEchange,{'attr':{"class":"form-control form-control-sm-2 societe-input required "}}) }}
+				 </div>
+			    </div>
+			    {% endif %}
+
+
 					
 					
 					
@@ -263,6 +288,8 @@ console.error('Error:', error);
 							{{ form_widget(form.PoidsTotMat,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 						</div>
 					</div>
+					{% if show == true %}
+
 					<div class="col-md-12 row mt-3">
 						<div class="col-md-3 text-end label">
 							Num Erp Location
@@ -279,7 +306,7 @@ console.error('Error:', error);
 							{{ form_widget(form.NumErpVente,{'attr':{"class":"form-control form-control-sm-2 societe-input required"}}) }}
 						</div>
 					</div>
-
+			     	{% endif %}
 				</div>
 
 				<div class="col-md-12">
