@@ -89,7 +89,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 		}
 	</style>
     <!-- PAGE DISPLAY 					<span class="data-element"></span>
-     -->
+         -->
     <div class="col-lg-12 page-block page-block-margin-bottom">
         <div class="row mt-2">
             <div class="col-md-6">
@@ -97,6 +97,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Code
+                                                    
                         </span>
                     </div>
                     <div class="col-md-3">
@@ -109,12 +110,17 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Client
+                                                    
                         </span>
                     </div>
                     <div class="col-md-3">
                         <span class="data-element bg-blue ">
                             <b>
-							<a href='/show_information/{{ chantiers.getIdClient().getId() }}'>  {{ chantiers.getIdClient().getRaisonSociale() }} </a>
+                                {% if chantiers.getIdClient() is not null %}
+                                    <a href='/show_information/{{ chantiers.getIdClient().getId() }}'>
+                                        {{ chantiers.getIdClient().getRaisonSociale() }}
+                                    </a>
+                                {% endif %}
                             </b>
                         </span>
                     </div>
@@ -127,7 +133,8 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Nom
-                            						
+                                                        						
+                                                    
                         </span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
@@ -142,6 +149,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Code Postale
+                                                    
                         </span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
@@ -158,6 +166,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Adresse
+                                                    
                         </span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
@@ -172,6 +181,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             ville
+                                                    
                         </span>
                     </div>
                     <div class="col-md-6 bg-blue pr-1">
@@ -188,7 +198,8 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
             <li class="col nav-item" role="presentation">
                 <button class="nav-link " id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers" type="button" role="tab" aria-controls="chantiers" aria-selected="true">
                     Commandes
-                    				
+                                        				
+                                    
                 </button>
             </li>
         </ul>
@@ -201,15 +212,19 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                             <tr class="tr-head">
                                 <th>
                                     Date
+                                                                    
                                 </th>
                                 <th>
                                     Poids Total
+                                                                    
                                 </th>
                                 <th>
                                     Conducteur de travaux
+                                                                    
                                 </th>
                                 <th>
                                     Numéro ERP
+                                                                    
                                 </th>
                             </tr>
                         </thead>
@@ -240,7 +255,8 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                 <div class="row justify-content-end mt-4 mb-2">
                     <a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
                         Créer une Demande
-                        					
+                                                					
+                                            
                     </a>
                 </div>
                 <div class="col-md-12 m-auto mt-4">
@@ -249,33 +265,43 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                             <tr class="tr-head text-center">
                                 <th>
                                     N°
+                                                                    
                                 </th>
                                 <th>
                                     NomChantier
+                                                                    
                                 </th>
                                 <th>
                                     Type de préstation
+                                                                    
                                 </th>
                                 <th>
                                     Documents souhaités
+                                                                    
                                 </th>
                                 <th>
                                     Client
+                                                                    
                                 </th>
                                 <th>
                                     Maitre d'Ouvrage
+                                                                    
                                 </th>
                                 <th>
                                     Intermédiaire
+                                                                    
                                 </th>
                                 <th>
                                     Ville
+                                                                    
                                 </th>
                                 <th>
                                     CodePostal
+                                                                    
                                 </th>
                                 <th>
                                     Pays
+                                                                    
                                 </th>
                             </tr>
                         </thead>
