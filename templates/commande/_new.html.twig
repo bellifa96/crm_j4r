@@ -167,8 +167,14 @@ console.error('Error:', error);
 						</div>
 						<div class="col-md-9">
 						<div class="col-md-12 bg-blue pr-1">
-						<span class="data-element">{{ commande.getNomClient() }}</span>
-					</div>
+						{% if commande.getChantier() is not null and commande.getChantier().getIdClient() is not null %}
+					              <span class="data-element">{{ commande.getChantier().getIdClient().getRaisonSociale() }}</span>
+				                {% else %}
+					<!-- Handle the case where either getChantier() or getIdClient() returns null -->
+					<!-- For example, display a message or provide a default value -->
+					<span class="data-element">Unknown Raison Sociale</span>
+				            {% endif %}
+									</div>
 						</div>
 					</div>
 					<div class="col-md-12 row mt-3">
