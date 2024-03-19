@@ -2,6 +2,7 @@
 // src/Service/OutlookService.php
 namespace App\Service;
 
+use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Depot\ParamAgenceRepository;
 use Exception;
 
@@ -16,6 +17,8 @@ class OutlookService
     private $client;
     private $accessToken;
     private $userId; //depot@j4r.fr
+
+    private $CalendarId = "AAMkADU3MDRkNmI4LTM1NTUtNGNmMS1hMzEwLTBjOTYxMjU2M2ViMwAuAAAAAAAhabwJHj2dQbJDtMwJcRmzAQAK7FnT_2tgTaAsVzxSi0cLAACc8k4LAAA=";
 
 
 
@@ -103,7 +106,7 @@ class OutlookService
                 'Authorization' => 'Bearer ' . $this->accessToken,
             ],
         ]);
-        $sujet= "";
+        $sujet = "";
         if ($responseGet->getStatusCode() == 200) {
             $content = $responseGet->getContent(); // Pour les réponses 2xx
             $eventDetails = json_decode($content, true);
@@ -124,7 +127,7 @@ class OutlookService
         } else {
             $parties[count($parties) - 1] = $additionalWord;
 
-             // Ajoutez "ESG" au tableau des parties
+            // Ajoutez "ESG" au tableau des parties
         }
 
         // Rejoint les parties en utilisant le délimiteur "-"
@@ -166,10 +169,9 @@ class OutlookService
     {
 
 
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" ;
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/".$this->CalendarId."/events";
 
 
-     
 
 
         // Create an HTTP client instance
@@ -210,7 +212,54 @@ class OutlookService
             // echo $response->getContent();
         }
     }
+
     public function update()
     {
+    }
+    public function addEventsCommande(CdeMatEnt $cdeMatEnt)
+    {
+        // Assuming $this->client is already set up and $this->accessToken, $this->userId, $sujet, $date_debut, $date_fin, $categories, and $location are defined
+        $this->accessToken = $this->paramAgenceRepository->getTokens();
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/".$this->CalendarId."/events";
+        // Make the POST request to create an event
+        $response = $this->client->request('POST', $graphApiEndpoint, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'subject' => 'LIV - '.$cdeMatEnt->getChantier()->getClient().'-'.$cdeMatEnt->getChantier()->getVille() ,
+                'start' => [
+                    'dateTime' => $cdeMatEnt->getDateEnlevDem()->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'UTC',
+                ],
+                'end' => [
+                    'dateTime' => $cdeMatEnt->getDateEnlevDem()->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'UTC',
+                ],
+                "Body" => array(
+                    "ContentType" => "HTML",
+                    "Content" =>  $cdeMatEnt->getCommentaires1() .' ' .$cdeMatEnt->getCommentaires2()
+                ), 
+                'categories' => ["Demande Cdt"], // Add the etiquette as a category
+                'location' => [
+                    'displayName' => $cdeMatEnt->getAdresseChantier(),
+                ],
+            ],
+        ]);
+
+        // Check the response status
+        if ($response->getStatusCode() === 201) {
+            // Event created successfully, decode JSON to get the event ID
+            $responseData = json_decode($response->getContent(), true);
+            $eventId = $responseData['id']; // Extract the event ID from the response data
+            return $eventId;
+        } else {
+            // Handle error
+            // Optionally, you can print the response status code or content for debugging
+            // return $response->getStatusCode();
+            // echo $response->getContent();
+            throw new \Exception('Failed to create event: ' . $response->getContent());
+        }
     }
 }

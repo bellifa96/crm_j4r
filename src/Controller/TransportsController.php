@@ -80,7 +80,7 @@ class TransportsController extends AbstractController
             $transpots->setDatesaisie(new DateTime());
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
-            $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
+            $transpots->setNumchantierarr($commandeEntObject->getChantier()->getNumChantier());
             $this->transportRepository->add($transpots);
             $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
@@ -140,7 +140,7 @@ class TransportsController extends AbstractController
             $transpots->setDatesaisie(new DateTime());
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
-            $transpots->setNumchantierarr($commandeEntObject->getCodeChantier());
+            $transpots->setNumchantierarr($commandeEntObject->getChantier()->getNumChantier());
             $this->transportRepository->add($transpots);
             $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete());
             return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);

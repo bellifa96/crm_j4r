@@ -10,6 +10,7 @@ use App\Repository\Depot\DepotRepository;
 use App\Repository\Transport\CdeMatDetRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -35,6 +36,7 @@ class CommandeService
         private ArticleRepository $articleRepository,
         private ChantiersRepository $chantiersRepository,
         private UserRepository $userRepository,
+        private EntityManagerInterface $entityManager,
 
         private OutlookService $outlookService,
     ) {
@@ -187,6 +189,8 @@ class CommandeService
     {
 
         try {
+            $this->entityManager->beginTransaction();
+
             $depot = $this->depotRepository->findOneByCodedepot1($iddepot)->getIddepot();
             $chantier = $this->chantiersRepository->findByIdChantier($formData['commande']['chantier']);
             $condecteur = $this->userRepository->findByIdUser($formData['commande']['conducteur']);
@@ -195,13 +199,23 @@ class CommandeService
             $commande->setDateCde(new \DateTime()); // This sets the date and time to the current date and time
 
             $dateEnlev = $formData['commande']['DateEnlevDem']; // Assuming $dateEnlev holds the date string
+            $HeureEnlevDem = $formData['commande']['HeureEnlevDem']; // Assuming $dateEnlev holds the date string
 
             // Convert the date string to a timestamp
             $timestamp = strtotime($dateEnlev);
 
             // Format the timestamp to display the date in a different format
             $dateObject = new  \DateTime($dateEnlev);
-            $commande->setDateEnlevDem($dateObject);
+
+            $dateTimeString = $dateEnlev . ' ' . $HeureEnlevDem;
+
+            // Create a DateTime object from the combined string
+            $dateTime = new \DateTime($dateTimeString);
+
+            // Format the DateTime object to the desired string format 'dd/mm/yyyy HH:MM'
+            $formattedDateTime = $dateTime->format('d/m/Y H:i');
+            $commande->setDateEnlevDem($dateTime);
+
 
             $timeString = $formData['commande']['HeureEnlevDem']; // Assuming $timeString holds the time string
 
@@ -212,7 +226,7 @@ class CommandeService
             $commande->setConducteur($condecteur);
 
             $commande->setPoidsTotMat($formData['commande']['PoidsTotMat'] ?? '0.00');
-    
+
             $commande->setIddepot($depot);
             $commande->setActif(true);
             $commande->setAdresseChantier($formData['commande']['adresse_chantier']);
@@ -220,11 +234,16 @@ class CommandeService
             $commande->setCommentaires2($formData['commande']['Commentaires2']);
             $commande->setNumEchange($formData['commande']['NumEchange']);
             $commande->setNumAffaire($formData['commande']['NumAffaire']);
-
+            $evenementId = $this->outlookService->addEventsCommande($commande);
+            $commande->setIdCalendar($evenementId);
             $idCde = $this->cdeMatEntRepository->save($commande);
             $this->save_cde_det($article, $idCde, $depot);
+            $this->entityManager->commit();
+
             return 1;
         } catch (Exception $e) {
+            $this->entityManager->rollback();
+
             dd($e->getMessage());
             return -1;
         }
