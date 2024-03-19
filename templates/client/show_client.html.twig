@@ -106,7 +106,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 					</div>
 					<div class="col-md-6">
 						<span class="data-element bg-blue ">
-							<b>conducteur travaux</b>
+							<b>Client</b>
 						</span>
 
 
@@ -123,18 +123,18 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 						</span>
 					</div>
 					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ user.getFirstname() }}
-							{{ user.getLastname() }}</span>
+						<span class="data-element">{{ societe.getRaisonSociale() }}
+							</span>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Initiales</span>
+						<span class="d-block">Adresse</span>
 					</div>
 					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ user.getPseudo() }}</span>
+						<span class="data-element">{{ societe.getAdresse1() }}</span>
 					</div>
 				</div>
 			</div>
@@ -144,23 +144,22 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Adresse</span>
+						<span class="d-block">Ville</span>
 					</div>
 					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ user.getAdresse1() }}</span>
+						<span class="data-element">{{ societe.getVille() }}</span>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Téléphone</span>
+						<span class="d-block">Pays</span>
 					</div>
 					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ user.getTelephone() }}</span>
+						<span class="data-element">{{ societe.getPays() }}</span>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 
@@ -172,16 +171,12 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 
 		<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
 			<li class="col nav-item" role="presentation">
-				<button class="nav-link " id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="true">
-					Commandes
+				<button class="nav-link " id="Chantiers-tab" data-bs-toggle="tab" data-bs-target="#Chantiers" type="button" role="tab" aria-controls="Chantiers" aria-selected="true">
+				Chantiers
 				</button>
 			</li>
 
-			<li class="col nav-item" role="presentation">
-				<button class="nav-link " id="comptabilite-tab" data-bs-toggle="tab" data-bs-target="#comptabilite" type="button" role="tab" aria-controls="comptabilite" aria-selected="false">
-					Chantiers
-				</button>
-			</li>
+		
 
 		</ul>
 
@@ -190,34 +185,31 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 			class="tab-content mt-4" id="myTabContent">
 
 			<!-- Contact -->
-			<div class="tab-pane fade " id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+			<div class="tab-pane fade " id="Chantiers" role="tabpanel" aria-labelledby="Chantiers-tab">
 
 			
 				<div class="col-md-12">
 					<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
 						<thead>
 							<tr class="tr-head">
+						       <th>Nom Chantier</th>
 								<th>Adresse Chantier</th>
 								<th>Ville</th>
-								<th>Date Commandes</th>
-								<th>Date D'enlèvement</th>
-								<th>Poids Total</th>
 								<th>Code Chantier</th>
-								<th>Numéro ERP</th>
+								<th>Etat</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for commande in commandes %}
+							{% for chantier in societe.getChantiers() %}
 								<tr>
-									<td>{{ commande.getChantier().getNomchantier() }}</td>
-									<td>{{ commande.getChantier().getVille() }}</td>
-									<td>{{ commande.getDateCde()|date('d/m/Y H:i:s') }}</td>
-									<td>{{ commande.getDateEnlevReel()|date('d/m/Y H:i:s') }}</td>
+								    <td>{{ chantier.getNomchantier() }}</td>
 
-									<td>{{ commande.getPoidsTotMat() }}</td>
-									<td>{{ commande.getChantier().getNumchantier() }}</td>
-									<td>{{ commande.getNumErpLocation() }}</td>
-								</tr>
+									<td>{{ chantier.getAdresse() }}</td>
+									<td>{{ chantier.getVille() }}</td>
+									<td>{{ chantier.getNumchantier() }}</td>
+
+									<td>{{ chantier.getEtat() }}</td>
+									</tr>
 							{% endfor %}
 						</tbody>
 					</table>

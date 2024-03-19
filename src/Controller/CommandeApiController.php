@@ -20,12 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandeApiController extends AbstractController
 {
 
-    
+
     #[Route('/')]
     public function index(): JsonResponse
     {
         return new JsonResponse(['message' => 'This is an example API endpoint'], Response::HTTP_OK);
-
     }
     public function __construct(
         private CdeMatEntRepository $cdeMatEntRepository,
@@ -42,7 +41,7 @@ class CommandeApiController extends AbstractController
     }
 
 
- 
+
     // fin  traitement Commande 
 
     // get Commande par conducteur traveaux
@@ -56,45 +55,65 @@ class CommandeApiController extends AbstractController
         $commandes = $user->getCommandes();
         $commandesArray = $commandes->toArray();
         $commandesSerialize = $this->customSerializer->serializeCommandes($commandesArray);
-        
+
         // Handle User with No Commandes
-       
+
         // Valid case: User exists and has commandes
         return new JsonResponse(['resultat' => $commandesSerialize], Response::HTTP_OK);
-
     }
 
-      // get Commande par Chantiers
-      #[Route('/commande_chantiers/{id}', name: 'commande_chantiers_api')]
-      public function commande_chantiers_api(Chantiers $chantiers = null): Response // Assuming parameter conversion
-      {
-          // Check if the User exists
-          if (!$chantiers) {
-              throw $this->createNotFoundException('No user found for id ');
-          }
-          $commandes = $chantiers->getCommandes();
-          $commandesArray = $commandes->toArray();
-  
-          usort($commandesArray, function($a, $b) {
-              $dateA = $a->getDateCde();
-              $dateB = $b->getDateCde();
-          
-              if ($dateA == $dateB) {
-                  return 0;
-              }
-              return ($dateA > $dateB) ? -1 : 1;
-          });
-      
-          // Handle User with No Commandes
-         
-          // Valid case: User exists and has commandes
-          return $this->render('chantiers/show_commandes_chantiers.html.twig', [
-              'title' => 'Commandes par Chantiers',
-              'nav' => [],
-              'commandes' => $commandesArray, // Pass commandes to the view
-              'chantiers' => $chantiers, // Optionally pass the user to the view if needed
-          ]);
-      }
+    #[Route('/conducteur/{id}/today', name: 'commande_conducteur_traveaux_api_today')]
+    public function commande_conducteur_travaux_api_today(User $user = null): Response // Assuming parameter conversion
+    {
+        // Check if the User exists
+        if (!$user) {
+            throw $this->createNotFoundException('No user found for id ');
+        }
+        $currentDate = new \DateTime();
 
-      
+        // Get the commands for today
+        $commandes = $user->getCommandes()->filter(function ($commande) use ($currentDate) {
+            // Assuming there's a property in the Commande entity named "createdAt" which stores the creation date
+            return $commande->getDateCde()->format('Y-m-d') === $currentDate->format('Y-m-d');
+        });
+
+        $commandesArray = $commandes->toArray();
+        $commandesSerialize = $this->customSerializer->serializeCommandes($commandesArray);
+
+        // Handle User with No Commandes
+
+        // Valid case: User exists and has commandes
+        return new JsonResponse(['resultat' => $commandesSerialize], Response::HTTP_OK);
+    }
+    // get Commande par Chantiers
+    #[Route('/commande_chantiers/{id}', name: 'commande_chantiers_api')]
+    public function commande_chantiers_api(Chantiers $chantiers = null): Response // Assuming parameter conversion
+    {
+        // Check if the User exists
+        if (!$chantiers) {
+            throw $this->createNotFoundException('No user found for id ');
+        }
+        $commandes = $chantiers->getCommandes();
+        $commandesArray = $commandes->toArray();
+
+        usort($commandesArray, function ($a, $b) {
+            $dateA = $a->getDateCde();
+            $dateB = $b->getDateCde();
+
+            if ($dateA == $dateB) {
+                return 0;
+            }
+            return ($dateA > $dateB) ? -1 : 1;
+        });
+
+        // Handle User with No Commandes
+
+        // Valid case: User exists and has commandes
+        return $this->render('chantiers/show_commandes_chantiers.html.twig', [
+            'title' => 'Commandes par Chantiers',
+            'nav' => [],
+            'commandes' => $commandesArray, // Pass commandes to the view
+            'chantiers' => $chantiers, // Optionally pass the user to the view if needed
+        ]);
+    }
 }

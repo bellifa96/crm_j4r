@@ -1,18 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{ title }}
+    {{ title }}
 {% endblock %}
-
-
 {% block body %}
-	<script>
+    <script>
 
 		if (!$.fn.DataTable.isDataTable('#commandeTable')) {
 commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 }
 	</script>
-
-	<style>
+    <style>
 
 
 		.table-ged >:not(caption) > * > * {
@@ -91,171 +88,204 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 			floa
 		}
 	</style>
-
-
-	<!-- PAGE DISPLAY -->
-	<div class="col-lg-12 page-block page-block-margin-bottom">
-
-		<div class="row mt-2">
-
-
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Code</span>
-					</div>
-					<div class="col-md-6">
-						<span class="data-element bg-blue ">
-							<b>{{ chantiers.getNumchantier() }}</b>
-						</span>
-
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="row mt-2">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Nom
-						</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ chantiers.getNomchantier() }}
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Code Postale</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ chantiers.getCp() }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row mt-2">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Adresse</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ chantiers.getAdresse() }}</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">ville</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ chantiers.getVille() }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-
-	<div class="col-md-12 page-block mt-4">
-
-
-		<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-			<li class="col nav-item" role="presentation">
-				<button class="nav-link " id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers" type="button" role="tab" aria-controls="chantiers" aria-selected="true">
-					Commandes
-				</button>
-			</li>
-
-
-		</ul>
-
-
-		<div
-			class="tab-content mt-4" id="myTabContent">
-
-			<!-- Contact -->
-			<div class="tab-pane fade " id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">
-
-
-				<div class="col-md-12">
-					<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
-						<thead>
-							<tr class="tr-head">
-								<th>Date</th>
-								<th>Poids Total</th>
-								<th>Conducteur de travaux</th>
-								<th>Numéro ERP</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for commande in commandes %}
-								<tr>
-									<td>{{ commande.getDateCde()|date('d/m/Y H:i:s') }}</td>
-									<td>{{ commande.getPoidsTotMat() }}</td>
-									<td>{{ commande.getConducteur().getFirstname() }}
-										{{ commande.getConducteur().getLastname() }}</td>
-									<td>{{ commande.getNumErpLocation() }}</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-
-				</div>
-			</div>
-
-			<!-- Demandes -->
-			<div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
-
-				<div class="row justify-content-end mt-4 mb-2">
-					<a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
-						Créer une Demande
-					</a>
-				</div>
-				<div class="col-md-12 m-auto mt-4">
-
-					<table class="table datatable">
-						<thead>
-							<tr class="tr-head text-center">
-								<th>N°</th>
-								<th>NomChantier</th>
-								<th>Type de préstation</th>
-								<th>Documents souhaités</th>
-								<th>Client</th>
-								<th>Maitre d'Ouvrage</th>
-								<th>Intermédiaire</th>
-								<th>Ville</th>
-								<th>CodePostal</th>
-								<th>Pays</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>
-
-
-			</div>
-
-
-			<!-- Comptabilité -->
-
-
-			<!-- Ged -->
-
-
-		</div>
-
-	</div>
-
-	<script></script>
+    <!-- PAGE DISPLAY 					<span class="data-element"></span>
+     -->
+    <div class="col-lg-12 page-block page-block-margin-bottom">
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Code
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="data-element bg-blue ">
+                            <b>
+                                {{ chantiers.getNumchantier() }}
+                            </b>
+                        </span>
+                    </div>
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Client
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="data-element bg-blue ">
+                            <b>
+							<a href='/show_information/{{ chantiers.getIdClient().getId() }}'>  {{ chantiers.getIdClient().getRaisonSociale() }} </a>
+                            </b>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Nom
+                            						
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ chantiers.getNomchantier() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Code Postale
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ chantiers.getCp() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Adresse
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ chantiers.getAdresse() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            ville
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ chantiers.getVille() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 page-block mt-4">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link " id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers" type="button" role="tab" aria-controls="chantiers" aria-selected="true">
+                    Commandes
+                    				
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content mt-4" id="myTabContent">
+            <!-- Contact -->
+            <div class="tab-pane fade " id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">
+                <div class="col-md-12">
+                    <table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+                        <thead>
+                            <tr class="tr-head">
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Poids Total
+                                </th>
+                                <th>
+                                    Conducteur de travaux
+                                </th>
+                                <th>
+                                    Numéro ERP
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for commande in commandes %}
+                                <tr>
+                                    <td>
+                                        {{ commande.getDateCde()|date('d/m/Y H:i:s') }}
+                                    </td>
+                                    <td>
+                                        {{ commande.getPoidsTotMat() }}
+                                    </td>
+                                    <td>
+                                        {{ commande.getConducteur().getFirstname() }}
+                                        {{ commande.getConducteur().getLastname() }}
+                                    </td>
+                                    <td>
+                                        {{ commande.getNumErpLocation() }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Demandes -->
+            <div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
+                <div class="row justify-content-end mt-4 mb-2">
+                    <a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
+                        Créer une Demande
+                        					
+                    </a>
+                </div>
+                <div class="col-md-12 m-auto mt-4">
+                    <table class="table datatable">
+                        <thead>
+                            <tr class="tr-head text-center">
+                                <th>
+                                    N°
+                                </th>
+                                <th>
+                                    NomChantier
+                                </th>
+                                <th>
+                                    Type de préstation
+                                </th>
+                                <th>
+                                    Documents souhaités
+                                </th>
+                                <th>
+                                    Client
+                                </th>
+                                <th>
+                                    Maitre d'Ouvrage
+                                </th>
+                                <th>
+                                    Intermédiaire
+                                </th>
+                                <th>
+                                    Ville
+                                </th>
+                                <th>
+                                    CodePostal
+                                </th>
+                                <th>
+                                    Pays
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        <!-- Comptabilité -->
+        <!-- Ged -->
+        </div>
+    </div>
+    <script></script>
 {% endblock %}

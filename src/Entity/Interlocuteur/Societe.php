@@ -3,6 +3,7 @@
 namespace App\Entity\Interlocuteur;
 
 use App\Entity\AdresseTrait;
+use App\Entity\Depot\Chantiers;
 use App\Repository\Interlocuteur\SocieteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -67,9 +68,29 @@ class Societe
     #[ORM\ManyToMany(targetEntity: Activite::class, inversedBy: 'societesSecondaires')]
     private $activitesSecondaires;
 
+    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: 'id_client')]
+    private  $chantiers;
+
+
+
+       // Getter method for chantiers
+       public function getChantiers()
+       {
+           return $this->chantiers;
+       }
+   
+       // Setter method for chantiers
+       public function setChantiers($chantiers)
+       {
+           $this->chantiers = $chantiers;
+       }
+
+
     public function __construct()
     {
         $this->activitesSecondaires = new ArrayCollection();
+        $this->chantiers = new ArrayCollection();
+
     }
 
 

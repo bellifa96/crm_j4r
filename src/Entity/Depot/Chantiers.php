@@ -2,6 +2,7 @@
 
 namespace App\Entity\Depot;
 
+use App\Entity\Interlocuteur\Societe;
 use App\Entity\Transport\CdeMatDet;
 use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Depot\ChantiersRepository;
@@ -71,6 +72,23 @@ class Chantiers
     #[ORM\OneToMany(targetEntity: CdeMatEnt::class, mappedBy: 'id_chantier')]
 
     private  $commandes;
+
+    #[ORM\ManyToOne(targetEntity: Societe::class, inversedBy: 'chantiers')]
+    #[ORM\JoinColumn(name: 'id_client', referencedColumnName: 'id')]
+    private $id_client;
+
+    public function getIdClient()
+    {
+        return $this->id_client;
+    }
+
+    // Setter method for id_client
+    public function setIdClient($id_client)
+    {
+        $this->id_client = $id_client;
+    }
+
+
 
     public function __construct()
     {

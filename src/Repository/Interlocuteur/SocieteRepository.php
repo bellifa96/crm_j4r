@@ -77,6 +77,8 @@ class SocieteRepository extends ServiceEntityRepository
     */
     public function getclients()
     {
-        return $this->createQueryBuilder('d');
+        return $this->createQueryBuilder('d')
+        ->getQuery()
+            ->getResult();
     }
 }
