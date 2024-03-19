@@ -1,18 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{ title }}
+    {{ title }}
 {% endblock %}
-
-
 {% block body %}
-	<script>
+    <script>
 
 		if (!$.fn.DataTable.isDataTable('#commandeTable')) {
 commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 }
 	</script>
-
-	<style>
+    <style>
 
 
 		.table-ged >:not(caption) > * > * {
@@ -91,174 +88,251 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 			floa
 		}
 	</style>
-
-
-	<!-- PAGE DISPLAY -->
-	<div class="col-lg-12 page-block page-block-margin-bottom">
-
-		<div class="row mt-2">
-
-
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Rôles</span>
-					</div>
-					<div class="col-md-6">
-						<span class="data-element bg-blue ">
-							<b>Client</b>
-						</span>
-
-
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row mt-2">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Nom
-						</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ societe.getRaisonSociale() }}
-							</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Adresse</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ societe.getAdresse1() }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row mt-2">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Ville</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ societe.getVille() }}</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-3 font-weight-bold text-end">
-						<span class="d-block">Pays</span>
-					</div>
-					<div class="col-md-6 bg-blue pr-1">
-						<span class="data-element">{{ societe.getPays() }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-
-	<div class="col-md-12 page-block mt-4">
-
-
-		<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-			<li class="col nav-item" role="presentation">
-				<button class="nav-link " id="Chantiers-tab" data-bs-toggle="tab" data-bs-target="#Chantiers" type="button" role="tab" aria-controls="Chantiers" aria-selected="true">
-				Chantiers
-				</button>
-			</li>
-
-		
-
-		</ul>
-
-
-		<div
-			class="tab-content mt-4" id="myTabContent">
-
-			<!-- Contact -->
-			<div class="tab-pane fade " id="Chantiers" role="tabpanel" aria-labelledby="Chantiers-tab">
-
-			
-				<div class="col-md-12">
-					<table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
-						<thead>
-							<tr class="tr-head">
-						       <th>Nom Chantier</th>
-								<th>Adresse Chantier</th>
-								<th>Ville</th>
-								<th>Code Chantier</th>
-								<th>Etat</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for chantier in societe.getChantiers() %}
-								<tr>
-								    <td>{{ chantier.getNomchantier() }}</td>
-
-									<td>{{ chantier.getAdresse() }}</td>
-									<td>{{ chantier.getVille() }}</td>
-									<td>{{ chantier.getNumchantier() }}</td>
-
-									<td>{{ chantier.getEtat() }}</td>
-									</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-
-				</div>
-			</div>
-
-			<!-- Demandes -->
-			<div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
-
-				<div class="row justify-content-end mt-4 mb-2">
-					<a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
-						Créer une Demande
-					</a>
-				</div>
-				<div class="col-md-12 m-auto mt-4">
-
-					<table class="table datatable">
-						<thead>
-							<tr class="tr-head text-center">
-								<th>N°</th>
-								<th>NomChantier</th>
-								<th>Type de préstation</th>
-								<th>Documents souhaités</th>
-								<th>Client</th>
-								<th>Maitre d'Ouvrage</th>
-								<th>Intermédiaire</th>
-								<th>Ville</th>
-								<th>CodePostal</th>
-								<th>Pays</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>
-
-
-			</div>
-
-
-			<!-- Comptabilité -->
-
-
-			<!-- Ged -->
-
-
-		</div>
-
-	</div>
-
-	<script></script>
+    <!-- PAGE DISPLAY -->
+    <div class="col-lg-12 page-block page-block-margin-bottom">
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Rôles
+                                                                                
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="data-element bg-blue ">
+                            <b>
+                                Client
+                                                                                            
+                                                            
+                            </b>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Nom
+                                                                                    						
+                                                                                
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ societe.getRaisonSociale() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Adresse
+                                                                                
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ societe.getAdresse1() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Ville
+                                                                                
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ societe.getVille() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Pays
+                                                                                
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ societe.getPays() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 page-block mt-4">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link " id="Chantiers-tab" data-bs-toggle="tab" data-bs-target="#Chantiers" type="button" role="tab" aria-controls="Chantiers" aria-selected="true">
+                    Chantiers
+                                                            				
+                                                        
+                                    
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content mt-4" id="myTabContent">
+            <!-- Contact -->
+            <div class="tab-pane fade " id="Chantiers" role="tabpanel" aria-labelledby="Chantiers-tab">
+                <div class="col-md-12">
+                    <table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+                        <thead>
+                            <tr class="tr-head">
+                                <th>
+                                    Nom Chantier
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Adresse Chantier
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Ville
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Code Chantier
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Etat
+                                                                                                        
+                                                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for chantier in societe.getChantiers() %}
+                                <tr>
+                                    <td>
+                                        {{ chantier.getNomchantier() }}
+                                    </td>
+                                    <td>
+                                        {{ chantier.getAdresse() }}
+                                    </td>
+                                    <td>
+                                        {{ chantier.getVille() }}
+                                    </td>
+                                    <td>
+                                        {{ chantier.getNumchantier() }}
+                                    </td>
+                                    <td>
+                                        {% if chantier.getEtat() == 3 %}
+                                            <span style="color: green; font-weight: bold;">
+                                                Terminé
+                                            </span>
+                                        {% elseif chantier.getEtat() == 2 %}
+                                            <span style="color: orange; font-weight: bold;">
+                                                En cours
+                                            </span>
+                                            {% else %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Demandes -->
+            <div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
+                <div class="row justify-content-end mt-4 mb-2">
+                    <a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
+                        Créer une Demande
+                                                                        					
+                                                                    
+                                            
+                    </a>
+                </div>
+                <div class="col-md-12 m-auto mt-4">
+                    <table class="table datatable">
+                        <thead>
+                            <tr class="tr-head text-center">
+                                <th>
+                                    N°
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    NomChantier
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Type de préstation
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Documents souhaités
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Client
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Maitre d'Ouvrage
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Intermédiaire
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Ville
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    CodePostal
+                                                                                                        
+                                                                    
+                                </th>
+                                <th>
+                                    Pays
+                                                                                                        
+                                                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        <!-- Comptabilité -->
+        <!-- Ged -->
+        </div>
+    </div>
+    <script></script>
 {% endblock %}
