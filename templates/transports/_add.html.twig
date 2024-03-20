@@ -13,7 +13,7 @@
 						<label for="NumAffaire" class="font-weight-bold">Chantier J4R</label>
 						<select id="commande_chantier" name="chantier" class="form-control form-control-sm-2 societe-input">
 							{% for ch in chantiers %}
-								<option value="{{ ch.idchantier }}">{{ ch.nomchantier }}</option>
+								<option value="{{ ch.idchantier }}">{{ ch.numchantier }}</option>
 							{% endfor %}
 						</select>
 
@@ -34,6 +34,8 @@
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Transporteur</label>
 						<select id="transporteur" name="transporteur" class="form-control form-control-sm-2 societe-input">
+					        <option value=""></option>
+
 							{% for trs in transporteurs %}
 								<option value="{{ trs.idtransporteur }}">{{ trs.societe }}</option>
 							{% endfor %}
@@ -59,7 +61,7 @@
 				<div class="form-group">
 			           <label for="codeChantier" class="font-weight-bold">Indication de volume camion</label>
 			             <select name="indication" id="indication" class="form-control form-control-sm-2 societe-input">
-			              	<option value="0">Rien</option>
+			              	<option value="0"></option>
 			            	<option value="1">Complet</option>
 			            	<option value="2">Demi</option>
 			            	<option value="3">Trois-quarts</option>
