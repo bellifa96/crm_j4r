@@ -164,7 +164,7 @@ class CommandeController extends AbstractController
             if ($cdeMatEnt->getTransports()[0] == null) {
                 $cdeEnteHeure = $cdeMatEnt->getHeureEnlevDem()->format('H:i');
             } else {
-                $cdeEnteHeure = $cdeMatEnt->getTransports()[0]->getHeuredep();
+                $cdeEnteHeure = $cdeMatEnt->getTransports()[0]->getHeuredepart();
             }
             return $this->render('commande/edit.html.twig', [
                 'form' => $form->createView(),

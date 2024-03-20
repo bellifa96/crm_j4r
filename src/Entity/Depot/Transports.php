@@ -23,23 +23,23 @@ class Transports
     
 
     #[ORM\Column(type: 'integer')]
-    private $sens = '0';
+    private $typeTransport = '0';
 
     #[ORM\Column(type: 'string')]
 
-    private $heuredep = 'NULL';
+    private $heuredepart = 'NULL';
 
     #[ORM\Column(type: 'string')]
 
-    private $heurearr = 'NULL';
+    private $heurearrive = 'NULL';
 
     #[ORM\Column(type: 'integer')]
 
-    private $numchantierdep = '0';
+    private $numchantierdepart = '0';
 
     #[ORM\Column(type: 'integer')]
 
-    private $numchantierarr = '0';
+    private $numchantierarrive = '0';
 
     #[ORM\Column(type: 'string')]
 
@@ -119,6 +119,10 @@ class Transports
     #[ORM\Column(type: 'integer')]
     private $typeEnlevement = '0';
 
+    #[ORM\Column(type: 'string')]
+
+    private $volume = 'integer';
+
  
     #[ORM\ManyToOne(targetEntity:CdeMatEnt::class)]
     #[ORM\JoinColumn(name:'idcde', referencedColumnName:'id')]
@@ -150,58 +154,69 @@ class Transports
     }
 
    
-    public function getSens(): ?int
+    public function getTypeTransport(): ?int
     {
-        return $this->sens;
+        return $this->typeTransport;
     }
 
-    public function setSens(int $sens): self
+    public function setTypeTransport(int $typeTransport): self
     {
-        $this->sens = $sens;
+        $this->typeTransport = $typeTransport;
         return $this;
     }
 
-    public function getHeuredep(): ?string
+    public function getVolume(): ?int
     {
-        return $this->heuredep;
+        return $this->typeTransport;
     }
 
-    public function setHeuredep(string $heuredep): self
+    public function setVolume(int $volume): self
     {
-        $this->heuredep = $heuredep;
+        $this->volume = $volume;
+        return $this;
+    }
+
+    public function getHeuredepart(): ?string
+    {
+        return $this->heuredepart;
+    }
+
+    public function setHeuredepart(string $heuredepart): self
+    {
+        $this->heuredepart = $heuredepart;
         return $this;
     }
 
     public function getHeurearr(): ?string
     {
-        return $this->heurearr;
+        return $this->heurearrive;
     }
 
-    public function setHeurearr(string $heurearr): self
+    public function setHeurearrive(string $heurearrive): self
     {
-        $this->heurearr = $heurearr;
+        $this->heurearrive = $heurearrive;
         return $this;
     }
 
     public function getNumchantierdep(): ?int
     {
-        return $this->numchantierdep;
+        return $this->numchantierdepart;
     }
 
-    public function setNumchantierdep(int $numchantierdep): self
+    public function setNumchantierdep(int $numchantierdepart): self
     {
-        $this->numchantierdep = $numchantierdep;
+        $this->numchantierdepart = $numchantierdepart;
         return $this;
     }
 
-    public function getNumchantierarr(): ?int
+    public function getNumchantierarrive(): ?int
     {
-        return $this->numchantierarr;
+        return $this->numchantierarrive;
     }
 
-    public function setNumchantierarr(int $numchantierarr): self
+    public function setNumchantierarr(int $numchantierarrive): self
     {
-        $this->numchantierarr = $numchantierarr;
+        $this->numchantierarrive = $numchantierarrive;
         return $this;
     }
 

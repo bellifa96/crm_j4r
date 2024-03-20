@@ -125,11 +125,11 @@
 							{{ transport.idtransporteur.societe }}
 						</td>
 						<td>
-							{% if transport.sens == 1 %}
+							{% if transport.typeTransport == 1 %}
 								Livraison
-							{% elseif transport.sens == 2 %}
+							{% elseif transport.typeTransport == 2 %}
 								Rotation
-							{% elseif transport.sens == 3 %}
+							{% elseif transport.typeTransport == 3 %}
 								Output if sens is 3
 							{% else %}
 								Output if sens is none of the specified values

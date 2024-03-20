@@ -72,9 +72,9 @@ class TransportsController extends AbstractController
 
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
-            $transpots->setSens(1);
+            $transpots->setTypeTransport(1);
             $transpots->setNumchantierdep(1);
-            $transpots->setHeuredep($heure);
+            $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
 
 
@@ -131,9 +131,9 @@ class TransportsController extends AbstractController
             $transpots = $this->transportRepository->getById($idtransport);
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
-            $transpots->setSens(1);
+            $transpots->setTypeTransport(1);
             $transpots->setNumchantierdep(1);
-            $transpots->setHeuredep($heure);
+            $transpots->setHeuredepart($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
 
@@ -177,16 +177,23 @@ class TransportsController extends AbstractController
     {
         try {
             $transporteurId = $request->request->get('transporteur');
-            $typeEnlevement = $request->request->get('type_enlevement');
             $heure = $request->request->get('heure');
             $taux = $request->request->get('taux');
             $tarification = $request->request->get('tarification');
-            $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
             $sens = $request->request->get('sens');
-            $idchantier = $request->request->get('idchantier');
-            $date_transport = $request->request->get('date_transport');
+            $commande_chantier = $request->request->get('commande_chantier');
+            $poids = $request->request->get('poids');
 
+            $address_chantier = $request->request->get('address_chantier');
+            $indication = $request->request->get('indication');
+            $conducteur = $request->request->get('conducteur');
+            $date_transport = $request->request->get('date_transport');
+            $heure = DateTime::createFromFormat('H:i', $heure);
+            $date_transport = DateTime::createFromFormat('H:i', $date_transport);
+
+            dd($heure);
+            
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
            
             // Check if any of the required parameters are null, throw an exception if so
@@ -197,11 +204,13 @@ class TransportsController extends AbstractController
             $transpots = new Transports();
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
-            $transpots->setSens($sens);
-            $transpots->setNumchantierdep($idchantier);
-        
-            $transpots->setHeuredep($heure);
-            $transpots->setTypeEnlevement($typeEnlevement);
+            $transpots->setTypeTransport($sens);
+            $transpots->setNumchantierdep($commande_chantier);
+            $transpots->setAdressechantier($address_chantier);
+            $transpots->setPoidsbon($poids);
+            $transpots->setVolume($indication);
+
+            $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
 
 
