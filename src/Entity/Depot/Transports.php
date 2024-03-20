@@ -119,9 +119,13 @@ class Transports
     #[ORM\Column(type: 'integer')]
     private $typeEnlevement = '0';
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'integer')]
 
-    private $volume = 'integer';
+    private $volume = '0';
+
+    #[ORM\Column(type: 'integer')]
+
+    private $creationAffectation = '0';
 
  
     #[ORM\ManyToOne(targetEntity:CdeMatEnt::class)]
@@ -165,9 +169,19 @@ class Transports
         return $this;
     }
 
+    public function getcreationAffectation(): ?int
+    {
+        return $this->creationAffectation;
+    }
+
+    public function setcreationAffectation(int $creationAffectation): self
+    {
+        $this->creationAffectation = $creationAffectation;
+        return $this;
+    }
     public function getVolume(): ?int
     {
-        return $this->typeTransport;
+        return $this->volume;
     }
 
     public function setVolume(int $volume): self

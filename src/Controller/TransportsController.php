@@ -35,8 +35,20 @@ class TransportsController extends AbstractController
     #[Route('/transports', name: 'app_transports')]
     public function index(): Response
     {
-        $transports = $this->transportRepository->findAll();
+        $transports = $this->transportRepository->getTransportAffecter(0);
         return $this->render('transports/index.html.twig', [
+            'controller_name' => 'TransportsController',
+            'title' => 'Transports',
+            'transports' => $transports,
+            'nav' => [['edit_transport_liv_new', 'Création un Transport']]
+        ]);
+    }
+
+    #[Route('/transports_creer', name: 'app_transports_creer')]
+    public function transports_creer(): Response
+    {
+        $transports = $this->transportRepository->getTransportAffecter(1);
+        return $this->render('transports/transport_creer.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Transports',
             'transports' => $transports,
@@ -82,6 +94,7 @@ class TransportsController extends AbstractController
             $transpots->setDatesaisie(new DateTime());
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
+
             $transpots->setNumchantierarr($commandeEntObject->getChantier()->getNumChantier());
             $this->transportRepository->add($transpots);
             $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
@@ -189,10 +202,8 @@ class TransportsController extends AbstractController
             $indication = $request->request->get('indication');
             $conducteur = $request->request->get('conducteur');
             $date_transport = $request->request->get('date_transport');
-            $heure = DateTime::createFromFormat('H:i', $heure);
             $date_transport = DateTime::createFromFormat('H:i', $date_transport);
 
-            dd($heure);
             
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
            
@@ -212,12 +223,13 @@ class TransportsController extends AbstractController
 
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
+            $transpots->setcreationAffectation(1);
 
 
             // Définir la date formatée dans votre objet Transports
             $transpots->setObservation($observation);
             $this->transportRepository->add($transpots);
-            return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
+            return new JsonResponse(['message' => 'Le transport a bien été créer.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
             dd($e->getMessage());

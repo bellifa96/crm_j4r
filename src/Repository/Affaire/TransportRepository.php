@@ -41,6 +41,15 @@ class TransportRepository extends ServiceEntityRepository
         return $this->find($id);
     }
 
+    public function getTransportAffecter($etat){
+        return $this->createQueryBuilder('d')
+            ->select('d') // Sélectionnez uniquement les champs que vous avez besoin
+            ->where('d.creationAffectation = :creationAffectation')
+            ->setParameter('creationAffectation', $etat)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Transport[] Returns an array of Transport objects
     //     */

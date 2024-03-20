@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Transports
+        
+        
+    
+{% endblock %}
+{% block body %}
+    <style>
+		.container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%; /* Set your desired width */
+			padding: 10px;
+		}
+
+		.left {
+			flex: 1; /* Takes up available space on the left */
+
+		}
+
+		.right {
+			flex: 2; /* Takes up available space on the right */
+			margin-left: 20px; /* Add margin for spacing between left and right */
+		}
+
+		select {
+			width: 20%;
+			padding: 5px;
+		}
+		.title_article {
+			font-family: 'Poppins', sans-serif;
+			color: black;
+			font-size: 30px;
+			margin-left: 10%;
+		}
+		.basic {
+			width: 200px;
+			height: 35px;
+			background: #f5f5f5;
+			font-family: 'Poppins', sans-serif;
+			margin-left: 70%;
+
+
+		}
+        #output-1 { color: blue; }
+        #output-2 { color: green; }
+        #output-3 { color: red; }
+        #output-4 { color: orange; }
+        #output-5 { color: purple; }
+	</style>
+    <div class="example-wrapper"></div>
+    <div id="popupFormContainer"></div>
+    <div class="page-block col-lg-12">
+        <table class="table text-center datatable" style="color: #0E4377;">
+            <thead>
+                <tr class="tr-head">
+                    <th>
+                        Heure Départ
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Date Départ
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Code chantier
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Adresse Chantiers
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Client
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Transporteur
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Type
+                                                					
+                                            
+                    </th>
+                    <th>
+                        Action
+                                                					
+                                            
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transport in transports %}
+                    <tr>
+                        <td>
+                            {% if transport.heuredepart is null %}
+                                null
+                                                                							
+                                                            
+                            {% else %}
+                                {{ transport.heuredepart|date("H:i")|default('Date not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.heuredepart is null %}
+                                null
+                                                                                        
+                                                            
+                            {% else %}
+                                {{ transport.heuredepart|date("H:i")|default('Date not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                                                							
+                                                            
+                            {% else %}
+                                {{ transport.idcde.getChantier().getNumChantier() |default('Code not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.adressechantier is null %}
+                                null
+                                                                							
+                                                            
+                            {% else %}
+                                {{ transport.adressechantier |default('Address not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                                                							
+                                                            
+                            {% else %}
+                                {{ transport.idcde.NomClient|default('Client name not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ transport.idtransporteur.societe }}
+                        </td>
+                        <td>
+                            <span id="output-{{ transport.typeTransport  }}">
+                                {% if transport.typeTransport == 1 %}
+                                    Livraison
+                                                                
+                                {% elseif transport.typeTransport == 2 %}
+                                    Ramasse TY
+                                                                
+                                {% elseif transport.typeTransport == 3 %}
+                                    Ramasse TS
+                                                                
+                                {% elseif transport.typeTransport == 4 %}
+                                    Rotation
+                                                                
+                                {% elseif transport.typeTransport == 5 %}
+                                    Transfert
+                                                                
+                                {% else %}
+                                    Unknown
+                                                                
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ path('edit_transport_liv', {'id': transport.getIdtransport() }) }}" class="btn btn-warning" style="font-size: 10px;">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </tbody>
+    </table>
+</div>
+<script></script>{% endblock %}
