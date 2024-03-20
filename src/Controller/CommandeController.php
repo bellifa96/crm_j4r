@@ -313,7 +313,7 @@ class CommandeController extends AbstractController
     {
         try {
             $articles = $this->cdeMatDetRepository->articles_by_cde($cdeMatEnt->getId());
-
+             
 
             $header = $this->environment->render('commande/headerpdf.html.twig', ['cdeMat' => $cdeMatEnt, 'articles' => $articles]);
 
