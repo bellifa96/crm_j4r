@@ -8,6 +8,7 @@ use App\Repository\Affaire\TransportRepository;
 use App\Repository\Depot\ChantiersRepository;
 use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatEntRepository;
+use App\Repository\UserRepository;
 use App\Service\OutlookService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +26,8 @@ class TransportsController extends AbstractController
         private TransporteurRepository $transporteurRepository,
         private TransportRepository $transportRepository,
         private OutlookService $outlookService,
-        private ChantiersRepository $chantiersRepository
+        private ChantiersRepository $chantiersRepository,
+        private UserRepository $userRepository
 
     ) {
     }
@@ -156,13 +158,16 @@ class TransportsController extends AbstractController
     {
 
         $transporteurs = $this->transporteurRepository->findAll();
-        $chantiers_by_agence = $this->chantiersRepository->getAllChantiers();
+        $chantiers_by_agence = $this->chantiersRepository->getAllChantiersEncours();
+        $conducteur = $this->userRepository->getEmailsForRoleConducteurTraveaux()->getResult();
 
         return $this->render('transports/new.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Ajouter Transport',
             'transporteurs' => $transporteurs,
             'chantiers' => $chantiers_by_agence ,
+            'conducteur' => $conducteur ,
+
             'nav' => []
         ]);
     }
