@@ -111,21 +111,21 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if transport.heuredepart is null %}
+                            {% if transport.getNumchantierdep() is null %}
                                 null
                                                                                         
                                                             
                             {% else %}
-                                {{ transport.heuredepart|date("H:i")|default('Date not available') }}
+                                {{ transport.getNumchantierdep().getNumChantier() |default('Date not available') }}
                             {% endif %}
                         </td>
                         <td>
-                            {% if transport.idcde is null %}
+                            {% if transport.getNumchantierdep() is null %}
                                 null
                                                                 							
                                                             
                             {% else %}
-                                {{ transport.idcde.getChantier().getNumChantier() |default('Code not available') }}
+                                {{ transport.getNumchantierdep().getNumChantier() |default('Code not available') }}
                             {% endif %}
                         </td>
                         <td>
@@ -138,12 +138,12 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if transport.idcde is null %}
+                            {% if transport.getNumchantierdep() is null %}
                                 null
-                                                                							
+                                                                                        
                                                             
                             {% else %}
-                                {{ transport.idcde.NomClient|default('Client name not available') }}
+                                {{ transport.getNumchantierdep().getIdClient().getRaisonSociale() |default('Date not available') }}
                             {% endif %}
                         </td>
                         <td>
