@@ -213,7 +213,7 @@ console.error('Error:', error);
 
 			<!-- Validate Button Column -->
 			<div class="col-md-6">
-				<button type="submit" class="btn btn-success btn-block">
+				<button type="submit" class="btn btn-success btn-block" id="submit-btn">
 					<span class="mr-2">Valider</span>
 					<i class="fas fa-check"></i>
 				</button>
@@ -349,6 +349,7 @@ articleQte: articleQte,
 formData: $(this).serialize(),
 depot: document.getElementById("codedepot").value
 };
+document.getElementById("submit-btn").disabled = true; // Désactive le bouton
 
 $.ajax({
 type: "POST",

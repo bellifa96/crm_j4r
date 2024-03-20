@@ -8,21 +8,10 @@
 		<div class="societe">
 			<div class="row form">
 				<div class="col-md-4">
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">ERP</label>
-						<input type="number" id="erp" class="form-control form-control-sm-2 societe-input" name="erp"/>
-
-
-					</div>
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">devis</label>
-						<input type="number" id="devis" class="form-control form-control-sm-2 societe-input" name="devis"/>
-
-
-					</div>
+				
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Chantier J4R</label>
-						<select id="chantier" name="chantier" class="form-control form-control-sm-2 societe-input">
+						<select id="commande_chantier" name="chantier" class="form-control form-control-sm-2 societe-input">
 							{% for ch in chantiers %}
 								<option value="{{ ch.idchantier }}">{{ ch.nomchantier }}</option>
 							{% endfor %}
@@ -30,12 +19,7 @@
 
 
 					</div>
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">No Affaire</label>
-						<input type="number" id="no_affaire" class="form-control form-control-sm-2 societe-input" name="no_affaire"/>
-
-
-					</div>
+				
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Transporteur</label>
 						<select id="transporteur" name="transporteur" class="form-control form-control-sm-2 societe-input">
@@ -53,56 +37,23 @@
 					</div>
 
 
-					<div class="form-group" style="display:flex;">
-						<div class="col-md-3 text-end label">
-							Type Enlevement
-						</div>
-						<div class="col-md-4">
-
-							<select name="type_enlevement" id="type_enlevement" class="form-control form-control-sm-2 societe-input">
-								<option value="0"></option>
-								<option value="1">En journée</option>
-								<option value="2">A la suite</option>
-								<option value="3">A partir de</option>
-								<option value="4">Impératif à</option>
-							</select>
-
-						</div>
-
-						<div class="col-md-4">
-
-							<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure">
-
-						</div>
-
-					</div>
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">Immatriculation</label>
-						<input type="number" id="immatriculation" class="form-control form-control-sm-2 societe-input" name="immatriculation"/>
-
-					</div>
+				
 
 
 					<!-- Add similar blocks for other fields in the first column -->
 				</div>
 				<div class="col-md-4">
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">Date transport</label>
-						<input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" name="date_transport"/>
-
-					</div>
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">Initiateur</label>
-						<input type="text" id="initiateur" class="form-control form-control-sm-2 societe-input" name="initiateur"/>
-					</div>
+				
+					
 
 					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Type</label>
 						<select name="sens" id="sens" class="form-control form-control-sm-2 societe-input">
 							<option value="1">Livraison</option>
-							<option value="2">Ramasse</option>
-							<option value="3">Rotation</option>
-							<option value="4">Transfert</option>
+							<option value="2">Ramasse TY</option>
+						    <option value="3">Ramasse TS</option>
+							<option value="4">Rotation</option>
+							<option value="5">Transfert</option>
 						</select>
 
 					</div>
@@ -123,23 +74,9 @@
 						<input type="number" id="tarification" name="tarification" class="form-control form-control-sm-2 societe-input ">
 					</div>
 
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Heure Enlévement prévu</label>
-						<input type="time" id="heure_enlev_prevu" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Heure Enlévement Réel</label>
-						<input type="time" id="heure_enlev_reel" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
+				
 
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Heure Arrivée prévu</label>
-						<input type="time" id="heure_arrive_prevu" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Heure Arrivée Réelle</label>
-						<input type="time" id="heure_arrive_reel" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
+					
 
 
 					<!-- Add similar blocks for other fields in the first column -->
@@ -147,42 +84,37 @@
 
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="codeChantier" class="font-weight-bold">Poids Cde</label>
-						<input type="number" id="poids_cde" name="poids_cde" class="form-control form-control-sm-2 societe-input ">
+						<label for="codeChantier" class="font-weight-bold">Poids Transport</label>
+						<input type="number" id="poids_cde" name="poids_cde" class="form-control form-control-sm-2 societe-input " value="0">
 
 					</div>
 
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Poids Bon</label>
-						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">Poids Balance</label>
-						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Départ</label>
-						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Arrivée</label>
-						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
-					<div class="form-group" id="qte">
-						<label for="codeChantier" class="font-weight-bold">dépot ou code Chantier Arrivée</label>
-						<input type="number" id="poids_bon" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
-					</div>
 					<div class="form-group">
-						<label for="codeChantier" class="font-weight-bold">Prix transport</label>
-						<input type="number" id="prix_transport" name="prix_transport" class="form-control form-control-sm-2 societe-input ">
+						<label for="NumAffaire" class="font-weight-bold">Date transport</label>
+						<input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" name="date_transport"/>
 
+					</div>
+			
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Heure Transport prévu</label>
+						<input type="time" id="heure_enlev_prevu" name="poids_bon" class="form-control form-control-sm-2 societe-input ">
 					</div>
 					<!-- Add similar blocks for other fields in the third column -->
-					<div class="btn btn-light" id="ajouter_transport">Ajouter</div>
+					
 
 				</div>
 			</div>
+			<div class="col-md-12">
+							<div class="form-group">
+                                    <label for="NumAffaire" class="font-weight-bold">
+                                        Adresse Chantier
+                                    </label>
+                                    <input type="text" id="address_chantier" class="form-control form-control-sm-2 societe-input" name="address_chantier" />
+                                </div>
+						</div>
+
 		</div>
+	<div class="btn btn-light" id="ajouter_transport">Ajouter</div>
 	</div>
 </div></div><script>
 let idchantier = -1;
@@ -377,4 +309,34 @@ localStorage.setItem('transporteurs', JSON.stringify(data));
 // Exemple de récupération et utilisation des données
 const transporteurs = JSON.parse(localStorage.getItem('transporteurs'));
 console.log(transporteurs); // Utilisez les données comme nécessaire
-});</script>
+});
+
+
+$(document).ready(function () {
+		$('#commande_chantier').select2({
+			theme: "classic",
+			width: 'resolve' // This helps with styling and width issues
+		}).on('change', function() {
+			// Your onchange action goes herepCha
+			var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+			$.ajax({
+type: 'GET',
+url: '/chantier/get-chantier-adresse',
+data: {
+chantier: selectedChantierId
+},
+success: function (data) {
+	
+	$('#address_chantier').val(data[0].adresse)
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+		});
+		
+
+
+		});
+
+</script>
