@@ -33,13 +33,8 @@ class Transports
 
     private $heurearrive = 'NULL';
 
-    #[ORM\Column(type: 'integer')]
+    
 
-    private $numchantierdepart = '0';
-
-    #[ORM\Column(type: 'integer')]
-
-    private $numchantierarrive = '0';
 
     #[ORM\Column(type: 'string')]
 
@@ -127,6 +122,16 @@ class Transports
 
     private $creationAffectation = '0';
 
+
+     
+    #[ORM\ManyToOne(targetEntity:Chantiers::class)]
+    #[ORM\JoinColumn(name:'numchantierdepart', referencedColumnName:'idchantier')]
+    private $numchantierdepart ;
+
+    #[ORM\ManyToOne(targetEntity:Chantiers::class)]
+    #[ORM\JoinColumn(name:'numchantierarrive', referencedColumnName:'idchantier')]
+
+    private $numchantierarrive ;
  
     #[ORM\ManyToOne(targetEntity:CdeMatEnt::class)]
     #[ORM\JoinColumn(name:'idcde', referencedColumnName:'id')]
@@ -212,23 +217,23 @@ class Transports
         return $this;
     }
 
-    public function getNumchantierdep(): ?int
+    public function getNumchantierdep() 
     {
         return $this->numchantierdepart;
     }
 
-    public function setNumchantierdep(int $numchantierdepart): self
+    public function setNumchantierdep(Chantiers $numchantierdepart): self
     {
         $this->numchantierdepart = $numchantierdepart;
         return $this;
     }
 
-    public function getNumchantierarrive(): ?int
+    public function getNumchantierarrive()
     {
         return $this->numchantierarrive;
     }
 
-    public function setNumchantierarr(int $numchantierarrive): self
+    public function setNumchantierarr(Chantiers $numchantierarrive): self
     {
         $this->numchantierarrive = $numchantierarrive;
         return $this;

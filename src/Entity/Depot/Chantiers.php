@@ -77,6 +77,36 @@ class Chantiers
     #[ORM\JoinColumn(name: 'id_client', referencedColumnName: 'id')]
     private $id_client;
 
+
+    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: 'numchantierdepart')]
+
+    private  $numchantierdepart;
+
+    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: 'numchantierarrive')]
+
+    private  $numchantierarrive;
+
+    public function __construct() {
+        $this->numchantierdepart = new ArrayCollection();
+        $this->numchantierarrive = new ArrayCollection();
+    }
+    public function getNumChantierDepart() {
+        return $this->numchantierdepart;
+    }
+
+    public function setNumChantierDepart($numchantierdepart) {
+        $this->numchantierdepart = $numchantierdepart;
+    }
+
+    // Getter and setter for numchantierarrive
+    public function getNumChantierArrive() {
+        return $this->numchantierarrive;
+    }
+
+    public function setNumChantierArrive($numchantierarrive) {
+        $this->numchantierarrive = $numchantierarrive;
+    }
+
     public function getIdClient()
     {
         return $this->id_client;
@@ -90,11 +120,7 @@ class Chantiers
 
 
 
-    public function __construct()
-    {
-       
 
-    }
 
     public function getCommandes()
     {

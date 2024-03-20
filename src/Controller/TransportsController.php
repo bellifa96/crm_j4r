@@ -85,7 +85,7 @@ class TransportsController extends AbstractController
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
-            $transpots->setNumchantierdep(1);
+            // $transpots->setNumchantierdep(1);
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
 
@@ -145,7 +145,7 @@ class TransportsController extends AbstractController
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
-            $transpots->setNumchantierdep(1);
+            //$transpots->setNumchantierdep(1);
             $transpots->setHeuredepart($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
@@ -212,11 +212,13 @@ class TransportsController extends AbstractController
                 return new JsonResponse(['message' => 'Transporteur  object not found.'], JsonResponse::HTTP_CONFLICT);
             }
 
+            $chantiersDepart  = $this->chantiersRepository->findByIdChantier($commande_chantier);
+
             $transpots = new Transports();
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport($sens);
-            $transpots->setNumchantierdep($commande_chantier);
+            $transpots->setNumchantierdep($chantiersDepart);
             $transpots->setAdressechantier($address_chantier);
             $transpots->setPoidsbon($poids);
             $transpots->setVolume($indication);
