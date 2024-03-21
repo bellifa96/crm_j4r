@@ -87,9 +87,14 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
 		.buttonCreation {
 			floa
 		}
+        #output-1 { color: blue; }
+        #output-2 { color: green; }
+        #output-3 { color: red; }
+        #output-4 { color: orange; }
+        #output-5 { color: purple; }
 	</style>
     <!-- PAGE DISPLAY 					<span class="data-element"></span>
-         -->
+             -->
     <div class="col-lg-12 page-block page-block-margin-bottom">
         <div class="row mt-2">
             <div class="col-md-6">
@@ -97,6 +102,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Code
+                                                                                
                                                     
                         </span>
                     </div>
@@ -110,6 +116,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Client
+                                                                                
                                                     
                         </span>
                     </div>
@@ -133,7 +140,8 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Nom
-                                                        						
+                                                                                    						
+                                                                                
                                                     
                         </span>
                     </div>
@@ -149,6 +157,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Code Postale
+                                                                                
                                                     
                         </span>
                     </div>
@@ -166,6 +175,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             Adresse
+                                                                                
                                                     
                         </span>
                     </div>
@@ -181,6 +191,7 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                     <div class="col-md-3 font-weight-bold text-end">
                         <span class="d-block">
                             ville
+                                                                                
                                                     
                         </span>
                     </div>
@@ -198,8 +209,17 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
             <li class="col nav-item" role="presentation">
                 <button class="nav-link " id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers" type="button" role="tab" aria-controls="chantiers" aria-selected="true">
                     Commandes
-                                        				
+                                                            				
+                                                        
                                     
+                </button>
+            </li>
+            <li class="col nav-item" role="presentation">
+                <button class="nav-link " id="transport-tab" data-bs-toggle="tab" data-bs-target="#transport" type="button" role="tab" aria-controls="transport" aria-selected="true">
+                    Transports
+                                                                        
+                                                    
+                                
                 </button>
             </li>
         </ul>
@@ -212,18 +232,22 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                             <tr class="tr-head">
                                 <th>
                                     Date
+                                                                                                        
                                                                     
                                 </th>
                                 <th>
                                     Poids Total
+                                                                                                        
                                                                     
                                 </th>
                                 <th>
                                     Conducteur de travaux
+                                                                                                        
                                                                     
                                 </th>
                                 <th>
                                     Numéro ERP
+                                                                                                        
                                                                     
                                 </th>
                             </tr>
@@ -251,67 +275,95 @@ commandeTable = $('#commandeTable').DataTable({paging: true, order: []});
                 </div>
             </div>
             <!-- Demandes -->
-            <div class="tab-pane fade " id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
-                <div class="row justify-content-end mt-4 mb-2">
-                    <a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
-                        Créer une Demande
-                                                					
-                                            
-                    </a>
-                </div>
+            <div class="tab-pane fade " id="transport" role="tabpanel" aria-labelledby="transport-tab">
                 <div class="col-md-12 m-auto mt-4">
                     <table class="table datatable">
-                        <thead>
-                            <tr class="tr-head text-center">
-                                <th>
-                                    N°
+                        <tr class="tr-head">
+                            <th>
+                                Heure Départ
+                                                                                					
+                                                                            
+                                                    
+                            </th>
+                            <th>
+                                Date Départ
+                                                                                					
+                                                                            
+                                                    
+                            </th>
+                         
+                           
+                         
+                            <th>
+                                Transporteur
+                                                                                					
+                                                                            
+                                                    
+                            </th>
+                            <th>
+                                Type
+                                                                                					
+                                                                            
+                                                    
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transport in transports %}
+                        <tr>
+                            <td>
+                                {% if transport.heuredepart is null %}
+                                    null
+                                                                                                
+                                                                
+                                {% else %}
+                                    {{ transport.heuredepart|date("H:i")|default('Date not available') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if transport.dateTransport is null %}
+                                    null
+                                                                                            
+                                                                
+                                {% else %}
+                                {{ transport.dateTransport|date("Y-m-d")|default('Date not available') }}
+                            {% endif %}
+                            </td>
+                      
+                            <td>
+                                {{ transport.idtransporteur is not null ? transport.idtransporteur.societe : '' }}
+                            </td>
+                            <td>
+                                <span id="output-{{ transport.typeTransport  }}">
+                                    {% if transport.typeTransport == 1 %}
+                                        Livraison
                                                                     
-                                </th>
-                                <th>
-                                    NomChantier
+                                    {% elseif transport.typeTransport == 2 %}
+                                        Ramasse TY
                                                                     
-                                </th>
-                                <th>
-                                    Type de préstation
+                                    {% elseif transport.typeTransport == 3 %}
+                                        Ramasse TS
                                                                     
-                                </th>
-                                <th>
-                                    Documents souhaités
+                                    {% elseif transport.typeTransport == 4 %}
+                                        Rotation
                                                                     
-                                </th>
-                                <th>
-                                    Client
+                                    {% elseif transport.typeTransport == 5 %}
+                                        Transfert
                                                                     
-                                </th>
-                                <th>
-                                    Maitre d'Ouvrage
+                                    {% else %}
+                                        Unknown
                                                                     
-                                </th>
-                                <th>
-                                    Intermédiaire
-                                                                    
-                                </th>
-                                <th>
-                                    Ville
-                                                                    
-                                </th>
-                                <th>
-                                    CodePostal
-                                                                    
-                                </th>
-                                <th>
-                                    Pays
-                                                                    
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+                                    {% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}</tbody>
+                </table>
             </div>
-        <!-- Comptabilité -->
-        <!-- Ged -->
         </div>
+    <!-- Comptabilité -->
+    <!-- Ged -->
     </div>
-    <script></script>
-{% endblock %}
+</div>
+<script></script>{% endblock %}

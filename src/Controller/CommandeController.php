@@ -423,6 +423,7 @@ class CommandeController extends AbstractController
               throw $this->createNotFoundException('No user found for id ');
           }
           $commandes = $chantiers->getCommandes();
+          $transport = $chantiers->getNumChantierDepart();
           $commandesArray = $commandes->toArray();
   
           usort($commandesArray, function($a, $b) {
@@ -443,6 +444,7 @@ class CommandeController extends AbstractController
               'nav' => [],
               'commandes' => $commandesArray, // Pass commandes to the view
               'chantiers' => $chantiers, // Optionally pass the user to the view if needed
+              'transports' => $transport
           ]);
       }
 }

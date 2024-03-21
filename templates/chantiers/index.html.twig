@@ -145,7 +145,7 @@
 
 				{% for ch in chantiers %}
 					<tr>
-						<td>{{ ch.numchantier }}</td>
+						<td><a href='/commande_chantiers/{{ ch.idchantier }}'>{{ ch.numchantier }}</a></td>
 						<td>{{ ch.client }}</td>
 
 						<td>{{ ch.nomchantier }}</td>

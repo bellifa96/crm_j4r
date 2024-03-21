@@ -78,11 +78,11 @@ class Chantiers
     private $id_client;
 
 
-    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: 'numchantierdepart')]
+    #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'numchantierdepart')]
 
     private  $numchantierdepart;
 
-    #[ORM\OneToMany(targetEntity: Chantiers::class, mappedBy: 'numchantierarrive')]
+    #[ORM\OneToMany(targetEntity: Transports::class, mappedBy: 'numchantierarrive')]
 
     private  $numchantierarrive;
 
