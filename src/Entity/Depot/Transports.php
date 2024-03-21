@@ -127,6 +127,22 @@ class Transports
     private $creationAffectation = '0';
 
 
+    #[ORM\Column(type: "string")]
+    private $eventTransportId;
+
+    public function getEventTransportId(): ?string
+    {
+        return $this->eventTransportId;
+    }
+
+    // Setter
+    public function setIdcalendar(string $eventTransportId): self
+    {
+        $this->eventTransportId = $eventTransportId;
+
+        return $this;
+    }
+
      
     #[ORM\ManyToOne(targetEntity:Chantiers::class)]
     #[ORM\JoinColumn(name:'numchantierdepart', referencedColumnName:'idchantier')]

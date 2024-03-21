@@ -118,22 +118,23 @@
 		</div>
 
 	
-	{% if transport.getIdtransporteur() == null %}
-	<div class="btn btn-light" id="ajouter_transport">Ajouter</div>
-	<div class="col-md-4" id="affecter_transport" style="float:right;">
-		<div id="affectation_btn" class="btn btn-success btn-block">
-			<span class="mr-2">Affecter Transport</span>
-			<i class="fas fa-check"></i>
-		</div>
-	</div>
-	 {% else %}
-	<div class="col-md-4" id="affecter_transport" style="float:right;">
-	<div id="affectation_btn" class="btn btn-success btn-block">
-		<span class="mr-2">Modification Affectation </span>
-		<i class="fas fa-check"></i>
-	</div>
-	</div>
-	{% endif %}
+		{% if transport == null %}
+    <div class="btn btn-light" id="ajouter_transport">Ajouter</div>
+    <div class="col-md-4" id="affecter_transport" style="float:right;">
+        <div id="affectation_btn" class="btn btn-success btn-block">
+            <span class="mr-2">Affecter Transport</span>
+            <i class="fas fa-check"></i>
+        </div>
+    </div>
+      {% elseif transport.getIdtransporteur() == null or transport.getIdtransporteur() != null  %}
+    <div class="col-md-4" id="affecter_transport" style="float:right;">
+        <div id="affectation_btn" class="btn btn-success btn-block">
+            <span class="mr-2">Modification Affectation </span>
+            <i class="fas fa-check"></i>
+        </div>
+    </div>
+       {% endif %}
+
 	<br>
 	</div>
 	<div id="affectation_transport" style="display:none;">

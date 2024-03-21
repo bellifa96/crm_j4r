@@ -2,6 +2,8 @@
 // src/Service/OutlookService.php
 namespace App\Service;
 
+use App\Entity\Affaire\Transport;
+use App\Entity\Depot\Transports;
 use App\Entity\Transport\CdeMatEnt;
 use App\Repository\Depot\ParamAgenceRepository;
 use Exception;
@@ -262,4 +264,6 @@ class OutlookService
             throw new \Exception('Failed to create event: ' . $response->getContent());
         }
     }
+
+  
 }
