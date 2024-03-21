@@ -116,8 +116,8 @@
                                                                                         
                                                             
                             {% else %}
-                                {{ transport.getNumchantierdep().getNumChantier() |default('Date not available') }}
-                            {% endif %}
+                            {{ transport.dateTransport|date("Y-m-d")|default('Date not available') }}
+                        {% endif %}
                         </td>
                         <td>
                             {% if transport.getNumchantierdep() is null %}
@@ -147,7 +147,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {{ transport.idtransporteur.societe }}
+                            {{ transport.idtransporteur is not null ? transport.idtransporteur.societe : '' }}
                         </td>
                         <td>
                             <span id="output-{{ transport.typeTransport  }}">

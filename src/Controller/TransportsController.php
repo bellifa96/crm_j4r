@@ -111,12 +111,15 @@ class TransportsController extends AbstractController
     {
 
         $transporteurs = $this->transporteurRepository->findAll();
+        $chantiers_by_agence = $this->chantiersRepository->getAllChantiersEncours();
 
         return $this->render('transports/form.html.twig', [
             'controller_name' => 'TransportsController',
             'title' => 'Transports',
             'transport' => $transports,
             'transporteurs' => $transporteurs,
+            'chantiers'=>$chantiers_by_agence,
+            'cdeEnteHeure' => "",
             'nav' => []
         ]);
     }
@@ -163,6 +166,66 @@ class TransportsController extends AbstractController
         }
     }
 
+    #[Route('/affectation-modifier-new', name: 'app_affectation_modifier_new')]
+    public function affectation_transport_commande_modifier_new(Request $request): JsonResponse
+    {
+        try {
+            $transporteurId = $request->request->get('transporteur');
+            $typeEnlevement = $request->request->get('type_enlevement');
+            $heure = $request->request->get('heure');
+            $taux = $request->request->get('taux');
+            $tarification = $request->request->get('tarification');
+            $observation = $request->request->get('observation');
+            $idtransport = $request->request->get('idtransport');
+
+            $sens = $request->request->get('sens');
+            $poids = $request->request->get('poids');
+
+            $address_chantier = $request->request->get('address_chantier');
+            $indication = $request->request->get('indication');
+            
+            $date_transport = $request->request->get('date_transport');
+            $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
+
+
+            $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
+
+            // Check if any of the required parameters are null, throw an exception if so
+            if ($transporteurObject === null) {
+                return new JsonResponse(['message' => 'Transporteur or Commande object not found.'], JsonResponse::HTTP_CONFLICT);
+            }
+
+
+            $transpots = $this->transportRepository->getById($idtransport);
+            $transpots->setIdtransporteur($transporteurObject);
+            $transpots->setMontant($tarification);
+            $transpots->setTypeTransport(1);
+            $transpots->setHeuredepart($heure);
+            $transpots->setTypeEnlevement($typeEnlevement);
+            $transpots->setTauxPrefere($taux);
+            $transpots->setTypeTransport($sens);
+
+            $transpots->setAdressechantier($address_chantier);
+            $transpots->setPoidsbon($poids);
+            $transpots->setVolume($indication);
+
+            $transpots->setHeuredepart($heure);
+            $transpots->setTauxPrefere($taux);
+            $transpots->setcreationAffectation(1);
+            $transpots->setDateTransport($date_transport);
+
+
+            // Définir la date formatée dans votre objet Transports
+            $transpots->setObservation($observation);
+            $this->transportRepository->add($transpots);
+            return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
+        } catch (\Exception $e) {
+            // Log the exception or handle it according to your needs
+            dd($e->getMessage());
+            return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     #[Route('/transports/new', name: 'edit_transport_liv_new')]
     public function new_transports(): Response
     {
@@ -177,7 +240,8 @@ class TransportsController extends AbstractController
             'transporteurs' => $transporteurs,
             'chantiers' => $chantiers_by_agence ,
             'conducteur' => $conducteur ,
-
+            'transport' => null,
+            'cdeEnteHeure' => "",
             'nav' => []
         ]);
     }
@@ -199,15 +263,14 @@ class TransportsController extends AbstractController
             $indication = $request->request->get('indication');
             $conducteur = $request->request->get('conducteur');
             $date_transport = $request->request->get('date_transport');
-            $date_transport = DateTime::createFromFormat('H:i', $date_transport);
+            $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
 
-            
+         
+
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
            
             // Check if any of the required parameters are null, throw an exception if so
-            if ($transporteurObject === null) {
-                return new JsonResponse(['message' => 'Transporteur  object not found.'], JsonResponse::HTTP_CONFLICT);
-            }
+          
 
             $chantiersDepart  = $this->chantiersRepository->findByIdChantier($commande_chantier);
 
@@ -223,6 +286,7 @@ class TransportsController extends AbstractController
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
             $transpots->setcreationAffectation(1);
+            $transpots->setDateTransport($date_transport);
 
 
             // Définir la date formatée dans votre objet Transports

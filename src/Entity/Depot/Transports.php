@@ -80,6 +80,10 @@ class Transports
 
     private $datesaisie;
 
+    #[ORM\Column(type: 'date')]
+
+    private $dateTransport;
+
     #[ORM\Column(type: 'integer')]
 
     private $tauxPrefere = '0';
@@ -153,7 +157,18 @@ class Transports
 
 
     
+    public function getDateTransport(): ?\DateTimeInterface
+    {
+        return $this->dateTransport;
+    }
 
+    // Setter
+    public function setDateTransport(\DateTimeInterface $dateTransport): self
+    {
+        $this->dateTransport = $dateTransport;
+
+        return $this;
+    }
 
     
 
