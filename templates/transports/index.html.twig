@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Transports
-
+    Transports
+    
+    
 {% endblock %}
 
 {% block body %}
-	<style>
+    <style>
 		.container {
 			display: flex;
 			align-items: center;
@@ -44,102 +45,135 @@
 
 
 		}
+		#output-1 { color: blue; }
+        #output-2 { color: green; }
+        #output-3 { color: red; }
+        #output-4 { color: orange; }
+        #output-5 { color: purple; }
 	</style>
 
-	<div class="example-wrapper"></div>
-	<div id="popupFormContainer"></div>
+    <div class="example-wrapper"></div>
+    <div id="popupFormContainer"></div>
 
-	<div class="page-block col-lg-12">
-		<table class="table text-center datatable" style="color: #0E4377;">
-			<thead>
-				<tr class="tr-head">
-					<th>
-						Date Enlevements
-					</th>
-					<th>
-						Numero ERP Locations
-					</th>
-					<th>
-						Code chantier
-					</th>
-					<th>
-						Adresse Chantiers
-					</th>
-					<th>
-						Client
-					</th>
-					<th>
-						Transporteur
-					</th>
-					<th>
-						Type
-					</th>
-				
+    <div class="page-block col-lg-12">
+        <table class="table text-center datatable" style="color: #0E4377;">
+            <thead>
+                <tr class="tr-head">
+                    <th>
+                        Date Enlevements
+                        					
+                    </th>
+                    <th>
+                        Numero ERP Locations
+                        					
+                    </th>
+                    <th>
+                        Code chantier
+                        					
+                    </th>
+                    <th>
+                        Adresse Chantiers
+                        					
+                    </th>
+                    <th>
+                        Client
+                        					
+                    </th>
+                    <th>
+                        Transporteur
+                        					
+                    </th>
+                    <th>
+                        Type
+                        					
+                    </th>
 
-				</tr>
-			</thead>
-			<tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-				{% for transport in transports %}
-					<tr>
+                {% for transport in transports %}
+                    <tr>
 
-						<td>
-							{% if transport.idcde is null %}
-								null
-							{% else %}
-								{{ transport.idcde.DateEnlevReel|date("Y-m-d")|default('Date not available') }}
-							{% endif %}
-						</td>
-						<td>
-							{% if transport.idcde is null %}
-								null
-							{% else %}
-								{{ transport.idcde.NumErpLocation|default('Number not available') }}
-							{% endif %}
-						</td>
-						<td>
-							{% if transport.idcde is null %}
-								null
-							{% else %}
-								{{ transport.idcde.getChantier().getNumChantier() |default('Code not available') }}
-							{% endif %}
-						</td>
-						<td>
-							{% if transport.idcde is null %}
-								null
-							{% else %}
-								{{ transport.idcde.getChantier().getAdresse()|default('Address not available') }}
-							{% endif %}
-						</td>
-						<td>
-							{% if transport.idcde is null %}
-								null
-							{% else %}
-								{{ transport.idcde.NomClient|default('Client name not available') }}
-							{% endif %}
-						</td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                							
+                            {% else %}
+                                {{ transport.idcde.DateEnlevReel|date("Y-m-d")|default('Date not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                							
+                            {% else %}
+                                {{ transport.idcde.NumErpLocation|default('Number not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                							
+                            {% else %}
+                                {{ transport.idcde.getChantier().getNumChantier() |default('Code not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                							
+                            {% else %}
+                                {{ transport.idcde.getChantier().getAdresse()|default('Address not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.idcde is null %}
+                                null
+                                							
+                            {% else %}
+                                {{ transport.idcde.NomClient|default('Client name not available') }}
+                            {% endif %}
+                        </td>
 
-						<td>
-							{{ transport.idtransporteur.societe }}
-						</td>
-						<td>
-							{% if transport.typeTransport == 1 %}
-								Livraison
-							{% elseif transport.typeTransport == 2 %}
-								Rotation
-							{% elseif transport.typeTransport == 3 %}
-								Output if sens is 3
-							{% else %}
-								Output if sens is none of the specified values
-							{% endif %}
-						</td>
-					
+                        <td>
+                            {{ transport.idtransporteur.societe }}
+                        </td>
+                        <td>
+                            <span id="output-{{ transport.typeTransport }}">
+                                {% if transport.typeTransport == 1 %}
+                                    Livraison
+                                    															
+                                    							
+                                {% elseif transport.typeTransport == 2 %}
+                                    Ramasse TY
+                                    															
+                                    							
+                                {% elseif transport.typeTransport == 3 %}
+                                    Ramasse TS
+                                    															
+                                    							
+                                {% elseif transport.typeTransport == 4 %}
+                                    Rotation
+                                    															
+                                    							
+                                {% elseif transport.typeTransport == 5 %}
+                                    Transfert
+                                    															
+                                    							
+                                {% else %}
+                                    Unknown
+                                    															
+                                    							
+                                {% endif %}
+                            </span>
+                        </td>
 
-					</tr>
-				{% endfor %}
+                    </tr>
+                {% endfor %}
 
-			</tbody>
-		</tbody>
-	</table>
+            </tbody>
+        </tbody>
+    </table>
 </div>
 <script></script>{% endblock %}
