@@ -80,6 +80,17 @@ class ChantiersRepository extends ServiceEntityRepository
         ->getOneOrNullResult();
 
     }
+    public function findByIdNumChantier($numchantier)
+    {
+       return  $this->_em->createQueryBuilder()
+        ->select('ch')
+        ->from(Chantiers::class, 'ch')
+        ->andWhere('ch.numchantier = :id')
+        ->setParameter('id', $numchantier)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+    }
 
  
 

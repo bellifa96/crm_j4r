@@ -81,11 +81,12 @@ class TransportsController extends AbstractController
                 $transpots->setTypeEnlevement($typeEnlevement);
 
             }
+            $chantiersDepart  = $this->chantiersRepository->findByIdNumChantier(1);
 
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
-            // $transpots->setNumchantierdep(1);
+             $transpots->setNumchantierdep($chantiersDepart);
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
 
@@ -95,7 +96,7 @@ class TransportsController extends AbstractController
             $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
 
-            $transpots->setNumchantierarr($commandeEntObject->getChantier()->getNumChantier());
+            $transpots->setNumchantierarr($commandeEntObject->getChantier());
             $this->transportRepository->add($transpots);
             $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
@@ -145,17 +146,13 @@ class TransportsController extends AbstractController
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
-            //$transpots->setNumchantierdep(1);
             $transpots->setHeuredepart($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
 
 
             // Définir la date formatée dans votre objet Transports
-            $transpots->setDatesaisie(new DateTime());
-            $transpots->setIdcde($commandeEntObject);
             $transpots->setObservation($observation);
-            $transpots->setNumchantierarr($commandeEntObject->getChantier()->getNumChantier());
             $this->transportRepository->add($transpots);
             $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete());
             return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
