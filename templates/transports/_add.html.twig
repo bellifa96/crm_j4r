@@ -13,7 +13,7 @@
 						<label for="NumAffaire" class="font-weight-bold">Chantier J4R</label>
 						<select id="commande_chantier" name="chantier" class="form-control form-control-sm-2 societe-input">
 							{% for ch in chantiers %}
-								<option value="{{ ch.idchantier }}">{{ ch.numchantier }}</option>
+								<option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }}</option>
 							{% endfor %}
 						</select>
 

@@ -333,30 +333,8 @@
                     Chantiers
                 </button>
             </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'accreditation-tab' ? 'active' : '' }}"
-                        id="accreditation-tab" data-bs-toggle="tab" data-bs-target="#accreditation"
-                        type="button"
-                        role="tab" aria-controls="accreditation" aria-selected="false">
-                    Accréditation
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active' : '' }}"
-                        id="statistiques-tab" data-bs-toggle="tab" data-bs-target="#statistiques"
-                        type="button"
-                        role="tab" aria-controls="statistiques" aria-selected="false">
-                    Statistiques
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'comptabilite-tab' ? 'active' : '' }}"
-                        id="comptabilite-tab" data-bs-toggle="tab" data-bs-target="#comptabilite"
-                        type="button"
-                        role="tab" aria-controls="comptabilite" aria-selected="false">
-                    Comptabilité
-                </button>
-            </li>
+       
+          
             <li class="col nav-item" role="presentation">
                 <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}"
                         id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"

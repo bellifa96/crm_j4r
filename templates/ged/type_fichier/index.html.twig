@@ -3,9 +3,8 @@
 {% block title %}TypeFichier index{% endblock %}
 
 {% block body %}
-    <h1>TypeFichier index</h1>
 
-    <table class="table">
+    <table class="table text-center datatable">
         <thead>
             <tr>
                 <th>Id</th>
@@ -21,8 +20,8 @@
                 <td>{{ type_fichier.titre }}</td>
                 <td>{{ type_fichier.code }}</td>
                 <td>
-                    <a href="{{ path('app_ged_type_fichier_show', {'id': type_fichier.id}) }}">show</a>
-                    <a href="{{ path('app_ged_type_fichier_edit', {'id': type_fichier.id}) }}">edit</a>
+                    <a href="{{ path('app_ged_type_fichier_show', {'id': type_fichier.id}) }}"  class="btn btn-warning" style="font-size: 10px;">show</a>
+                    <a href="{{ path('app_ged_type_fichier_edit', {'id': type_fichier.id}) }}"  class="btn btn-warning" style="font-size: 10px;"><i class="bi bi-pencil"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +32,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_ged_type_fichier_new') }}">Create new</a>
 {% endblock %}

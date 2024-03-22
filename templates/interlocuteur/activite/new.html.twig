@@ -3,9 +3,7 @@
 {% block title %}New Activite{% endblock %}
 
 {% block body %}
-    <h1>Create new Activite</h1>
 
     {{ include('interlocuteur/activite/_form.html.twig') }}
 
-    <a href="{{ path('app_interlocuteur_activite_index') }}">back to list</a>
 {% endblock %}
