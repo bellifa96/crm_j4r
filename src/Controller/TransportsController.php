@@ -10,6 +10,7 @@ use App\Repository\Depot\TransporteurRepository;
 use App\Repository\Transport\CdeMatEntRepository;
 use App\Repository\UserRepository;
 use App\Service\OutlookService;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,8 @@ class TransportsController extends AbstractController
         private TransportRepository $transportRepository,
         private OutlookService $outlookService,
         private ChantiersRepository $chantiersRepository,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private EntityManagerInterface $entityManagerInterface
 
     ) {
     }
@@ -170,6 +172,7 @@ class TransportsController extends AbstractController
     public function affectation_transport_commande_modifier_new(Request $request): JsonResponse
     {
         try {
+
             $transporteurId = $request->request->get('transporteur');
             $typeEnlevement = $request->request->get('type_enlevement');
             $heure = $request->request->get('heure');
@@ -183,7 +186,8 @@ class TransportsController extends AbstractController
 
             $address_chantier = $request->request->get('address_chantier');
             $indication = $request->request->get('indication');
-            
+            $commande_chantier = $request->request->get('commande_chantier');
+
             $date_transport = $request->request->get('date_transport');
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
 
@@ -195,6 +199,7 @@ class TransportsController extends AbstractController
                 return new JsonResponse(['message' => 'Transporteur or Commande object not found.'], JsonResponse::HTTP_CONFLICT);
             }
 
+            $chantiersDepart  = $this->chantiersRepository->findByIdChantier($commande_chantier);
 
             $transpots = $this->transportRepository->getById($idtransport);
             $transpots->setIdtransporteur($transporteurObject);
@@ -208,20 +213,24 @@ class TransportsController extends AbstractController
             $transpots->setAdressechantier($address_chantier);
             $transpots->setPoidsbon($poids);
             $transpots->setVolume($indication);
+            $transpots->setNumchantierdep($chantiersDepart);
 
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
 
-
+            $event_id = $this->outlookService->modifierEvenetTransport($transpots);
             // Définir la date formatée dans votre objet Transports
             $transpots->setObservation($observation);
             $this->transportRepository->add($transpots);
+
             return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
+
             dd($e->getMessage());
+
             return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -250,6 +259,8 @@ class TransportsController extends AbstractController
     public function add(Request $request): JsonResponse
     {
         try {
+            $this->entityManagerInterface->beginTransaction();
+
             $transporteurId = $request->request->get('transporteur');
             $heure = $request->request->get('heure');
             $taux = $request->request->get('taux');
@@ -290,11 +301,17 @@ class TransportsController extends AbstractController
 
 
             // Définir la date formatée dans votre objet Transports
+            $event_id = $this->outlookService->addEventsTransport($transpots);
+            $transpots->setEventTransportId($event_id);
             $transpots->setObservation($observation);
+            $this->entityManagerInterface->commit();
+
             $this->transportRepository->add($transpots);
             return new JsonResponse(['message' => 'Le transport a bien été créer.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
+            $this->entityManagerInterface->rollback();
+
             dd($e->getMessage());
             return new JsonResponse(['error' => 'An error occurred.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }

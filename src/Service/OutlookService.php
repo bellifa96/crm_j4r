@@ -171,7 +171,7 @@ class OutlookService
     {
 
 
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/".$this->CalendarId."/events";
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/" . $this->CalendarId . "/events";
 
 
 
@@ -222,7 +222,7 @@ class OutlookService
     {
         // Assuming $this->client is already set up and $this->accessToken, $this->userId, $sujet, $date_debut, $date_fin, $categories, and $location are defined
         $this->accessToken = $this->paramAgenceRepository->getTokens();
-        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/".$this->CalendarId."/events";
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/" . $this->CalendarId . "/events";
         // Make the POST request to create an event
         $response = $this->client->request('POST', $graphApiEndpoint, [
             'headers' => [
@@ -230,7 +230,7 @@ class OutlookService
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'subject' => 'LIV - '.$cdeMatEnt->getChantier()->getClient().'-'.$cdeMatEnt->getChantier()->getVille() ,
+                'subject' => 'LIV - ' . $cdeMatEnt->getChantier()->getClient() . '-' . $cdeMatEnt->getChantier()->getVille(),
                 'start' => [
                     'dateTime' => $cdeMatEnt->getDateEnlevDem()->format('Y-m-d\TH:i:s'),
                     'timeZone' => 'UTC',
@@ -241,8 +241,8 @@ class OutlookService
                 ],
                 "Body" => array(
                     "ContentType" => "HTML",
-                    "Content" =>  $cdeMatEnt->getCommentaires1() .' ' .$cdeMatEnt->getCommentaires2()
-                ), 
+                    "Content" =>  $cdeMatEnt->getCommentaires1() . ' ' . $cdeMatEnt->getCommentaires2()
+                ),
                 'categories' => ["Demande Cdt"], // Add the etiquette as a category
                 'location' => [
                     'displayName' => $cdeMatEnt->getAdresseChantier(),
@@ -265,5 +265,126 @@ class OutlookService
         }
     }
 
-  
+    public function addEventsTransport(Transports $transports)
+    {
+        // Assuming $this->client is already set up and $this->accessToken, $this->userId, $sujet, $date_debut, $date_fin, $categories, and $location are defined
+        $this->accessToken = $this->paramAgenceRepository->getTokens();
+        $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/calendars/" . $this->CalendarId . "/events";
+        $sujet = $this->make_sujet_calendar($transports);
+        // Make the POST request to create an event
+        $response = $this->client->request('POST', $graphApiEndpoint, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'subject' => $sujet,
+                'start' => [
+                    'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'UTC',
+                ],
+                'end' => [
+                    'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'UTC',
+                ],
+
+                'categories' => ["Demande Cdt"], // Add the etiquette as a category
+                'location' => [
+                    'displayName' => $transports->getAdresseChantier(),
+                ],
+            ],
+        ]);
+
+        // Check the response status
+        if ($response->getStatusCode() === 201) {
+            // Event created successfully, decode JSON to get the event ID
+            $responseData = json_decode($response->getContent(), true);
+            $eventId = $responseData['id']; // Extract the event ID from the response data
+            return $eventId;
+        } else {
+            // Handle error
+            // Optionally, you can print the response status code or content for debugging
+            // return $response->getStatusCode();
+            // echo $response->getContent();
+            throw new \Exception('Failed to create event: ' . $response->getContent());
+        }
+    }
+    public function modifierEvenetTransport(Transports $transports)
+    {
+        try {
+
+
+            // Assuming $this->client is already set up and $this->accessToken, $this->userId, $sujet, $date_debut, $date_fin, $categories, and $location are defined
+            $this->accessToken = $this->paramAgenceRepository->getTokens();
+            $graphApiEndpointGet = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" . $transports->getEventTransportId();
+            $sujet = $this->make_sujet_calendar_lors_modification($transports);
+            // Make the POST request to create an event
+            $response = $this->client->request('PATCH', $graphApiEndpointGet, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->accessToken,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'subject' => $sujet,
+                    'start' => [
+                        'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                        'timeZone' => 'UTC',
+                    ],
+                    'end' => [
+                        'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                        'timeZone' => 'UTC',
+                    ],
+
+                    'categories' => ["Affreter"], // Add the etiquette as a category
+                    'location' => [
+                        'displayName' => $transports->getAdresseChantier(),
+                    ],
+                ],
+            ]);
+
+            // Check the response status
+            if ($response->getStatusCode() === 201) {
+                // Event created successfully, decode JSON to get the event ID
+                $responseData = json_decode($response->getContent(), true);
+                $eventId = $responseData['id']; // Extract the event ID from the response data
+                return $eventId;
+            } else {
+                // Handle error
+                // Optionally, you can print the response status code or content for debugging
+                // return $response->getStatusCode();
+                // echo $response->getContent();
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+    public function make_sujet_calendar(Transports $transports)
+    {
+        $type_transport = $transports->getTypeTransport();
+        switch ($type_transport) {
+            case 1:
+                return "LIV -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+            case 2:
+                // code block for case 2
+                return "RAM TY -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+            case 3:
+                // code block for case 3
+                return "RAM TS -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+            case 4:
+                // code block for case 4
+                return "ROT -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+            case 5:
+                // code block for case 5
+                return "TRANS -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+            default:
+                // code block for default case
+        }
+    }
+    public function make_sujet_calendar_lors_modification(Transports $transports)
+    {
+        $sujet = $this->make_sujet_calendar($transports);
+        if ($transports->getIdtransporteur() != null) {
+            return $sujet . ' ' . $transports->getIdtransporteur()->getSociete();
+        }
+    }
 }

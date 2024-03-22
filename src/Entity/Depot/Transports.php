@@ -127,8 +127,9 @@ class Transports
     private $creationAffectation = '0';
 
 
-    
+    #[ORM\Column(type: 'string')]
 
+    private $eventTransportId = '';
 
      
     #[ORM\ManyToOne(targetEntity:Chantiers::class)]
@@ -158,7 +159,14 @@ class Transports
     #[ORM\JoinColumn(name:'idchauffeur', referencedColumnName:'idchauffeur')]
     private $idchauffeur;
 
+    public function getEventTransportId(): string {
+        return $this->eventTransportId;
+    }
 
+    // Setter
+    public function setEventTransportId(string $eventTransportId): void {
+        $this->eventTransportId = $eventTransportId;
+    }
     
     public function getDateTransport(): ?\DateTimeInterface
     {
