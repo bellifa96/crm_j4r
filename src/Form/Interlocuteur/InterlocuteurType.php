@@ -50,7 +50,8 @@ class InterlocuteurType extends AbstractType
             ->add('societe', SocieteType::class,[
                 'attr'=>[
                     'class'=> ''
-                ]
+                ],
+                'required' => false, // Définir le champ comme non requis
             ])
             ->add('personne', PersonneType::class,[
                 'attr'=>[
