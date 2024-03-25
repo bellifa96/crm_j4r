@@ -89,7 +89,6 @@ class ChantiersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $resulat = $this->chantiersRepository->add_update_depot($chantier);
-            dd($resulat);
             if ($resulat) {
                 $this->addFlash("success", "Dépot a été correctement modifier");
                 return $this->redirectToRoute("app_chantiers");
