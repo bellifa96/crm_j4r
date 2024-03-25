@@ -238,12 +238,10 @@ var commande = data[i];
 console.log(commande);
 let action = '';
 
-if (codedepotValue != 1) {
-action += '<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button>';
-}else{
-action +='<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button>';
 
-}
+action += '<button class="btn btn-warning" style="font-size: 10px;" onclick="redirect_to_page_affiche_commande(' + commande.id + ')"><i class="bi bi-pen"  ></i></button><button class="btn btn-warning" style="font-size: 10px;" onclick="desarchive(' + commande.id + ')"><i class="bi bi-arrow-bar-up" ></i></button>';
+
+
 var newRow = [
 commande.chantier.adresse,
 commande.chantier.ville,
@@ -282,34 +280,30 @@ handleCommandeSelection();
 $(document).ready(function () { // Attach a click event to your button
 
 });
-function archive(id){
-	idCommandeActual = id;
-dialog = $("#customDialog").dialog({
-autoOpen: false,
-modal: true,
-title: "Annuler la commande", // Set the custom title here
-width: 750, // Set the width to 160px
-buttons: {
-"Fermer": function () {
-$(this).dialog("close");
-document.getElementById("motif").value = 0;
+function desarchive(commandeId){
+
+$.ajax({
+type: 'GET',
+url: '/desarchive-commande',
+data: {
+idCommande: commandeId
+},
+success: function (data) {
+console.log(data);
+if (data == 200) {
+
+window.location.reload();
+} else {
+
 }
+
 },
-close: function () {
-$(this).dialog("option", "position", {
-my: "center",
-at: "center",
-of: window
-});
-$("#overlay").hide();
-},
-show: {
-closeButton: false
+error: function (error) {
+console.error('Error:', error);
 }
 });
 
-// Show the overlay
-$("#overlay").show();
-dialog.dialog("open");
+
 }
+
 </script>{% endblock %}

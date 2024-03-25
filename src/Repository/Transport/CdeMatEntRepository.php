@@ -103,6 +103,30 @@ class CdeMatEntRepository extends ServiceEntityRepository
         }
       
     }
+    public function desarchive_commande($idCommande){
+        try{
+            $commande = $this->_em->getRepository(CdeMatEnt::class)->find($idCommande);
+
+            if (!$commande) {
+                throw $this->createNotFoundException(
+                    'No commande found for id '.$idCommande
+                );
+            }
+        
+            // Set the motif
+            $commande->setMotif("");
+        
+            // Change the actif status
+            $commande->setActif(true);
+        
+            // Persist the changes
+            $this->_em->flush();
+            return 200;
+        }catch(Exception $e){
+              return 500;
+        }
+      
+    }
     public function findCdeById($id)
     {
         try {
