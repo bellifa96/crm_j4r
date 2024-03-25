@@ -110,10 +110,7 @@ class OutlookService
                 'Authorization' => 'Bearer ' . $this->accessToken,
                 'Content-Type' => 'application/json',
             ],
-            "Body" => array(
-                "ContentType" => "HTML",
-                "Content" =>  $motif
-            ),
+            
             'json' => $updatedEventData, // Send updated event data as JSON payload
 
         ]);
