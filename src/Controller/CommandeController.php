@@ -343,6 +343,10 @@ class CommandeController extends AbstractController
             $motif = $request->query->get('motif');
             $idCommande = $request->query->get('idCommande');
             $res = $this->cdeMatEntRepository->annuler_commande($motif, $idCommande);
+            $commande = $this->cdeMatEntRepository->findCdeById($idCommande);
+            if($res == 200 && $commande != null){
+                $this->outlookService->archive_calendar_ajourner($commande->getIdCalendar());
+            }
 
             return new Response($res); // Assuming $res is a string or something that can be directly returned as a response
         } catch (Exception $e) {
