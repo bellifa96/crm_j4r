@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Depot\Agence;
 use App\Entity\Depot\Chantiers;
+use App\Entity\Interlocuteur\Societe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Repository\Depot\AgenceRepository;
+use App\Repository\Interlocuteur\SocieteRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,20 +23,34 @@ class ChantierType extends AbstractType
     {
         $builder
             ->add('numchantier')
-            ->add('etat')
+            ->add('etat', ChoiceType::class, [
+                'choices' => [
+                    'A démarrer' => '0',
+                    'En attente OS' => '1',
+                    'En cours' => '2',
+                    'Terminé' => '3',
+                    'Annulé' => '4',
+                    'A relancer' => '5',
+                    'Ne pas facturer' => '6',
+                    ' Non réalisé' => '7',
+
+                    // Add more options as needed
+                ],
+                'placeholder' => 'Selectionnez état chantier', // Optional: Adds a placeholder
+                // Add more options as needed
+            ])
             ->add('ville')
             ->add('cp')
-            ->add('client')
             ->add('nomchantier')
             ->add('voie')
             ->add('adresse')
-            ->add('idagence', EntityType::class, [
-                'class' => Agence::class,
-                'query_builder' => function (AgenceRepository $er): QueryBuilder {
+            ->add('id_client', EntityType::class, [
+                'class' => Societe::class,
+                'query_builder' => function (SocieteRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('u');
                 },
-                'choice_label' => 'nomagence',
-                'label' => 'Agence',
+                'choice_label' => 'raisonSociale',
+                'label' => 'Client',
             ]);
     }
 

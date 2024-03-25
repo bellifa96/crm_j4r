@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ title }}{% endblock %}
-
-
+{% block title %}
+    {{ title }}
+{% endblock %}
 {% block body %}
-
-
     <style>
 
 
@@ -84,7 +82,6 @@
             floa
         }
     </style>
-
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="col-lg-12 alert alert-{{ label }}">
@@ -92,613 +89,821 @@
             </div>
         {% endfor %}
     {% endfor %}
-
     <!-- PAGE DISPLAY -->
     <div class="col-lg-12 page-block page-block-margin-bottom">
-
         <div class="row mt-2">
-
             {% if interlocuteur.societe is not empty %}
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-3 font-weight-bold text-end">
-                    <span class="d-block" style="font-size: 15px"> <a
-                                href="https://www.societe.com/societe/{{ interlocuteur.societe.raisonSociale }}-{{ interlocuteur.societe.siren }}.html"
-                                target="_blank" class="lien-societe"></i>Societe.com</a> </span>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Rôles</span>
-                    </div>
-                    <div class="col-md-6">
-                        {% for role in interlocuteur.roles %}
-                            {% if role == "ROLE_CLIENT" %}
-                                <span class="data-element bg-blue "><b>Client</b></span>
-                            {% elseif role == "ROLE_FOURNISSEUR" %}
-                                <span class="data-element bg-blue "><b>Fournisseur</b></span>
-                            {% elseif role == "ROLE_SOUS_TRAITANT" %}
-                                <span class="data-element bg-blue "><b>Sous traitant</b></span>
-                            {% elseif role == "ROLE_TRANSPORTEUR" %}
-                                <span class="data-element bg-blue "><b>Transporteur</b></span>
-                            {% elseif role == "ROLE_PARTENAIRE" %}
-                                <span class="data-element bg-blue "><b>Partenaire</b></span>
-                            {% endif %}
-                        {% endfor %}
+                            <span class="d-block" style="font-size: 15px">
+                                <a href="https://www.societe.com/societe/{{ interlocuteur.societe.raisonSociale }}-{{ interlocuteur.societe.siren }}.html" target="_blank" class="lien-societe"></i>
+                                Societe.com
+                                                            
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">{{ interlocuteur.societe is not empty ? "Raison Sociale" : "Nom" }}</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.raisonSociale : interlocuteur.personne.nom }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">{{ interlocuteur.societe is not empty ? "Nom commercial" : "Prénom" }}</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.nom : interlocuteur.personne.prenom }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Adresse</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse1 : interlocuteur.personne.adresse1 }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Téléphone</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.phone is not empty ? "+"~interlocuteur.phone['code']~" "~interlocuteur.phone['number'] : "NC" }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Complément d'adresse</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse2 : interlocuteur.personne.adresse2 }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Code Postal</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.codePostal : interlocuteur.personne.codePostal }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Ville</span>
-                    </div>
-                    <div class="col-md-6 bg-blue pr-1">
-                        <span class="data-element">{{ interlocuteur.societe is not empty ? interlocuteur.societe.ville : interlocuteur.personne.ville }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {% if interlocuteur.societe is not empty %}
-
-            <div class="row mt-2">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Activité principale</span>
-                        </div>
-                        <div class="col-md-6 bg-blue pr-1">
-                            <span class="data-element">{{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre : "NC" }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Forme Juridique</span>
-                        </div>
-                        <div class="col-md-6 bg-blue pr-1">
-                            <span class="data-element">{{ interlocuteur.societe.formeJuridique }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Activités Secondaire</span>
-                        </div>
-                        <div class="col-md-6 bg-blue pr-1">
-
-                            {% set activite = [] %}
-                            {% for act in interlocuteur.societe.activitesSecondaires %}
-                                {% set activite = activite|merge([act.titre]) %}
-                            {% endfor %}
-                            <span class="data-element">{{ activite|join(', ') }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3 font-weight-bold text-end">
-                            <span class="d-block">Dirigeant</span>
-                        </div>
-                        <div class="col-md-6 bg-blue pr-1">
-                            <span class="data-element">{{ interlocuteur.societe.dirigeant }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         {% endif %}
-
-
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Rôles
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6">
+                    {% for role in interlocuteur.roles %}
+                        {% if role == "ROLE_CLIENT" %}
+                            <span class="data-element bg-blue ">
+                                <b>
+                                    Client
+                                                                    
+                                </b>
+                            </span>
+                        {% elseif role == "ROLE_FOURNISSEUR" %}
+                            <span class="data-element bg-blue ">
+                                <b>
+                                    Fournisseur
+                                                                    
+                                </b>
+                            </span>
+                        {% elseif role == "ROLE_SOUS_TRAITANT" %}
+                            <span class="data-element bg-blue ">
+                                <b>
+                                    Sous traitant
+                                                                    
+                                </b>
+                            </span>
+                        {% elseif role == "ROLE_TRANSPORTEUR" %}
+                            <span class="data-element bg-blue ">
+                                <b>
+                                    Transporteur
+                                                                    
+                                </b>
+                            </span>
+                        {% elseif role == "ROLE_PARTENAIRE" %}
+                            <span class="data-element bg-blue ">
+                                <b>
+                                    Partenaire
+                                                                    
+                                </b>
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        {{ interlocuteur.societe is not empty ? "Raison Sociale" : "Nom" }}
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.raisonSociale : interlocuteur.personne.nom }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        {{ interlocuteur.societe is not empty ? "Nom commercial" : "Prénom" }}
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.nom : interlocuteur.personne.prenom }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Adresse
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse1 : interlocuteur.personne.adresse1 }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Téléphone
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.phone is not empty ? "+"~interlocuteur.phone['code']~" "~interlocuteur.phone['number'] : "NC" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Complément d'adresse
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.adresse2 : interlocuteur.personne.adresse2 }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Code Postal
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.codePostal : interlocuteur.personne.codePostal }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Ville
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1">
+                    <span class="data-element">
+                        {{ interlocuteur.societe is not empty ? interlocuteur.societe.ville : interlocuteur.personne.ville }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if interlocuteur.societe is not empty %}
         <div class="row mt-2">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3 font-weight-bold text-end">
-                        <span class="d-block">Commentaire</span>
+                        <span class="d-block">
+                            Activité principale
+                                                    
+                        </span>
                     </div>
-                    <div class="col-md-6 bg-blue pr-1" style="min-height: 50px;">
-                        {% if interlocuteur.commentaire is empty %}
-                            <span class="data-element">{{ "..." }}</span>
-                        {% else %}
-                            <span class="data-element">{{ interlocuteur.commentaire|nl2br }}</span>
-                        {% endif %}
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ interlocuteur.societe.activitePrincipale ? interlocuteur.societe.activitePrincipale.titre : "NC" }}
+                        </span>
                     </div>
                 </div>
             </div>
-
-
-        </div>
-
-    </div>
-
-    <div class="col-md-12 page-block mt-4">
-
-
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is empty ? 'active' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active' : '' }}"
-                        id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts"
-                        type="button"
-                        role="tab" aria-controls="contacts" aria-selected="true">
-                    Contacts
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'demandes-tab' ? 'active' : '' }}"
-                        id="demandes-tab" data-bs-toggle="tab" data-bs-target="#demandes" type="button"
-                        role="tab" aria-controls="demandes" aria-selected="false">
-                    Demandes
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'devis-tab' ? 'active' : '' }}"
-                        id="devis-tab" data-bs-toggle="tab" data-bs-target="#devis" type="button"
-                        role="tab" aria-controls="devis" aria-selected="false">
-                    Devis
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'affaires-tab' ? 'active' : '' }}"
-                        id="affaires-tab" data-bs-toggle="tab" data-bs-target="#affaires" type="button"
-                        role="tab" aria-controls="affaire" aria-selected="false">
-                    Affaires
-                </button>
-            </li>
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active' : '' }}"
-                        id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers"
-                        type="button"
-                        role="tab" aria-controls="chantiers" aria-selected="false">
-                    Chantiers
-                </button>
-            </li>
-       
-          
-            <li class="col nav-item" role="presentation">
-                <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}"
-                        id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button"
-                        role="tab" aria-controls="ged" aria-selected="false">
-                    GED
-                </button>
-            </li>
-        </ul>
-
-
-        <div class="tab-content mt-4" id="myTabContent">
-
-            <!-- Contact -->
-            <div class="tab-pane fade {{ interlocuteur.menu is empty ? 'active show' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active show' : '' }}"
-                 id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-
-                <div class="row justify-content-end mt-4 mb-2">
-                    <a href="{{ path('app_contact_contact_new',{'id':interlocuteur.id}) }}"
-                       class=" col-md-auto btn btn-info p-1">
-                        Contact +
-                    </a>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Forme Juridique
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ interlocuteur.societe.formeJuridique }}
+                        </span>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Portable</th>
-                        <th>Service</th>
-                        <th>Fonction</th>
-
-                        </thead>
-                        <tbody>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Activités Secondaire
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        {% set activite = [] %}
+                        {% for act in interlocuteur.societe.activitesSecondaires %}
+                            {% set activite = activite|merge([act.titre]) %}
+                        {% endfor %}
+                        <span class="data-element">
+                            {{ activite|join(', ') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 font-weight-bold text-end">
+                        <span class="d-block">
+                            Dirigeant
+                                                    
+                        </span>
+                    </div>
+                    <div class="col-md-6 bg-blue pr-1">
+                        <span class="data-element">
+                            {{ interlocuteur.societe.dirigeant }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold text-end">
+                    <span class="d-block">
+                        Commentaire
+                                            
+                    </span>
+                </div>
+                <div class="col-md-6 bg-blue pr-1" style="min-height: 50px;">
+                    {% if interlocuteur.commentaire is empty %}
+                        <span class="data-element">
+                            {{ "..." }}
+                        </span>
+                    {% else %}
+                        <span class="data-element">
+                            {{ interlocuteur.commentaire|nl2br }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 page-block mt-4">
+    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <li class="col nav-item" role="presentation">
+            <button class="nav-link {{ interlocuteur.menu is empty ? 'active' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active' : '' }}" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="true">
+                Contacts
+                                                
+                            
+            </button>
+        </li>
+        <li class="col nav-item" role="presentation">
+            <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active' : '' }}" id="chantiers-tab" data-bs-toggle="tab" data-bs-target="#chantiers" type="button" role="tab" aria-controls="chantiers" aria-selected="false">
+                Chantiers
+                                                
+                            
+            </button>
+        </li>
+        <li class="col nav-item" role="presentation">
+            <button class="nav-link {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active' : '' }}" id="ged-tab" data-bs-toggle="tab" data-bs-target="#ged" type="button" role="tab" aria-controls="ged" aria-selected="false">
+                GED
+                                                
+                            
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <!-- Contact -->
+        <div class="tab-pane fade {{ interlocuteur.menu is empty ? 'active show' : '' }}{{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'contacts-tab' ? 'active show' : '' }}" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+            <div class="row justify-content-end mt-4 mb-2">
+                <a href="{{ path('app_contact_contact_new',{'id':interlocuteur.id}) }}" class=" col-md-auto btn btn-info p-1">
+                    Contact +
+                                                            
+                                    
+                </a>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <th>
+                            Nom
+                                                    
+                        </th>
+                        <th>
+                            Prénom
+                                                    
+                        </th>
+                        <th>
+                            Email
+                                                    
+                        </th>
+                        <th>
+                            Portable
+                                                    
+                        </th>
+                        <th>
+                            Service
+                                                    
+                        </th>
+                        <th>
+                            Fonction
+                                                    
+                        </th>
+                    </thead>
+                    <tbody>
                         {% for contact in interlocuteur.contacts %}
-
                             <tr>
                                 <td>
-                                    <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">{{ contact.nom }} </a>
+                                    <a href="{{ path('app_contact_contact_show',{'id':contact.id}) }}">
+                                        {{ contact.nom }}
+                                    </a>
                                 </td>
                                 <td>
                                     {{ contact.prenom }}
-                                <td>
-                                    {{ contact.email }}
-                                </td>
-                                <td>
-                                    {{ contact.telephoneMobile }}
-                                </td>
-                                <td>
-                                    {{ contact.service is not empty ? contact.service.titre : "NC" }}
-                                </td>
-                                <td>
-                                    {{ contact.fonction }}
-                                </td>
-
-                            </tr>
-
-                        {% endfor %}
+                                    <td>
+                                        {{ contact.email }}
+                                    </td>
+                                    <td>
+                                        {{ contact.telephoneMobile }}
+                                    </td>
+                                    <td>
+                                        {{ contact.service is not empty ? contact.service.titre : "NC" }}
+                                    </td>
+                                    <td>
+                                        {{ contact.fonction }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
-
                     </table>
                 </div>
             </div>
-
             <!-- Demandes -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'demandes-tab' ? 'active show' : '' }}"
-                 id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
-                
+            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'demandes-tab' ? 'active show' : '' }}" id="demandes" role="tabpanel" aria-labelledby="demandes-tab">
                 <div class="row justify-content-end mt-4 mb-2">
-                    <a href="{{ path('app_demande_new') }}"
-                       class=" col-md-auto btn btn-info p-1">
+                    <a href="{{ path('app_demande_new') }}" class=" col-md-auto btn btn-info p-1">
                         Créer une Demande
+                                                                    
+                                            
                     </a>
                 </div>
                 <div class="col-md-12 m-auto mt-4">
-
-                    <table class="table datatable">
+                    <table class="">
                         <thead>
-                        <tr class="tr-head text-center">
-                            <th>N°</th>
-                            <th>NomChantier</th>
-                            <th>Type de préstation</th>
-                            <th>Documents souhaités</th>
-                            <th>Client</th>
-                            <th>Maitre d'Ouvrage</th>
-                            <th>Intermédiaire</th>
-                            <th>Ville</th>
-                            <th>CodePostal</th>
-                            <th>Pays</th>
-                        </tr>
+                            <tr class="tr-head text-center">
+                                <th>
+                                    N°
+                                                                    
+                                </th>
+                                <th>
+                                    NomChantier
+                                                                    
+                                </th>
+                                <th>
+                                    Type de préstation
+                                                                    
+                                </th>
+                                <th>
+                                    Documents souhaités
+                                                                    
+                                </th>
+                                <th>
+                                    Client
+                                                                    
+                                </th>
+                                <th>
+                                    Maitre d'Ouvrage
+                                                                    
+                                </th>
+                                <th>
+                                    Intermédiaire
+                                                                    
+                                </th>
+                                <th>
+                                    Ville
+                                                                    
+                                </th>
+                                <th>
+                                    CodePostal
+                                                                    
+                                </th>
+                                <th>
+                                    Pays
+                                                                    
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for demande in demandes %}
-                            <tr class="text-center">
-                                <td>
-                                    <a href="{{ path('app_demande_show',{id:demande.id}) }}">
-                                        {{ demande.id }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ path('app_demande_show',{id:demande.id}) }}">
-                                        {{ demande.nomChantier }}
-                                    </a>
-                                </td>
-                                <td>{{ demande.typeDePrestation }}</td>
-                                <td>{{ demande.documentsSouhaites|join(' - ') }}</td>
-                                <td>
-                                    <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.client.id}) }}">
-                                        {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if demande.maitreDOuvrage is not empty %}
-                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.maitreDOuvrage.id}) }}">
-                                            {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }}
-                                        </a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if  demande.intermediaire is not empty %}
-                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.intermediaire.id}) }}">
-
-                                            {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }}
-                                        </a>
-                                    {% endif %}
-                                </td>
-
-                                <td>{{ demande.ville }}</td>
-                                <td>{{ demande.codePostal }}</td>
-                                <td>{{ demande.pays }}</td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="10">no records found</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-
-            </div>
-
-            <!-- Devis -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'devis-tab' ? 'active show' : '' }}"
-                 id="devis" role="tabpanel" aria-labelledby="devis-tab">devis
-            </div>
-
-            <!--Affaires -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'affaires-tab' ? 'active show' : '' }}"
-                 id="affaires" role="tabpanel" aria-labelledby="affaires-tab">affaires
-            </div>
-
-            <!-- Chantiers -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active show' : '' }}"
-                 id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab">chantiers
-            </div>
-
-            <!-- Accréditations -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'accreditations-tab' ? 'active show' : '' }}"
-                 id="accreditation" role="tabpanel" aria-labelledby="accreditation-tab">
-                accreditation
-            </div>
-
-
-            <!-- Statistiques -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active show' : '' }}"
-                 id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
-                statistiques
-            </div>
-
-            <!-- Comptabilité -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'comptabilite-tab' ? 'active show' : '' }}"
-                 id="comptabilite" role="tabpanel" aria-labelledby="comptabilite-tab">
-
-                <div class="row justify-content-end">
-                    <div class="col-md-auto">
-                        <button type="button" id="rib-show" action="RIB+"
-                                class="btn btn-info p-1 btn-sm">RIB +
-                        </button>
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-around">
-
-                    <div class="col-md-12">
-                        <table class="table datatable bg-leasy">
-                            <thead>
-                            <tr class="tr-head text-center">
-                                <th>Statut</th>
-                                <th>Compte</th>
-                                <th>IBAN</th>
-                                <th>BIC</th>
-                                <th>Banque</th>
-                                <th>Commentaire</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{ form_start(formRIB) }}
-                            <tr class="  border-bottom rib-form" style="
-    border-radius: 10px;border-color: #f8f9fa;background: white;">
-
-                                <td style="vertical-align: middle;">{{ form_widget(formRIB.etatDuCompte,{'attr':{'class':'form-control form-control-sm-2'}}) }}</td>
-                                <td style="vertical-align: middle;">{{ form_widget(formRIB.typeDeCompte,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
-
-
-                                <td style="vertical-align: middle;">
-                                    {{ form_widget(formRIB.iban,{'attr':{'class':'form-control form-control-sm-2 '}} ) }}
-                                </td>
-                                <td style="vertical-align: middle;">{{ form_widget(formRIB.bic,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
-                                <td style="vertical-align: middle;">{{ form_widget(formRIB.nomBanque,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
-                                <td style="vertical-align: middle;">{{ form_widget(formRIB.commentaire,{'attr':{'class':'form-control form-control-sm-2 '}}) }}</td>
-
-                                <td style="vertical-align: middle;">
-                                    <button type="submit" class="btn btn-info p-1 btn-sm">Créer</button>
-                                </td>
-
-                            </tr>
-
-                            {{ form_end(formRIB) }}
-
-                            {% for rib in interlocuteur.ribs %}
+                            {% for demande in demandes %}
                                 <tr class="text-center">
                                     <td>
-                                        <a href="{{ path('app_society_rib_show',{'id':rib.id}) }}">{{ rib.etatDuCompte }}</a>
+                                        <a href="{{ path('app_demande_show',{id:demande.id}) }}">
+                                            {{ demande.id }}
+                                        </a>
                                     </td>
-                                    <td>{{ rib.typeDeCompte }}</td>
-                                    <td>{{ rib.iban }}</td>
-                                    <td>{{ rib.bic }}</td>
-                                    <td>{{ rib.nomBanque }}</td>
-                                    <td>{{ rib.commentaire }}</td>
                                     <td>
-                                        <form method="post"
-                                              action="{{ path('app_society_rib_delete', {'id': rib.id}) }}"
-                                              onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                            <input type="hidden" name="_token"
-                                                   value="{{ csrf_token('delete' ~ rib.id) }}">
-                                            <button style="border-color: transparent;    background-color:transparent;">
-                                                <i class="fa fa-trash deleteFile grab"
-                                                   style="font-size: 1rem;margin-left:5%; color: red;"
-                                                   aria-hidden="true"></i></button>
-                                        </form>
-
+                                        <a href="{{ path('app_demande_show',{id:demande.id}) }}">
+                                            {{ demande.nomChantier }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ demande.typeDePrestation }}
+                                    </td>
+                                    <td>
+                                        {{ demande.documentsSouhaites|join(' - ') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.client.id}) }}">
+                                            {{ demande.client.societe ? demande.client.societe.raisonSociale : demande.client.personne.nom~" "~demande.client.personne.prenom }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% if demande.maitreDOuvrage is not empty %}
+                                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.maitreDOuvrage.id}) }}">
+                                                {{ demande.maitreDOuvrage.societe ? demande.maitreDOuvrage.societe.raisonSociale : demande.maitreDOuvrage.personne.nom~" "~demande.maitreDOuvrage.personne.prenom }}
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if  demande.intermediaire is not empty %}
+                                            <a href="{{ path('app_interlocuteur_interlocuteur_show',{id:demande.intermediaire.id}) }}">
+                                                {{ demande.intermediaire.societe ? demande.intermediaire.societe.raisonSociale : demande.intermediaire.personne.nom~" "~demande.intermediaire.personne.prenom }}
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ demande.ville }}
+                                    </td>
+                                    <td>
+                                        {{ demande.codePostal }}
+                                    </td>
+                                    <td>
+                                        {{ demande.pays }}
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="6" class="text-center">Aucun rib trouvé</td>
+                                    <td colspan="10">
+                                        no records found
+                                                                            
+                                    </td>
                                 </tr>
-
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-
-
             </div>
-
-            <!-- Ged -->
-            <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active show' : '' }}"
-                 id="ged" role="tabpanel" aria-labelledby="ged-tab">
-
-                <div class="row mt-4 justify-content-around">
-
-                    <div class="col-md-6">
-                        <table class="table table-ged bg-leasy">
-                            <thead>
-                            <tr class="tr-head text-center">
-                                <th>Type</th>
-                                <th>date de chargement</th>
-                                <th>Par</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for fichier in interlocuteur.fichiers %}
-
-                                {% if fichier.isDeleted != true %}
-                                    <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
-                                        <td>{{ fichier.typeFichier.titre }}</td>
-                                        <td>{{ fichier.createdAt|date('d/m/Y H:i:s') }}</td>
-                                        <td>{{ fichier.createur.firstname }}</td>
-                                        <td>
-                                            <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}"
-                                               target="_blank"><i class="fa fa-search"
-                                                                  style="font-size: 1rem;"
-                                                                  aria-hidden="true"></i></a>
-                                            <a href="{{ path('app_ged_download' , {'id':fichier.id}) }}"
-                                               download="{{ fichier.fichier }}"><i
-                                                        class="fa fa-download"
-                                                        style="font-size: 1rem;margin-left:5%;"
-                                                        aria-hidden="true"></i></a>
-                                            <form method="post"
-                                                  id="formDeleteFile-{{ fichier.id }}"
-                                                  style="display:contents;"
-                                                  action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}"
-                                                  onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
-                                                <input type="hidden" name="_method"
-                                                       value="DELETE">
-                                                <input type="hidden" name="_token"
-                                                       value="{{ csrf_token('delete' ~ fichier.id) }}">
-                                                <button style="border-color: transparent;    background-color:transparent;">
-                                                    <i class="fa fa-trash deleteFile grab"
-                                                       style="font-size: 1rem;margin-left:5%; color: #0E4377;"
-                                                       aria-hidden="true"></i></button>
-                                            </form>
-                                        </td>
-
+            <!-- Devis -->
+            <!--Affaires -->
+            <!-- Chantiers -->
+                <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'chantiers-tab' ? 'active show' : '' }}" id="chantiers" role="tabpanel" aria-labelledby="chantiers-tab"> <div class="row justify-content-end">
+                    <div class="col-md-auto">
+                        <button type="button" id="" action="" class="btn btn-info p-1 btn-sm" onclick="add_chantier_lien({{ interlocuteur.societe.id }})">
+                        <a href="{{ path('add_chantiers') }}">
+                              Chantiers + </a>
+                                                                             
+                                                    
+                        </button>
+                    </div>
+                    <br>
+                        <div class="col-md-12">
+                            <table class="table text-center datatable" id="commandeTable" style="color: #0E4377;">
+                                <thead>
+                                    <tr class="tr-head">
+                                        <th>
+                                            Nom Chantier
+                                                                                                                                                    
+                                                                                                                
+                                                                            
+                                        </th>
+                                        <th>
+                                            Adresse Chantier
+                                                                                                                                                    
+                                                                                                                
+                                                                            
+                                        </th>
+                                        <th>
+                                            Ville
+                                                                                                                                                    
+                                                                                                                
+                                                                            
+                                        </th>
+                                        <th>
+                                            Code Chantier
+                                                                                                                                                    
+                                                                                                                
+                                                                            
+                                        </th>
+                                        <th>
+                                            Etat
+                                                                                                                                                    
+                                                                                                                
+                                                                            
+                                        </th>
                                     </tr>
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for chantier in interlocuteur.societe.getChantiers() %}
+                                        <tr>
+                                            <td>
+                                                {{ chantier.getNomchantier() }}
+                                            </td>
+                                            <td>
+                                                {{ chantier.getAdresse() }}
+                                            </td>
+                                            <td>
+                                                {{ chantier.getVille() }}
+                                            </td>
+                                            <td>
+                                                {{ chantier.getNumchantier() }}
+                                            </td>
+                                            <td>
+                                                {% if chantier.getEtat() == 3 %}
+                                                    <span style="color: green; font-weight: bold;">
+                                                        Terminé
+                                                                                                                                                         
+                                                                                                            
+                                                    </span>
+                                                {% elseif chantier.getEtat() == 2 %}
+                                                    <span style="color: orange; font-weight: bold;">
+                                                        En cours
+                                                                                                                                                         
+                                                                                                            
+                                                    </span>
+                                                    {% else %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
-                    <div class="col-md-3" style="height:max-content;background-color:white;">
-
-                        <div class="row text-start mb-4">
-                            <b style="color:#0E4377;">Document à charger</b>
-                        </div>
-                        {{ form_start(form) }}
-
-
-                        <div class="row">
-                            <div class="col-md-3  text-end">
-                                <label class="labels">Type</label>
-                            </div>
-                            <div class="col-md-9">
-                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2-2'}}) }}
-                            </div>
-                        </div>
-                        <div class="row mt-2 mb-2">
-                            <div class="col-md-3">
-                                <label class="labels"> </label>
-                            </div>
-                            <div class="col-md-9">
-                                {{ form_widget(form.fichier,{'attr':{'class':''}}) }}
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-end">
-                            <div class="col-md-auto">
-                                <button type="submit" class="btn btn-info-2 btn-sm">Charger</button>
-                            </div>
-                        </div>
-
-                        {{ form_widget(form) }}
-
-                        {{ form_end(form) }}
-                    </div>
-
                 </div>
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <script>
+                <!-- Accréditations -->
+                <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'accreditations-tab' ? 'active show' : '' }}" id="accreditation" role="tabpanel" aria-labelledby="accreditation-tab">
+                    accreditation
+                                                    
+                                    
+                </div>
+                <!-- Statistiques -->
+                <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'statistiques-tab' ? 'active show' : '' }}" id="statistiques" role="tabpanel" aria-labelledby="statistiques-tab">
+                    statistiques
+                                                    
+                                    
+                </div>
+                <!-- Comptabilité -->
+                <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'comptabilite-tab' ? 'active show' : '' }}" id="comptabilite" role="tabpanel" aria-labelledby="comptabilite-tab">
+                    <div class="row justify-content-end">
+                        <div class="col-md-auto">
+                            <button type="button" id="rib-show" action="RIB+" class="btn btn-info p-1 btn-sm">
+                                RIB +
+                                                                                        
+                                                            
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-4 justify-content-around">
+                        <div class="col-md-12">
+                            <table class="table datatable bg-leasy">
+                                <thead>
+                                    <tr class="tr-head text-center">
+                                        <th>
+                                            Statut
+                                                                                    
+                                        </th>
+                                        <th>
+                                            Compte
+                                                                                    
+                                        </th>
+                                        <th>
+                                            IBAN
+                                                                                    
+                                        </th>
+                                        <th>
+                                            BIC
+                                                                                    
+                                        </th>
+                                        <th>
+                                            Banque
+                                                                                    
+                                        </th>
+                                        <th>
+                                            Commentaire
+                                                                                    
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{ form_start(formRIB) }}
+                                    <tr class="  border-bottom rib-form" style="
+                                                                                            border-radius: 10px;border-color: #f8f9fa;background: white;">
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.etatDuCompte,{'attr':{'class':'form-control form-control-sm-2' }}
+                                            ) }}
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.typeDeCompte,{'attr':{'class':'form-control form-control-sm-2 ' }}
+                                            ) }}
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.iban,{'attr':{'class':'form-control form-control-sm-2 ' }}
+                                            ) }}
+                                                                                                                        
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.bic,{'attr':{'class':'form-control form-control-sm-2 ' }}
+                                            ) }}
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.nomBanque,{'attr':{'class':'form-control form-control-sm-2 ' }}
+                                            ) }}
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ form_widget(formRIB.commentaire,{'attr':{'class':'form-control form-control-sm-2 ' }}
+                                            ) }}
+                                                                                    
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <button type="submit" class="btn btn-info p-1 btn-sm">
+                                                Créer
+                                                                                            
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {{ form_end(formRIB) }}
+                                    {% for rib in interlocuteur.ribs %}
+                                        <tr class="text-center">
+                                            <td>
+                                                <a href="{{ path('app_society_rib_show',{'id':rib.id}) }}">
+                                                    {{ rib.etatDuCompte }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ rib.typeDeCompte }}
+                                            </td>
+                                            <td>
+                                                {{ rib.iban }}
+                                            </td>
+                                            <td>
+                                                {{ rib.bic }}
+                                            </td>
+                                            <td>
+                                                {{ rib.nomBanque }}
+                                            </td>
+                                            <td>
+                                                {{ rib.commentaire }}
+                                            </td>
+                                            <td>
+                                                <form method="post" action="{{ path('app_society_rib_delete', {'id': rib.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ rib.id) }}">
+                                                        <button style="border-color: transparent;    background-color:transparent;">
+                                                            <i class="fa fa-trash deleteFile grab" style="font-size: 1rem;margin-left:5%; color: red;" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">
+                                                    Aucun rib trouvé
+                                                                                                    
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ged -->
+                    <div class="tab-pane fade {{ interlocuteur.menu is not empty and app.user.id in interlocuteur.menu|keys and interlocuteur.menu[app.user.id] ==  'ged-tab' ? 'active show' : '' }}" id="ged" role="tabpanel" aria-labelledby="ged-tab">
+                        <div class="row mt-4 justify-content-around">
+                            <div class="col-md-6">
+                                <table class="table table-ged bg-leasy">
+                                    <thead>
+                                        <tr class="tr-head text-center">
+                                            <th>
+                                                Type
+                                                                                            
+                                            </th>
+                                            <th>
+                                                date de chargement
+                                                                                            
+                                            </th>
+                                            <th>
+                                                Par
+                                                                                            
+                                            </th>
+                                            <th>
+                                                Action
+                                                                                            
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for fichier in interlocuteur.fichiers %}
+                                            {% if fichier.isDeleted != true %}
+                                                <tr class="bg-blue text-center" style="border-bottom:1px;border-color: #f8f9fa;">
+                                                    <td>
+                                                        {{ fichier.typeFichier.titre }}
+                                                    </td>
+                                                    <td>
+                                                        {{ fichier.createdAt|date('d/m/Y H:i:s') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ fichier.createur.firstname }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('app_ged_get_id' , {'id':fichier.id}) }}" target="_blank">
+                                                            <i class="fa fa-search" style="font-size: 1rem;" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a href="{{ path('app_ged_download' , {'id':fichier.id}) }}" download="{{ fichier.fichier }}">
+                                                            <i class="fa fa-download" style="font-size: 1rem;margin-left:5%;" aria-hidden="true"></i>
+                                                        </a>
+                                                        <form method="post" id="formDeleteFile-{{ fichier.id }}" style="display:contents;" action="{{ path('app_ged_fichier_delete', {'id': fichier.id}) }}" onsubmit="return confirm('êtes vous certain de vouloir supprimer {{ fichier.fichier }}?');">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fichier.id) }}">
+                                                                    <button style="border-color: transparent;    background-color:transparent;">
+                                                                        <i class="fa fa-trash deleteFile grab" style="font-size: 1rem;margin-left:5%; color: #0E4377;" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3" style="height:max-content;background-color:white;">
+                                        <div class="row text-start mb-4">
+                                            <b style="color:#0E4377;">
+                                                Document à charger
+                                                                                            
+                                            </b>
+                                        </div>
+                                        {{ form_start(form) }}
+                                        <div class="row">
+                                            <div class="col-md-3  text-end">
+                                                <label class="labels">
+                                                    Type
+                                                                                                    
+                                                </label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.typeFichier,{'attr':{'class':'form-control form-control-sm-2-2' }}
+                                                ) }}
+                                                                                                                            
+                                                                                            
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2 mb-2">
+                                            <div class="col-md-3">
+                                                <label class="labels"></label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{ form_widget(form.fichier,{'attr':{'class':'' }}
+                                                ) }}
+                                                                                                                            
+                                                                                            
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-auto">
+                                                <button type="submit" class="btn btn-info-2 btn-sm">
+                                                    Charger
+                                                                                                    
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {{ form_widget(form) }}
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
 
         $('.rib-form').hide()
 
@@ -729,7 +934,11 @@
 
         });
 
+        function add_chantier_lien(idSociete){
+        
+        
+        }
+
     </script>
-{% endblock %}
-
-
+                {% endblock %}
+                

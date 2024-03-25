@@ -1,100 +1,132 @@
 {{ form_start(form) }}
+<link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
 <div class="container mt-5">
-
-
-	<div class="col-md-11 m-auto page-block mt-4">
-		<div class="societe">
-			<div class="row">
-				<div class="col-md-6">
-					
-
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Num chantier
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.numchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Etat
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.etat,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Agence
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.idagence,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-
-
-				</div>
-
-				<div class="col-md-6">
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-						Ville
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Code Postale
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.cp,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-
-
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-						  Client
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.client,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Nom Chantier
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.nomchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Voie
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.voie,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-					<div class="col-md-12 row mt-3">
-						<div class="col-md-4 text-end label">
-							Adresse
-						</div>
-						<div class="col-md-8">
-							{{ form_widget(form.adresse,{'attr':{"class":"form-control form-control-sm-2 societe-input"}}) }}
-						</div>
-					</div>
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary">Enregistrer</button>
-
-		</div>
-	</div>
+    <div class="col-md-11 m-auto page-block mt-4">
+        <div class="societe">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Num chantier
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.numchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Nom Chantier
+                            					
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.nomchantier,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            					
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Etat
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.etat,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Client
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.id_client,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Ville
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.ville,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Code Postale
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.cp,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Voie
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.voie,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mt-3">
+                        <div class="col-md-4 text-end label">
+                            Adresse
+                            						
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_widget(form.adresse,{'attr':{"class":"form-control form-control-sm-2 societe-input" }}
+                            ) }}
+                            						
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                Enregistrer
+            </button>
+        </div>
+    </div>
 </div>
-
+<script>
+	$(document).ready(function () {
+		$('#chantier_id_client').select2({
+		theme: "classic", width: 'resolve' // This helps with styling and width issues
+		}).on('change', function () { // Your onchange action goes herepCha
+		var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+		$.ajax({
+		type: 'GET',
+		url: '/chantier/get-chantier-adresse',
+		data: {
+		chantier: selectedChantierId
+		},
+		success: function (data) {
+		
+		$('#commande_adresse_chantier').val(data[0].adresse)
+		},
+		error: function (error) {
+		console.error('Error:', error);
+		}
+		});
+		});
+		
+		
+		});
+</script>
 {{ form_end(form) }}

@@ -35,13 +35,15 @@ class SocieteType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Siret required',
                     'class' => 'societe-form required'
-                ]
+                ],
+                'required' => false
             ])
             ->add('siren', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Siren',
-                    'class' => 'societe-form required'
-                ]
+                    'class' => 'societe-form '
+                ],
+                'required' => false,
             ])
             ->add('activitePrincipale', EntityType::class, [
                 'class' => Activite::class,

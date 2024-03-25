@@ -39,7 +39,7 @@ class ChantiersController extends AbstractController
             'title' => 'Chantiers',
             'agences' => $agences,
             'chantiers' => $chantiers,
-            'nav' => []
+            'nav' => [['add_chantiers', 'Ajouter Chantier']]
         ]);
     }
     // modifier chantiers
@@ -68,11 +68,43 @@ class ChantiersController extends AbstractController
         return $this->render('chantiers/new.html.twig', [
             'ticket' => null,
             'form' => $form->createView(),
-            'title' => 'Modifier Chantiers',
+            'title' => 'Chantiers',
             'nav' => [['app_chantiers', 'Chantiers']]
         ]);
     }
+ 
+    // add chantiers 
+    #[Route('/add', name: 'add_chantiers')]
+    public function add_chantiers(Request $request): Response
+    {
 
+
+        $chantier = new Chantiers();
+        $form = $this->createForm(ChantierType::class, $chantier);
+
+        // on traite la requete du formulaire
+        $form->handleRequest($request);
+
+        // on verifier la formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $resulat = $this->chantiersRepository->add_update_depot($chantier);
+            dd($resulat);
+            if ($resulat) {
+                $this->addFlash("success", "Dépot a été correctement modifier");
+                return $this->redirectToRoute("app_chantiers");
+            } else {
+            }
+        }
+
+        // on renvoie les donnes les formulaire et peut aussi utiliser Compact
+        return $this->render('chantiers/new.html.twig', [
+            'ticket' => null,
+            'form' => $form->createView(),
+            'title' => 'Chantier',
+            'nav' => [['app_chantiers', 'Chantiers']]
+        ]);
+    }
     #[Route('/get-chantier-adresse', name: 'get_chantiers_address')]
     public function chantier_par_id_address(Request $request)
     {
