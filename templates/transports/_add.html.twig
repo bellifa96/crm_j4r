@@ -1,7 +1,25 @@
 <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
 <style>
-	
+	.flex-input-row {
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.flex-input-container {
+    display: flex;
+    gap: 5px; /* Adjust as needed */
+}
+
+/* Adjust margins or paddings as needed */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label {
+    margin-right: 10px; /* Adjust as needed */
+}
+
 </style>
 <div class="container mt-5">
 	<div class="col-md-11 m-auto page-block mt-4">
@@ -48,6 +66,17 @@
 						</select>
 
 					</div>
+
+					<div class="form-group" id="chantier_arrive" style="display:none;">
+				         <label for="NumAffaire" class="font-weight-bold">Chantier J4R Arrivé</label>
+				            <select id="commande_chantier_arrive" name="chantier" class="form-control form-control-sm-2 societe-input">
+				             	{% for ch in chantiers %}
+						         <option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }}</option>
+					            {% endfor %}
+				            </select>
+
+
+					</div>
 					
 				
 
@@ -64,11 +93,16 @@
 
 					</div>
 
-					<div class="form-group">
-						<label for="NumAffaire" class="font-weight-bold">Date transport</label>
+					<div class="form-group ">
+				        <label for="NumAffaire" class="font-weight-bold">Date transport</label>
+			
+				   <div class="col-md-6 flex-input-row">
+					<div class="flex-input-container">
 						<input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" name="date_transport"/>
-
+						<input type="time" id="heure_dep1_transport" class="form-control form-control-sm-2 societe-input" name="heure_dep1_transport"/>
 					</div>
+				    </div>
+			        </div>
 			
 					
 					<!-- Add similar blocks for other fields in the third column -->
@@ -117,6 +151,19 @@
 
 let idchantier = -1;
 $(document).ready(function () {
+// gérer le sens 5 c'est transfert donc notre spécification c'est que il faut un code chantier arrive
+$("#sens").change(function() {
+    // Récupérer la valeur sélectionnée
+    var selectedValue = $(this).val();
+    
+    if(selectedValue ==  5){
+		$('#chantier_arrive').show();
+	}else{
+		$('#chantier_arrive').hide();
+
+	}
+});
+
 $('#commande_chantier').select2({
 theme: "classic", width: 'resolve' // This helps with styling and width issues
 });
@@ -126,6 +173,18 @@ $('#commande_chantier').on('change', function() {
      idchantier = selectedOption.val();
     console.log("Selected idchantier:", idchantier);
 });
+//commande_chantier_arrive
+
+$('#commande_chantier_arrive').select2({
+theme: "classic", width: 'resolve' // This helps with styling and width issues
+});
+
+
+$('#commande_chantier_arrive').select2({
+theme: "classic", width: 'resolve' // This helps with styling and width issues
+});
+
+
 $(document).ready(function () {
 $("#fermer").click(function () {
 $("#affectation_transport").hide(); // Cache l'élément avec l'ID 'affectation_transport'
@@ -236,6 +295,7 @@ var taux = $("#tauxSelect").val();
 var tarification = $("#tarification").val();
 var observation = $("#observation").val();
 var date_transport = $("#date_transport").val();
+var heure_dep1_transport  =  $("#heure_dep1_transport").val();
 var sens = $("#sens").val();
 var commande_chantier = $("#commande_chantier").val();
 var conducteur = $("#conducteur").val();
@@ -256,7 +316,8 @@ commande_chantier:commande_chantier,
 conducteur:conducteur,
 indication:indication,
 address_chantier:address_chantier,
-poids:poids
+poids:poids,
+heure_dep1_transport:heure_dep1_transport
 };
 console.log(data);
 
