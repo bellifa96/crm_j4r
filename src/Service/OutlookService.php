@@ -97,7 +97,7 @@ class OutlookService
     }
 
     // ajourner
-    public function archive_calendar_ajourner($events_id,$motif)
+    public function archive_calendar_ajourner($events_id)
     {
         $this->accessToken = $this->paramAgenceRepository->getTokens();
         $categories = "Ajourner";
@@ -110,7 +110,6 @@ class OutlookService
                 'Authorization' => 'Bearer ' . $this->accessToken,
                 'Content-Type' => 'application/json',
             ],
-            
             'json' => $updatedEventData, // Send updated event data as JSON payload
 
         ]);
