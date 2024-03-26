@@ -318,6 +318,9 @@ var address_chantier = $("#address_chantier").val();
 var poids = $("#poids").val();
 
 
+var heure_dep1_transport  =  $("#heure_dep1_transport").val();
+var commande_chantier_arrive = $("#commande_chantier_arrive").val();
+
 // Création de l'objet de données à envoyer
 var data = {
 transporteur: transporteur,
@@ -333,7 +336,9 @@ commande_chantier:commande_chantier,
 indication:indication,
 address_chantier:address_chantier,
 poids:poids
-
+,
+heure_dep1_transport:heure_dep1_transport,
+commande_chantier_arrive:commande_chantier_arrive
 };
 
 // Envoi de la requête AJAX

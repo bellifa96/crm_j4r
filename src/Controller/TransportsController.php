@@ -187,10 +187,11 @@ class TransportsController extends AbstractController
             $address_chantier = $request->request->get('address_chantier');
             $indication = $request->request->get('indication');
             $commande_chantier = $request->request->get('commande_chantier');
-            $chantiersDepartarrive  =$request->request->get('chantiersDepartarrive');
+            $chantiersDepartarrive  =$request->request->get('commande_chantier_arrive');
             $date_transport = $request->request->get('date_transport');
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
             $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
+
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
 
