@@ -97,11 +97,11 @@
 
 					</div>
 					
-					<div class="form-group" id="chantier_arrive" >
+					<div class="form-group" id="chantier_arrive" {% if transport.getTypeTransport() == 5  %} style="display:none;" {% endif %}>
 				         <label for="NumAffaire" class="font-weight-bold">Chantier J4R Arrivé</label>
 				            <select id="commande_chantier_arrive" name="chantier" class="form-control form-control-sm-2 societe-input">
 				             	
-							{% if transport is defined and transport.getNumchantierarrive() is not null %}
+							{% if transport is defined and transport.getNumchantierarrive() is not null  %}
 						
 							{% for ch in chantiers %}
 							<option value="{{ ch.idchantier }}" {% if transport.getNumchantierarrive() is defined and ch.idchantier == transport.getNumchantierarrive().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }}</option>
@@ -417,5 +417,24 @@ console.error('Error:', error);
 
 
 		});
+		$(document).ready(function () {
+			// gérer le sens 5 c'est transfert donc notre spécification c'est que il faut un code chantier arrive
 
+			
+			$("#sens").change(function() {
+				// Récupérer la valeur sélectionnée
+				var selectedValue = $(this).val();
+				
+				if(selectedValue ==  5){
+					$('#chantier_arrive').show();
+				}else{
+					$('#chantier_arrive').hide();
+			
+				}
+			});
+			
+			$('#commande_chantier').select2({
+			theme: "classic", width: 'resolve' // This helps with styling and width issues
+			});
+			});
 </script>
