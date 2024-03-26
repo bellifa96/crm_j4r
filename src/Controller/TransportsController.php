@@ -324,8 +324,8 @@ class TransportsController extends AbstractController
                 case 5:
                     // Ce cas représente une option de Transfert
                     $transpots->setHeuredepart($heure_dep1_transport);
-                    $transpots->setNumchantierdep($chantiersDepartarrive);
-                    $transpots->setNumchantierarr($chantiersDepart);
+                    $transpots->setNumchantierdep($chantiersDepart);
+                    $transpots->setNumchantierarr($commande_chantier_arrive);
 
                     break;
                 default:
