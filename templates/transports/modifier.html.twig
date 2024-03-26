@@ -101,9 +101,8 @@
 				         <label for="NumAffaire" class="font-weight-bold">Chantier J4R Arrivé</label>
 				            <select id="commande_chantier_arrive" name="chantier" class="form-control form-control-sm-2 societe-input">
 				             	
-							{% if transport is defined %}
-							{% for trs in transporteurs %}
-							{% endfor %}
+							{% if transport is defined and transport.getNumchantierarrive() is not null %}
+						
 							{% for ch in chantiers %}
 							<option value="{{ ch.idchantier }}" {% if transport.getNumchantierarrive() is defined and ch.idchantier == transport.getNumchantierarrive().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }}</option>
 							{% endfor %}
