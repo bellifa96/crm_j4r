@@ -288,10 +288,10 @@ $(document).ready(function () {
 		$('#commande_chantier').select2({
 			theme: "classic",
 			width: 'resolve' // This helps with styling and width issues
-		}).on('change', function() {
+}).on('change', function() {
 			// Your onchange action goes herepCha
-			var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
-			$.ajax({
+var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+$.ajax({
 type: 'GET',
 url: '/chantier/get-chantier-adresse',
 data: {
@@ -321,7 +321,14 @@ theme: "classic", width: 'resolve' // This helps with styling and width issues
 		});
 		$(document).ready(function () {
 			// gérer le sens 5 c'est transfert donc notre spécification c'est que il faut un code chantier arrive
-
+			var selectedValue = $("#sens").val();
+				
+			if(selectedValue ==  5){
+				$('#chantier_arrive').show();
+			}else{
+				$('#chantier_arrive').hide();
+		
+			}
 			
 			$("#sens").change(function() {
 				// Récupérer la valeur sélectionnée
