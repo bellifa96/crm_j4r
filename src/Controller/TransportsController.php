@@ -261,49 +261,86 @@ class TransportsController extends AbstractController
         try {
             $this->entityManagerInterface->beginTransaction();
 
-            $transporteurId = $request->request->get('transporteur');
-            $heure = $request->request->get('heure');
-            $taux = $request->request->get('taux');
-            $tarification = $request->request->get('tarification');
-            $observation = $request->request->get('observation');
             $sens = $request->request->get('sens');
             $commande_chantier = $request->request->get('commande_chantier');
             $poids = $request->request->get('poids');
-
+            $commande_chantier_arrive =  $request->request->get('commande_chantier_arrive');
             $address_chantier = $request->request->get('address_chantier');
             $indication = $request->request->get('indication');
-            $conducteur = $request->request->get('conducteur');
             $date_transport = $request->request->get('date_transport');
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
-
+            $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
          
 
-            $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
            
             // Check if any of the required parameters are null, throw an exception if so
           
 
             $chantiersDepart  = $this->chantiersRepository->findByIdChantier($commande_chantier);
+            $chantiersDepartarrive  = $this->chantiersRepository->findByIdChantier(1);
+            $commande_chantier_arrive  = $this->chantiersRepository->findByIdChantier($commande_chantier_arrive);
 
             $transpots = new Transports();
-            $transpots->setIdtransporteur($transporteurObject);
-            $transpots->setMontant($tarification);
             $transpots->setTypeTransport($sens);
             $transpots->setNumchantierdep($chantiersDepart);
             $transpots->setAdressechantier($address_chantier);
             $transpots->setPoidsbon($poids);
             $transpots->setVolume($indication);
 
-            $transpots->setHeuredepart($heure);
-            $transpots->setTauxPrefere($taux);
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
+
+             // 
+
+            switch ($sens) {
+                case 1:
+                    // Ce cas représente une option de Livraison
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepartarrive);
+                    $transpots->setNumchantierarr($chantiersDepart);
+
+                    break;
+                case 2:
+                    // Ce cas représente une option de Ramasse TY
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepart);
+                    $transpots->setNumchantierarr($chantiersDepartarrive);
+
+                    break;
+                case 3:
+                    // Ce cas représente une option de Ramasse TS
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepart);
+                    $transpots->setNumchantierarr($chantiersDepartarrive);
+
+                    break;
+                case 4:
+                    // Ce cas représente une option de Rotation
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepart);
+                    $transpots->setNumchantierarr($chantiersDepart);
+
+                    break;
+                case 5:
+                    // Ce cas représente une option de Transfert
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepartarrive);
+                    $transpots->setNumchantierarr($chantiersDepart);
+
+                    break;
+                default:
+                    // C'est l'option par défaut si aucune des précédentes ne correspond
+                    $transpots->setHeuredepart($heure_dep1_transport);
+                    $transpots->setNumchantierdep($chantiersDepartarrive);
+                    $transpots->setNumchantierarr($commande_chantier_arrive);
+                    break;
+            }
+
 
 
             // Définir la date formatée dans votre objet Transports
             $event_id = $this->outlookService->addEventsTransport($transpots);
             $transpots->setEventTransportId($event_id);
-            $transpots->setObservation($observation);
             $this->entityManagerInterface->commit();
 
             $this->transportRepository->add($transpots);

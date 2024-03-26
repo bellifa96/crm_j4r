@@ -275,35 +275,26 @@ isValid = false;
 
 // Si tous les champs sont valides, procéder avec l'action
 if (isValid) { // Logique pour sauvegarder ou soumettre les informations
-var transporteur = $("#transporteur").val();
-var heure = $("#heure").val();
 var taux = $("#tauxSelect").val();
-var tarification = $("#tarification").val();
-var observation = $("#observation").val();
 var date_transport = $("#date_transport").val();
 var heure_dep1_transport  =  $("#heure_dep1_transport").val();
 var sens = $("#sens").val();
 var commande_chantier = $("#commande_chantier").val();
-var conducteur = $("#conducteur").val();
 var indication = $("#indication").val();
 var address_chantier = $("#address_chantier").val();
 var poids = $("#poids").val();
-
+var commande_chantier_arrive =  $("#commande_chantier_arrive").val();
 // Création de l'objet de données à envoyer
 var data = {
-transporteur: transporteur,
-heure: heure,
-taux: taux,
-tarification: tarification,
-observation: observation,
 date_transport:date_transport,
 sens:sens,
 commande_chantier:commande_chantier,
-conducteur:conducteur,
 indication:indication,
 address_chantier:address_chantier,
 poids:poids,
-heure_dep1_transport:heure_dep1_transport
+heure_dep1_transport:heure_dep1_transport,
+commande_chantier_arrive:commande_chantier_arrive
+
 };
 console.log(data);
 
