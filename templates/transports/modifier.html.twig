@@ -329,6 +329,7 @@ var conducteur = $("#conducteur").val();
 var indication = $("#indication").val();
 var address_chantier = $("#address_chantier").val();
 var poids = $("#poids").val();
+var heure_dep1_transport  =  $("#heure_dep1_transport").val();
 
 // Création de l'objet de données à envoyer
 var data = {
@@ -343,7 +344,8 @@ commande_chantier:commande_chantier,
 conducteur:conducteur,
 indication:indication,
 address_chantier:address_chantier,
-poids:poids
+poids:poids,
+heure_dep1_transport:heure_dep1_transport
 };
 console.log(data);
 
