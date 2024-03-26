@@ -331,7 +331,7 @@ class TransportsController extends AbstractController
                 default:
                     // C'est l'option par défaut si aucune des précédentes ne correspond
                     $transpots->setHeuredepart($heure_dep1_transport);
-                    $transpots->setNumchantierdep($chantiersDepartarrive);
+                    $transpots->setNumchantierdep($chantiersDepart);
                     $transpots->setNumchantierarr($commande_chantier_arrive);
                     break;
             }
