@@ -37,7 +37,7 @@
 
 
 					</div>
-					<div class="form-group">
+					<div class="form-group" id="heure_preve" style="display:none;">
 						<label for="codeChantier" class="font-weight-bold">heure prévisionnel</label>
 						<input type="time" id="heureprev" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getNbheuresprev() }}" {% endif %} name="heureprev"/>
 
@@ -152,6 +152,15 @@ $("#sens").change(function() {
 		$('#chantier_arrive').show();
 	}else{
 		$('#chantier_arrive').hide();
+
+	}
+
+	if(selectedValue ==  4){
+		$('#heure_preve').show();
+	}else{
+		$('#heure_preve').hide();
+		$('#heure_preve').val("");
+
 
 	}
 });

@@ -191,6 +191,7 @@ class TransportsController extends AbstractController
             $date_transport = $request->request->get('date_transport');
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
             $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
+            $heureprev  = $request->request->get('heureprev');
 
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
@@ -222,6 +223,7 @@ class TransportsController extends AbstractController
             $transpots->setTauxPrefere($taux);
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
+ 
 
 
             switch ($sens) {
@@ -256,6 +258,7 @@ class TransportsController extends AbstractController
                     // Ce cas représente une option de Rotation
                     $transpots->setHeuredepart($heure_dep1_transport);
                     $transpots->setHeuredep2($heure);
+                    $transpots->setNbheuresprev($heureprev);
 
                     $transpots->setNumchantierdep($chantiersDepart);
                     $transpots->setNumchantierarr($chantiersDepart);
@@ -348,7 +351,6 @@ class TransportsController extends AbstractController
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
 
-            $transpots->setNbheuresprev($heureprev);
 
              // 
 
@@ -379,6 +381,7 @@ class TransportsController extends AbstractController
                     $transpots->setHeuredepart($heure_dep1_transport);
                     $transpots->setNumchantierdep($chantiersDepart);
                     $transpots->setNumchantierarr($chantiersDepart);
+                    $transpots->setNbheuresprev($heureprev);
 
                     break;
                 case 5:
