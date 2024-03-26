@@ -52,9 +52,9 @@ class Transports
 
     private $poidsbalance = '0.00';
 
-    #[ORM\Column(type: 'decimal')]
+    #[ORM\Column(type: 'string')]
 
-    private $nbheuresprev = '0.00';
+    private $nbheuresprev = 'NULL';
 
     #[ORM\Column(type: 'decimal')]
 

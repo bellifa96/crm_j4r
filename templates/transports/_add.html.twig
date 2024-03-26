@@ -37,6 +37,12 @@
 
 
 					</div>
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">heure prévisionnel</label>
+						<input type="time" id="heureprev" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getNbheuresprev() }}" {% endif %}  name="heureprev"/>
+
+
+					</div>
 
 					
 				
@@ -284,6 +290,7 @@ var indication = $("#indication").val();
 var address_chantier = $("#address_chantier").val();
 var poids = $("#poids").val();
 var commande_chantier_arrive =  $("#commande_chantier_arrive").val();
+var heureprev =  $("#heureprev").val();
 // Création de l'objet de données à envoyer
 var data = {
 date_transport:date_transport,
@@ -293,7 +300,8 @@ indication:indication,
 address_chantier:address_chantier,
 poids:poids,
 heure_dep1_transport:heure_dep1_transport,
-commande_chantier_arrive:commande_chantier_arrive
+commande_chantier_arrive:commande_chantier_arrive,
+heureprev:heureprev
 
 };
 console.log(data);

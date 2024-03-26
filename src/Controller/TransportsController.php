@@ -327,7 +327,8 @@ class TransportsController extends AbstractController
             $date_transport = $request->request->get('date_transport');
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
             $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
-         
+            $heureprev  = $request->request->get('heureprev');
+
 
            
             // Check if any of the required parameters are null, throw an exception if so
@@ -346,6 +347,8 @@ class TransportsController extends AbstractController
 
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
+
+            $transpots->setNbheuresprev($heureprev);
 
              // 
 

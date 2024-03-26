@@ -50,6 +50,12 @@
 
 
 					</div>
+					<div class="form-group">
+						<label for="codeChantier" class="font-weight-bold">heure prévisionnel</label>
+						<input type="time" id="heureprev" class="form-control form-control-sm-2 societe-input" name="heureprev"/>
+
+
+					</div>
 
 					
 							<!-- Add similar blocks for other fields in the first column -->
@@ -129,7 +135,7 @@
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="codeChantier" class="font-weight-bold">Poids Transport</label>
-						<input type="number" id="poids" name="poids" class="form-control form-control-sm-2 societe-input " {% if transport is not null %} value="{{ transport.getPoidsBon() }}" {% endif %} value="0">
+						<input type="number" id="poids" name="poids" class="form-control form-control-sm-2 societe-input " {% if transport is not null %} value="{{ transport.getPoidsBon() }}" {% endif %} >
 
 					</div>
 
