@@ -427,7 +427,7 @@ class CommandeController extends AbstractController
               throw $this->createNotFoundException('No user found for id ');
           }
           $commandes = $chantiers->getCommandes();
-          $transport = $chantiers->getNumChantierDepart();
+          $transport = $chantiers->getNumChantierArrive();
           $commandesArray = $commandes->toArray();
   
           usort($commandesArray, function($a, $b) {

@@ -334,7 +334,7 @@ class TransportsController extends AbstractController
           
 
             $chantiersDepart  = $this->chantiersRepository->findByIdChantier($commande_chantier);
-            $chantiersDepartarrive  = $this->chantiersRepository->findByIdChantier(1);
+            $chantiersDepartarrive  = $this->chantiersRepository->findByIdNumChantier(1);
             $commande_chantier_arrive  = $this->chantiersRepository->findByIdChantier($commande_chantier_arrive);
 
             $transpots = new Transports();
