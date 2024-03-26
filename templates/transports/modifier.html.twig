@@ -1,7 +1,25 @@
 <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
 <style>
-	
+	.flex-input-row {
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.flex-input-container {
+    display: flex;
+    gap: 5px; /* Adjust as needed */
+}
+
+/* Adjust margins or paddings as needed */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label {
+    margin-right: 10px; /* Adjust as needed */
+}
+
 </style>
 <div class="container mt-5">
 	<div class="col-md-11 m-auto page-block mt-4">
@@ -79,6 +97,28 @@
 
 					</div>
 					
+					<div class="form-group" id="chantier_arrive" >
+				         <label for="NumAffaire" class="font-weight-bold">Chantier J4R Arrivé</label>
+				            <select id="commande_chantier_arrive" name="chantier" class="form-control form-control-sm-2 societe-input">
+				             	
+							{% if transport is defined %}
+							{% for trs in transporteurs %}
+							{% endfor %}
+							{% for ch in chantiers %}
+							<option value="{{ ch.idchantier }}" {% if transport.getNumchantierarrive() is defined and ch.idchantier == transport.getNumchantierarrive().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }}</option>
+							{% endfor %}
+
+						    {% else %}
+							{% for ch in chantiers %}
+							<option value="{{ ch.idchantier }}">{{ ch.numchantier }}</option>
+							{% endfor %}
+
+						     {% endif %}
+
+				            </select>
+
+
+					</div>
 				
 
 					
@@ -96,8 +136,11 @@
 
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Date transport</label>
-					<input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getDateTransport()|date('Y-m-d') }}" {% endif %} name="date_transport"/>
-
+						<div class="col-md-6 flex-input-row">
+						<div class="flex-input-container">
+					    <input type="date" id="date_transport" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getDateTransport()|date('Y-m-d') }}" {% endif %} name="date_transport"/>
+					     <input type="time" id="heure_dep1_transport" class="form-control form-control-sm-2 societe-input" name="heure_dep1_transport" {% if transport is not null %} value="{{ transport.getHeuredepart()|date('H:i') }}" {% endif %}/>
+				     </div></div>
 					</div>
 			
 					
