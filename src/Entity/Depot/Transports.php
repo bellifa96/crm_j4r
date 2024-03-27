@@ -84,6 +84,9 @@ class Transports
 
     private $dateTransport;
 
+    #[ORM\Column(type: 'date')]
+    private $dateLivraison;
+
     #[ORM\Column(type: 'integer')]
 
     private $tauxPrefere = '0';
@@ -492,6 +495,29 @@ class Transports
 
     public function setTypeEnlevement(?int $typeEnlevement): void {
         $this->typeEnlevement = $typeEnlevement;
+    }
+
+      /**
+     * Get the value of dateLivraison.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getDateLivraison()
+    {
+        return $this->dateLivraison;
+    }
+
+    /**
+     * Set the value of dateLivraison.
+     *
+     * @param DateTimeInterface|null $dateLivraison
+     * @return self
+     */
+    public function setDateLivraison($dateLivraison): self
+    {
+        $this->dateLivraison = $dateLivraison;
+
+        return $this;
     }
 
 }

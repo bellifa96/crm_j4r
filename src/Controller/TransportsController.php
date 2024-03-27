@@ -69,6 +69,7 @@ class TransportsController extends AbstractController
             $tarification = $request->request->get('tarification');
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
+            $date_livraison = $request->request->get('date_livraison');
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -91,6 +92,7 @@ class TransportsController extends AbstractController
              $transpots->setNumchantierdep($chantiersDepart);
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
+            $transpots->setDateLivraison($date_livraison);
 
 
             // Définir la date formatée dans votre objet Transports
@@ -138,6 +140,7 @@ class TransportsController extends AbstractController
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
             $idtransport = $request->request->get('idtransport');
+            $date_livraison = $request->request->get('date_livraison');
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -154,6 +157,7 @@ class TransportsController extends AbstractController
             $transpots->setHeuredepart($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
+            $transpots->setDateLivraison($date_livraison);
 
 
             // Définir la date formatée dans votre objet Transports

@@ -64,6 +64,7 @@
 						</div>
 
 					</div>
+					
 
 					<!-- Add similar blocks for other fields in the first column -->
 				</div>
@@ -93,6 +94,11 @@
 					<div class="form-group" id="qte">
 						<label for="codeChantier" class="font-weight-bold">Tarification</label>
 						<input type="number" id="tarification" name="tarification" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getMontant() }}" {% endif %}>
+					</div>
+
+					<div class="form-group" id="qte">
+						<label for="codeChantier" class="font-weight-bold">Date Livraison</label>
+						<input type="date" id="date_livraison" name="date_livraison" class="form-control form-control-sm-2 societe-input" value="{{ transport is not null and transport.getDateLivraison() is not null ? transport.getDateLivraison()|date('Y-m-d') : commande.getDateEnlevDem() is not null ? commande.getDateEnlevDem()|date('Y-m-d') : '' }}">
 					</div>
 
 
@@ -220,7 +226,7 @@ var taux = $("#tauxSelect").val();
 var tarification = $("#tarification").val();
 var cmdCodeEntre = $("#cmdCodeEntre").val();
 var observation = $("#observation").val();
-
+var date_livraison = $("#date_livraison").val();
 // Création de l'objet de données à envoyer
 var data = {
 transporteur: transporteur,
@@ -229,7 +235,8 @@ heure: heure,
 taux: taux,
 tarification: tarification,
 cmdCodeEntre: cmdCodeEntre,
-observation: observation
+observation: observation,
+date_livraison: date_livraison,
 
 };
 
@@ -310,6 +317,7 @@ var tarification = $("#tarification").val();
 var cmdCodeEntre = $("#cmdCodeEntre").val();
 var observation = $("#observation").val();
 var idtransport = $("#idtransport").val();
+var date_livraison = $("#date_livraison").val();
 // Création de l'objet de données à envoyer
 var data = {
 transporteur: transporteur,
@@ -319,7 +327,8 @@ taux: taux,
 tarification: tarification,
 cmdCodeEntre: cmdCodeEntre,
 observation: observation,
-idtransport: idtransport
+idtransport: idtransport,
+date_livraison:date_livraison
 
 };
 
