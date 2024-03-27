@@ -222,7 +222,6 @@ class TransportsController extends AbstractController
             $transpots->setAdressechantier($address_chantier);
             $transpots->setPoidsbon($poids);
             $transpots->setVolume($indication);
-            $transpots->setNumchantierdep($chantiersDepart);
 
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);

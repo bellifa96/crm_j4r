@@ -59,7 +59,7 @@
 
 						<div class="col-md-4">
 
-							<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure" {% if transport is not null %} value="{{ transport.getHeuredep2() }}" {% endif %}>
+							<input type="time" id="heure" class="form-control form-control-sm-2 societe-input" name="heure" {% if transport is not null %}  value="{{ transport.getHeuredep2() is not null ? transport.getHeuredep2()|date('H:i') : transport.getHeuredepart() is not null ? transport.getHeuredepart()|date('H:i') : '' }}" {% endif %}}>
 
 						</div>
 
@@ -96,7 +96,7 @@
 					</div>
 					<div class="form-group" id="qte">
 				            <label for="codeChantier" class="font-weight-bold">Date Livraison</label>
-				       <input type="date" id="date_livraison" name="date_livraison" class="form-control form-control-sm-2 societe-input" value="{{ transport is not null and transport.getDateLivraison() is not null ? transport.getDateLivraison()|date('Y-m-d') : transport.getDateTransport() is not null ? transport.getDateTransport()|date('Y-m-d') : '' }}">
+				       <input type="date" id="date_livraison" name="date_livraison" class="form-control form-control-sm-2 societe-input" {% if transport is not null %}  value="{{ transport.getDateLivraison() is not null ? transport.getDateLivraison()|date('Y-m-d') : transport.getDateTransport() is not null ? transport.getDateTransport()|date('Y-m-d') : '' }}" {% endif %}>
 			           </div>
 
 
