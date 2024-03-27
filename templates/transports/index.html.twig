@@ -104,7 +104,7 @@
                                 null
                                 							
                             {% else %}
-                                {{ transport.idcde.DateEnlevReel|date("Y-m-d")|default('Date not available') }}
+                                {{ transport.idcde.DateEnlevDem|date("Y-m-d")|default('Date not available') }}
                             {% endif %}
                         </td>
                         <td>
@@ -141,7 +141,7 @@
                         </td>
 
                         <td>
-                            {{ transport.idtransporteur.societe }}
+                            {{ transport.idtransporteur.societe |default('societe name not available') }}
                         </td>
                         <td>
                             <span id="output-{{ transport.typeTransport }}">
