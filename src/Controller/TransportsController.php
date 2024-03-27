@@ -141,6 +141,7 @@ class TransportsController extends AbstractController
             $observation = $request->request->get('observation');
             $idtransport = $request->request->get('idtransport');
             $date_livraison = $request->request->get('date_livraison');
+            $dateLivraisonObject = new DateTime($date_livraison);
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -157,7 +158,7 @@ class TransportsController extends AbstractController
             $transpots->setHeuredepart($heure);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
-            $transpots->setDateLivraison($date_livraison);
+            $transpots->setDateLivraison($dateLivraisonObject);
 
 
             // Définir la date formatée dans votre objet Transports

@@ -497,22 +497,13 @@ class Transports
         $this->typeEnlevement = $typeEnlevement;
     }
 
-      /**
-     * Get the value of dateLivraison.
-     *
-     * @return DateTimeInterface|null
-     */
+    
     public function getDateLivraison()
     {
         return $this->dateLivraison;
     }
 
-    /**
-     * Set the value of dateLivraison.
-     *
-     * @param DateTimeInterface|null $dateLivraison
-     * @return self
-     */
+  
     public function setDateLivraison($dateLivraison): self
     {
         $this->dateLivraison = $dateLivraison;
