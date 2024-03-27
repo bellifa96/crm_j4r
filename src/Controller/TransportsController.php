@@ -415,4 +415,19 @@ class TransportsController extends AbstractController
         }
     }
 
+    // detail transport 
+    #[Route('/fiche-transport/{id}', name: 'fiche_transport')]
+    public function fiche_transport(Transports $transports): Response
+    {
+
+       
+        return $this->render('transports/fiche.html.twig', [
+            'controller_name' => 'TransportsController',
+            'title' => 'Transports',
+            'transport' => $transports,
+            'cdeEnteHeure' => "",
+            'nav' => []
+        ]);
+    }
+
 }

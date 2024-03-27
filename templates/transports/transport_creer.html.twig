@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block title %}
     Transports
-        
+            
+            
         
     
 {% endblock %}
@@ -58,42 +59,50 @@
                 <tr class="tr-head">
                     <th>
                         Heure Départ
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Date Départ
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Code chantier
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Adresse Chantiers
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Client
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Transporteur
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Type
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                     <th>
                         Action
-                                                					
+                                                                        					
+                                                                    
                                             
                     </th>
                 </tr>
@@ -104,7 +113,8 @@
                         <td>
                             {% if transport.heuredepart is null %}
                                 null
-                                                                							
+                                                                                                							
+                                                                                            
                                                             
                             {% else %}
                                 {{ transport.heuredepart|date("H:i")|default('Date not available') }}
@@ -113,16 +123,18 @@
                         <td>
                             {% if transport.dateTransport is null %}
                                 null
-                                                                                        
+                                                                                                                        
+                                                                                            
                                                             
                             {% else %}
-                            {{ transport.dateTransport|date("Y-m-d")|default('Date not available') }}
-                        {% endif %}
+                                {{ transport.dateTransport|date("Y-m-d")|default('Date not available') }}
+                            {% endif %}
                         </td>
                         <td>
                             {% if transport.getNumchantierdep() is null %}
                                 null
-                                                                							
+                                                                                                							
+                                                                                            
                                                             
                             {% else %}
                                 {{ transport.getNumchantierdep().getNumChantier() |default('Code not available') }}
@@ -131,7 +143,8 @@
                         <td>
                             {% if transport.adressechantier is null %}
                                 null
-                                                                							
+                                                                                                							
+                                                                                            
                                                             
                             {% else %}
                                 {{ transport.adressechantier |default('Address not available') }}
@@ -140,7 +153,8 @@
                         <td>
                             {% if transport.getNumchantierdep() is null %}
                                 null
-                                                                                        
+                                                                                                                        
+                                                                                            
                                                             
                             {% else %}
                                 {{ transport.getNumchantierdep().getIdClient().getRaisonSociale() |default('Date not available') }}
@@ -150,32 +164,45 @@
                             {{ transport.idtransporteur is not null ? transport.idtransporteur.societe : '' }}
                         </td>
                         <td>
-                            <span id="output-{{ transport.typeTransport  }}">
+                            <span id="output-{{ transport.typeTransport }}">
                                 {% if transport.typeTransport == 1 %}
                                     Livraison
-                                                                
+                                                                                                    
+                                                                    
                                 {% elseif transport.typeTransport == 2 %}
                                     Ramasse TY
-                                                                
+                                                                                                    
+                                                                    
                                 {% elseif transport.typeTransport == 3 %}
                                     Ramasse TS
-                                                                
+                                                                                                    
+                                                                    
                                 {% elseif transport.typeTransport == 4 %}
                                     Rotation
-                                                                
+                                                                                                    
+                                                                    
                                 {% elseif transport.typeTransport == 5 %}
                                     Transfert
-                                                                
+                                                                                                    
+                                                                    
                                 {% else %}
                                     Unknown
-                                                                
+                                                                                                    
+                                                                    
                                 {% endif %}
                             </span>
                         </td>
                         <td>
-                            <a href="{{ path('edit_transport_liv', {'id': transport.getIdtransport() }) }}" class="btn btn-warning" style="font-size: 10px;">
+                            <div class="button-container" style="display: flex; flex-direction: row; ">
+                            <a href="{{ path('edit_transport_liv', {'id': transport.getIdtransport() }) }}" class="btn btn-warning" style="font-size: 10px;margin-right : 2%">
                                 <i class="bi bi-pencil"></i>
                             </a>
+                            <a href="{{ path('fiche_transport', {'id': transport.getIdtransport() }) }}" class="btn btn-info" style="font-size: 10px;">
+                                <i class="bi bi-info-square-fill"></i>
+                            </a>
+                        </div>
+                        
+                                                     
                         </td>
                     </tr>
                 {% endfor %}

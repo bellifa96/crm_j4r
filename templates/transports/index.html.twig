@@ -87,6 +87,10 @@
                         Type
                         					
                     </th>
+                    <th>
+                        Action
+                        					
+                    </th>
 
                 </tr>
             </thead>
@@ -167,6 +171,17 @@
                                     							
                                 {% endif %}
                             </span>
+                        </td>
+
+                        <td>
+                            <div class="button-container" style="display: flex; flex-direction: row; ">
+                         
+                            <a href="{{ path('fiche_transport', {'id': transport.getIdtransport() }) }}" class="btn btn-info" style="font-size: 10px;">
+                                <i class="bi bi-info-square-fill"></i>
+                            </a>
+                        </div>
+                        
+                                                     
                         </td>
 
                     </tr>
