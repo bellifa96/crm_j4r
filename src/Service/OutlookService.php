@@ -70,31 +70,44 @@ class OutlookService
     }
 
     // modifier IBM Validé 
-    public function changeEvent_To_IBMValid($events_id)
+    public function changeEvent_To_IBMValid($events_id,$date)
     {
+       
         $this->accessToken = $this->paramAgenceRepository->getTokens();
         $categories = "IBM validé";
+
+       
+
         $updatedEventData = array(
-            'categories' => [$categories], // Add the etiquette as a category
+            'categories' => [$categories], // Ajouter l'étiquette en tant que catégorie
+            'start' => array(
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'UTC',
+            ),
+            'end' => array(
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'UTC',
+            ),
         );
+
         $graphApiEndpoint = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" . $events_id;
         $response = $this->client->request('PATCH', $graphApiEndpoint, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->accessToken,
                 'Content-Type' => 'application/json',
             ],
-            'json' => $updatedEventData, // Send updated event data as JSON payload
-
+            'json' => $updatedEventData, // Envoyer les données de l'événement mises à jour en tant que charge utile JSON
         ]);
 
         if ($response->getStatusCode() == 200) {
-            // Event updated successfully
+            // Événement mis à jour avec succès
             return true;
         } else {
-            // Error updating event
+            // Erreur lors de la mise à jour de l'événement
             return false;
         }
     }
+
 
     // ajourner
     public function archive_calendar_ajourner($events_id)
@@ -150,7 +163,7 @@ class OutlookService
     }
     // modifier Affrete aprés affectation transport
 
-    public function change_to_affreter($events_id, $additionalWord)
+    public function change_to_affreter($events_id, $additionalWord,$date)
     {
         $this->accessToken = $this->paramAgenceRepository->getTokens();
 
@@ -197,6 +210,14 @@ class OutlookService
         $updatedEventData = array(
             'subject' => $updatedSubject, // Utiliser le sujet mis à jour
             'categories' => [$categories],
+            'start' => array(
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'UTC',
+            ),
+            'end' => array(
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'UTC',
+            ),
         );
         $graphApiEndpointPatch = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" . $events_id;
         $responsePatch = $this->client->request('PATCH', $graphApiEndpointPatch, [

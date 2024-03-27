@@ -152,7 +152,7 @@ class CommandeController extends AbstractController
 
                 $resulat = $this->cdeMatEntRepository->save($cdeMatEnt);
                 if (($cdeMatEnt->getNumErpLocation() != null  || $cdeMatEnt->getNumErpVente() != null) && $cdeMatEnt->getIdCalendar() != null) {
-                    $res =  $this->outlookService->changeEvent_To_IBMValid($cdeMatEnt->getIdCalendar());
+                    $res =  $this->outlookService->changeEvent_To_IBMValid($cdeMatEnt->getIdCalendar(),$cdeMatEnt->getDateEnlevDem());
                 }
                 if ($resulat) {
                     $this->addFlash("success", "l'article a été correctement modifiée");

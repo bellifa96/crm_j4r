@@ -70,6 +70,7 @@ class TransportsController extends AbstractController
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
             $date_livraison = $request->request->get('date_livraison');
+            dd($date_livraison);    
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -102,7 +103,7 @@ class TransportsController extends AbstractController
 
             $transpots->setNumchantierarr($commandeEntObject->getChantier());
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete(),$date_livraison);
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
@@ -164,7 +165,7 @@ class TransportsController extends AbstractController
             // Définir la date formatée dans votre objet Transports
             $transpots->setObservation($observation);
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete());
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete(),$dateLivraisonObject);
             return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
