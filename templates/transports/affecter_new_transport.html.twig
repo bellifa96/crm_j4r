@@ -94,6 +94,11 @@
 						<label for="codeChantier" class="font-weight-bold">Tarification</label>
 						<input type="number" id="tarification" name="tarification" class="form-control form-control-sm-2 societe-input" {% if transport is not null %} value="{{ transport.getMontant() }}" {% endif %}/>
 					</div>
+					<div class="form-group" id="qte">
+				            <label for="codeChantier" class="font-weight-bold">Date Livraison</label>
+				       <input type="date" id="date_livraison" name="date_livraison" class="form-control form-control-sm-2 societe-input" value="{{ transport is not null and transport.getDateLivraison() is not null ? transport.getDateLivraison()|date('Y-m-d') : transport.getDateTransport() is not null ? transport.getDateTransport()|date('Y-m-d') : '' }}">
+			           </div>
+
 
 
 					<!-- Add similar blocks for other fields in the third column -->
