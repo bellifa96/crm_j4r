@@ -241,14 +241,14 @@ class TransportsController extends AbstractController
                 $date_livraison = new DateTime($date_livraison);
             } 
             $heuregetter = $request->request->get('heure');
-            $heuregetter = DateTime::createFromFormat('H:i:s', $heuregetter);
+            $heuregetter = DateTime::createFromFormat('H:i', $heuregetter);
             if ($heuregetter === false) {
           
                 $heuregetter = new DateTime($heuregetter); 
             }
             
             // Get date from $date_transport and time from $time
-            $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heuregetter->format('H:i:s'));
+            $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heuregetter->format('H:i'));
 
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
