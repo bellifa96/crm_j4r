@@ -70,7 +70,6 @@ class TransportsController extends AbstractController
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
             $date_livraison = $request->request->get('date_livraison');
-            dd($date_livraison);    
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
