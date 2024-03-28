@@ -64,7 +64,7 @@ class TransportsController extends AbstractController
         try {
             $transporteurId = $request->request->get('transporteur');
             $typeEnlevement = $request->request->get('type_enlevement');
-            $heure = $request->request->get('heure');
+            $heuregetter = $request->request->get('heure');
             $taux = $request->request->get('taux');
             $tarification = $request->request->get('tarification');
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
@@ -73,6 +73,21 @@ class TransportsController extends AbstractController
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
+
+
+            if ($date_livraison === false) {
+            
+                $date_livraison = new DateTime($date_livraison);
+            } 
+            $heure = $request->request->get('heure');
+            $heure = DateTime::createFromFormat('H:i:s', $heure);
+            if ($heure === false) {
+          
+                $heure = new DateTime($heure); 
+            }
+            $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heure->format('H:i:s'));
+
+
 
             // Check if any of the required parameters are null, throw an exception if so
             if ($transporteurObject === null || $commandeEntObject === null) {
@@ -90,7 +105,7 @@ class TransportsController extends AbstractController
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
              $transpots->setNumchantierdep($chantiersDepart);
-            $transpots->setHeuredepart($heure);
+            $transpots->setHeuredepart($heuregetter);
             $transpots->setTauxPrefere($taux);
             $transpots->setDateLivraison($date_livraison);
             $transpots->setEtat(1);
@@ -103,7 +118,7 @@ class TransportsController extends AbstractController
 
             $transpots->setNumchantierarr($commandeEntObject->getChantier());
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete(), $combinedDateTime);
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
@@ -135,7 +150,7 @@ class TransportsController extends AbstractController
         try {
             $transporteurId = $request->request->get('transporteur');
             $typeEnlevement = $request->request->get('type_enlevement');
-            $heure = $request->request->get('heure');
+            $heureTransporrt = $request->request->get('heure');
             $taux = $request->request->get('taux');
             $tarification = $request->request->get('tarification');
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
@@ -143,6 +158,21 @@ class TransportsController extends AbstractController
             $idtransport = $request->request->get('idtransport');
             $date_livraison = $request->request->get('date_livraison');
             $dateLivraisonObject = new DateTime($date_livraison);
+
+
+
+            if ($date_livraison === false) {
+            
+                $date_livraison = new DateTime($date_livraison);
+            } 
+            $heure = $request->request->get('heure');
+            $heure = DateTime::createFromFormat('H:i:s', $heure);
+            if ($heure === false) {
+          
+                $heure = new DateTime($heure); 
+            }
+            $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heure->format('H:i:s'));
+
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -156,7 +186,7 @@ class TransportsController extends AbstractController
             $transpots->setIdtransporteur($transporteurObject);
             $transpots->setMontant($tarification);
             $transpots->setTypeTransport(1);
-            $transpots->setHeuredepart($heure);
+            $transpots->setHeuredepart($heureTransporrt);
             $transpots->setTypeEnlevement($typeEnlevement);
             $transpots->setTauxPrefere($taux);
             $transpots->setDateLivraison($dateLivraisonObject);
@@ -165,7 +195,7 @@ class TransportsController extends AbstractController
             // Définir la date formatée dans votre objet Transports
             $transpots->setObservation($observation);
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete(),$dateLivraisonObject);
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(),$transporteurObject->getSociete(),$combinedDateTime);
             return new JsonResponse(['message' => 'affectation a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
@@ -198,6 +228,8 @@ class TransportsController extends AbstractController
             $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
             $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
             $heureprev  = $request->request->get('heureprev');
+            
+            $date_livraison  = $request->request->get('date_livraison');
 
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
@@ -228,6 +260,7 @@ class TransportsController extends AbstractController
             $transpots->setTauxPrefere($taux);
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
+            $transpots->setDateLivraison($date_livraison);
  
 
 
@@ -333,8 +366,23 @@ class TransportsController extends AbstractController
             $address_chantier = $request->request->get('address_chantier');
             $indication = $request->request->get('indication');
             $date_transport = $request->request->get('date_transport');
-            $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport);
-            $heure_dep1_transport  = $request->request->get('heure_dep1_transport');
+            $date_transport_str = $request->request->get('date_transport');
+            $date_transport = DateTime::createFromFormat('Y-m-d', $date_transport_str);
+        
+            if ($date_transport === false) {
+            
+                $date_transport = new DateTime();
+            } 
+            $heure_dep1_transport = $request->request->get('heure_dep1_transport');
+            $time = DateTime::createFromFormat('H:i:s', $heure_dep1_transport);
+            if ($time === false) {
+          
+                $time = new DateTime($heure_dep1_transport); 
+            }
+            
+            // Get date from $date_transport and time from $time
+            $combinedDateTime = new DateTime($date_transport->format('Y-m-d') . ' ' . $time->format('H:i:s'));
+
             $heureprev  = $request->request->get('heureprev');
 
 
@@ -357,6 +405,9 @@ class TransportsController extends AbstractController
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
             $transpots->setEtat(1);
+
+            
+
 
 
              // 
@@ -407,7 +458,8 @@ class TransportsController extends AbstractController
 
 
             // Définir la date formatée dans votre objet Transports
-            $event_id = $this->outlookService->addEventsTransport($transpots);
+            $event_id = $this->outlookService->addEventsTransport($transpots,$combinedDateTime);
+
             $transpots->setEventTransportId($event_id);
             $this->entityManagerInterface->commit();
 

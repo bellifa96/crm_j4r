@@ -82,11 +82,11 @@ class OutlookService
             'categories' => [$categories], // Ajouter l'étiquette en tant que catégorie
             'start' => array(
                 'dateTime' => $date->format('Y-m-d\TH:i:s'),
-                'timeZone' => 'UTC',
+                'timeZone' => 'Europe/Paris',
             ),
             'end' => array(
                 'dateTime' => $date->format('Y-m-d\TH:i:s'),
-                'timeZone' => 'UTC',
+                'timeZone' => 'Europe/Paris',
             ),
         );
 
@@ -163,7 +163,7 @@ class OutlookService
     }
     // modifier Affrete aprés affectation transport
 
-    public function change_to_affreter($events_id, $additionalWord)
+    public function change_to_affreter($events_id, $additionalWord,$date)
     {
         $this->accessToken = $this->paramAgenceRepository->getTokens();
 
@@ -210,6 +210,14 @@ class OutlookService
         $updatedEventData = array(
             'subject' => $updatedSubject, // Utiliser le sujet mis à jour
             'categories' => [$categories],
+            'start' => [
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'Europe/Paris',
+            ],
+            'end' => [
+                'dateTime' => $date->format('Y-m-d\TH:i:s'),
+                'timeZone' => 'Europe/Paris',
+            ],
             
         );
         $graphApiEndpointPatch = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" . $events_id;
@@ -255,11 +263,11 @@ class OutlookService
                 'subject' => $sujet,
                 'start' => [
                     'dateTime' => $date_debut,
-                    'timeZone' => 'UTC',
+                    'timeZone' => 'Europe/Paris',
                 ],
                 'end' => [
                     'dateTime' => $date_fin,
-                    'timeZone' => 'UTC',
+                    'timeZone' => 'Europe/Paris',
                 ],
                 'categories' => [$categories], // Add the etiquette as a category
 
@@ -300,11 +308,11 @@ class OutlookService
                 'subject' => 'LIV - ' . $cdeMatEnt->getChantier()->getClient() . '-' . $cdeMatEnt->getChantier()->getVille(),
                 'start' => [
                     'dateTime' => $cdeMatEnt->getDateEnlevDem()->format('Y-m-d\TH:i:s'),
-                    'timeZone' => 'UTC',
+                    'timeZone' => 'Europe/Paris',
                 ],
                 'end' => [
                     'dateTime' => $cdeMatEnt->getDateEnlevDem()->format('Y-m-d\TH:i:s'),
-                    'timeZone' => 'UTC',
+                    'timeZone' => 'Europe/Paris',
                 ],
                 "Body" => array(
                     "ContentType" => "HTML",
@@ -332,7 +340,7 @@ class OutlookService
         }
     }
 
-    public function addEventsTransport(Transports $transports)
+    public function addEventsTransport(Transports $transports,$combinedDateTime)
     {
         // Assuming $this->client is already set up and $this->accessToken, $this->userId, $sujet, $date_debut, $date_fin, $categories, and $location are defined
         $this->accessToken = $this->paramAgenceRepository->getTokens();
@@ -347,12 +355,12 @@ class OutlookService
             'json' => [
                 'subject' => $sujet,
                 'start' => [
-                    'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
-                    'timeZone' => 'UTC',
+                    'dateTime' => $combinedDateTime->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'Europe/Paris',
                 ],
                 'end' => [
-                    'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
-                    'timeZone' => 'UTC',
+                    'dateTime' => $combinedDateTime->format('Y-m-d\TH:i:s'),
+                    'timeZone' => 'Europe/Paris',
                 ],
 
                 'categories' => ["Demande Cdt"], // Add the etiquette as a category
@@ -395,11 +403,11 @@ class OutlookService
                     'subject' => $sujet,
                     'start' => [
                         'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
-                        'timeZone' => 'UTC',
+                        'timeZone' => 'Europe/Paris',
                     ],
                     'end' => [
                         'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
-                        'timeZone' => 'UTC',
+                        'timeZone' => 'Europe/Paris',
                     ],
 
                     'categories' => ["Affreter"], // Add the etiquette as a category

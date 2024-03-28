@@ -77,9 +77,16 @@
 				         <label for="NumAffaire" class="font-weight-bold">Chantier J4R Arrivé</label>
 				            <select id="commande_chantier_arrive" name="chantier" class="form-control form-control-sm-2 societe-input">
 				             	{% for ch in chantiers %}
-						         <option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }}</option>
+						         <option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }} - {{ ch.ville }}</option>
 					            {% endfor %}
 				            </select>
+
+							<div class="form-group">
+							<label for="NumAffaire" class="font-weight-bold">
+								Adresse Chantier Arrivé
+							</label>
+							<input type="text" id="address_chantier_arrive" class="form-control form-control-sm-2 societe-input"name="address_chantier_arrive" />
+						</div>
 
 
 					</div>
@@ -381,6 +388,25 @@ console.error('Error:', error);
 }
 });
 		});
+		$('#commande_chantier_arrive').select2({
+theme: "classic", width: 'resolve' // This helps with styling and width issues
+}).on('change', function () { // Your onchange action goes herepCha
+var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+$.ajax({
+type: 'GET',
+url: '/chantier/get-chantier-adresse',
+data: {
+chantier: selectedChantierId
+},
+success: function (data) {
+
+$('#address_chantier_arrive').val(data[0].adresse)
+},
+error: function (error) {
+console.error('Error:', error);
+}
+});
+});
 		
 
 

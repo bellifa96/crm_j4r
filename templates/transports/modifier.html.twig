@@ -36,12 +36,12 @@
 								{% for trs in transporteurs %}
 								{% endfor %}
 								{% for ch in chantiers %}
-								<option value="{{ ch.idchantier }}" {% if transport.getNumchantierdep() is defined and ch.idchantier == transport.getNumchantierdep().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }}</option>
+								<option value="{{ ch.idchantier }}" {% if transport.getNumchantierdep() is defined and ch.idchantier == transport.getNumchantierdep().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }} - {{ ch.nomchantier }} - {{ ch.ville }}</option>
 							    {% endfor %}
 
 							{% else %}
 								{% for ch in chantiers %}
-								<option value="{{ ch.idchantier }}">{{ ch.numchantier }}</option>
+								<option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }} - {{ ch.ville }}</option>
 							    {% endfor %}
 
 							{% endif %}
@@ -110,18 +110,23 @@
 							{% if transport is defined and transport.getNumchantierarrive() is not null  %}
 						
 							{% for ch in chantiers %}
-							<option value="{{ ch.idchantier }}" {% if transport.getNumchantierarrive() is defined and ch.idchantier == transport.getNumchantierarrive().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }}</option>
+							<option value="{{ ch.idchantier }}" {% if transport.getNumchantierarrive() is defined and ch.idchantier == transport.getNumchantierarrive().getIdChantier() %} selected {% endif %}>{{ ch.numchantier }} - {{ ch.nomchantier }} - {{ ch.ville }}</option>
 							{% endfor %}
 
 						    {% else %}
 							{% for ch in chantiers %}
-							<option value="{{ ch.idchantier }}">{{ ch.numchantier }}</option>
+							<option value="{{ ch.idchantier }}">{{ ch.numchantier }} - {{ ch.nomchantier }} - {{ ch.ville }}</option>
 							{% endfor %}
 
 						     {% endif %}
 
 				            </select>
-
+							<div class="form-group">
+							<label for="NumAffaire" class="font-weight-bold">
+								Adresse Chantier Arrivé
+							</label>
+							<input type="text" id="address_chantier_arrive" class="form-control form-control-sm-2 societe-input"name="address_chantier_arrive" />
+						</div>
 
 					</div>
 				
@@ -315,23 +320,31 @@ console.error('Error:', error);
 
 $('#commande_chantier_arrive').select2({
 theme: "classic", width: 'resolve' // This helps with styling and width issues
+}).on('change', function () { // Your onchange action goes herepCha
+var selectedChantierId = $(this).val(); // Get the ID of the selected Chantier
+$.ajax({
+type: 'GET',
+url: '/chantier/get-chantier-adresse',
+data: {
+chantier: selectedChantierId
+},
+success: function (data) {
+
+$('#address_chantier_arrive').val(data[0].adresse)
+},
+error: function (error) {
+console.error('Error:', error);
+}
 });
-
-
-$('#commande_chantier_arrive').select2({
-theme: "classic", width: 'resolve' // This helps with styling and width issues
 });
-		
-
-
-		});
-		$(document).ready(function () {
+});
+$(document).ready(function () {
 			// gérer le sens 5 c'est transfert donc notre spécification c'est que il faut un code chantier arrive
-			var selectedValue = $("#sens").val();
+var selectedValue = $("#sens").val();
 				
-			if(selectedValue ==  5){
+if(selectedValue ==  5){
 				$('#chantier_arrive').show();
-			}else{
+}else{
 				$('#chantier_arrive').hide();
 		
 			}
