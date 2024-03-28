@@ -1,339 +1,510 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    Transports
-                                                            
-                                                            
-                                                        
-                                                    
-                                                
-                                            
-                                        
-                                    
-                                
-                            
-                        
-                    
-                
-            
-        
-    
+Transports
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
 {% block body %}
-    <style>
-		.container {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			width: 100%; /* Set your desired width */
-			padding: 10px;
-		}
+<style>
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        /* Set your desired width */
+        padding: 10px;
+    }
 
-		.left {
-			flex: 1; /* Takes up available space on the left */
+    .left {
+        flex: 1;
+        /* Takes up available space on the left */
 
-		}
+    }
 
-		.right {
-			flex: 2; /* Takes up available space on the right */
-			margin-left: 20px; /* Add margin for spacing between left and right */
-		}
+    .right {
+        flex: 2;
+        /* Takes up available space on the right */
+        margin-left: 20px;
+        /* Add margin for spacing between left and right */
+    }
 
-		select {
-			width: 20%;
-			padding: 5px;
-		}
-		.title_article {
-			font-family: 'Poppins', sans-serif;
-			color: black;
-			font-size: 30px;
-			margin-left: 10%;
-		}
-		.basic {
-			width: 200px;
-			height: 35px;
-			background: #f5f5f5;
-			font-family: 'Poppins', sans-serif;
-			margin-left: 70%;
+    select {
+        width: 20%;
+        padding: 5px;
+    }
+
+    .title_article {
+        font-family: 'Poppins', sans-serif;
+        color: black;
+        font-size: 30px;
+        margin-left: 10%;
+    }
+
+    .basic {
+        width: 200px;
+        height: 35px;
+        background: #f5f5f5;
+        font-family: 'Poppins', sans-serif;
+        margin-left: 70%;
 
 
-		}
-        #output-1 { color: blue; }
-        #output-2 { color: green; }
-        #output-3 { color: red; }
-        #output-4 { color: orange; }
-        #output-5 { color: purple; }
-        .card {
-    width: 18rem;
-    margin-left: 30px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px; /* Add padding for better spacing */
-}
+    }
 
-.card-title {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px; /* Add margin at the bottom of the title */
-}
+    #output-1 {
+        color: blue;
+    }
 
-.card-text {
-    font-size: 14px;
-    color: #555;
-}
-.custom-span {
-        font-family: Arial, sans-serif; /* Example font */
-        font-size: 16px; /* Example font size */
-        color: #333; /* Example text color */
+    #output-2 {
+        color: green;
+    }
+
+    #output-3 {
+        color: red;
+    }
+
+    #output-4 {
+        color: orange;
+    }
+
+    #output-5 {
+        color: purple;
+    }
+
+    .card {
+        width: 18rem;
+        margin-left: 30px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        /* Add padding for better spacing */
+    }
+
+    .card-title {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        /* Add margin at the bottom of the title */
+    }
+
+    .card-text {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .custom-span {
+        font-family: Arial, sans-serif;
+        /* Example font */
+        font-size: 16px;
+        /* Example font size */
+        color: #333;
+        /* Example text color */
         /* Add any other custom styles here */
     }
-	</style>
-    <div class="example-wrapper"></div>
-    <div id="popupFormContainer"></div>
-    <div type="button" class="btn btn-info" style="float:right;">
-        {% if transport.etat == 1 %}
-            En cours
-                                                 
-                                                
-                                            
-                                
-                    
-        {% elseif transport.etat == 2 %}
-            Transporteur Affecter
-                                                      
-                                                                                        
-                                                
-                                            
-                                
-                    
-        {% elseif transport.etat == 3 %}
-            Livré
-                        
-                                
-                    
-        {% else %}
-            Unknown
-                                                                                            
-                                                                                                                        
-                                                                                
-                                        
-                                
-                    
-        {% endif %}
-    </div>
-    <div class="container mt-5">
-        <div class="col-md-11 m-auto page-block mt-4">
-            <div class="societe">
-                <div class="row form">
-                    <div class="card" style="width: 18rem;margin-left: 30px;">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Informations Génerale
-                                                                                                                                                                                                                                      
-                                                                                                                                                            
-                                                                                                                            
-                                                                                            
-                                                            
-                            </h5>
-                            <p class="card-text">
+</style>
+<div class="example-wrapper"></div>
+<div id="popupFormContainer"></div>
+<div type="button" class="btn btn-info" style="float:right;">
+    {% if transport.etat == 1 %}
+    En cours
+
+
+
+
+
+    {% elseif transport.etat == 2 %}
+    Transporteur Affecter
+
+
+
+
+
+
+    {% elseif transport.etat == 3 %}
+    Livré
+
+
+
+    {% else %}
+    Unknown
+
+
+
+
+
+
+    {% endif %}
+</div>
+<div class="container mt-5">
+    <div class="col-md-11 m-auto page-block mt-4">
+        <div class="societe">
+            <div class="row form">
+                <div class="card" style="width: 18rem;margin-left: 30px;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Informations Génerale
+
+
+
+
+
+                        </h5>
+                        <p class="card-text">
+                            <span class="custom-span">
+                                Type Transport :
+
+
+
+
+
+                            </span>
+                            <span id="output-{{ transport.typeTransport }}">
+                                {% if transport.typeTransport == 1 %}
+                                Livraison
+
+
+
+
+
+                                {% elseif transport.typeTransport == 2 %}
+                                Ramasse TY
+
+
+
+
+
+
+                                {% elseif transport.typeTransport == 3 %}
+                                Ramasse TS
+
+
+
+
+
+
+                                {% elseif transport.typeTransport == 4 %}
+                                Rotation
+
+
+
+
+
+                                {% elseif transport.typeTransport == 5 %}
+                                Transfert
+
+
+
+
+
+                                {% else %}
+                                Unknown
+
+
+
+
+
+
+                                {% endif %}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Date Transport :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.getDateTransport()|date('Y-m-d') }}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Heure Transport :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.getHeuredepart()|date('H:i') }}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Chantier Départ :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.getNumchantierdep() }}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Chantier Arrivé :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.getNumchantierarrive() }}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Poids Transport :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.getPoidsbon() }}
+                                kg
+
+
+
+
+                            </span>
+                            <br> {% if transport.nbheuresprev == NULL %}
                                 <span class="custom-span">
-                                    Type Transport : 
-                                                                                                                                                                                
-                                                                                                                                                                                
-                                                                                                                                            
-                                                                                                        
-                                                                    
+                                Heure prévu :
+
+
+
+
+                            </span>
+                            <span class="">
+                              {{ transport.nbheuresprev }}</span>
+                            {% endif %}
+                        
+                            <br>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem; margin-left: 30px;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Informations Transporteur
+
+
+
+
+
+
+
+
+
+
+                        </h5>
+                        <p class="card-text">
+                            {% if transport.idtransporteur != null %}
+                            <span class="custom-span">
+                                Transporteur :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.idtransporteur.societe }}
+                            </span>
+                            <br>
+
+                            <span class="custom-span">
+                                Taux :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.montant }}
+                            </span>
+                            <br>
+                            <span class="custom-span">
+                                Type Tarification :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {% if transport.tauxPrefere == 1 %}
+                                Taux Horaire
+
+
+
+
+
+                                {% elseif transport.tauxPrefere == 2 %}
+                                Taux Tour
+
+
+
+
+
+
+                                {% elseif transport.tauxPrefere == 3 %}
+                                Taux Jour
+
+
+
+
+
+
+                                {% elseif transport.tauxPrefere == 4 %}
+                                Taux Demi Jour
+
+
+
+
+
+                                {% elseif transport.tauxPrefere == 5 %}
+                                Taux Tonne
+
+
+
+
+
+                                {% else %}
+                                Unknown
+
+
+
+
+
+
+                                {% endif %}
+                                <span class="custom-span">
+                                    Date Livraison :
+
+
+
+
                                 </span>
-                                <span id="output-{{ transport.typeTransport }}">
-                                    {% if transport.typeTransport == 1 %}
-                                        Livraison
-                                                                                                                                                                                                     
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% elseif transport.typeTransport == 2 %}
-                                        Ramasse TY
-                                                                                                                                                                                                          
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% elseif transport.typeTransport == 3 %}
-                                        Ramasse TS
-                                                                                                                                                                                                       
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% elseif transport.typeTransport == 4 %}
-                                        Rotation
-                                                                                                                                                                
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% elseif transport.typeTransport == 5 %}
-                                        Transfert
-                                                                                                                                                                                    
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% else %}
-                                        Unknown
-                                                                                                                                                                                                                
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    {% endif %}
+                                <span class="">
+                                    {{ transport.dateLivraison|date("Y-m-d") }}
                                 </span>
+
+                                <span class="custom-span">
+                                Heure Livraison :
+
+
+
+
+                            </span>
+                            <span class="">
+                                {{ transport.heuredep2 }}
+                            </span>
                                 <br>
-                                    <span class="custom-span">
-                                        Date Transport :
-                                                                                                                                                                                                    
-                                                                                                                                                            
-                                                                                                                    
-                                                                            
-                                    </span>
-                                    <span class="">
-                                        {{ transport.getDateTransport()|date('Y-m-d') }}
-                                    </span>
-                                    <br>
-                                        <span class="custom-span">
-                                            Heure Transport :
-                                                                                                                                                                                                                        
-                                                                                                                                                                            
-                                                                                                                                
-                                                                                    
-                                        </span>
-                                        <span class="">
-                                            {{ transport.getHeuredepart()|date('H:i') }}
-                                        </span>
-                                        <br>
-                                            <span class="custom-span">
-                                                Chantier Départ :
-                                                                                                                                                                                                                                            
-                                                                                                                                                                                            
-                                                                                                                                            
-                                                                                            
-                                            </span>
-                                            <span class="">
-                                                {{ transport.getNumchantierdep() }}
-                                            </span>
-                                            <br>
-                                                <span class="custom-span">
-                                                    Chantier Arrivé :
-                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                            
-                                                                                                                                                        
-                                                                                                    
-                                                </span>
-                                                <span class="">
-                                                    {{ transport.getNumchantierarrive() }}
-                                                </span>
-                                                <br>
-                                                    <span class="custom-span">
-                                                        Poids Transport :
-                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                            
-                                                                                                                                                                    
-                                                                                                            
-                                                    </span>
-                                                    <span class="">
-                                                        {{ transport.getPoidsbon() }}
-                                                        kg
-                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                            
-                                                                                                                                                                    
-                                                                                                            
-                                                    </span>
-                                                    <br>
-                                                        <br></div>
-                                                    </div>
-                                                    <div class="card" style="width: 18rem; margin-left: 30px;">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">
-                                                                Informations Transporteur
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                            
-                                                                                                                            
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                {% if transport.idtransporteur != null %}
-                                                                    <span class="custom-span">
-                                                                        Transporteur :
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                    
-                                                                                                                                                                            
-                                                                                                                                    
-                                                                    </span>
-                                                                    <span class="">
-                                                                        {{ transport.idtransporteur.societe }}
-                                                                    </span>
-                                                                    <br>
-                                                                    {% else %}
-                                                                        Aucun transporteur n'est disponible.
-                                                                        
-                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                
-                                                                                                                                                                                                        
-                                                                                                                                        
-                                                                {% endif %}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card" style="width: 18rem; margin-left: 30px;">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">
-                                                                Poids Transports
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    						
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                            
-                                                                                                                            
-                                                            </h5>
-                                                            <p class="card-text">
-                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    						
-                                                    <span class="custom-span">Poids Bons: </span>
-                                                    <span class="">{{ transport.poidsbon}}</span>
-                                                    <br>
-                                                    <span class="custom-span">Bons Balance:</span>
-                                                    <span class="">{{ transport.poidsbalance }}</span>
-                                                    <br>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                            
-                                                                                                                                                                                            
-                                                                                                                            
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <script></script>
-                                {% endblock %}
-                                
+                            </span>
+                            {% else %}
+                            Aucun transporteur n'est disponible.
+
+
+
+
+
+
+
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem; margin-left: 30px;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Poids Transports
+
+
+
+
+
+
+
+
+
+                        </h5>
+                        <p class="card-text">
+
+
+                            <span class="custom-span">Poids Bons: </span>
+                            <span class="">{{ transport.poidsbon}}</span>
+                            <br>
+                            <span class="custom-span">Bons Balance:</span>
+                            <span class="">{{ transport.poidsbalance }}</span>
+                            <br>
+
+
+
+
+
+
+
+
+                        </p>
+                    </div>
+                </div>
+                {% if transport.idcde != null %}
+
+                <div class="card" style="width: 18rem; margin-left: 30px;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Commande Informations
+
+
+
+
+
+
+
+
+
+                    </h5>
+                    <p class="card-text">
+
+
+                        <span class="custom-span">Poids Commande : </span>
+                        <span class="">{{ transport.idcde.PoidsTotMat }} kg</span>
+                        <br>
+                        <span class="custom-span">Numéro ERP Location :</span>
+                        <span class="">{{ transport.idcde.NumErpLocation }}</span>
+                        <br>
+                    <span class="custom-span">Numéro ERP Vente :</span>
+                    <span class="">{{ transport.idcde.NumErpVente }}</span>
+                    <br>
+                    <span class="custom-span">Conducteur :</span>
+                    <span class="">{{ transport.idcde.getConducteur().getFirstname() }} {{ transport.idcde.getConducteur().getLastname() }}</span>
+                    <br>
+
+
+
+
+
+
+
+
+                    </p>
+                </div>
+               {% endif %}
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script></script>
+{% endblock %}
