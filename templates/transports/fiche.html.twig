@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block title %}
     Transports
-                                
+                                                            
+                                                            
+                                                        
+                                                    
+                                                
+                                            
+                                        
+                                    
                                 
                             
                         
@@ -55,9 +62,65 @@
         #output-3 { color: red; }
         #output-4 { color: orange; }
         #output-5 { color: purple; }
+        .card {
+    width: 18rem;
+    margin-left: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px; /* Add padding for better spacing */
+}
+
+.card-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px; /* Add margin at the bottom of the title */
+}
+
+.card-text {
+    font-size: 14px;
+    color: #555;
+}
+.custom-span {
+        font-family: Arial, sans-serif; /* Example font */
+        font-size: 16px; /* Example font size */
+        color: #333; /* Example text color */
+        /* Add any other custom styles here */
+    }
 	</style>
     <div class="example-wrapper"></div>
     <div id="popupFormContainer"></div>
+    <div type="button" class="btn btn-info" style="float:right;">
+        {% if transport.etat == 1 %}
+            En cours
+                                                 
+                                                
+                                            
+                                
+                    
+        {% elseif transport.etat == 2 %}
+            Transporteur Affecter
+                                                      
+                                                                                        
+                                                
+                                            
+                                
+                    
+        {% elseif transport.etat == 3 %}
+            Livré
+                        
+                                
+                    
+        {% else %}
+            Unknown
+                                                                                            
+                                                                                                                        
+                                                                                
+                                        
+                                
+                    
+        {% endif %}
+    </div>
     <div class="container mt-5">
         <div class="col-md-11 m-auto page-block mt-4">
             <div class="societe">
@@ -66,58 +129,211 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 Informations Génerale
+                                                                                                                                                                                                                                      
+                                                                                                                                                            
                                                                                                                             
                                                                                             
                                                             
                             </h5>
                             <p class="card-text">
-                             <span>Type Transport : </span>  <span> {{ transport.getTypeTransport() }} </span> <br>
-                             <span>Date Transport :</span>  <span> {{ transport.getDateTransport()|date('Y-m-d') }} </span> <br>
-                             <span>Heure Transport : </span>  <span> {{ transport.getHeuredepart()|date('H:i') }} </span> <br>
-                             <span>Chantier Départ : </span>  <span> {{ transport.getNumchantierdep() }} </span> <br>
-                             <span>Chantier Arrivé : </span>  <span> {{ transport.getNumchantierarrive() }} </span> <br>
-                             <span>Poids Transport : </span>  <span> {{ transport.getPoidsbon() }} kg </span>  <br>
-
+                                <span class="custom-span">
+                                    Type Transport : 
+                                                                                                                                                                                
+                                                                                                                                                                                
+                                                                                                                                            
+                                                                                                        
+                                                                    
+                                </span>
+                                <span id="output-{{ transport.typeTransport }}">
+                                    {% if transport.typeTransport == 1 %}
+                                        Livraison
+                                                                                                                                                                                                     
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% elseif transport.typeTransport == 2 %}
+                                        Ramasse TY
+                                                                                                                                                                                                          
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% elseif transport.typeTransport == 3 %}
+                                        Ramasse TS
+                                                                                                                                                                                                       
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% elseif transport.typeTransport == 4 %}
+                                        Rotation
+                                                                                                                                                                
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% elseif transport.typeTransport == 5 %}
+                                        Transfert
+                                                                                                                                                                                    
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% else %}
+                                        Unknown
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    {% endif %}
+                                </span>
+                                <br>
+                                    <span class="custom-span">
+                                        Date Transport :
+                                                                                                                                                                                                    
+                                                                                                                                                            
+                                                                                                                    
+                                                                            
+                                    </span>
+                                    <span class="">
+                                        {{ transport.getDateTransport()|date('Y-m-d') }}
+                                    </span>
+                                    <br>
+                                        <span class="custom-span">
+                                            Heure Transport :
+                                                                                                                                                                                                                        
+                                                                                                                                                                            
+                                                                                                                                
+                                                                                    
+                                        </span>
+                                        <span class="">
+                                            {{ transport.getHeuredepart()|date('H:i') }}
+                                        </span>
+                                        <br>
+                                            <span class="custom-span">
+                                                Chantier Départ :
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                            
+                                                                                                                                            
                                                                                             
-                                                            
-                            </p>
-                        
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem; margin-left: 30px;">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Informations Transporteur
+                                            </span>
+                                            <span class="">
+                                                {{ transport.getNumchantierdep() }}
+                                            </span>
+                                            <br>
+                                                <span class="custom-span">
+                                                    Chantier Arrivé :
+                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                            
+                                                                                                                                                        
+                                                                                                    
+                                                </span>
+                                                <span class="">
+                                                    {{ transport.getNumchantierarrive() }}
+                                                </span>
+                                                <br>
+                                                    <span class="custom-span">
+                                                        Poids Transport :
+                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                            
+                                                                                                                                                                    
+                                                                                                            
+                                                    </span>
+                                                    <span class="">
+                                                        {{ transport.getPoidsbon() }}
+                                                        kg
+                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                            
+                                                                                                                                                                    
+                                                                                                            
+                                                    </span>
+                                                    <br>
+                                                        <br></div>
+                                                    </div>
+                                                    <div class="card" style="width: 18rem; margin-left: 30px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                Informations Transporteur
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+                                                                                                                                                                                            
+                                                                                                                            
+                                                            </h5>
+                                                            <p class="card-text">
+                                                                {% if transport.idtransporteur != null %}
+                                                                    <span class="custom-span">
+                                                                        Transporteur :
+                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                    
+                                                                                                                                                                            
+                                                                                                                                    
+                                                                    </span>
+                                                                    <span class="">
+                                                                        {{ transport.idtransporteur.societe }}
+                                                                    </span>
+                                                                    <br>
+                                                                    {% else %}
+                                                                        Aucun transporteur n'est disponible.
+                                                                        
+                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                        
+                                                                                                                                        
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card" style="width: 18rem; margin-left: 30px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                Poids Transports
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    						
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+                                                                                                                                                                                            
+                                                                                                                            
+                                                            </h5>
+                                                            <p class="card-text">
+                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    						
+                                                    <span class="custom-span">Poids Bons: </span>
+                                                    <span class="">{{ transport.poidsbon}}</span>
+                                                    <br>
+                                                    <span class="custom-span">Bons Balance:</span>
+                                                    <span class="">{{ transport.poidsbalance }}</span>
+                                                    <br>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
+                                                                                                                                                                                            
+                                                                                                                            
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script></script>
+                                {% endblock %}
                                 
-                                                                                            
-                                                            
-                            </h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to additional content.
-                                                                                            
-                                                            
-                            </p>
-                           
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem; margin-left: 30px;">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Poids Transports
-                                                                						
-                                                            
-                            </h5>
-                            <p class="card-text">
-                                With supporting text below as a natural lead-in to additional content.
-                                                                						
-                                                            
-                            </p>
-                          
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script></script>
-{% endblock %}

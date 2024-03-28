@@ -93,6 +93,7 @@ class TransportsController extends AbstractController
             $transpots->setHeuredepart($heure);
             $transpots->setTauxPrefere($taux);
             $transpots->setDateLivraison($date_livraison);
+            $transpots->setEtat(1);
 
 
             // Définir la date formatée dans votre objet Transports
@@ -102,7 +103,7 @@ class TransportsController extends AbstractController
 
             $transpots->setNumchantierarr($commandeEntObject->getChantier());
             $this->transportRepository->add($transpots);
-            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete(),$date_livraison);
+            $this->outlookService->change_to_affreter($commandeEntObject->getIdCalendar(), $transporteurObject->getSociete());
             return new JsonResponse(['message' => 'La commande a bien été affectée.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             // Log the exception or handle it according to your needs
@@ -337,6 +338,7 @@ class TransportsController extends AbstractController
             $heureprev  = $request->request->get('heureprev');
 
 
+
            
             // Check if any of the required parameters are null, throw an exception if so
           
@@ -354,6 +356,7 @@ class TransportsController extends AbstractController
 
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
+            $transpots->setEtat(1);
 
 
              // 

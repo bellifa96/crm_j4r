@@ -134,6 +134,11 @@ class Transports
 
     private $eventTransportId = '';
 
+    #[ORM\Column(type: 'integer')]
+
+    private $etat = '0';
+
+
      
     #[ORM\ManyToOne(targetEntity:Chantiers::class)]
     #[ORM\JoinColumn(name:'numchantierdepart', referencedColumnName:'idchantier')]
@@ -169,6 +174,15 @@ class Transports
     // Setter
     public function setEventTransportId(string $eventTransportId): void {
         $this->eventTransportId = $eventTransportId;
+    }
+    
+    public function getEtat(): int {
+        return $this->etat;
+    }
+
+    // Setter method for $etat
+    public function setEtat(int $etat): void {
+        $this->etat = $etat;
     }
     
     public function getDateTransport(): ?\DateTimeInterface

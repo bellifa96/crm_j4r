@@ -163,7 +163,7 @@ class OutlookService
     }
     // modifier Affrete aprés affectation transport
 
-    public function change_to_affreter($events_id, $additionalWord,$date)
+    public function change_to_affreter($events_id, $additionalWord)
     {
         $this->accessToken = $this->paramAgenceRepository->getTokens();
 
@@ -210,14 +210,7 @@ class OutlookService
         $updatedEventData = array(
             'subject' => $updatedSubject, // Utiliser le sujet mis à jour
             'categories' => [$categories],
-            'start' => array(
-                'dateTime' => $date->format('Y-m-d\TH:i:s'),
-                'timeZone' => 'UTC',
-            ),
-            'end' => array(
-                'dateTime' => $date->format('Y-m-d\TH:i:s'),
-                'timeZone' => 'UTC',
-            ),
+            
         );
         $graphApiEndpointPatch = "https://graph.microsoft.com/v1.0/users/" . $this->userId . "/events/" . $events_id;
         $responsePatch = $this->client->request('PATCH', $graphApiEndpointPatch, [
