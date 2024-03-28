@@ -27,7 +27,7 @@
 				    {% endif %}
 					<div class="form-group">
 						<label for="NumAffaire" class="font-weight-bold">Observations</label>
-						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50">{% if transport.getObservation() is not null %}{{ transport.getObservation() is not null ? transport.getObservation() : '' }}{% endif %}</textarea>
+						<textarea id="observation" name="observation" class="form-control form-control-sm-2 societe-input" rows="4" cols="50">{% if transport is not null %}{{ transport.getObservation() is not null ? transport.getObservation() : '' }}{% endif %}</textarea>
 
 
 					</div>
