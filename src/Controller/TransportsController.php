@@ -280,7 +280,8 @@ class TransportsController extends AbstractController
             $transpots->setcreationAffectation(1);
             $transpots->setDateTransport($date_transport);
             $transpots->setDateLivraison($date_livraison);
- 
+            $transpots->setEtat(2);
+
 
 
             switch ($sens) {

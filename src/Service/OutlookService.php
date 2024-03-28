@@ -438,19 +438,19 @@ class OutlookService
         $type_transport = $transports->getTypeTransport();
         switch ($type_transport) {
             case 1:
-                return "LIV -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+                return "LIV -" . $transports->getNumchantierdep()->getNomchantier() . '-' .$this->add_indication_transport($transports) ;
             case 2:
                 // code block for case 2
-                return "RAM TY -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+                return "RAM TY -" . $transports->getNumchantierdep()->getNomchantier() . '-'.$this->add_indication_transport($transports);
             case 3:
                 // code block for case 3
-                return "RAM TS -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+                return "RAM TS -" . $transports->getNumchantierdep()->getNomchantier() . '-'.$this->add_indication_transport($transports);
             case 4:
                 // code block for case 4
-                return "ROT -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+                return "ROT -" . $transports->getNumchantierdep()->getNomchantier() . '-'.$this->add_indication_transport($transports);
             case 5:
                 // code block for case 5
-                return "TRANS -" . $transports->getNumchantierdep()->getNomchantier() . '-';
+                return "TRANS -" . $transports->getNumchantierdep()->getNomchantier() .'-'.$this->add_indication_transport($transports);
             default:
                 // code block for default case
         }
@@ -461,5 +461,24 @@ class OutlookService
         if ($transports->getIdtransporteur() != null) {
             return $sujet . ' ' . $transports->getIdtransporteur()->getSociete();
         }
+    }
+
+    public function add_indication_transport($transports){
+        $indecation = $transports->getVolume();
+        switch ($indecation) {
+            case 0:
+                return $transports->getPoidsbon().'-' ;
+            case 1:
+                // code block for case 2
+                return "1C -";
+            case 2:
+                // code block for case 3
+                return "½ -";
+            case 3:
+                // code block for case 4
+                return "¾ -";
+            
+        }
+
     }
 }
