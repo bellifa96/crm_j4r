@@ -70,6 +70,18 @@
                                             
                     </th>
                     <th>
+                        Heure Livraison
+                                                                        					
+                                                                    
+                                            
+                    </th>
+                    <th>
+                        Date Livraison
+                                                                        					
+                                                                    
+                                            
+                    </th>
+                    <th>
                         Code chantier
                                                                         					
                                                                     
@@ -128,6 +140,26 @@
                                                             
                             {% else %}
                                 {{ transport.dateTransport|date("Y-m-d")|default('Date not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.heuredep2 == '' %}
+                                
+                                       ol                                                         							
+                                                                                            
+                                                            
+                            {% else %}
+                                {{ transport.heuredep2|default('Date not available') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transport.dateLivraison == null %}
+                                
+                                                                                                                        
+                                                                                            
+                                                            
+                            {% else %}
+                                {{ transport.dateLivraison|date("Y-m-d")|default('Date not available') }}
                             {% endif %}
                         </td>
                         <td>
