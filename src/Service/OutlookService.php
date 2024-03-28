@@ -384,7 +384,7 @@ class OutlookService
             throw new \Exception('Failed to create event: ' . $response->getContent());
         }
     }
-    public function modifierEvenetTransport(Transports $transports)
+    public function modifierEvenetTransport(Transports $transports,$date)
     {
         try {
 
@@ -402,11 +402,11 @@ class OutlookService
                 'json' => [
                     'subject' => $sujet,
                     'start' => [
-                        'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                        'dateTime' => $date->format('Y-m-d\TH:i:s'),
                         'timeZone' => 'Europe/Paris',
                     ],
                     'end' => [
-                        'dateTime' => $transports->getDateTransport()->format('Y-m-d\TH:i:s'),
+                        'dateTime' => $date->format('Y-m-d\TH:i:s'),
                         'timeZone' => 'Europe/Paris',
                     ],
 

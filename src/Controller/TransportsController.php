@@ -70,6 +70,7 @@ class TransportsController extends AbstractController
             $cmdCodeEntre = $request->request->get('cmdCodeEntre');
             $observation = $request->request->get('observation');
             $date_livraison = $request->request->get('date_livraison');
+            $date_livraison = DateTime::createFromFormat('Y-m-d', $date_livraison);
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
             $commandeEntObject = $this->cdeMatEntRepository->findCdeById($cmdCodeEntre);
@@ -83,7 +84,7 @@ class TransportsController extends AbstractController
             $heure = DateTime::createFromFormat('H:i:s', $heure);
             if ($heure === false) {
           
-                $heure = new DateTime($heure); 
+                $heure = new DateTime($heuregetter); 
             }
             $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heure->format('H:i:s'));
 
@@ -159,6 +160,7 @@ class TransportsController extends AbstractController
             $date_livraison = $request->request->get('date_livraison');
             $dateLivraisonObject = new DateTime($date_livraison);
 
+            $date_livraison = DateTime::createFromFormat('Y-m-d', $date_livraison);
 
 
             if ($date_livraison === false) {
@@ -169,7 +171,7 @@ class TransportsController extends AbstractController
             $heure = DateTime::createFromFormat('H:i:s', $heure);
             if ($heure === false) {
           
-                $heure = new DateTime($heure); 
+                $heure = new DateTime($heureTransporrt); 
             }
             $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heure->format('H:i:s'));
 
@@ -231,6 +233,22 @@ class TransportsController extends AbstractController
             
             $date_livraison  = $request->request->get('date_livraison');
             $date_livraison = DateTime::createFromFormat('Y-m-d', $date_livraison);
+
+
+
+            if ($date_livraison === false) {
+            
+                $date_livraison = new DateTime($date_livraison);
+            } 
+            $heuregetter = $request->request->get('heure');
+            $heuregetter = DateTime::createFromFormat('H:i:s', $heuregetter);
+            if ($heuregetter === false) {
+          
+                $heuregetter = new DateTime($heuregetter); 
+            }
+            
+            // Get date from $date_transport and time from $time
+            $combinedDateTime = new DateTime($date_livraison->format('Y-m-d') . ' ' . $heuregetter->format('H:i:s'));
 
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
@@ -319,7 +337,7 @@ class TransportsController extends AbstractController
                 }
 
 
-            $event_id = $this->outlookService->modifierEvenetTransport($transpots);
+            $event_id = $this->outlookService->modifierEvenetTransport($transpots,$combinedDateTime);
             // Définir la date formatée dans votre objet Transports
             $transpots->setObservation($observation);
             $this->transportRepository->add($transpots);
