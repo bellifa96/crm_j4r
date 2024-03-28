@@ -230,6 +230,7 @@ class TransportsController extends AbstractController
             $heureprev  = $request->request->get('heureprev');
             
             $date_livraison  = $request->request->get('date_livraison');
+            $date_livraison = DateTime::createFromFormat('Y-m-d', $date_livraison);
 
 
             $transporteurObject = $this->transporteurRepository->findTransporteurById($transporteurId);
